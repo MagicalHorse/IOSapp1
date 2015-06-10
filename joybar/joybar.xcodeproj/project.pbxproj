@@ -683,7 +683,6 @@
 		0D60BCAB1ACCD74D00BF625A /* joybar-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "joybar-Info.plist"; sourceTree = "<group>"; };
 		0D60BCAD1ACCD74D00BF625A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0D60BCB11ACCD74D00BF625A /* joybar-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "joybar-Prefix.pch"; sourceTree = "<group>"; };
-		0D60BCC51ACCD74D00BF625A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		0D65B0091ADCE2DD0073EC54 /* MoneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoneyViewController.h; sourceTree = "<group>"; };
 		0D65B00A1ADCE2DD0073EC54 /* MoneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoneyViewController.m; sourceTree = "<group>"; };
 		0DB5AF231ACCDE5A000FE9C8 /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
@@ -1520,7 +1519,6 @@
 				0D60BCA31ACCD74D00BF625A /* Foundation.framework */,
 				0D60BCA51ACCD74D00BF625A /* CoreGraphics.framework */,
 				0D60BCA71ACCD74D00BF625A /* UIKit.framework */,
-				0D60BCC51ACCD74D00BF625A /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
