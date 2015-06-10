@@ -27,7 +27,6 @@
 		0A720E131B252B1A00C2D0E1 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A720D041B252B1A00C2D0E1 /* ChangePasswordViewController.m */; };
 		0A720E141B252B1A00C2D0E1 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A720D051B252B1A00C2D0E1 /* ChangePasswordViewController.xib */; };
 		0A720E151B252B1A00C2D0E1 /* CusMineFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A720D071B252B1A00C2D0E1 /* CusMineFirstTableViewCell.m */; };
-		0A720E161B252B1A00C2D0E1 /* CusMineFirstTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A720D081B252B1A00C2D0E1 /* CusMineFirstTableViewCell.xib */; };
 		0A720E171B252B1A00C2D0E1 /* CusMineSecTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A720D0A1B252B1A00C2D0E1 /* CusMineSecTableViewCell.m */; };
 		0A720E181B252B1A00C2D0E1 /* CusMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A720D0C1B252B1A00C2D0E1 /* CusMineViewController.m */; };
 		0A720E191B252B1A00C2D0E1 /* CusSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A720D0E1B252B1A00C2D0E1 /* CusSettingViewController.m */; };
@@ -235,6 +234,7 @@
 		0DCE282B1AD60E560001AE88 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCE282A1AD60E560001AE88 /* FirstViewController.m */; };
 		60121A511AF22928002C1428 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 60121A4E1AF22928002C1428 /* AppDelegate.m */; };
 		60121A561AF22A25002C1428 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60121A551AF22A25002C1428 /* main.m */; };
+		9D27E13C1B28192D009685D1 /* MineData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D27E13B1B28192D009685D1 /* MineData.m */; };
 		9D42E93F1B27DAF200C85400 /* BuyerTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8D71B27DAF200C85400 /* BuyerTabBarViewController.m */; };
 		9D42E9401B27DAF200C85400 /* BueryAuthFinishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8DA1B27DAF200C85400 /* BueryAuthFinishViewController.m */; };
 		9D42E9411B27DAF200C85400 /* BueryAuthInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8DC1B27DAF200C85400 /* BueryAuthInfoViewController.m */; };
@@ -402,7 +402,6 @@
 		0A720D051B252B1A00C2D0E1 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		0A720D061B252B1A00C2D0E1 /* CusMineFirstTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusMineFirstTableViewCell.h; sourceTree = "<group>"; };
 		0A720D071B252B1A00C2D0E1 /* CusMineFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusMineFirstTableViewCell.m; sourceTree = "<group>"; };
-		0A720D081B252B1A00C2D0E1 /* CusMineFirstTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusMineFirstTableViewCell.xib; sourceTree = "<group>"; };
 		0A720D091B252B1A00C2D0E1 /* CusMineSecTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusMineSecTableViewCell.h; sourceTree = "<group>"; };
 		0A720D0A1B252B1A00C2D0E1 /* CusMineSecTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusMineSecTableViewCell.m; sourceTree = "<group>"; };
 		0A720D0B1B252B1A00C2D0E1 /* CusMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusMineViewController.h; sourceTree = "<group>"; };
@@ -719,6 +718,8 @@
 		60121A4E1AF22928002C1428 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		60121A4F1AF22928002C1428 /* Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		60121A551AF22A25002C1428 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9D27E13A1B28192D009685D1 /* MineData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineData.h; sourceTree = "<group>"; };
+		9D27E13B1B28192D009685D1 /* MineData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineData.m; sourceTree = "<group>"; };
 		9D42E8D61B27DAF200C85400 /* BuyerTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerTabBarViewController.h; sourceTree = "<group>"; };
 		9D42E8D71B27DAF200C85400 /* BuyerTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerTabBarViewController.m; sourceTree = "<group>"; };
 		9D42E8D91B27DAF200C85400 /* BueryAuthFinishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BueryAuthFinishViewController.h; sourceTree = "<group>"; };
@@ -1038,18 +1039,18 @@
 		0A720D021B252B1A00C2D0E1 /* 个人中心 */ = {
 			isa = PBXGroup;
 			children = (
+				0A720D0B1B252B1A00C2D0E1 /* CusMineViewController.h */,
+				0A720D0C1B252B1A00C2D0E1 /* CusMineViewController.m */,
+				0A720D061B252B1A00C2D0E1 /* CusMineFirstTableViewCell.h */,
+				0A720D071B252B1A00C2D0E1 /* CusMineFirstTableViewCell.m */,
+				0A720D091B252B1A00C2D0E1 /* CusMineSecTableViewCell.h */,
+				0A720D0A1B252B1A00C2D0E1 /* CusMineSecTableViewCell.m */,
+				0A720D0D1B252B1A00C2D0E1 /* CusSettingViewController.h */,
+				0A720D0E1B252B1A00C2D0E1 /* CusSettingViewController.m */,
 				0A720D031B252B1A00C2D0E1 /* ChangePasswordViewController.h */,
 				0A720D041B252B1A00C2D0E1 /* ChangePasswordViewController.m */,
 				0A720D051B252B1A00C2D0E1 /* ChangePasswordViewController.xib */,
-				0A720D061B252B1A00C2D0E1 /* CusMineFirstTableViewCell.h */,
-				0A720D071B252B1A00C2D0E1 /* CusMineFirstTableViewCell.m */,
-				0A720D081B252B1A00C2D0E1 /* CusMineFirstTableViewCell.xib */,
-				0A720D091B252B1A00C2D0E1 /* CusMineSecTableViewCell.h */,
-				0A720D0A1B252B1A00C2D0E1 /* CusMineSecTableViewCell.m */,
-				0A720D0B1B252B1A00C2D0E1 /* CusMineViewController.h */,
-				0A720D0C1B252B1A00C2D0E1 /* CusMineViewController.m */,
-				0A720D0D1B252B1A00C2D0E1 /* CusSettingViewController.h */,
-				0A720D0E1B252B1A00C2D0E1 /* CusSettingViewController.m */,
+				9D27E1391B281910009685D1 /* model */,
 			);
 			path = "个人中心";
 			sourceTree = "<group>";
@@ -1394,15 +1395,15 @@
 				0A720DF91B252B1A00C2D0E1 /* CusCenterTableViewCell.m */,
 				0A720DFA1B252B1A00C2D0E1 /* CusCenterViewController.h */,
 				0A720DFB1B252B1A00C2D0E1 /* CusCenterViewController.m */,
-				0A720DFC1B252B1A00C2D0E1 /* CusHomeTableViewCell.h */,
-				0A720DFD1B252B1A00C2D0E1 /* CusHomeTableViewCell.m */,
-				0A720DFE1B252B1A00C2D0E1 /* CusHomeTableViewCell.xib */,
 				0A720DFF1B252B1A00C2D0E1 /* CusHomeViewController.h */,
 				0A720E001B252B1A00C2D0E1 /* CusHomeViewController.m */,
 				9DDD6A641B27078C002D57EB /* HomeTableView.h */,
 				9DDD6A651B27078C002D57EB /* HomeTableView.m */,
 				9DDD6A611B26FF84002D57EB /* MyBuyerTableView.h */,
 				9DDD6A621B26FF84002D57EB /* MyBuyerTableView.m */,
+				0A720DFC1B252B1A00C2D0E1 /* CusHomeTableViewCell.h */,
+				0A720DFD1B252B1A00C2D0E1 /* CusHomeTableViewCell.m */,
+				0A720DFE1B252B1A00C2D0E1 /* CusHomeTableViewCell.xib */,
 				0A720E031B252B1A00C2D0E1 /* model */,
 			);
 			path = "首页";
@@ -1624,6 +1625,15 @@
 				0A720ECB1B253EC800C2D0E1 /* SocketManager.m */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		9D27E1391B281910009685D1 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				9D27E13A1B28192D009685D1 /* MineData.h */,
+				9D27E13B1B28192D009685D1 /* MineData.m */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 		9D42E8D51B27DAF200C85400 /* 养家模式 */ = {
@@ -2184,7 +2194,6 @@
 				0A720E7B1B252B1A00C2D0E1 /* biaoqing036.png in Resources */,
 				0A720E641B252B1A00C2D0E1 /* biaoqing013.png in Resources */,
 				9DDB17151AE7741F0014D8B2 /* 37x-Checkmark@2x.png in Resources */,
-				0A720E161B252B1A00C2D0E1 /* CusMineFirstTableViewCell.xib in Resources */,
 				0A720E961B252B1A00C2D0E1 /* biaoqing063.png in Resources */,
 				9D42E9621B27DAF200C85400 /* BuyerTicketTableViewCell.xib in Resources */,
 				9D42E9721B27DAF200C85400 /* BuyerHomeViewController.xib in Resources */,
@@ -2398,6 +2407,7 @@
 				0A720E2D1B252B1A00C2D0E1 /* NearData.m in Sources */,
 				9DDAD2481AF9FE0000B98740 /* UUBar.m in Sources */,
 				0A720E501B252B1A00C2D0E1 /* MessageMoreView.m in Sources */,
+				9D27E13C1B28192D009685D1 /* MineData.m in Sources */,
 				9DF36CE41B0039BC00637206 /* Reachability.m in Sources */,
 				0A720E1B1B252B1A00C2D0E1 /* CusCollectionViewCell.m in Sources */,
 				0A79B9251B16C1D1003362DD /* NSData+AES256.m in Sources */,

@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MineData.h"
 @interface CusMineSecTableViewCell : UITableViewCell
 
--(void) setData:(NSDictionary *)dic;
+-(void) setData:(MineData *)mineData;
 
 @end

@@ -14,7 +14,7 @@
     // Initialization code
 }
 
--(void) setData:(NSDictionary *)dic
+-(void) setData:(MineData *)mineData
 {
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/4)];
     bgView.backgroundColor = [UIColor whiteColor];
@@ -22,8 +22,10 @@
     bgView.layer.shadowOpacity = 0.5;
     
     NSArray *imgArr = @[@"全部",@"待付款",@"专柜自提",@"售后"];
+    NSArray *numArr = @[mineData.AllOrderCount,mineData.WaitPaymentOrderCount,mineData.PickedSelfOrderCount,mineData.AfterSaleOrderCount];
     for (int i=0; i<imgArr.count; i++)
     {
+        
         UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
         btn.frame = CGRectMake(kScreenWidth/imgArr.count*i, 0, kScreenWidth/imgArr.count, kScreenWidth/imgArr.count);
         btn.tag = 1000+i;
@@ -34,6 +36,7 @@
         UIImageView *imgView = [[UIImageView alloc] init];
         imgView.center = CGPointMake(btn.width/2, btn.height/2-10);
         imgView.bounds = CGRectMake(0, 0, 20, 20);
+        imgView.backgroundColor = [UIColor clearColor];
         imgView.image = [UIImage imageNamed:[imgArr objectAtIndex:i]];
         [btn addSubview:imgView];
         
@@ -45,6 +48,28 @@
         lab.textColor = [UIColor darkGrayColor];
         lab.textAlignment = NSTextAlignmentCenter;
         [btn addSubview:lab];
+        
+        UILabel *numLab = [[UILabel alloc] init];
+        numLab.center = CGPointMake(imgView.right, imgView.top);
+        numLab.bounds = CGRectMake(0, 0, 18, 18);
+        numLab.backgroundColor = [UIColor whiteColor];
+        numLab.clipsToBounds = YES;
+        numLab.layer.borderColor = [UIColor orangeColor].CGColor;
+        numLab.layer.borderWidth = 1;
+        numLab.text = [numArr objectAtIndex:i];
+        if ([numLab.text isEqualToString:@"0"])
+        {
+            numLab.hidden = YES;
+        }
+        else
+        {
+            numLab.hidden = NO;
+        }
+        numLab.textColor = [UIColor orangeColor];
+        numLab.textAlignment = NSTextAlignmentCenter;
+        numLab.font = [UIFont systemFontOfSize:12];
+        numLab.layer.cornerRadius = numLab.width/2;
+        [btn addSubview:numLab];
     }
 }
 -(void)didClickBtn:(UIButton *)btn

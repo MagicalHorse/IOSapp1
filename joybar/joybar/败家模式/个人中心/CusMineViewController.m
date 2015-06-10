@@ -14,10 +14,13 @@
 #import "CusSettingViewController.h"
 #import "CusCollectionViewController.h"
 #import "BueryAuthViewController.h"
+#import "MineData.h"
 @interface CusMineViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong)UIViewController* vcview;
 
 @property (nonatomic ,strong) UITableView *tableView;
+
+@property (nonatomic ,strong) MineData *mineData;
 
 @end
 
@@ -26,6 +29,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self getMineData];
 }
 
 - (void)viewDidLoad {
@@ -50,6 +54,25 @@
     
 }
 
+-(void)getMineData
+{
+    [HttpTool postWithURL:@"user/GetmyInfo" params:nil success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            self.mineData = [MineData objectWithKeyValues:[json objectForKey:@"data"]];
+            [self.tableView reloadData];
+        }
+        NSLog(@"%@",json);
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
+    
+}
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 4;
@@ -72,7 +95,10 @@
             [view removeFromSuperview];
         }
         cell.backgroundColor = kCustomColor(245, 246, 247);
-        [cell setData:nil];
+        if (self.mineData)
+        {
+            [cell setData:self.mineData];
+        }
         return cell;
     }
     else if (indexPath.row==1)
@@ -91,7 +117,10 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = kCustomColor(245, 246, 247);
-        [cell setData:nil];
+        if (self.mineData)
+        {
+            [cell setData:self.mineData];
+        }
         return cell;
     }
     else

@@ -8,7 +8,7 @@
 
 #import "CircleTableViewCell.h"
 #import "UIView+Shadow.h"
-#import "CusCircleDetailViewController.h"
+#import "CusChatViewController.h"
 @implementation CircleTableViewCell
 {
     NSArray *arr;
@@ -91,8 +91,10 @@
 -(void)didClickImage:(UITapGestureRecognizer *)tap
 {
     NSString *circleId = [[arr objectAtIndex:tap.view.tag-1000] objectForKey:@"Id"];
-    CusCircleDetailViewController *VC = [[CusCircleDetailViewController alloc] init];
+    NSString *circleName = [[arr objectAtIndex:tap.view.tag-1000] objectForKey:@"Name"];
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:circleId AndTpye:2 andUserName:circleName];
     VC.circleId = circleId;
+    VC.isFrom = isFromGroupChat;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 

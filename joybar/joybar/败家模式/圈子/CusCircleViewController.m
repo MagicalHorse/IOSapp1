@@ -243,8 +243,7 @@
 //点击搜索
 -(void)didClickSearchBtn
 {
-    CusCircleDetailViewController *VC = [[CusCircleDetailViewController alloc] init];
-    [self.navigationController pushViewController:VC animated:YES];
+
 }
 //推荐圈子
 -(void)scrollToRecommendCircle

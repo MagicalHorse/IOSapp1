@@ -9,7 +9,7 @@
 #import "CusSettingViewController.h"
 #import "ChangePasswordViewController.h"
 #import "BuyerOpenMessageViewController.h"
-@interface CusSettingViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface CusSettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
 
@@ -32,13 +32,10 @@
     [super viewDidLoad];
     
     self.tableView.backgroundColor = kCustomColor(245, 246, 247);
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) style:(UITableViewStylePlain)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-//        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = kCustomColor(245, 246, 247);
-
     [self.view addSubview:self.tableView];
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -68,6 +65,7 @@
         [exitBtn setTitle:@"退出登录" forState:(UIControlStateNormal)];
         exitBtn.layer.cornerRadius = 4;
         [exitBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+        [exitBtn addTarget:self action:@selector(didClickExitBtn:) forControlEvents:(UIControlEventTouchUpInside)];
         [headerView addSubview:exitBtn];
     }
     return headerView;
@@ -175,7 +173,23 @@
     }else if(indexPath.section==0&&indexPath.row==1){
         
     }
-    
+}
+
+-(void)didClickExitBtn:(UIButton *)btn
+{
+    UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确定退出" otherButtonTitles: nil];
+    [action showInView:action];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==0)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"userInfo"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [Public showLoginVC:self];
+    }
 }
 
 @end

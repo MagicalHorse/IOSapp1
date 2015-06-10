@@ -295,7 +295,6 @@
                     [userInfoDic setObject:@"" forKey:key];
                 }
             }
-            
             [[NSUserDefaults standardUserDefaults] setObject:userInfoDic forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
 

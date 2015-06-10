@@ -16,7 +16,7 @@
     // Initialization code
 }
 
--(void)setData:(NSDictionary *)dic
+-(void)setData:(MineData *)mineData
 {
     UIView*bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 300-15)];
     bgView.backgroundColor = [UIColor whiteColor];
@@ -60,8 +60,8 @@
     tempView.backgroundColor = [UIColor clearColor];
     [bgView addSubview:tempView];
     
-    NSArray *nameArr = @[@"关注",@"粉丝",@"收藏"];
-    NSArray *numArr = @[@"1231",@"2345",@"4564"];
+    NSArray *nameArr = @[@"关注",@"粉丝",@"圈子"];
+    NSArray *numArr = @[mineData.FollowingCount,mineData.FollowerCount,mineData.CommunityCount];
     for (int i=0; i<3; i++)
     {
         UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];

@@ -12,7 +12,7 @@
 #import "MakeSureOrderViewController.h"
 #import "DWTagList.h"
 #import "ProDetailSize.h"
-
+#import "CusCircleDetailViewController.h"
 @interface CusChatViewController ()<UITableViewDataSource,UITableViewDelegate,SendMessageTextDelegate,UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
@@ -112,17 +112,21 @@
     NSString *myId=[[Public getUserInfo]objectForKey:@"id"]; //买手
     NSString *tempDict;
     NSString *tempOwner;
-    if (utype ==1) {
-        arr = @[myId,uid]; //uid 败家
-        tempDict=[NSString stringWithFormat:@"%@_%@",myId,uid];
-        tempOwner=myId;
-    }else{
-        arr = @[uid,myId];
-        tempDict =[NSString stringWithFormat:@"%@_%@",uid,myId];
-        tempOwner =uid;
+    if (self.isFrom==isFromPrivateChat)
+    {
+        if (utype ==1) {
+            arr = @[myId,uid]; //uid 败家
+            tempDict=[NSString stringWithFormat:@"%@_%@",myId,uid];
+            tempOwner=myId;
+        }else{
+            arr = @[uid,myId];
+            tempDict =[NSString stringWithFormat:@"%@_%@",uid,myId];
+            tempOwner =uid;
+        }
+        NSDictionary *dic = @{@"room_id":tempDict,@"title":@"私聊",@"owner":tempDict,@"users":arr,@"type":@"private",@"sessionId":@"",@"signValue":@"",@"token":@"",@"userName":name};
+        [[SocketManager socketManager].socket emit:@"join room" args:@[tempOwner,dic]];
+
     }
-    NSDictionary *dic = @{@"room_id":tempDict,@"title":@"私聊",@"owner":tempDict,@"users":arr,@"type":@"private",@"sessionId":@"",@"signValue":@"",@"token":@"",@"userName":name};
-    [[SocketManager socketManager].socket emit:@"join room" args:@[tempOwner,dic]];
 }
 
 #pragma mark - UI
@@ -154,6 +158,16 @@
     statusLab.font = [UIFont fontWithName:@"youyuan" size:12];
     statusLab.textAlignment = NSTextAlignmentCenter;
     [self.navView addSubview:statusLab];
+    
+    if (self.isFrom==isFromGroupChat)
+    {
+        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        btn.frame = CGRectMake(kScreenWidth-50, 20, 40, 40);
+        btn.backgroundColor = [UIColor redColor];
+        [btn addTarget:self action:@selector(didClickToDetail) forControlEvents:(UIControlEventTouchUpInside)];
+        [self.navView addSubview:btn];
+    }
+
 
     UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 20, 40, 40)];
     headerImage.layer.cornerRadius = headerImage.width/2;
@@ -521,6 +535,14 @@
     VC.buyNum = buyNumLab.text;
     VC.sizeId = self.sizeId;
     VC.sizeName = self.sizeName;
+    [self.navigationController pushViewController:VC animated:YES];
+}
+
+//圈子详情
+-(void)didClickToDetail
+{
+    CusCircleDetailViewController *VC = [[CusCircleDetailViewController alloc] init];
+    VC.circleId = self.circleId;
     [self.navigationController pushViewController:VC animated:YES];
 }
 

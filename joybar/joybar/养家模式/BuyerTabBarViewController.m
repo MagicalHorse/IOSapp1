@@ -24,9 +24,6 @@
 #import "BuyerCameraViewController.h"
 @interface BuyerTabBarViewController ()
 
-
-
-
 @end
 
 @implementation BuyerTabBarViewController
