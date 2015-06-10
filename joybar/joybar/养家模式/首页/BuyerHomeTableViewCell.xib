@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="youyuan.ttf">
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="130" id="KGk-i7-Jjw" customClass="BuyerHomeTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="392" height="130"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wld-rb-AN3">
+                        <rect key="frame" x="20" y="55" width="19" height="19"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="19" id="qNl-9L-JrS"/>
+                            <constraint firstAttribute="width" constant="19" id="tw9-fx-R7j"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="收益管理" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q04-Fo-8ex">
+                        <rect key="frame" x="49" y="56" width="68" height="17"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="今日收益" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uzJ-Hv-1Bu">
+                        <rect key="frame" x="156" y="45" width="60" height="15"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="累计收益" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bug-dz-xs6">
+                        <rect key="frame" x="156" y="70" width="60" height="15"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2dh-YR-H3U">
+                        <rect key="frame" x="224" y="54" width="0.0" height="0.0"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                        <color key="textColor" red="0.99215686270000003" green="0.4431372549" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYq-M6-D7i">
+                        <rect key="frame" x="224" y="78" width="0.0" height="0.0"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="元" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mb-6X-nDO">
+                        <rect key="frame" x="226" y="49" width="11" height="11"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="11"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="元" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d6d-8d-ptv">
+                        <rect key="frame" x="226" y="71" width="11" height="11"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="11"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="centerX" secondItem="Bug-dz-xs6" secondAttribute="centerX" constant="10" id="0TY-7Z-ntr"/>
+                    <constraint firstAttribute="centerY" secondItem="wld-rb-AN3" secondAttribute="centerY" id="6gR-yd-Wnh"/>
+                    <constraint firstItem="2mb-6X-nDO" firstAttribute="leading" secondItem="2dh-YR-H3U" secondAttribute="trailing" constant="2" id="86p-d9-sj3"/>
+                    <constraint firstItem="Bug-dz-xs6" firstAttribute="centerY" secondItem="UYq-M6-D7i" secondAttribute="centerY" id="8tj-AP-bKL"/>
+                    <constraint firstAttribute="centerY" secondItem="Bug-dz-xs6" secondAttribute="centerY" constant="-13" id="9bF-3a-1Nx"/>
+                    <constraint firstItem="2mb-6X-nDO" firstAttribute="centerY" secondItem="2dh-YR-H3U" secondAttribute="centerY" id="BvU-Sy-2h3"/>
+                    <constraint firstItem="2dh-YR-H3U" firstAttribute="leading" secondItem="uzJ-Hv-1Bu" secondAttribute="trailing" constant="8" id="Dc3-Hr-Ule"/>
+                    <constraint firstItem="uzJ-Hv-1Bu" firstAttribute="centerY" secondItem="2dh-YR-H3U" secondAttribute="centerY" constant="-1.5" id="Eob-NX-DrJ"/>
+                    <constraint firstAttribute="centerY" secondItem="uzJ-Hv-1Bu" secondAttribute="centerY" constant="12.5" id="Es9-0Y-Yre"/>
+                    <constraint firstItem="UYq-M6-D7i" firstAttribute="centerY" secondItem="d6d-8d-ptv" secondAttribute="centerY" constant="1" id="Fwb-jc-AE4"/>
+                    <constraint firstAttribute="centerX" secondItem="uzJ-Hv-1Bu" secondAttribute="centerX" constant="10" id="aGy-hY-nmI"/>
+                    <constraint firstItem="d6d-8d-ptv" firstAttribute="leading" secondItem="UYq-M6-D7i" secondAttribute="trailing" constant="2" id="aPg-K0-jXm"/>
+                    <constraint firstItem="wld-rb-AN3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="h5J-lf-QsV"/>
+                    <constraint firstItem="UYq-M6-D7i" firstAttribute="leading" secondItem="Bug-dz-xs6" secondAttribute="trailing" constant="8" id="l9E-Tx-jqe"/>
+                    <constraint firstAttribute="centerY" secondItem="Q04-Fo-8ex" secondAttribute="centerY" id="m3c-Go-ckY"/>
+                    <constraint firstItem="Q04-Fo-8ex" firstAttribute="leading" secondItem="wld-rb-AN3" secondAttribute="trailing" constant="10" id="qYC-Bh-jAH"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="iconView" destination="wld-rb-AN3" id="Znv-Gy-Gwy"/>
+                <outlet property="lableLConstraint" destination="0TY-7Z-ntr" id="uum-BR-dbB"/>
+                <outlet property="lableXConstraint" destination="aGy-hY-nmI" id="nqw-bi-CpT"/>
+                <outlet property="pirceD1View" destination="2dh-YR-H3U" id="AqW-Xd-ctd"/>
+                <outlet property="pirceD2View" destination="UYq-M6-D7i" id="KIX-6u-Rg9"/>
+                <outlet property="pirceDd1View" destination="2mb-6X-nDO" id="dJC-5z-qT3"/>
+                <outlet property="pirceDd2View" destination="d6d-8d-ptv" id="guH-kK-jb8"/>
+                <outlet property="tilteD1View" destination="uzJ-Hv-1Bu" id="BIu-Ah-qg5"/>
+                <outlet property="tilteD2View" destination="Bug-dz-xs6" id="9yb-0s-cJw"/>
+                <outlet property="tilteView" destination="Q04-Fo-8ex" id="f01-Ah-hue"/>
+            </connections>
+            <point key="canvasLocation" x="-131" y="167"/>
+        </tableViewCell>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

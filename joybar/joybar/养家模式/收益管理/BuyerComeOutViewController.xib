@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="youyuan.ttf">
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BuyerComeOutViewController">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xxZ-fE-hDD">
+                    <rect key="frame" x="0.0" y="519" width="320" height="49"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="49" id="8LZ-QR-Gji"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
+                    <state key="normal" title="确认提现">
+                        <color key="titleColor" red="0.96504934210000004" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="btnClick:" destination="-1" eventType="touchUpInside" id="2C6-TP-r7u"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="可提现的收益2375.00元" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZE9-EG-KIP">
+                    <rect key="frame" x="20" y="75" width="147" height="14"/>
+                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BKh-kn-8QX">
+                    <rect key="frame" x="0.0" y="101" width="320" height="45"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="重点" translatesAutoresizingMaskIntoConstraints="NO" id="v5Z-KM-0yK">
+                            <rect key="frame" x="20" y="12" width="19" height="19"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="19" id="aLQ-Fp-hg2"/>
+                                <constraint firstAttribute="width" constant="19" id="qRx-3E-Cv2"/>
+                            </constraints>
+                        </imageView>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入金额" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="anO-JQ-dYi">
+                            <rect key="frame" x="39" y="0.0" width="217" height="45"/>
+                            <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="（元）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H7P-4G-cEc">
+                            <rect key="frame" x="261" y="16" width="45" height="15"/>
+                            <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="H7P-4G-cEc" secondAttribute="trailing" constant="14" id="6B6-Th-Tz9"/>
+                        <constraint firstItem="v5Z-KM-0yK" firstAttribute="top" secondItem="BKh-kn-8QX" secondAttribute="top" constant="12" id="KrE-6z-KVy"/>
+                        <constraint firstAttribute="height" constant="45" id="KzW-PG-OhJ"/>
+                        <constraint firstItem="H7P-4G-cEc" firstAttribute="leading" secondItem="anO-JQ-dYi" secondAttribute="trailing" constant="5" id="RBJ-hx-yg0"/>
+                        <constraint firstItem="anO-JQ-dYi" firstAttribute="leading" secondItem="v5Z-KM-0yK" secondAttribute="trailing" id="Y9x-Kh-gca"/>
+                        <constraint firstAttribute="bottom" secondItem="H7P-4G-cEc" secondAttribute="bottom" constant="14" id="aB3-gT-346"/>
+                        <constraint firstItem="anO-JQ-dYi" firstAttribute="top" secondItem="BKh-kn-8QX" secondAttribute="top" id="cMz-xd-Pk6"/>
+                        <constraint firstItem="v5Z-KM-0yK" firstAttribute="leading" secondItem="BKh-kn-8QX" secondAttribute="leading" constant="20" id="igD-MH-pzW"/>
+                        <constraint firstAttribute="bottom" secondItem="anO-JQ-dYi" secondAttribute="bottom" id="imR-co-krK"/>
+                    </constraints>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="重点" translatesAutoresizingMaskIntoConstraints="NO" id="1Og-dl-LCS">
+                    <rect key="frame" x="20" y="154" width="19" height="19"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="19" id="8LY-VL-92R"/>
+                        <constraint firstAttribute="height" constant="19" id="X5Q-rD-ADq"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="温馨提示：提现金额将以微信零钱的形式发送至您所属微信号中，您可及时点开微信红包提现至微信零钱中。（由于微信相关规定，早8点-24点期间，微信红包60分钟内到账可直接提取；晚24点-早8点，红包顺延至早8:30后按顺序发放）" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5wn-Ft-Naw">
+                    <rect key="frame" x="39" y="158" width="267" height="84"/>
+                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="xxZ-fE-hDD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="2bA-Vb-XCA"/>
+                <constraint firstItem="1Og-dl-LCS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="3JQ-h7-lSE"/>
+                <constraint firstItem="BKh-kn-8QX" firstAttribute="top" secondItem="ZE9-EG-KIP" secondAttribute="bottom" constant="12" id="8u6-9B-2iB"/>
+                <constraint firstItem="ZE9-EG-KIP" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="75" id="AjT-0J-K5f"/>
+                <constraint firstItem="BKh-kn-8QX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="LXu-JK-Up8"/>
+                <constraint firstItem="ZE9-EG-KIP" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="MpS-D4-ThU"/>
+                <constraint firstAttribute="trailing" secondItem="BKh-kn-8QX" secondAttribute="trailing" id="PBG-9p-ubI"/>
+                <constraint firstAttribute="bottom" secondItem="xxZ-fE-hDD" secondAttribute="bottom" id="cDf-G5-m4p"/>
+                <constraint firstItem="1Og-dl-LCS" firstAttribute="top" secondItem="BKh-kn-8QX" secondAttribute="bottom" constant="8" id="gCr-ke-UJ5"/>
+                <constraint firstItem="5wn-Ft-Naw" firstAttribute="top" secondItem="BKh-kn-8QX" secondAttribute="bottom" constant="12" id="hR8-QG-BOS"/>
+                <constraint firstItem="5wn-Ft-Naw" firstAttribute="leading" secondItem="1Og-dl-LCS" secondAttribute="trailing" id="qsr-Ts-nL7"/>
+                <constraint firstAttribute="trailing" secondItem="5wn-Ft-Naw" secondAttribute="trailing" constant="14" id="w4S-ma-L0X"/>
+                <constraint firstAttribute="trailing" secondItem="xxZ-fE-hDD" secondAttribute="trailing" id="xWE-St-ZpS"/>
+            </constraints>
+            <point key="canvasLocation" x="228" y="121"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="重点" width="19" height="19"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
