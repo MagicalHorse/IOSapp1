@@ -203,6 +203,7 @@
 		0A90EAE81B1D485C00F789E2 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A90EAE41B1D485C00F789E2 /* UIImage+Resize.m */; };
 		0A90EAE91B1D485C00F789E2 /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A90EAE61B1D485C00F789E2 /* ViewUtils.m */; };
 		0AA2B9671B0B5A5600CE70EF /* UILabel+FlickerNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA2B9651B0B5A5600CE70EF /* UILabel+FlickerNumber.m */; };
+		0AAB59D91B28193500782C0C /* BuyerPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59D81B28193500782C0C /* BuyerPaymentViewController.m */; };
 		0AE7E1051B1D9C9000159B02 /* libOSS_IOS_SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE7E1041B1D9C9000159B02 /* libOSS_IOS_SDK.a */; };
 		0AE7E1171B2027CE00159B02 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE7E1161B2027CE00159B02 /* Images.xcassets */; };
 		0AEF3D191B21859B0064A1E1 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEF3D181B21859B0064A1E1 /* BaseTableView.m */; };
@@ -655,6 +656,8 @@
 		0A90EAE61B1D485C00F789E2 /* ViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewUtils.m; sourceTree = "<group>"; };
 		0AA2B9651B0B5A5600CE70EF /* UILabel+FlickerNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+FlickerNumber.m"; sourceTree = "<group>"; };
 		0AA2B9661B0B5A5600CE70EF /* UILabel+FlickerNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+FlickerNumber.h"; sourceTree = "<group>"; };
+		0AAB59D71B28193500782C0C /* BuyerPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerPaymentViewController.h; sourceTree = "<group>"; };
+		0AAB59D81B28193500782C0C /* BuyerPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerPaymentViewController.m; sourceTree = "<group>"; };
 		0AE7E0F71B1D9C3C00159B02 /* libOSS_IOS_SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSS_IOS_SDK.a; sourceTree = "<group>"; };
 		0AE7E0F81B1D9C3C00159B02 /* OSSArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSArgs.h; sourceTree = "<group>"; };
 		0AE7E0F91B1D9C3C00159B02 /* OSSBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSBucket.h; sourceTree = "<group>"; };
@@ -1449,6 +1452,15 @@
 			path = NJDNumberJump;
 			sourceTree = "<group>";
 		};
+		0AAB59D61B2818FA00782C0C /* 货款管理 */ = {
+			isa = PBXGroup;
+			children = (
+				0AAB59D71B28193500782C0C /* BuyerPaymentViewController.h */,
+				0AAB59D81B28193500782C0C /* BuyerPaymentViewController.m */,
+			);
+			path = "货款管理";
+			sourceTree = "<group>";
+		};
 		0AE7E0F61B1D9C3C00159B02 /* Aliyun */ = {
 			isa = PBXGroup;
 			children = (
@@ -1631,6 +1643,7 @@
 			children = (
 				9D42E8D61B27DAF200C85400 /* BuyerTabBarViewController.h */,
 				9D42E8D71B27DAF200C85400 /* BuyerTabBarViewController.m */,
+				0AAB59D61B2818FA00782C0C /* 货款管理 */,
 				9D42E8D81B27DAF200C85400 /* 个人中心 */,
 				9D42E8EB1B27DAF200C85400 /* 发布 */,
 				9D42E8F11B27DAF200C85400 /* 商品管理 */,
@@ -2255,6 +2268,7 @@
 				0DCE282B1AD60E560001AE88 /* FirstViewController.m in Sources */,
 				9D7301F91AE5DF3E0046F97C /* UIView+Shadow.m in Sources */,
 				9D42E9431B27DAF200C85400 /* BuyerCameraViewController.m in Sources */,
+				0AAB59D91B28193500782C0C /* BuyerPaymentViewController.m in Sources */,
 				0AA2B9671B0B5A5600CE70EF /* UILabel+FlickerNumber.m in Sources */,
 				0A720EBC1B252B1A00C2D0E1 /* CusHomeViewController.m in Sources */,
 				0A53050E1B12C05300997BF4 /* MKAnnotationView+WebCache.m in Sources */,
