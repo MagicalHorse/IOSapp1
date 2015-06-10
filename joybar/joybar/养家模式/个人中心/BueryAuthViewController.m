@@ -9,13 +9,13 @@
 #import "BueryAuthViewController.h"
 #import "BueryAuthInfoViewController.h"
 #import "BuyerCameraViewController.h"
-#import "OSSClient.h"
-#import "OSSTool.h"
-#import "OSSData.h"
-#import "OSSLog.h"
+//#import "OSSClient.h"
+//#import "OSSTool.h"
+//#import "OSSData.h"
+//#import "OSSLog.h"
 
 @interface BueryAuthViewController ()<UIScrollViewDelegate,BuyerCameraDelgeate>{
-    OSSData *osData;
+    //OSSData *osData;
 }
 @property (nonatomic,strong)UIScrollView *customScrollView;
 @property (nonatomic,strong)UIButton * customButton;
@@ -46,16 +46,16 @@
     
 }
 -(void)aliyunSet{
-    OSSClient *ossclient = [OSSClient sharedInstanceManage];
-    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
-    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
-        NSString *signature = nil;
-        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
-        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
-        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
-        NSLog(@"here signature:%@", signature);
-        return signature;
-    }];
+//    OSSClient *ossclient = [OSSClient sharedInstanceManage];
+//    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
+//    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
+//        NSString *signature = nil;
+//        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
+//        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
+//        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
+//        NSLog(@"here signature:%@", signature);
+//        return signature;
+//    }];
 }
 
 - (void)settingView {
@@ -195,43 +195,43 @@
     //对图片大小进行压缩--
     imageNew = [self imageCompressForSize:imageNew targetSize:imagesize];
     NSData *imageData = UIImageJPEGRepresentation(imageNew,1);
-    
-    if (type==1) {
-        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
-        osData = [[OSSData alloc] initWithBucket:bucket withKey:@"1.png"];
-        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
-        [osData setData:data withType:@"image/png"];
-        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
-            if (isSuccess) {
-                [self.btn1 setImage:imageNew forState:UIControlStateNormal];
-                           }
-        } withProgressCallback:^(float progress) {
-            NSLog(@"%f",progress);
-        }];
-    }else if(type ==2){
-        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
-        osData = [[OSSData alloc] initWithBucket:bucket withKey:@"2.png"];
-        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
-        [osData setData:data withType:@"image/png"];
-        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
-            if (isSuccess) {
-                [self.btn2 setImage:imageNew forState:UIControlStateNormal];
-            }
-        } withProgressCallback:^(float progress) {
-        }];
-        
-    }else if(type ==3){
-        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
-        [osData setData:data withType:@"image/png"];
-        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
-            if (isSuccess) {
-                [self.btn3 setImage:imageNew forState:UIControlStateNormal];
-            }
-        } withProgressCallback:^(float progress) {
-            
-            //NSLog(@"current get %f", progress);
-        }];
-    }
+//    
+//    if (type==1) {
+//        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
+//        osData = [[OSSData alloc] initWithBucket:bucket withKey:@"1.png"];
+//        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
+//        [osData setData:data withType:@"image/png"];
+//        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+//            if (isSuccess) {
+//                [self.btn1 setImage:imageNew forState:UIControlStateNormal];
+//                           }
+//        } withProgressCallback:^(float progress) {
+//            NSLog(@"%f",progress);
+//        }];
+//    }else if(type ==2){
+//        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
+//        osData = [[OSSData alloc] initWithBucket:bucket withKey:@"2.png"];
+//        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
+//        [osData setData:data withType:@"image/png"];
+//        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+//            if (isSuccess) {
+//                [self.btn2 setImage:imageNew forState:UIControlStateNormal];
+//            }
+//        } withProgressCallback:^(float progress) {
+//        }];
+//        
+//    }else if(type ==3){
+//        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
+//        [osData setData:data withType:@"image/png"];
+//        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+//            if (isSuccess) {
+//                [self.btn3 setImage:imageNew forState:UIControlStateNormal];
+//            }
+//        } withProgressCallback:^(float progress) {
+//            
+//            //NSLog(@"current get %f", progress);
+//        }];
+//    }
 
 }
 

@@ -13,6 +13,7 @@
 #import "BuyerStoreViewController.h"
 #import "ComeIn.h"
 #import "BuyerCircleViewController.h"
+#import "BuyerPaymentViewController.h"
 @interface BuyerHomeViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *homeTableView;
 @property (nonatomic,strong)NSMutableDictionary * dataArray;
@@ -209,7 +210,7 @@
         come.total_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"]intValue];
         come.avail_amout =[[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amout"]intValue];
         
-        BuyerInComeViewController * income= [[BuyerInComeViewController alloc]initWithComeIn:come];
+        BuyerPaymentViewController * income= [[BuyerPaymentViewController alloc]init];
         [self.navigationController pushViewController:income animated:YES];
     }else if (indexPath.row == 1) {
         ComeIn *come = [[ComeIn alloc]init];
