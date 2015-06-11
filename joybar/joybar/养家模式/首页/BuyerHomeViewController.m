@@ -100,13 +100,13 @@
         cell.tilteView.text =@"货款管理";
         cell.tilteD1View.text =@"今日货款";
         cell.tilteD2View.text =@"累积货款";
-        NSString *tempPirce =[[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"] stringValue];
+        NSString *tempPirce =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"todaygoodsamount"] stringValue];
         if (tempPirce.length>0) {
             cell.pirceD1View.text =[NSString stringWithFormat:@"%@.00",tempPirce];
         }else{
             cell.pirceD1View.text=@"0.00";
         }
-        NSString *tempPirceD2 =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"] stringValue];
+        NSString *tempPirceD2 =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"totalgoodsamount"] stringValue];
         if (tempPirce.length >0) {
             cell.pirceD2View.text =[NSString stringWithFormat:@"%@.00",tempPirceD2];
         }else{

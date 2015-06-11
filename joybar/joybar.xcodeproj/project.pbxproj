@@ -203,6 +203,9 @@
 		0A90EAE91B1D485C00F789E2 /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A90EAE61B1D485C00F789E2 /* ViewUtils.m */; };
 		0AA2B9671B0B5A5600CE70EF /* UILabel+FlickerNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA2B9651B0B5A5600CE70EF /* UILabel+FlickerNumber.m */; };
 		0AAB59D91B28193500782C0C /* BuyerPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59D81B28193500782C0C /* BuyerPaymentViewController.m */; };
+		0AAB59DC1B283B9A00782C0C /* BuyerPaymentDtsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59DB1B283B9A00782C0C /* BuyerPaymentDtsViewController.m */; };
+		0AAB59E01B2850D800782C0C /* BuyerPaymentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59DE1B2850D800782C0C /* BuyerPaymentTableViewCell.m */; };
+		0AAB59E11B2850D800782C0C /* BuyerPaymentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB59DF1B2850D800782C0C /* BuyerPaymentTableViewCell.xib */; };
 		0AE7E1051B1D9C9000159B02 /* libOSS_IOS_SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE7E1041B1D9C9000159B02 /* libOSS_IOS_SDK.a */; };
 		0AE7E1171B2027CE00159B02 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE7E1161B2027CE00159B02 /* Images.xcassets */; };
 		0AEF3D191B21859B0064A1E1 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEF3D181B21859B0064A1E1 /* BaseTableView.m */; };
@@ -657,6 +660,11 @@
 		0AA2B9661B0B5A5600CE70EF /* UILabel+FlickerNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+FlickerNumber.h"; sourceTree = "<group>"; };
 		0AAB59D71B28193500782C0C /* BuyerPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerPaymentViewController.h; sourceTree = "<group>"; };
 		0AAB59D81B28193500782C0C /* BuyerPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerPaymentViewController.m; sourceTree = "<group>"; };
+		0AAB59DA1B283B9A00782C0C /* BuyerPaymentDtsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerPaymentDtsViewController.h; sourceTree = "<group>"; };
+		0AAB59DB1B283B9A00782C0C /* BuyerPaymentDtsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerPaymentDtsViewController.m; sourceTree = "<group>"; };
+		0AAB59DD1B2850D800782C0C /* BuyerPaymentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerPaymentTableViewCell.h; sourceTree = "<group>"; };
+		0AAB59DE1B2850D800782C0C /* BuyerPaymentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerPaymentTableViewCell.m; sourceTree = "<group>"; };
+		0AAB59DF1B2850D800782C0C /* BuyerPaymentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuyerPaymentTableViewCell.xib; sourceTree = "<group>"; };
 		0AE7E0F71B1D9C3C00159B02 /* libOSS_IOS_SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSS_IOS_SDK.a; sourceTree = "<group>"; };
 		0AE7E0F81B1D9C3C00159B02 /* OSSArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSArgs.h; sourceTree = "<group>"; };
 		0AE7E0F91B1D9C3C00159B02 /* OSSBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSBucket.h; sourceTree = "<group>"; };
@@ -1457,6 +1465,11 @@
 			children = (
 				0AAB59D71B28193500782C0C /* BuyerPaymentViewController.h */,
 				0AAB59D81B28193500782C0C /* BuyerPaymentViewController.m */,
+				0AAB59DA1B283B9A00782C0C /* BuyerPaymentDtsViewController.h */,
+				0AAB59DB1B283B9A00782C0C /* BuyerPaymentDtsViewController.m */,
+				0AAB59DD1B2850D800782C0C /* BuyerPaymentTableViewCell.h */,
+				0AAB59DE1B2850D800782C0C /* BuyerPaymentTableViewCell.m */,
+				0AAB59DF1B2850D800782C0C /* BuyerPaymentTableViewCell.xib */,
 			);
 			path = "货款管理";
 			sourceTree = "<group>";
@@ -2135,6 +2148,7 @@
 				0A720E4A1B252B1A00C2D0E1 /* EmoticonTips_ios7@2x.png in Resources */,
 				0A720E5C1B252B1A00C2D0E1 /* biaoqing005.png in Resources */,
 				0A720EB11B252B1A00C2D0E1 /* CusOrderListTableViewCell.xib in Resources */,
+				0AAB59E11B2850D800782C0C /* BuyerPaymentTableViewCell.xib in Resources */,
 				0A720E981B252B1A00C2D0E1 /* biaoqing065.png in Resources */,
 				0A720E901B252B1A00C2D0E1 /* biaoqing057.png in Resources */,
 				0A720E8E1B252B1A00C2D0E1 /* biaoqing055.png in Resources */,
@@ -2316,6 +2330,7 @@
 				9DDB17221AE7741F0014D8B2 /* MJRefreshConst.m in Sources */,
 				0A720E201B252B1A00C2D0E1 /* FansItems.m in Sources */,
 				0A720E151B252B1A00C2D0E1 /* CusMineFirstTableViewCell.m in Sources */,
+				0AAB59E01B2850D800782C0C /* BuyerPaymentTableViewCell.m in Sources */,
 				0A720E241B252B1A00C2D0E1 /* CusFindViewController.m in Sources */,
 				0A5305111B12C05300997BF4 /* SDWebImageCompat.m in Sources */,
 				9D467EFC1B05C4FA005CAA36 /* NSString+MJExtension.m in Sources */,
@@ -2415,6 +2430,7 @@
 				0A720E3B1B252B1A00C2D0E1 /* CusInviteFriendViewController.m in Sources */,
 				9D42E9671B27DAF200C85400 /* BuyerSellViewController.m in Sources */,
 				9D42E9661B27DAF200C85400 /* BueryStoreDetailsController.m in Sources */,
+				0AAB59DC1B283B9A00782C0C /* BuyerPaymentDtsViewController.m in Sources */,
 				0A720EC31B252B1A00C2D0E1 /* LikeUsers.m in Sources */,
 				0A720E2D1B252B1A00C2D0E1 /* NearData.m in Sources */,
 				9DDAD2481AF9FE0000B98740 /* UUBar.m in Sources */,
