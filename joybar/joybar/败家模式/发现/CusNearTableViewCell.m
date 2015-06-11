@@ -7,7 +7,7 @@
 //
 
 #import "CusNearTableViewCell.h"
-
+#import "CusHomeStoreViewController.h"
 @implementation CusNearTableViewCell
 
 - (void)awakeFromNib {
@@ -19,9 +19,13 @@
     UIImageView *headImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 55, 55)];
     headImg.layer.cornerRadius = headImg.width/2;
     headImg.clipsToBounds = YES;
-//    headImg.backgroundColor = [UIColor orangeColor];
     [headImg sd_setImageWithURL:[NSURL URLWithString:self.nearItems.BuyerLogo] placeholderImage:nil];
+    headImg.userInteractionEnabled = YES;
     [self.contentView addSubview:headImg];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
+    [headImg addGestureRecognizer:tap];
+    
     
     UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(headImg.right+10, headImg.top+5, 170, 20)];
     nameLab.text = self.nearItems.UserName;
@@ -107,4 +111,13 @@
     }];
     
 }
+
+-(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
+{
+    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    VC.userName = self.nearItems.UserName;
+    VC.userId = self.nearItems.UserId;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
+}
+
 @end

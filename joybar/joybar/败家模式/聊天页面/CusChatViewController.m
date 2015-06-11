@@ -163,17 +163,20 @@
     {
         UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
         btn.frame = CGRectMake(kScreenWidth-50, 20, 40, 40);
-        btn.backgroundColor = [UIColor redColor];
+        [btn setImage:[UIImage imageNamed:@"设置icon"] forState:(UIControlStateNormal)];
         [btn addTarget:self action:@selector(didClickToDetail) forControlEvents:(UIControlEventTouchUpInside)];
         [self.navView addSubview:btn];
     }
+    else
+    {
+        UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 20, 40, 40)];
+        headerImage.layer.cornerRadius = headerImage.width/2;
+        headerImage.clipsToBounds = YES;
+        [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:nil];
+        [self.navView addSubview:headerImage];
 
+    }
 
-    UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 20, 40, 40)];
-    headerImage.layer.cornerRadius = headerImage.width/2;
-    headerImage.clipsToBounds = YES;
-    [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:nil];
-    [self.navView addSubview:headerImage];
 }
 
 -(void)addProductView

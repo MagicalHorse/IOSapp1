@@ -8,6 +8,8 @@
 
 #import "NearTableView.h"
 #import "CusNearTableViewCell.h"
+#import "CusBuyerDetailViewController.h"
+#import "NearItems.h"
 @implementation NearTableView
 
 -(instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
@@ -54,6 +56,14 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return kScreenWidth/3+55+25;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NearItems *items = [self.dataArr objectAtIndex:indexPath.row];
+    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+    VC.productId = items.ProductId;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 
