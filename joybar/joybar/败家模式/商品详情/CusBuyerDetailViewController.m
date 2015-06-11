@@ -10,7 +10,7 @@
 #import "CusCartViewController.h"
 #import "CusChatViewController.h"
 #import "ProDetailData.h"
-
+#import "HomeUsers.h"
 @interface CusBuyerDetailViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
@@ -39,7 +39,6 @@
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     self.scrollView.alwaysBounceVertical = YES;
     self.scrollView.backgroundColor = [UIColor whiteColor];
-    self.scrollView.contentSize = CGSizeMake(0, 568);
     [self.view addSubview:self.scrollView];
     
     UIButton *returnBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -154,9 +153,49 @@
     locationLab.textColor = [UIColor grayColor];
     [self.scrollView addSubview:locationLab];
     
+    //打烊购
+//-----------------------------------------------------------------------------------
+    UIView *tempView = [[UIView alloc] init];
+    tempView.backgroundColor = kCustomColor(239, 243, 244);
+    [self.scrollView addSubview:tempView];
+    
+    UIView *nightView = [[UIView alloc] init];
+    nightView.backgroundColor = [UIColor whiteColor];
+    nightView.layer.shadowOpacity = 0.1;
+    nightView.layer.shadowOffset = CGSizeMake(0, 1);
+    [tempView addSubview:nightView];
+    
+    UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 15, 15)];
+    imageView1.backgroundColor = [UIColor redColor];
+    [tempView addSubview:imageView1];
+    
+    UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, imageView1.bottom+5, imageView1.width, imageView1.height)];
+    imageView2.backgroundColor = [UIColor redColor];
+    [tempView addSubview:imageView2];
+
+    UILabel *nightLab = [[UILabel alloc] initWithFrame:CGRectMake(imageView1.right+5, imageView1.top, kScreenWidth-60, imageView1.height)];
+    nightLab.text = @"打烊购时间 (晚22:00-早10:00)";
+    nightLab.font = [UIFont fontWithName:@"youyuan" size:11];
+    nightLab.textColor = [UIColor grayColor];
+    [tempView addSubview:nightLab];
+    
+    UILabel *nightLab1 = [[UILabel alloc] init];
+    nightLab1.text = @"购物即可立减现金,单笔订单悦吧额外补贴5%,最高可减50元哦";
+    nightLab1.numberOfLines = 0;
+    CGSize size = [Public getContentSizeWith:nightLab1.text andFontSize:11 andWidth:kScreenWidth-60];
+    nightLab1.frame = CGRectMake(imageView2.right+5, imageView2.top, kScreenWidth-60, size.height);
+    nightLab1.font = [UIFont fontWithName:@"youyuan" size:11];
+    nightLab1.textColor = [UIColor grayColor];
+    [tempView addSubview:nightLab1];
+
+    nightView.frame = CGRectMake(0, 0, kScreenWidth, size.height+50);
+    tempView.frame = CGRectMake(0, locationLab.bottom+10, kScreenWidth, nightView.height+10);
+//-----------------------------------------------------------------------------------
+    self.scrollView.contentSize = CGSizeMake(0, tempView.height+568);
+
     UIButton *collectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     collectBtn.backgroundColor = [UIColor clearColor];
-    collectBtn.frame = CGRectMake(0, locationLab.bottom+10, 60, 30);
+    collectBtn.frame = CGRectMake(0, tempView.bottom+10, 60, 30);
     if ([proData.LikeUsers.IsLike boolValue])
     {
         [collectBtn setImage:[UIImage imageNamed:@"点赞h"] forState:(UIControlStateNormal)];
@@ -180,15 +219,18 @@
     [collectBtn addTarget:self action:@selector(didClickCollect:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.scrollView addSubview:collectBtn];
     
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth-260, locationLab.bottom+10, 240, 30)];
+
+    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth-260, tempView.bottom+10, 240, 30)];
     bgView.backgroundColor = [UIColor clearColor];
     [self.scrollView addSubview:bgView];
     
-    for (int i=0; i<7; i++)
+    for (int i=0; i<proData.LikeUsers.Users.count; i++)
     {
+        HomeUsers *user = [proData.LikeUsers.Users objectAtIndex:i];
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(35*i, 0, 30, 30)];
         img.layer.cornerRadius = img.width/2;
-        img.backgroundColor = [UIColor grayColor];
+        [img sd_setImageWithURL:[NSURL URLWithString:user.Logo] placeholderImage:nil];
+        img.clipsToBounds = YES;
         img.tag = 1000+i;
         img.userInteractionEnabled = YES;
         [bgView addSubview:img];

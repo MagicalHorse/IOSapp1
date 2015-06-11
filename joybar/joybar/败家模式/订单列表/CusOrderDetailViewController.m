@@ -148,7 +148,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -249,9 +249,7 @@
                 CGSize size = [Public getContentSizeWith:[msgArr objectAtIndex:indexPath.row] andFontSize:15 andWidth:kScreenWidth-110];
                 msgLab.frame = CGRectMake(lab.right+10, 15, kScreenWidth-110, size.height);
             }
-
         }
-        
         if (indexPath.row==0)
         {
             UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 5, 40, 40)];
@@ -271,7 +269,7 @@
         }
         return cell;
     }
-    else
+    else if(indexPath.section==2)
     {
         static NSString *iden = @"cell2";
         CusOrderDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
@@ -286,6 +284,32 @@
         return cell;
         
     }
+    else if (indexPath.section==3)
+    {
+        static NSString *iden = @"cell3";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+        if (cell==nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        for (UIView *view in cell.contentView.subviews)
+        {
+            [view removeFromSuperview];
+        }
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
+        lab.text = @"打烊购:";
+        lab.font = [UIFont fontWithName:@"youyuan" size:14];
+        [cell.contentView addSubview:lab];
+        
+        UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
+        lab1.textAlignment = NSTextAlignmentRight;
+        lab1.text = @"立减 30.00元";
+        lab1.font = [UIFont fontWithName:@"youyuan" size:14];
+        [cell.contentView addSubview:lab1];
+        return cell;
+    }
+    return nil;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -301,6 +325,10 @@
             CGSize size = [Public getContentSizeWith:@"发生地方阿迪拉开始放假卡了是发生地方阿迪拉开始放假卡了" andFontSize:15 andWidth:kScreenWidth-110];
             return size.height+30;
         }
+        return 50;
+    }
+    else if (indexPath.section==3)
+    {
         return 50;
     }
     return 80;
