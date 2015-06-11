@@ -15,7 +15,9 @@
 @end
 
 @implementation MakeSureOrderViewController
-
+{
+    UITextField *phoneText;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -66,7 +68,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 4;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -148,7 +150,7 @@
         }
         return cell;
     }
-    else
+    else if(indexPath.section==1)
     {
         static NSString *iden = @"cell1";
         CusOrderProTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
@@ -164,6 +166,76 @@
         return cell;
         
     }
+    else if(indexPath.section==2)
+    {
+        static NSString *iden = @"cell2";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+        if (cell==nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+        
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        for (UIView *view in cell.contentView.subviews)
+        {
+            [view removeFromSuperview];
+        }
+        
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 70, 20)];
+        lab.text = @"提货电话:";
+        lab.font = [UIFont fontWithName:@"youyuan" size:14];
+        [cell.contentView addSubview:lab];
+        
+        phoneText = [[UITextField alloc] initWithFrame:CGRectMake(lab.right, 15, kScreenWidth-100, 30)];
+        phoneText.borderStyle = UITextBorderStyleNone;
+        phoneText.layer.borderColor = [UIColor grayColor].CGColor;
+        phoneText.layer.borderWidth =0.5;
+        phoneText.layer.cornerRadius = 3;
+        phoneText.placeholder = @" 未填写";
+        phoneText.font = [UIFont systemFontOfSize:14];
+        [cell.contentView addSubview:phoneText];
+        
+        UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(phoneText.left, phoneText.bottom+5, 200, 20)];
+        lab1.text = @"*输入您的手机, 方便买手找到你";
+        lab1.textColor = [UIColor orangeColor];
+        lab1.font = [UIFont fontWithName:@"youyuan" size:11];
+        [cell.contentView addSubview:lab1];
+        
+        return cell;
+
+    }
+    else if(indexPath.section==3)
+    {
+        static NSString *iden = @"cell3";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+        if (cell==nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+            
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        for (UIView *view in cell.contentView.subviews)
+        {
+            [view removeFromSuperview];
+        }
+        
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
+        lab.text = @"打烊购:";
+        lab.font = [UIFont fontWithName:@"youyuan" size:14];
+        [cell.contentView addSubview:lab];
+        
+        UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
+        lab1.textAlignment = NSTextAlignmentRight;
+        lab1.text = @"立减 30.00元";
+        lab1.font = [UIFont fontWithName:@"youyuan" size:14];
+        [cell.contentView addSubview:lab1];
+
+        return cell;
+        
+    }
+
+    
+    return nil;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -178,7 +250,15 @@
         }
         return 50;
     }
-    return 150;
+    else if (indexPath.section==1)
+    {
+        return 150;
+    }
+    else if (indexPath.section==2)
+    {
+        return 80;
+    }
+    return 50;
 }
 
 //确认
@@ -188,6 +268,7 @@
     [dic setValue:self.detailData.ProductId forKey:@"ProductId"];
     [dic setValue:self.buyNum forKey:@"Count"];
     [dic setValue:self.sizeId forKey:@"SizeId"];
+    [dic setValue:phoneText.text forKey:@"mobile"];
     [HttpTool postWithURL:@"Order/CreateOrder" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
