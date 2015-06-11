@@ -7,6 +7,7 @@
 //
 
 #import "BuyerPaymentViewController.h"
+#import "BuyerPaymentDtsViewController.h"
 
 @interface BuyerPaymentViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UITableView *tableView;
@@ -31,7 +32,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addNavBarViewAndTitle:@"货款管理"];
     self.view.backgroundColor = kCustomColor(241, 241, 241);
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 79, kScreenWidth, kScreenHeight-79-49) style:(UITableViewStylePlain)];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -50,6 +50,8 @@
     
     self.tableView.backgroundColor = kCustomColor(241, 241, 241);
     [self setData];
+    [self addNavBarViewAndTitle:@"货款管理"];
+
 }
 
 -(void)setData{
@@ -65,7 +67,8 @@
     }];
 }
 -(void)btnclick{
-    
+    BuyerPaymentDtsViewController *payment= [[BuyerPaymentDtsViewController alloc]init];
+    [self.navigationController pushViewController:payment animated:YES];
     
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
