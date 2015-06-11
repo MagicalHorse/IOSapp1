@@ -20,6 +20,7 @@
 #import "BuyerMineViewController.h"
 #import "LoginAndRegisterViewController.h"
 #import "CusMessageViewController.h"
+#import "BuyerMessageViewController.h"
 #import "BuyerMineViewController.h"
 #import "BuyerCameraViewController.h"
 @interface BuyerTabBarViewController ()
@@ -55,7 +56,7 @@
     BuyerHomeViewController *homeView = [[BuyerHomeViewController alloc]init];
     BuyerTicketViewController *fastView = [[BuyerTicketViewController alloc]init];
     UIViewController *messageView = [[UIViewController alloc]init];
-    BuyerOpenMessageViewController *fineView = [[BuyerOpenMessageViewController alloc]init];
+    BuyerMessageViewController *fineView = [[BuyerMessageViewController alloc]init];
     BuyerMineViewController *myAccountView = [[BuyerMineViewController alloc] init];
     self.buyerHomeNav = [[BaseNavigationController alloc]initWithRootViewController:homeView];
     self.buyerTicketNav = [[BaseNavigationController alloc]initWithRootViewController:fastView];
