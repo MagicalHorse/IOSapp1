@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="youyuan.ttf">
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PayOrderViewController">
+            <connections>
+                <outlet property="payCount" destination="hMg-d1-5xa" id="qsh-Qx-fYg"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnX-T4-JOA">
+                    <rect key="frame" x="0.0" y="74" width="320" height="106"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1CN-le-bNS">
+                            <rect key="frame" x="0.0" y="37" width="320" height="1"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="0.5" id="7cR-2S-f26"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请支付" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PYp-IP-nFY">
+                            <rect key="frame" x="15" y="11" width="45" height="15"/>
+                            <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11111" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMg-d1-5xa">
+                            <rect key="frame" x="261" y="8" width="43" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="964-0u-JnM"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="微信" translatesAutoresizingMaskIntoConstraints="NO" id="W19-sF-85I">
+                            <rect key="frame" x="15" y="47" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="Fin-Ii-yb6"/>
+                                <constraint firstAttribute="height" constant="50" id="sKG-s1-iUh"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信支付" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="diM-HI-mXq">
+                            <rect key="frame" x="73" y="53" width="64" height="16"/>
+                            <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="16"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信安全支付" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O45-jL-OHq">
+                            <rect key="frame" x="73" y="76" width="84" height="14"/>
+                            <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
+                            <color key="textColor" red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="返回键icon" translatesAutoresizingMaskIntoConstraints="NO" id="oal-yb-avl">
+                            <rect key="frame" x="284" y="62" width="20" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="eEj-Zu-b2N"/>
+                                <constraint firstAttribute="width" constant="20" id="oRC-D8-RV4"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstItem="1CN-le-bNS" firstAttribute="leading" secondItem="cnX-T4-JOA" secondAttribute="leading" id="7l1-Hd-6tU"/>
+                        <constraint firstItem="diM-HI-mXq" firstAttribute="top" secondItem="1CN-le-bNS" secondAttribute="bottom" constant="15" id="9fQ-Vq-6Ae"/>
+                        <constraint firstItem="W19-sF-85I" firstAttribute="leading" secondItem="cnX-T4-JOA" secondAttribute="leading" constant="15" id="BOv-vo-Ytv"/>
+                        <constraint firstItem="hMg-d1-5xa" firstAttribute="top" secondItem="cnX-T4-JOA" secondAttribute="top" constant="8" id="Gtl-ks-X84"/>
+                        <constraint firstAttribute="trailing" secondItem="1CN-le-bNS" secondAttribute="trailing" id="MM9-Yq-c0M"/>
+                        <constraint firstItem="oal-yb-avl" firstAttribute="top" secondItem="1CN-le-bNS" secondAttribute="bottom" constant="24" id="O5z-Bv-K3E"/>
+                        <constraint firstItem="W19-sF-85I" firstAttribute="top" secondItem="1CN-le-bNS" secondAttribute="bottom" constant="9.5" id="T6R-yo-zRK"/>
+                        <constraint firstItem="1CN-le-bNS" firstAttribute="top" secondItem="hMg-d1-5xa" secondAttribute="bottom" constant="8" id="WmF-DI-ovE"/>
+                        <constraint firstItem="diM-HI-mXq" firstAttribute="leading" secondItem="W19-sF-85I" secondAttribute="trailing" constant="8" id="a0p-6q-v6a"/>
+                        <constraint firstAttribute="trailing" secondItem="oal-yb-avl" secondAttribute="trailing" constant="16" id="buh-B9-pkg"/>
+                        <constraint firstItem="PYp-IP-nFY" firstAttribute="top" secondItem="cnX-T4-JOA" secondAttribute="top" constant="11" id="c5K-O1-Boo"/>
+                        <constraint firstItem="O45-jL-OHq" firstAttribute="leading" secondItem="W19-sF-85I" secondAttribute="trailing" constant="8" id="fQD-Cp-tjr"/>
+                        <constraint firstItem="O45-jL-OHq" firstAttribute="top" secondItem="diM-HI-mXq" secondAttribute="bottom" constant="7" id="kCT-ZP-biq"/>
+                        <constraint firstAttribute="height" constant="106" id="mG0-80-1lS"/>
+                        <constraint firstAttribute="trailing" secondItem="hMg-d1-5xa" secondAttribute="trailing" constant="16" id="t02-fB-mGC"/>
+                        <constraint firstItem="PYp-IP-nFY" firstAttribute="leading" secondItem="cnX-T4-JOA" secondAttribute="leading" constant="15" id="yqo-e7-zw4"/>
+                    </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="bbV-Up-A5x" appends="YES" id="2Sd-a5-xdd"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.92549019607843142" green="0.92941176470588238" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="cnX-T4-JOA" secondAttribute="trailing" id="JkD-y5-3Y7"/>
+                <constraint firstItem="cnX-T4-JOA" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="74" id="kd9-f5-ftm"/>
+                <constraint firstItem="cnX-T4-JOA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="zqb-3C-Ekl"/>
+            </constraints>
+            <point key="canvasLocation" x="205" y="251"/>
+        </view>
+        <tapGestureRecognizer id="bbV-Up-A5x">
+            <connections>
+                <action selector="didClickWXPay:" destination="-1" id="2bT-9Y-zsh"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="微信" width="35" height="35"/>
+        <image name="返回键icon" width="19" height="19"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
