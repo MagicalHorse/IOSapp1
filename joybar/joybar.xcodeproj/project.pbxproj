@@ -219,6 +219,7 @@
 		0AAB5BB91B2AE01900782C0C /* LikeUsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AFF1B2AE01900782C0C /* LikeUsers.m */; };
 		0AAB5BBA1B2AE01900782C0C /* ProductPic.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5B011B2AE01900782C0C /* ProductPic.m */; };
 		0AAB5BBB1B2AE01900782C0C /* MyBuyerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5B031B2AE01900782C0C /* MyBuyerTableView.m */; };
+		0AAB5BBE1B2AE0BD00782C0C /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5BBD1B2AE0BD00782C0C /* SVProgressHUD.m */; };
 		0AE7E1051B1D9C9000159B02 /* libOSS_IOS_SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE7E1041B1D9C9000159B02 /* libOSS_IOS_SDK.a */; };
 		0AE7E1171B2027CE00159B02 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE7E1161B2027CE00159B02 /* Images.xcassets */; };
 		0AEF3D191B21859B0064A1E1 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEF3D181B21859B0064A1E1 /* BaseTableView.m */; };
@@ -692,6 +693,8 @@
 		0AAB5B011B2AE01900782C0C /* ProductPic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPic.m; sourceTree = "<group>"; };
 		0AAB5B021B2AE01900782C0C /* MyBuyerTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBuyerTableView.h; sourceTree = "<group>"; };
 		0AAB5B031B2AE01900782C0C /* MyBuyerTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBuyerTableView.m; sourceTree = "<group>"; };
+		0AAB5BBC1B2AE0BD00782C0C /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		0AAB5BBD1B2AE0BD00782C0C /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		0AE7E0F71B1D9C3C00159B02 /* libOSS_IOS_SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSS_IOS_SDK.a; sourceTree = "<group>"; };
 		0AE7E0F81B1D9C3C00159B02 /* OSSArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSArgs.h; sourceTree = "<group>"; };
 		0AE7E0F91B1D9C3C00159B02 /* OSSBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSBucket.h; sourceTree = "<group>"; };
@@ -2016,6 +2019,8 @@
 		9DDD6A5B1B268F93002D57EB /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
+				0AAB5BBC1B2AE0BD00782C0C /* SVProgressHUD.h */,
+				0AAB5BBD1B2AE0BD00782C0C /* SVProgressHUD.m */,
 				9DDD6A5C1B268F93002D57EB /* SVProgressHUD.bundle */,
 			);
 			path = SVProgressHUD;
@@ -2346,6 +2351,7 @@
 				9D467EFC1B05C4FA005CAA36 /* NSString+MJExtension.m in Sources */,
 				9DF36CD61B0039A700637206 /* AFHTTPRequestOperationManager.m in Sources */,
 				9D6C94761AE0AA200066F794 /* WriteInfoViewController.m in Sources */,
+				0AAB5BBE1B2AE0BD00782C0C /* SVProgressHUD.m in Sources */,
 				0A90EADA1B1D408000F789E2 /* UIImage+FixOrientation.m in Sources */,
 				0AAB5B1A1B2AE01900782C0C /* FindTableView.m in Sources */,
 				0AAB5BB91B2AE01900782C0C /* LikeUsers.m in Sources */,
