@@ -102,13 +102,13 @@
         cell.tilteD2View.text =@"累积货款";
         NSString *tempPirce =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"todaygoodsamount"] stringValue];
         if (tempPirce.length>0) {
-            cell.pirceD1View.text =[NSString stringWithFormat:@"%@.00",tempPirce];
+            cell.pirceD1View.text =[NSString stringWithFormat:@"%@",tempPirce];
         }else{
             cell.pirceD1View.text=@"0.00";
         }
         NSString *tempPirceD2 =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"totalgoodsamount"] stringValue];
         if (tempPirce.length >0) {
-            cell.pirceD2View.text =[NSString stringWithFormat:@"%@.00",tempPirceD2];
+            cell.pirceD2View.text =[NSString stringWithFormat:@"%@",tempPirceD2];
         }else{
             cell.pirceD2View.text=@"0.00";
         }
@@ -123,13 +123,13 @@
         cell.pirceD1View.text =@"500";
         NSString *tempPirce =[[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"] stringValue];
         if (tempPirce.length>0) {
-            cell.pirceD1View.text =[NSString stringWithFormat:@"%@.00",tempPirce];
+            cell.pirceD1View.text =[NSString stringWithFormat:@"%@",tempPirce];
         }else{
             cell.pirceD1View.text=@"0.00";
         }
         NSString *tempPirceD2 =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"] stringValue];
         if (tempPirce.length >0) {
-            cell.pirceD2View.text =[NSString stringWithFormat:@"%@.00",tempPirceD2];
+            cell.pirceD2View.text =[NSString stringWithFormat:@"%@",tempPirceD2];
         }else{
             cell.pirceD2View.text=@"0.00";
         }
