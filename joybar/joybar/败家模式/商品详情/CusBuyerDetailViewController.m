@@ -174,13 +174,13 @@
     [tempView addSubview:imageView2];
 
     UILabel *nightLab = [[UILabel alloc] initWithFrame:CGRectMake(imageView1.right+5, imageView1.top, kScreenWidth-60, imageView1.height)];
-    nightLab.text = proData.IsPromotion.DescriptionText;
+    nightLab.text = proData.Promotion.DescriptionText;
     nightLab.font = [UIFont fontWithName:@"youyuan" size:11];
     nightLab.textColor = [UIColor grayColor];
     [tempView addSubview:nightLab];
 
     UILabel *nightLab1 = [[UILabel alloc] init];
-    nightLab1.text = proData.IsPromotion.TipText;
+    nightLab1.text = proData.Promotion.TipText;
     nightLab1.numberOfLines = 0;
     CGSize size = [Public getContentSizeWith:nightLab1.text andFontSize:11 andWidth:kScreenWidth-60];
     nightLab1.frame = CGRectMake(imageView2.right+5, imageView2.top, kScreenWidth-60, size.height);
@@ -188,14 +188,18 @@
     nightLab1.textColor = [UIColor grayColor];
     [tempView addSubview:nightLab1];
 
-    NSLog(@"%@",proData.IsPromotion);
-    if (proData.IsPromotion)
+    NSLog(@"%@",proData.Promotion);
+    if (proData.Promotion)
     {
+        imageView1.hidden = NO;
+        imageView2.hidden = NO;
         nightView.frame = CGRectMake(0, 0, kScreenWidth, size.height+50);
         tempView.frame = CGRectMake(0, locationLab.bottom+10, kScreenWidth, nightView.height+10);
     }
     else
     {
+        imageView1.hidden = YES;
+        imageView2.hidden = YES;
         nightView.frame = CGRectMake(0, 0, kScreenWidth, 0);
         tempView.frame = CGRectMake(0, locationLab.bottom+10, kScreenWidth, 0);
     }

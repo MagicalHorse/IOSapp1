@@ -1474,9 +1474,9 @@
 				0AAB5AF01B2AE01900782C0C /* CusHomeViewController.m */,
 				0AAB5AF11B2AE01900782C0C /* HomeTableView.h */,
 				0AAB5AF21B2AE01900782C0C /* HomeTableView.m */,
-				0AAB5AF31B2AE01900782C0C /* model */,
 				0AAB5B021B2AE01900782C0C /* MyBuyerTableView.h */,
 				0AAB5B031B2AE01900782C0C /* MyBuyerTableView.m */,
+				0AAB5AF31B2AE01900782C0C /* model */,
 			);
 			path = "首页";
 			sourceTree = "<group>";

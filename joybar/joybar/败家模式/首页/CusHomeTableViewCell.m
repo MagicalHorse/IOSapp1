@@ -183,16 +183,20 @@
         [img addGestureRecognizer:tap];
     }
     
-    if ([self.homePro.IsPromotion boolValue])
+    if (self.homePro.Promotion)
     {
-        UIImageView *nightImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, bgView.bottom+10, kScreenWidth-40, 40)];
-        //        nightImage.contentMode = UIViewContentModeScaleAspectFit;
-//                nightImage.backgroundColor = [UIColor orangeColor];
+        UIImageView *nightImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, bgView.bottom+5, kScreenWidth-40, 50)];
         nightImage.clipsToBounds = YES;
         nightImage.image = [UIImage imageNamed:@"打烊购框icon"];
         [self.contentView addSubview:nightImage];
+        
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, kScreenWidth-80, 20)];
+        lab.text = self.homePro.Promotion.DescriptionText;
+        lab.textColor = [UIColor redColor];
+        lab.textAlignment = NSTextAlignmentCenter;
+        lab.font = [UIFont fontWithName:@"youyuan" size:14];
+        [nightImage addSubview:lab];
     }
-
 }
 
 //分享
