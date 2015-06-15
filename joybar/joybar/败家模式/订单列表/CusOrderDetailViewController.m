@@ -49,7 +49,6 @@
         {
             self.detailData = [OrderDetailData objectWithKeyValues:[json objectForKey:@"data"]];
             [self.tableView reloadData];
-            
             /*
              待付款"  0,
              "取消"    -10,
@@ -59,7 +58,6 @@
              "用户已签收" 16,
              "完成"  18,
              */
-
             NSString *status = self.detailData.OrderStatus;
             if ([status isEqualToString:@"0"])
             {
@@ -216,7 +214,6 @@
             msgLab.text = [msgArr objectAtIndex:indexPath.row];
             msgLab.font = [UIFont fontWithName:@"youyuan" size:15];
             [cell.contentView addSubview:msgLab];
-
         }
         
         return cell;

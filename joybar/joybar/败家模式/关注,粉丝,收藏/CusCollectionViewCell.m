@@ -32,7 +32,6 @@
     nameLab.frame = CGRectMake(5, 5, (kScreenWidth-15)/2-10, size.height);
     [bgView addSubview:nameLab];
     
-    
     //白色背景高度
     bgView.frame =CGRectMake(0, height, (kScreenWidth-15)/2, size.height+35);
     
