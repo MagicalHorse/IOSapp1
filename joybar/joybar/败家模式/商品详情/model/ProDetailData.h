@@ -25,7 +25,7 @@
 @property (nonatomic ,copy) NSString *StoreName;
 
 @property (nonatomic ,strong)NSMutableArray *ProductPic;
-@property (nonatomic ,strong) ProDetailPromotion *IsPromotion;
+@property (nonatomic ,strong) ProDetailPromotion *Promotion;
 
 @property (nonatomic ,strong) LikeUsers *LikeUsers;
 

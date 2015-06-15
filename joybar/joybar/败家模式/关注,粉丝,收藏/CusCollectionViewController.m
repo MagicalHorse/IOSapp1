@@ -11,8 +11,8 @@
 #import "CusAttentionViewController.h"
 #import "CusCollectionViewCell.h"
 #import "MJRefresh.h"
-#import "LNWaterfallFlowLayout.h"
-@interface CusCollectionViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
+#import "CHTCollectionViewWaterfallLayout.h"
+@interface CusCollectionViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,CHTCollectionViewDelegateWaterfallLayout>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) NSMutableArray *dataSource;
@@ -20,9 +20,6 @@
 @end
 
 @implementation CusCollectionViewController
-{
-    LNWaterfallFlowLayout *layout;
-}
 
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,15 +36,26 @@
     self.pageNum = 1;
     self.view.backgroundColor = kCustomColor(245, 246, 247);
     self.dataSource = [NSMutableArray array];
-    [self initializeUserInterface];
+    CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
+    
+    layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
+    layout.minimumColumnSpacing = 5;
+    layout.minimumInteritemSpacing = 5;
+    
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    [self.collectionView registerClass:[CusCollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
+    [self.view addSubview:self.collectionView];
     [self addNavBarViewAndTitle:@"收藏"];
-
-    self.collectionView.headerHidden = NO;
+    
+    //    self.collectionView.headerHidden = NO;
     [self getData];
-//    // 2.集成刷新控件
-//    [self addHeader];
-//    [self addFooter];
-
+    //    // 2.集成刷新控件
+    //    [self addHeader];
+    //    [self addFooter];
+    
 }
 
 //- (void)addHeader
@@ -57,9 +65,9 @@
 //    [self.collectionView addHeaderWithCallback:^{
 //        [vc.dataSource removeAllObjects];
 //        [vc getData];
-//        
+//
 //    }];
-//    
+//
 //    [self.collectionView headerBeginRefreshing];
 //}
 //
@@ -84,51 +92,34 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
-//            if (arr.count<6)
-//            {
-//                self.collectionView.footerHidden = YES;
-//            }
-//            else
-//            {
-//                self.collectionView.footerHidden = NO;
-//
-//            }
+            //            if (arr.count<6)
+            //            {
+            //                self.collectionView.footerHidden = YES;
+            //            }
+            //            else
+            //            {
+            //                self.collectionView.footerHidden = NO;
+            //
+            //            }
             [self.dataSource addObjectsFromArray:arr];
-
-            layout.goodsList = self.dataSource;
+            
             [self.collectionView reloadData];
         }
-//        [self.collectionView headerEndRefreshing];
-//        [self.collectionView footerEndRefreshing];
+        //        [self.collectionView headerEndRefreshing];
+        //        [self.collectionView footerEndRefreshing];
     } failure:^(NSError *error) {
         
     }];
 }
 
-- (void)initializeUserInterface {
-    
-    layout = [[LNWaterfallFlowLayout alloc] init];
-    layout.columnCount = 2;
-    
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
-    _collectionView.backgroundColor = [UIColor clearColor];
-    _collectionView.delegate = self;
-    _collectionView.dataSource = self;
-    _collectionView.bounces = NO;
-    _collectionView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
-    [_collectionView registerClass:[CusCollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
-    [self.view addSubview:_collectionView];
-}
-
 #pragma mark - UICollectionViewDataSource
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return _dataSource.count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     CusCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
     if (cell==nil)
     {
@@ -140,9 +131,23 @@
     }
     float height = [[[[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
     
-    [cell setCollectionData:[self.dataSource objectAtIndex:indexPath.row] andHeight:320*height];
+    [cell setCollectionData:[self.dataSource objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
     
     return cell;
+}
+
+#pragma mark - CHTCollectionViewDelegateWaterfallLayout
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dic = [self.dataSource objectAtIndex:indexPath.row];
+    NSString *text = [dic objectForKey:@"Name"];
+    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
+    CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
+    
+    CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
+    
+    NSLog(@"++++++++++++++%f",size1.height);
+    return size1;
 }
 
 @end

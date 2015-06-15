@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ProductPic.h"
 #import "LikeUsers.h"
+#import "ProDetailPromotion.h"
 @interface HomeProduct : NSObject
 
 @property (nonatomic ,copy) NSString *Buyerid;
@@ -22,4 +23,5 @@
 @property (nonatomic ,copy) NSString *IsPromotion;
 @property (nonatomic ,strong) ProductPic *ProductPic;
 @property (nonatomic ,strong) LikeUsers *LikeUsers;
+@property (nonatomic ,strong) ProDetailPromotion *Promotion;
 @end

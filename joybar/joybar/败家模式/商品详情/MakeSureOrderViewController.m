@@ -240,7 +240,6 @@
         if (cell==nil)
         {
             cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-            
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         for (UIView *view in cell.contentView.subviews)
@@ -249,7 +248,7 @@
         }
         
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
-        lab.text = @"打烊购:";
+        lab.text = self.detailData.Promotion.Name;
         lab.font = [UIFont fontWithName:@"youyuan" size:14];
         [cell.contentView addSubview:lab];
         
@@ -260,10 +259,7 @@
         [cell.contentView addSubview:lab1];
 
         return cell;
-        
     }
-
-    
     return nil;
 }
 
