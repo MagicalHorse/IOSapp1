@@ -49,6 +49,7 @@
     if (cell == nil) {
         cell =[[[NSBundle mainBundle] loadNibNamed:@"BuyerTicketTableViewCell" owner:self options:nil] lastObject];
     }
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

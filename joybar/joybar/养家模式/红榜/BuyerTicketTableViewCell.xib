@@ -21,12 +21,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pSc-ht-edR">
-                        <rect key="frame" x="15" y="10" width="20" height="25"/>
-                        <color key="backgroundColor" red="0.99215686270000003" green="0.4431372549" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hongbang" translatesAutoresizingMaskIntoConstraints="NO" id="pSc-ht-edR">
+                        <rect key="frame" x="15" y="13" width="12" height="16"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="25" id="Ucf-eb-aqB"/>
-                            <constraint firstAttribute="width" constant="20" id="b9w-x3-qFc"/>
+                            <constraint firstAttribute="height" constant="16" id="Ucf-eb-aqB"/>
+                            <constraint firstAttribute="width" constant="12" id="b9w-x3-qFc"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="开店奖励" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8lF-H3-Cwu">
@@ -36,7 +35,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uWO-79-ACc">
-                        <rect key="frame" x="15" y="45" width="305" height="1"/>
+                        <rect key="frame" x="15" y="39" width="305" height="1"/>
                         <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="w0m-Hg-cqD"/>
@@ -48,12 +47,11 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0fq-AO-82A">
-                        <rect key="frame" x="285" y="10" width="20" height="20"/>
-                        <color key="backgroundColor" red="0.94117647059999998" green="0.56862745100000001" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chongdan" translatesAutoresizingMaskIntoConstraints="NO" id="0fq-AO-82A">
+                        <rect key="frame" x="293" y="13" width="12" height="16"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="20" id="Ykf-ee-s61"/>
-                            <constraint firstAttribute="height" constant="20" id="rPt-ug-J0a"/>
+                            <constraint firstAttribute="width" constant="12" id="Ykf-ee-s61"/>
+                            <constraint firstAttribute="height" constant="16" id="rPt-ug-J0a"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="还差1单" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8iW-6h-lkI">
@@ -67,15 +65,19 @@
                     <constraint firstItem="uWO-79-ACc" firstAttribute="top" secondItem="pSc-ht-edR" secondAttribute="bottom" constant="10" id="T2p-t5-HXa"/>
                     <constraint firstAttribute="trailing" secondItem="uWO-79-ACc" secondAttribute="trailing" id="TAw-Vy-UgY"/>
                     <constraint firstAttribute="trailing" secondItem="0fq-AO-82A" secondAttribute="trailing" constant="15" id="XLg-p8-R1a"/>
-                    <constraint firstItem="pSc-ht-edR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="dQJ-Vg-SRK"/>
+                    <constraint firstItem="pSc-ht-edR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="dQJ-Vg-SRK"/>
                     <constraint firstItem="pSc-ht-edR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="nld-4l-JXV"/>
                     <constraint firstItem="uWO-79-ACc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="rR3-PE-ExD"/>
-                    <constraint firstItem="uWO-79-ACc" firstAttribute="top" secondItem="0fq-AO-82A" secondAttribute="bottom" constant="15" id="rm6-Xx-1md"/>
+                    <constraint firstItem="uWO-79-ACc" firstAttribute="top" secondItem="0fq-AO-82A" secondAttribute="bottom" constant="10" id="rm6-Xx-1md"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="235" y="210"/>
+            <point key="canvasLocation" x="218" y="188"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="chongdan" width="12" height="16"/>
+        <image name="hongbang" width="12" height="16"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

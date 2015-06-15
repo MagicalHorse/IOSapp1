@@ -72,11 +72,11 @@
 -(void)_initTabBarViewController
 {
     //TabBarItem的title
-    NSArray *title = @[@"主页",@"圈子",@"消息",@"发现",@"我"];
+    NSArray *title = @[@"",@"",@"",@"",@""];
     //TabBar上Button在Normal状态下的图片
-    NSArray *tabBarImage = @[@"home",@"circle",@"message",@"search1",@"mine"];
+    NSArray *tabBarPress = @[@"shouye1",@"jiangli1",@"fabu点击",@"xiaoxi1",@"geren1"];
     //TabBar上Button在Selected状态下的图片
-    NSArray *tabBarPress = @[@"select_home",@"select_circle",@"select_message",@"select_search",@"select_mine"];
+    NSArray * tabBarImage = @[@"shouye",@"jiangli",@"fabu常态",@"xiaoxi",@"geren"];
     self.btnArray = [NSMutableArray array];
     //创建TabBar上的Button和Label
     UIImageView *bgImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, self.tabBar.frame.size.height)];
