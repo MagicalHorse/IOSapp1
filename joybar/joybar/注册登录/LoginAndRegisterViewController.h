@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+#import "UMSocial.h"
 @interface LoginAndRegisterViewController : BaseViewController<UIScrollViewDelegate,UITextFieldDelegate>
 
 @end

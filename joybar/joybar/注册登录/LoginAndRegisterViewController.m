@@ -195,6 +195,13 @@
     line8.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line8];
     
+    
+    UIButton *WXLoginBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    WXLoginBtn.center = CGPointMake(kScreenWidth/2, disanfang.bottom+40);
+    WXLoginBtn.bounds = CGRectMake(0, 0, 50, 50);
+    [WXLoginBtn setBackgroundImage:[UIImage imageNamed:@"微信"] forState:(UIControlStateNormal)];
+    [WXLoginBtn addTarget:self action:@selector(didCLickWXLogin) forControlEvents:(UIControlEventTouchUpInside)];
+    [scroll addSubview:WXLoginBtn];
 
 }
 
@@ -358,9 +365,20 @@
     }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+//微信登陆
+-(void)didCLickWXLogin
+{
+    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+    
+    snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
+        
+        if (response.responseCode == UMSResponseCodeSuccess) {
+            
+            UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary]valueForKey:UMShareToWechatSession];
+            
+            NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
+        }
+    });
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -368,15 +386,5 @@
     [self.view endEditing:YES];
     [scroll endEditing:YES];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -21,7 +21,7 @@
     UIImageView *brandImage= [[UIImageView alloc] init];
     brandImage.center = CGPointMake(kScreenWidth/2, 30);
     brandImage.bounds = CGRectMake(0, 0, 50, 50);
-    [brandImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_100x100.jpg",self.findItems]] placeholderImage:nil];
+    [brandImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",self.findItems]] placeholderImage:nil];
     [self.contentView addSubview:brandImage];
     
     for (int i=0; i<4; i++)
@@ -30,7 +30,8 @@
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.center = CGPointMake(kScreenWidth/8+kScreenWidth/4*i, (kScreenWidth/4-5)/2+brandImage.bottom+10);
         imageView.bounds = CGRectMake(0, 0, kScreenWidth/4-5, kScreenWidth/4-5);
-        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_100x100.jpg",findPro.Pic]] placeholderImage:nil];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",findPro.Pic]] placeholderImage:nil];
+        imageView.clipsToBounds = YES;
         [self.contentView addSubview:imageView];
     }
     

@@ -10,6 +10,9 @@
 #import "CusOrderListTableViewCell.h"
 #import "CusOrderDetailViewController.h"
 #import "OrderListData.h"
+#import "CusRefundPriceViewController.h"
+#import "CusAppealViewController.h"
+
 @interface CusOrderListViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic ,strong) UIView *line;
@@ -133,9 +136,14 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CusOrderDetailViewController *VC = [[CusOrderDetailViewController alloc] init];
-    OrderListItem *item = [self.orderListData.items objectAtIndex:indexPath.row];
-    VC.orderId = item.OrderNo;
+//    CusOrderDetailViewController *VC = [[CusOrderDetailViewController alloc] init];
+//    OrderListItem *item = [self.orderListData.items objectAtIndex:indexPath.row];
+//    VC.orderId = item.OrderNo;
+//    [self.navigationController pushViewController:VC animated:YES];
+    
+//    CusRefundPriceViewController *VC = [[CusRefundPriceViewController alloc] init];
+//    [self.navigationController pushViewController:VC animated:YES];
+    CusAppealViewController *VC = [[CusAppealViewController alloc] init];
     [self.navigationController pushViewController:VC animated:YES];
 }
 -(void)didClickOrderBtn:(UIButton *)btn
