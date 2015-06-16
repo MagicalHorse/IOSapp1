@@ -53,8 +53,12 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
 
-    [self.todayInComeLable dd_setNumber:@(come.today_income) formatter:nil];
-    [self.totalAmountLable dd_setNumber:@(come.total_income) formatter:nil];
+//    [self.todayInComeLable dd_setNumber:@(come.today_income) formatter:nil];
+//    [self.totalAmountLable dd_setNumber:@(come.total_income) formatter:nil];
+    
+    [self.todayInComeLable dd_setNumber:@(1234) formatter:nil];
+    [self.totalAmountLable dd_setNumber:@(898.03) formatter:nil];
+
     self.availAmountLable.text = [@(come.avail_amout) stringValue] ;
 }
 
