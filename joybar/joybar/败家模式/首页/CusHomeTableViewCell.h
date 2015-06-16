@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "HomeProduct.h"
+#import "UMSocial.h"
 
-
-@interface CusHomeTableViewCell : UITableViewCell
+@interface CusHomeTableViewCell : UITableViewCell<UMSocialUIDelegate>
 
 -(void)setData:(NSDictionary *)dic;
 

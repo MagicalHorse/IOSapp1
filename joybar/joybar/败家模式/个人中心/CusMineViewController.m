@@ -67,11 +67,8 @@
         
     } failure:^(NSError *error) {
         
-        
     }];
-    
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

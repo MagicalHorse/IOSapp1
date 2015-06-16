@@ -9,12 +9,18 @@
 #import "AppDelegate.h"
 #import "BuyerIssueViewController.h"
 #import "SocketManager.h"
-
+#import "UMSocialData.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocialSnsService.h"
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
+    [UMSocialData setAppKey:@"557f8f1c67e58edf32000208"];
+    
+    [UMSocialWechatHandler setWXAppId:@"wx281aa8c2686c0e7c" appSecret:@"1a8fd52d8cb2b6099b1c4c669e5e2717" url:@"http://www.umeng.com/social"];
 
     //状态栏白色
 //    [application setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -69,6 +75,19 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return  [UMSocialSnsService handleOpenURL:url];
+}
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return  [UMSocialSnsService handleOpenURL:url];
 }
 
 @end
