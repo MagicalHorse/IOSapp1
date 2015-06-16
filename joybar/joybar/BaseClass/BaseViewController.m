@@ -103,10 +103,12 @@
     
     self.navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
     self.navView.backgroundColor = [UIColor whiteColor];
-    self.navView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
-    self.navView.layer.shadowRadius = 5;
-    self.navView.layer.shadowOffset = CGSizeMake(1, 1);
-    self.navView.layer.shadowOpacity = 0.5;
+//    self.navView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+//    self.navView.layer.shadowRadius = 5;
+//    self.navView.layer.shadowOffset = CGSizeMake(1, 1);
+//    self.navView.layer.shadowOpacity = 0.5;
+    self.navView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.navView.layer.borderWidth = 0.5;
     [self.view addSubview:self.navView];
 //    }
     //title

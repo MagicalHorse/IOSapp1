@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "BuyerIssueViewController.h"
 #import "SocketManager.h"
 
 @implementation AppDelegate
