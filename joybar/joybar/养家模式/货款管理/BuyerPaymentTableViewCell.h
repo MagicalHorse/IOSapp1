@@ -11,5 +11,8 @@
 @interface BuyerPaymentTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIButton *stateBtn;
 @property (weak, nonatomic) IBOutlet UILabel *stateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *paymentPrice;
+@property (weak, nonatomic) IBOutlet UILabel *paymentNo;
+@property (weak, nonatomic) IBOutlet UILabel *paymentTime;
 
 @end
