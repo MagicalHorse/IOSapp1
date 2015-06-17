@@ -15,5 +15,6 @@
 -(void) setData:(NSArray *)dataArr andIndexPath:(NSIndexPath *)indexPath;
 
 @property (nonatomic ,assign) NSInteger currentMaxDisplayedRow;
+@property (nonatomic ,strong) NSArray *dataArray;
 
 @end

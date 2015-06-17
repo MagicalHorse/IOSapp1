@@ -22,7 +22,11 @@
     bgView.layer.shadowOpacity = 0.5;
     
     NSArray *imgArr = @[@"全部",@"待付款",@"专柜自提",@"售后"];
-    NSArray *numArr = @[mineData.AllOrderCount,mineData.WaitPaymentOrderCount,mineData.PickedSelfOrderCount,mineData.AfterSaleOrderCount];
+    NSArray *numArr = @[@"0",@"0",@"0",@"0"];
+    if (mineData)
+    {
+       numArr = @[mineData.AllOrderCount,mineData.WaitPaymentOrderCount,mineData.PickedSelfOrderCount,mineData.AfterSaleOrderCount];
+    }
     for (int i=0; i<imgArr.count; i++)
     {
         

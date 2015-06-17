@@ -19,7 +19,7 @@
 
     [UMSocialData setAppKey:@"557f8f1c67e58edf32000208"];
     
-    [UMSocialWechatHandler setWXAppId:@"wx281aa8c2686c0e7c" appSecret:@"1a8fd52d8cb2b6099b1c4c669e5e2717" url:@"http://www.umeng.com/social"];
+    [UMSocialWechatHandler setWXAppId:@"wx0bd15e11e7c3090f" appSecret:@"e3ff58518855345970755d08a3540c26" url:@"http://www.umeng.com/social"];
 
     //状态栏白色
 //    [application setStatusBarStyle:UIStatusBarStyleLightContent];

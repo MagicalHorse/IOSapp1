@@ -61,7 +61,11 @@
     [bgView addSubview:tempView];
     
     NSArray *nameArr = @[@"关注",@"粉丝",@"圈子"];
-    NSArray *numArr = @[mineData.FollowingCount,mineData.FollowerCount,mineData.CommunityCount];
+    NSArray *numArr ;
+    if(mineData)
+    {
+        numArr = @[mineData.FollowingCount,mineData.FollowerCount,mineData.CommunityCount];
+    }
     for (int i=0; i<3; i++)
     {
         UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];

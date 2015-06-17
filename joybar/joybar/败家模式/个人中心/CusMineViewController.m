@@ -92,10 +92,8 @@
             [view removeFromSuperview];
         }
         cell.backgroundColor = kCustomColor(245, 246, 247);
-        if (self.mineData)
-        {
-            [cell setData:self.mineData];
-        }
+        [cell setData:self.mineData];
+
         return cell;
     }
     else if (indexPath.row==1)
@@ -114,10 +112,8 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = kCustomColor(245, 246, 247);
-        if (self.mineData)
-        {
-            [cell setData:self.mineData];
-        }
+        [cell setData:self.mineData];
+
         return cell;
     }
     else

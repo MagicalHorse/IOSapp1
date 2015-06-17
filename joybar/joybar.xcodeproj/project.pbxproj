@@ -334,6 +334,8 @@
 		9D744DDC1B2FCB9B00553648 /* UMSocialSDKResourcesNew.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DD01B2FCB9B00553648 /* UMSocialSDKResourcesNew.bundle */; };
 		9D744DE31B2FCC5B00553648 /* libSocialWechat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D744DDE1B2FCC5B00553648 /* libSocialWechat.a */; };
 		9D744DE41B2FCC5B00553648 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D744DDF1B2FCC5B00553648 /* libWeChatSDK.a */; };
+		9D744DF01B300A3800553648 /* CusAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D744DEE1B300A3800553648 /* CusAboutViewController.m */; };
+		9D744DF11B300A3800553648 /* CusAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DEF1B300A3800553648 /* CusAboutViewController.xib */; };
 		9D8CDE651B00B90900B8708B /* Public.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8CDE641B00B90900B8708B /* Public.m */; };
 		9D8CDE681B00BEBC00B8708B /* SelectCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8CDE671B00BEBC00B8708B /* SelectCityViewController.m */; };
 		9DDAD2481AF9FE0000B98740 /* UUBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDAD23D1AF9FE0000B98740 /* UUBar.m */; };
@@ -927,6 +929,9 @@
 		9D744DE01B2FCC5B00553648 /* UMSocialWechatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialWechatHandler.h; sourceTree = "<group>"; };
 		9D744DE11B2FCC5B00553648 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		9D744DE21B2FCC5B00553648 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		9D744DED1B300A3800553648 /* CusAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusAboutViewController.h; sourceTree = "<group>"; };
+		9D744DEE1B300A3800553648 /* CusAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusAboutViewController.m; sourceTree = "<group>"; };
+		9D744DEF1B300A3800553648 /* CusAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusAboutViewController.xib; sourceTree = "<group>"; };
 		9D8CDE631B00B90900B8708B /* Public.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Public.h; sourceTree = "<group>"; };
 		9D8CDE641B00B90900B8708B /* Public.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Public.m; sourceTree = "<group>"; };
 		9D8CDE661B00BEBC00B8708B /* SelectCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCityViewController.h; sourceTree = "<group>"; };
@@ -1156,6 +1161,9 @@
 				0AAB59EE1B2AE01800782C0C /* CusMineViewController.m */,
 				0AAB59EF1B2AE01800782C0C /* CusSettingViewController.h */,
 				0AAB59F01B2AE01800782C0C /* CusSettingViewController.m */,
+				9D744DED1B300A3800553648 /* CusAboutViewController.h */,
+				9D744DEE1B300A3800553648 /* CusAboutViewController.m */,
+				9D744DEF1B300A3800553648 /* CusAboutViewController.xib */,
 				0AAB59F11B2AE01800782C0C /* model */,
 			);
 			path = "个人中心";
@@ -1206,18 +1214,18 @@
 			children = (
 				0AAB5A071B2AE01800782C0C /* CusFindSearchViewController.h */,
 				0AAB5A081B2AE01800782C0C /* CusFindSearchViewController.m */,
-				0AAB5A091B2AE01800782C0C /* CusFindTableViewCell.h */,
-				0AAB5A0A1B2AE01800782C0C /* CusFindTableViewCell.m */,
 				0AAB5A0B1B2AE01800782C0C /* CusFindViewController.h */,
 				0AAB5A0C1B2AE01800782C0C /* CusFindViewController.m */,
+				0AAB5A131B2AE01800782C0C /* FindTableView.h */,
+				0AAB5A141B2AE01800782C0C /* FindTableView.m */,
+				0AAB5A091B2AE01800782C0C /* CusFindTableViewCell.h */,
+				0AAB5A0A1B2AE01800782C0C /* CusFindTableViewCell.m */,
 				0AAB5A0D1B2AE01800782C0C /* CusNearTableViewCell.h */,
 				0AAB5A0E1B2AE01800782C0C /* CusNearTableViewCell.m */,
 				0AAB5A0F1B2AE01800782C0C /* CusTagTableViewCell.h */,
 				0AAB5A101B2AE01800782C0C /* CusTagTableViewCell.m */,
 				0AAB5A111B2AE01800782C0C /* CusTagViewController.h */,
 				0AAB5A121B2AE01800782C0C /* CusTagViewController.m */,
-				0AAB5A131B2AE01800782C0C /* FindTableView.h */,
-				0AAB5A141B2AE01800782C0C /* FindTableView.m */,
 				0AAB5A151B2AE01800782C0C /* model */,
 				0AAB5A201B2AE01800782C0C /* NearTableView.h */,
 				0AAB5A211B2AE01800782C0C /* NearTableView.m */,
@@ -2366,6 +2374,7 @@
 				9D42E9721B27DAF200C85400 /* BuyerHomeViewController.xib in Resources */,
 				0AAB5B6E1B2AE01900782C0C /* biaoqing032.png in Resources */,
 				0AAB5B881B2AE01900782C0C /* biaoqing058.png in Resources */,
+				9D744DF11B300A3800553648 /* CusAboutViewController.xib in Resources */,
 				0AAB5B601B2AE01900782C0C /* biaoqing018.png in Resources */,
 				9D744DD51B2FCB9B00553648 /* UMSCommentInputController.xib in Resources */,
 				0AAB5B671B2AE01900782C0C /* biaoqing025.png in Resources */,
@@ -2612,6 +2621,7 @@
 				9D467EF71B05C4FA005CAA36 /* MJProperty.m in Sources */,
 				0AAB5B4A1B2AE01900782C0C /* MessageTableViewCell.m in Sources */,
 				9D42E95F1B27DAF200C85400 /* BuyerMessageViewController.m in Sources */,
+				9D744DF01B300A3800553648 /* CusAboutViewController.m in Sources */,
 				9DDB17071AE7741F0014D8B2 /* NSTimer+Addition.m in Sources */,
 				9D42E9461B27DAF200C85400 /* BuyerSettingViewController.m in Sources */,
 				0AAB5BA91B2AE01900782C0C /* CusOrderListViewController.m in Sources */,
