@@ -92,8 +92,10 @@
     [dic setValue:@"1" forKey:@"Page"];
     [dic setValue:@"10000" forKey:@"Pagesize"];
     [dic setValue:status forKey:@"State"];
+    [self hudShow];
     [HttpTool postWithURL:@"Order/GetOrderListByState" params:dic success:^(id json) {
         
+        [self hiddleHud];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.orderListData = [OrderListData objectWithKeyValues:[json objectForKey:@"data"]];
@@ -136,15 +138,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    CusOrderDetailViewController *VC = [[CusOrderDetailViewController alloc] init];
-//    OrderListItem *item = [self.orderListData.items objectAtIndex:indexPath.row];
-//    VC.orderId = item.OrderNo;
-//    [self.navigationController pushViewController:VC animated:YES];
+    CusOrderDetailViewController *VC = [[CusOrderDetailViewController alloc] init];
+    OrderListItem *item = [self.orderListData.items objectAtIndex:indexPath.row];
+    VC.orderId = item.OrderNo;
+    [self.navigationController pushViewController:VC animated:YES];
     
 //    CusRefundPriceViewController *VC = [[CusRefundPriceViewController alloc] init];
 //    [self.navigationController pushViewController:VC animated:YES];
-    CusAppealViewController *VC = [[CusAppealViewController alloc] init];
-    [self.navigationController pushViewController:VC animated:YES];
+//    CusAppealViewController *VC = [[CusAppealViewController alloc] init];
+//    [self.navigationController pushViewController:VC animated:YES];
 }
 -(void)didClickOrderBtn:(UIButton *)btn
 {

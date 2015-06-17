@@ -77,30 +77,6 @@
 {
     //navigationBar
     
-//    NSLog(@"%@",[UIApplication sharedApplication].keyWindow.subviews.count);
-//    if ([UIApplication sharedApplication].keyWindow.subviews.count>1)
-//        
-//    for (UIView *view in [UIApplication sharedApplication].keyWindow.subviews)
-//    {
-//        [view removeFromSuperview];
-//    }
-//    NSInteger count =[UIApplication sharedApplication].keyWindow.subviews.count;
-//    for (int i=0; i<count ; i++)
-//    {
-//        if(i>0)
-//        {
-//            UIView *view = (UIView *)[[UIApplication sharedApplication].keyWindow.subviews objectAtIndex:i];
-//            [view removeFromSuperview];
-//        }
-//            
-//    }
-
-//    [[UIApplication sharedApplication].keyWindow.subviews.lastObject removeFromSuperview];
-    
-//    if ([UIApplication sharedApplication].keyWindow.subviews.count<=1)
-//    {
-    
-    
     self.navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
     self.navView.backgroundColor = [UIColor whiteColor];
 //    self.navView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
@@ -125,20 +101,20 @@
     
     //返回按钮
     self.retBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.retBtn.frame = CGRectMake(13, 35, 35, 25);
+    self.retBtn.frame = CGRectMake(13, 25, 50, 40);
     self.retBtn.backgroundColor = [UIColor clearColor];
+    
     [self.retBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
     self.retBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [self.retBtn addTarget:self action:@selector(returnBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:self.retBtn];
     
-    UIImageView *retImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 59/7, 110/7)];
+    UIImageView *retImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 59/7, 110/7)];
     retImage.image = [UIImage imageNamed:@"back.png"];
     [self.retBtn addSubview:retImage];
 }
 
 /*
-
 -(void)creatNavigationItemBtnWithTitle:(NSString *)title target:(id)target action:(SEL)action position:(NSInteger)position font:(UIFont *)font width:(NSInteger)inter
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];

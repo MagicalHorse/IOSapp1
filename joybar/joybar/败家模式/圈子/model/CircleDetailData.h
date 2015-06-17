@@ -10,14 +10,13 @@
 
 @interface CircleDetailData : NSObject
 
-@property (nonatomic ,copy) NSString *BuyerId;
-@property (nonatomic ,copy) NSString *BuyerName;
-@property (nonatomic ,copy) NSString *BuyerLogo;
-@property (nonatomic ,copy) NSString *GroupId;
 @property (nonatomic ,copy) NSString *GroupName;
 @property (nonatomic ,copy) NSString *MemberCount;
 @property (nonatomic ,copy) NSString *GroupPic;
-
+@property (nonatomic ,copy) NSString *IsOwer;
+@property (nonatomic ,copy) NSString *IsMember;
 @property (nonatomic ,copy) NSMutableArray *Users;
+
+
 
 @end
