@@ -34,9 +34,9 @@
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-    self.retBtn.hidden =YES;
     [self addNavBarViewAndTitle:@"任务奖励"];
-    
+    self.retBtn.hidden =YES;
+
     [self setData];
 
 }
