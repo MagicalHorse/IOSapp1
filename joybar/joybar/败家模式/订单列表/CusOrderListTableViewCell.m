@@ -7,7 +7,7 @@
 //
 
 #import "CusOrderListTableViewCell.h"
-
+#import "CusRefundPriceViewController.h"
 @implementation CusOrderListTableViewCell
 
 - (void)awakeFromNib {
@@ -73,6 +73,40 @@
         self.payBtn.hidden = YES;
     }
     
+}
+
+- (IBAction)didClickRefundBtn:(id)sender
+{
+    UIButton *btn = (UIButton *)sender;
+    
+    if ([btn.titleLabel.text isEqual:@"申请退款"])
+    {
+        CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
+}
+
+- (IBAction)didClickPayBtn:(id)sender
+{
+    UIButton *btn = (UIButton *)sender;
+
+    if ([btn.titleLabel.text isEqual:@"付款"])
+    {
+        
+    }
+    else if ([btn.titleLabel.text isEqual:@"确认提货"])
+    {
+        
+    }
+    else if ([btn.titleLabel.text isEqual:@"申请退款"])
+    {
+        CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
+    else if ([btn.titleLabel.text isEqual:@"撤销退款"])
+    {
+        
+    }
 }
 
 @end

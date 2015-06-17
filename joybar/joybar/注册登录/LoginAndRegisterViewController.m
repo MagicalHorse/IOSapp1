@@ -53,11 +53,14 @@
     scroll.bounces = NO;
     [self.view addSubview:scroll];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCLickScroll)];
+    [scroll addGestureRecognizer:tap];
+    
     [self addLoginView];
     [self addRegisterView];
     
-    
     [self addNavBarViewAndTitle:@""];
+    self.navView.layer.borderColor = [UIColor clearColor].CGColor;
     self.navView.backgroundColor = [UIColor clearColor];
     self.lineView.hidden = YES;
 }
@@ -66,7 +69,6 @@
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 #pragma mark ScrollViewDeletegate
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -284,9 +286,12 @@
 //点击登录
 -(void)didClickLogin
 {
+    [loginAuthText resignFirstResponder];
+    [loginPhoneText resignFirstResponder];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:loginPhoneText.text forKey:@"mobile"];
     [dic setObject:loginAuthText.text forKey:@"password"];
+    [self hudShow:@"正在登陆"];
     [HttpTool postWithURL:@"user/Login" params:dic success:^(id json) {
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
@@ -307,9 +312,14 @@
 
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         }
-        NSLog(@"%@",[json objectForKey:@"message"]);
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self textHUDHiddle];
     } failure:^(NSError *error) {
-        NSLog(@"%@",[error description]);
+        
+        [self showHudFailed:@"请求失败"];
     }];
 }
 
@@ -326,6 +336,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
     [dic setObject:registerAuthText.text forKey:@"code"];
+    [self hudShowWithText:@"正在验证"];
     [HttpTool postWithURL:@"user/VerifyCode" params:dic success:^(id json) {
 
         BOOL isSuccess = [[json objectForKey:@"isSuccessful"]boolValue];
@@ -335,11 +346,14 @@
             VC.mobilePhone = registerPhoneText.text;
             [self.navigationController pushViewController:VC animated:YES];
         }
-        NSLog(@"%@",[json objectForKey:@"message"]);
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self textHUDHiddle];
         
     } failure:^(NSError *error) {
-        
-        NSLog(@"%@",[error description]);
+        [self showHudFailed:@"请求失败"];
     }];
 }
 
@@ -348,6 +362,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
+    [self hudShowWithText:@"正在获取验证码"];
     [HttpTool postWithURL:@"user/SendMobileCode" params:dic success:^(id json) {
         
         NSDictionary *jsonDic = json;
@@ -356,12 +371,14 @@
         {
             
         }
-        
-        NSLog(@"%@",json);
-        
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self textHUDHiddle];
     } failure:^(NSError *error) {
         
-        NSLog(@"%@",[error description]);
+        [self showHudFailed:@"请求失败"];
     }];
 }
 
@@ -384,7 +401,14 @@
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
+}
+
+-(void)didCLickScroll
+{
     [scroll endEditing:YES];
 }
+
+
+
 
 @end

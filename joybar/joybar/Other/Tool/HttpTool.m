@@ -12,7 +12,7 @@
 #import "AFNetworking.h"
 #import "Common.h"
 #import "NSString+MD5.h"
-
+#import "MBProgressHUD.h"
 @interface HttpTool()
 @end
 

@@ -70,9 +70,9 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:self.circleId forKey:@"groupid"];
-    [HttpTool postWithURL:@"Community/GetBuyerGroupDetail" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Community/GetGroupDetail" params:dic success:^(id json) {
         
-        if ([[json objectForKey:@"IsSuccess"] boolValue])
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.circleData = [CircleDetailData objectWithKeyValues:[json objectForKey:@"data"]];
             circleNumLab.text = [NSString stringWithFormat:@"%@人",self.circleData.MemberCount];
@@ -80,16 +80,13 @@
         }
         else
         {
-            
+             [self showHudFailed:[json objectForKey:@"message"]];
         }
         
     } failure:^(NSError *error) {
-        
-        NSLog(@"%@",error);
-        
+        [self showHudFailed:@"请求失败"];
     }];
 }
-
 
 -(void)addTitleView
 {
@@ -230,11 +227,20 @@
         [view removeFromSuperview];
     }
     
+    
     if (indexPath.section==0)
     {
-        for (int i=0; i<self.circleData.Users.count+2; i++)
+        NSInteger count;
+        if ([self.circleData.IsOwer boolValue])
         {
-        
+            count=self.circleData.Users.count+2;
+        }
+        else
+        {
+            count=self.circleData.Users.count;
+        }
+        for (int i=0; i<count; i++)
+        {
             
             CGFloat width = (kScreenWidth-20)/4;
             CGFloat height = width+20;
@@ -345,7 +351,14 @@
             btn.frame = CGRectMake(15, 20, kScreenWidth-30, 50);
             btn.backgroundColor = kCustomColor(253, 162, 41);
             btn.layer.cornerRadius = 3;
-            [btn setTitle:@"删除并退出" forState:(UIControlStateNormal)];
+            if ([self.circleData.IsOwer boolValue])
+            {
+                [btn setTitle:@"删除并退出" forState:(UIControlStateNormal)];
+            }
+            else
+            {
+                [btn setTitle:@"退出圈子" forState:(UIControlStateNormal)];
+            }
             [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
             btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
             [cell.contentView addSubview:btn];
@@ -359,7 +372,11 @@
 
     if (indexPath.section==0&&indexPath.row==0)
     {
-        return ((kScreenWidth-20)/4+20)*((self.circleData.Users.count+1)/4+1)+5;
+        if ([self.circleData.IsOwer boolValue])
+        {
+            return ((kScreenWidth-20)/4+20)*((self.circleData.Users.count+1)/4+1)+5;
+        }
+        return ((kScreenWidth-20)/4+20)*((self.circleData.Users.count+1)/4)+5;
 
 //        if((self.circleData.Users.count)%4==0)
 //        {

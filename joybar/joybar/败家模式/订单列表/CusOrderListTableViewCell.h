@@ -29,5 +29,7 @@
 
 -(void)setData;
 
+- (IBAction)didClickRefundBtn:(id)sender;
+- (IBAction)didClickPayBtn:(id)sender;
 
 @end
