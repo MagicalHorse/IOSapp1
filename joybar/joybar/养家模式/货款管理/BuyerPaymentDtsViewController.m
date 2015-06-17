@@ -85,7 +85,6 @@
         lab.textColor = [UIColor grayColor];
         lab.text = [nameArr objectAtIndex:i];
         lab.tag=1000+i;
-        tpye=i;
         [_tempView addSubview:lab];
         if (i==0)
         {
@@ -113,7 +112,6 @@
     self.tableView.tag = 1;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.restorationIdentifier =@"cell";
     self.tableView.backgroundColor = kCustomColor(241, 241, 241);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
@@ -141,25 +139,32 @@
 //    Product * product =[order.Products firstObject];
     static NSString *CellIdentifier = @"cell1";
     BuyerPaymentTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    if (tableView.tag ==1) {
-//        static NSString *CellIdentifier = @"cell1";
-//        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//        
-//    }else if (tableView.tag==2) {
-//        static NSString *CellIdentifier = @"cell2";
-//        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    }else if (tableView.tag==3) {
-//        static NSString *CellIdentifier = @"cell3";
-//        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    }else if (tableView.tag==4) {
-//        static NSString *CellIdentifier = @"cell4";
-//        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-//    }
-    
+
     if (cell == nil) {
         cell =[[[NSBundle mainBundle] loadNibNamed:@"BuyerPaymentTableViewCell" owner:self options:nil] lastObject];
     }
-//    cell.titleView.text =product.BrandName;
+    if (tableView.tag ==2) {
+        if (tpye ==2) {
+            cell.stateBtn.hidden =YES;
+            cell.stateLabel.hidden=NO;
+            cell.stateLabel.text =@"退款中";
+        }else if(tpye ==3){
+            cell.stateBtn.hidden =YES;
+            cell.stateLabel.hidden=YES;
+        }
+        else if(tpye ==4){
+            cell.stateBtn.hidden =YES;
+            cell.stateLabel.hidden=NO;
+            cell.stateLabel.text =@"已退款";
+
+            
+        }
+    }else{
+        cell.stateLabel.hidden=YES;
+        cell.stateBtn.hidden =NO;
+        [cell.stateBtn addTarget:self action:@selector(changeImg:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    //    cell.titleView.text =product.BrandName;
 //    cell.detileView.text =product.Name;
 //    cell.noView.text =[product.StoreItemNo stringValue];
 //    cell.priceView.text =[NSString stringWithFormat:@"%@%@",@"￥",product.Price];
@@ -173,13 +178,20 @@
     
 }
 
+-(void)changeImg:(UIButton *)btn{
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//    Order *order = self.dataArray[indexPath.section];
-//    BueryStoreDetailsController *details=[[BueryStoreDetailsController alloc]initWithCode:order.OrderNo];
-//    [self.navigationController pushViewController:details animated:YES];
+    if(btn.selected ==NO){
+        btn.selected =YES;
+    }else{
+        btn.selected =NO;
+    }
+    
 }
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//
+//    
+//}
 
 
 
@@ -201,6 +213,7 @@
     if (tap.view.tag==1000)
     {
         [self scrollToBuyerStreet];
+        
     }
     else if(tap.view.tag==1001)
     {
@@ -220,6 +233,7 @@
 //全部订单
 -(void)scrollToBuyerStreet
 {
+    tpye =1;
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
@@ -240,6 +254,7 @@
     self.dataArray =nil;
     [self.tableView1 removeFromSuperview];
     self.tableView1 =nil;
+    [self.tableView reloadData];
 //    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:1];
     
 }
@@ -247,6 +262,8 @@
 //待付款
 -(void)scrollToSaid
 {
+    tpye =2;
+
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
@@ -258,6 +275,9 @@
         self.tableView1.dataSource=self;
         self.tableView1.delegate =self;
         self.tableView1.tag = 2;
+        self.tableView1.backgroundColor = kCustomColor(241, 241, 241);
+        self.tableView1.separatorStyle = UITableViewCellSeparatorStyleNone;
+
         self.tableView1.tableFooterView =[[UIView alloc]init];
         
         [self.view addSubview:self.tableView1];
@@ -278,19 +298,31 @@
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont fontWithName:@"youyuan" size:13];
+    [self.tableView1 reloadData];
+
     
 }
 //专柜自提
 -(void)scrollToMyBuyer
 {
+    tpye =3;
+
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
     UILabel *lab4 = (UILabel *)[_tempView viewWithTag:1003];
    
     
-    self.dataArray =nil;
-//    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:3];
+    if (self.tableView1 ==nil) {
+        self.tableView1= [[UITableView alloc] init];
+        self.tableView1.frame = CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40);
+        self.tableView1.dataSource=self;
+        self.tableView1.delegate =self;
+        self.tableView1.tag = 2;
+        self.tableView1.tableFooterView =[[UIView alloc]init];
+        
+        [self.view addSubview:self.tableView1];
+    }
     
     [UIView animateWithDuration:0.1 animations:^{
         self.lineLab.center = CGPointMake(lab3.center.x, 38);
@@ -304,16 +336,29 @@
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     
-    
+    [self.tableView1 reloadData];
+
 }
 //售后中心
 -(void)scrollToMyBuyer1
 {
+    tpye =4;
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
     UILabel *lab4 = (UILabel *)[_tempView viewWithTag:1003];
     
+    
+    if (self.tableView1 ==nil) {
+        self.tableView1= [[UITableView alloc] init];
+        self.tableView1.frame = CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40);
+        self.tableView1.dataSource=self;
+        self.tableView1.delegate =self;
+        self.tableView1.tag = 2;
+        self.tableView1.tableFooterView =[[UIView alloc]init];
+        
+        [self.view addSubview:self.tableView1];
+    }
     
     [UIView animateWithDuration:0.1 animations:^{
         self.lineLab.center = CGPointMake(lab4.center.x, 38);
@@ -326,7 +371,8 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
-    
+    [self.tableView1 reloadData];
+
 }
 
 @end

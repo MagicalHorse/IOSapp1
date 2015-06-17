@@ -8,7 +8,6 @@
         <mutableArray key="youyuan.ttf">
             <string>YouYuan</string>
             <string>YouYuan</string>
-            <string>YouYuan</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -21,15 +20,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hongbang" translatesAutoresizingMaskIntoConstraints="NO" id="pSc-ht-edR">
-                        <rect key="frame" x="15" y="13" width="12" height="16"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="16" id="Ucf-eb-aqB"/>
-                            <constraint firstAttribute="width" constant="12" id="b9w-x3-qFc"/>
-                        </constraints>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="开店奖励" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8lF-H3-Cwu">
-                        <rect key="frame" x="43" y="13" width="78" height="16"/>
+                        <rect key="frame" x="43" y="13" width="133" height="16"/>
                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="16"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -41,42 +33,51 @@
                             <constraint firstAttribute="height" constant="1" id="w0m-Hg-cqD"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="进度：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XGJ-yR-eVF">
-                        <rect key="frame" x="15" y="53" width="39" height="13"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="进度：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XGJ-yR-eVF">
+                        <rect key="frame" x="15" y="53" width="290" height="13"/>
                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="13"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chongdan" translatesAutoresizingMaskIntoConstraints="NO" id="0fq-AO-82A">
-                        <rect key="frame" x="293" y="13" width="12" height="16"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="返回键icon" translatesAutoresizingMaskIntoConstraints="NO" id="0fq-AO-82A">
+                        <rect key="frame" x="286" y="12" width="19" height="19"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="12" id="Ykf-ee-s61"/>
-                            <constraint firstAttribute="height" constant="16" id="rPt-ug-J0a"/>
+                            <constraint firstAttribute="width" constant="19" id="Ykf-ee-s61"/>
+                            <constraint firstAttribute="height" constant="19" id="rPt-ug-J0a"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="还差1单" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8iW-6h-lkI">
-                        <rect key="frame" x="56" y="53" width="220" height="13"/>
-                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="13"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hongbang" translatesAutoresizingMaskIntoConstraints="NO" id="pSc-ht-edR">
+                        <rect key="frame" x="15" y="13" width="12" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="Ucf-eb-aqB"/>
+                            <constraint firstAttribute="width" constant="12" id="b9w-x3-qFc"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="XGJ-yR-eVF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="1Mr-QO-Xq3"/>
+                    <constraint firstAttribute="bottom" secondItem="XGJ-yR-eVF" secondAttribute="bottom" constant="9" id="6Lr-lm-Q8W"/>
                     <constraint firstItem="uWO-79-ACc" firstAttribute="top" secondItem="pSc-ht-edR" secondAttribute="bottom" constant="10" id="T2p-t5-HXa"/>
                     <constraint firstAttribute="trailing" secondItem="uWO-79-ACc" secondAttribute="trailing" id="TAw-Vy-UgY"/>
+                    <constraint firstAttribute="trailing" secondItem="XGJ-yR-eVF" secondAttribute="trailing" constant="15" id="Vzs-cu-489"/>
                     <constraint firstAttribute="trailing" secondItem="0fq-AO-82A" secondAttribute="trailing" constant="15" id="XLg-p8-R1a"/>
                     <constraint firstItem="pSc-ht-edR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="dQJ-Vg-SRK"/>
                     <constraint firstItem="pSc-ht-edR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="nld-4l-JXV"/>
                     <constraint firstItem="uWO-79-ACc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="rR3-PE-ExD"/>
-                    <constraint firstItem="uWO-79-ACc" firstAttribute="top" secondItem="0fq-AO-82A" secondAttribute="bottom" constant="10" id="rm6-Xx-1md"/>
+                    <constraint firstItem="uWO-79-ACc" firstAttribute="top" secondItem="0fq-AO-82A" secondAttribute="bottom" constant="8" id="rm6-Xx-1md"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="218" y="188"/>
+            <connections>
+                <outlet property="ticketCount" destination="XGJ-yR-eVF" id="S6j-zk-1C5"/>
+                <outlet property="ticketIcon" destination="pSc-ht-edR" id="0wv-Zy-tG6"/>
+                <outlet property="ticketTitle" destination="8lF-H3-Cwu" id="sln-kR-V58"/>
+            </connections>
+            <point key="canvasLocation" x="70" y="158"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="chongdan" width="12" height="16"/>
         <image name="hongbang" width="12" height="16"/>
+        <image name="返回键icon" width="19" height="19"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

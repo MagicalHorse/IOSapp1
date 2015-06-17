@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface BuyerTicketTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *ticketIcon;
+@property (weak, nonatomic) IBOutlet UILabel *ticketTitle;
+@property (weak, nonatomic) IBOutlet UILabel *ticketCount;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "BuyerIssueViewController.h"
 #import "SocketManager.h"
 #import "UMSocialData.h"
 #import "UMSocialWechatHandler.h"
