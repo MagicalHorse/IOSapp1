@@ -116,7 +116,7 @@
         cell.pirceDd2View.hidden =NO;
     }
     else if(indexPath.row ==1){
-        cell.iconView.image =[UIImage imageNamed:@"pic4"] ;
+        cell.iconView.image =[UIImage imageNamed:@"shouyi3"] ;
         cell.tilteView.text =@"收益管理";
         cell.tilteD1View.text =@"今日收益";
         cell.tilteD2View.text =@"累积收益";

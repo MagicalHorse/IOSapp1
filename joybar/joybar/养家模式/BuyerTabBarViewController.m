@@ -23,7 +23,8 @@
 #import "BuyerMessageViewController.h"
 #import "BuyerMineViewController.h"
 #import "BuyerCameraViewController.h"
-@interface BuyerTabBarViewController ()
+#import "BuyerOpenViewController.h"
+@interface BuyerTabBarViewController ()<UIActionSheetDelegate>
 
 @end
 
@@ -140,11 +141,18 @@
 {
         if (button.tag-100==2)
         {
-            [Common saveUserDefault:@"1" keyName:@"backPhone"];
-            BuyerCameraViewController *VC = [[BuyerCameraViewController alloc] init];
-            BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
-            [self presentViewController:nav animated:YES completion:nil];
+            
+            
+            UIActionSheet *action= [[UIActionSheet alloc] initWithTitle:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"取消"
+                                                 destructiveButtonTitle:nil
+                                                      otherButtonTitles:@"开小票", @"发布商品", nil];
+            
+            // Show the sheet
+            [action showInView:self.view];
             return;
+            
         }
     
     self.selectedIndex = button.tag-100;
@@ -172,6 +180,21 @@
         [super setSelectedIndex:selectedIndex];
     }
     [self SelectedTabBarIndex:[self.btnArray objectAtIndex:selectedIndex]];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex ==0) {
+        BuyerOpenViewController * open =[[BuyerOpenViewController alloc]init];
+         BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:open];
+        [self presentViewController:nav animated:YES completion:nil];
+        
+    }else if(buttonIndex ==1){
+        [Common saveUserDefault:@"1" keyName:@"backPhone"];
+        BuyerCameraViewController *VC = [[BuyerCameraViewController alloc] init];
+        BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
 }
 
 

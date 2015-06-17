@@ -86,8 +86,11 @@
     if (indexPath.section==0 &&indexPath.row ==0) {
         cell.textLabel.text =@"奖励说明";
     }else if(indexPath.section == 0&&indexPath.row ==1){
+        NSLog(@"%@",[self.dataArray objectForKey:@"desc"]);
         cell.textLabel.text=[self.dataArray objectForKey:@"desc"];
+        cell.textLabel.numberOfLines =0;
         cell.textLabel.font =[UIFont fontWithName:@"youyuan" size:12];
+        
 
     }else if(indexPath.section == 1&&indexPath.row ==0){
         cell.textLabel.text=@"当前进度";
@@ -116,6 +119,17 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section ==0&& indexPath.row ==1) {
+        
+        UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+        NSString *cellText = cell.textLabel.text;
+        UIFont *cellFont = [UIFont fontWithName:@"youyuan" size:12];
+        CGSize constraintSize = CGSizeMake(280.0f, MAXFLOAT);
+        CGSize labelSize = [cellText sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:0];
+        
+        return labelSize.height + 44-12;
+        return cell.frame.size.height;
+    }
     return 44;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

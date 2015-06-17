@@ -8,23 +8,26 @@
 
 #import "BuyerInComeDetailsViewController.h"
 
-@interface BuyerInComeDetailsViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic ,strong) UIScrollView *homeScroll;
-@property (nonatomic ,strong) UITableView * firstStroe;
-@property (nonatomic ,strong) UITableView * sceondStroe;
-
+@interface BuyerInComeDetailsViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
+    int type;
+}
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIView *tempView;
 @property (nonatomic ,strong) UITableView *tableView;
-@property (nonatomic ,assign) CGFloat startX;
-@property (nonatomic ,assign) CGFloat endX;
+@property (nonatomic,strong) NSMutableArray *dataArray;
+
 @end
 
 @implementation BuyerInComeDetailsViewController
-
-
+-(NSMutableArray *)dataArray{
+    if (_dataArray ==nil) {
+        _dataArray =[[NSMutableArray alloc]init];
+    }
+    return _dataArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    type=1;
     [self addNavBarViewAndTitle:@"提现历史"];
     _tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
     _tempView.backgroundColor = kCustomColor(251, 250, 250);
@@ -60,33 +63,48 @@
     lineView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:lineView];
     
-    self.homeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64)];
-    self.homeScroll.contentSize = CGSizeMake(kScreenWidth*3, 0);
-    self.homeScroll.alwaysBounceVertical = NO;
-    self.homeScroll.pagingEnabled = YES;
-    self.homeScroll.delegate = self;
-    self.homeScroll.directionalLockEnabled = YES;
-    self.homeScroll.showsHorizontalScrollIndicator = NO;
-    self.homeScroll.bounces = NO;
-    self.homeScroll.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.homeScroll];
+   
     
     //tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 104, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
     self.tableView.tag = 1;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.homeScroll addSubview:self.tableView];
+    [self.view addSubview:self.tableView];
     
-    self.tableView.restorationIdentifier =@"cell";
     self.tableView.tableFooterView =[[UIView alloc]init];
+    [self setData];
+
+}
+-(void)setData
+{
+    NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
+    [dict setObject:@"1" forKey:@"Page"];
+    [dict setObject:@"6" forKey:@"Pagesize"];
+    if (type ==1) {
+        [dict setObject:@"1" forKey:@"IncomeTransferStatus"];
+    }else if(type ==2){
+        [dict setObject:@"2" forKey:@"IncomeTransferStatus"];
+    }else if(type ==3){
+        [dict setObject:@"3" forKey:@"IncomeTransferStatus"];
+    }
+    [HttpTool postWithURL:@"Assistant/GetIncomeHistory" params:dict success:^(id json) {
+        
+        BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+        if (isSuccessful) {
+            self.dataArray =[[json objectForKey:@"data"] objectForKey:@"items"];
+            [self.tableView reloadData];
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"%@",[error description]);
+    }];
 }
 
 #pragma mark tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return 10;
+    return self.dataArray.count;
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -98,61 +116,39 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:simpleIdentify];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text =@"1111";
-    cell.detailTextLabel.text =@"2222";
+    if (self.dataArray.count>0) {
+        cell.textLabel.text =[[self.dataArray[indexPath.row]objectForKey:@"Amount"] stringValue];
+        cell.detailTextLabel.text =[self.dataArray[indexPath.row]objectForKey:@"CreateDate"];
+    }
+    
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 60;
+    return 44;
 }
 
-#pragma mark ScrollViewDeletegate
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    self.endX = scrollView.contentOffset.x;
-    
-    if (self.startX-self.endX==0)
-    {
-        return;
-    }
-    if (scrollView.contentOffset.x==0)
-    {
-        [self scrollToBuyerStreet];
-    }
-    else if(scrollView.contentOffset.x==kScreenWidth)
-    {
-        [self scrollToSaid];
-    }
-    else
-    {
-        [self scrollToMyBuyer];
-    }
-}
+
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
     if (tap.view.tag==1000)
     {
-        self.homeScroll.contentOffset = CGPointMake(0, 0);
+        type=1;
         [self scrollToBuyerStreet];
     }
     else if(tap.view.tag==1001)
     {
-        self.homeScroll.contentOffset = CGPointMake(kScreenWidth, 0);
+        type=2;
         [self scrollToSaid];
     }
     else
     {
-        self.homeScroll.contentOffset = CGPointMake(kScreenWidth*2, 0);
+        type=3;
         [self scrollToMyBuyer];
     }
 }
 
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    self.startX = scrollView.contentOffset.x;
-}
 //在线商品
 -(void)scrollToBuyerStreet
 {
@@ -169,7 +165,7 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
-    
+    [self setData];
 }
 
 //即将下线
@@ -178,20 +174,7 @@
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
-    if (_firstStroe==nil)
-    {
-        _firstStroe= [[UITableView alloc] init];
-        _firstStroe.frame = CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64-40-49);
-        
-        [self.homeScroll addSubview:_firstStroe];
-        _firstStroe.dataSource=self;
-        _firstStroe.delegate =self;
-        _sceondStroe.tag = 2;
-        _firstStroe.tableFooterView =[[UIView alloc]init];
-
-        
-    }
-    
+   
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab2.center.x, 38);
     }];
@@ -201,7 +184,8 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
-    
+    [self setData];
+
 }
 
 
@@ -210,20 +194,6 @@
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
-    if (_sceondStroe==nil)
-    {
-        _sceondStroe= [[UITableView alloc] init];
-        
-        _sceondStroe.frame = CGRectMake(kScreenWidth*2, 0, kScreenWidth, kScreenHeight-64-40-49);
-        [self.homeScroll addSubview:_sceondStroe];
-        _sceondStroe.dataSource=self;
-        _sceondStroe.delegate =self;
-        _sceondStroe.tag = 3;
-        _sceondStroe.tableFooterView =[[UIView alloc]init];
-
-        
-    }
-    
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab3.center.x, 38);
     }];
@@ -233,7 +203,8 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     lab2.textColor = [UIColor grayColor];
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
-    
+    [self setData];
+
 }
 
 @end

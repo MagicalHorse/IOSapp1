@@ -18,7 +18,6 @@
             <string>YouYuan</string>
             <string>YouYuan</string>
             <string>YouYuan</string>
-            <string>YouYuan</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -39,12 +38,6 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="来源：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="otn-j1-xtG">
                         <rect key="frame" x="230" y="27" width="45" height="15"/>
-                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="日期：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mNa-Az-prY">
-                        <rect key="frame" x="206" y="53" width="45" height="15"/>
                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -86,7 +79,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2389265789" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mFJ-pF-MEe">
-                        <rect key="frame" x="83" y="79" width="75" height="15"/>
+                        <rect key="frame" x="83" y="79" width="150" height="15"/>
                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -121,7 +114,15 @@
                     <constraint firstAttribute="trailing" secondItem="kLY-or-6bh" secondAttribute="trailing" constant="10" id="qOX-By-1Vk"/>
                 </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="48" y="192.5"/>
+            <connections>
+                <outlet property="desPrice" destination="CFW-oL-tdX" id="VZF-I1-XGu"/>
+                <outlet property="desSoure" destination="asj-IZ-dDx" id="Zxw-Zc-1gW"/>
+                <outlet property="dscNo" destination="mFJ-pF-MEe" id="UKU-XI-s11"/>
+                <outlet property="dscState" destination="ifi-lE-k1x" id="ZvS-tr-cNG"/>
+                <outlet property="dscTime" destination="kLY-or-6bh" id="WQH-r5-f0H"/>
+                <outlet property="dseOrderPrice" destination="wj8-nR-jQ9" id="Bc2-kW-8dc"/>
+            </connections>
+            <point key="canvasLocation" x="146" y="143.5"/>
         </tableViewCell>
     </objects>
 </document>

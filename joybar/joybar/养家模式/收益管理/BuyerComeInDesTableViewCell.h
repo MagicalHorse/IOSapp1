@@ -9,5 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface BuyerComeInDesTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *desPrice;
+@property (weak, nonatomic) IBOutlet UILabel *desSoure;
+@property (weak, nonatomic) IBOutlet UILabel *dseOrderPrice;
+@property (weak, nonatomic) IBOutlet UILabel *dscNo;
+@property (weak, nonatomic) IBOutlet UILabel *dscTime;
+@property (weak, nonatomic) IBOutlet UILabel *dscState;
 
 @end
