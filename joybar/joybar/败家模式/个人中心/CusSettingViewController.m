@@ -9,6 +9,7 @@
 #import "CusSettingViewController.h"
 #import "ChangePasswordViewController.h"
 #import "BuyerOpenMessageViewController.h"
+#import "CusAboutViewController.h"
 @interface CusSettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
@@ -48,7 +49,7 @@
     UIView *headerView = [[UIView alloc] init];
     headerView.backgroundColor =kCustomColor(245, 246, 247);
     
-    if (section==2)
+    if (section==3)
     {
 //        UIButton *yangjiaBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
 //        yangjiaBtn.frame = CGRectMake(20, 20, kScreenWidth-40, 40);
@@ -77,7 +78,7 @@
     {
         return 0;
     }
-    else if (section==2)
+    else if (section==3)
     {
         return 180;
     }
@@ -86,13 +87,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==2)
+    if (section==3)
     {
         return 0;
+    }
+    else if (section==2)
+    {
+        return 1;
     }
     return 2;
 }
@@ -116,7 +121,7 @@
         bgView.backgroundColor = kCustomColor(245, 246, 247);
         [cell.contentView addSubview:bgView];
     }
-    NSArray *nameArr = @[@[@"头像",@"昵称"],@[@"账户密码",@"消息免打扰"],@[]];
+    NSArray *nameArr = @[@[@"头像",@"昵称"],@[@"账户密码",@"消息免打扰"],@[@"关于我们"]];
     cell.textLabel.text = [[nameArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.textLabel.font = [UIFont fontWithName:@"youyuan" size:18];
     
@@ -151,7 +156,7 @@
     {
         return 100;
     }
-    else if (indexPath.section==2&&indexPath.row==2)
+    else if (indexPath.section==3&&indexPath.row==2)
     {
         return 200;
     }
@@ -172,6 +177,11 @@
         
     }else if(indexPath.section==0&&indexPath.row==1){
         
+    }
+    else if (indexPath.section==2)
+    {
+        CusAboutViewController *VC = [[CusAboutViewController alloc] init];
+        [self.navigationController pushViewController:VC animated:YES];
     }
 }
 

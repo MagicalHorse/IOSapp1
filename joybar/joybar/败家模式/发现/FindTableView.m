@@ -55,7 +55,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+   FindItems *item = [self.dataArr objectAtIndex:indexPath.row];
     CusTagViewController *VC = [[CusTagViewController alloc] init];
+    VC.BrandId = item.BrandId;
+    VC.BrandName = item.BrandName;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 

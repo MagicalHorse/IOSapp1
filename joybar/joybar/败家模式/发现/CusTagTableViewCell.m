@@ -43,34 +43,17 @@
     {
         UIImageView *tagImage = [[UIImageView alloc] init];
         
-//        CGRect frame = CGRectMake(-5+5*index+(kScreenWidth)/3*index, 15, (kScreenWidth)/3, (kScreenWidth)/3);
         CGRect frame = CGRectMake(5+5*index+(kScreenWidth-20)/3*index, 5, (kScreenWidth-20)/3, (kScreenWidth-20)/3);
 
         tagImage.frame = frame;
         
-//        if (self.currentMaxDisplayedRow==0)
-//        {
-//            self.currentMaxDisplayedRow=-1;
-//        }
-//        
-//        if (indexPath.row> self.currentMaxDisplayedRow)
-//        {
-//            [UIView animateWithDuration:0.3 animations:^{
-//                
-//                CGRect frame1 = CGRectMake(5+5*index+(kScreenWidth-20)/3*index, 5, (kScreenWidth-20)/3, (kScreenWidth-20)/3);
-//                tagImage.frame = frame1;
-//            }];
-//            self.currentMaxDisplayedRow = indexPath.row;
-//        }
-//        else if(!self.scrollDown)
-//        {
-//            CGRect frame1 = CGRectMake(5+5*index+(kScreenWidth-20)/3*index, 5, (kScreenWidth-20)/3, (kScreenWidth-20)/3);
-//            tagImage.frame = frame1;
-//        }
-        
         tagImage.tag = index + 10;
         tagImage.userInteractionEnabled = YES;
-        tagImage.backgroundColor = [UIColor orangeColor];
+        
+        NSString *imageURL = [NSString stringWithFormat:@"%@_120x0.jpg",[[dataArr objectAtIndex:index] objectForKey:@"Pic"]];
+        [tagImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:nil];
+        tagImage.contentMode = UIViewContentModeScaleAspectFill;
+        tagImage.clipsToBounds = YES;
         [self.contentView addSubview:tagImage];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTagImage:)];
@@ -80,8 +63,9 @@
 
 -(void)didClickTagImage:(UITapGestureRecognizer *)tap
 {
+    NSString *proId = [[self.dataArray objectAtIndex:tap.view.tag-10] objectForKey:@"ProductId"];
     CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
-    VC.productId = @"123123";
+    VC.productId = proId;
     [self.viewController.navigationController pushViewController:VC animated:YES];
     
     NSLog(@"%ld",tap.view.tag-10);

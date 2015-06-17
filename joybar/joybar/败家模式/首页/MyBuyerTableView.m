@@ -57,9 +57,9 @@
     HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
     if ([pro.IsPromotion boolValue])
     {
-        return kScreenHeight-100;
+        return kScreenHeight-150;
     }
-    return kScreenHeight-150;
+    return kScreenHeight-100;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -24,7 +24,7 @@
     [brandImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",self.findItems]] placeholderImage:nil];
     [self.contentView addSubview:brandImage];
     
-    for (int i=0; i<4; i++)
+    for (int i=0; i<self.findItems.Product.count; i++)
     {
         FindProduct *findPro = [self.findItems.Product objectAtIndex:i];
         UIImageView *imageView = [[UIImageView alloc] init];
@@ -34,7 +34,7 @@
         imageView.clipsToBounds = YES;
         [self.contentView addSubview:imageView];
     }
-    
+
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth/4+70, kScreenWidth, 0.5)];
     line.backgroundColor = [UIColor lightGrayColor];
     [self.contentView addSubview:line];

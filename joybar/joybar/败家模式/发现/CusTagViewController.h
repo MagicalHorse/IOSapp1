@@ -10,4 +10,6 @@
 
 @interface CusTagViewController : BaseViewController
 
+@property (nonatomic ,strong) NSString *BrandId;
+@property (nonatomic ,strong) NSString *BrandName;
 @end
