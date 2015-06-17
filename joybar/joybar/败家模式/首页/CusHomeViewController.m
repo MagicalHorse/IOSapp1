@@ -9,7 +9,7 @@
 #import "CusHomeViewController.h"
 #import "CusCenterViewController.h"
 #import "CusHomeTableViewCell.h"
-#import "NSTimer+Addition.h"
+//#import "NSTimer+Addition.h"
 #import "CusBuyerDetailViewController.h"
 #import "BaseTableView.h"
 #import "HomeData.h"
@@ -47,17 +47,17 @@
     UIView *tempView;
     CusCenterViewController *centerVC;
 }
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [self.csView.animationTimer pauseTimer];
-}
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.csView.animationTimer resumeTimer];
-}
+//-(void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    
+//    [self.csView pauseTimer];
+//}
+//-(void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    [self.csView resumeTimer];
+//}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.pageNum = 1;
@@ -271,7 +271,6 @@
     
     Banner *banner = [self.data.Banners objectAtIndex:pageIndex];
     NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
-    
     [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
     return imgView;
 }

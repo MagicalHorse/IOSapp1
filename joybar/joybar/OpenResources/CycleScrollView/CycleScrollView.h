@@ -53,5 +53,8 @@
 @property (nonatomic, assign) id<CycleScrollViewDelegate> delegate;
 
 - (void)reloadData;
+- (void)pauseTimer;
+- (void)resumeTimer;
+- (void)resumeTimerAfterTimeInterval:(NSTimeInterval)interval;
 
 @end

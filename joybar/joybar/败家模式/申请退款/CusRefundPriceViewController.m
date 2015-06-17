@@ -27,10 +27,20 @@
 
     [self addNavBarViewAndTitle:@"申请退款"];
     self.view.backgroundColor = kCustomColor(240, 241, 242);
-//    self.scrollView.contentSize = CGSizeMake(kScreenWidth, 10000);
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickScroll)];
+    [self.scrollView addGestureRecognizer:tap];
+    
     self.refundText.layer.borderColor = [UIColor grayColor].CGColor;
     self.refundText.layer.borderWidth = 0.5;
     self.refundText.layer.cornerRadius = 3;
+    NSString *tempUrl = [NSString stringWithFormat:@"%@_100x100.jpg",self.orderItem.Product.Image];
+    [self.proImage sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:nil];
+    self.proName.text = self.orderItem.Product.Name;
+    self.proNumLab.text = [NSString stringWithFormat:@"x%@",self.orderItem.OrderProductCount];
+    self.proSizeLab.text = self.orderItem.Product.Productdesc;
+    self.proPriceLab.text = [NSString stringWithFormat:@"￥%@",self.orderItem.Product.Price];
+    
     
     UIView *numView = [[UIView alloc] initWithFrame:CGRectMake(self.proStatusLab.left, self.refundPriceLab.bottom+25, 120, 30)];
     numView.backgroundColor = kCustomColor(240, 240, 240);
@@ -62,8 +72,6 @@
     buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
     buyNumLab.textAlignment = NSTextAlignmentCenter;
     [numView addSubview:buyNumLab];
-
-
     
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
     bottomView.backgroundColor = [UIColor whiteColor];
@@ -78,28 +86,24 @@
     btn.layer.cornerRadius = 3;
     btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:13];
     [btn setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
+    [btn addTarget:self action:@selector(didClickRefundBtn) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:btn];
 }
 
 //增加
 -(void)didCLickAddNum
 {
-//    if (!self.sizeId)
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择尺码" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-//        [alert show];
-//        return;
-//    }
-//    
-//    if (self.priceNum>=[self.sizeNum integerValue])
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"库存不足" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-//        [alert show];
-//        return;
-//    }
+    if (self.priceNum>=[self.orderItem.OrderProductCount integerValue])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"超过购买数量" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+        [alert show];
+        return;
+    }
     
     self.priceNum+=1;
     buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
+    CGFloat price = self.priceNum*[self.orderItem.Product.Price floatValue];
+    self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",price];
 }
 
 //减少
@@ -113,8 +117,50 @@
     {
         self.priceNum-=1;
         buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
+        CGFloat price = self.priceNum*[self.orderItem.Product.Price floatValue];
+        self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",price];
     }
 }
 
+//提交申请
+-(void)didClickRefundBtn
+{
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.orderItem.OrderNo forKey:@"OrderNo"];
+    [dic setObject:buyNumLab.text forKey:@"Count"];
+    if ([self.refundText.text isEqualToString:@""])
+    {
+        [self showHudFailed:@"请填写退款理由"];
+        
+        return;
+    }
+    [dic setObject:self.refundText.text forKey:@"Reason"];
+    
+    [HttpTool postWithURL:@"Order/Apply_Rma" params:dic success:^(id json) {
+        if([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            [self showHudSuccess:@"申请退款成功"];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [self.navigationController popViewControllerAnimated:YES];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"refundNotification" object:self userInfo:nil];
+            });
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        [self showHudFailed:@"请求失败"];
+    }];
+}
+
+-(void)didClickScroll
+{
+    [self.scrollView endEditing:YES];
+}
 
 @end

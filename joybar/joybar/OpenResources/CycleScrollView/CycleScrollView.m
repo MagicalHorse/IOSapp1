@@ -7,7 +7,7 @@
 //
 
 #import "CycleScrollView.h"
-#import "NSTimer+Addition.h"
+//#import "NSTimer+Addition.h"
 
 @interface CycleScrollView () <UIScrollViewDelegate>
 
@@ -19,12 +19,40 @@
 
 @property (nonatomic, assign) NSTimeInterval animationDuration;
 
+
+
 @end
 
 @implementation CycleScrollView
 
 @synthesize delegate;
 @synthesize datasource;
+
+
+-(void)pauseTimer
+{
+    if (![self.animationTimer isValid]) {
+        return ;
+    }
+    [self.animationTimer setFireDate:[NSDate distantFuture]];
+}
+
+
+-(void)resumeTimer
+{
+    if (![self.animationTimer isValid]) {
+        return ;
+    }
+    [self.animationTimer setFireDate:[NSDate date]];
+}
+
+- (void)resumeTimerAfterTimeInterval:(NSTimeInterval)interval
+{
+    if (![self.animationTimer isValid]) {
+        return ;
+    }
+    [self.animationTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:interval]];
+}
 
 - (id) initWithFrame:(CGRect)frame animationDuration:(NSTimeInterval)animationDuration
 {
@@ -36,7 +64,7 @@
                                                              selector:@selector(animationTimerDidFired:)
                                                              userInfo:nil
                                                               repeats:YES];
-        [self.animationTimer pauseTimer];
+        [self pauseTimer];
     }
     return self;
 }
@@ -93,7 +121,7 @@
     if (_totalPageCount>1)
     {
         self.pageControl.numberOfPages = _totalPageCount;
-        [self.animationTimer resumeTimerAfterTimeInterval:self.animationDuration];
+        [self resumeTimerAfterTimeInterval:self.animationDuration];
     }
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self setScrollViewContentDataSource];
@@ -146,11 +174,11 @@
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    [self.animationTimer pauseTimer];
+    [self pauseTimer];
 }
 
 - (void) scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    [self.animationTimer resumeTimerAfterTimeInterval:self.animationDuration];
+    [self resumeTimerAfterTimeInterval:self.animationDuration];
 }
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {

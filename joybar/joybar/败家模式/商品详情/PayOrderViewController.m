@@ -20,8 +20,8 @@
     [self addNavBarViewAndTitle:@"选择付款方式"];
 }
 
-- (IBAction)didClickWXPay:(id)sender {
+- (IBAction)didClickWXPay:(id)sender
+{
     [self.navigationController popToRootViewControllerAnimated:YES];
-    
 }
 @end
