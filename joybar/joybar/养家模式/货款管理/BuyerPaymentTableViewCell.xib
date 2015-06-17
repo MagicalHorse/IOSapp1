@@ -42,35 +42,35 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="订单金额:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPF-60-I6j">
                                 <rect key="frame" x="8" y="8" width="66" height="22"/>
                                 <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单金额:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXD-uY-mcb">
                                 <rect key="frame" x="249" y="12" width="63" height="14"/>
                                 <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="订单编号:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oqv-Zm-E8O">
                                 <rect key="frame" x="8" y="34" width="66" height="21"/>
                                 <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="￥" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5z-Zl-ylG">
                                 <rect key="frame" x="83" y="12" width="14" height="14"/>
                                 <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2939239293293923" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ghp-Kf-Ctl">
                                 <rect key="frame" x="82" y="34" width="138" height="21"/>
                                 <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="567.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPw-eE-0gh">
-                                <rect key="frame" x="101" y="12" width="85" height="14"/>
+                                <rect key="frame" x="101" y="12" width="109" height="14"/>
                                 <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -78,7 +78,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015/1/14" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zfc-Ef-Xx8">
                                 <rect key="frame" x="242" y="38" width="63" height="14"/>
                                 <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -102,10 +102,13 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="paymentNo" destination="ghp-Kf-Ctl" id="AGW-kp-TsR"/>
+                <outlet property="paymentPrice" destination="aPw-eE-0gh" id="aMa-aP-qKf"/>
+                <outlet property="paymentTime" destination="Zfc-Ef-Xx8" id="nbT-gB-cRB"/>
                 <outlet property="stateBtn" destination="KR7-Cr-yb1" id="EAB-ox-zig"/>
                 <outlet property="stateLabel" destination="pXD-uY-mcb" id="D7D-KE-zjm"/>
             </connections>
-            <point key="canvasLocation" x="231" y="204"/>
+            <point key="canvasLocation" x="369" y="176"/>
         </tableViewCell>
     </objects>
     <resources>

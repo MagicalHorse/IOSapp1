@@ -10,9 +10,8 @@
 #import "BuyerPaymentTableViewCell.h"
 
 @interface BuyerPaymentDtsViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
-    int tpye;
+    int type;
 }
-@property (nonatomic ,strong) UIScrollView *homeScroll;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIView *tempView;
@@ -39,28 +38,29 @@
     }
     return _dataArray;
 }
--(void)setData :(int)type
+-(void)setData
 {
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     [dict setObject:@(1) forKey:@"Page"];
     [dict setObject:@(6) forKey:@"Pagesize"];
-    if (type ==3) {
-        [dict setObject:@"3" forKey:@"OrderProductType"];
+    if (type ==1) {
+        [dict setObject:@"1" forKey:@"status"];
     }else if(type ==2){
-        [dict setObject:@"0" forKey:@"Status"];
+        [dict setObject:@"0" forKey:@"status"];
         
+    }else if(type ==3){
+        [dict setObject:@"2" forKey:@"status"];
     }else if(type ==4){
-        [dict setObject:@"3" forKey:@"Status"];
+        [dict setObject:@"4" forKey:@"status"];
     }
-    [HttpTool postWithURL:@"Order/GetOrderList" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"Buyer/PaymentGoodsList" params:dict success:^(id json) {
         
-//        BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
-//        if (isSuccessful) {
-//            NSMutableArray *array =[json objectForKey:@"data"];
-//            Orders *order = [Orders objectWithKeyValues :array];
-//            _dataArray = order.orderlist;
-//        }
+        BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+        if (isSuccessful) {
+            self.dataArray =[[json objectForKey:@"data"]objectForKey:@"items"];
+        }
         [self.tableView reloadData];
+        [self.tableView1 reloadData];
 
     } failure:^(NSError *error) {
         NSLog(@"%@",[error description]);
@@ -69,7 +69,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setData:1];
+    type=1;
     _tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
     _tempView.backgroundColor = kCustomColor(251, 250, 250);
     [self.view addSubview:_tempView] ;
@@ -121,22 +121,26 @@
     [btn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     btn.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:btn];
+    [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
     
     [self addNavBarViewAndTitle:@"货款收支"];
+    [self setData];
 
+
+}
+-(void)btnClick{
+    NSLog(@"提现货款");
 }
 
 #pragma mark tableViewDelegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    return self.dataArray.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-//    Order *order = self.dataArray[indexPath.section];
-//    Product * product =[order.Products firstObject];
     static NSString *CellIdentifier = @"cell1";
     BuyerPaymentTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
@@ -144,15 +148,15 @@
         cell =[[[NSBundle mainBundle] loadNibNamed:@"BuyerPaymentTableViewCell" owner:self options:nil] lastObject];
     }
     if (tableView.tag ==2) {
-        if (tpye ==2) {
+        if (type ==2) {
             cell.stateBtn.hidden =YES;
             cell.stateLabel.hidden=NO;
             cell.stateLabel.text =@"退款中";
-        }else if(tpye ==3){
+        }else if(type ==3){
             cell.stateBtn.hidden =YES;
             cell.stateLabel.hidden=YES;
         }
-        else if(tpye ==4){
+        else if(type ==4){
             cell.stateBtn.hidden =YES;
             cell.stateLabel.hidden=NO;
             cell.stateLabel.text =@"已退款";
@@ -164,15 +168,15 @@
         cell.stateBtn.hidden =NO;
         [cell.stateBtn addTarget:self action:@selector(changeImg:) forControlEvents:UIControlEventTouchUpInside];
     }
-    //    cell.titleView.text =product.BrandName;
-//    cell.detileView.text =product.Name;
-//    cell.noView.text =[product.StoreItemNo stringValue];
-//    cell.priceView.text =[NSString stringWithFormat:@"%@%@",@"￥",product.Price];
-//    cell.countView.text =[NSString stringWithFormat:@"%@%@",@"x",product.Count];
-//    cell.guigeView.text =[NSString stringWithFormat:@"%@%@",@"规格：",product.SizeName];
-//    cell.picView.clipsToBounds =YES;
-//    NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",product.Picture ];
-//    [cell.picView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+    if (self.dataArray.count>0) {
+        cell.paymentPrice.text =[[self.dataArray[indexPath.row]objectForKey:@"Amount"]stringValue];
+        cell.paymentNo.text =[self.dataArray[indexPath.row]objectForKey:@"OrderNo"];
+        cell.paymentTime.text =[self.dataArray[indexPath.row]objectForKey:@"CreateDate"];
+        cell.stateLabel.text =[self.dataArray[indexPath.row]objectForKey:@"StatusName"];
+
+
+    }
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
     
@@ -187,17 +191,6 @@
     }
     
 }
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//
-//    
-//}
-
-
-
-
-
-
 
 -(void)showCountClick:(UIButton *)btn{
     
@@ -225,7 +218,6 @@
     }
     else
     {
-        self.homeScroll.contentOffset = CGPointMake(kScreenWidth*3, 0);
         [self scrollToMyBuyer1];
     }
 }
@@ -233,7 +225,7 @@
 //全部订单
 -(void)scrollToBuyerStreet
 {
-    tpye =1;
+    type =1;
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
@@ -251,19 +243,16 @@
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont fontWithName:@"youyuan" size:13];
     
-    self.dataArray =nil;
     [self.tableView1 removeFromSuperview];
     self.tableView1 =nil;
-    [self.tableView reloadData];
-//    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:1];
+    [self setData];
     
 }
 
 //待付款
 -(void)scrollToSaid
 {
-    tpye =2;
-
+    type =2;
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
@@ -298,14 +287,14 @@
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont fontWithName:@"youyuan" size:13];
-    [self.tableView1 reloadData];
 
+    [self setData];
     
 }
 //专柜自提
 -(void)scrollToMyBuyer
 {
-    tpye =3;
+    type =3;
 
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
@@ -336,13 +325,13 @@
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     
-    [self.tableView1 reloadData];
+    [self setData];
 
 }
 //售后中心
 -(void)scrollToMyBuyer1
 {
-    tpye =4;
+    type =4;
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
@@ -371,8 +360,7 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
-    [self.tableView1 reloadData];
-
+    [self setData];
 }
 
 @end
