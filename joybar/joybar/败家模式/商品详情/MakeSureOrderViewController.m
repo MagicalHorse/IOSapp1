@@ -293,19 +293,32 @@
     [dic setValue:self.detailData.ProductId forKey:@"ProductId"];
     [dic setValue:self.buyNum forKey:@"Count"];
     [dic setValue:self.sizeId forKey:@"SizeId"];
+    if ([phoneText.text isEqualToString:@""])
+    {
+        [self showHudFailed:@"请填写提货电话"];
+        return;
+    }
     [dic setValue:phoneText.text forKey:@"mobile"];
+    [self hudShow:@"正在提交订单"];
     [HttpTool postWithURL:@"Order/CreateOrder" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             PayOrderViewController *VC = [[PayOrderViewController alloc] init];
-            [self.navigationController pushViewController:VC animated:YES];
+            VC.proName = self.detailData.ProductName;
+            VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"TotalAmount"];
+            VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
+            [self showHudSuccess:@"提交成功"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController pushViewController:VC animated:YES];
+            });
         }
         else
         {
             
         }
         NSLog(@"%@",[json objectForKey:@"message"]);
+        [self textHUDHiddle];
         
     } failure:^(NSError *error) {
         

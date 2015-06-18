@@ -47,17 +47,18 @@
     UIView *tempView;
     CusCenterViewController *centerVC;
 }
-//-(void)viewWillDisappear:(BOOL)animated
-//{
-//    [super viewWillDisappear:animated];
-//    
-//    [self.csView pauseTimer];
-//}
-//-(void)viewWillAppear:(BOOL)animated
-//{
-//    [super viewWillAppear:animated];
-//    [self.csView resumeTimer];
-//}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.csView pauseTimer];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.csView resumeTimer];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.pageNum = 1;
@@ -164,7 +165,6 @@
         VC.pageNum++;
         [VC getData:YES];
     };
-
 }
 
 -(void)initWithSecondTableView

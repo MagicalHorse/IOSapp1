@@ -11,7 +11,8 @@
 #import "HomeUsers.h"
 #import "HomePicTag.h"
 #import "CusChatViewController.h"
-#import "UMSocialSnsService.h"
+#import "UMSocial.h"
+#import "UMSocialWechatHandler.h"
 @implementation CusHomeTableViewCell
 {
     CGFloat cellHeight;
@@ -53,7 +54,8 @@
     //展示图片
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, locationLab.bottom+17, kScreenWidth, kScreenHeight-350)];
     [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"test.jpg"]];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.clipsToBounds = YES;
     imageView.userInteractionEnabled = YES;
     [self.contentView addSubview:imageView];
     
@@ -208,7 +210,8 @@
         [Public showLoginVC:self.viewController];
         return;
     }
-    
+    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
+
     [UMSocialSnsService presentSnsIconSheetView:self.viewController
                                          appKey:@"557f8f1c67e58edf32000208"
                                       shareText:@"友盟社会化分享让您快速实现分享等社会化功能，www.umeng.com/social"

@@ -34,12 +34,12 @@
     self.refundText.layer.borderColor = [UIColor grayColor].CGColor;
     self.refundText.layer.borderWidth = 0.5;
     self.refundText.layer.cornerRadius = 3;
-    NSString *tempUrl = [NSString stringWithFormat:@"%@_100x100.jpg",self.orderItem.Product.Image];
+    NSString *tempUrl = [NSString stringWithFormat:@"%@_100x100.jpg",self.proSizeStr];
     [self.proImage sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:nil];
-    self.proName.text = self.orderItem.Product.Name;
-    self.proNumLab.text = [NSString stringWithFormat:@"x%@",self.orderItem.OrderProductCount];
-    self.proSizeLab.text = self.orderItem.Product.Productdesc;
-    self.proPriceLab.text = [NSString stringWithFormat:@"￥%@",self.orderItem.Product.Price];
+    self.proName.text = self.proNameStr;
+    self.proNumLab.text = [NSString stringWithFormat:@"x%@",self.proNumStr];
+    self.proSizeLab.text = self.proSizeStr;
+    self.proPriceLab.text = [NSString stringWithFormat:@"￥%@",self.proPriceStr];
     
     
     UIView *numView = [[UIView alloc] initWithFrame:CGRectMake(self.proStatusLab.left, self.refundPriceLab.bottom+25, 120, 30)];
@@ -125,7 +125,6 @@
 //提交申请
 -(void)didClickRefundBtn
 {
-    
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.orderItem.OrderNo forKey:@"OrderNo"];
     [dic setObject:buyNumLab.text forKey:@"Count"];
