@@ -8,6 +8,7 @@
 
 #import "CusOrderListTableViewCell.h"
 #import "CusRefundPriceViewController.h"
+#import "AppDelegate.h"
 @implementation CusOrderListTableViewCell
 
 - (void)awakeFromNib {
@@ -33,7 +34,7 @@
     self.sizeLab.text = self.orderListItem.Product.Productdesc;
     NSString *tempUrl = [NSString stringWithFormat:@"%@_120x0.jpg",self.orderListItem.Product.Image];
     [self.proImageView sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:nil];
-    
+    self.proImageView.clipsToBounds = YES;
     NSString *status = self.orderListItem.OrderStatus;
     /*
      待付款"  0,
@@ -73,7 +74,6 @@
         self.refundBtn.hidden = YES;
         self.payBtn.hidden = YES;
     }
-    
 }
 
 - (IBAction)didClickRefundBtn:(id)sender
@@ -83,7 +83,11 @@
     if ([btn.titleLabel.text isEqual:@"申请退款"])
     {
         CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
-        VC.orderItem =self.orderListItem;
+        VC.proImageStr = self.orderListItem.Product.Image;
+        VC.proNameStr = self.orderListItem.Product.Name;
+        VC.proNumStr = self.orderListItem.OrderProductCount;
+        VC.proPriceStr = self.orderListItem.Product.Price;
+        VC.proSizeStr = self.orderListItem.Product.Productdesc;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -94,7 +98,9 @@
 
     if ([btn.titleLabel.text isEqual:@"付款"])
     {
-        
+        AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle) name:@"PaySuccessNotification" object:nil];
+        [app sendPay_demo:self.orderListItem.OrderNo andName:self.orderListItem.Product.Name andPrice:self.orderListItem.Amount];
     }
     else if ([btn.titleLabel.text isEqual:@"确认提货"])
     {
@@ -104,7 +110,11 @@
     else if ([btn.titleLabel.text isEqual:@"申请退款"])
     {
         CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
-        VC.orderItem =self.orderListItem;
+        VC.proImageStr = self.orderListItem.Product.Image;
+        VC.proNameStr = self.orderListItem.Product.Name;
+        VC.proNumStr = self.orderListItem.OrderProductCount;
+        VC.proPriceStr = self.orderListItem.Product.Price;
+        VC.proSizeStr = self.orderListItem.Product.Productdesc;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
     else if ([btn.titleLabel.text isEqual:@"撤销退款"])
@@ -112,7 +122,6 @@
         
     }
 }
-
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -147,6 +156,53 @@
         default:
             break;
     }
+}
+
+-(void) onResp:(BaseResp*)resp
+{
+    NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
+    NSString *strTitle;
+    
+    if([resp isKindOfClass:[SendMessageToWXResp class]])
+    {
+        strTitle = [NSString stringWithFormat:@"发送媒体消息结果"];
+    }
+    if([resp isKindOfClass:[PayResp class]]){
+        //支付返回结果，实际支付结果需要去微信服务器端查询
+        strTitle = [NSString stringWithFormat:@"支付结果"];
+        
+        switch (resp.errCode) {
+            case WXSuccess:
+            {
+                strMsg = @"支付结果：成功！";
+                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+                alert.tag = 100;
+                [alert show];
+            }
+                break;
+            case WXErrCodeUserCancel:
+            {
+                
+            }
+                break;
+            default:
+                //                strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
+                //                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                break;
+        }
+    }
+}
+
+-(void)paySuccessHandle
+{
+    [self showHudSuccess:@"支付成功"];
+    [self.delegate orderListDelegate];
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PaySuccessNotification" object:nil];
 }
 
 @end

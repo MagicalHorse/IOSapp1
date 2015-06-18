@@ -18,10 +18,11 @@
 {
     NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",detailData.ProductPic];
     [self.proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:nil];
+    self.proImage.clipsToBounds = YES;
     
     self.proNameLab.text = detailData.ProductName;
     self.sizeLab.text = [NSString stringWithFormat:@"%@:%@",detailData.SizeName,detailData.SizeValue];
-    self.numLab.text = detailData.ProductCount;
+    self.numLab.text = [NSString stringWithFormat:@"x%@",detailData.ProductCount];
     self.priceLab.text = [NSString stringWithFormat:@"￥%@",detailData.Price];
 }
 

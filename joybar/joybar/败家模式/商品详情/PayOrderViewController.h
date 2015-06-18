@@ -7,9 +7,12 @@
 //
 
 #import "BaseViewController.h"
-
-@interface PayOrderViewController : BaseViewController
+#import "WXApi.h"
+@interface PayOrderViewController : BaseViewController<WXApiDelegate>
 - (IBAction)didClickWXPay:(id)sender;
 @property (strong, nonatomic) IBOutlet UILabel *payCount;
+@property (nonatomic ,strong) NSString *orderNum;
+@property (nonatomic ,strong) NSString *proName;
+@property (nonatomic ,strong) NSString *proPrice;
 
 @end

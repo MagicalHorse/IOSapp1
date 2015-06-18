@@ -30,4 +30,10 @@
 
 @property (nonatomic ,assign) id<refundDelegate> delegete;
 
+
+@property (nonatomic ,strong) NSString *proImageStr;
+@property (nonatomic ,strong) NSString *proNameStr;
+@property (nonatomic ,strong) NSString *proNumStr;
+@property (nonatomic ,strong) NSString *proSizeStr;
+@property (nonatomic ,strong) NSString *proPriceStr;
 @end

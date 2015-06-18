@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "OrderListItem.h"
-
+#import "WXApi.h"
 @protocol orderListDelegate <NSObject>
 
 -(void)orderListDelegate;
 
 @end
 
-@interface CusOrderListTableViewCell : UITableViewCell<UIAlertViewDelegate>
+@interface CusOrderListTableViewCell : UITableViewCell<UIAlertViewDelegate,WXApiDelegate>
 @property (strong, nonatomic) IBOutlet UIButton *refundBtn;
 @property (strong, nonatomic) IBOutlet UIButton *payBtn;
 @property (strong, nonatomic) IBOutlet UILabel *nameLab;

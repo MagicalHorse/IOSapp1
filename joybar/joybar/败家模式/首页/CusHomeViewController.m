@@ -164,7 +164,6 @@
         VC.pageNum++;
         [VC getData:YES];
     };
-
 }
 
 -(void)initWithSecondTableView

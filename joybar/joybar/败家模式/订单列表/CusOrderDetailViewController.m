@@ -9,6 +9,8 @@
 #import "CusOrderDetailViewController.h"
 #import "CusOrderDetailTableViewCell.h"
 #import "OrderDetailData.h"
+#import "CusRefundPriceViewController.h"
+#import "AppDelegate.h"
 @interface CusOrderDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
@@ -209,7 +211,7 @@
 
         if (self.detailData)
         {
-            NSArray *msgArr = @[self.detailData.OrderNo,self.detailData.OrderStatusName,[NSString stringWithFormat:@"￥%@",self.detailData.Price],self.detailData.CreateDate];
+            NSArray *msgArr = @[self.detailData.OrderNo,self.detailData.OrderStatusName,[NSString stringWithFormat:@"￥%@",self.detailData.OrderAmount],self.detailData.CreateDate];
             UILabel *msgLab = [[UILabel alloc] initWithFrame:CGRectMake(lab.right+10, 15, kScreenWidth-110, 20)];
             msgLab.text = [msgArr objectAtIndex:indexPath.row];
             msgLab.font = [UIFont fontWithName:@"youyuan" size:15];
@@ -331,7 +333,7 @@
     {
         if (indexPath.row==2)
         {
-            CGSize size = [Public getContentSizeWith:@"发生地方阿迪拉开始放假卡了是发生地方阿迪拉开始放假卡了" andFontSize:15 andWidth:kScreenWidth-110];
+            CGSize size = [Public getContentSizeWith:self.detailData.PickAddress andFontSize:15 andWidth:kScreenWidth-110];
             return size.height+30;
         }
         return 50;
@@ -359,13 +361,47 @@
 //付款
 -(void)didClickPayBtn:(UIButton *)btn
 {
-    
+    if ([btn.titleLabel.text isEqual:@"付款"])
+    {
+        AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle) name:@"PaySuccessNotification" object:nil];
+        [app sendPay_demo:self.detailData.OrderNo andName:self.detailData.ProductName andPrice:self.detailData.OrderAmount];
+    }
+    else if ([btn.titleLabel.text isEqual:@"确认提货"])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请确认您与导购处于面对面状态,并确认拿到的商品与购买的商品信息一致,点击确定自提" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alert show];
+    }
+    else if ([btn.titleLabel.text isEqual:@"申请退款"])
+    {
+        CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
+        VC.proImageStr = self.detailData.ProductPic;
+        VC.proNameStr = self.detailData.ProductName;
+        VC.proNumStr = self.detailData.ProductCount;
+        VC.proPriceStr = self.detailData.Price;
+        VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    else if ([btn.titleLabel.text isEqual:@"撤销退款"])
+    {
+        
+    }
 }
 
 //取消订单
 -(void)didClickCancelBtn:(UIButton *)btn
 {
     
+    if ([btn.titleLabel.text isEqual:@"申请退款"])
+    {
+        CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
+        VC.proImageStr = self.detailData.ProductPic;
+        VC.proNameStr = self.detailData.ProductName;
+        VC.proNumStr = self.detailData.ProductCount;
+        VC.proPriceStr = self.detailData.Price;
+        VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
+         [self.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -379,6 +415,15 @@
             scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
         }
     }
+}
+
+-(void)paySuccessHandle
+{
+    [self showHudSuccess:@"支付成功"];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.navigationController popViewControllerAnimated:YES];
+    });
 }
 
 

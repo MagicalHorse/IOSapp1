@@ -11,7 +11,9 @@
 #import "BaseNavigationController.h"
 #import "BuyerTabBarViewController.h"
 #import "SIOSocket.h"
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#import "WXApi.h"
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate,UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
@@ -19,5 +21,6 @@
 @property (nonatomic ,strong) BuyerTabBarViewController *buyerTab;
 @property (nonatomic ,strong) BaseNavigationController *baseNav;
 
+- (void)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price;
 @end
 
