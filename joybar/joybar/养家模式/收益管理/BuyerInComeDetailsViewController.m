@@ -117,8 +117,8 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (self.dataArray.count>0) {
-        cell.textLabel.text =[[self.dataArray[indexPath.row]objectForKey:@"Amount"] stringValue];
-        cell.detailTextLabel.text =[self.dataArray[indexPath.row]objectForKey:@"CreateDate"];
+        cell.detailTextLabel.text =[NSString stringWithFormat:@"￥%@",[self.dataArray[indexPath.row]objectForKey:@"amount"]];
+        cell.textLabel.text =[self.dataArray[indexPath.row]objectForKey:@"create_date"];
     }
     
     return cell;

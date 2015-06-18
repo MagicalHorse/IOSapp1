@@ -130,11 +130,6 @@
     
     _dscText.text =@"给力商品描述点";
     [dscView addSubview:_dscText];
-
-
-
-    
-    
     
     CGRect  infoRect =CGRectMake(priceViewX, priceView.bottom+15, priceViewW, 65);
     self.customInfoView = [self setInfoView:infoRect];
