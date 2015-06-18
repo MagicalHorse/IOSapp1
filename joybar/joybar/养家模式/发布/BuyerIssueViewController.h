@@ -10,5 +10,4 @@
 #import "BaseViewController.h"
 
 @interface BuyerIssueViewController : BaseViewController
--(instancetype)initWithImg:(UIImage *)image;
 @end

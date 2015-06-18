@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A207E871B32CCD7000C79C5 /* FeSlideFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A207E861B32CCD7000C79C5 /* FeSlideFilterView.m */; };
 		0A53050E1B12C05300997BF4 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5304EE1B12C05300997BF4 /* MKAnnotationView+WebCache.m */; };
 		0A53050F1B12C05300997BF4 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5304F01B12C05300997BF4 /* NSData+ImageContentType.m */; };
 		0A5305101B12C05300997BF4 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5304F21B12C05300997BF4 /* SDImageCache.m */; };
@@ -387,6 +388,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A207E851B32CCD7000C79C5 /* FeSlideFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeSlideFilterView.h; sourceTree = "<group>"; };
+		0A207E861B32CCD7000C79C5 /* FeSlideFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeSlideFilterView.m; sourceTree = "<group>"; };
 		0A5304ED1B12C05300997BF4 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		0A5304EE1B12C05300997BF4 /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		0A5304EF1B12C05300997BF4 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -1051,6 +1054,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A207E841B32CCD7000C79C5 /* FeSlideFilter */ = {
+			isa = PBXGroup;
+			children = (
+				0A207E851B32CCD7000C79C5 /* FeSlideFilterView.h */,
+				0A207E861B32CCD7000C79C5 /* FeSlideFilterView.m */,
+			);
+			path = FeSlideFilter;
+			sourceTree = "<group>";
+		};
 		0A5304EC1B12C05300997BF4 /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1681,6 +1693,7 @@
 		0DB5AF321ACCDE6F000FE9C8 /* OpenResources */ = {
 			isa = PBXGroup;
 			children = (
+				0A207E841B32CCD7000C79C5 /* FeSlideFilter */,
 				9D744DB71B2FCB9B00553648 /* UMSocial_Sdk_4.2.3 */,
 				9DDD6A5B1B268F93002D57EB /* SVProgressHUD */,
 				0AE7E0F61B1D9C3C00159B02 /* Aliyun */,
@@ -2465,6 +2478,7 @@
 				0AA2B9671B0B5A5600CE70EF /* UILabel+FlickerNumber.m in Sources */,
 				0A53050E1B12C05300997BF4 /* MKAnnotationView+WebCache.m in Sources */,
 				0AAB5BA61B2AE01900782C0C /* CusOrderDetailViewController.m in Sources */,
+				0A207E871B32CCD7000C79C5 /* FeSlideFilterView.m in Sources */,
 				9DDAD24D1AF9FE0000B98740 /* UULineChart.m in Sources */,
 				9DDD46471B2E7E31000E0FD3 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				60121A511AF22928002C1428 /* AppDelegate.m in Sources */,

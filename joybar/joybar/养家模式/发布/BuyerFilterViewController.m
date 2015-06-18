@@ -7,6 +7,7 @@
 //
 
 #import "BuyerFilterViewController.h"
+#import "BuyerIssueViewController.h"
 
 @interface BuyerFilterViewController (){
     UIImage *cImage;
@@ -15,6 +16,7 @@
 @property (nonatomic,strong)UIView *dscView;
 @property (nonatomic,strong)UIView *photoView;
 @property (nonatomic,strong)UIButton *footerBtn;
+@property (nonatomic,strong)UIImageView *bgImage;
 
 @end
 
@@ -50,9 +52,12 @@
     titieView.backgroundColor =[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.3];
    
     
-    UIImageView *img=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 300)];
-    img.image =[UIImage imageNamed:@"test.jpg"];
-    [self.view addSubview:img];
+    _bgImage=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 300)];
+    _bgImage.image =[UIImage imageNamed:@"test.jpg"];
+    [self.view addSubview:_bgImage];
+    _bgImage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
+    [_bgImage addGestureRecognizer:tap];
     
     UILabel* titieLable= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     titieLable.font =[UIFont fontWithName:@"youyuan" size:17];
@@ -62,7 +67,7 @@
     [titieView addSubview:titieLable];
     [self.view addSubview:titieView];
     
-    UIView * tzhiView=[[UIView alloc]initWithFrame:CGRectMake(0, img.bottom, kScreenWidth, 110)];
+    UIView * tzhiView=[[UIView alloc]initWithFrame:CGRectMake(0, _bgImage.bottom, kScreenWidth, 110)];
     tzhiView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:tzhiView];
     
@@ -85,12 +90,93 @@
     _footerBtn =[[UIButton alloc]initWithFrame:CGRectMake(0,self.view.bottom-50, kScreenWidth, 50)];
     [_footerBtn setTitle:@"下一步" forState:UIControlStateNormal];
     _footerBtn.backgroundColor =[UIColor whiteColor];
+    [_footerBtn addTarget:self action:@selector(nextClick) forControlEvents:UIControlEventTouchUpInside];
     [_footerBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     [self.view addSubview:_footerBtn];
     
 }
 -(void)btnClick:(UIButton *)btn{
-
+    
 }
+-(void)nextClick{
+    BuyerIssueViewController *issue=[[BuyerIssueViewController alloc]init];
+    [self.navigationController pushViewController:issue animated:YES];
+}
+-(void)didClickImage:(UITapGestureRecognizer *)tap
+{
+    CGPoint point = [tap locationInView:tap.view];
+    NSLog(@"x:%f  y:%f",point.x,point.y);
+    
+    NSString *tag = @"111";
+    CGSize size = [Public getContentSizeWith:tag andFontSize:13 andHigth:20];
+    CGFloat x = point.x ;
+    CGFloat y = point.y;
+    UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
+    tagView.backgroundColor = [UIColor clearColor];
+    [_bgImage addSubview:tagView];
+    
+    UIImageView *pointImage = [[UIImageView alloc] init];
+    pointImage.center = CGPointMake(10, tagView.height/2);
+    pointImage.bounds = CGRectMake(0, 0, 12, 12);
+    pointImage.image = [UIImage imageNamed:@"yuan"];
+    [tagView addSubview:pointImage];
+    
+    UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(pointImage.right+5, 0, 15, tagView.height)];
+    jiaoImage.image = [UIImage imageNamed:@"bqqian"];
+    [tagView addSubview:jiaoImage];
+    
+    UIImageView *tagImage = [[UIImageView alloc] initWithFrame:CGRectMake(jiaoImage.right, 0, size.width+10, tagView.height)];
+    tagImage.image = [UIImage imageNamed:@"bqhou"];
+    [tagView addSubview:tagImage];
+    
+    UILabel *tagLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tagImage.width, tagView.height)];
+    tagLab.textColor = [UIColor whiteColor];
+    tagLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    tagLab.text = tag;
+    [tagImage addSubview:tagLab];
+    
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panTagImageView:)];
+    [tagView addGestureRecognizer:panGestureRecognizer];
+}
+
+-(void)panTagImageView:(UIPanGestureRecognizer *)pan
+{
+    if ([(UIPanGestureRecognizer *)pan state] == UIGestureRecognizerStateBegan)
+    {
+        
+    }
+    
+    if ([(UIPanGestureRecognizer *)pan state] == UIGestureRecognizerStateChanged)
+    {
+        NSLog(@"%f---%f",pan.view.frame.origin.x,pan.view.frame.origin.y);
+        CGPoint translatedPoint = [pan translationInView:pan.view.superview];
+        
+        CGFloat x = pan.view.center.x + translatedPoint.x;
+        CGFloat y = pan.view.center.y + translatedPoint.y;
+        
+        CGPoint newcenter = CGPointMake(x, y);
+        [pan setTranslation:CGPointMake(0, 0) inView:pan.view];
+        
+        float halfx = CGRectGetMidX(pan.view.bounds);
+        //x坐标左边界
+        newcenter.x = MAX(halfx, newcenter.x);
+        //x坐标右边界
+        newcenter.x = MIN(pan.view.superview.bounds.size.width - halfx, newcenter.x);
+        
+        //y坐标同理
+        float halfy = CGRectGetMidY(pan.view.bounds);
+        newcenter.y = MAX(halfy, newcenter.y);
+        newcenter.y = MIN(pan.view.superview.bounds.size.height - halfy, newcenter.y);
+        //移动view
+        pan.view.center = newcenter;
+    }
+    if ([(UIPanGestureRecognizer *)pan state] == UIGestureRecognizerStateEnded)
+    {
+        CGPoint point = [pan locationInView:pan.view];
+        NSLog(@"%f---%f",pan.view.frame.origin.x,pan.view.frame.origin.y);
+    }
+}
+
+
 
 @end

@@ -217,7 +217,7 @@
         if([back isEqualToString:@"1"]){
             [picker dismissViewControllerAnimated:NO completion:nil];
 
-            [self.navigationController pushViewController:[[BuyerIssueViewController alloc]initWithImg:image] animated:NO];
+            [self.navigationController pushViewController:[[BuyerIssueViewController alloc]init] animated:NO];
 
         }else{
             [picker dismissViewControllerAnimated:NO completion:nil];

@@ -74,7 +74,7 @@
     NSString * ctype =[Common getUserDefaultKeyName:@"backPhone"];
     if ([ctype isEqualToString:@"1"]) {
         
-        BuyerIssueViewController *issue=[[BuyerIssueViewController alloc]initWithImg:self.image];
+        BuyerIssueViewController *issue=[[BuyerIssueViewController alloc]init];
         [self.navigationController pushViewController:issue animated:NO];
     }else{
         [self dismissViewControllerAnimated:NO completion:nil];
