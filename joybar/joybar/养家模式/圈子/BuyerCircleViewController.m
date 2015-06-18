@@ -235,10 +235,7 @@
     {
         [self scrollToSaid];
     }
-//    else
-//    {
-//        [self scrollToMyBuyer];
-//    }
+
 }
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
@@ -253,11 +250,7 @@
         self.homeScroll.contentOffset = CGPointMake(kScreenWidth, 0);
         [self scrollToSaid];
     }
-//    else
-//    {
-//        self.homeScroll.contentOffset = CGPointMake(kScreenWidth*2, 0);
-//        [self scrollToMyBuyer];
-//    }
+
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -297,6 +290,8 @@
         _firstStroe.tag=2;
         _firstStroe.dataSource =self;
         _firstStroe.delegate =self;
+        _firstStroe.tableFooterView =[[UIView alloc]init];
+
         [self.homeScroll addSubview:_firstStroe];
         [self setfirstStroeData];
     }

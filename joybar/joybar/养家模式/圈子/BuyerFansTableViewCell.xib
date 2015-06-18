@@ -23,14 +23,22 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ThF-6K-ZzH">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ThF-6K-ZzH">
                         <rect key="frame" x="12" y="12" width="38" height="38"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="38" id="V4I-Zp-fbI"/>
+                            <constraint firstAttribute="width" constant="38" id="rEO-mj-1bU"/>
+                        </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Idh-uN-TKx">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Idh-uN-TKx">
                         <rect key="frame" x="129" y="13" width="19" height="19"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="19" id="d3T-Vu-sUC"/>
+                            <constraint firstAttribute="height" constant="19" id="jDt-nb-kLe"/>
+                        </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="花狐狸" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YhL-Tk-4UK">
-                        <rect key="frame" x="73" y="12" width="60" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="花狐狸" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YhL-Tk-4UK">
+                        <rect key="frame" x="73" y="13" width="51" height="17"/>
                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -41,8 +49,12 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXv-SF-m78">
-                        <rect key="frame" x="257" y="15" width="30" height="30"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXv-SF-m78">
+                        <rect key="frame" x="260" y="15" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="6ac-Jr-CXB"/>
+                            <constraint firstAttribute="height" constant="30" id="Zxn-Mn-iya"/>
+                        </constraints>
                         <state key="normal" title="历史">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -66,6 +78,16 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="tXv-SF-m78" secondAttribute="bottom" constant="14" id="3Zm-Jx-sYP"/>
+                    <constraint firstItem="ThF-6K-ZzH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="4e8-Hy-kii"/>
+                    <constraint firstItem="Idh-uN-TKx" firstAttribute="leading" secondItem="YhL-Tk-4UK" secondAttribute="trailing" constant="5" id="51T-YX-aSZ"/>
+                    <constraint firstItem="YhL-Tk-4UK" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="6qm-E5-wdR"/>
+                    <constraint firstItem="Idh-uN-TKx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="B6f-0Y-13Q"/>
+                    <constraint firstItem="ThF-6K-ZzH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="X7D-Fz-5pi"/>
+                    <constraint firstItem="YhL-Tk-4UK" firstAttribute="leading" secondItem="ThF-6K-ZzH" secondAttribute="trailing" constant="23" id="dng-dd-F0d"/>
+                    <constraint firstAttribute="trailing" secondItem="tXv-SF-m78" secondAttribute="trailing" constant="30" id="gIQ-iO-mjI"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="fansIcon" destination="Idh-uN-TKx" id="EAf-HB-G7b"/>
@@ -75,7 +97,7 @@
                 <outlet property="guanzhuLable" destination="tFJ-Cc-Bfd" id="V87-Mp-dhu"/>
                 <outlet property="hostoalBtn" destination="tXv-SF-m78" id="jhR-ay-Vjn"/>
             </connections>
-            <point key="canvasLocation" x="307" y="210"/>
+            <point key="canvasLocation" x="235" y="179"/>
         </tableViewCell>
     </objects>
 </document>
