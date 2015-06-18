@@ -13,7 +13,7 @@
 #import "CusRefundPriceViewController.h"
 #import "CusAppealViewController.h"
 
-@interface CusOrderListViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface CusOrderListViewController ()<UITableViewDelegate,UITableViewDataSource,orderListDelegate,refundDelegate>
 
 @property (nonatomic ,strong) UIView *line;
 
@@ -22,6 +22,7 @@
 @property (nonatomic ,strong) UITableView *tableView;
 
 @property (nonatomic ,strong) OrderListData *orderListData;
+@property (nonatomic ,strong) NSString *orderStatus;
 
 @end
 
@@ -81,9 +82,15 @@
     
     [self addNavBarViewAndTitle:@"我的订单"];
 
-    
+    self.orderStatus = [NSString stringWithFormat:@"%ld",self.btnIndex];
     [self getData:[NSString stringWithFormat:@"%ld",self.btnIndex]];
     self.line.frame = CGRectMake(5+kScreenWidth/4*self.btnIndex, 38, kScreenWidth/4-10, 2);
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refundOrderhandle) name:@"refundNotification" object:nil];
 }
 
 -(void)getData:(NSString *)status
@@ -123,6 +130,7 @@
     if (cell==nil)
     {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CusOrderListTableViewCell" owner:self options:nil] lastObject];
+        cell.delegate = self;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -169,35 +177,49 @@
         case 1000:
         {
             //全部
-            
-            [self getData:@"0"];
+            self.orderStatus =@"0";
         }
             break;
         case 1001:
         {
             //待付款
-            [self getData:@"1"];
-
+            self.orderStatus =@"1";
         }
             break;
         case 1002:
         {
             //专柜自提
-            [self getData:@"2"];
-
+            self.orderStatus =@"2";
         }
             break;
         case 1003:
         {
             //售后
-            [self getData:@"3"];
-
+            self.orderStatus =@"3";
         }
             break;
 
         default:
             break;
     }
+    [self getData:self.orderStatus];
 }
+
+-(void)orderListDelegate
+{
+    [self getData:self.orderStatus];
+}
+
+-(void)refundOrderhandle
+{
+    [self getData:self.orderStatus];
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refundNotification" object:nil];
+}
+
+
 
 @end

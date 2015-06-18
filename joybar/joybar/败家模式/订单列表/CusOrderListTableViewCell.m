@@ -29,8 +29,9 @@
     self.numLab.text = [NSString stringWithFormat:@"x%@",self.orderListItem.OrderProductCount];
     self.proNameLab.text = [NSString stringWithFormat:@"共%@件商品",self.orderListItem.OrderProductCount];
     self.priceLab.text = [NSString stringWithFormat:@"￥%@",self.orderListItem.Product.Price];
-    self.payPriceLab.text =[NSString stringWithFormat:@"￥%@",self.orderListItem.Product.Price];
-    NSString *tempUrl = [NSString stringWithFormat:@"%@_100x100.jpg",self.orderListItem.Product.Image];
+    self.payPriceLab.text =[NSString stringWithFormat:@"￥%@",self.orderListItem.Amount];
+    self.sizeLab.text = self.orderListItem.Product.Productdesc;
+    NSString *tempUrl = [NSString stringWithFormat:@"%@_120x0.jpg",self.orderListItem.Product.Image];
     [self.proImageView sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:nil];
     
     NSString *status = self.orderListItem.OrderStatus;
@@ -82,6 +83,7 @@
     if ([btn.titleLabel.text isEqual:@"申请退款"])
     {
         CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
+        VC.orderItem =self.orderListItem;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -96,16 +98,54 @@
     }
     else if ([btn.titleLabel.text isEqual:@"确认提货"])
     {
-        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请确认您与导购处于面对面状态,并确认拿到的商品与购买的商品信息一致,点击确定自提" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alert show];
     }
     else if ([btn.titleLabel.text isEqual:@"申请退款"])
     {
         CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
+        VC.orderItem =self.orderListItem;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
     else if ([btn.titleLabel.text isEqual:@"撤销退款"])
     {
         
+    }
+}
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex)
+    {
+        case 1:
+        {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+            [dic setObject:self.orderListItem.OrderNo forKey:@"OrderNo"];
+            [self hudShowWithText:@"正在提货"];
+            [HttpTool postWithURL:@"Order/ConfirmGoods" params:dic success:^(id json) {
+                
+                if ([[json objectForKey:@"isSuccessful"] boolValue])
+                {
+                    [self showHudSuccess:@"提货成功"];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        
+                        [self.delegate orderListDelegate];
+                    });
+                }
+                else
+                {
+                    [self showHudFailed:[json objectForKey:@"message"]];
+                }
+                [self textHUDHiddle];
+                
+            } failure:^(NSError *error) {
+                [self showHudFailed:@"请求失败"];
+            }];
+        }
+            break;
+        default:
+            break;
     }
 }
 

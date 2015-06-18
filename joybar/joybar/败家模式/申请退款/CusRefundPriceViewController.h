@@ -7,7 +7,13 @@
 //
 
 #import "BaseViewController.h"
+#import "OrderListItem.h"
 
+@protocol refundDelegate <NSObject>
+
+-(void)refundPriceDelegate;
+
+@end
 @interface CusRefundPriceViewController : BaseViewController
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIImageView *proImage;
@@ -19,5 +25,9 @@
 @property (strong, nonatomic) IBOutlet UILabel *refundPriceLab;
 @property (strong, nonatomic) IBOutlet UITextView *refundText;
 @property (strong, nonatomic) IBOutlet UIView *bgView;
+
+@property (nonatomic ,strong) OrderListItem *orderItem;
+
+@property (nonatomic ,assign) id<refundDelegate> delegete;
 
 @end

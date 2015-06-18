@@ -18,4 +18,5 @@
 @property (nonatomic ,strong) NSString *ProductCount;
 @property (nonatomic ,strong) NSString *Image;
 
+
 @end

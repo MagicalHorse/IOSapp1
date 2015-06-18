@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "OrderListItem.h"
-@interface CusOrderListTableViewCell : UITableViewCell
+
+@protocol orderListDelegate <NSObject>
+
+-(void)orderListDelegate;
+
+@end
+
+@interface CusOrderListTableViewCell : UITableViewCell<UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet UIButton *refundBtn;
 @property (strong, nonatomic) IBOutlet UIButton *payBtn;
 @property (strong, nonatomic) IBOutlet UILabel *nameLab;
@@ -24,7 +31,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *priceLab;
 @property (strong, nonatomic) IBOutlet UILabel *payPriceLab;
 @property (strong, nonatomic) IBOutlet UILabel *locationLab;
-
+@property (nonatomic ,assign) id<orderListDelegate> delegate;
 @property (nonatomic ,strong) OrderListItem *orderListItem;
 
 -(void)setData;
