@@ -7,23 +7,26 @@
 //
 
 #import "CusHomeStoreViewController.h"
-#import "CustomCollectionViewLayout.h"
 #import "CusFansViewController.h"
 #import "CusCollectionViewController.h"
 #import "CusCollectionViewCell.h"
 #import "CusMyCircleTableViewCell.h"
 #import "CusBuyerCircleViewController.h"
 #import "HomeStoreData.h"
-static NSInteger headerHeight = 300;
+#import "MJRefresh.h"
+#import "CHTCollectionViewWaterfallLayout.h"
+#import "CusHomeStoreHeader.h"
+#define CELL_COUNT 30
+#define HEADER_IDENTIFIER @"WaterfallHeader"
 
-@interface CusHomeStoreViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, CustomCollectionViewLayoutDelegate,UIScrollViewDelegate>
+@interface CusHomeStoreViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout,UIScrollViewDelegate>
 
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) NSMutableArray *dataSource;
 @property (strong, nonatomic) NSMutableArray *itemHeights;
 
-@property (nonatomic ,strong) UIView *headerView;
+//@property (nonatomic ,strong) UIView *headerView;
 
 @property (nonatomic ,strong) UIView *orangeLine;
 
@@ -31,11 +34,15 @@ static NSInteger headerHeight = 300;
 
 @property (nonatomic ,strong) HomeStoreData *storeData;
 
+@property (nonatomic ,assign) NSInteger pageNum;
+
+@property (nonatomic ,assign) BOOL isCollect;
+
 @end
 
 @implementation CusHomeStoreViewController
 {
-    CustomCollectionViewLayout *layout;
+    CHTCollectionViewWaterfallLayout *layout;
 }
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -46,13 +53,133 @@ static NSInteger headerHeight = 300;
     }
     return self;
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
+    self.dataSource = [NSMutableArray array];
+    self.pageNum = 1;
+    self.isCollect = YES;
     self.view.backgroundColor = kCustomColor(245, 246, 247);
-    [self initializeDataSource];
-
+    [self addNavBarViewAndTitle:self.userName];
+    [self initializeUserInterface];
+//    [self initializeDataSource];
     [self getData];
+    [self getCollectListData];
+    // 2.集成刷新控件
+//    [self addHeader];
+    [self addFooter];
+}
+
+//- (void)addHeader
+//{
+//    __weak CusHomeStoreViewController* vc = self;
+//    // 添加下拉刷新头部控件
+//    [self.collectionView addHeaderWithCallback:^{
+//        [vc.dataSource removeAllObjects];
+//        vc.pageNum = 1;
+//        if (self.isCollect==YES)
+//        {
+//            [vc getCollectListData];
+//        }
+//        else
+//        {
+//            [vc getNewProListData];
+//        }
+//
+//    }];
+//
+//    [self.collectionView headerBeginRefreshing];
+//}
+
+- (void)addFooter
+{
+    __weak CusHomeStoreViewController *vc = self;
+    // 添加上拉刷新尾部控件
+    [self.collectionView addFooterWithCallback:^{
+        vc.pageNum++;
+        
+        if (self.isCollect==YES)
+        {
+            [vc getCollectListData];
+        }
+        else
+        {
+            [vc getNewProListData];
+        }
+    }];
+}
+
+-(void) getCollectListData
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.userId forKey:@"userid"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",self.pageNum] forKey:@"page"];
+    [dic setObject:@"20" forKey:@"pagesize"];
+    [self hudShow];
+    [HttpTool postWithURL:@"Product/GetUserFavoriteList" params:dic success:^(id json) {
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            if (arr.count<6)
+            {
+                self.collectionView.footerHidden = YES;
+            }
+            else
+            {
+                self.collectionView.footerHidden = NO;
+            }
+            [self.dataSource addObjectsFromArray:arr];
+            
+            [self.collectionView reloadData];
+            [self.collectionView headerEndRefreshing];
+            [self.collectionView footerEndRefreshing];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self hiddleHud];
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+-(void)getNewProListData
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.userId forKey:@"userid"];
+    [dic setObject:@"1" forKey:@"Filter"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",self.pageNum] forKey:@"page"];
+    [dic setObject:@"20" forKey:@"pagesize"];
+    [self hudShow];
+    [HttpTool postWithURL:@"Product/GetUserProductList" params:dic success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            if (arr.count<6)
+            {
+                self.collectionView.footerHidden = YES;
+            }
+            else
+            {
+                self.collectionView.footerHidden = NO;
+            }
+            [self.dataSource addObjectsFromArray:arr];
+            
+            [self.collectionView reloadData];
+            [self.collectionView headerEndRefreshing];
+            [self.collectionView footerEndRefreshing];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self hiddleHud];
+        
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 -(void)getData
@@ -65,9 +192,9 @@ static NSInteger headerHeight = 300;
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.storeData = [HomeStoreData objectWithKeyValues:[json objectForKey:@"data"]];
-            [self initializeUserInterface];
-            [self addHeaderView:self.collectionView];
-            [self addNavBarViewAndTitle:self.userName];
+            CGSize size = [Public getContentSizeWith:self.storeData.Description andFontSize:14 andWidth:kScreenWidth-20];
+            CGFloat height = size.height+320;
+            layout.headerHeight = height;
 
             [self.collectionView reloadData];
         }
@@ -76,44 +203,44 @@ static NSInteger headerHeight = 300;
             
         }
         [SVProgressHUD dismiss];
-        NSLog(@"message->%@",[json objectForKey:@"message"]);
         
     } failure:^(NSError *error) {
         
     }];
 }
 
--(void)addHeaderView:(UIScrollView *)contentView
+-(void)addHeaderView:(UIView *)contentView
 {
-    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0)];
-    self.headerView.backgroundColor = [UIColor whiteColor];
-    [self.collectionView addSubview:self.headerView];
+//    UIView *bgView;
+//    bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, contentView.height)];
+//    bgView.backgroundColor = [UIColor whiteColor];
+//    [
     
     UIImageView *headerImage = [[UIImageView alloc] init];
     headerImage.center = CGPointMake(kScreenWidth/2, 45);
     headerImage.bounds = CGRectMake(0, 0, 60, 60);
     headerImage.layer.cornerRadius = headerImage.width/2;
     [headerImage sd_setImageWithURL:[NSURL URLWithString:self.storeData.Logo] placeholderImage:nil];
-    [self.headerView addSubview:headerImage];
+    [contentView addSubview:headerImage];
     
     UILabel *namelab = [[UILabel alloc] initWithFrame:CGRectMake(0, headerImage.bottom+5, kScreenWidth, 20)];
     namelab.text = self.storeData.UserName;
     namelab.textAlignment = NSTextAlignmentCenter;
     namelab.font = [UIFont fontWithName:@"youyuan" size:17];
-    [self.headerView addSubview:namelab];
+    [contentView addSubview:namelab];
     
     UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(0, namelab.bottom+5, kScreenWidth, 20)];
     locationLab.text = self.storeData.Address;
     locationLab.textColor = [UIColor darkGrayColor];
     locationLab.textAlignment = NSTextAlignmentCenter;
     locationLab.font = [UIFont fontWithName:@"youyuan" size:13];
-    [self.headerView addSubview:locationLab];
+    [contentView addSubview:locationLab];
     
     UIView *btnBgView = [[UIView alloc] init];
     btnBgView.center = CGPointMake(kScreenWidth/2, locationLab.bottom+25);
     btnBgView.bounds = CGRectMake(0, 0, 180, 30);
     btnBgView.backgroundColor = [UIColor clearColor];
-    [self.headerView addSubview:btnBgView];
+    [contentView addSubview:btnBgView];
     
     UIButton *chatBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     chatBtn.frame = CGRectMake(0, 0, 75, 30);
@@ -134,15 +261,12 @@ static NSInteger headerHeight = 300;
         [attentionBtn setImage:nil forState:(UIControlStateNormal)];
         [attentionBtn setTitle:@"取消关注" forState:(UIControlStateNormal)];
         attentionBtn.backgroundColor = [UIColor grayColor];
-
     }
     else
     {
         [attentionBtn setImage:[UIImage imageNamed:@"关注white.png"] forState:(UIControlStateNormal)];
         [attentionBtn setTitle:@"关注" forState:(UIControlStateNormal)];
         attentionBtn.backgroundColor = kCustomColor(253, 162, 41);
-
-
     }
     [attentionBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     attentionBtn.titleLabel.font = [UIFont systemFontOfSize:13];
@@ -153,7 +277,7 @@ static NSInteger headerHeight = 300;
     UIView *tempView = [[UIView alloc] init];
     tempView.center = CGPointMake(kScreenWidth/2, btnBgView.bottom+43);
     tempView.bounds = CGRectMake(0, 0, 240, 70);
-    [self.headerView addSubview:tempView];
+    [contentView addSubview:tempView];
     
     NSArray *nameArr = @[@"关注",@"粉丝",@"圈子"];
     NSArray *numArr = @[self.storeData.FollowingCount,self.storeData.FollowerCount,self.storeData.CommunityCount];
@@ -193,67 +317,75 @@ static NSInteger headerHeight = 300;
     descLab.font = [UIFont fontWithName:@"youyuan" size:14];
     descLab.textColor = [UIColor darkGrayColor];
     descLab.frame = CGRectMake(10, tempView.bottom+10, kScreenWidth-20, size.height);
-    [self.headerView addSubview:descLab];
+    [contentView addSubview:descLab];
     
-    headerHeight = size.height+320;
-    self.headerView.frame = CGRectMake(0, -headerHeight, kScreenWidth, headerHeight);
-    self.collectionView.contentInset = UIEdgeInsetsMake(headerHeight, 0, 0, 0);
-    
-    NSArray *btnNameArr = @[[NSString stringWithFormat:@"商品 %@",self.storeData.GoodCount],[NSString stringWithFormat:@"上新 %@",self.storeData.NewProductCount]];
+    NSArray *btnNameArr = @[[NSString stringWithFormat:@"商品 %@",self.storeData.ProductCount],[NSString stringWithFormat:@"上新 %@",self.storeData.NewProductCount]];
     for (int i=0; i<btnNameArr.count; i++)
     {
         UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        btn.frame = CGRectMake(kScreenWidth/btnNameArr.count*i, self.headerView.height-40, kScreenWidth/btnNameArr.count-1, 40);
+        btn.frame = CGRectMake(kScreenWidth/btnNameArr.count*i, contentView.height-40, kScreenWidth/btnNameArr.count-1, 40);
         btn.backgroundColor = [UIColor clearColor];
         [btn setTitle:[btnNameArr objectAtIndex:i] forState:(UIControlStateNormal)];
         [btn setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
         [btn addTarget:self action:@selector(didClickclassify:) forControlEvents:(UIControlEventTouchUpInside)];
         btn.tag = 100+i;
         btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
-        [self.headerView addSubview:btn];
+        [contentView addSubview:btn];
         
-        UIView *verticalLine = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth/btnNameArr.count*i, self.headerView.height-35, 1, 30)];
+        UIView *verticalLine = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth/btnNameArr.count*i, contentView.height-35, 1, 30)];
         verticalLine.backgroundColor = kCustomColor(239, 239, 239);
-        [self.headerView addSubview:verticalLine];
+        [contentView addSubview:verticalLine];
     }
     
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, self.headerView.height, kScreenWidth, 0.5)];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.height, kScreenWidth, 0.5)];
     line.backgroundColor = kCustomColor(239, 239, 239);
-    [self.headerView addSubview:line];
+    [contentView addSubview:line];
     
-    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, self.headerView.height-40, kScreenWidth, 0.5)];
+    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.height-40, kScreenWidth, 0.5)];
     line1.backgroundColor = kCustomColor(239, 239, 239);
-    [self.headerView addSubview:line1];
+    [contentView addSubview:line1];
     
-    self.orangeLine = [[UIView alloc] initWithFrame:CGRectMake(20, self.headerView.height-2, kScreenWidth/btnNameArr.count-40, 2)];
-    self.orangeLine.backgroundColor = [UIColor orangeColor];
-    [self.headerView addSubview:self.orangeLine];
-    
-}
-
-- (void)initializeDataSource {
-    
-    _dataSource = [[NSMutableArray alloc] init];
-    _itemHeights = [[NSMutableArray alloc] init];
-    
-    for (int i = 0; i < 10; i ++) {
-        
-        [_dataSource addObject:@"1"];
-        CGFloat itemHeight = arc4random() % 200 + 200;
-        [_itemHeights addObject:@(itemHeight)];
+    self.orangeLine = [[UIView alloc] initWithFrame:CGRectMake(20, contentView.height-2, kScreenWidth/btnNameArr.count-40, 2)];
+    if (self.isCollect)
+    {
+        self.orangeLine.frame =CGRectMake(20, contentView.height-2, kScreenWidth/btnNameArr.count-40, 2);
     }
+    else
+    {
+        self.orangeLine.frame =CGRectMake(kScreenWidth/2+20, contentView.height-2, kScreenWidth/2-40, 2);
+    }
+    self.orangeLine.backgroundColor = [UIColor orangeColor];
+    [contentView addSubview:self.orangeLine];
+    
 }
 
-- (void)initializeUserInterface {
-    
-    layout = [[CustomCollectionViewLayout alloc] init];
-    layout.layoutDelegate = self;
+//- (void)initializeDataSource {
+//    
+//    _dataSource = [[NSMutableArray alloc] init];
+//    _itemHeights = [[NSMutableArray alloc] init];
+//    
+//    for (int i = 0; i < 10; i ++)
+//    {
+//        [_dataSource addObject:@"1"];
+//        CGFloat itemHeight = arc4random() % 200 + 200;
+//        [_itemHeights addObject:@(itemHeight)];
+//    }
+//}
+
+- (void)initializeUserInterface
+{
+    layout = [[CHTCollectionViewWaterfallLayout alloc] init];
+    layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
+    layout.minimumColumnSpacing = 5;
+    layout.minimumInteritemSpacing = 5;
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor clearColor];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
-    _collectionView.contentInset = UIEdgeInsetsMake(5, 5, 5, 5);
     [_collectionView registerClass:[CusCollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
+    [_collectionView registerClass:[CusHomeStoreHeader class]
+        forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader
+               withReuseIdentifier:HEADER_IDENTIFIER];
     [self.view addSubview:_collectionView];
 }
 
@@ -261,11 +393,11 @@ static NSInteger headerHeight = 300;
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _dataSource.count;
+    return self.dataSource.count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{    
     CusCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
     if (cell==nil)
     {
@@ -278,28 +410,48 @@ static NSInteger headerHeight = 300;
     {
         [view removeFromSuperview];
     }
-    [cell setCollectionData:nil andHeight:[_itemHeights[indexPath.row] intValue]];
+    float height = [[[[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
+    
+    [cell setCollectionData:[self.dataSource objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
     
     return cell;
 }
 
+//- (CGSize)collectionView:(UICollectionView *)collectionView collectionViewLayout:(CustomCollectionViewLayout *)collectionViewLayout sizeOfItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    CGSize size = [Public getContentSizeWith:@"啊实打实大师大师阿萨帝爱上啊实打实大师大师阿萨帝爱上啊实打实大师大师阿萨帝爱上" andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
+//    
+//    return CGSizeMake((kScreenWidth-15)/2, [_itemHeights[indexPath.row] floatValue]+size.height+35);
+//}
 
-#pragma mark - UICollectionViewDelegate
-
-#pragma mark - CustomCollectionViewLayoutDelegate
-
-- (CGSize)collectionView:(UICollectionView *)collectionView collectionViewLayout:(CustomCollectionViewLayout *)collectionViewLayout sizeOfItemAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - CHTCollectionViewDelegateWaterfallLayout
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGSize size = [Public getContentSizeWith:@"啊实打实大师大师阿萨帝爱上啊实打实大师大师阿萨帝爱上啊实打实大师大师阿萨帝爱上" andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
+    NSDictionary *dic = [self.dataSource objectAtIndex:indexPath.row];
+    NSString *text = [dic objectForKey:@"Name"];
+    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
+    CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
     
-    return CGSizeMake((kScreenWidth-15)/2, [_itemHeights[indexPath.row] floatValue]+size.height+35);
+    CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
+    
+    return size1;
 }
 
--(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(kScreenWidth,70);
+    UICollectionReusableView *reusableView = nil;
+    
+    if ([kind isEqualToString:CHTCollectionElementKindSectionHeader])
+    {
+        reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:HEADER_IDENTIFIER forIndexPath:indexPath];
+        for (UIView *view in reusableView.subviews)
+        {
+            [view removeFromSuperview];
+        }
+        [self addHeaderView:reusableView];
+    }
+    return reusableView;
 }
-
 
 //点击私聊
 -(void)didClickChat:(UIButton *)btn
@@ -379,17 +531,21 @@ static NSInteger headerHeight = 300;
     }
 }
 
-//点击3个button
+//点击2个button
 -(void)didClickclassify:(UIButton *)btn
 {
+    [self.dataSource removeAllObjects];
+    self.pageNum = 1;
     NSInteger btnTag = btn.tag;
     if (btnTag==100)
     {
-        self.orangeLine.frame =CGRectMake(20, self.headerView.height-2, kScreenWidth/2-40, 2);
+        self.isCollect = YES;
+        [self getCollectListData];
     }
     else if (btnTag==101)
     {
-        self.orangeLine.frame =CGRectMake(kScreenWidth/2+20, self.headerView.height-2, kScreenWidth/2-40, 2);
+        self.isCollect = NO;
+        [self getNewProListData];
     }
 }
 

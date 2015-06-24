@@ -101,7 +101,9 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
+    [dic setObject:@"1" forKey:@"type"];
     [HttpTool postWithURL:@"user/SendMobileCode" params:dic success:^(id json) {
+        
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             

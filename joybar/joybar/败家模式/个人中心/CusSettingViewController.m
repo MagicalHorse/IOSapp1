@@ -51,16 +51,7 @@
     
     if (section==3)
     {
-//        UIButton *yangjiaBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-//        yangjiaBtn.frame = CGRectMake(20, 20, kScreenWidth-40, 40);
-//        [yangjiaBtn setBackgroundColor:kCustomColor(25, 158, 162)];
-//        [yangjiaBtn setTitle:@"我要养家" forState:(UIControlStateNormal)];
-//        yangjiaBtn.layer.cornerRadius = 4;
-//        [yangjiaBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-//        [headerView addSubview:yangjiaBtn];
-        
         UIButton *exitBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-//        exitBtn.frame = CGRectMake(20, yangjiaBtn.bottom+20, kScreenWidth-40, 40);
         exitBtn.frame = CGRectMake(20, 20, kScreenWidth-40, 40);
         [exitBtn setBackgroundColor:kCustomColor(253, 162, 41)];
         [exitBtn setTitle:@"退出登录" forState:(UIControlStateNormal)];
@@ -99,13 +90,20 @@
     {
         return 1;
     }
+    else if (section==1)
+    {
+        return 4;
+    }
     return 2;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *iden = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-    cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+//    if (cell==nil)
+//    {
+        cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+//    }
     cell.backgroundColor = [UIColor whiteColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -113,28 +111,21 @@
     {
         [view removeFromSuperview];
     }
-    if(indexPath.section==1&&indexPath.row==2)
-    {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        
-        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 600)];
-        bgView.backgroundColor = kCustomColor(245, 246, 247);
-        [cell.contentView addSubview:bgView];
-    }
-    NSArray *nameArr = @[@[@"头像",@"昵称"],@[@"账户密码",@"消息免打扰"],@[@"关于我们"]];
+    
+    NSArray *nameArr = @[@[@"头像",@"昵称"],@[@"账户密码",@"消息免打扰",@"手机号绑定",@"微信绑定"],@[@"关于我们"]];
     cell.textLabel.text = [[nameArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     cell.textLabel.font = [UIFont fontWithName:@"youyuan" size:18];
-    
+
     if (indexPath.section==0)
     {
         if (indexPath.row==0)
         {
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-110, 15, 70, 70)];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:[[Public getUserInfo] objectForKey:@"logo"]] placeholderImage:nil];
-            imageView.clipsToBounds = YES;
-
-            imageView.layer.cornerRadius = imageView.width/2;
-            [cell.contentView addSubview:imageView];
+            UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-110, 15, 70, 70)];
+            [headImageView sd_setImageWithURL:[NSURL URLWithString:[[Public getUserInfo] objectForKey:@"logo"]] placeholderImage:nil];
+            headImageView.clipsToBounds = YES;
+            
+            headImageView.layer.cornerRadius = headImageView.width/2;
+            [cell.contentView addSubview:headImageView];
         }
         else
         {
@@ -146,6 +137,53 @@
             [cell.contentView addSubview:nameLab];
         }
     }
+    if(indexPath.section==1)
+    {
+//        if (indexPath.row==2)
+//        {
+//            cell.accessoryType = UITableViewCellAccessoryNone;
+//            
+//            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 600)];
+//            bgView.backgroundColor = kCustomColor(245, 246, 247);
+//            [cell.contentView addSubview:bgView];
+//        }
+        
+        if (indexPath.row==2)
+        {
+        
+            UILabel *lab =[[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-70, 17, 50, 20)];
+            lab.text = @"已绑定";
+            lab.font = [UIFont fontWithName:@"youyuan" size:14];
+            lab.textColor = [UIColor lightGrayColor];
+            [cell.contentView addSubview:lab];
+            if ([[[Public getUserInfo] objectForKey:@"IsBindMobile"] boolValue])
+            {
+                lab.hidden = NO;
+            }
+            else
+            {
+                lab.hidden = YES;
+            }
+        }
+        else if (indexPath.row==3)
+        {
+            UILabel *lab =[[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-70, 17, 50, 20)];
+            lab.text = @"已绑定";
+            lab.font = [UIFont fontWithName:@"youyuan" size:14];
+            lab.textColor = [UIColor lightGrayColor];
+            [cell.contentView addSubview:lab];
+            
+            if ([[[Public getUserInfo] objectForKey:@"IsBindWeiXin"] boolValue])
+            {
+                lab.hidden = NO;
+            }
+            else
+            {
+                lab.hidden = YES;
+            }
+        }
+    }
+    
     return cell;
 }
 
