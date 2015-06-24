@@ -22,6 +22,7 @@
 @property (nonatomic ,copy) NSString *IsFollowing;
 @property (nonatomic ,copy) NSString *Address;
 @property (nonatomic ,copy) NSString *NewProductCount;
+@property (nonatomic ,copy) NSString *ProductCount;
 @property (nonatomic ,copy) NSString *Logo;
 
 

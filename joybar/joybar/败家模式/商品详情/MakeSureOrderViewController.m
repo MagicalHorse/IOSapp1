@@ -328,7 +328,9 @@
 //打电话
 -(void)didCLickMakephoneBtn:(UIButton *)btn
 {
-    
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",self.detailData.BuyerMobile];
+    //            NSLog(@"str======%@",str);
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

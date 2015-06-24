@@ -34,9 +34,7 @@
     self.tableView.backgroundColor = kCustomColor(245, 246, 247);
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    
     [self addNavBarViewAndTitle:@"订单详情"];
-
     [self initBottomView];
     [self getData];
 }
@@ -219,7 +217,6 @@
         }
         
         return cell;
-
     }
     if (indexPath.section==1)
     {
@@ -345,11 +342,13 @@
     return 80;
 }
 
-    
 //打电话
 -(void)didCLickMakephoneBtn:(UIButton *)btn
 {
-    
+    NSMutableString * str=[[NSMutableString alloc] initWithFormat:@"telprompt://%@",self.detailData.BuyerMobile];
+    //            NSLog(@"str======%@",str);
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+
 }
 
 //点击私聊

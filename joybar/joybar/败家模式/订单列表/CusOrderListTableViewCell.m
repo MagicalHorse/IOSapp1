@@ -44,6 +44,7 @@
      "已发货"   15,
      "用户已签收" 16,
      "完成"  18,
+     "全部退货" 19,
     */
     if ([status isEqualToString:@"0"])
     {
@@ -69,7 +70,8 @@
         self.payBtn.hidden = NO;
         [self.payBtn setTitle:@"撤销退款" forState:(UIControlStateNormal)];
     }
-    else if ([status isEqualToString:@"-10"]||[status isEqualToString:@"18"])
+//    else ([status isEqualToString:@"-10"]||[status isEqualToString:@"18"])
+    else
     {
         self.refundBtn.hidden = YES;
         self.payBtn.hidden = YES;

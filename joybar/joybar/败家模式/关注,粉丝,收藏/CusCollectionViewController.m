@@ -7,7 +7,6 @@
 //
 
 #import "CusCollectionViewController.h"
-#import "CustomCollectionViewLayout.h"
 #import "CusAttentionViewController.h"
 #import "CusCollectionViewCell.h"
 #import "MJRefresh.h"

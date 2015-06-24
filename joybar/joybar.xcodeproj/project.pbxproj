@@ -91,7 +91,6 @@
 		0AAB5B351B2AE01900782C0C /* MyCircleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A4C1B2AE01800782C0C /* MyCircleTableView.m */; };
 		0AAB5B361B2AE01900782C0C /* CusBuyerCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A4F1B2AE01800782C0C /* CusBuyerCircleViewController.m */; };
 		0AAB5B371B2AE01900782C0C /* CusHomeStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A511B2AE01800782C0C /* CusHomeStoreViewController.m */; };
-		0AAB5B381B2AE01900782C0C /* CustomCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A531B2AE01800782C0C /* CustomCollectionViewLayout.m */; };
 		0AAB5B391B2AE01900782C0C /* HomeStoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A561B2AE01800782C0C /* HomeStoreData.m */; };
 		0AAB5B3A1B2AE01900782C0C /* CusDynTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A591B2AE01800782C0C /* CusDynTableViewCell.m */; };
 		0AAB5B3B1B2AE01900782C0C /* CusMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A5B1B2AE01800782C0C /* CusMessageTableViewCell.m */; };
@@ -202,7 +201,6 @@
 		0AAB5BA41B2AE01900782C0C /* CusOrderDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AD31B2AE01900782C0C /* CusOrderDetailTableViewCell.m */; };
 		0AAB5BA51B2AE01900782C0C /* CusOrderDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB5AD41B2AE01900782C0C /* CusOrderDetailTableViewCell.xib */; };
 		0AAB5BA61B2AE01900782C0C /* CusOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AD61B2AE01900782C0C /* CusOrderDetailViewController.m */; };
-		0AAB5BA71B2AE01900782C0C /* CusOrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AD81B2AE01900782C0C /* CusOrderListTableViewCell.m */; };
 		0AAB5BA81B2AE01900782C0C /* CusOrderListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB5AD91B2AE01900782C0C /* CusOrderListTableViewCell.xib */; };
 		0AAB5BA91B2AE01900782C0C /* CusOrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5ADB1B2AE01900782C0C /* CusOrderListViewController.m */; };
 		0AAB5BAA1B2AE01900782C0C /* OrderDetailData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5ADE1B2AE01900782C0C /* OrderDetailData.m */; };
@@ -346,6 +344,8 @@
 		9D9AF73B1B32E365000FB33B /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D9AF7361B32E365000FB33B /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9D9AF73C1B32E365000FB33B /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D9AF7381B32E365000FB33B /* payRequsestHandler.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9D9AF73D1B32E365000FB33B /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D9AF73A1B32E365000FB33B /* WXUtil.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9D9AF73E1B3402D1000FB33B /* CusOrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AD81B2AE01900782C0C /* CusOrderListTableViewCell.m */; };
+		9D9AF7BB1B3A4DAB000FB33B /* CusHomeStoreHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9AF7BA1B3A4DAB000FB33B /* CusHomeStoreHeader.m */; };
 		9DDAD2481AF9FE0000B98740 /* UUBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDAD23D1AF9FE0000B98740 /* UUBar.m */; };
 		9DDAD2491AF9FE0000B98740 /* UUBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDAD23F1AF9FE0000B98740 /* UUBarChart.m */; };
 		9DDAD24A1AF9FE0000B98740 /* UUChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDAD2411AF9FE0000B98740 /* UUChart.m */; };
@@ -557,8 +557,6 @@
 		0AAB5A4F1B2AE01800782C0C /* CusBuyerCircleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusBuyerCircleViewController.m; sourceTree = "<group>"; };
 		0AAB5A501B2AE01800782C0C /* CusHomeStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusHomeStoreViewController.h; sourceTree = "<group>"; };
 		0AAB5A511B2AE01800782C0C /* CusHomeStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusHomeStoreViewController.m; sourceTree = "<group>"; };
-		0AAB5A521B2AE01800782C0C /* CustomCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionViewLayout.h; sourceTree = "<group>"; };
-		0AAB5A531B2AE01800782C0C /* CustomCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionViewLayout.m; sourceTree = "<group>"; };
 		0AAB5A551B2AE01800782C0C /* HomeStoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeStoreData.h; sourceTree = "<group>"; };
 		0AAB5A561B2AE01800782C0C /* HomeStoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeStoreData.m; sourceTree = "<group>"; };
 		0AAB5A581B2AE01800782C0C /* CusDynTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusDynTableViewCell.h; sourceTree = "<group>"; };
@@ -958,6 +956,8 @@
 		9D9AF7381B32E365000FB33B /* payRequsestHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = payRequsestHandler.mm; sourceTree = "<group>"; };
 		9D9AF7391B32E365000FB33B /* WXUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXUtil.h; sourceTree = "<group>"; };
 		9D9AF73A1B32E365000FB33B /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
+		9D9AF7B91B3A4DAB000FB33B /* CusHomeStoreHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusHomeStoreHeader.h; sourceTree = "<group>"; };
+		9D9AF7BA1B3A4DAB000FB33B /* CusHomeStoreHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusHomeStoreHeader.m; sourceTree = "<group>"; };
 		9DDAD23C1AF9FE0000B98740 /* UUBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUBar.h; sourceTree = "<group>"; };
 		9DDAD23D1AF9FE0000B98740 /* UUBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UUBar.m; sourceTree = "<group>"; };
 		9DDAD23E1AF9FE0000B98740 /* UUBarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUBarChart.h; sourceTree = "<group>"; };
@@ -1355,8 +1355,8 @@
 				0AAB5A4F1B2AE01800782C0C /* CusBuyerCircleViewController.m */,
 				0AAB5A501B2AE01800782C0C /* CusHomeStoreViewController.h */,
 				0AAB5A511B2AE01800782C0C /* CusHomeStoreViewController.m */,
-				0AAB5A521B2AE01800782C0C /* CustomCollectionViewLayout.h */,
-				0AAB5A531B2AE01800782C0C /* CustomCollectionViewLayout.m */,
+				9D9AF7B91B3A4DAB000FB33B /* CusHomeStoreHeader.h */,
+				9D9AF7BA1B3A4DAB000FB33B /* CusHomeStoreHeader.m */,
 				0AAB5A541B2AE01800782C0C /* model */,
 			);
 			path = "店铺首页";
@@ -2536,6 +2536,7 @@
 				9D42E95A1B27DAF200C85400 /* BuyerComeOutViewController.m in Sources */,
 				0AAB5B311B2AE01900782C0C /* CusMyCircleTableViewCell.m in Sources */,
 				0AAB5B0F1B2AE01900782C0C /* CusFansTableViewCell.m in Sources */,
+				9D9AF73E1B3402D1000FB33B /* CusOrderListTableViewCell.m in Sources */,
 				9DDB17271AE7741F0014D8B2 /* UIView+MJExtension.m in Sources */,
 				0AAB5B251B2AE01900782C0C /* DWTagList.m in Sources */,
 				9D8CDE651B00B90900B8708B /* Public.m in Sources */,
@@ -2545,7 +2546,6 @@
 				0A90EAE71B1D485C00F789E2 /* UIImage+Crop.m in Sources */,
 				0AAB5B041B2AE01900782C0C /* CusTabBarViewController.m in Sources */,
 				0AAB5B141B2AE01900782C0C /* CusFindSearchViewController.m in Sources */,
-				0AAB5B381B2AE01900782C0C /* CustomCollectionViewLayout.m in Sources */,
 				9DDAD24B1AF9FE0000B98740 /* UUChartLabel.m in Sources */,
 				0DB5AF2E1ACCDE5A000FE9C8 /* BaseNavigationController.m in Sources */,
 				9D42E9691B27DAF200C85400 /* BuyerStoreTableViewCell.m in Sources */,
@@ -2555,6 +2555,7 @@
 				9DF36CDD1B0039A700637206 /* AFURLSessionManager.m in Sources */,
 				9DDB17221AE7741F0014D8B2 /* MJRefreshConst.m in Sources */,
 				0AAB59E01B2850D800782C0C /* BuyerPaymentTableViewCell.m in Sources */,
+				9D9AF7BB1B3A4DAB000FB33B /* CusHomeStoreHeader.m in Sources */,
 				0AAB5B2D1B2AE01900782C0C /* CircleTableViewCell.m in Sources */,
 				0A5305111B12C05300997BF4 /* SDWebImageCompat.m in Sources */,
 				0AAB5B281B2AE01900782C0C /* ProDetailPromotion.m in Sources */,
@@ -2645,7 +2646,6 @@
 				0AAB5B151B2AE01900782C0C /* CusFindTableViewCell.m in Sources */,
 				9D42E9531B27DAF200C85400 /* BuyerCircleViewController.m in Sources */,
 				9DDB17161AE7741F0014D8B2 /* MBProgressHUD+Add.m in Sources */,
-				0AAB5BA71B2AE01900782C0C /* CusOrderListTableViewCell.m in Sources */,
 				0AAB5B181B2AE01900782C0C /* CusTagTableViewCell.m in Sources */,
 				0AAB5BBB1B2AE01900782C0C /* MyBuyerTableView.m in Sources */,
 				9D8CDE681B00BEBC00B8708B /* SelectCityViewController.m in Sources */,
