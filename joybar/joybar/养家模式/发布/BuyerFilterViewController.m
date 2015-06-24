@@ -209,8 +209,6 @@
     [tagView addGestureRecognizer:panGestureRecognizer];
 }
 
-
-
 -(UIImage *)getNewImg:(UIImage *)img AndType :(int)type{
     
     NSString *nameLUT = [NSString stringWithFormat:@"filter_lut_%d",type];

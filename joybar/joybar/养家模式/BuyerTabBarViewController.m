@@ -24,7 +24,6 @@
 #import "BuyerMineViewController.h"
 #import "BuyerCameraViewController.h"
 #import "BuyerOpenViewController.h"
-#import "BuyerFilterViewController.h"
 @interface BuyerTabBarViewController ()<UIActionSheetDelegate>
 
 @end
@@ -192,7 +191,7 @@
         
     }else if(buttonIndex ==1){
         [Common saveUserDefault:@"1" keyName:@"backPhone"];
-        BuyerFilterViewController *VC = [[BuyerFilterViewController alloc] init];
+        BuyerCameraViewController *VC = [[BuyerCameraViewController alloc] init];
         BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
         [self presentViewController:nav animated:YES completion:nil];
     }

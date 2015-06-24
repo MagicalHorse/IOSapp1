@@ -11,9 +11,7 @@
 #import "ImageViewController.h"
 #import "ViewUtils.h"
 #import "UIImage+Crop.h"
-#import "BuyerIssueViewController.h"
-
-
+#import "BuyerFilterViewController.h"
 
 
 @interface BuyerCameraViewController ()<LLSimpleCameraDelegate,CameraDelgeate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
@@ -212,12 +210,11 @@
         {
             data = UIImagePNGRepresentation(image);
         }
-//        [self.chooseBtn setImage:image forState:UIControlStateNormal];
         NSString *back= [Common getUserDefaultKeyName:@"backPhone"];
         if([back isEqualToString:@"1"]){
             [picker dismissViewControllerAnimated:NO completion:nil];
 
-            [self.navigationController pushViewController:[[BuyerIssueViewController alloc]init] animated:NO];
+            [self.navigationController pushViewController:[[BuyerFilterViewController alloc]init] animated:NO];
 
         }else{
             [picker dismissViewControllerAnimated:NO completion:nil];
