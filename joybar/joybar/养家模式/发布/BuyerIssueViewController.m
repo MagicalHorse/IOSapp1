@@ -7,7 +7,8 @@
 //
 
 #import "BuyerIssueViewController.h"
-
+#import "FeSlideFilterView.h"
+#import "CIFilter+LUT.h"
 @interface BuyerIssueViewController (){
     int count;
 }
@@ -147,7 +148,7 @@
     //发布按钮
     _footerBtn =[[UIButton alloc]initWithFrame:CGRectMake(0,self.customScrollView.bottom, kScreenWidth, 50)];
     [_footerBtn setTitle:@"发布" forState:UIControlStateNormal];
-    [_footerBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [_footerBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     [self.view addSubview:_footerBtn];
     self.customScrollView.contentSize = CGSizeMake(0, self.addInfoBtn.bottom+50);
 
@@ -155,8 +156,17 @@
 }
 
 -(void)btnClick:(UIButton *)btn{
-
+    NSInteger i =btn.tag;
+    switch (i) {
+        case 1:
+            
+            break;
+            
+        default:
+            break;
+    }
 }
+
 
 -(UIView *)setInfoView:(CGRect)rect{
 
@@ -208,10 +218,11 @@
 
     self.addInfoBtn.frame =CGRectMake(0, self.addInfoBtn.frame.origin.y-55, kScreenWidth, self.addInfoBtn.frame.size.height);
    
-    if (kScreenHeight+50<self.photoView.bottom+count*50) {
-        self.customScrollView.contentSize = CGSizeMake(0, self.photoView.bottom+count*5);
+    if (kScreenHeight+50<self.addInfoBtn.bottom+count*5) {
+        self.customScrollView.contentSize = CGSizeMake(0, self.addInfoBtn.bottom+count*5);
+        
     }else{
-        self.customScrollView.contentSize = CGSizeMake(0, kScreenHeight+500);
+        self.customScrollView.contentSize = CGSizeMake(0,self.addInfoBtn.bottom+50);
     }
     [view removeFromSuperview];
 

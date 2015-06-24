@@ -97,7 +97,7 @@
 
 - (void) reloadData
 {
-    
+   
     if(!self.pageControl)
     {
         self.pageControl = [[UIPageControl alloc] init];

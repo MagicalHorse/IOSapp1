@@ -8,8 +8,12 @@
 
 #import "BuyerFilterViewController.h"
 #import "BuyerIssueViewController.h"
+#import "FeSlideFilterView.h"
+#import "CIFilter+LUT.h"
+#import "BuyerTagViewController.h"
 
-@interface BuyerFilterViewController (){
+@interface BuyerFilterViewController ()<BuyerTagDelegate>
+{
     UIImage *cImage;
 }
 @property (nonatomic,strong)UIView *customInfoView;
@@ -96,7 +100,25 @@
     
 }
 -(void)btnClick:(UIButton *)btn{
-    
+    NSInteger i =btn.tag;
+    UIImage *image =[UIImage imageNamed:@"test.jpg"];
+    switch (i) {
+        case 1:
+            self.bgImage.image =[self getNewImg:image AndType:1];
+            break;
+        case 2:
+            self.bgImage.image =[self getNewImg:image AndType:2];
+            break;
+        case 3:
+            self.bgImage.image =[self getNewImg:image AndType:3];
+            break;
+        case 4:
+            self.bgImage.image =[self getNewImg:image AndType:4];
+            break;
+            
+        default:
+            break;
+    }
 }
 -(void)nextClick{
     BuyerIssueViewController *issue=[[BuyerIssueViewController alloc]init];
@@ -104,39 +126,15 @@
 }
 -(void)didClickImage:(UITapGestureRecognizer *)tap
 {
+    
     CGPoint point = [tap locationInView:tap.view];
-    NSLog(@"x:%f  y:%f",point.x,point.y);
     
-    NSString *tag = @"111";
-    CGSize size = [Public getContentSizeWith:tag andFontSize:13 andHigth:20];
-    CGFloat x = point.x ;
-    CGFloat y = point.y;
-    UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
-    tagView.backgroundColor = [UIColor clearColor];
-    [_bgImage addSubview:tagView];
+    BuyerTagViewController *tagView= [[BuyerTagViewController alloc]init];
+    tagView.delegate =self;
+    tagView.cpoint =point;
+    [self.navigationController pushViewController:tagView animated:YES];
     
-    UIImageView *pointImage = [[UIImageView alloc] init];
-    pointImage.center = CGPointMake(10, tagView.height/2);
-    pointImage.bounds = CGRectMake(0, 0, 12, 12);
-    pointImage.image = [UIImage imageNamed:@"yuan"];
-    [tagView addSubview:pointImage];
-    
-    UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(pointImage.right+5, 0, 15, tagView.height)];
-    jiaoImage.image = [UIImage imageNamed:@"bqqian"];
-    [tagView addSubview:jiaoImage];
-    
-    UIImageView *tagImage = [[UIImageView alloc] initWithFrame:CGRectMake(jiaoImage.right, 0, size.width+10, tagView.height)];
-    tagImage.image = [UIImage imageNamed:@"bqhou"];
-    [tagView addSubview:tagImage];
-    
-    UILabel *tagLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tagImage.width, tagView.height)];
-    tagLab.textColor = [UIColor whiteColor];
-    tagLab.font = [UIFont fontWithName:@"youyuan" size:13];
-    tagLab.text = tag;
-    [tagImage addSubview:tagLab];
-    
-    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panTagImageView:)];
-    [tagView addGestureRecognizer:panGestureRecognizer];
+
 }
 
 -(void)panTagImageView:(UIPanGestureRecognizer *)pan
@@ -172,11 +170,58 @@
     }
     if ([(UIPanGestureRecognizer *)pan state] == UIGestureRecognizerStateEnded)
     {
-        CGPoint point = [pan locationInView:pan.view];
+//        CGPoint point = [pan locationInView:pan.view];
         NSLog(@"%f---%f",pan.view.frame.origin.x,pan.view.frame.origin.y);
     }
 }
+//BuyerTagDelegate
 
+-(void)didSelectedTag:(NSString *)tagText AndPoint:(CGPoint)point{
+    NSString *tag = tagText;
+    CGSize size = [Public getContentSizeWith:tag andFontSize:13 andHigth:20];
+    CGFloat x = point.x ;
+    CGFloat y = point.y;
+    UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
+    tagView.backgroundColor = [UIColor clearColor];
+    [_bgImage addSubview:tagView];
+    
+    UIImageView *pointImage = [[UIImageView alloc] init];
+    pointImage.center = CGPointMake(10, tagView.height/2);
+    pointImage.bounds = CGRectMake(0, 0, 12, 12);
+    pointImage.image = [UIImage imageNamed:@"yuan"];
+    [tagView addSubview:pointImage];
+    
+    UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(pointImage.right+5, 0, 15, tagView.height)];
+    jiaoImage.image = [UIImage imageNamed:@"bqqian"];
+    [tagView addSubview:jiaoImage];
+    
+    UIImageView *tagImage = [[UIImageView alloc] initWithFrame:CGRectMake(jiaoImage.right, 0, size.width+10, tagView.height)];
+    tagImage.image = [UIImage imageNamed:@"bqhou"];
+    [tagView addSubview:tagImage];
+    
+    UILabel *tagLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tagImage.width, tagView.height)];
+    tagLab.textColor = [UIColor whiteColor];
+    tagLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    tagLab.text = tag;
+    [tagImage addSubview:tagLab];
+    
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panTagImageView:)];
+    [tagView addGestureRecognizer:panGestureRecognizer];
+}
 
+-(UIImage *)getNewImg:(UIImage *)img AndType :(int)type{
+    
+    NSString *nameLUT = [NSString stringWithFormat:@"filter_lut_%d",type];
+    CIFilter *lutFilter = [CIFilter filterWithLUT:nameLUT dimension:64];
+    
+    CIImage *ciImage = [[CIImage alloc] initWithImage:img];
+    [lutFilter setValue:ciImage forKey:@"inputImage"];
+    CIImage *outputImage = [lutFilter outputImage];
+    
+    CIContext *context = [CIContext contextWithOptions:[NSDictionary dictionaryWithObject:(__bridge id)(CGColorSpaceCreateDeviceRGB()) forKey:kCIContextWorkingColorSpace]];
+    
+    UIImage *newImage = [UIImage imageWithCGImage:[context createCGImage:outputImage fromRect:outputImage.extent]];
+    return newImage;
+}
 
 @end

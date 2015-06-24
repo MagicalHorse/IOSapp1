@@ -52,6 +52,7 @@
     [super viewWillDisappear:animated];
     
     [self.csView pauseTimer];
+    self.csView =nil;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -247,7 +248,9 @@
                 [self.homeTableView hiddenFooter:NO];
             }
             [self.homeTableView.dataArr addObjectsFromArray:self.data.Products];
-            [self.csView reloadData];
+            if (self.csView) {
+                [self.csView reloadData];
+            }
             [SVProgressHUD dismiss];
         }
         [self.homeTableView reloadData];
