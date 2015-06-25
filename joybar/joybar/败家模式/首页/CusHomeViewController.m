@@ -248,7 +248,8 @@
                 [self.homeTableView hiddenFooter:NO];
             }
             [self.homeTableView.dataArr addObjectsFromArray:self.data.Products];
-            if (self.csView) {
+            if (self.csView)
+            {
                 [self.csView reloadData];
             }
             [SVProgressHUD dismiss];
