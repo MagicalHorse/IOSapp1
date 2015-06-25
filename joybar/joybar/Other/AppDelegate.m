@@ -20,6 +20,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                   UIRemoteNotificationTypeSound |
+                                                   UIRemoteNotificationTypeAlert)
+                                       categories:nil];
+    [APService setupWithOption:launchOptions];
     [UMSocialData setAppKey:@"557f8f1c67e58edf32000208"];
     //向微信注册
     [WXApi registerApp:APP_ID];
@@ -34,19 +39,15 @@
     [self.window makeKeyAndVisible];
     
     [self connectionSoctet];
-    [self registerAPNs];
 
-    //极光注册APNS
-    [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
-                                                   UIUserNotificationTypeSound |
-                                                   UIUserNotificationTypeAlert)
-                                       categories:nil];
-    [APService setupWithOption:launchOptions];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+   
     return YES;
 }
 
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    [application setApplicationIconBadgeNumber:0];
+    [application cancelAllLocalNotifications];
+}
 
 -(void)connectionSoctet{
     
@@ -63,57 +64,65 @@
 }
 
 #pragma mark--APNs处理部分
--(void)registerAPNs{
-    
-    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-    {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings
-                                                                             settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge)
-                                                                             categories:nil]];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-    }
-    else
-    {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
-         (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
-    }
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-    //极光handle
-    [APService handleRemoteNotification:userInfo];
-    //todo,收到push后把info存储到本地
-  
-}
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
-{
-    //向极光注册设备
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"%@", [NSString stringWithFormat:@"Device Token: %@", deviceToken]);
     [APService registerDeviceToken:deviceToken];
-    
-}
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
-{
-    //如果APNS注册失败，通知极光服务器??必须吗?
-    [APService registerDeviceToken:nil];
-    NSLog(@"didFailToRegisterForRemoteNotificationsWithError===%@",[error localizedDescription]);
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    
-    NSString* content = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
-//    long time = (long)([[NSDate date] timeIntervalSince1970]);
-//    
-//    NSMutableArray* message = getMessage();
-//    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:content,[NSString stringWithFormat:@"%ld",time],nil];
-//    if(!message)
-//        message = [[NSMutableArray alloc]init];
-//    [message insertObject:dic atIndex:0];
-//    setMessage(message);
-    
-    // IOS 7 Support Required
+- (void)application:(UIApplication *)application
+didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"did Fail To Register For Remote Notifications With Error: %@", error);
+}
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+- (void)application:(UIApplication *)application
+didRegisterUserNotificationSettings:
+(UIUserNotificationSettings *)notificationSettings {
+}
+
+// Called when your app has been activated by the user selecting an action from
+// a local notification.
+// A nil action identifier indicates the default action.
+// You should call the completion handler as soon as you've finished handling
+// the action.
+- (void)application:(UIApplication *)application
+handleActionWithIdentifier:(NSString *)identifier
+forLocalNotification:(UILocalNotification *)notification
+  completionHandler:(void (^)())completionHandler {
+}
+
+// Called when your app has been activated by the user selecting an action from
+// a remote notification.
+// A nil action identifier indicates the default action.
+// You should call the completion handler as soon as you've finished handling
+// the action.
+- (void)application:(UIApplication *)application
+handleActionWithIdentifier:(NSString *)identifier
+forRemoteNotification:(NSDictionary *)userInfo
+  completionHandler:(void (^)())completionHandler {
+}
+#endif
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [APService handleRemoteNotification:userInfo];
+    NSLog(@"收到通知");
+}
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:
+(void (^)(UIBackgroundFetchResult))completionHandler {
+    [APService handleRemoteNotification:userInfo];
+    NSLog(@"收到通知");
+    
     completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application
+didReceiveLocalNotification:(UILocalNotification *)notification {
+    [APService showLocalNotificationAtFront:notification identifierKey:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -124,12 +133,10 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
+
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
