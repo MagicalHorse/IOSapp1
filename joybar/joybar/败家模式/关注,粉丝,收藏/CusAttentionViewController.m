@@ -240,7 +240,10 @@
     }
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    [ resignFirstResponder];
 
+}
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     

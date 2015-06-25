@@ -12,6 +12,7 @@
 #import "UMSocialWechatHandler.h"
 #import "UMSocialSnsService.h"
 #import "payRequsestHandler.h"
+#import "APService.h"
 
 @implementation AppDelegate
 
@@ -33,6 +34,16 @@
     [self.window makeKeyAndVisible];
     
     [self connectionSoctet];
+    [self registerAPNs];
+
+    //极光注册APNS
+    [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                   UIUserNotificationTypeSound |
+                                                   UIUserNotificationTypeAlert)
+                                       categories:nil];
+    [APService setupWithOption:launchOptions];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     return YES;
 }
 
@@ -50,7 +61,61 @@
 //        }];
     }];
 }
-							
+
+#pragma mark--APNs处理部分
+-(void)registerAPNs{
+    
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+    {
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings
+                                                                             settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge)
+                                                                             categories:nil]];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
+    else
+    {
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+         (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
+    }
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    //极光handle
+    [APService handleRemoteNotification:userInfo];
+    //todo,收到push后把info存储到本地
+  
+}
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    //向极光注册设备
+    [APService registerDeviceToken:deviceToken];
+    
+}
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    //如果APNS注册失败，通知极光服务器??必须吗?
+    [APService registerDeviceToken:nil];
+    NSLog(@"didFailToRegisterForRemoteNotificationsWithError===%@",[error localizedDescription]);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    
+    NSString* content = [[userInfo objectForKey:@"aps"] objectForKey:@"alert"];
+//    long time = (long)([[NSDate date] timeIntervalSince1970]);
+//    
+//    NSMutableArray* message = getMessage();
+//    NSDictionary* dic = [NSDictionary dictionaryWithObjectsAndKeys:content,[NSString stringWithFormat:@"%ld",time],nil];
+//    if(!message)
+//        message = [[NSMutableArray alloc]init];
+//    [message insertObject:dic atIndex:0];
+//    setMessage(message);
+    
+    // IOS 7 Support Required
+    [APService handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

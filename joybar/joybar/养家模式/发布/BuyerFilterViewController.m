@@ -11,20 +11,49 @@
 #import "FeSlideFilterView.h"
 #import "CIFilter+LUT.h"
 #import "BuyerTagViewController.h"
+#import "OSSClient.h"
+#import "OSSTool.h"
+#import "OSSData.h"
+#import "OSSLog.h"
 
-@interface BuyerFilterViewController ()<BuyerTagDelegate>
+
+@interface BuyerFilterViewController ()<BuyerTagDelegate,UIActionSheetDelegate>
 {
     UIImage *cImage;
+    CGPoint tagPoint;
+    OSSData *osData;
 }
 @property (nonatomic,strong)UIView *customInfoView;
 @property (nonatomic,strong)UIView *dscView;
 @property (nonatomic,strong)UIView *photoView;
 @property (nonatomic,strong)UIButton *footerBtn;
 @property (nonatomic,strong)UIImageView *bgImage;
-
+@property (nonatomic,strong)NSMutableDictionary *tagArray;
+@property (nonatomic,strong)NSMutableArray *tagsArray;
+@property (nonatomic,strong)NSMutableArray * images;
+@property (nonatomic,strong)NSString *tempImageName;
 @end
 
 @implementation BuyerFilterViewController
+
+-(NSMutableArray *)images{
+    if (_images ==nil) {
+        _images =[[NSMutableArray alloc]init];
+    }
+    return _images;
+}
+-(NSMutableArray *)tagsArray{
+    if (_tagsArray ==nil) {
+        _tagsArray =[[NSMutableArray alloc]init];
+    }
+    return _tagsArray;
+}
+-(NSMutableDictionary *)tagArray{
+    if (_tagArray ==nil) {
+        _tagArray =[[NSMutableDictionary alloc]init];
+    }
+    return _tagArray;
+}
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,8 +75,20 @@
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"编辑图片"];
     [self setInitView];
+    [self aliyunSet];
 }
-
+-(void)aliyunSet{
+    OSSClient *ossclient = [OSSClient sharedInstanceManage];
+    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
+    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
+        NSString *signature = nil;
+        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
+        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
+        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
+        NSLog(@"here signature:%@", signature);
+        return signature;
+    }];
+}
 -(void) setInitView{
     
     self.view.backgroundColor =kCustomColor(241, 241, 241);
@@ -57,7 +98,7 @@
    
     
     _bgImage=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 300)];
-    _bgImage.image =[UIImage imageNamed:@"test.jpg"];
+    _bgImage.image =cImage;
     [self.view addSubview:_bgImage];
     _bgImage.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
@@ -101,7 +142,7 @@
 }
 -(void)btnClick:(UIButton *)btn{
     NSInteger i =btn.tag;
-    UIImage *image =[UIImage imageNamed:@"test.jpg"];
+    UIImage *image =cImage;
     switch (i) {
         case 1:
             self.bgImage.image =[self getNewImg:image AndType:1];
@@ -121,18 +162,61 @@
     }
 }
 -(void)nextClick{
+    NSDate *  senddate=[NSDate date];
+    NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+    [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
+    NSString *  locationString=[dateformatter stringFromDate:senddate];
+    NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
     BuyerIssueViewController *issue=[[BuyerIssueViewController alloc]init];
+    issue.image =cImage;
+    
+    OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
+    osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
+    NSData *data = UIImagePNGRepresentation(cImage);
+    [osData setData:data withType:@"image/png"];
+    [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+        if (isSuccess) {
+            self.tempImageName =temp;
+            [self performSelectorOnMainThread:@selector(pushIssue:)withObject:issue waitUntilDone:YES];
+        }
+    } withProgressCallback:^(float progress) {
+        NSLog(@"%f",progress);
+    }];
+    
+}
+-(void)pushIssue :(BuyerIssueViewController *)issue{
+    //更改
+    
+    /*
+     "Images" :[{
+        "ImageUrl":
+        "Tags":[{
+            "Name":标签名字
+            "PosX":x坐标
+                }]
+        }]
+     */
+    NSMutableDictionary *dict= [NSMutableDictionary dictionary];
+    [dict setObject:self.tempImageName forKey:@"ImageUrl"];
+    [dict setObject:self.tagsArray forKey:@"Tags"];
+    [self.images addObject:dict];
+    issue.images =self.images;
     [self.navigationController pushViewController:issue animated:YES];
+
 }
 -(void)didClickImage:(UITapGestureRecognizer *)tap
 {
+    tagPoint =[tap locationInView:tap.view];
+    //弹框
+    UIActionSheet *action= [[UIActionSheet alloc] initWithTitle:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                         destructiveButtonTitle:nil
+                                              otherButtonTitles:@"普通标签", @"品牌标签", nil];
     
-    CGPoint point = [tap locationInView:tap.view];
+    // Show the sheet
+    [action showInView:self.view];
     
-    BuyerTagViewController *tagView= [[BuyerTagViewController alloc]init];
-    tagView.delegate =self;
-    tagView.cpoint =point;
-    [self.navigationController pushViewController:tagView animated:YES];
     
 
 }
@@ -176,7 +260,8 @@
 }
 //BuyerTagDelegate
 
--(void)didSelectedTag:(NSString *)tagText AndPoint:(CGPoint)point{
+-(void)didSelectedTag:(NSString *)tagText AndPoint:(CGPoint)point AndSourceId:(NSString *)sourceId AndSourceType:(NSString *)sourceType{
+    
     NSString *tag = tagText;
     CGSize size = [Public getContentSizeWith:tag andFontSize:13 andHigth:20];
     CGFloat x = point.x ;
@@ -205,6 +290,14 @@
     tagLab.text = tag;
     [tagImage addSubview:tagLab];
     
+    [self.tagArray setObject:tagText forKey:@"Name"];
+    [self.tagArray setObject:@(point.x) forKey:@"PosX"];
+    [self.tagArray setObject:@(point.y) forKey:@"PosY"];
+    [self.tagArray setObject:sourceId forKey:@"SourceId"];
+    [self.tagArray setObject:sourceType forKey:@"SourceType"];
+    [self.tagsArray addObject:self.tagArray];
+    
+
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panTagImageView:)];
     [tagView addGestureRecognizer:panGestureRecognizer];
 }
@@ -222,6 +315,25 @@
     
     UIImage *newImage = [UIImage imageWithCGImage:[context createCGImage:outputImage fromRect:outputImage.extent]];
     return newImage;
+}
+//actionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex ==0) {
+        CGPoint point = tagPoint;
+        BuyerTagViewController *tagView= [[BuyerTagViewController alloc]init];
+        tagView.delegate =self;
+        tagView.cpoint =point;
+        tagView.cType =1;
+        [self.navigationController pushViewController:tagView animated:YES];
+    }else if(buttonIndex ==1){
+        CGPoint point = tagPoint;
+        BuyerTagViewController *tagView= [[BuyerTagViewController alloc]init];
+        tagView.delegate =self;
+        tagView.cpoint =point;
+        tagView.cType =2;
+        [self.navigationController pushViewController:tagView animated:YES];
+    }
 }
 
 @end

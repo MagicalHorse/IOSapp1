@@ -223,6 +223,9 @@
 		0AAB5BBB1B2AE01900782C0C /* MyBuyerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5B031B2AE01900782C0C /* MyBuyerTableView.m */; };
 		0AAB5BBE1B2AE0BD00782C0C /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5BBD1B2AE0BD00782C0C /* SVProgressHUD.m */; };
 		0AB583F21B316A2100DB907A /* BuyerFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB583F11B316A2100DB907A /* BuyerFilterViewController.m */; };
+		0ACDBDD61B3BE70E0096B531 /* libPushSDK-1.8.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACDBDD51B3BE70E0096B531 /* libPushSDK-1.8.2.a */; };
+		0ACDBDD81B3BE73B0096B531 /* libPushSDK-1.8.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACDBDD71B3BE73B0096B531 /* libPushSDK-1.8.2.a */; };
+		0ACDBDDA1B3BEA890096B531 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0ACDBDD91B3BEA890096B531 /* PushConfig.plist */; };
 		0AE7E1051B1D9C9000159B02 /* libOSS_IOS_SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE7E1041B1D9C9000159B02 /* libOSS_IOS_SDK.a */; };
 		0AE7E1171B2027CE00159B02 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE7E1161B2027CE00159B02 /* Images.xcassets */; };
 		0AEF3D191B21859B0064A1E1 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEF3D181B21859B0064A1E1 /* BaseTableView.m */; };
@@ -728,6 +731,10 @@
 		0AAB5BBD1B2AE0BD00782C0C /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		0AB583F01B316A2100DB907A /* BuyerFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerFilterViewController.h; sourceTree = "<group>"; };
 		0AB583F11B316A2100DB907A /* BuyerFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerFilterViewController.m; sourceTree = "<group>"; };
+		0ACDBDD41B3BE70E0096B531 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
+		0ACDBDD51B3BE70E0096B531 /* libPushSDK-1.8.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPushSDK-1.8.2.a"; sourceTree = "<group>"; };
+		0ACDBDD71B3BE73B0096B531 /* libPushSDK-1.8.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.2.a"; path = "joybar/OpenResources/JPush/libPushSDK-1.8.2.a"; sourceTree = "<group>"; };
+		0ACDBDD91B3BEA890096B531 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		0AE7E0F71B1D9C3C00159B02 /* libOSS_IOS_SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSS_IOS_SDK.a; sourceTree = "<group>"; };
 		0AE7E0F81B1D9C3C00159B02 /* OSSArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSArgs.h; sourceTree = "<group>"; };
 		0AE7E0F91B1D9C3C00159B02 /* OSSBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSBucket.h; sourceTree = "<group>"; };
@@ -1043,6 +1050,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ACDBDD81B3BE73B0096B531 /* libPushSDK-1.8.2.a in Frameworks */,
 				0AE7E1051B1D9C9000159B02 /* libOSS_IOS_SDK.a in Frameworks */,
 				9DDB175E1AE7A42F0014D8B2 /* JavaScriptCore.framework in Frameworks */,
 				9DDB175B1AE7A0EB0014D8B2 /* Security.framework in Frameworks */,
@@ -1065,6 +1073,7 @@
 				0DB5B0331ACCE035000FE9C8 /* libiconv.dylib in Frameworks */,
 				0DB5B0311ACCE027000FE9C8 /* libxml2.dylib in Frameworks */,
 				0DB5B02F1ACCE01B000FE9C8 /* libz.dylib in Frameworks */,
+				0ACDBDD61B3BE70E0096B531 /* libPushSDK-1.8.2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1595,6 +1604,15 @@
 			path = model;
 			sourceTree = "<group>";
 		};
+		0ACDBDD31B3BE70E0096B531 /* JPush */ = {
+			isa = PBXGroup;
+			children = (
+				0ACDBDD41B3BE70E0096B531 /* APService.h */,
+				0ACDBDD51B3BE70E0096B531 /* libPushSDK-1.8.2.a */,
+			);
+			path = JPush;
+			sourceTree = "<group>";
+		};
 		0AE7E0F61B1D9C3C00159B02 /* Aliyun */ = {
 			isa = PBXGroup;
 			children = (
@@ -1634,6 +1652,7 @@
 		0D60BCA21ACCD74D00BF625A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0ACDBDD71B3BE73B0096B531 /* libPushSDK-1.8.2.a */,
 				0AE7E1041B1D9C9000159B02 /* libOSS_IOS_SDK.a */,
 				9DDB175D1AE7A42F0014D8B2 /* JavaScriptCore.framework */,
 				9DDB175A1AE7A0EB0014D8B2 /* Security.framework */,
@@ -1676,6 +1695,7 @@
 		0D60BCAA1ACCD74D00BF625A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0ACDBDD91B3BEA890096B531 /* PushConfig.plist */,
 				0AEF3D1A1B21860F0064A1E1 /* HelveticaNeueLTPro-Lt.otf */,
 				0AE7E1161B2027CE00159B02 /* Images.xcassets */,
 				9D53B79C1B0219160024D90A /* youyuan.ttf */,
@@ -1710,6 +1730,7 @@
 		0DB5AF321ACCDE6F000FE9C8 /* OpenResources */ = {
 			isa = PBXGroup;
 			children = (
+				0ACDBDD31B3BE70E0096B531 /* JPush */,
 				9D9AF7341B32E365000FB33B /* WXPay */,
 				0A207E841B32CCD7000C79C5 /* FeSlideFilter */,
 				9D744DB71B2FCB9B00553648 /* UMSocial_Sdk_4.2.3 */,
@@ -2359,6 +2380,7 @@
 				9D53B79D1B0219160024D90A /* youyuan.ttf in Resources */,
 				0AAB5B551B2AE01900782C0C /* biaoqing007.png in Resources */,
 				0AAB5B5F1B2AE01900782C0C /* biaoqing017.png in Resources */,
+				0ACDBDDA1B3BEA890096B531 /* PushConfig.plist in Resources */,
 				0AAB5B6A1B2AE01900782C0C /* biaoqing028.png in Resources */,
 				9DDB17141AE7741F0014D8B2 /* 37x-Checkmark.png in Resources */,
 				0AAB5B9A1B2AE01900782C0C /* biaoqing076.png in Resources */,
@@ -2800,6 +2822,8 @@
 					"$(PROJECT_DIR)/joybar/OpenResources/Aliyun",
 					"$(PROJECT_DIR)/joybar/OpenResources/SocketIO/UMSocial_Sdk_4.2.3",
 					"$(PROJECT_DIR)/joybar/OpenResources/SocketIO/UMSocial_Sdk_4.2.3/Wechat",
+					"$(PROJECT_DIR)/joybar/OpenResources/SocketIO/JPush",
+					"$(PROJECT_DIR)/joybar/OpenResources/JPush",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2827,6 +2851,8 @@
 					"$(PROJECT_DIR)/joybar/OpenResources/Aliyun",
 					"$(PROJECT_DIR)/joybar/OpenResources/SocketIO/UMSocial_Sdk_4.2.3",
 					"$(PROJECT_DIR)/joybar/OpenResources/SocketIO/UMSocial_Sdk_4.2.3/Wechat",
+					"$(PROJECT_DIR)/joybar/OpenResources/SocketIO/JPush",
+					"$(PROJECT_DIR)/joybar/OpenResources/JPush",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";

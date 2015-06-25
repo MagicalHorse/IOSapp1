@@ -10,4 +10,7 @@
 #import "BaseViewController.h"
 
 @interface BuyerIssueViewController : BaseViewController
+@property (nonatomic,strong)UIImage *image;
+@property (nonatomic,strong)NSMutableArray *images;
+
 @end

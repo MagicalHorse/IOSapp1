@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface BuyerFilterViewController : BaseViewController
-
+-(instancetype)initWithImg:(UIImage *)image;
 @end

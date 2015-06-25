@@ -9,7 +9,7 @@
 #import "ImageViewController.h"
 #import "ViewUtils.h"
 #import "UIImage+Crop.h"
-#import "BuyerIssueViewController.h"
+#import "BuyerFilterViewController.h"
 
 @interface ImageViewController ()
 @property (strong, nonatomic) UIImage *image;
@@ -74,7 +74,7 @@
     NSString * ctype =[Common getUserDefaultKeyName:@"backPhone"];
     if ([ctype isEqualToString:@"1"]) {
         
-        BuyerIssueViewController *issue=[[BuyerIssueViewController alloc]init];
+        BuyerFilterViewController *issue=[[BuyerFilterViewController alloc]initWithImg:self.image];
         [self.navigationController pushViewController:issue animated:NO];
     }else{
         [self dismissViewControllerAnimated:NO completion:nil];

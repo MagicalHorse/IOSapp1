@@ -201,20 +201,11 @@
     {
         //先把图片转成NSData
         UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-        NSData *data;
-        if (UIImagePNGRepresentation(image) == nil)
-        {
-            data = UIImageJPEGRepresentation(image, 1.0);
-        }
-        else
-        {
-            data = UIImagePNGRepresentation(image);
-        }
         NSString *back= [Common getUserDefaultKeyName:@"backPhone"];
         if([back isEqualToString:@"1"]){
             [picker dismissViewControllerAnimated:NO completion:nil];
 
-            [self.navigationController pushViewController:[[BuyerFilterViewController alloc]init] animated:NO];
+            [self.navigationController pushViewController:[[BuyerFilterViewController alloc]initWithImg:image] animated:NO];
 
         }else{
             [picker dismissViewControllerAnimated:NO completion:nil];
