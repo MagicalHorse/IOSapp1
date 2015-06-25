@@ -22,6 +22,10 @@ typedef void(^footerRereshing)(void);
 
 @property (nonatomic ,strong) NSMutableArray *dataArr;
 
+@property (nonatomic ,strong) NSString *headerPullToRefreshText1;
+@property (nonatomic ,strong) NSString *headerReleaseToRefreshText1;
+@property (nonatomic ,strong) NSString *headerRefreshingText1;
+
 //隐藏加载更多
 -(void)hiddenFooter:(BOOL)hidden;
 @end

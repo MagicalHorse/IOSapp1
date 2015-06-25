@@ -15,7 +15,7 @@
 #import "CusCircleDetailViewController.h"
 @interface CusChatViewController ()<UITableViewDataSource,UITableViewDelegate,SendMessageTextDelegate,UIScrollViewDelegate>
 
-@property (nonatomic ,strong) UITableView *tableView;
+@property (nonatomic ,strong) BaseTableView *tableView;
 
 @property (nonatomic ,strong) NSMutableArray *messageArr;
 
@@ -68,13 +68,27 @@
     self.priceNum = 0;
     self.messageArr = [[NSMutableArray alloc] init];
     self.view.backgroundColor = kCustomColor(236, 240, 241);
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64+60, kScreenWidth, kScreenHeight-64-60-49)];
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64+60, kScreenWidth, kScreenHeight-64-60-49)];
+    self.tableView.headerPullToRefreshText1 = @"下拉可以加载了";
+    self.tableView.headerReleaseToRefreshText1 = @"松开马上加载";
+    self.tableView.headerRefreshingText1 = @"正在帮你加载,不客气";
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.tableView hiddenFooter:YES];
+    });
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [UIColor clearColor];
 //        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-
+    
+//    headerReleaseToRefreshText
+//    headerRefreshingText
+    self.tableView.headerRereshingBlock = ^{
+      
+        
+        
+    };
     if (self.isFrom==isFromBuyPro)
     {
         self.tableView.frame = CGRectMake(0, 64+60, kScreenWidth, kScreenHeight-64-60-49);

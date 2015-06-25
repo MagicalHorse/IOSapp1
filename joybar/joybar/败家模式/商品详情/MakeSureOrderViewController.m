@@ -33,6 +33,8 @@
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTableView)];
+    [self.tableView addGestureRecognizer:tap];
     [self addNavBarViewAndTitle:@"确认订单"];
     
     [self getPrice];
@@ -337,6 +339,7 @@
 {
     if (scrollView == self.tableView)
     {
+        [self.tableView endEditing:YES];
         CGFloat sectionHeaderHeight = 10;
         if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
             scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
@@ -346,9 +349,8 @@
     }
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+-(void)didClickTableView
 {
-    [self.view endEditing:YES];
     [self.tableView endEditing:YES];
 }
 

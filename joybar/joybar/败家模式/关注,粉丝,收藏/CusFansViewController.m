@@ -51,7 +51,6 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     __weak CusFansViewController *VC = self;
     self.tableView.headerRereshingBlock = ^{
     
@@ -67,13 +66,16 @@
     };
     
     [self addNavBarViewAndTitle:self.titleStr];
+    
+    [self getData];
+
 
 }
 
 -(void)getData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setValue:[NSString stringWithFormat:@"%ld",self.pageNum] forKey:@"page"];
+    [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setValue:@"6" forKey:@"pagesize"];
     [dic setValue:@"1" forKey:@"status"];
     [HttpTool postWithURL:@"User/GetUserFavoite" params:dic success:^(id json) {
@@ -93,7 +95,6 @@
             [self.fanArr addObjectsFromArray:fansItems.items];
             [self.tableView reloadData];
             [self.tableView endRefresh];
-
         }
         else
         {
