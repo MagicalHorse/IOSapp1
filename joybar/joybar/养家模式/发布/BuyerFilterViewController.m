@@ -30,11 +30,18 @@
 @property (nonatomic,strong)UIImageView *bgImage;
 @property (nonatomic,strong)NSMutableDictionary *tagArray;
 @property (nonatomic,strong)NSMutableArray *tagsArray;
-
-
+@property (nonatomic,strong)NSMutableArray * images;
+@property (nonatomic,strong)NSString *tempImageName;
 @end
 
 @implementation BuyerFilterViewController
+
+-(NSMutableArray *)images{
+    if (_images ==nil) {
+        _images =[[NSMutableArray alloc]init];
+    }
+    return _images;
+}
 -(NSMutableArray *)tagsArray{
     if (_tagsArray ==nil) {
         _tagsArray =[[NSMutableArray alloc]init];
@@ -169,7 +176,7 @@
     [osData setData:data withType:@"image/png"];
     [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
         if (isSuccess) {
-            issue.imageName =temp;
+            self.tempImageName =temp;
             [self performSelectorOnMainThread:@selector(pushIssue:)withObject:issue waitUntilDone:YES];
         }
     } withProgressCallback:^(float progress) {
@@ -178,7 +185,22 @@
     
 }
 -(void)pushIssue :(BuyerIssueViewController *)issue{
-    issue.tagsDict =self.tagsArray;
+    //更改
+    
+    /*
+     "Images" :[{
+        "ImageUrl":
+        "Tags":[{
+            "Name":标签名字
+            "PosX":x坐标
+                }]
+        }]
+     */
+    NSMutableDictionary *dict= [NSMutableDictionary dictionary];
+    [dict setObject:self.tempImageName forKey:@"ImageUrl"];
+    [dict setObject:self.tagsArray forKey:@"Tags"];
+    [self.images addObject:dict];
+    issue.images =self.images;
     [self.navigationController pushViewController:issue animated:YES];
 
 }

@@ -9,6 +9,7 @@
 #import "BuyerIssueViewController.h"
 #import "FeSlideFilterView.h"
 #import "CIFilter+LUT.h"
+#import "JSONKit.h"
 @interface BuyerIssueViewController ()<UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate>
 {
     int count;
@@ -30,6 +31,8 @@
 @property (nonatomic,strong)NSMutableArray *sizeArray;
 
 
+
+
 @end
 
 @implementation BuyerIssueViewController
@@ -40,6 +43,7 @@
     }
     return _sizeArray;
 }
+
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -191,33 +195,13 @@
     
 }
 -(void)publicsh{
-/*
- "Price" : "销售价格 必填",
- "Sizes" : [{
- "name" : "规格名称",
- "Inventory" : "库存"
- }],
- "Images" :[{
- "ImageUrl":
- "Tags":[{
- "Name":标签名字
- "PosX":x坐标
- "PosY":y坐标
- "SourceId"：如果是品牌标签，这里传品牌的编号id:
- "SourceType"：标签类型      50表示文本标签
- 51表示品牌标签
- 52表示买手标签
- }]
- }]
- "Desc" : "描述",
- */
-    //sizes:
 
-    NSMutableArray *tempSizes =[NSMutableArray array];
-    [tempSizes addObject:self.textField1.text];
-    [tempSizes addObject:self.textField2.text];
+
+    NSMutableDictionary *tempSizes =[NSMutableDictionary dictionary];
+    [tempSizes setObject:self.textField1.text forKey:@"name"];
+    [tempSizes setObject:self.textField2.text forKey:@"Inventory"];
+
     [self.sizeArray addObject:tempSizes];
-
     if(self.viewItems.count>0){
         for (NSString *str in self.viewItems) {
             UIView *view =[self.view viewWithTag:[str intValue]];
@@ -237,17 +221,23 @@
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:self.priceText.text forKey:@"Price"];
     [dict setObject:self.sizeArray forKey:@"Sizes"];
-    [dict setObject:@"" forKey:@"Images"];
-    [dict setObject:@"" forKey:@"Tags"];
+    [dict setObject:self.images forKey:@"Images"];
     [dict setObject:self.dscText.text forKey:@"Desc"];
     [dict setObject:self.priceText1.text forKey:@"Sku_Code"];
-
     
+    
+    
+    NSDictionary * parameters = [ NSDictionary dictionaryWithObjectsAndKeys:[ dict JSONString], @"json" , nil ];
 
-    [HttpTool postWithURL:@"Product/Create" params:dict success:^(id json) {
+
+    [HttpTool postWithURL:@"Product/Create" params:parameters success:^(id json) {
+        NSString *isSuccessful =[json objectForKey:@"isSuccessful"];
+        if (isSuccessful) {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
         
     } failure:^(NSError *error) {
-        
+        NSLog(@"%@",[error description]);
     }];
 }
 
