@@ -13,7 +13,7 @@
 #import "UMSocialSnsService.h"
 #import "payRequsestHandler.h"
 #import "APService.h"
-#import "BueryAuthViewController.h"
+
 @implementation AppDelegate
 
 
@@ -33,7 +33,7 @@
 //    [application setStatusBarStyle:UIStatusBarStyleLightContent];
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    BueryAuthViewController *cusTabbar = [[BueryAuthViewController alloc] init];
+    CusTabBarViewController *cusTabbar = [[CusTabBarViewController alloc] init];
     BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:cusTabbar];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
