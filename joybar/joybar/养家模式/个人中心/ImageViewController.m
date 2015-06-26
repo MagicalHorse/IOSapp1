@@ -75,6 +75,7 @@
     if ([ctype isEqualToString:@"1"]) {
         
         BuyerFilterViewController *issue=[[BuyerFilterViewController alloc]initWithImg:self.image];
+        issue.imgTag =self.imgTag;
         [self.navigationController pushViewController:issue animated:NO];
     }else{
         [self dismissViewControllerAnimated:NO completion:nil];

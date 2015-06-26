@@ -136,6 +136,8 @@
     imageNew = [self imageCompressForSize:imageNew targetSize:imagesize];
     
     self.imageController = [[ImageViewController alloc] initWithImage:imageNew];
+   
+    self.imageController.imgTag =self.imgTag;
     self.imageController.delegate=self;
     [self.camera stop];
     

@@ -10,6 +10,8 @@
 #import "FeSlideFilterView.h"
 #import "CIFilter+LUT.h"
 #import "JSONKit.h"
+#import "BuyerCameraViewController.h"
+#import "BaseNavigationController.h"
 @interface BuyerIssueViewController ()<UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate>
 {
     int count;
@@ -30,6 +32,8 @@
 
 @property (nonatomic,strong)NSMutableArray *sizeArray;
 
+@property (nonatomic ,strong)NSMutableDictionary *showImages;
+
 
 
 
@@ -42,6 +46,12 @@
         _sizeArray =[[NSMutableArray alloc]init];
     }
     return _sizeArray;
+}
+-(NSMutableDictionary *)showImages{
+    if (_showImages ==nil) {
+        _showImages =[[NSMutableDictionary alloc]init];
+    }
+    return _showImages;
 }
 
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -87,6 +97,7 @@
     [self.customScrollView addSubview:self.photoView];
     
     for (int i=0; i<3; i++) {
+        
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/3-20)*i+15*(i+1), 15, kScreenWidth/3-20, 85)];
         btn.tag =i+1;
         btn.layer.borderWidth= 1.5;
@@ -96,10 +107,16 @@
 
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.photoView addSubview:btn];
-        if (i==0) {
-            [btn setBackgroundImage:self.image forState:UIControlStateNormal];
-        }
         
+        if (!self.imgTag &&i==0) {
+            [btn setBackgroundImage:self.image forState:UIControlStateNormal];
+            [self.showImages setObject:self.image forKey:@(i)];
+        }
+        if (i==self.imgTag-1) {
+            [btn setBackgroundImage:self.image forState:UIControlStateNormal];
+            [self.showImages setObject:self.image forKey:@(i)];
+
+        }
     }
     
     //priceView
@@ -196,7 +213,6 @@
 }
 -(void)publicsh{
 
-
     NSMutableDictionary *tempSizes =[NSMutableDictionary dictionary];
     [tempSizes setObject:self.textField1.text forKey:@"name"];
     [tempSizes setObject:self.textField2.text forKey:@"Inventory"];
@@ -243,14 +259,11 @@
 
 -(void)btnClick:(UIButton *)btn{
     NSInteger i =btn.tag;
-    switch (i) {
-        case 1:
-            
-            break;
-            
-        default:
-            break;
-    }
+    [Common saveUserDefault:@"1" keyName:@"backPhone"];
+    BuyerCameraViewController *VC = [[BuyerCameraViewController alloc] init];
+    VC.imgTag =i;
+    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 
@@ -373,5 +386,8 @@
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView{
     [textView resignFirstResponder];
     return  YES;
+}
+-(void)dealloc{
+    NSLog(@"dealloc");
 }
 @end

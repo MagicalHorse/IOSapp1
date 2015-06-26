@@ -9,13 +9,13 @@
 #import "BueryAuthViewController.h"
 #import "BueryAuthInfoViewController.h"
 #import "BuyerCameraViewController.h"
-//#import "OSSClient.h"
-//#import "OSSTool.h"
-//#import "OSSData.h"
-//#import "OSSLog.h"
+#import "OSSClient.h"
+#import "OSSTool.h"
+#import "OSSData.h"
+#import "OSSLog.h"
 
-@interface BueryAuthViewController ()<UIScrollViewDelegate,BuyerCameraDelgeate>{
-    //OSSData *osData;
+@interface BueryAuthViewController ()<UIScrollViewDelegate,BuyerCameraDelgeate,UITextFieldDelegate>{
+    OSSData *osData;
 }
 @property (nonatomic,strong)UIScrollView *customScrollView;
 @property (nonatomic,strong)UIButton * customButton;
@@ -23,6 +23,7 @@
 
 @property (nonatomic,strong)UIButton * btn2;
 @property (nonatomic,strong)UIButton * btn3;
+@property (nonatomic,strong)UITextField *nField;
 @end
 
 @implementation BueryAuthViewController
@@ -46,39 +47,61 @@
     
 }
 -(void)aliyunSet{
-//    OSSClient *ossclient = [OSSClient sharedInstanceManage];
-//    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
-//    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
-//        NSString *signature = nil;
-//        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
-//        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
-//        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
-//        NSLog(@"here signature:%@", signature);
-//        return signature;
-//    }];
+    OSSClient *ossclient = [OSSClient sharedInstanceManage];
+    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
+    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
+        NSString *signature = nil;
+        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
+        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
+        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
+        NSLog(@"here signature:%@", signature);
+        return signature;
+    }];
 }
 
 - (void)settingView {
     CGFloat scX =0;
     CGFloat scY =64;
     CGFloat scW = kScreenWidth;
-    CGFloat scH = kScreenHeight -scY;
+    CGFloat scH = kScreenHeight -scY-50;
     
     _customScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(scX, scY, scW, scH)];
     [self.view addSubview:_customScrollView];
     _customScrollView.delegate =self;
     
+    UIView *nameView =[[UIView alloc]initWithFrame:CGRectMake(0, 10, scW, 44)];
+    [_customScrollView addSubview:nameView];
     
-    UILabel * lable=[[UILabel alloc]initWithFrame:CGRectMake(20, 20, 200, 20)];
+    UIImageView *image =[[UIImageView alloc]initWithFrame:CGRectMake(15, 12, 19, 19)];
+    image.image =[UIImage imageNamed:@"重点"];
+    [nameView addSubview:image];
+    
+    UILabel *nlable =[[UILabel alloc]initWithFrame:CGRectMake(image.right+2, 10, 80, 24)];
+    nlable.text =@"您的姓名:";
+    nlable.font = [UIFont fontWithName:@"youyuan" size:17];
+    [nameView addSubview:nlable];
+     
+     _nField= [[UITextField alloc]initWithFrame:CGRectMake(nlable.right+3, 10, kScreenWidth-120-19, 24)];
+    _nField.delegate =self;
+     _nField.placeholder =@"请输入";
+     _nField.font =[UIFont fontWithName:@"youyuan" size:17];
+    [nameView addSubview:_nField];
+    
+    UIView * nview = [[UIView alloc]initWithFrame:CGRectMake(20, _nField.bottom+10, kScreenWidth-40, 1)];
+    nview.backgroundColor = kCustomColor(241, 241, 241);
+    [nameView addSubview:nview];
+    
+    
+    UILabel * lable=[[UILabel alloc]initWithFrame:CGRectMake(20, nameView.bottom+20, 200, 20)];
     lable.text =@"身份证/护照";
     lable.font = [UIFont fontWithName:@"youyuan" size:18];
     [_customScrollView addSubview:lable];
     
-    UIView * view = [[UIView alloc]initWithFrame:CGRectMake(20, 50, kScreenWidth-40, 1)];
+    UIView * view = [[UIView alloc]initWithFrame:CGRectMake(20, 50+64, kScreenWidth-40, 1)];
     view.backgroundColor = kCustomColor(241, 241, 241);
     [_customScrollView addSubview:view];
     
-    _btn1=[[UIButton alloc]initWithFrame:CGRectMake(20, 61, kScreenWidth-40, 200)];
+    _btn1=[[UIButton alloc]initWithFrame:CGRectMake(20, 61+64, kScreenWidth-40, 200)];
     [_btn1 setTitle:@"＋正面" forState:UIControlStateNormal];
     _btn1.titleLabel.font =[UIFont fontWithName:@"youyuan" size:18];
     [_btn1 setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -87,7 +110,7 @@
     [_btn1 addTarget:self action:@selector(btn1Click) forControlEvents:UIControlEventTouchUpInside];
     [_customScrollView addSubview:_btn1];
     
-    _btn2=[[UIButton alloc]initWithFrame:CGRectMake(20, 271, kScreenWidth-40, 200)];
+    _btn2=[[UIButton alloc]initWithFrame:CGRectMake(20, 271+64, kScreenWidth-40, 200)];
     [_btn2 setTitle:@"＋反面" forState:UIControlStateNormal];
     _btn2.titleLabel.font =[UIFont fontWithName:@"youyuan" size:18];
     [_btn2 setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -97,22 +120,22 @@
     _btn2.layer.borderColor = kCustomColor(169, 200, 234).CGColor;
     [_customScrollView addSubview:_btn2];
     
-    UIView *bgView =[[UIView alloc]initWithFrame:CGRectMake(0, 491, kScreenWidth, 10)];
+    UIView *bgView =[[UIView alloc]initWithFrame:CGRectMake(0, 491+64, kScreenWidth, 10)];
     bgView.backgroundColor =kCustomColor(241, 241, 241);
     [_customScrollView addSubview:bgView];
 
-    UILabel * lableStore=[[UILabel alloc]initWithFrame:CGRectMake(20, 521, 200, 20)];
+    UILabel * lableStore=[[UILabel alloc]initWithFrame:CGRectMake(20, 521+64, 200, 20)];
     lableStore.text =@"工牌照片";
     
     lableStore.font = [UIFont fontWithName:@"youyuan" size:18];
     [_customScrollView addSubview:lableStore];
 
-    UIView * view1 = [[UIView alloc]initWithFrame:CGRectMake(20, 551, kScreenWidth-40, 1)];
+    UIView * view1 = [[UIView alloc]initWithFrame:CGRectMake(20, 551+64, kScreenWidth-40, 1)];
     view1.backgroundColor = kCustomColor(241, 241, 241);
     [_customScrollView addSubview:view1];
 
     
-    _btn3=[[UIButton alloc]initWithFrame:CGRectMake(20, 562, kScreenWidth-40, 200)];
+    _btn3=[[UIButton alloc]initWithFrame:CGRectMake(20, 562+64, kScreenWidth-40, 200)];
     [_btn3 setTitle:@"＋工牌照片" forState:UIControlStateNormal];
     _btn3.titleLabel.font =[UIFont fontWithName:@"youyuan" size:18];
     [_btn3 setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -122,16 +145,16 @@
 
     [_customScrollView addSubview:_btn3];
 
-    UIView *bgView1 =[[UIView alloc]initWithFrame:CGRectMake(0, 782, kScreenWidth, 10)];
+    UIView *bgView1 =[[UIView alloc]initWithFrame:CGRectMake(0, 782+64, kScreenWidth, 10)];
     bgView1.backgroundColor =kCustomColor(241, 241, 241);
     [_customScrollView addSubview:bgView1];
 
     
     
     
-    _customButton =[[UIButton alloc]initWithFrame:CGRectMake(0, 792, kScreenWidth, 50)];
-    _customButton.backgroundColor =[UIColor whiteColor];
-    [_customScrollView addSubview:_customButton];
+    _customButton =[[UIButton alloc]initWithFrame:CGRectMake(0, kScreenHeight-50, kScreenWidth, 50)];
+    _customButton.backgroundColor =kCustomColor(249, 249, 249);
+    [self.view addSubview:_customButton];
     [_customButton addTarget:self action:@selector(customBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
     [_customButton setTitle:@"下一步" forState:UIControlStateNormal];
@@ -139,21 +162,19 @@
     _customButton.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
     
     
-    _customScrollView.contentSize =CGSizeMake(0, 792+50);
+    _customScrollView.contentSize =CGSizeMake(0, 792+64);
     _customScrollView.bounces =NO;
 
 
 }
 -(void)customBtnClick{
     
-    if (self.btn1.imageView.image==nil ||self.btn2.imageView.image ==nil||self.btn3.imageView.image ==nil) {
-        
-        
-        
+    if (self.btn1.imageView.image==nil ||self.btn2.imageView.image ==nil||self.btn3.imageView.image ==nil ||self.nField.text.length ==0) {
+        [self showHudFailed:@"请填写名称，及上传图片"];
         return;
     }
-    
     BueryAuthInfoViewController * finish =[[BueryAuthInfoViewController alloc]initWithImgNames:[NSArray arrayWithObjects:@"1.png",@"2.png",@"3.png", nil]];
+    finish.textName =self.nField.text;
     [self.navigationController pushViewController:finish animated:YES];
     
 }
@@ -195,43 +216,56 @@
     //对图片大小进行压缩--
     imageNew = [self imageCompressForSize:imageNew targetSize:imagesize];
     NSData *imageData = UIImageJPEGRepresentation(imageNew,1);
-//    
-//    if (type==1) {
-//        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
-//        osData = [[OSSData alloc] initWithBucket:bucket withKey:@"1.png"];
-//        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
-//        [osData setData:data withType:@"image/png"];
-//        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
-//            if (isSuccess) {
-//                [self.btn1 setImage:imageNew forState:UIControlStateNormal];
-//                           }
-//        } withProgressCallback:^(float progress) {
-//            NSLog(@"%f",progress);
-//        }];
-//    }else if(type ==2){
-//        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
-//        osData = [[OSSData alloc] initWithBucket:bucket withKey:@"2.png"];
-//        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
-//        [osData setData:data withType:@"image/png"];
-//        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
-//            if (isSuccess) {
-//                [self.btn2 setImage:imageNew forState:UIControlStateNormal];
-//            }
-//        } withProgressCallback:^(float progress) {
-//        }];
-//        
-//    }else if(type ==3){
-//        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
-//        [osData setData:data withType:@"image/png"];
-//        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
-//            if (isSuccess) {
-//                [self.btn3 setImage:imageNew forState:UIControlStateNormal];
-//            }
-//        } withProgressCallback:^(float progress) {
-//            
-//            //NSLog(@"current get %f", progress);
-//        }];
-//    }
+    
+    if (type==1) {
+        [self hudShow:@"正在上传..."];
+        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
+        osData = [[OSSData alloc] initWithBucket:bucket withKey:@"1.png"];
+        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
+        [osData setData:data withType:@"image/png"];
+        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+            if (isSuccess) {
+                [self.btn1 setImage:imageNew forState:UIControlStateNormal];
+                [self textHUDHiddle];
+            }else{
+                [self showHudFailed:@"上传失败"];
+            }
+            
+        } withProgressCallback:^(float progress) {
+            NSLog(@"%f",progress);
+        }];
+    }else if(type ==2){
+        [self hudShow:@"正在上传..."];
+        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
+        osData = [[OSSData alloc] initWithBucket:bucket withKey:@"2.png"];
+        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
+        [osData setData:data withType:@"image/png"];
+        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+            if (isSuccess) {
+                [self.btn2 setImage:imageNew forState:UIControlStateNormal];
+                [self textHUDHiddle];
+            }else{
+                [self showHudFailed:@"上传失败"];
+            }
+        } withProgressCallback:^(float progress) {
+        }];
+        
+    }else if(type ==3){
+        [self hudShow:@"正在上传..."];
+        NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
+        [osData setData:data withType:@"image/png"];
+        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+            if (isSuccess) {
+                [self.btn3 setImage:imageNew forState:UIControlStateNormal];
+                [self textHUDHiddle];
+            }else{
+                [self showHudFailed:@"上传失败"];
+            }
+        } withProgressCallback:^(float progress) {
+            
+            //NSLog(@"current get %f", progress);
+        }];
+    }
 
 }
 
@@ -339,6 +373,14 @@
     
     UIGraphicsEndImageContext();
     return newImage;
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [self.nField resignFirstResponder];
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

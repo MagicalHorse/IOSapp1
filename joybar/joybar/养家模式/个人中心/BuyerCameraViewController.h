@@ -14,5 +14,7 @@
 @interface BuyerCameraViewController : BaseViewController
 @property (nonatomic, weak) id <BuyerCameraDelgeate> delegate;
 -(instancetype)initWithType:(int)type;
+@property (nonatomic,assign)NSInteger imgTag;
+
 @end
 

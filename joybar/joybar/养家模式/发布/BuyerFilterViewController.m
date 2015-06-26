@@ -169,7 +169,6 @@
     NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
     BuyerIssueViewController *issue=[[BuyerIssueViewController alloc]init];
     issue.image =cImage;
-    
     OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
     osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
     NSData *data = UIImagePNGRepresentation(cImage);
@@ -185,17 +184,7 @@
     
 }
 -(void)pushIssue :(BuyerIssueViewController *)issue{
-    //更改
-    
-    /*
-     "Images" :[{
-        "ImageUrl":
-        "Tags":[{
-            "Name":标签名字
-            "PosX":x坐标
-                }]
-        }]
-     */
+    issue.imgTag =self.imgTag;
     NSMutableDictionary *dict= [NSMutableDictionary dictionary];
     [dict setObject:self.tempImageName forKey:@"ImageUrl"];
     [dict setObject:self.tagsArray forKey:@"Tags"];

@@ -10,4 +10,5 @@
 
 @interface BuyerFilterViewController : BaseViewController
 -(instancetype)initWithImg:(UIImage *)image;
+@property (nonatomic,assign)NSInteger imgTag;
 @end
