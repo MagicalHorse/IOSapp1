@@ -8,6 +8,12 @@
 
 #import "BaseViewController.h"
 
+@protocol BuyerFilterDelgeate <NSObject>
+@optional
+-(void)choose:(UIImage *)image;
+@end
 @interface BuyerFilterViewController : BaseViewController
+@property (nonatomic, weak) id <BuyerFilterDelgeate> delegate;
 -(instancetype)initWithImg:(UIImage *)image;
+@property (nonatomic,assign)NSInteger imgTag;
 @end

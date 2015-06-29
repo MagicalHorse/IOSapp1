@@ -10,4 +10,5 @@
 
 @interface BueryAuthInfoViewController : BaseViewController
 -(instancetype)initWithImgNames:(NSArray *)arrayNames;
+@property (nonatomic,strong) NSString *textName;
 @end

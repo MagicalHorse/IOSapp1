@@ -95,7 +95,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *text =[self.dataArray[indexPath.row]objectForKey:@"Name"];
-    NSString *Id =[[self.dataArray[indexPath.row]objectForKey:@"ID"]stringValue];
+    NSString *Id =[[self.dataArray[indexPath.row]objectForKey:@"Id"]stringValue];
 
     if ([self.delegate respondsToSelector:@selector(didSelectedTag:AndPoint:AndSourceId:AndSourceType:)]) {
         [self.delegate didSelectedTag:text AndPoint:self.cpoint AndSourceId:Id AndSourceType:@"51"];

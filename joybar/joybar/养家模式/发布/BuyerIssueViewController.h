@@ -12,5 +12,5 @@
 @interface BuyerIssueViewController : BaseViewController
 @property (nonatomic,strong)UIImage *image;
 @property (nonatomic,strong)NSMutableArray *images;
-
+@property (nonatomic,assign)NSInteger imgTag;
 @end

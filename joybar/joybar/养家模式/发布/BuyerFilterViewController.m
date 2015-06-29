@@ -32,6 +32,7 @@
 @property (nonatomic,strong)NSMutableArray *tagsArray;
 @property (nonatomic,strong)NSMutableArray * images;
 @property (nonatomic,strong)NSString *tempImageName;
+@property (nonatomic,strong)BuyerIssueViewController *issue;
 @end
 
 @implementation BuyerFilterViewController
@@ -167,9 +168,10 @@
     [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
     NSString *  locationString=[dateformatter stringFromDate:senddate];
     NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
-    BuyerIssueViewController *issue=[[BuyerIssueViewController alloc]init];
-    issue.image =cImage;
-    
+    if (self.issue==nil) {
+        self.issue =[[BuyerIssueViewController alloc]init];
+    }
+    self.issue.image =cImage;
     OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
     osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
     NSData *data = UIImagePNGRepresentation(cImage);
@@ -177,7 +179,7 @@
     [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
         if (isSuccess) {
             self.tempImageName =temp;
-            [self performSelectorOnMainThread:@selector(pushIssue:)withObject:issue waitUntilDone:YES];
+            [self performSelectorOnMainThread:@selector(pushIssue:)withObject:self.issue waitUntilDone:YES];
         }
     } withProgressCallback:^(float progress) {
         NSLog(@"%f",progress);
@@ -185,25 +187,24 @@
     
 }
 -(void)pushIssue :(BuyerIssueViewController *)issue{
-    //更改
-    
-    /*
-     "Images" :[{
-        "ImageUrl":
-        "Tags":[{
-            "Name":标签名字
-            "PosX":x坐标
-                }]
-        }]
-     */
+    issue.imgTag =self.imgTag;
     NSMutableDictionary *dict= [NSMutableDictionary dictionary];
     [dict setObject:self.tempImageName forKey:@"ImageUrl"];
     [dict setObject:self.tagsArray forKey:@"Tags"];
     [self.images addObject:dict];
     issue.images =self.images;
     [self.navigationController pushViewController:issue animated:YES];
-
+    
+    
 }
+-(void)choose:(UIImage *)image{
+    
+    if ([self.delegate respondsToSelector:@selector(choose:)])
+    {
+        [self.delegate choose:image];
+    }
+}
+
 -(void)didClickImage:(UITapGestureRecognizer *)tap
 {
     tagPoint =[tap locationInView:tap.view];
@@ -334,6 +335,9 @@
         tagView.cType =2;
         [self.navigationController pushViewController:tagView animated:YES];
     }
+}
+-(void)dealloc{
+    NSLog(@"dea");
 }
 
 @end

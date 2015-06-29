@@ -9,7 +9,7 @@
 #import "BueryAuthInfoViewController.h"
 #import "BueryAuthFinishViewController.h"
 
-@interface BueryAuthInfoViewController ()<UIScrollViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate>{
+@interface BueryAuthInfoViewController ()<UIScrollViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate,UITextFieldDelegate>{
     NSArray *imageNames;
 }
 @property (nonatomic,strong)UIScrollView *customScrollView;
@@ -97,18 +97,22 @@
     return _dataArray4;
 }
 -(void)setData1{
-    
+//    [self hudShow:@"正在加载中..."];
     [HttpTool postWithURL:@"Buyer/GetStoreList" params:nil success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             self.dataArray4 =[json objectForKey:@"data"];
             [self.pickerView reloadAllComponents];
+//            [self textHUDHiddle];
+        }else{
+            [self showHudFailed:@"数据加载失败"];
         }
     } failure:^(NSError *error) {
         
     }];
 }
 -(void)setData:(NSString *)parentId WithType:(int)type{
+//    [self hudShow:@"正在加载中..."];
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:parentId forKey:@"parentId"];
     [HttpTool postWithURL:@"Common/GetCityListByParentId" params:dict success:^(id json) {
@@ -136,6 +140,9 @@
             }
 
             [self.pickerView reloadAllComponents];
+//            [self textHUDHiddle];
+        }else{
+            [self showHudFailed:@"数据加载失败"];
         }
     } failure:^(NSError *error) {
         NSLog(@"%@",[error description]);
@@ -157,6 +164,7 @@
 -(UITextField *)customField :(CGFloat)rectY andPlaceholder:(NSString *)str{
 
     UITextField * field =[[UITextField alloc]initWithFrame:CGRectMake(35, rectY, kScreenWidth-35, 40)];
+    field.delegate =self;
     field.placeholder=str;
     return field;
 }
@@ -166,7 +174,6 @@
     CGFloat scY =64;
     CGFloat scW = kScreenWidth;
     CGFloat scH = kScreenHeight -scY-50;
-    
     _customScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(scX, scY, scW, scH)];
     [self.view addSubview:_customScrollView];
     _customScrollView.delegate =self;
@@ -204,6 +211,7 @@
     [storeInfo addGestureRecognizer:tap1];
     
     _field2 =[self customField:_field1.bottom+1 andPlaceholder:@"专柜名称"];
+
     _field2.font =[UIFont fontWithName:@"youyuan" size:15];
 
     [storeInfo addSubview:_field2];
@@ -311,6 +319,23 @@
 }
 -(void)customBtnClick{
     
+    if (self.field2.text.length==0) {
+        [self showHudFailed:@"请填写专柜名称"];
+        return;
+    }else if(self.field3.text.length==0){
+        [self showHudFailed:@"请填写专柜位置"];
+        return;
+    }else if([self.field1.text isEqualToString:@"商场名称"]){
+        [self showHudFailed:@"请选择商场名称"];
+        return;
+    }else if([self.dscText.text isEqualToString:@"详细地址（顾客支付后，到专柜提货的地址，请务必正确填写，否则会影响收款确认）"] ||self.dscText.text.length ==0){
+        [self showHudFailed:@"请填写详细地址"];
+        return;
+    }else if([self.cityLable.text isEqualToString:@"省、市、区、县（请选择）"] ||self.cityLable.text.length ==0){
+        [self showHudFailed:@"请选择商场自提点"];
+        return;
+    }
+    [self hudShow:@"正在加载..."];
     NSMutableDictionary * dict =[[NSMutableDictionary alloc]init];
     if ([self.cityKey objectForKey:@"1"]) {
         [dict setObject:[self.cityKey objectForKey:@"1"] forKey:@"ProvinceId"];
@@ -328,26 +353,26 @@
         [dict setObject:[self.dataArray3[0] objectForKey:@"Id"] forKey:@"DistrictId"];
     }
     [dict setObject:self.dscText.text forKey:@"Address"];
-   
-    
     [dict setObject:@(self.field1.tag)  forKey:@"StoreId"];
     [dict setObject:self.field1.text  forKey:@"StoreName"];
-
     [dict setObject:self.field2.text forKey:@"SectionName"];
     [dict setObject:self.field3.text forKey:@"SectionLocate"];
     [dict setObject:imageNames[0] forKey:@"WorkCard"];
     [dict setObject:imageNames[1]forKey:@"CardBack"];
     [dict setObject:imageNames[2] forKey:@"CardFront"];
+    [dict setObject:self.textName forKey:@"Name"];
 
     [HttpTool postWithURL:@"Buyer/CreateAuthBuyer" params:dict success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             BueryAuthFinishViewController * finish =[[BueryAuthFinishViewController alloc]init];
             [self.navigationController pushViewController:finish animated:YES];
+        }else{
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
-        
+        [self textHUDHiddle];
     } failure:^(NSError *error) {
-        
+        [self showHudFailed:@"提交失败"];
     }];
     
    }
@@ -466,5 +491,34 @@
     [self.dscText resignFirstResponder];
     self.pickerView.hidden =YES;
 }
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = -120;
+    self.view.frame = rect;
+    [UIView commitAnimations];
+    return YES;
+    
+}
+
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = 0;
+    self.view.frame = rect;
+    [UIView commitAnimations];
+    return YES;
+}
+
 
 @end

@@ -134,15 +134,14 @@
     
     //对图片大小进行压缩--
     imageNew = [self imageCompressForSize:imageNew targetSize:imagesize];
-    
     self.imageController = [[ImageViewController alloc] initWithImage:imageNew];
+    self.imageController.imgTag =self.imgTag;
     self.imageController.delegate=self;
     [self.camera stop];
     
     NSString *back= [Common getUserDefaultKeyName:@"backPhone"];
     if ([back isEqualToString:@"1"]) {
         [self.navigationController pushViewController:self.imageController animated:NO];
-
     }else
     {
         [self presentViewController:self.imageController animated:NO completion:nil];
@@ -167,11 +166,19 @@
     return YES;
 }
 -(void)dismissCamrea:(UIImage *)image{
-    [self dismissViewControllerAnimated:NO completion:nil];
 
+    
     if (image !=nil) {
+        [self dismissViewControllerAnimated:NO completion:nil];
         if ([self.delegate respondsToSelector:@selector(dismissCamrea:WithTag:)]) {
             [self.delegate dismissCamrea:image WithTag:btype];
+        }
+    }else{
+        NSString *back= [Common getUserDefaultKeyName:@"backPhone"];
+        if ([back isEqualToString:@"2"]) {
+            [self dismissViewControllerAnimated:NO completion:nil];
+        }else{
+            [self.navigationController popViewControllerAnimated:NO];
         }
     }
 }
@@ -185,6 +192,7 @@
     picker.delegate = self;
     //设置选择后的图片可被编辑
     picker.allowsEditing = YES;
+    
     [self presentViewController:picker animated:YES completion:nil];
 
 }
