@@ -9,6 +9,7 @@
 #import "CusAttentionViewController.h"
 #import "CusFansTableViewCell.h"
 #import "BaseTableView.h"
+#import "FansItems.h"
 #define MJRandomData [NSString stringWithFormat:@"随机数据---%d", arc4random_uniform(1000000)]
 
 @interface CusAttentionViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
@@ -19,6 +20,7 @@
 @property (nonatomic ,strong) NSMutableArray *labArr;
 
 @property (nonatomic ,strong) NSMutableArray *attentionArr;
+@property (nonatomic ,assign) NSInteger pageNum;
 
 
 @end
@@ -26,6 +28,8 @@
 @implementation CusAttentionViewController
 {
     UIImageView *selectImageView;
+    FansItems *fansItems;
+
 }
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,23 +49,23 @@
     self.btnArr = [NSMutableArray array];
     self.labArr = [NSMutableArray array];
     
-    [self addNavBarViewAndTitle:@""];
+    [self addNavBarViewAndTitle:@"关注"];
     
-    UIButton *titleBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    titleBtn.center = CGPointMake(kScreenWidth/2, 64/2+10);
-    titleBtn.bounds = CGRectMake(0, 0, 60, 20);
-    [titleBtn setTitle:@"全部关注" forState:(UIControlStateNormal)];
-    titleBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:15];
-    [titleBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-    [titleBtn addTarget:self action:@selector(didClickTitleBtn:) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.navView addSubview:titleBtn];
-    
-    UIImageView *jiantouImage = [[UIImageView alloc] initWithFrame:CGRectMake(titleBtn.right+3, titleBtn.top+5, 12, 12)];
-    jiantouImage.image = [UIImage imageNamed:@"展开"];
-    [self.navView addSubview:jiantouImage];
-    
-    [self addSearchBar];
-    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
+//    UIButton *titleBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    titleBtn.center = CGPointMake(kScreenWidth/2, 64/2+10);
+//    titleBtn.bounds = CGRectMake(0, 0, 60, 20);
+//    [titleBtn setTitle:@"全部关注" forState:(UIControlStateNormal)];
+//    titleBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:15];
+//    [titleBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+//    [titleBtn addTarget:self action:@selector(didClickTitleBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+//    [self.navView addSubview:titleBtn];
+//    
+//    UIImageView *jiantouImage = [[UIImageView alloc] initWithFrame:CGRectMake(titleBtn.right+3, titleBtn.top+5, 12, 12)];
+//    jiantouImage.image = [UIImage imageNamed:@"展开"];
+//    [self.navView addSubview:jiantouImage];
+//    
+//    [self addSearchBar];
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) style:(UITableViewStylePlain)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -70,20 +74,54 @@
     __weak CusAttentionViewController *VC = self;
     self.tableView.headerRereshingBlock = ^()
     {
-        for (int i=0; i<10000; i++)
-        {
-            [VC.attentionArr insertObject:MJRandomData atIndex:0];
-        }
-        
-        [VC.tableView reloadData];
-        
+        [VC.attentionArr removeAllObjects];
+        VC.pageNum = 1;
+        [VC getData];
+
     };
     self.tableView.footerRereshingBlock =^()
     {
-        
+        VC.pageNum++;
+        [VC getData];
+
     };
     
-    [self addSelectImage];
+    [self getData];
+//    [self addSelectImage];
+}
+
+-(void)getData
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
+    [dic setValue:@"6" forKey:@"pagesize"];
+    [dic setValue:@"0" forKey:@"status"];
+    [HttpTool postWithURL:@"User/GetUserFavoite" params:dic success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            fansItems = [FansItems objectWithKeyValues:[json objectForKey:@"data"]];
+            
+            if (fansItems.items.count<6)
+            {
+                [self.tableView hiddenFooter:YES];
+            }
+            else
+            {
+                [self.tableView hiddenFooter:NO];
+            }
+            [self.attentionArr addObjectsFromArray:fansItems.items];
+            [self.tableView reloadData];
+            [self.tableView endRefresh];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 -(void)addSelectImage
@@ -174,7 +212,8 @@
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell setData:nil];
+    FansModel *fan = [fansItems.items objectAtIndex:indexPath.row];
+    [cell setData:fan];
     
     return cell;
 }
@@ -183,7 +222,6 @@
 {
     return 70;
 }
-
 
 -(void)didClickTitleBtn:(UIButton *)btn
 {

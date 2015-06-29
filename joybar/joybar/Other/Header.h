@@ -30,7 +30,8 @@
 #define AlySecretKey  @"IfGB5txNXBv0vv7Z5qERPH1Bp4DLtn"
 #define AlyBucket @"apprss"
 #define AlyBucketHostId @"oss-cn-beijing.aliyuncs.com"
-#define SocketUrl @"http://182.92.7.70:8000/chat"
+//#define SocketUrl @"http://182.92.7.70:8000/chat"
+#define SocketUrl @"182.92.7.70:8001/chat"
 
 
 

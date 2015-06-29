@@ -150,14 +150,22 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    return [WXApi handleOpenURL:url delegate:self];
+    
+    
+//    return [WXApi handleOpenURL:url delegate:self];
+    
     return  [UMSocialSnsService handleOpenURL:url];
 }
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-   return [WXApi handleOpenURL:url delegate:self];
-    return  [UMSocialSnsService handleOpenURL:url];
+
+    if ([sourceApplication isEqualToString:@"com.tencent.xin"])
+    {
+        return  [UMSocialSnsService handleOpenURL:url];
+    }
+    return [WXApi handleOpenURL:url delegate:self];
+
 }
 
 //============================================================

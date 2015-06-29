@@ -66,6 +66,10 @@
     {
         numArr = @[mineData.FollowingCount,mineData.FollowerCount,mineData.CommunityCount];
     }
+    else
+    {
+        numArr = @[@"0",@"0",@"0"];
+    }
     for (int i=0; i<3; i++)
     {
         UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];

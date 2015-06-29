@@ -312,7 +312,9 @@
             VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
             [self showHudSuccess:@"提交成功"];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
                 [self.navigationController pushViewController:VC animated:YES];
+                
             });
         }
         else
@@ -341,9 +343,12 @@
     {
         [self.tableView endEditing:YES];
         CGFloat sectionHeaderHeight = 10;
-        if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0)
+        {
             scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-        } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        }
+        else if (scrollView.contentOffset.y>=sectionHeaderHeight)
+        {
             scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
         }
     }

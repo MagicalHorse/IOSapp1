@@ -1336,12 +1336,12 @@
 				0AAB5A401B2AE01800782C0C /* CusCircleViewController.m */,
 				0AAB5A411B2AE01800782C0C /* CusInviteFriendViewController.h */,
 				0AAB5A421B2AE01800782C0C /* CusInviteFriendViewController.m */,
+				0AAB5A4B1B2AE01800782C0C /* MyCircleTableView.h */,
+				0AAB5A4C1B2AE01800782C0C /* MyCircleTableView.m */,
 				0AAB5A431B2AE01800782C0C /* CusMyCircleTableViewCell.h */,
 				0AAB5A441B2AE01800782C0C /* CusMyCircleTableViewCell.m */,
 				0AAB5A451B2AE01800782C0C /* CusMyCircleTableViewCell.xib */,
 				0AAB5A461B2AE01800782C0C /* model */,
-				0AAB5A4B1B2AE01800782C0C /* MyCircleTableView.h */,
-				0AAB5A4C1B2AE01800782C0C /* MyCircleTableView.m */,
 			);
 			path = "圈子";
 			sourceTree = "<group>";
