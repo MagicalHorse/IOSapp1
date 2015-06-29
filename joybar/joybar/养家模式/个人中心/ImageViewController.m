@@ -76,8 +76,9 @@
         
         BuyerFilterViewController *issue=[[BuyerFilterViewController alloc]initWithImg:self.image];
         issue.imgTag =self.imgTag;
-        [self.navigationController pushViewController:issue animated:NO];
-    }else{
+        [self.navigationController pushViewController:issue animated:YES];
+    }
+    else{
         [self dismissViewControllerAnimated:NO completion:nil];
         if ([self.delegate respondsToSelector:@selector(dismissCamrea:)]) {
             [self.delegate dismissCamrea:self.image];

@@ -11,8 +11,10 @@
 #import "CIFilter+LUT.h"
 #import "JSONKit.h"
 #import "BuyerCameraViewController.h"
+#import "BuyerFilterViewController.h"
 #import "BaseNavigationController.h"
-@interface BuyerIssueViewController ()<UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate>
+
+@interface BuyerIssueViewController ()<UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate,BuyerFilterDelgeate>
 {
     int count;
 }
@@ -24,18 +26,19 @@
 @property (nonatomic,strong)UIButton *footerBtn;
 @property (nonatomic,strong)NSMutableArray *viewItems;
 @property (nonatomic,strong)UITextView *dscText;
+@property (nonatomic,strong)BuyerCameraViewController *customCamera;
 
 @property (nonatomic,strong)UITextField *priceText1;
 @property (nonatomic,strong)UITextField *priceText;
 @property (nonatomic,strong)UITextField *textField1;
 @property (nonatomic,strong)UITextField *textField2;
 
+@property (nonatomic,strong)UIButton *btn1;
+@property (nonatomic,strong)UIButton *btn2;
+@property (nonatomic,strong)UIButton *btn3;
+
+
 @property (nonatomic,strong)NSMutableArray *sizeArray;
-
-@property (nonatomic ,strong)NSMutableDictionary *showImages;
-
-
-
 
 @end
 
@@ -47,12 +50,7 @@
     }
     return _sizeArray;
 }
--(NSMutableDictionary *)showImages{
-    if (_showImages ==nil) {
-        _showImages =[[NSMutableDictionary alloc]init];
-    }
-    return _showImages;
-}
+
 
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -60,6 +58,13 @@
     if (self)
     {
         self.hidesBottomBarWhenPushed = YES;
+        self.customScrollView = [[UIScrollView alloc]init];
+        self.btn1=[[UIButton alloc]init];
+        self.btn1.tag=1;
+        self.btn2=[[UIButton alloc]init];
+        self.btn2.tag=2;
+        self.btn3=[[UIButton alloc]init];
+        self.btn3.tag=3;
     }
     return self;
 }
@@ -85,7 +90,6 @@
     CGFloat customScrollViewY=64;
     CGFloat customScrollViewW=kScreenWidth;
     CGFloat customScrollViewH=kScreenHeight-50-64;
-    self.customScrollView = [[UIScrollView alloc]init];
     self.customScrollView.frame =CGRectMake(customScrollViewX, customScrollViewY, customScrollViewW, customScrollViewH);
     self.customScrollView.backgroundColor =kCustomColor(241, 241, 241);
     self.customScrollView.delegate=self;
@@ -96,28 +100,27 @@
     self.photoView.backgroundColor =[UIColor whiteColor];
     [self.customScrollView addSubview:self.photoView];
     
-    for (int i=0; i<3; i++) {
-        
-        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/3-20)*i+15*(i+1), 15, kScreenWidth/3-20, 85)];
-        btn.tag =i+1;
-        btn.layer.borderWidth= 1.5;
-        btn.layer.borderColor = kCustomColor(169, 200, 234).CGColor;
-        [btn setTitle:@"+图片" forState:UIControlStateNormal];
-        [btn setTitleColor:kCustomColor(194, 194, 200)  forState:UIControlStateNormal];
+    [self creatBtn:self.btn1];
+    [self creatBtn:self.btn2];
+    [self creatBtn:self.btn3];
+    if (!self.imgTag) {
+        [_btn1 setBackgroundImage:self.image forState:UIControlStateNormal];
+       
 
-        [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self.photoView addSubview:btn];
-        
-        if (!self.imgTag &&i==0) {
-            [btn setBackgroundImage:self.image forState:UIControlStateNormal];
-            [self.showImages setObject:self.image forKey:@(i)];
-        }
-        if (i==self.imgTag-1) {
-            [btn setBackgroundImage:self.image forState:UIControlStateNormal];
-            [self.showImages setObject:self.image forKey:@(i)];
-
-        }
     }
+    if (self.imgTag-1==0) {
+        [_btn1 setBackgroundImage:self.image forState:UIControlStateNormal];
+        
+    }
+    if (self.imgTag-1==1) {
+        [_btn2 setBackgroundImage:self.image forState:UIControlStateNormal];
+        
+    }
+    if (self.imgTag-1==2) {
+        [_btn3 setBackgroundImage:self.image forState:UIControlStateNormal];
+        
+    }
+
     
     //priceView
     CGFloat priceViewX=0;
@@ -211,7 +214,20 @@
 
     
 }
+
+-(void)creatBtn:(UIButton *)btn
+{
+    NSInteger i=btn.tag-1;
+    btn.frame= CGRectMake((kScreenWidth/3-20)*i+15*(i+1), 15, kScreenWidth/3-20, 85);
+    btn.layer.borderWidth= 1.5;
+    btn.layer.borderColor = kCustomColor(169, 200, 234).CGColor;
+    [btn setTitle:@"+图片" forState:UIControlStateNormal];
+    [btn setTitleColor:kCustomColor(194, 194, 200)  forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.photoView addSubview:btn];
+}
 -(void)publicsh{
+
 
     NSMutableDictionary *tempSizes =[NSMutableDictionary dictionary];
     [tempSizes setObject:self.textField1.text forKey:@"name"];
@@ -259,11 +275,15 @@
 
 -(void)btnClick:(UIButton *)btn{
     NSInteger i =btn.tag;
-    [Common saveUserDefault:@"1" keyName:@"backPhone"];
-    BuyerCameraViewController *VC = [[BuyerCameraViewController alloc] init];
-    VC.imgTag =i;
-    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
-    [self presentViewController:nav animated:YES completion:nil];
+//    [Common saveUserDefault:@"3" keyName:@"backPhone"];
+//    BaseNavigationController *nav;
+    if (self.customCamera ==nil) {
+        self.customCamera =[[BuyerCameraViewController alloc]init];
+    }
+//    self.customCamera.imgTag =i;
+//    
+//    [self presentViewController:nav animated:YES completion:nil];
+    [self.navigationController pushViewController:self.customCamera animated:NO];
 }
 
 
@@ -386,6 +406,25 @@
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView{
     [textView resignFirstResponder];
     return  YES;
+}
+
+-(void)dismissCamrea:(UIImage *)image WithTag:(int)type{
+    switch (type) {
+        case 1:
+            [self.btn1 setBackgroundImage:image forState:UIControlStateNormal];
+            break;
+        case 2:
+            [self.btn2 setBackgroundImage:image forState:UIControlStateNormal];
+            break;
+        case 3:
+            [self.btn3 setBackgroundImage:image forState:UIControlStateNormal];
+            break;
+        default:
+            break;
+    }
+}
+-(void)choose:(UIImage *)image{
+    NSLog(@"choose");
 }
 -(void)dealloc{
     NSLog(@"dealloc");

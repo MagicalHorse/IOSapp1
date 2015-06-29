@@ -367,10 +367,10 @@
         if (isSuccessful) {
             BueryAuthFinishViewController * finish =[[BueryAuthFinishViewController alloc]init];
             [self.navigationController pushViewController:finish animated:YES];
-            [self textHUDHiddle];
         }else{
-            [self showHudFailed:@"提交失败"];
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self textHUDHiddle];
     } failure:^(NSError *error) {
         [self showHudFailed:@"提交失败"];
     }];
