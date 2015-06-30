@@ -11,7 +11,7 @@
 #import "UIImage+Crop.h"
 #import "BuyerFilterViewController.h"
 
-@interface ImageViewController ()
+@interface ImageViewController ()<BuyerFilterDelgeate>
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) UIImageView *imageView;
 @property (strong, nonatomic) UILabel *infoLabel;
@@ -66,22 +66,34 @@
 }
 
 -(void)btnClick{
-    [self.delegate dismissCamrea:nil];
+    
+    [self.delegate dismissCamrea:nil andDataArray:nil];
 }
 
 - (void)btn1Click
 {
     NSString * ctype =[Common getUserDefaultKeyName:@"backPhone"];
-    if ([ctype isEqualToString:@"1"]) {
-        
+     //如果选择，关闭相机。传代理，不选择，跳到下一个
+    if ([ctype isEqualToString:@"1"]||[ctype isEqualToString:@"3"] ) {
         BuyerFilterViewController *issue=[[BuyerFilterViewController alloc]initWithImg:self.image];
-        issue.imgTag =self.imgTag;
+        issue.delegate =self;
         [self.navigationController pushViewController:issue animated:YES];
-    }
-    else{
+    }else{
+        
         [self dismissViewControllerAnimated:NO completion:nil];
-        if ([self.delegate respondsToSelector:@selector(dismissCamrea:)]) {
-            [self.delegate dismissCamrea:self.image];
+        if ([self.delegate respondsToSelector:@selector(dismissCamrea:andDataArray:)]) {
+            [self.delegate dismissCamrea:self.image andDataArray:nil];
+        }
+    }
+}
+
+-(void)choose:(UIImage *)image andImgs:(NSMutableDictionary *)array
+{
+    NSString *back =[Common getUserDefaultKeyName:@"backPhone"];
+    if (![back isEqualToString:@"1"]) {
+        [self dismissViewControllerAnimated:NO completion:nil];
+        if ([self.delegate respondsToSelector:@selector(dismissCamrea:andDataArray:)]) {
+            [self.delegate dismissCamrea:image andDataArray:array];
         }
     }
 }

@@ -39,9 +39,16 @@
     [self.window makeKeyAndVisible];
     
     [self connectionSoctet];
-
+    [self newMsg];
    
     return YES;
+}
+-(void)newMsg{
+    
+    [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
+        
+        NSLog(@"哈哈哈哈哈哈:");
+    }];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

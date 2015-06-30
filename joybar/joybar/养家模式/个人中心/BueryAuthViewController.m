@@ -205,7 +205,7 @@
 //   
 //}
 
--(void)dismissCamrea:(UIImage *)image WithTag:(int)type{
+-(void)dismissCamrea:(UIImage *)image WithTag:(int)type AndDataArray:(NSMutableDictionary *)array{
     
     UIImage *imageNew =image;
     //设置image的尺寸

@@ -147,10 +147,7 @@
     self.tableView.tableFooterView =[[UIView alloc]init];
     [self.homeScroll addSubview:self.tableView];
     
-    [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
-        
-        NSLog(@"哈哈哈哈哈哈:");
-    }];
+   
     
 }
 
@@ -209,6 +206,7 @@
     if (tableView.tag ==2) {
         NSString *userid =[[self.dataArray1[indexPath.row]objectForKey:@"UserId"]stringValue];
         CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:[self.dataArray1[indexPath.row]objectForKey:@"UserName"]];
+        chat.isFrom =isFromPrivateChat;
         [self.navigationController pushViewController:chat animated:YES];
     }else{
         CusCircleDetailViewController * detail =[[CusCircleDetailViewController alloc]init];

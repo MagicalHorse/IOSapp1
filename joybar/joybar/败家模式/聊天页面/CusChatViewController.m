@@ -117,6 +117,8 @@
     
     [self creatRoom];
     [self addTitleView];
+    
+    
 }
 
 -(void)creatRoom
