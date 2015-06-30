@@ -39,7 +39,6 @@
     [self.window makeKeyAndVisible];
     
     [self connectionSoctet];
-    [self newMsg];
    
     return YES;
 }
