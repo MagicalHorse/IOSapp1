@@ -14,7 +14,7 @@
 #import "BuyerFilterViewController.h"
 #import "BaseNavigationController.h"
 
-@interface BuyerIssueViewController ()<UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate,BuyerFilterDelgeate>
+@interface BuyerIssueViewController ()<UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate,BuyerCameraDelgeate>
 {
     int count;
 }
@@ -39,6 +39,7 @@
 
 
 @property (nonatomic,strong)NSMutableArray *sizeArray;
+@property (nonatomic,strong)NSMutableArray *imagesArray;
 
 @end
 
@@ -50,6 +51,14 @@
     }
     return _sizeArray;
 }
+-(NSMutableArray *)imagesArray{
+    if (_imagesArray ==nil) {
+        _imagesArray =[[NSMutableArray alloc]init];
+    }
+    return _imagesArray;
+}
+
+
 
 
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -103,23 +112,9 @@
     [self creatBtn:self.btn1];
     [self creatBtn:self.btn2];
     [self creatBtn:self.btn3];
-    if (!self.imgTag) {
-        [_btn1 setBackgroundImage:self.image forState:UIControlStateNormal];
+    [_btn1 setBackgroundImage:self.image forState:UIControlStateNormal];
        
 
-    }
-    if (self.imgTag-1==0) {
-        [_btn1 setBackgroundImage:self.image forState:UIControlStateNormal];
-        
-    }
-    if (self.imgTag-1==1) {
-        [_btn2 setBackgroundImage:self.image forState:UIControlStateNormal];
-        
-    }
-    if (self.imgTag-1==2) {
-        [_btn3 setBackgroundImage:self.image forState:UIControlStateNormal];
-        
-    }
 
     
     //priceView
@@ -215,7 +210,12 @@
     
 }
 
--(void)creatBtn:(UIButton *)btn
+-(void)returnBtnClicked:(UIButton *)button
+{
+    [Common saveUserDefault:@"1" keyName:@"backPhone"];
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}-(void)creatBtn:(UIButton *)btn
 {
     NSInteger i=btn.tag-1;
     btn.frame= CGRectMake((kScreenWidth/3-20)*i+15*(i+1), 15, kScreenWidth/3-20, 85);
@@ -228,10 +228,12 @@
 }
 -(void)publicsh{
 
-
+    [self hudShow:@"正在发布..."];
     NSMutableDictionary *tempSizes =[NSMutableDictionary dictionary];
     [tempSizes setObject:self.textField1.text forKey:@"name"];
     [tempSizes setObject:self.textField2.text forKey:@"Inventory"];
+    
+    [self.imagesArray addObject:self.images];
 
     [self.sizeArray addObject:tempSizes];
     if(self.viewItems.count>0){
@@ -253,21 +255,26 @@
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:self.priceText.text forKey:@"Price"];
     [dict setObject:self.sizeArray forKey:@"Sizes"];
-    [dict setObject:self.images forKey:@"Images"];
+    [dict setObject:self.imagesArray forKey:@"Images"];
     [dict setObject:self.dscText.text forKey:@"Desc"];
     [dict setObject:self.priceText1.text forKey:@"Sku_Code"];
     
     
     
     NSDictionary * parameters = [ NSDictionary dictionaryWithObjectsAndKeys:[ dict JSONString], @"json" , nil ];
-
-
     [HttpTool postWithURL:@"Product/Create" params:parameters success:^(id json) {
-        NSString *isSuccessful =[json objectForKey:@"isSuccessful"];
+        BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self showHudSuccess:@"发布成功！"];
+            dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1*NSEC_PER_SEC);
+            dispatch_after(time, dispatch_get_main_queue(), ^{
+                [self dismissViewControllerAnimated:YES completion:nil];
+            });
+            
+        }else{
+            [self showHudFailed:@"发布失败！"];
         }
-        
+        [self textHUDHiddle];
     } failure:^(NSError *error) {
         NSLog(@"%@",[error description]);
     }];
@@ -275,15 +282,12 @@
 
 -(void)btnClick:(UIButton *)btn{
     NSInteger i =btn.tag;
-//    [Common saveUserDefault:@"3" keyName:@"backPhone"];
-//    BaseNavigationController *nav;
-    if (self.customCamera ==nil) {
-        self.customCamera =[[BuyerCameraViewController alloc]init];
-    }
-//    self.customCamera.imgTag =i;
-//    
-//    [self presentViewController:nav animated:YES completion:nil];
-    [self.navigationController pushViewController:self.customCamera animated:NO];
+    [Common saveUserDefault:@"3" keyName:@"backPhone"];
+    self.customCamera =[[BuyerCameraViewController alloc]initWithType:i];
+    self.customCamera.delegate =self;
+    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:self.customCamera];
+    
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 
@@ -408,25 +412,28 @@
     return  YES;
 }
 
--(void)dismissCamrea:(UIImage *)image WithTag:(int)type{
+-(void)dismissCamrea:(UIImage *)image WithTag:(int)type AndDataArray:(NSMutableDictionary *)array{
+    
     switch (type) {
         case 1:
+            if (self.imagesArray[0]) {
+                [self.imagesArray removeObjectAtIndex:0];
+            }
+            [self.imagesArray insertObject:array atIndex:0];
             [self.btn1 setBackgroundImage:image forState:UIControlStateNormal];
             break;
         case 2:
+            [self.imagesArray addObject:array];
             [self.btn2 setBackgroundImage:image forState:UIControlStateNormal];
             break;
         case 3:
+            [self.imagesArray addObject:array];
             [self.btn3 setBackgroundImage:image forState:UIControlStateNormal];
             break;
         default:
             break;
     }
 }
--(void)choose:(UIImage *)image{
-    NSLog(@"choose");
-}
--(void)dealloc{
-    NSLog(@"dealloc");
-}
+
+
 @end

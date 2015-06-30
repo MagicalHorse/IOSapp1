@@ -9,12 +9,11 @@
 #import "BaseViewController.h"
 @protocol BuyerCameraDelgeate <NSObject>
 @optional
--(void)dismissCamrea:(UIImage *)image WithTag:(int)type;
+-(void)dismissCamrea:(UIImage *)image WithTag:(int)type AndDataArray :(NSMutableDictionary *)array;
 @end
 @interface BuyerCameraViewController : BaseViewController
 @property (nonatomic, weak) id <BuyerCameraDelgeate> delegate;
 -(instancetype)initWithType:(int)type;
-@property (nonatomic,assign)NSInteger imgTag;
 
 @end
 

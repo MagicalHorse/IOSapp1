@@ -30,19 +30,13 @@
 @property (nonatomic,strong)UIImageView *bgImage;
 @property (nonatomic,strong)NSMutableDictionary *tagArray;
 @property (nonatomic,strong)NSMutableArray *tagsArray;
-@property (nonatomic,strong)NSMutableArray * images;
 @property (nonatomic,strong)NSString *tempImageName;
 @property (nonatomic,strong)BuyerIssueViewController *issue;
 @end
 
 @implementation BuyerFilterViewController
 
--(NSMutableArray *)images{
-    if (_images ==nil) {
-        _images =[[NSMutableArray alloc]init];
-    }
-    return _images;
-}
+
 -(NSMutableArray *)tagsArray{
     if (_tagsArray ==nil) {
         _tagsArray =[[NSMutableArray alloc]init];
@@ -163,14 +157,15 @@
     }
 }
 -(void)nextClick{
+    [self hudShow:@"正在加载..."];
     NSDate *  senddate=[NSDate date];
     NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
     [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
     NSString *  locationString=[dateformatter stringFromDate:senddate];
     NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
-    if (self.issue==nil) {
-        self.issue =[[BuyerIssueViewController alloc]init];
-    }
+    
+    self.issue =[[BuyerIssueViewController alloc]init];
+    
     self.issue.image =cImage;
     OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
     osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
@@ -180,30 +175,32 @@
         if (isSuccess) {
             self.tempImageName =temp;
             [self performSelectorOnMainThread:@selector(pushIssue:)withObject:self.issue waitUntilDone:YES];
+        }else{
+            [self showHudFailed:[error description]];
         }
+        [self textHUDHiddle];
     } withProgressCallback:^(float progress) {
         NSLog(@"%f",progress);
     }];
     
 }
 -(void)pushIssue :(BuyerIssueViewController *)issue{
-    issue.imgTag =self.imgTag;
+    
+    
     NSMutableDictionary *dict= [NSMutableDictionary dictionary];
     [dict setObject:self.tempImageName forKey:@"ImageUrl"];
     [dict setObject:self.tagsArray forKey:@"Tags"];
-    [self.images addObject:dict];
-    issue.images =self.images;
+    issue.images =dict;
     [self.navigationController pushViewController:issue animated:YES];
     
-    
-}
--(void)choose:(UIImage *)image{
-    
-    if ([self.delegate respondsToSelector:@selector(choose:)])
+    if ([self.delegate respondsToSelector:@selector(choose:andImgs:)])
     {
-        [self.delegate choose:image];
+        [self.delegate choose:cImage andImgs:dict];
     }
+    
+    
 }
+
 
 -(void)didClickImage:(UITapGestureRecognizer *)tap
 {
@@ -336,8 +333,6 @@
         [self.navigationController pushViewController:tagView animated:YES];
     }
 }
--(void)dealloc{
-    NSLog(@"dea");
-}
+
 
 @end

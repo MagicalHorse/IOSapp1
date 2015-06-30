@@ -5,8 +5,8 @@
 //  Created by 陈政 on 14-1-23.
 //  Copyright (c) 2014年 Apple Inc. All rights reserved.
 //
-
 #import "CycleScrollView.h"
+#import "CusHomeViewController.h"
 //#import "NSTimer+Addition.h"
 
 @interface CycleScrollView () <UIScrollViewDelegate>
@@ -109,8 +109,9 @@
     self.pageControl.currentPageIndicatorTintColor = [UIColor redColor];
     self.pageControl.backgroundColor = [UIColor clearColor];
     [self addSubview:self.pageControl];
-    
-    if (datasource && [datasource respondsToSelector:@selector(totalPagesCount)])
+    CusHomeViewController *homeData=(CusHomeViewController *) datasource;
+   
+    if (datasource && [datasource respondsToSelector:@selector(totalPagesCount)] &&homeData.data)
     {
         _totalPageCount = [datasource totalPagesCount];
     }
@@ -124,6 +125,7 @@
         [self resumeTimerAfterTimeInterval:self.animationDuration];
     }
     [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
     [self setScrollViewContentDataSource];
     
     NSInteger counter = 0;

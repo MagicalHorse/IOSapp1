@@ -135,12 +135,11 @@
     //对图片大小进行压缩--
     imageNew = [self imageCompressForSize:imageNew targetSize:imagesize];
     self.imageController = [[ImageViewController alloc] initWithImage:imageNew];
-    self.imageController.imgTag =self.imgTag;
     self.imageController.delegate=self;
     [self.camera stop];
     
     NSString *back= [Common getUserDefaultKeyName:@"backPhone"];
-    if ([back isEqualToString:@"1"]) {
+    if ([back isEqualToString:@"1"] ||[back isEqualToString:@"3"]) {
         [self.navigationController pushViewController:self.imageController animated:NO];
     }else
     {
@@ -165,17 +164,17 @@
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }
--(void)dismissCamrea:(UIImage *)image{
+-(void)dismissCamrea:(UIImage *)image andDataArray:(NSMutableDictionary *)array{
 
-    
+    //如果有图片，把图片传回代理，没有则返回相机
     if (image !=nil) {
         [self dismissViewControllerAnimated:NO completion:nil];
-        if ([self.delegate respondsToSelector:@selector(dismissCamrea:WithTag:)]) {
-            [self.delegate dismissCamrea:image WithTag:btype];
+        if ([self.delegate respondsToSelector:@selector(dismissCamrea:WithTag:AndDataArray:)]) {
+            [self.delegate dismissCamrea:image WithTag:btype AndDataArray:array];
         }
     }else{
         NSString *back= [Common getUserDefaultKeyName:@"backPhone"];
-        if ([back isEqualToString:@"2"]) {
+        if ([back isEqualToString:@"2"] ||[back isEqualToString:@"3"]) {
             [self dismissViewControllerAnimated:NO completion:nil];
         }else{
             [self.navigationController popViewControllerAnimated:NO];
@@ -217,7 +216,7 @@
 
         }else{
             [picker dismissViewControllerAnimated:NO completion:nil];
-            [self dismissCamrea:image];
+            [self dismissCamrea:image andDataArray:nil];
 
         }
     }

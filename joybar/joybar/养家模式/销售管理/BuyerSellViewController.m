@@ -19,16 +19,11 @@
 
 @interface BuyerSellViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
 }
-@property (nonatomic ,strong) UIScrollView *homeScroll;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIView *tempView;
-@property (nonatomic ,strong) UITableView *tableView1;
-@property (nonatomic ,strong) UITableView *tableView2;
-@property (nonatomic ,strong) UITableView *tableView3;
-@property (nonatomic ,strong) UITableView *tableView4;
-@property (nonatomic ,assign) CGFloat startX;
-@property (nonatomic ,assign) CGFloat endX;
+@property (nonatomic ,strong) UITableView *tableView;
+
 @end
 
 @implementation BuyerSellViewController
@@ -50,6 +45,7 @@
 }
 -(void)setData:(Parameter *)param andType:(int)type
 {
+    [self hudShow:@"正在加载..."];
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     [dict setObject:param.page forKey:@"Page"];
     [dict setObject:param.pageSzie forKey:@"Pagesize"];
@@ -67,18 +63,13 @@
         if (isSuccessful) {
             NSMutableArray *array =[json objectForKey:@"data"];
           Orders *order = [Orders objectWithKeyValues :array];
-        _dataArray = order.orderlist;
+            self.dataArray = order.orderlist;
+            [self.tableView reloadData];
+        }else{
+            [self showHudFailed:@"加载失败"];
         }
-        if (type ==1) {
-            [self.tableView1 reloadData];
-        }else if(type ==2){
-            [self.tableView2 reloadData];
-        }
-        else if(type ==3){
-            [self.tableView3 reloadData];
-        }else if(type ==4){
-            [self.tableView4 reloadData];
-        }
+        [self textHUDHiddle];
+        
     } failure:^(NSError *error) {
         NSLog(@"%@",[error description]);
     }];
@@ -86,7 +77,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:1];
     [self addNavBarViewAndTitle:@"销售管理"];
     _tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
     _tempView.backgroundColor = kCustomColor(251, 250, 250);
@@ -122,27 +112,16 @@
     lineView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:lineView];
     
-    self.homeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64)];
-    self.homeScroll.contentSize = CGSizeMake(kScreenWidth*4, 0);
-    self.homeScroll.alwaysBounceVertical = NO;
-    self.homeScroll.pagingEnabled = YES;
-    self.homeScroll.delegate = self;
-    self.homeScroll.directionalLockEnabled = YES;
-    self.homeScroll.showsHorizontalScrollIndicator = NO;
-    self.homeScroll.bounces = NO;
-    [self.view addSubview:self.homeScroll];
     
     //tableView
-    self.tableView1= [[UITableView alloc]init];
-    self.tableView1.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-104);
-    self.tableView1.tag = 1;
-    self.tableView1.delegate = self;
-    self.tableView1.dataSource = self;
-    self.tableView1.restorationIdentifier =@"cell";
-    self.tableView1.backgroundColor = kCustomColor(237, 237, 237);
-    _tableView1.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.homeScroll addSubview:self.tableView1];
-
+    self.tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-104) style:UITableViewStyleGrouped];
+    self.tableView.tag = 1;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = kCustomColor(237, 237, 237);
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:self.tableView];
+    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:1];
 
 }
 
@@ -161,22 +140,8 @@
     
     Order *order = self.dataArray[indexPath.section];
     Product * product =[order.Products firstObject];
-    BuyerStoreTableViewCell *cell;
-    if (tableView.tag ==1) {
-        static NSString *CellIdentifier = @"cell1";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
-    }else if (tableView.tag==2) {
-        static NSString *CellIdentifier = @"cell2";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    }else if (tableView.tag==3) {
-        static NSString *CellIdentifier = @"cell3";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    }else if (tableView.tag==4) {
-        static NSString *CellIdentifier = @"cell4";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    }
-    
+    static NSString *CellIdentifier = @"cell";
+    BuyerStoreTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell =[[[NSBundle mainBundle] loadNibNamed:@"BuyerStoreTableViewCell" owner:self options:nil] lastObject];
     }
@@ -204,26 +169,32 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 54)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 74)];
     view.backgroundColor = [UIColor whiteColor];
+    
+        UIView *viewBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
+        viewBg.backgroundColor =  kCustomColor(237, 237, 237);
+        [view addSubview:viewBg];
+
+    
     UILabel *orderLabel = [[UILabel alloc]init];
     Order *o = self.dataArray[section];
     if (tableView.tag>3) {
         orderLabel.text = @"退货单号:";
-        orderLabel.frame =CGRectMake(15, 15, 75, 16);
+        orderLabel.frame =CGRectMake(15, 35, 75, 16);
     }else{
         orderLabel.text = @"订单号:";
-        orderLabel.frame =CGRectMake(15, 15, 60, 16);
+        orderLabel.frame =CGRectMake(15, 35, 60, 16);
     }
     orderLabel.font = [UIFont fontWithName:@"youyuan" size:16];
     [view addSubview:orderLabel];
     
-    UILabel *orderNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(orderLabel.right, 16, 150, 15)];
+    UILabel *orderNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(orderLabel.right, 36, 150, 15)];
     orderNumLabel.font = [UIFont fontWithName:@"youyuan" size:15];
     orderNumLabel.text =o.OrderNo;
     [view addSubview:orderNumLabel];
     
-    UILabel *orderSLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-135, 14, 120, 16)];
+    UILabel *orderSLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-135, 34, 120, 16)];
     orderSLabel.textAlignment =NSTextAlignmentRight;
     orderSLabel.text = o.StatusName;
     orderSLabel.textColor =[UIColor redColor];
@@ -244,7 +215,7 @@
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, viewY)];
     view.backgroundColor = [UIColor whiteColor];
     
-    UILabel *cooutLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 65, 13)];
+    UILabel *cooutLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 20, 65, 13)];
     
     CGFloat fuhaoX;
     if (tableView.tag>3) {
@@ -253,7 +224,7 @@
         fuhaoX = cooutLabel.center.x;
     }
     
-    UILabel *fuhaoL=[[UILabel alloc]initWithFrame:CGRectMake(fuhaoX, 12, 20, 13)];
+    UILabel *fuhaoL=[[UILabel alloc]initWithFrame:CGRectMake(fuhaoX, 22, 20, 13)];
     fuhaoL.text =@"￥";
     [view addSubview:fuhaoL];
 
@@ -302,26 +273,24 @@
     
     orderPLabel.text = [o.InCome stringValue];
     CGSize size= [Public getContentSizeWith:orderPLabel.text andFontSize:18 andHigth:18];
-    orderPLabel.frame =CGRectMake(fuhaoL.right, 8, size.width, size.height);
+    orderPLabel.frame =CGRectMake(fuhaoL.right, 18, size.width, size.height);
     [view addSubview:orderPLabel];
     
     orderPLabel1.text =[NSString stringWithFormat:@"%@%@",@"￥", [o.Amount stringValue]];
     CGSize s= [Public getContentSizeWith:orderPLabel1.text andFontSize:18 andHigth:18];
-    orderPLabel1.frame =CGRectMake(kScreenWidth-s.width-10, 8, s.width, s.height);
+    orderPLabel1.frame =CGRectMake(kScreenWidth-s.width-10, 18, s.width, s.height);
     [view addSubview:orderPLabel1];
 
-    orderPTLabel.frame=CGRectMake(orderPLabel1.left-40, 10, 40, 13);
+    orderPTLabel.frame=CGRectMake(orderPLabel1.left-40, 20, 40, 13);
     orderPTLabel.font = [UIFont fontWithName:@"youyuan" size:13];
     [view addSubview:orderPTLabel];
     
-    UIView *viewBg = [[UIView alloc]initWithFrame:CGRectMake(0, viewY-20, kScreenWidth, 20)];
-    viewBg.backgroundColor =  kCustomColor(237, 237, 237);
-    [view addSubview:viewBg];
     
     return view;
 }
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)sectio{
-    return 54;
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+   
+    return 74;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -345,71 +314,28 @@
 {
     return 101;
 }
-#pragma mark ScrollViewDeletegate
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    self.startX = scrollView.contentOffset.x;
-}
 
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
-    
-    self.endX = scrollView.contentOffset.x;
-    
-}
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    
-    
-    self.endX = scrollView.contentOffset.x;
-    
-    if (self.startX-self.endX==0)
-    {
-        return;
-    }
-    if (scrollView.contentOffset.x==0)
-    {
-        [self scrollToBuyerStreet];
-    }
-    else if(scrollView.contentOffset.x==kScreenWidth)
-    {
-        [self scrollToSaid];
-    }
-    
-    else if(scrollView.contentOffset.x==kScreenWidth*2)
-    {
-        [self scrollToMyBuyer];
-    }
-    else
-    {
-        [self scrollToMyBuyer1];
-    }
-    
-}
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
     if (tap.view.tag==1000)
     {
-        self.homeScroll.contentOffset = CGPointMake(0, 0);
         [self scrollToBuyerStreet];
     }
     else if(tap.view.tag==1001)
     {
-        self.homeScroll.contentOffset = CGPointMake(kScreenWidth, 0);
         [self scrollToSaid];
     }
     else if(tap.view.tag==1002)
     {
-        self.homeScroll.contentOffset = CGPointMake(kScreenWidth*2, 0);
         [self scrollToMyBuyer];
     }
     else
     {
-        self.homeScroll.contentOffset = CGPointMake(kScreenWidth*3, 0);
         [self scrollToMyBuyer1];
     }
 }
-
 
 
 //全部订单
@@ -431,9 +357,6 @@
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont fontWithName:@"youyuan" size:13];
-    _tableView1.restorationIdentifier =@"cell1";
-
-    self.dataArray =nil;
     [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:1];
     
 }
@@ -446,17 +369,6 @@
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
     UILabel *lab4 = (UILabel *)[_tempView viewWithTag:1003];
    
-    _tableView2= [[UITableView alloc] init];
-    _tableView2.frame = CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-104);
-    [self.homeScroll addSubview:_tableView2];
-    _tableView2.delegate =self;
-    _tableView2.dataSource=self;
-    _tableView2.tag=2;
-    _tableView2.backgroundColor = kCustomColor(237, 237, 237);
-    self.dataArray =nil;
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:2];
-    _tableView2.restorationIdentifier =@"cell2";
-    _tableView2.separatorStyle = UITableViewCellSeparatorStyleNone;
     [UIView animateWithDuration:0.1 animations:^{
         self.lineLab.center = CGPointMake(lab2.center.x, 38);
     }];
@@ -468,6 +380,8 @@
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont fontWithName:@"youyuan" size:13];
+    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:2];
+
     
 }
 //专柜自提
@@ -477,18 +391,6 @@
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
     UILabel *lab4 = (UILabel *)[_tempView viewWithTag:1003];
-    _tableView3= [[UITableView alloc] init];
-    _tableView3.frame = CGRectMake(kScreenWidth*2, 0, kScreenWidth, kScreenHeight-104);
-    [self.homeScroll addSubview:_tableView3];
-    _tableView3.delegate =self;
-    _tableView3.dataSource=self;
-    _tableView3.tag=3;
-    _tableView3.backgroundColor = kCustomColor(237, 237, 237);
-    _tableView3.restorationIdentifier =@"cell3";
-    _tableView3.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    self.dataArray =nil;
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:3];
 
     [UIView animateWithDuration:0.1 animations:^{
         self.lineLab.center = CGPointMake(lab3.center.x, 38);
@@ -501,6 +403,7 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
+    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:3];
 
     
 }
@@ -511,19 +414,7 @@
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
     UILabel *lab4 = (UILabel *)[_tempView viewWithTag:1003];
-    
-    _tableView4= [[UITableView alloc] init];
-    _tableView4.frame = CGRectMake(kScreenWidth*3, 0, kScreenWidth, kScreenHeight-104);
-    [self.homeScroll addSubview:_tableView4];
-    _tableView4.delegate =self;
-    _tableView4.dataSource=self;
-    _tableView4.tag=4;
-    _tableView4.backgroundColor = kCustomColor(237, 237, 237);
-    _tableView4.restorationIdentifier =@"cell4";
-    self.dataArray =nil;
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:4];
-    _tableView4.separatorStyle = UITableViewCellSeparatorStyleNone;
-
+   
     [UIView animateWithDuration:0.1 animations:^{
         self.lineLab.center = CGPointMake(lab4.center.x, 38);
     }];
@@ -535,6 +426,8 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
+    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:4];
+
     
 }
 

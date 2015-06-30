@@ -12,7 +12,6 @@
 //#import "NSTimer+Addition.h"
 #import "CusBuyerDetailViewController.h"
 #import "BaseTableView.h"
-#import "HomeData.h"
 #import "Banner.h"
 #import "HomeProduct.h"
 #import "BaseNavigationController.h"
@@ -35,7 +34,6 @@
 @property (nonatomic ,assign) NSInteger pageNum;
 
 @property (nonatomic ,strong) NSMutableArray *homeArr;
-@property (nonatomic ,strong) HomeData *data;
 @property (nonatomic ,strong) MyBuyerTableView *myBuyerTableView;
 @property (nonatomic ,strong) NSMutableArray *myBuyerArr;
 @property (nonatomic ,assign) NSInteger myBuyerPageNum;
@@ -264,7 +262,8 @@
 
 - (NSInteger) totalPagesCount
 {
-    return self.data.Banners.count;
+  
+   return self.data.Banners.count;
 }
 
 - (UIView *) fetchContentViewAtIndex:(NSInteger)pageIndex
@@ -272,9 +271,12 @@
     UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
     imgView.backgroundColor = [UIColor lightGrayColor];
     
+    
     Banner *banner = [self.data.Banners objectAtIndex:pageIndex];
-    NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
-    [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+    if (banner) {
+        NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
+        [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+    }
     return imgView;
 }
 

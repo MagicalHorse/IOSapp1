@@ -17,13 +17,11 @@
 @interface BuyerStoreViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     int type;
 }
-@property (nonatomic ,strong) UIScrollView *homeScroll;
 @property (nonatomic ,strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIScrollView *tempView;
-@property (nonatomic ,assign) CGFloat startX;
-@property (nonatomic ,assign) CGFloat endX;
+
 @end
 
 @implementation BuyerStoreViewController
@@ -72,27 +70,17 @@
     lineView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:lineView];
     
-    self.homeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64)];
-    self.homeScroll.contentSize = CGSizeMake(kScreenWidth*3, 0);
-    self.homeScroll.alwaysBounceVertical = NO;
-    self.homeScroll.pagingEnabled = YES;
-    self.homeScroll.delegate = self;
-    self.homeScroll.directionalLockEnabled = YES;
-    self.homeScroll.showsHorizontalScrollIndicator = NO;
-    self.homeScroll.bounces = NO;
-    self.homeScroll.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.homeScroll];
-    
     //tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 104, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStyleGrouped)];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.homeScroll addSubview:self.tableView];
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"]];
+    [self.view addSubview:self.tableView];
+    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"100"]];
     self.tableView.backgroundColor = kCustomColor(241, 241, 241);
+    
 }
--(NSMutableArray *)dataArray1{
+-(NSMutableArray *)dataArray{
     
     if (_dataArray ==nil) {
         _dataArray =[[NSMutableArray alloc]init];
@@ -102,6 +90,7 @@
 
 -(void)setData:(Parameter *)param
 {
+    [self hudShow:@"正在加载"];
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     [dict setObject:param.page forKey:@"Page"];
     [dict setObject:param.pageSzie forKey:@"Pagesize"];
@@ -128,26 +117,33 @@
                 _dataArray = stores.items;
             }
             [self.tableView reloadData];
+        }else{
+            [self showHudFailed:@"加载失败"];
         }
+        [self textHUDHiddle];
     } failure:^(NSError *error) {
         NSLog(@"%@",[error description]);
     }];
 }
 
 #pragma mark tableViewDelegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return self.dataArray.count;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-        return self.dataArray.count;
+        return 1;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Store * store =[self.dataArray objectAtIndex:indexPath.row];
+    Store * store =[self.dataArray objectAtIndex:indexPath.section];
     static NSString *CellIdentifier = @"cell";
     BuyerSellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         
         cell =[[[NSBundle mainBundle] loadNibNamed:@"BuyerSellTableViewCell" owner:self options:nil] lastObject];
     }
+    NSLog(@"%p",cell);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",store.Pic];
 
@@ -157,11 +153,11 @@
     cell.StoreNo.text =[store.StoreItemNo stringValue];
     cell.StorePirce.text =[store.Price stringValue];
     cell.StoreTime.text =store.ExpireTime;
-    cell.downBtn.tag =indexPath.row;
+    cell.downBtn.tag =indexPath.section;
     
-    cell.shareBtn.tag =indexPath.row;
+    cell.shareBtn.tag =indexPath.section;
     [cell.shareBtn addTarget:self action:@selector(shareClcke:) forControlEvents:UIControlEventTouchUpInside];
-    cell.sbBtn.tag =indexPath.row;
+    cell.sbBtn.tag =indexPath.section;
     
     if (type ==0) {
         [cell.sbBtn setTitle:@"删除" forState:UIControlStateNormal];
@@ -179,6 +175,14 @@
     [cell.cyBtn addTarget:self action:@selector(cyClcke:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 10;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1;
+}
+
 -(void)downOnClcke:(UIButton *)btn{
     Store *st=[self.dataArray objectAtIndex:btn.tag];
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
@@ -243,56 +247,28 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 180;
+    return 165;
 }
 
 
-#pragma mark ScrollViewDeletegate
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    self.endX = scrollView.contentOffset.x;
-    
-    if (self.startX-self.endX==0)
-    {
-        return;
-    }
-    if (scrollView.contentOffset.x==0)
-    {
-        [self scrollToBuyerStreet];
-    }
-    else if(scrollView.contentOffset.x==kScreenWidth)
-    {
-        [self scrollToSaid];
-    }
-    else
-    {
-        [self scrollToMyBuyer];
-    }
-}
+
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
     if (tap.view.tag==1000)
     {
-        self.homeScroll.contentOffset = CGPointMake(0, 0);
         [self scrollToBuyerStreet];
     }
     else if(tap.view.tag==1001)
     {
-        self.homeScroll.contentOffset = CGPointMake(kScreenWidth, 0);
         [self scrollToSaid];
     }
     else
     {
-        self.homeScroll.contentOffset = CGPointMake(kScreenWidth*2, 0);
         [self scrollToMyBuyer];
     }
 }
 
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    self.startX = scrollView.contentOffset.x;
-}
 //在线商品
 -(void)scrollToBuyerStreet
 {
@@ -310,9 +286,8 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
-    _tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-40);
 
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"]];
+    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"100"]];
 
 }
 
@@ -324,8 +299,6 @@
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
     
-    _tableView.frame = CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64-40);
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"]];
     
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab2.center.x, 38);
@@ -336,6 +309,7 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"100"]];
 
 }
 
@@ -347,9 +321,6 @@
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
-  
-    _tableView.frame = CGRectMake(kScreenWidth*2, 0, kScreenWidth, kScreenHeight-64-40);
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"]];
 
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab3.center.x, 38);
@@ -360,6 +331,8 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     lab2.textColor = [UIColor grayColor];
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
+    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"100"]];
+
 }
 
 @end
