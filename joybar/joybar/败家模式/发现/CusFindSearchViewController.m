@@ -85,7 +85,7 @@
         [self.btnArr addObject:button];
     }
     
-    self.line = [[UIView alloc] initWithFrame:CGRectMake(20, 39, kScreenWidth/3-40, 1)];
+    self.line = [[UIView alloc] initWithFrame:CGRectMake(20, 39, kScreenWidth/arr.count-40, 1)];
     self.line.backgroundColor = [UIColor darkGrayColor];
     [headerView addSubview:self.line];
     
@@ -101,7 +101,7 @@
 -(void)didClickBtn:(UIButton *)btn
 {
     [UIView animateWithDuration:0.25 animations:^{
-        self.line.frame = CGRectMake(kScreenWidth/3*(btn.tag-1000)+20, 39, kScreenWidth/3-40, 1);
+        self.line.frame = CGRectMake(kScreenWidth/2*(btn.tag-1000)+20, 39, kScreenWidth/2-40, 1);
     }];
     
     for (UIButton *button in self.btnArr)

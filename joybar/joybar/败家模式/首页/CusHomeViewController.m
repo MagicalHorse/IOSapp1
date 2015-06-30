@@ -262,7 +262,6 @@
 
 - (NSInteger) totalPagesCount
 {
-  
    return self.data.Banners.count;
 }
 
@@ -270,10 +269,10 @@
 {
     UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
     imgView.backgroundColor = [UIColor lightGrayColor];
-    
-    
+
     Banner *banner = [self.data.Banners objectAtIndex:pageIndex];
-    if (banner) {
+    if (banner)
+    {
         NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
         [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
     }

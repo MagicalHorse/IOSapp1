@@ -94,12 +94,12 @@
     [self addNavBarViewAndTitle:@""];
     self.pageNum = 1;
     
-    UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    searchBtn.frame = CGRectMake(-10, 10, 64, 64);
-    searchBtn.backgroundColor = [UIColor clearColor];
-    [searchBtn setImage:[UIImage imageNamed:@"search"] forState:(UIControlStateNormal)];
-    [searchBtn addTarget:self action:@selector(didClickSearchBtn) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.navView addSubview:searchBtn];
+//    UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    searchBtn.frame = CGRectMake(-10, 10, 64, 64);
+//    searchBtn.backgroundColor = [UIColor clearColor];
+//    [searchBtn setImage:[UIImage imageNamed:@"search"] forState:(UIControlStateNormal)];
+//    [searchBtn addTarget:self action:@selector(didClickSearchBtn) forControlEvents:(UIControlEventTouchUpInside)];
+//    [self.navView addSubview:searchBtn];
     
     tempView = [[UIView alloc] initWithFrame:CGRectMake(75, 0, kScreenWidth-150, 64)];
     tempView.backgroundColor = [UIColor clearColor];
