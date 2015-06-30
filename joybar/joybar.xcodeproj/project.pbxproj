@@ -1308,16 +1308,16 @@
 		0AAB5A381B2AE01800782C0C /* 圈子 */ = {
 			isa = PBXGroup;
 			children = (
+				0AAB5A3D1B2AE01800782C0C /* CusCircleDetailViewController.h */,
+				0AAB5A3E1B2AE01800782C0C /* CusCircleDetailViewController.m */,
+				0AAB5A411B2AE01800782C0C /* CusInviteFriendViewController.h */,
+				0AAB5A421B2AE01800782C0C /* CusInviteFriendViewController.m */,
+				0AAB5A3F1B2AE01800782C0C /* CusCircleViewController.h */,
+				0AAB5A401B2AE01800782C0C /* CusCircleViewController.m */,
 				0AAB5A391B2AE01800782C0C /* CircleTableView.h */,
 				0AAB5A3A1B2AE01800782C0C /* CircleTableView.m */,
 				0AAB5A3B1B2AE01800782C0C /* CircleTableViewCell.h */,
 				0AAB5A3C1B2AE01800782C0C /* CircleTableViewCell.m */,
-				0AAB5A3D1B2AE01800782C0C /* CusCircleDetailViewController.h */,
-				0AAB5A3E1B2AE01800782C0C /* CusCircleDetailViewController.m */,
-				0AAB5A3F1B2AE01800782C0C /* CusCircleViewController.h */,
-				0AAB5A401B2AE01800782C0C /* CusCircleViewController.m */,
-				0AAB5A411B2AE01800782C0C /* CusInviteFriendViewController.h */,
-				0AAB5A421B2AE01800782C0C /* CusInviteFriendViewController.m */,
 				0AAB5A4B1B2AE01800782C0C /* MyCircleTableView.h */,
 				0AAB5A4C1B2AE01800782C0C /* MyCircleTableView.m */,
 				0AAB5A431B2AE01800782C0C /* CusMyCircleTableViewCell.h */,
@@ -2783,7 +2783,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ef3ad771-ac3a-4f84-9ce9-1d44e86f2fa3";
+				PROVISIONING_PROFILE = "57aa9ab5-b805-476f-891c-ffc58e93db28";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
@@ -2812,7 +2812,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ef3ad771-ac3a-4f84-9ce9-1d44e86f2fa3";
+				PROVISIONING_PROFILE = "57aa9ab5-b805-476f-891c-ffc58e93db28";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;

@@ -14,6 +14,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *timeLab;
 @property (strong, nonatomic) IBOutlet UILabel *lastMessageLab;
 
+@property (strong, nonatomic) IBOutlet UILabel *msgCountLab;
 -(void)setData:(NSDictionary *)dic;
 
 @end

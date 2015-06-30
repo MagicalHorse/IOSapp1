@@ -18,16 +18,27 @@
     self.nameLab.font = [UIFont fontWithName:@"youyuan" size:17];
     self.timeLab.font = [UIFont fontWithName:@"youyuan" size:12];
     self.lastMessageLab.font = [UIFont fontWithName:@"youyuan" size:14];
-    
-    
+    self.msgCountLab.layer.cornerRadius = self.msgCountLab.width/2;
+    self.msgCountLab.layer.masksToBounds = YES;
 }
 
 -(void)setData:(NSDictionary *)dic
 {
-    [self.headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:nil];
+    NSString *imgURL = [NSString stringWithFormat:@"%@_100x100.jpg",[dic objectForKey:@"Logo"]];
+    [self.headImage sd_setImageWithURL:[NSURL URLWithString:imgURL] placeholderImage:nil];
     self.nameLab.text = [dic objectForKey:@"Name"];
-//    self.timeLab.text = [dic objectForKey:@""];
-
+    self.timeLab.text = [dic objectForKey:@"UnReadLastTime"];
+    
+    NSString *count = [NSString stringWithFormat:@"%@",[dic objectForKey:@"UnReadCount"]];
+    if ([count isEqualToString:@"0"])
+    {
+        self.msgCountLab.hidden = YES;
+    }
+    else
+    {
+        self.msgCountLab.text = count;
+    }
+    
 }
 
 @end

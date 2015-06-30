@@ -7,8 +7,10 @@
 //
 
 #import "CusBuyerCircleViewController.h"
-
+#import "MyCircleTableView.h"
 @interface CusBuyerCircleViewController ()
+
+@property (nonatomic ,strong) MyCircleTableView *myCircleTableView;
 
 @end
 
@@ -18,6 +20,60 @@
 {
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"圈子"];
+    self.myCircleTableView = [[MyCircleTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
+    [self.view addSubview:self.myCircleTableView];
+    
+    __weak CusBuyerCircleViewController *VC = self;
+    self.myCircleTableView.headerRereshingBlock = ^()
+    {
+        [VC.myCircleTableView.dataArr removeAllObjects];
+        [VC getMyCircleData:YES];
+    };
+    
+    [self getMyCircleData:NO];
+
 }
+
+-(void)getMyCircleData:(BOOL)isRefresh
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:@"1" forKey:@"page"];
+    [dic setObject:@"10000" forKey:@"pagesize"];
+//    if (!isRefresh)
+//    {
+//        [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
+//    }
+    [self hudShow];
+    [HttpTool postWithURL:@"Community/GetMyGroup" params:dic success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            //            if(arr.count<7)
+            //            {
+            //                [self.tableView hiddenFooter:YES];
+            //            }
+            //            else
+            //            {
+            //                [self.tableView hiddenFooter:NO];
+            //            }
+            [self.myCircleTableView.dataArr addObjectsFromArray:arr];
+            [self.myCircleTableView endRefresh];
+            [self.myCircleTableView reloadData];
+//            [SVProgressHUD dismiss];
+            [self hiddleHud];
+            NSLog(@"%@",json);
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+
+
 
 @end

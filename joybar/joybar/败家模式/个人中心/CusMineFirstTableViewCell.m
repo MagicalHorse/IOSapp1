@@ -8,7 +8,7 @@
 
 #import "CusMineFirstTableViewCell.h"
 #import "CusFansViewController.h"
-#import "CusCollectionViewController.h"
+#import "CusBuyerCircleViewController.h"
 #import "CusAttentionViewController.h"
 @implementation CusMineFirstTableViewCell
 
@@ -120,7 +120,7 @@
 
         case 1002:
         {
-            CusCollectionViewController *VC = [[CusCollectionViewController alloc] init];
+            CusBuyerCircleViewController *VC = [[CusBuyerCircleViewController alloc] init];
             [self.viewController.navigationController pushViewController:VC animated:YES];
         }
             break;

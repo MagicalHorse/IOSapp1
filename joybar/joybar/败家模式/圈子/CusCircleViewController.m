@@ -50,6 +50,7 @@
     [self.view addSubview:self.circleScroll];
     
     [self initWithCircleTableView];
+    
     [self initWithNavView];
     [self getCircleData:NO];
 }
@@ -134,44 +135,11 @@
     self.retBtn.hidden = YES;
 
 }
--(void)getMyCircleData:(BOOL)isRefresh
-{
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:[NSString stringWithFormat:@"%ld",self.pageNum] forKey:@"page"];
-    [dic setObject:@"10000" forKey:@"pagesize"];
-    if (!isRefresh)
-    {
-        [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
-    }
-    [HttpTool postWithURL:@"Community/GetMyGroup" params:dic success:^(id json) {
-        
-        if ([[json objectForKey:@"isSuccessful"] boolValue])
-        {
-            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
-            //            if(arr.count<7)
-            //            {
-            //                [self.tableView hiddenFooter:YES];
-            //            }
-            //            else
-            //            {
-            //                [self.tableView hiddenFooter:NO];
-            //            }
-            [self.myCircleTableView.dataArr addObjectsFromArray:arr];
-            [self.myCircleTableView endRefresh];
-            [self.myCircleTableView reloadData];
-            [SVProgressHUD dismiss];
-            
-            NSLog(@"%@",json);
-        }
-    } failure:^(NSError *error) {
-        
-    }];
-}
 
 -(void)getCircleData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:[NSString stringWithFormat:@"%ld",self.pageNum] forKey:@"page"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setObject:@"6" forKey:@"pagesize"];
     if (!isRefresh)
     {
@@ -201,6 +169,31 @@
         
     }];
 }
+
+-(void)getMyCircleData:(BOOL)isRefresh
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
+    [dic setObject:@"10000" forKey:@"pagesize"];
+    if (!isRefresh)
+    {
+        [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
+    }
+    [HttpTool postWithURL:@"Community/GetMyGroup" params:dic success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            [self.myCircleTableView.dataArr addObjectsFromArray:arr];
+            [self.myCircleTableView endRefresh];
+            [self.myCircleTableView reloadData];
+            [SVProgressHUD dismiss];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
 
 #pragma mark ScrollViewDeletegate
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -265,6 +258,10 @@
 //我的圈子
 -(void)scrollToMyCircle
 {
+    if (!self.myCircleTableView)
+    {
+        [self initWithMyCircleTalbeView];
+    }
     if (self.myCircleTableView.dataArr.count==0)
     {
         [self getMyCircleData:NO];

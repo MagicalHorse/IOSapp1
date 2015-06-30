@@ -60,6 +60,17 @@
                             <constraint firstAttribute="height" constant="0.5" id="ve4-ej-an0"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NLW-V5-Ayx">
+                        <rect key="frame" x="47" y="5" width="20" height="20"/>
+                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="IRJ-Lp-yqY"/>
+                            <constraint firstAttribute="width" constant="20" id="JLq-dL-6eB"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
@@ -71,9 +82,11 @@
                     <constraint firstAttribute="bottomMargin" secondItem="jU0-m5-iPE" secondAttribute="bottom" constant="3" id="Vya-Zi-1Rj"/>
                     <constraint firstItem="jU0-m5-iPE" firstAttribute="leading" secondItem="saq-uM-2vT" secondAttribute="trailing" constant="16" id="W6k-e9-Quo"/>
                     <constraint firstItem="jU0-m5-iPE" firstAttribute="top" secondItem="s2a-mg-Kz6" secondAttribute="bottom" constant="6" id="WvQ-WR-hoZ"/>
+                    <constraint firstItem="NLW-V5-Ayx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Z57-RT-3dc"/>
                     <constraint firstItem="yy2-Cg-tjr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="aTW-nW-t19"/>
                     <constraint firstItem="yy2-Cg-tjr" firstAttribute="leading" secondItem="jU0-m5-iPE" secondAttribute="leading" id="eAS-JR-0k9"/>
                     <constraint firstItem="saq-uM-2vT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="ii9-Gg-694"/>
+                    <constraint firstItem="NLW-V5-Ayx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="47" id="ikf-wb-Hc0"/>
                     <constraint firstAttribute="trailing" secondItem="yXb-y5-sHf" secondAttribute="trailing" id="jsR-fW-t57"/>
                     <constraint firstAttribute="trailingMargin" secondItem="s2a-mg-Kz6" secondAttribute="trailing" constant="-12" id="lDi-EF-EoJ"/>
                     <constraint firstItem="yXb-y5-sHf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="qGq-7D-ZFj"/>
@@ -82,6 +95,7 @@
             <connections>
                 <outlet property="headImage" destination="saq-uM-2vT" id="Dif-0p-dz3"/>
                 <outlet property="lastMessageLab" destination="jU0-m5-iPE" id="fh6-PH-RD1"/>
+                <outlet property="msgCountLab" destination="NLW-V5-Ayx" id="Osa-d5-bau"/>
                 <outlet property="nameLab" destination="yy2-Cg-tjr" id="YL2-Zu-jVC"/>
                 <outlet property="timeLab" destination="s2a-mg-Kz6" id="u7A-xS-M3p"/>
             </connections>
