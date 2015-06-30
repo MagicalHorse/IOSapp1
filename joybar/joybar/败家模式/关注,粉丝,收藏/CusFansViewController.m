@@ -9,6 +9,7 @@
 #import "CusFansViewController.h"
 #import "CusFansTableViewCell.h"
 #import "FansItems.h"
+#import "CusChatViewController.h"
 @interface CusFansViewController ()<UITableViewDelegate,UITableViewDataSource>{
     int isY;
     FansItems *fansItems;
@@ -134,6 +135,14 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 70;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    FansModel *fan = [fansItems.items objectAtIndex:indexPath.row];
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:fan.UserId AndTpye:2 andUserName:fan.UserName];
+    VC.isFrom = isFromPrivateChat;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 @end

@@ -132,6 +132,7 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"CusOrderListTableViewCell" owner:self options:nil] lastObject];
         cell.delegate = self;
     }
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     cell.orderListItem = [self.orderListData.items objectAtIndex:indexPath.row];

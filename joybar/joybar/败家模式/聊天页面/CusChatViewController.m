@@ -85,7 +85,6 @@
 //    headerReleaseToRefreshText
 //    headerRefreshingText
     self.tableView.headerRereshingBlock = ^{
-      
         
         
     };
@@ -117,18 +116,19 @@
     
     [self creatRoom];
     [self addTitleView];
+    
 }
 
 -(void)creatRoom
 {
-
     NSArray *arr=[NSArray array];
     NSString *myId=[[Public getUserInfo]objectForKey:@"id"]; //买手
     NSString *tempDict;
     NSString *tempOwner;
     if (self.isFrom==isFromPrivateChat)
     {
-        if (utype ==1) {
+        if (utype ==1)
+        {
             arr = @[myId,uid]; //uid 败家
             tempDict=[NSString stringWithFormat:@"%@_%@",myId,uid];
             tempOwner=myId;
@@ -139,14 +139,14 @@
         }
         NSDictionary *dic = @{@"room_id":tempDict,@"title":@"私聊",@"owner":tempDict,@"users":arr,@"type":@"private",@"sessionId":@"",@"signValue":@"",@"token":@"",@"userName":name};
         [[SocketManager socketManager].socket emit:@"join room" args:@[tempOwner,dic]];
-
     }
 }
 
 #pragma mark - UI
 - (void)_initWithBar
 {
-    if (listView == nil) {
+    if (listView == nil)
+    {
         listView = [[[NSBundle mainBundle]loadNibNamed:@"ListView" owner:self options:nil] lastObject];
         listView.sendMessageDelegate = self;
         [self.view addSubview:listView];
@@ -231,38 +231,38 @@
 
 - (void)sendMessageText:(UITextView *)textView withData:(NSDate *)date
 {
-    NSString *fomeId;
+    NSString *fromeId;
     NSString *toId;
     NSString *myId=[[Public getUserInfo]objectForKey:@"id"];
     if (utype ==1) {
-        fomeId =myId;
+        fromeId =myId;
         toId =uid;
     }else{
-        fomeId=uid;
+        fromeId=uid;
         toId=myId;
     }
-    NSDictionary *dic = @{@"fromUserId":fomeId,@"toUserId":toId,@"userName":name,@"productId":@"1",@"body":@"几乎不会结婚空间看机会",@"fromUserType":@"buyer",@"type":@"private"};
+    NSDictionary *dic = @{@"fromUserId":fromeId,@"toUserId":toId,@"userName":name,@"productId":@"1",@"body":textView.text,@"fromUserType":@"buyer",@"type":@"private"};
     [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
     
     [self.tableView reloadData];
 }
 
-//-(void)changeTableViewFrameWhileShow:(BOOL)isAction
-//{
-//    if(isAction == NO){
-//        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-216-49-64);
-//        if([self.tableView.messages count] != 0){
-//            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.tableView.messages count]-1 inSection:0];
-//            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-//        }
-//    }else{
-//        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-49-164);
-//        if([self.tableView.messages count] != 0){
-//            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.tableView.messages count]-1 inSection:0];
-//            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-//        }
-//    }
-//}
+-(void)changeTableViewFrameWhileShow:(BOOL)isAction
+{
+    if(isAction == NO){
+        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-216-49-64);
+        if([self.messageArr count] != 0){
+            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
+            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
+    }else{
+        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-49-164);
+        if([self.messageArr count] != 0){
+            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
+            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
+    }
+}
 
 #pragma mark UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -277,6 +277,7 @@
     {
         cell = [[MessageTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
     
@@ -308,14 +309,13 @@
     photo.backgroundColor = [UIColor magentaColor];
     [cell.contentView addSubview:photo];
 
-    //发送文字
+    //发送文字\\\\\\\
 //   [cell.contentView addSubview:[cell bubbleView:@"[吃惊]啊实打实SDFKLSDF乐山大佛;撒地方就爱上;离开的房间爱上对方as大师安师大奥斯丁" from:YES withPosition:60]];
     
     //发送链接
 //    [cell.contentView addSubview:[cell productLinkBubbleView:nil AndProcuctLink:@"https://developer.apple.com/account/ios/certificate/certificateLanding.action" from:YES withPosition:60]];
     
     [cell.contentView addSubview:[cell imageBubbleView:nil from:YES withPosition:60]];
-    
     
     return cell;
 }

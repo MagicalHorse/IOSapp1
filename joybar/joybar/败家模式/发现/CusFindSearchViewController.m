@@ -66,7 +66,7 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
     headerView.backgroundColor = kCustomColor(235, 238, 240);
     [self.view addSubview:headerView];
-    NSArray *arr = @[@"品牌",@"标签",@"买手"];
+    NSArray *arr = @[@"品牌",@"买手"];
     
     for (int i=0; i<arr.count; i++)
     {
@@ -128,11 +128,11 @@
             self.selectBtnIndex = 1;
         }
             break;
-        case 1002:
-        {
-            self.selectBtnIndex = 2;
-        }
-            break;
+//        case 1002:
+//        {
+//            self.selectBtnIndex = 2;
+//        }
+//            break;
         default:
             break;
     }
@@ -176,14 +176,14 @@
         nameLab.font = [UIFont fontWithName:@"youyuan" size:15];
         [cell.contentView addSubview:nameLab];
     }
-    else if (self.selectBtnIndex==1)
-    {
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 250, 20)];
-        lab.text = @"NEW BALANCE";
-        lab.textColor = [UIColor grayColor];
-        lab.font = [UIFont fontWithName:@"youyuan" size:15];
-        [cell.contentView addSubview:lab];
-    }
+//    else if (self.selectBtnIndex==1)
+//    {
+//        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 250, 20)];
+//        lab.text = @"NEW BALANCE";
+//        lab.textColor = [UIColor grayColor];
+//        lab.font = [UIFont fontWithName:@"youyuan" size:15];
+//        [cell.contentView addSubview:lab];
+//    }
     else
     {
         UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];

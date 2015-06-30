@@ -106,18 +106,17 @@ forRemoteNotification:(NSDictionary *)userInfo
 }
 #endif
 
-- (void)application:(UIApplication *)application
-didReceiveRemoteNotification:(NSDictionary *)userInfo {
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
     [APService handleRemoteNotification:userInfo];
     NSLog(@"收到通知");
 }
 
-- (void)application:(UIApplication *)application
-didReceiveRemoteNotification:(NSDictionary *)userInfo
-fetchCompletionHandler:
-(void (^)(UIBackgroundFetchResult))completionHandler {
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:
+(void (^)(UIBackgroundFetchResult))completionHandler
+{
     [APService handleRemoteNotification:userInfo];
-    NSLog(@"收到通知");
+    NSLog(@"收到通知1111");
     
     completionHandler(UIBackgroundFetchResultNewData);
 }
