@@ -61,7 +61,9 @@
     [SIOSocket socketWithHost: SocketUrl response: ^(SIOSocket *socket) {
         [SocketManager socketManager].socket = socket;
         [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+            
             NSLog(@"connnection is success:%@",[args description]);
+            
         }];
         
 //        [socket on:@"disconnect" callback:^(NSArray *args) {
