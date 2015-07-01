@@ -49,6 +49,9 @@
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     [dict setObject:param.page forKey:@"Page"];
     [dict setObject:param.pageSzie forKey:@"Pagesize"];
+    if (self.customerId) {
+        [dict setObject:self.customerId forKey:@"CustomerId"];
+    }
     if (type ==3) {
         [dict setObject:@"3" forKey:@"OrderProductType"];
     }else if(type ==2){
@@ -115,7 +118,6 @@
     
     //tableView
     self.tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-104) style:UITableViewStyleGrouped];
-    self.tableView.tag = 1;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = kCustomColor(237, 237, 237);
@@ -179,7 +181,7 @@
     
     UILabel *orderLabel = [[UILabel alloc]init];
     Order *o = self.dataArray[section];
-    if (tableView.tag>3) {
+    if ([o.Status isEqualToNumber:@(3)]) {
         orderLabel.text = @"退货单号:";
         orderLabel.frame =CGRectMake(15, 35, 75, 16);
     }else{
@@ -218,7 +220,7 @@
     UILabel *cooutLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 20, 65, 13)];
     
     CGFloat fuhaoX;
-    if (tableView.tag>3) {
+    if ([o.Status isEqualToNumber:@(3)]) {
         fuhaoX = cooutLabel.center.x+25;
     }else{
         fuhaoX = cooutLabel.center.x;
@@ -232,41 +234,36 @@
     UILabel *orderPTLabel = [[UILabel alloc]init];
     UILabel *orderPLabel = [[UILabel alloc]init];
 
-    if (tableView.tag >3) {
-        if ([o.Status isEqualToNumber:@(3)]) {
-            viewY= 100;
-            UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(0, viewY-26-40+5.5, kScreenWidth, 40)];
-            btn.tag =section;
-            btn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:13];
-            [btn setTitle:@"确认退款" forState:UIControlStateNormal];
-            [btn setTitleColor:kCustomColor(41, 121, 222) forState:UIControlStateNormal];
-            btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
-            [btn addTarget:self action:@selector(showCountClick:) forControlEvents:UIControlEventTouchUpInside];
-            [view addSubview:btn];
-            
-            UIView * v1=[[UIView alloc]initWithFrame:CGRectMake(0, btn.top, kScreenWidth, 0.5)];
-            v1.backgroundColor =[UIColor lightGrayColor];
-            [view addSubview:v1];
-            UIView * v2=[[UIView alloc]initWithFrame:CGRectMake(0, btn.bottom, kScreenWidth, 0.5)];
-            v2.backgroundColor =[UIColor lightGrayColor];
-            [view addSubview:v2];
-
-        }else{
-            viewY= 55;
-            cooutLabel.text = @"佣金:";
-            orderPTLabel.text = @"实付:";
-            orderPLabel.textColor =[UIColor redColor];
-        }
+   
+    if ([o.Status isEqualToNumber:@(3)]) {
+        viewY= 100;
+        UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(0, viewY-46, kScreenWidth, 45)];
+        btn.tag =section;
+        btn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:13];
+        [btn setTitle:@"确认退款" forState:UIControlStateNormal];
+        [btn setTitleColor:kCustomColor(41, 121, 222) forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
+        [btn addTarget:self action:@selector(showCountClick:) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:btn];
+        
+        UIView * v1=[[UIView alloc]initWithFrame:CGRectMake(0, btn.top, kScreenWidth, 0.5)];
+        v1.backgroundColor =[UIColor lightGrayColor];
+        [view addSubview:v1];
+        UIView * v2=[[UIView alloc]initWithFrame:CGRectMake(0, btn.bottom, kScreenWidth, 0.5)];
+        v2.backgroundColor =[UIColor lightGrayColor];
+        [view addSubview:v2];
         cooutLabel.text = @"退还佣金:";
         orderPTLabel.text = @"退款:";
         orderPLabel.textColor =[UIColor blackColor];
-    }else{
         
-        viewY =55;
+    }else{
+        viewY= 55;
         cooutLabel.text = @"佣金:";
         orderPTLabel.text = @"实付:";
         orderPLabel.textColor =[UIColor redColor];
     }
+    
+  
     
     cooutLabel.font = [UIFont fontWithName:@"youyuan" size:13];
     [view addSubview:cooutLabel];
@@ -296,7 +293,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     
     Order *o = self.dataArray[section];
-    if (tableView.tag  >3&&[o.Status isEqualToNumber:@(3)]) {
+    if ([o.Status isEqualToNumber:@(3)]) {
         return 100;
     }
     return 55;

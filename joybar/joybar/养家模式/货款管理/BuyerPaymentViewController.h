@@ -9,5 +9,6 @@
 #import "BaseViewController.h"
 
 @interface BuyerPaymentViewController : BaseViewController
+@property (nonatomic,strong)NSDictionary *dataArray;
 
 @end

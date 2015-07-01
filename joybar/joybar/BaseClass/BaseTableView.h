@@ -25,6 +25,7 @@ typedef void(^footerRereshing)(void);
 @property (nonatomic ,strong) NSString *headerPullToRefreshText1;
 @property (nonatomic ,strong) NSString *headerReleaseToRefreshText1;
 @property (nonatomic ,strong) NSString *headerRefreshingText1;
+@property (nonatomic,assign)BOOL isShowFooterView;
 
 //隐藏加载更多
 -(void)hiddenFooter:(BOOL)hidden;

@@ -17,6 +17,6 @@
 @property (nonatomic,strong)NSNumber *Price;
 @property (nonatomic,strong)NSNumber *ProductId;
 @property (nonatomic,copy)NSString* ProductName;
-@property (nonatomic,strong)NSNumber* StoreItemNo;
+@property (nonatomic,strong)NSString* StoreItemNo;
 
 @end

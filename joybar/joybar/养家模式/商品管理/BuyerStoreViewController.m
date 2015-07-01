@@ -12,6 +12,7 @@
 #import "BuerySotres.h"
 #import "Store.h"
 #import "MJExtension.h"
+#import "BuyerIssueViewController.h"
 
 
 @interface BuyerStoreViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
@@ -150,8 +151,8 @@
     [cell.StoreImgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
     cell.StoreName.text =store.BrandName;
     cell.StoreDetails.text =store.ProductName;
-    cell.StoreNo.text =[store.StoreItemNo stringValue];
-    cell.StorePirce.text =[store.Price stringValue];
+    cell.StoreNo.text =store.StoreItemNo;
+    cell.StorePirce.text =[NSString stringWithFormat:@"￥%@",[store.Price stringValue]];
     cell.StoreTime.text =store.ExpireTime;
     cell.downBtn.tag =indexPath.section;
     
@@ -186,7 +187,7 @@
 -(void)downOnClcke:(UIButton *)btn{
     Store *st=[self.dataArray objectAtIndex:btn.tag];
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-    [dict setObject:@(btn.tag) forKey:@"Id"];
+    [dict setObject:st.ProductId forKey:@"Id"];
     [dict setObject:@"1" forKey:@"Status"];
     [HttpTool postWithURL:@"Product/OnLine" params:dict success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
@@ -210,8 +211,9 @@
         if (isSuccessful) {
             [self.dataArray removeObject:st];
             [self.tableView reloadData];
+        }else{
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
-        NSLog(@"%@",[json objectForKey:@"message"]);
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
     }];
@@ -228,20 +230,42 @@
         if (isSuccessful) {
             [self.dataArray removeObject:st];
             [self.tableView reloadData];
+        }else{
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
-        NSLog(@"%@",[json objectForKey:@"message"]);
     } failure:^(NSError *error) {
         NSLog(@"%@",error);
     }];
     
 }
+//分享
 -(void)shareClcke:(UIButton *)btn{
+ 
     
 }
+//修改
 -(void)sbClcke:(UIButton *)btn{
+    BuyerIssueViewController *issue =[[BuyerIssueViewController alloc]init];
+    [self.navigationController pushViewController:issue animated:YES];
     
 }
+//复制
 -(void)cyClcke:(UIButton *)btn{
+    
+    Store *st=[self.dataArray objectAtIndex:btn.tag];
+    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+    [dict setObject:st.ProductId forKey:@"productId"];
+    [dict setObject:@"0" forKey:@"Status"];
+    [HttpTool postWithURL:@"Product/Copy" params:dict success:^(id json) {
+        BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+        if (isSuccessful) {
+            [self.tableView reloadData];
+        }else{
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
     
 }
 

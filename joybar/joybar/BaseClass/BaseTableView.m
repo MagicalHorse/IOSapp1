@@ -22,7 +22,7 @@
             //        //调用初始化下拉刷新子视图
             [self setupRefresh];
         });
-        
+        self.isShowFooterView=YES;
         self.dataSource = self;
         self.delegate = self;
         self.dataArr = [NSMutableArray array];
@@ -41,8 +41,9 @@
     [self addHeaderWithTarget:self action:@selector(headerRereshing)];
     
     // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
-    [self addFooterWithTarget:self action:@selector(footerRereshing)];
-    
+    if (self.isShowFooterView) {
+        [self addFooterWithTarget:self action:@selector(footerRereshing)];
+    }
     //    [self headerBeginRefreshing];
     
     // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)

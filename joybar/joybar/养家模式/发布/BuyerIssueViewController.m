@@ -144,6 +144,7 @@
     priceImg.image =[UIImage imageNamed:@"重点"];
     [priceView addSubview:priceImg];
     _priceText=[[UITextField alloc]initWithFrame:CGRectMake(priceImg.right, 45, kScreenWidth-priceImg.right, 40)];
+    _priceText.keyboardType =UIKeyboardTypeDecimalPad;
     _priceText.delegate =self;
     _priceText.font =[UIFont fontWithName:@"youyuan" size:16];
     _priceText.placeholder =@"价格（元）";
@@ -227,15 +228,15 @@
     [self.photoView addSubview:btn];
 }
 -(void)publicsh{
-
-    [self hudShow:@"正在发布..."];
     NSMutableDictionary *tempSizes =[NSMutableDictionary dictionary];
     [tempSizes setObject:self.textField1.text forKey:@"name"];
     [tempSizes setObject:self.textField2.text forKey:@"Inventory"];
-    
-    [self.imagesArray addObject:self.images];
-
-    [self.sizeArray addObject:tempSizes];
+    if(self.images){
+        [self.imagesArray addObject:self.images];
+    }
+    if (tempSizes) {
+        [self.sizeArray addObject:tempSizes];
+    }
     if(self.viewItems.count>0){
         for (NSString *str in self.viewItems) {
             UIView *view =[self.view viewWithTag:[str intValue]];
@@ -246,10 +247,35 @@
                     UITextField *ctext =(UITextField *)v;
                     [tempSizes1 addObject:ctext.text];
                 }
+                
             }
             [self.sizeArray addObject:tempSizes1];
         }
     }
+    NSString *tempSizegStr=[self.sizeArray[0]objectForKey:@"name"];
+    NSString *tempSizehStr=[self.sizeArray[0] objectForKey:@"Inventory"];
+
+    if (self.imagesArray.count==0) {
+        [self showHudFailed:@"请至少上传一张图片"];
+        return;
+    }else if(self.priceText1.text.length==0){
+        [self showHudFailed:@"请填写货号"];
+        return;
+    }else if(self.priceText.text.length==0){
+        [self showHudFailed:@"请填写价格"];
+        return;
+    }else if(self.dscText.text.length==0){
+        [self showHudFailed:@"请填写商品描述"];
+        return;
+    }else if(tempSizegStr.length==0){
+        [self showHudFailed:@"请填写规格"];
+        return;
+    }else if(tempSizehStr.length==0){
+        [self showHudFailed:@"请填写库存"];
+        return;
+    }
+    [self hudShow:@"正在发布"];
+   
     
     
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
@@ -272,7 +298,7 @@
             });
             
         }else{
-            [self showHudFailed:@"发布失败！"];
+            [self showHudFailed:@"发布失败"];
         }
         [self textHUDHiddle];
     } failure:^(NSError *error) {
@@ -305,6 +331,7 @@
     
     _textField2 =[[UITextField alloc]initWithFrame:CGRectMake(_textField1.right+15, 15, (kScreenWidth-80)/2, 40)];
     _textField2.delegate =self;
+    _textField2.keyboardType=UIKeyboardTypeNumberPad;
     _textField2.placeholder =@"库存";
     _textField2.layer.borderWidth= 1.5;
     _textField2.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
@@ -416,10 +443,14 @@
     
     switch (type) {
         case 1:
-            if (self.imagesArray[0]) {
-                [self.imagesArray removeObjectAtIndex:0];
+            if (self.imagesArray.count>0) {
+                if (self.imagesArray[0]) {
+                    [self.imagesArray removeObjectAtIndex:0];
+                }
+                [self.imagesArray insertObject:array atIndex:0];
+            }else{
+                [self.imagesArray addObject:array];
             }
-            [self.imagesArray insertObject:array atIndex:0];
             [self.btn1 setBackgroundImage:image forState:UIControlStateNormal];
             break;
         case 2:

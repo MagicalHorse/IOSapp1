@@ -166,10 +166,10 @@
     
     self.issue =[[BuyerIssueViewController alloc]init];
     
-    self.issue.image =cImage;
+    self.issue.image =self.bgImage.image;
     OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
     osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
-    NSData *data = UIImagePNGRepresentation(cImage);
+    NSData *data = UIImagePNGRepresentation(self.bgImage.image);
     [osData setData:data withType:@"image/png"];
     [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
         if (isSuccess) {

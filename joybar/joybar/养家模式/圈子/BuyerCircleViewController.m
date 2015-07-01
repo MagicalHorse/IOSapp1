@@ -13,6 +13,7 @@
 #import "BuyerFansTableViewCell.h"
 #import "CusChatViewController.h"
 #import "CusCircleDetailViewController.h"
+#import "BuyerSellViewController.h"
 
 @interface BuyerCircleViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic ,strong) UIScrollView *homeScroll;
@@ -191,11 +192,17 @@
             cell.fansTitle.text =[self.dataArray1[indexPath.row] objectForKey:@"UserName"];
             cell.guanzhuLable.text =[[self.dataArray1[indexPath.row] objectForKey:@"FavoiteCount"] stringValue];
              cell.fansiLable.text =[[self.dataArray1[indexPath.row] objectForKey:@"FansCount"] stringValue];
+            cell.hostoalBtn.tag =[[self.dataArray1[indexPath.row]objectForKey:@"UserId"]integerValue];
+            [cell.hostoalBtn addTarget:self action:@selector(hosClick:) forControlEvents:UIControlEventTouchUpInside];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         return cell;
     }
+}
+-(void)hosClick:(UIButton *)btn{
+    BuyerSellViewController *sell =[[BuyerSellViewController alloc]init];
+    sell.customerId=@(btn.tag);
+    [self.navigationController pushViewController:sell animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

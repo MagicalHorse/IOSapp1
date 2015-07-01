@@ -10,5 +10,5 @@
 #import "BaseViewController.h"
 
 @interface BuyerSellViewController : BaseViewController
-
+@property (nonatomic,strong)NSNumber *customerId;
 @end

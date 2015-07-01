@@ -10,8 +10,7 @@
 #import "BuyerPaymentDtsViewController.h"
 
 @interface BuyerPaymentViewController ()<UITableViewDataSource,UITableViewDelegate>
-@property (nonatomic,strong)UITableView *tableView;
-@property (nonatomic,strong)NSDictionary *dataArray;
+@property (nonatomic,strong)BaseTableView *tableView;
 @end
 
 @implementation BuyerPaymentViewController
@@ -33,7 +32,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = kCustomColor(241, 241, 241);
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 79, kScreenWidth, kScreenHeight-79-49) style:(UITableViewStylePlain)];
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStyleGrouped)];
+    self.tableView.isShowFooterView=NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -41,6 +41,14 @@
     self.tableView.tableFooterView =[[UIView alloc]init];
     [self.view addSubview:self.tableView];
     
+    __weak BuyerPaymentViewController *VC = self;
+    self.tableView.headerRereshingBlock = ^()
+    {
+        if (VC.dataArray.count>0) {
+            VC.dataArray =nil;
+        }
+        [VC setData];
+    };
     UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
     [btn setTitle:@"货款收支" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
@@ -60,6 +68,7 @@
         if (isSuccessful) {
             self.dataArray =[json objectForKey:@"data"];
             [self.tableView reloadData];
+            [self.tableView endRefresh];
         }
 
     } failure:^(NSError *error) {
@@ -70,6 +79,9 @@
     BuyerPaymentDtsViewController *payment= [[BuyerPaymentDtsViewController alloc]init];
     [self.navigationController pushViewController:payment animated:YES];
     
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -226,6 +238,8 @@
     
     return cell;
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 18;
+}
 
 @end

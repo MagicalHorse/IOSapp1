@@ -15,9 +15,11 @@
 #import "BuyerCircleViewController.h"
 #import "BuyerPaymentViewController.h"
 @interface BuyerHomeViewController ()<UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *homeTableView;
+@property (strong, nonatomic)  BaseTableView *homeTableView;
 @property (nonatomic,strong)NSMutableDictionary * dataArray;
 
+@property (nonatomic,strong)UIImageView * img;
+@property (nonatomic,strong)UILabel * label;
 
 @end
 
@@ -27,18 +29,24 @@
     [super viewDidLoad];
 
     [self addNavBarViewAndTitle:@"首页"];
-    self.view.backgroundColor =  kCustomColor(237, 237, 237);
-
-    self.homeTableView.delegate =self;
     self.retBtn.hidden = YES;
     self.homeTableView.tableFooterView =  [[UIView alloc]initWithFrame:CGRectZero];
-    if (kScreenWidth ==320) {
-        self.homeTableView.rowHeight =65;
-    }
-    else{
-        self.homeTableView.rowHeight =90;
-
-    }
+    self.homeTableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) style:(UITableViewStylePlain)];
+    self.homeTableView.isShowFooterView =NO;
+    self.homeTableView.delegate = self;
+    self.homeTableView.dataSource = self;
+    [self.view addSubview:self.homeTableView];
+    
+    self.homeTableView.tableHeaderView =[self tableHeaderViwe];
+    self.homeTableView.tableFooterView =[[UIView alloc]init];
+    __weak BuyerHomeViewController *VC = self;
+    self.homeTableView.headerRereshingBlock = ^()
+    {
+        if (VC.dataArray.count>0) {
+            VC.dataArray =nil;
+        }
+        [VC setData];
+    };
     [self setData];
 }
 
@@ -52,39 +60,38 @@
 
 -(void)setData{
 
+//    [SVProgressHUD showInView:self.homeTableView WithY:0 andHeight:kScreenHeight-64-49];
+    [self hudShow:@"正在加载"];
      [HttpTool postWithURL:@"Buyer/Index" params:nil success:^(id json) {
-        
          BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
          if (isSuccessful) {
              self.dataArray = [json objectForKey:@"data"];
              [self.homeTableView reloadData];
+             [self.homeTableView endRefresh];
+             [self.img sd_setImageWithURL:[NSURL URLWithString:[self.dataArray objectForKey:@"barcode"]] placeholderImage:nil];
+             self.label.text = [self.dataArray objectForKey:@"shopname"];
+         }else{
+             [self showHudFailed:@"加载失败"];
          }
+         [self textHUDHiddle];
+//         [SVProgressHUD dismiss];
      } failure:^(NSError *error) {
          
      }];
-
 }
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 160;
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-
+-(UIView *)tableHeaderViwe{
+    
     UIView * hearView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
     hearView.backgroundColor =kCustomColor(241, 241, 241);
-    UIImageView * img=[[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-120)*0.5, 12, 120, 120)];
-    
-    [img sd_setImageWithURL:[NSURL URLWithString:[self.dataArray objectForKey:@"barcode"]] placeholderImage:nil];
-    [hearView addSubview:img];
-    UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(0, img.bottom+5, kScreenWidth, 15)];
-    lable.textAlignment =NSTextAlignmentCenter;
-    lable.text = [self.dataArray objectForKey:@"shopname"];
-    lable.font =[UIFont fontWithName:@"youyuan" size:15];
-    [hearView addSubview:lable];
+    _img=[[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-120)*0.5, 12, 120, 120)];
+    [hearView addSubview:_img];
+    _label =[[UILabel alloc]initWithFrame:CGRectMake(0, _img.bottom+5, kScreenWidth, 15)];
+    _label.textAlignment =NSTextAlignmentCenter;
+    _label.font =[UIFont fontWithName:@"youyuan" size:15];
+    [hearView addSubview:_label];
     return hearView;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 5;
 }
@@ -234,6 +241,8 @@
     
     
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 65;
+}
 
 @end
