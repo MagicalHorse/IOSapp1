@@ -8,8 +8,9 @@
 
 #import "BuyerPaymentDtsViewController.h"
 #import "BuyerPaymentTableViewCell.h"
+#import "UMSocial.h"
 
-@interface BuyerPaymentDtsViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
+@interface BuyerPaymentDtsViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>{
     int type;
 }
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -18,6 +19,7 @@
 @property (nonatomic ,strong) BaseTableView *tableView;
 @property (nonatomic ,strong) BaseTableView *tableView1;
 @property (nonatomic ,assign) NSInteger pageNum;
+@property (nonatomic ,strong) NSMutableDictionary *orderNos;
 
 
 @end
@@ -31,6 +33,13 @@
         self.pageNum=1;
     }
     return self;
+}
+-(NSMutableDictionary *)orderNos{
+    
+    if (_orderNos ==nil) {
+        _orderNos =[[NSMutableDictionary alloc]init];
+    }
+    return _orderNos;
 }
 
 -(NSMutableArray *)dataArray{
@@ -164,15 +173,78 @@
     btn.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:btn];
     [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
-    
     [self addNavBarViewAndTitle:@"货款收支"];
     [self setData];
 
 
 }
 -(void)btnClick{
-    NSLog(@"提现货款");
+    
+    NSDictionary *dict= [Public getUserInfo];
+    double tempPrice=0;
+    for (int i=0; i<self.orderNos.allValues.count; i++) {
+        tempPrice +=[self.orderNos.allValues[i] doubleValue];
+    }
+    BOOL bing= [[dict objectForKey:@"IsBindWeiXin"]boolValue];
+    if (bing) {
+        if (self.orderNos.count>0) {
+            UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提取现款" message: [NSString stringWithFormat:@"%.2f",tempPrice] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            [alert show];
+        }else{
+            [self showHudFailed:@"请选择要提现的订单"];
+        }
+        
+    }else{
+        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+        
+        snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
+            
+            if (response.responseCode == UMSResponseCodeSuccess) {
+                
+                UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary]valueForKey:UMShareToWechatSession];
+                
+                NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
+            }
+        });
+
+    }
 }
+
+#pragma mark alertDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==1) {
+        [self hudShow:@"正在提取"];
+        NSMutableDictionary *params=[[NSMutableDictionary alloc]init];
+        NSMutableString *tempString=[NSMutableString string];
+        if (self.orderNos.count>0) {
+            for (int i=0; i<self.orderNos.allKeys.count; i++) {
+                [tempString appendFormat:@"%@",self.orderNos.allKeys[i]];
+                if (i!=self.orderNos.count-1) {
+                    [tempString appendFormat:@","];
+                }
+            }
+        }
+        [params setObject:tempString forKey:@"orderNos"];
+        [HttpTool postWithURL:@"Buyer/WithdrawGoods" params:params success:^(id json) {
+            BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+            if (isSuccessful) {
+                self.pageNum=1;
+                [self setData];
+                [self showHudSuccess:@"提取成功"];
+            }else{
+                [self showHudFailed:@"提取失败"];
+            }
+            [self textHUDHiddle];
+            
+        } failure:^(NSError *error) {
+            [self showHudFailed:@"提取失败"];
+            [self textHUDHiddle];
+            
+        }];
+    }
+}
+
 
 #pragma mark tableViewDelegate
 
@@ -208,7 +280,9 @@
     }else{
         cell.stateLabel.hidden=YES;
         cell.stateBtn.hidden =NO;
+        cell.stateBtn.tag =indexPath.row;
         [cell.stateBtn addTarget:self action:@selector(changeImg:) forControlEvents:UIControlEventTouchUpInside];
+        
     }
     if (self.dataArray.count>0) {
         cell.paymentPrice.text =[[self.dataArray[indexPath.row]objectForKey:@"Amount"]stringValue];
@@ -225,19 +299,19 @@
 }
 
 -(void)changeImg:(UIButton *)btn{
-
-    if(btn.selected ==NO){
-        btn.selected =YES;
-    }else{
+    
+    NSDictionary *d=   self.dataArray[btn.tag];
+    if(btn.selected){
         btn.selected =NO;
+        [self.orderNos removeObjectForKey:[d objectForKey:@"OrderNo"]];
+    }else{
+        btn.selected =YES;
+        [self.orderNos setObject:[d objectForKey:@"Amount"]forKey:[d objectForKey:@"OrderNo"]];
     }
     
 }
 
--(void)showCountClick:(UIButton *)btn{
-    
-    
-}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 70;

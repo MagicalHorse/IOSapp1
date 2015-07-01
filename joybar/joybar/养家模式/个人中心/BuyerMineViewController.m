@@ -9,7 +9,6 @@
 #import "BuyerMineViewController.h"
 #import "AppDelegate.h"
 #import "BuyerTabBarViewController.h"
-#import "BuyerSettingViewController.h"
 #import "BueryAuthViewController.h"
 #import "BuyerShopShowViewController.h"
 #import "CusSettingViewController.h"

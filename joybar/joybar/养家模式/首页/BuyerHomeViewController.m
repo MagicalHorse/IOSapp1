@@ -31,7 +31,7 @@
     [self addNavBarViewAndTitle:@"首页"];
     self.retBtn.hidden = YES;
     self.homeTableView.tableFooterView =  [[UIView alloc]initWithFrame:CGRectZero];
-    self.homeTableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) style:(UITableViewStylePlain)];
+    self.homeTableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     self.homeTableView.isShowFooterView =NO;
     self.homeTableView.delegate = self;
     self.homeTableView.dataSource = self;
