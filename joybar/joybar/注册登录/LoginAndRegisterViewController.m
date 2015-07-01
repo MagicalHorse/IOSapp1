@@ -9,6 +9,8 @@
 #import "LoginAndRegisterViewController.h"
 #import "WriteInfoViewController.h"
 #import "FindPasswordViewController.h"
+#import "UMSocialWechatHandler.h"
+#include "CusTabBarViewController.h"
 @interface LoginAndRegisterViewController ()
 
 @property (nonatomic ,strong) UIImageView *markImg;
@@ -68,6 +70,7 @@
 -(void)returnBtnClicked:(UIButton *)button
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+
 }
 
 #pragma mark ScrollViewDeletegate
@@ -386,6 +389,8 @@
 //微信登陆
 -(void)didCLickWXLogin
 {
+    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
+
     UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
     
     snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
@@ -395,8 +400,70 @@
             UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary]valueForKey:UMShareToWechatSession];
             
             NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
+            
+//            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+//            [dic setObject:snsAccount.accessToken forKey:@"access_token"];
+//            [dic setObject:snsAccount.openId forKey:@"openid"];
+//            [HttpTool getWithURL:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",snsAccount.accessToken,snsAccount.openId] params:nil success:^(id json) {
+//                
+//                NSLog(@"%@",json);
+//                
+//            } failure:^(NSError *error) {
+//                
+//                [self showHudFailed:@"请求失败"];
+//                
+//            }];
+            [self hudShow:@"正在登录..."];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",snsAccount.accessToken,snsAccount.openId]];
+            NSURLRequest *request = [NSURLRequest requestWithURL:url];
+            [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                
+                NSString *str1 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                [self WXLogin:str1];
+            }];
+            
+            
         }
     });
+}
+
+-(void)WXLogin:(NSString *)str
+{
+    NSMutableDictionary *dic =[NSMutableDictionary dictionary];
+    [dic setObject:str forKey:@"json"];
+    [dic setObject:APP_ID forKey:@"appid"];
+    [HttpTool postWithURL:@"User/OutSiteLogin" params:dic success:^(id json) {
+        
+        [self textHUDHiddle];
+        if([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
+            
+            NSArray *allKeys = [userInfoDic allKeys];
+            for (NSString *key in allKeys)
+            {
+                
+                NSString *value = [userInfoDic objectForKey:key];
+                if ([value isEqual:[NSNull null]])
+                {
+                    [userInfoDic setObject:@"" forKey:key];
+                }
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:userInfoDic forKey:@"userInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        [self showHudFailed:@"请求失败"];
+    }];
+    
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event

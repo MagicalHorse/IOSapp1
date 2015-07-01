@@ -9,10 +9,13 @@
 #import "CusCollectionViewCell.h"
 
 @implementation CusCollectionViewCell
-
+{
+    NSDictionary *dataDic;
+}
 
 -(void)setCollectionData:(NSDictionary *)dic andHeight:(NSInteger)height
 {
+    dataDic = dic;
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-15)/2, height)];
 //    imageView.backgroundColor = [self randomColor];
     NSString *imgUrl = [NSString stringWithFormat:@"%@_320x0.jpg",[[dic objectForKey:@"pic"] objectForKey:@"pic"]];
@@ -61,7 +64,28 @@
 
 -(void)didClickCancelCollect:(UIButton *)btn
 {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:[dataDic objectForKey:@"Id"] forKey:@"Id"];
+    [dic setValue:@"1" forKey:@"Status"];
+    [self hudShow:@"正在取消收藏"];
+    [HttpTool postWithURL:@"Product/Favorite" params:dic success:^(id json) {
+        
+        [self textHUDHiddle];
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            [btn setImage:[UIImage imageNamed:@"xing"] forState:(UIControlStateNormal)];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"cancelCollectNot" object:self userInfo:nil];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        [self showHudFailed:@"请求失败"];
+    }];
     
+
 }
 
 @end

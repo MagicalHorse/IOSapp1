@@ -7,8 +7,9 @@
 //
 
 #import "CusFindSearchViewController.h"
-
-@interface CusFindSearchViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+#import "CusTagViewController.h"
+#import "CusHomeStoreViewController.h"
+@interface CusFindSearchViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UIView *line;
 
@@ -16,10 +17,13 @@
 
 @property (nonatomic ,strong) UITableView *tableView;
 @property (nonatomic ,assign) NSInteger selectBtnIndex;
+@property (nonatomic ,strong) NSMutableArray *searchArr;
 @end
 
 @implementation CusFindSearchViewController
-
+{
+    UITextField *searchText;
+}
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -32,6 +36,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.searchArr = [NSMutableArray array];
     self.btnArr = [NSMutableArray array];
     self.selectBtnIndex = 0;
     [self addNavBarViewAndTitle:@""];
@@ -46,7 +51,7 @@
     searchImage.image = [UIImage imageNamed:@"search"];
     [searchView addSubview:searchImage];
     
-    UITextField *searchText = [[UITextField alloc] initWithFrame:CGRectMake(searchImage.right+10, 0, searchView.width-50, 30)];
+    searchText = [[UITextField alloc] initWithFrame:CGRectMake(searchImage.right+10, 0, searchView.width-50, 30)];
     searchText.placeholder = @"请输入品牌或者其他标签";
     searchText.borderStyle = UITextBorderStyleNone;
     searchText.delegate = self;
@@ -95,7 +100,6 @@
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-
 }
 
 -(void)didClickBtn:(UIButton *)btn
@@ -121,6 +125,7 @@
         case 1000:
         {
             self.selectBtnIndex = 0;
+
         }
             break;
         case 1001:
@@ -136,14 +141,16 @@
         default:
             break;
     }
-    
+    [self.searchArr removeAllObjects];
+    [self searchData:self.selectBtnIndex];
+
     [self.tableView reloadData];
 }
 
 #pragma mark tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return self.searchArr.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -164,38 +171,42 @@
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 80, kScreenWidth, 0.5)];
     lineView.backgroundColor = [UIColor lightGrayColor];
     [cell.contentView addSubview:lineView];
-    if (self.selectBtnIndex==0)
+    if (self.searchArr.count>0)
     {
-        UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
-        proImage.backgroundColor = [UIColor orangeColor];
-        [cell.contentView addSubview:proImage];
-        
-        UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 30, 250, 20)];
-        nameLab.text = @"NEW BALANCE";
-        nameLab.textColor = [UIColor grayColor];
-        nameLab.font = [UIFont fontWithName:@"youyuan" size:15];
-        [cell.contentView addSubview:nameLab];
-    }
-//    else if (self.selectBtnIndex==1)
-//    {
-//        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 250, 20)];
-//        lab.text = @"NEW BALANCE";
-//        lab.textColor = [UIColor grayColor];
-//        lab.font = [UIFont fontWithName:@"youyuan" size:15];
-//        [cell.contentView addSubview:lab];
-//    }
-    else
-    {
-        UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
-        proImage.backgroundColor = [UIColor orangeColor];
-        proImage.layer.cornerRadius = proImage.width/2;
-        [cell.contentView addSubview:proImage];
-        
-        UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 30, 250, 20)];
-        nameLab.text = @"小猫猫";
-        nameLab.textColor = [UIColor grayColor];
-        nameLab.font = [UIFont fontWithName:@"youyuan" size:15];
-        [cell.contentView addSubview:nameLab];
+        NSDictionary *dataDic = [self.searchArr objectAtIndex:indexPath.row];
+        if (self.selectBtnIndex==0)
+        {
+            UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+            [proImage sd_setImageWithURL:[NSURL URLWithString:[dataDic objectForKey:@"Logo"]] placeholderImage:nil];
+            [cell.contentView addSubview:proImage];
+            
+            UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 30, 250, 20)];
+            nameLab.text = [dataDic objectForKey:@"Name"];
+            nameLab.textColor = [UIColor grayColor];
+            nameLab.font = [UIFont fontWithName:@"youyuan" size:15];
+            [cell.contentView addSubview:nameLab];
+        }
+        //    else if (self.selectBtnIndex==1)
+        //    {
+        //        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 30, 250, 20)];
+        //        lab.text = @"NEW BALANCE";
+        //        lab.textColor = [UIColor grayColor];
+        //        lab.font = [UIFont fontWithName:@"youyuan" size:15];
+        //        [cell.contentView addSubview:lab];
+        //    }
+        else
+        {
+            UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+            [proImage sd_setImageWithURL:[NSURL URLWithString:[dataDic objectForKey:@"Logo"]] placeholderImage:nil];
+            proImage.layer.cornerRadius = proImage.width/2;
+            [cell.contentView addSubview:proImage];
+            
+            UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 30, 250, 20)];
+            nameLab.text = [dataDic objectForKey:@"Name"];
+            nameLab.textColor = [UIColor grayColor];
+            nameLab.font = [UIFont fontWithName:@"youyuan" size:15];
+            [cell.contentView addSubview:nameLab];
+        }
     }
     
     return cell;
@@ -206,6 +217,25 @@
     return 80;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dic = [self.searchArr objectAtIndex:indexPath.row];
+    if (self.selectBtnIndex==0)
+    {
+        CusTagViewController *VC = [[CusTagViewController alloc] init];
+        VC.BrandId = [dic objectForKey:@"Id"];
+        VC.BrandName = [dic objectForKey:@"Name"];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    else
+    {
+        CusHomeStoreViewController *VC =[[CusHomeStoreViewController alloc] init];
+        VC.userId = [dic objectForKey:@"Id"];
+        VC.userName = [dic objectForKey:@"Name"];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+}
+
 -(void)didClickCancelBtn:(UIButton *)btn
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -213,7 +243,49 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    [self searchData:self.selectBtnIndex];
+    
     return YES;
+}
+
+-(void)searchData:(NSInteger)type
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:[NSString stringWithFormat:@"%ld",(long)type] forKey:@"state"];
+    if ([searchText.text isEqualToString:@""])
+    {
+        [self showHudFailed:@"请输入搜索内容"];
+        return;
+    }
+    [dic setValue:searchText.text forKey:@"key"];
+    [dic setValue:@"1" forKey:@"page"];
+    [dic setValue:@"10000" forKey:@"pagesize"];
+    [searchText resignFirstResponder];
+    [self hudShow];
+    [HttpTool postWithURL:@"Search/Search" params:dic success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            [self.searchArr addObjectsFromArray:arr];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self hiddleHud];
+        
+    } failure:^(NSError *error) {
+        
+        [self showHudFailed:@"请检查网络设置"];
+        
+    }];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [searchText resignFirstResponder];
 }
 
 @end

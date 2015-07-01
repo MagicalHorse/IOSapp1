@@ -17,7 +17,9 @@
 #import "BaseNavigationController.h"
 #import "MyBuyerTableView.h"
 #import "HomeTableView.h"
-@interface CusHomeViewController ()
+#import "YRADScrollView.h"
+
+@interface CusHomeViewController ()<UIScrollViewDelegate,YRADScrollViewDataSource,YRADScrollViewDelegate>
 
 @property (nonatomic ,strong) UIScrollView *homeScroll;
 
@@ -27,9 +29,6 @@
 
 @property (nonatomic ,assign) CGFloat startX;
 @property (nonatomic ,assign) CGFloat endX;
-
-@property (nonatomic ,strong) CycleScrollView * csView;
-
 @property (nonatomic ,strong) NSArray *imageArr;
 @property (nonatomic ,assign) NSInteger pageNum;
 
@@ -38,25 +37,28 @@
 @property (nonatomic ,strong) NSMutableArray *myBuyerArr;
 @property (nonatomic ,assign) NSInteger myBuyerPageNum;
 
+
 @end
 
 @implementation CusHomeViewController
 {
     UIView *tempView;
     CusCenterViewController *centerVC;
+    YRADScrollView *headerScroll;
+    UIView *headerView;
 }
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    
-    [self.csView pauseTimer];
-    self.csView =nil;
-}
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.csView resumeTimer];
-}
+//-(void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//
+//    [self.csView pauseTimer];
+//    self.csView =nil;
+//}
+//-(void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    [self.csView resumeTimer];
+//}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.pageNum = 1;
@@ -86,7 +88,7 @@
     //    [cartBtn setImage:[UIImage imageNamed:@"购物车"] forState:(UIControlStateNormal)];
     //    [cartBtn addTarget:self action:@selector(didClickCartBtnBtn) forControlEvents:(UIControlEventTouchUpInside)];
     //    [self.navView addSubview:cartBtn];
-
+    
     [self getData:NO];
 }
 -(void)initNavView
@@ -132,16 +134,11 @@
     //tableView
     self.homeTableView = [[HomeTableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     [self.homeScroll addSubview:self.homeTableView];
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2+40)];
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2+40)];
     headerView.backgroundColor = [UIColor whiteColor];
     self.homeTableView.tableHeaderView = headerView;
-
-    self.csView = [[CycleScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2) animationDuration:3.5];
-    self.csView.datasource = self;
-    self.csView.delegate = self;
-    [headerView addSubview:self.csView];
     
-    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, self.csView.height+10, kScreenWidth, 20)];
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, kScreenWidth/2+10, kScreenWidth, 20)];
     lab.text = @"最新上新";
     lab.font = [UIFont fontWithName:@"youyuan" size:16];
     lab.backgroundColor = [UIColor clearColor];
@@ -150,7 +147,7 @@
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, lab.bottom+10, kScreenWidth, 0.5)];
     line.backgroundColor = [UIColor lightGrayColor];
     [headerView addSubview:line];
-
+    
     __weak CusHomeViewController *VC = self;
     self.homeTableView.headerRereshingBlock = ^()
     {
@@ -158,6 +155,7 @@
         VC.pageNum=1;
         [VC getData:YES];
     };
+    
     self.homeTableView.footerRereshingBlock = ^()
     {
         VC.pageNum++;
@@ -212,6 +210,26 @@
             
             [self.myBuyerTableView.dataArr addObjectsFromArray:self.data.Products];
             
+            //            __weak CusHomeViewController *VC = self;
+            //            self.mainScorllView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
+            //                UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
+            //                imgView.backgroundColor = [UIColor lightGrayColor];
+            //
+            //                Banner *banner = [VC.data.Banners objectAtIndex:pageIndex];
+            //                if (banner)
+            //                {
+            //                    NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
+            //                    [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+            //                }
+            //                return imgView;
+            //            };
+            //            self.mainScorllView.totalPagesCount = ^NSInteger(void){
+            //                return VC.data.Banners.count;
+            //            };
+            //            self.mainScorllView.TapActionBlock = ^(NSInteger pageIndex){
+            //                NSLog(@"点击了第%d个",pageIndex);
+            //            };
+            
         }
         [self.myBuyerTableView reloadData];
         [self.myBuyerTableView endRefresh];
@@ -246,11 +264,13 @@
                 [self.homeTableView hiddenFooter:NO];
             }
             [self.homeTableView.dataArr addObjectsFromArray:self.data.Products];
-            if (self.csView)
-            {
-                [self.csView reloadData];
-            }
             [SVProgressHUD dismiss];
+            headerScroll = [[YRADScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
+            headerScroll.dataSource = self;
+            headerScroll.delegate = self;
+            //    adScrollView.cycleEnabled = NO;//如果设置为NO，则关闭循环滚动功能。
+            [headerView addSubview:headerScroll];
+            
         }
         [self.homeTableView reloadData];
         [self.homeTableView endRefresh];
@@ -260,30 +280,70 @@
     }];
 }
 
-- (NSInteger) totalPagesCount
-{
-   return self.data.Banners.count;
+//- (NSInteger) totalPagesCount
+//{
+//   return self.data.Banners.count;
+//}
+//
+//- (UIView *) fetchContentViewAtIndex:(NSInteger)pageIndex
+//{
+//    UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
+//    imgView.backgroundColor = [UIColor lightGrayColor];
+//
+//    Banner *banner = [self.data.Banners objectAtIndex:pageIndex];
+//    if (banner)
+//    {
+//        NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
+//        [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+//    }
+//    return imgView;
+//}
+
+-(NSUInteger)numberOfViewsForYRADScrollView:(YRADScrollView *)adScrollView{
+    return self.data.Banners.count;
 }
+#pragma mark adViewDelegate
+-(void)adScrollView:(YRADScrollView *)adScrollView didClickedAtPage:(NSInteger)pageIndex{
+    //    NSLog(@"-->>点击了:%@",[_nameArray objectAtIndex:pageIndex]);
+}
+//-(void)adScrollView:(YRADScrollView *)adScrollView didScrollToPage:(NSInteger)pageIndex
+//{
+//        UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
+//        imgView.backgroundColor = [UIColor lightGrayColor];
+//    [adScrollView addSubview:imgView];
+//
+//        Banner *banner = [self.data.Banners objectAtIndex:pageIndex];
+//        if (banner)
+//        {
+//            NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
+//            [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+//        }
+//}
 
-- (UIView *) fetchContentViewAtIndex:(NSInteger)pageIndex
-{
-    UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
+-(UIView *)viewForYRADScrollView:(YRADScrollView *)adScrollView atPage:(NSInteger)pageIndex{
+    UIImageView * imgView = [adScrollView dequeueReusableView];//先获取重用池里面的
+    if (!imgView)
+    {
+        imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
+    }
     imgView.backgroundColor = [UIColor lightGrayColor];
-
+    
     Banner *banner = [self.data.Banners objectAtIndex:pageIndex];
     if (banner)
     {
         NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
         [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
     }
+    
     return imgView;
 }
+
+
 
 #pragma mark ScrollViewDeletegate
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     self.endX = scrollView.contentOffset.x;
-    
     if (self.startX-self.endX==0)
     {
         return;
@@ -292,12 +352,14 @@
     {
         [self scrollToBuyerStreet];
     }
-//    else if(scrollView.contentOffset.x==kScreenWidth)
-//    {
-//        [self scrollToSaid];
-//    }
     else
     {
+        if (![Public getUserInfo])
+        {
+            [Public showLoginVC:self];
+            self.homeScroll.contentOffset = CGPointMake(0, 0);
+            return;
+        }
         [self scrollToMyBuyer];
     }
 }
@@ -306,20 +368,12 @@
 {
     if (tap.view.tag==1000)
     {
-        self.homeScroll.contentOffset = CGPointMake(0, 0);
         [self scrollToBuyerStreet];
     }
     else if(tap.view.tag==1001)
     {
-        self.homeScroll.contentOffset = CGPointMake(kScreenWidth, 0);
-//        [self scrollToSaid];
         [self scrollToMyBuyer];
     }
-//    else
-//    {
-//        self.homeScroll.contentOffset = CGPointMake(kScreenWidth*2, 0);
-//        [self scrollToMyBuyer];
-//    }
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -330,10 +384,12 @@
 //买手街
 -(void)scrollToBuyerStreet
 {
+    self.homeScroll.contentOffset = CGPointMake(0, 0);
+
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[tempView viewWithTag:1002];
-
+    
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab1.center.x, 63);
     }];
@@ -345,48 +401,24 @@
     lab3.font = [UIFont fontWithName:@"youyuan" size:15];
 }
 
-////TA们说
-//-(void)scrollToSaid
-//{
-//    UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
-//    UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
-//    UILabel *lab3 = (UILabel *)[tempView viewWithTag:1002];
-//    if (centerVC==nil)
-//    {
-//        centerVC= [[CusCenterViewController alloc] init];
-//        centerVC.view.frame = CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64);
-//        [self.homeScroll addSubview:centerVC.view];
-//    }
-//    
-//    [UIView animateWithDuration:0.25 animations:^{
-//        self.lineLab.center = CGPointMake(lab2.center.x, 63);
-//    }];
-//    lab2.textColor = [UIColor orangeColor];
-//    lab2.font = [UIFont fontWithName:@"youyuan" size:17];
-//    lab1.textColor = [UIColor grayColor];
-//    lab1.font = [UIFont fontWithName:@"youyuan" size:15];
-//    lab3.textColor = [UIColor grayColor];
-//    lab3.font = [UIFont fontWithName:@"youyuan" size:15];
-//
-//}
 
 -(void)scrollToMyBuyer
 {
+    if (![Public getUserInfo])
+    {
+        [Public showLoginVC:self];
+        self.homeScroll.contentOffset = CGPointMake(0, 0);
+        return;
+    }
+    self.homeScroll.contentOffset = CGPointMake(kScreenWidth, 0);
+
     if (self.myBuyerTableView.dataArr.count==0)
     {
         [self getMyBuyerData:NO];
     }
-
+    
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
-//    UILabel *lab3 = (UILabel *)[tempView viewWithTag:1002];
-//    if (myBuyerVC==nil)
-//    {
-//        myBuyerVC= [[CusMyBuyerViewController alloc] init];
-//        myBuyerVC.view.frame = CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64);
-//        [self.homeScroll addSubview:myBuyerVC.view];
-//    }
-    
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab2.center.x, 63);
     }];
@@ -394,9 +426,7 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:17];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont fontWithName:@"youyuan" size:15];
-//    lab2.textColor = [UIColor grayColor];
-//    lab2.font = [UIFont fontWithName:@"youyuan" size:15];
-
+    
 }
 
 //点击购物车

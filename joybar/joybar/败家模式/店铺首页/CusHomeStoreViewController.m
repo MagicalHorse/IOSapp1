@@ -113,7 +113,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.userId forKey:@"userid"];
-    [dic setObject:[NSString stringWithFormat:@"%ld",self.pageNum] forKey:@"page"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setObject:@"20" forKey:@"pagesize"];
     [self hudShow];
     [HttpTool postWithURL:@"Product/GetUserFavoriteList" params:dic success:^(id json) {
@@ -149,7 +149,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.userId forKey:@"userid"];
     [dic setObject:@"1" forKey:@"Filter"];
-    [dic setObject:[NSString stringWithFormat:@"%ld",self.pageNum] forKey:@"page"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setObject:@"20" forKey:@"pagesize"];
     [self hudShow];
     [HttpTool postWithURL:@"Product/GetUserProductList" params:dic success:^(id json) {

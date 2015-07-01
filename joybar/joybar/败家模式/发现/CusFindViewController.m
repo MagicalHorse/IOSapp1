@@ -181,7 +181,7 @@
 -(void)getNearData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
+    [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.nearPageNum] forKey:@"page"];
     [dic setValue:@"6" forKey:@"pagesize"];
     [dic setValue:@"0" forKey:@"CityId"];
     if (!isRefresh)

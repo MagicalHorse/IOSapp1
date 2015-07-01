@@ -210,6 +210,13 @@
     }
     else
     {
+        if (![Public getUserInfo])
+        {
+            [Public showLoginVC:self];
+            self.circleScroll.contentOffset = CGPointMake(0, 0);
+            return;
+        }
+
         [self scrollToMyCircle];
     }
 }
@@ -258,6 +265,13 @@
 //我的圈子
 -(void)scrollToMyCircle
 {
+    if (![Public getUserInfo])
+    {
+        [Public showLoginVC:self];
+        self.circleScroll.contentOffset = CGPointMake(0, 0);
+        return;
+    }
+
     if (!self.myCircleTableView)
     {
         [self initWithMyCircleTalbeView];
@@ -276,7 +290,6 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:17];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont fontWithName:@"youyuan" size:15];
-    
 }
 
 @end

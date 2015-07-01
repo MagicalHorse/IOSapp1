@@ -37,7 +37,7 @@
         cell = [[CusHomeTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
     
-    cell.backgroundColor = [UIColor clearColor];
+     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     for (UIView *view in cell.contentView.subviews)
     {
@@ -66,6 +66,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.dataArr.count==0)
+    {
+        return;
+    }
     CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
     HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
     VC.productId = pro.ProductId;

@@ -77,9 +77,7 @@
 -(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
     NSInteger count = 0;
-    
-    NSLog(@"%@-%ld",title,index);
-    
+        
     for(NSString *character in _dataSource)
     {
         if([character isEqualToString:title])

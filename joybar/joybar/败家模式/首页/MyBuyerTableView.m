@@ -64,6 +64,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.dataArr.count==0)
+    {
+        return;
+    }
+
     CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
     HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
     VC.productId = pro.ProductId;
