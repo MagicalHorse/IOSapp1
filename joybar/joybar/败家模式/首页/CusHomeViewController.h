@@ -7,10 +7,9 @@
 //
 
 #import "BaseViewController.h"
-#import "CycleScrollView.h"
 #import "HomeData.h"
 
-@interface CusHomeViewController : BaseViewController<UIScrollViewDelegate,CycleScrollViewDatasource,CycleScrollViewDelegate>
+@interface CusHomeViewController : BaseViewController
 @property (nonatomic ,strong) HomeData *data;
 
 @end

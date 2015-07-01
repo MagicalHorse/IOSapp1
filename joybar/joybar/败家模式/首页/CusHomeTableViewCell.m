@@ -257,7 +257,6 @@
 {
     
 }
-
 //收藏
 -(void)didClickCollect:(UIButton *)btn
 {
@@ -283,7 +282,7 @@
         {
             if (btn.selected==NO)
             {
-                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%ld",[self.homePro.LikeUsers.Count integerValue]+1];
+                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%d",[self.homePro.LikeUsers.Count integerValue]+1];
                 self.homePro.LikeUsers.IsLike = @"1";
                 [btn setImage:[UIImage imageNamed:@"点赞h"] forState:(UIControlStateNormal)];
                 [btn setTitle:self.homePro.LikeUsers.Count forState:(UIControlStateNormal)];
@@ -292,7 +291,7 @@
             else
             {
                 
-                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%ld",[self.homePro.LikeUsers.Count integerValue]-1];
+                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%d",[self.homePro.LikeUsers.Count integerValue]-1];
                 self.homePro.LikeUsers.IsLike = @"0";
 
                 [btn setImage:[UIImage imageNamed:@"点赞"] forState:(UIControlStateNormal)];

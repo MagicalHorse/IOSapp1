@@ -33,6 +33,20 @@
 //#define SocketUrl @"http://182.92.7.70:8000/chat"
 #define SocketUrl @"http://182.92.7.70:8001/chat"
 
+#define APP_ID          @"wx281aa8c2686c0e7c"               //APPID
+#define APP_SECRET      @"1a8fd52d8cb2b6099b1c4c669e5e2717" //appsecret
+//商户号，填写商户对应参数
+#define MCH_ID          @"1247257401"
+//商户API密钥，填写相应参数
+#define PARTNER_ID      @"9b1c4c669e5e27171a8fd52d8cb2b609"
+//支付结果回调页面
+//#define NOTIFY_URL      @"http://wxpay.weixin.qq.com/pub_v2/pay/notify.v2.php"
+
+#define NOTIFY_URL      @"http://123.57.52.187:8080/app/Payment/WeiXinPayResult"
+
+//获取服务器端支付数据地址（商户自定义）
+#define SP_URL          @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php"
+
 
 
 

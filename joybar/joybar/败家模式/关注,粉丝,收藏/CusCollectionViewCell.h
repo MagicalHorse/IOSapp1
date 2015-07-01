@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+//@protocol cancleCollectDelegate <NSObject>
+//
+//-(void)cancelCollect;
+//
+//@end
 @interface CusCollectionViewCell : UICollectionViewCell
 
+//@property (nonatomic ,assign)id<cancleCollectDelegate>delegate;
 
 -(void)setCollectionData:(NSDictionary *)dic andHeight:(NSInteger)height;
 

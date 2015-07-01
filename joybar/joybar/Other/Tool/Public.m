@@ -17,7 +17,7 @@
     LoginAndRegisterViewController *loginVC = [[LoginAndRegisterViewController alloc] init];
     BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:loginVC];
     [VC presentViewController:nav animated:YES completion:nil];
-
+    
 }
 +(CGSize)getContentSizeWith:(NSString *)content andFontSize:(NSInteger)fontSize andHigth:(NSInteger)higth
 {

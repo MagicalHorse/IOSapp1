@@ -27,8 +27,7 @@
 @implementation CusMineViewController
 
 -(void)viewWillAppear:(BOOL)animated
-{
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+{    
     [self getMineData];
 }
 
@@ -56,6 +55,7 @@
 
 -(void)getMineData
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [HttpTool postWithURL:@"user/GetmyInfo" params:nil success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
@@ -63,6 +63,7 @@
             self.mineData = [MineData objectWithKeyValues:[json objectForKey:@"data"]];
             [self.tableView reloadData];
         }
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         NSLog(@"%@",json);
         
     } failure:^(NSError *error) {
@@ -197,6 +198,7 @@
     {
         cell.bgImageView.frame = CGRectMake(scrollView.contentOffset.y, scrollView.contentOffset.y, kScreenWidth-2*scrollView.contentOffset.y, 200-scrollView.contentOffset.y);
     }
+
 }
 
 //点击设置

@@ -51,6 +51,8 @@
     
     //    self.collectionView.headerHidden = NO;
     [self getData];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(cancelCollect) name:@"cancelCollectNot" object:nil];
     //    // 2.集成刷新控件
     //    [self addHeader];
     //    [self addFooter];
@@ -123,6 +125,7 @@
     if (cell==nil)
     {
         cell = [[CusCollectionViewCell alloc]init];
+        
     }
     for (UIView *view in cell.contentView.subviews)
     {
@@ -147,6 +150,11 @@
     
     NSLog(@"++++++++++++++%f",size1.height);
     return size1;
+}
+
+-(void)cancelCollect
+{
+    [self getData];
 }
 
 @end

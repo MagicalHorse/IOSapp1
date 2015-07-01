@@ -10,6 +10,7 @@
 #import "ChangePasswordViewController.h"
 #import "BuyerOpenMessageViewController.h"
 #import "CusAboutViewController.h"
+#import "AppDelegate.h"
 @interface CusSettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
@@ -233,10 +234,13 @@
 {
     if (buttonIndex==0)
     {
+//        [Public showLoginVC:self];
         [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"userInfo"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        [Public showLoginVC:self];
+        AppDelegate *ad= (AppDelegate *)[UIApplication sharedApplication].delegate;
+        CusTabBarViewController *tab = [[CusTabBarViewController alloc] init];
+        ad.window.rootViewController =tab;
     }
 }
 
