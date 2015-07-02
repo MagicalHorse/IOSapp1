@@ -66,13 +66,20 @@
         
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
+            self.dataArray=nil;
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
             self.dataArray =array;
         }else{
             self.dataArray=nil;
             [self showHudFailed:@"加载失败"];
         }
-        [self.tableView reloadData];
+        if(type==1){
+            [self.tableView reloadData];
+
+        }else{
+            [self.fansTableView reloadData];
+
+        }
         [SVProgressHUD dismiss];
         isRefresh =NO;
     } failure:^(NSError *error) {
@@ -144,7 +151,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (type ==1) {
+    if (type ==1 &&tableView.tag==1) {
         static NSString *simpleIdentify = @"cell";
         BuyerCircleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleIdentify];
         if (cell == nil) {
@@ -191,7 +198,7 @@
     return 60;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (type ==2) {
+    if (type ==2 &&tableView.tag==2) {
         NSString *userid =[[self.dataArray[indexPath.row]objectForKey:@"UserId"]stringValue];
         CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:[self.dataArray[indexPath.row]objectForKey:@"UserName"]];
         chat.isFrom =isFromPrivateChat;
@@ -229,8 +236,20 @@
 //我的圈子
 -(void)scrollToBuyerStreet
 {
+    self.dataArray=nil;
+    [self.fansTableView removeFromSuperview];
+
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.tag = 1;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = kCustomColor(241, 241, 241);
+    self.tableView.tableFooterView =[[UIView alloc]init];
+    [self.view addSubview:self.tableView];
     
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab1.center.x, 38);
@@ -240,18 +259,24 @@
     lab2.textColor = [UIColor grayColor];
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     [self setData];
-
-    
 }
 
 //我的粉丝
 -(void)scrollToSaid
 {
+    self.dataArray=nil;
+    [self.tableView removeFromSuperview];
+
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
-    
-    
-    
+    _fansTableView= [[UITableView alloc] init];
+    _fansTableView.frame = CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40);
+    _fansTableView.backgroundColor = kCustomColor(241, 241, 241);
+    _fansTableView.tag=2;
+    _fansTableView.dataSource =self;
+    _fansTableView.delegate =self;
+    _fansTableView.tableFooterView =[[UIView alloc]init];
+    [self.view addSubview:_fansTableView];
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab2.center.x, 38);
     }];
