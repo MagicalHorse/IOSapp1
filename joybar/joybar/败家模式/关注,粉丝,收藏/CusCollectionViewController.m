@@ -88,6 +88,7 @@
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setValue:@"10000" forKey:@"pagesize"];
     
+    [self hudShow];
     [HttpTool postWithURL:@"Product/GetMyFavoriteProductList" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
@@ -106,6 +107,7 @@
             
             [self.collectionView reloadData];
         }
+        [self hiddleHud];
         //        [self.collectionView headerEndRefreshing];
         //        [self.collectionView footerEndRefreshing];
     } failure:^(NSError *error) {

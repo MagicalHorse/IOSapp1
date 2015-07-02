@@ -401,18 +401,6 @@
             
             NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
             
-//            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-//            [dic setObject:snsAccount.accessToken forKey:@"access_token"];
-//            [dic setObject:snsAccount.openId forKey:@"openid"];
-//            [HttpTool getWithURL:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",snsAccount.accessToken,snsAccount.openId] params:nil success:^(id json) {
-//                
-//                NSLog(@"%@",json);
-//                
-//            } failure:^(NSError *error) {
-//                
-//                [self showHudFailed:@"请求失败"];
-//                
-//            }];
             [self hudShow:@"正在登录..."];
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",snsAccount.accessToken,snsAccount.openId]];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
