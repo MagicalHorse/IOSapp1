@@ -11,12 +11,14 @@
 
 @interface BuyerComeInDscViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     int type;
+    BOOL isRefresh;
 }
 
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIView *tempView;
-@property (nonatomic ,strong) UITableView *tableView;
+@property (nonatomic ,strong) BaseTableView *tableView;
 @property (nonatomic ,strong) NSMutableArray *dataArray;
+@property (nonatomic,assign)NSInteger pageNum;
 
 @end
 
@@ -67,19 +69,38 @@
     [self.view addSubview:lineView];
     
     //tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 104, kScreenWidth, kScreenHeight-104) style:(UITableViewStylePlain)];
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 104, kScreenWidth, kScreenHeight-104) style:(UITableViewStylePlain)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     self.tableView.separatorStyle =UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView =[[UIView alloc]init];
     self.tableView.backgroundColor =kCustomColor(237,237,237);
+    isRefresh=YES;
+    
+    __weak BuyerComeInDscViewController *VC = self;
+    self.tableView.headerRereshingBlock = ^()
+    {
+        if (VC.dataArray.count>0) {
+            VC.dataArray =nil;
+        }
+        VC.pageNum=1;
+        [VC setData];
+    };
+    self.tableView.footerRereshingBlock = ^()
+    {
+        VC.pageNum++;
+        [VC setData];
+    };
     [self setData];
 
 }
 
 -(void)setData
 {
+    if (isRefresh) {
+        [SVProgressHUD showInView:self.view WithY:64+40 andHeight:kScreenHeight-64-40];
+    }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     [dict setObject:@"1" forKey:@"Page"];
     [dict setObject:@"6" forKey:@"Pagesize"];
@@ -94,10 +115,32 @@
         
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            self.dataArray =[[json objectForKey:@"data"] objectForKey:@"items"];
-            [self.tableView reloadData];
+            NSArray *arr =[[json objectForKey:@"data"]objectForKey:@"items"];
+            if(arr.count<10)
+            {
+                [self.tableView hiddenFooter:YES];
+            }
+            else
+            {
+                [self.tableView hiddenFooter:NO];
+            }
+            if (self.pageNum==1) {
+                [self.dataArray removeAllObjects];
+                [self.dataArray addObjectsFromArray:arr];
+            }else{
+                [self.dataArray addObjectsFromArray:arr];
+            }
+        }else{
+            self.dataArray=nil;
+            [self showHudFailed:@"加载失败"];
         }
+        [self.tableView reloadData];
+        [SVProgressHUD dismiss];
+        [self.tableView endRefresh];
+        isRefresh =NO;
     } failure:^(NSError *error) {
+        [self.tableView endRefresh];
+        [SVProgressHUD dismiss];
         NSLog(@"%@",[error description]);
     }];
 }
@@ -138,16 +181,23 @@
 {
     if (tap.view.tag==1000)
     {
+        [SVProgressHUD dismiss];
+
         type=1;
+        isRefresh=YES;
         [self scrollToBuyerStreet];
     }
     else if(tap.view.tag==1001)
     {
+        [SVProgressHUD dismiss];
+        isRefresh=YES;
         type=2;
         [self scrollToSaid];
     }
     else
     {
+        [SVProgressHUD dismiss];
+        isRefresh=YES;
         type=3;
         [self scrollToMyBuyer];
     }

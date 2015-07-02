@@ -10,12 +10,13 @@
 
 @interface BuyerInComeDetailsViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     int type;
+    BOOL isRefresh;
 }
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIView *tempView;
-@property (nonatomic ,strong) UITableView *tableView;
+@property (nonatomic ,strong) BaseTableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArray;
-
+@property (nonatomic,assign) NSInteger pageNum;
 @end
 
 @implementation BuyerInComeDetailsViewController
@@ -64,23 +65,39 @@
     [self.view addSubview:lineView];
     
    
-    
     //tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 104, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
-    self.tableView.tag = 1;
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 104, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    
+    isRefresh =YES;
     self.tableView.tableFooterView =[[UIView alloc]init];
+    __weak BuyerInComeDetailsViewController *VC = self;
+    self.tableView.headerRereshingBlock = ^()
+    {
+        if (VC.dataArray.count>0) {
+            VC.dataArray =nil;
+        }
+        VC.pageNum=1;
+        [VC setData];
+    };
+    self.tableView.footerRereshingBlock = ^()
+    {
+        VC.pageNum++;
+        [VC setData];
+    };
+    
     [self setData];
 
 }
 -(void)setData
 {
+    if (isRefresh) {
+        [SVProgressHUD showInView:self.view WithY:64+40 andHeight:kScreenHeight-64-40];
+    }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
-    [dict setObject:@"1" forKey:@"Page"];
-    [dict setObject:@"6" forKey:@"Pagesize"];
+    [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
+    [dict setObject:@"10" forKey:@"Pagesize"];
     if (type ==1) {
         [dict setObject:@"1" forKey:@"IncomeTransferStatus"];
     }else if(type ==2){
@@ -89,14 +106,34 @@
         [dict setObject:@"3" forKey:@"IncomeTransferStatus"];
     }
     [HttpTool postWithURL:@"Assistant/GetIncomeHistory" params:dict success:^(id json) {
-        
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            self.dataArray =[[json objectForKey:@"data"] objectForKey:@"items"];
-            [self.tableView reloadData];
+            NSArray *arr =[[json objectForKey:@"data"]objectForKey:@"items"];
+            if(arr.count<10)
+            {
+                [self.tableView hiddenFooter:YES];
+            }
+            else
+            {
+                [self.tableView hiddenFooter:NO];
+            }
+            if (self.pageNum==1) {
+                [self.dataArray removeAllObjects];
+                [self.dataArray addObjectsFromArray:arr];
+            }else{
+                [self.dataArray addObjectsFromArray:arr];
+            }
+        }else{
+            self.dataArray=nil;
+            [self showHudFailed:@"加载失败"];
         }
+        [self.tableView reloadData];
+        [SVProgressHUD dismiss];
+        [self.tableView endRefresh];
+        isRefresh =NO;
     } failure:^(NSError *error) {
-        NSLog(@"%@",[error description]);
+        [self.tableView endRefresh];
+        [SVProgressHUD dismiss];
     }];
 }
 
@@ -134,16 +171,19 @@
 {
     if (tap.view.tag==1000)
     {
+        [SVProgressHUD dismiss];
         type=1;
         [self scrollToBuyerStreet];
     }
     else if(tap.view.tag==1001)
     {
+        [SVProgressHUD dismiss];
         type=2;
         [self scrollToSaid];
     }
     else
     {
+        [SVProgressHUD dismiss];
         type=3;
         [self scrollToMyBuyer];
     }
@@ -155,7 +195,6 @@
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
-    
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab1.center.x, 38);
     }];
@@ -165,6 +204,8 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    self.pageNum=1;
+    isRefresh=YES;
     [self setData];
 }
 
@@ -184,6 +225,8 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    self.pageNum=1;
+    isRefresh=YES;
     [self setData];
 
 }
@@ -203,6 +246,8 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     lab2.textColor = [UIColor grayColor];
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
+    self.pageNum=1;
+    isRefresh=YES;
     [self setData];
 
 }

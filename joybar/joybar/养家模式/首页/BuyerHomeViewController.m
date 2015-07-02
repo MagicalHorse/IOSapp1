@@ -15,6 +15,10 @@
 #import "BuyerCircleViewController.h"
 #import "BuyerPaymentViewController.h"
 @interface BuyerHomeViewController ()<UITableViewDataSource,UITableViewDelegate>
+{
+    BOOL isRefresh;
+
+}
 @property (strong, nonatomic)  BaseTableView *homeTableView;
 @property (nonatomic,strong)NSMutableDictionary * dataArray;
 
@@ -36,7 +40,7 @@
     self.homeTableView.delegate = self;
     self.homeTableView.dataSource = self;
     [self.view addSubview:self.homeTableView];
-    
+    isRefresh=YES;
     self.homeTableView.tableHeaderView =[self tableHeaderViwe];
     self.homeTableView.tableFooterView =[[UIView alloc]init];
     __weak BuyerHomeViewController *VC = self;
@@ -60,8 +64,9 @@
 
 -(void)setData{
 
-//    [SVProgressHUD showInView:self.homeTableView WithY:0 andHeight:kScreenHeight-64-49];
-    [self hudShow:@"正在加载"];
+    if (isRefresh) {
+        [SVProgressHUD showInView:self.homeTableView WithY:0 andHeight:kScreenHeight-64-49];
+    }
      [HttpTool postWithURL:@"Buyer/Index" params:nil success:^(id json) {
          BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
          if (isSuccessful) {
@@ -71,12 +76,13 @@
              [self.img sd_setImageWithURL:[NSURL URLWithString:[self.dataArray objectForKey:@"barcode"]] placeholderImage:nil];
              self.label.text = [self.dataArray objectForKey:@"shopname"];
          }else{
-             [self showHudFailed:@"加载失败"];
+//             [self showHudFailed:@"加载失败"];
          }
          [self textHUDHiddle];
-//         [SVProgressHUD dismiss];
+         [SVProgressHUD dismiss];
+         isRefresh=NO;
      } failure:^(NSError *error) {
-         
+         [SVProgressHUD dismiss];
      }];
 }
 -(UIView *)tableHeaderViwe{

@@ -17,12 +17,14 @@
 
 @interface BuyerStoreViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     int type;
+    BOOL isRefresh;
+    
 }
-@property (nonatomic ,strong) UITableView *tableView;
+@property (nonatomic ,strong) BaseTableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIScrollView *tempView;
-
+@property (nonatomic ,assign)NSInteger pageNum;
 @end
 
 @implementation BuyerStoreViewController
@@ -72,12 +74,29 @@
     [self.view addSubview:lineView];
     
     //tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 104, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStyleGrouped)];
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 104, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStyleGrouped)];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"100"]];
+    self.pageNum=1;
+    isRefresh =YES;
+    self.tableView.tableFooterView =[[UIView alloc]init];
+    __weak BuyerStoreViewController *VC = self;
+    self.tableView.headerRereshingBlock = ^()
+    {
+        if (VC.dataArray.count>0) {
+            VC.dataArray =nil;
+        }
+        VC.pageNum=1;
+        [VC setData];
+    };
+    self.tableView.footerRereshingBlock = ^()
+    {
+        VC.pageNum++;
+        [VC setData];
+    };
+    [self setData];
     self.tableView.backgroundColor = kCustomColor(241, 241, 241);
     
 }
@@ -89,12 +108,15 @@
     return _dataArray;
 }
 
--(void)setData:(Parameter *)param
+-(void)setData
 {
-    [self hudShow:@"正在加载"];
+
+    if (isRefresh) {
+        [SVProgressHUD showInView:self.view WithY:64+40 andHeight:kScreenHeight-64-40];
+    }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
-    [dict setObject:param.page forKey:@"Page"];
-    [dict setObject:param.pageSzie forKey:@"Pagesize"];
+    [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
+    [dict setObject:@"6" forKey:@"Pagesize"];
     if (type ==1) {
         [dict setObject:@"1" forKey:@"Status"];
     }else if(type ==2){
@@ -109,22 +131,33 @@
         if (isSuccessful) {
             NSMutableArray *array =[json objectForKey:@"data"];
             BuerySotres *stores = [BuerySotres objectWithKeyValues :array];
-            _dataArray =nil;
-            if (type ==1) {
-                _dataArray = stores.items;
-            }else if(type ==2){
-                _dataArray = stores.items;
-            }else if(type ==0){
-                _dataArray = stores.items;
+            if(stores.items.count<6)
+            {
+                [self.tableView hiddenFooter:YES];
             }
-            [self.tableView reloadData];
+            else
+            {
+                [self.tableView hiddenFooter:NO];
+            }
+            if (self.pageNum==1) {
+                [self.dataArray removeAllObjects];
+                [self.dataArray addObjectsFromArray:stores.items];
+            }else{
+                [self.dataArray addObjectsFromArray:stores.items];
+            }
         }else{
+            self.dataArray=nil;
             [self showHudFailed:@"加载失败"];
         }
-        [self textHUDHiddle];
+        [self.tableView reloadData];
+        [SVProgressHUD dismiss];
+        [self.tableView endRefresh];
+        isRefresh =NO;
     } failure:^(NSError *error) {
-        NSLog(@"%@",[error description]);
+        [self.tableView endRefresh];
+        [SVProgressHUD dismiss];
     }];
+
 }
 
 #pragma mark tableViewDelegate
@@ -137,43 +170,43 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Store * store =[self.dataArray objectAtIndex:indexPath.section];
     static NSString *CellIdentifier = @"cell";
     BuyerSellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         
         cell =[[[NSBundle mainBundle] loadNibNamed:@"BuyerSellTableViewCell" owner:self options:nil] lastObject];
     }
-    NSLog(@"%p",cell);
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",store.Pic];
-
-    [cell.StoreImgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
-    cell.StoreName.text =store.BrandName;
-    cell.StoreDetails.text =store.ProductName;
-    cell.StoreNo.text =store.StoreItemNo;
-    cell.StorePirce.text =[NSString stringWithFormat:@"￥%@",[store.Price stringValue]];
-    cell.StoreTime.text =store.ExpireTime;
-    cell.downBtn.tag =indexPath.section;
-    
-    cell.shareBtn.tag =indexPath.section;
-    [cell.shareBtn addTarget:self action:@selector(shareClcke:) forControlEvents:UIControlEventTouchUpInside];
-    cell.sbBtn.tag =indexPath.section;
-    
-    if (type ==0) {
-        [cell.sbBtn setTitle:@"删除" forState:UIControlStateNormal];
-        [cell.sbBtn addTarget:self action:@selector(sbDelClcke:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.downBtn setTitle:@"上架" forState:UIControlStateNormal];
-        [cell.downBtn addTarget:self action:@selector(downOnClcke:) forControlEvents:UIControlEventTouchUpInside];
-
-    }else{
-        [cell.sbBtn addTarget:self action:@selector(sbClcke:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.downBtn addTarget:self action:@selector(downClcke:) forControlEvents:UIControlEventTouchUpInside];
-
+    if(self.dataArray.count>0){
+        Store * store =[self.dataArray objectAtIndex:indexPath.section];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",store.Pic];
+        [cell.StoreImgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+        cell.StoreName.text =store.BrandName;
+        cell.StoreDetails.text =store.ProductName;
+        cell.StoreNo.text =store.StoreItemNo;
+        cell.StorePirce.text =[NSString stringWithFormat:@"￥%@",[store.Price stringValue]];
+        cell.StoreTime.text =store.ExpireTime;
+        cell.downBtn.tag =indexPath.section;
+        
+        cell.shareBtn.tag =indexPath.section;
+        [cell.shareBtn addTarget:self action:@selector(shareClcke:) forControlEvents:UIControlEventTouchUpInside];
+        cell.sbBtn.tag =indexPath.section;
+        
+        if (type ==0) {
+            [cell.sbBtn setTitle:@"删除" forState:UIControlStateNormal];
+            [cell.sbBtn addTarget:self action:@selector(sbDelClcke:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.downBtn setTitle:@"上架" forState:UIControlStateNormal];
+            [cell.downBtn addTarget:self action:@selector(downOnClcke:) forControlEvents:UIControlEventTouchUpInside];
+            
+        }else{
+            [cell.sbBtn addTarget:self action:@selector(sbClcke:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.downBtn addTarget:self action:@selector(downClcke:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        cell.cyBtn.tag =[store.ProductId intValue];
+        [cell.cyBtn addTarget:self action:@selector(cyClcke:) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    cell.cyBtn.tag =[store.ProductId intValue];
-    [cell.cyBtn addTarget:self action:@selector(cyClcke:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 
@@ -274,21 +307,32 @@
     return 165;
 }
 
-
-
-
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
     if (tap.view.tag==1000)
     {
+        self.pageNum=1;
+        type=1;
+        isRefresh=YES;
+        [SVProgressHUD dismiss];
         [self scrollToBuyerStreet];
     }
     else if(tap.view.tag==1001)
     {
+        self.pageNum=1;
+        type=2;
+        isRefresh=YES;
+        [SVProgressHUD dismiss];
+
         [self scrollToSaid];
     }
     else
     {
+        self.pageNum=1;
+        type=0;
+        isRefresh=YES;
+        [SVProgressHUD dismiss];
+
         [self scrollToMyBuyer];
     }
 }
@@ -296,7 +340,6 @@
 //在线商品
 -(void)scrollToBuyerStreet
 {
-    type =1;
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
@@ -311,14 +354,13 @@
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
 
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"100"]];
+    [self setData];
 
 }
 
 //即将下线
 -(void)scrollToSaid
 {
-    type =2;
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
@@ -333,15 +375,13 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"100"]];
+    [self setData];
 
 }
 
 
 -(void)scrollToMyBuyer
 {
-    type =0;
-
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
@@ -355,7 +395,7 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     lab2.textColor = [UIColor grayColor];
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"100"]];
+    [self setData];
 
 }
 

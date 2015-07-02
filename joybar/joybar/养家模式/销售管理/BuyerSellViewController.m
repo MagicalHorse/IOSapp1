@@ -18,11 +18,14 @@
 #import "BueryStoreDetailsController.h"
 
 @interface BuyerSellViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
+    BOOL isRefresh;
+    int type;
 }
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIView *tempView;
-@property (nonatomic ,strong) UITableView *tableView;
+@property (nonatomic ,strong) BaseTableView *tableView;
+@property (nonatomic ,assign) NSInteger pageNum;
 
 @end
 
@@ -43,12 +46,14 @@
     }
     return _dataArray;
 }
--(void)setData:(Parameter *)param andType:(int)type
+-(void)setData
 {
-    [self hudShow:@"正在加载..."];
+    if (isRefresh) {
+        [SVProgressHUD showInView:self.view WithY:64+40 andHeight:kScreenHeight-64-40];
+    }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
-    [dict setObject:param.page forKey:@"Page"];
-    [dict setObject:param.pageSzie forKey:@"Pagesize"];
+    [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
+    [dict setObject:@"6" forKey:@"Pagesize"];
     if (self.customerId) {
         [dict setObject:self.customerId forKey:@"CustomerId"];
     }
@@ -65,17 +70,38 @@
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             NSMutableArray *array =[json objectForKey:@"data"];
-          Orders *order = [Orders objectWithKeyValues :array];
-            self.dataArray = order.orderlist;
-            [self.tableView reloadData];
+            Orders *order = [Orders objectWithKeyValues :array];
+
+            if(order.orderlist.count<6)
+            {
+                [self.tableView hiddenFooter:YES];
+            }
+            else
+            {
+                [self.tableView hiddenFooter:NO];
+            }
+            if (self.pageNum==1) {
+                [self.dataArray removeAllObjects];
+                [self.dataArray addObjectsFromArray:order.orderlist];
+            }else{
+                [self.dataArray addObjectsFromArray:order.orderlist];
+            }
+            
         }else{
+            self.dataArray=nil;
             [self showHudFailed:@"加载失败"];
         }
-        [self textHUDHiddle];
+        [self.tableView reloadData];
+        [SVProgressHUD dismiss];
+        [self.tableView endRefresh];
+        isRefresh =NO;
         
     } failure:^(NSError *error) {
-        NSLog(@"%@",[error description]);
+        [self.tableView endRefresh];
+        [SVProgressHUD dismiss];
     }];
+    
+
 }
 
 - (void)viewDidLoad {
@@ -117,13 +143,32 @@
     
     
     //tableView
-    self.tableView= [[UITableView alloc]initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-104) style:UITableViewStyleGrouped];
+    self.tableView= [[BaseTableView alloc]initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-104) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = kCustomColor(237, 237, 237);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:1];
+    self.pageNum=1;
+    type =1;
+    isRefresh=YES;
+    
+    __weak BuyerSellViewController *VC = self;
+    self.tableView.headerRereshingBlock = ^()
+    {
+        if (VC.dataArray.count>0) {
+            VC.dataArray =nil;
+        }
+        VC.pageNum=1;
+        [VC setData];
+    };
+    self.tableView.footerRereshingBlock = ^()
+    {
+        VC.pageNum++;
+        [VC setData];
+    };
+    
+    [self setData];
 
 }
 
@@ -139,14 +184,15 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    Order *order = self.dataArray[indexPath.section];
-    Product * product =[order.Products firstObject];
     static NSString *CellIdentifier = @"cell";
     BuyerStoreTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell =[[[NSBundle mainBundle] loadNibNamed:@"BuyerStoreTableViewCell" owner:self options:nil] lastObject];
     }
+    if(self.dataArray.count>0){
+    Order *order = self.dataArray[indexPath.section];
+    Product * product =[order.Products firstObject];
+    
     cell.titleView.text =product.BrandName;
     cell.detileView.text =product.Name;
     cell.noView.text =[product.StoreItemNo stringValue];
@@ -156,6 +202,7 @@
     cell.picView.clipsToBounds =YES;
     NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",product.Picture ];
     [cell.picView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
     
@@ -318,14 +365,17 @@
 {
     if (tap.view.tag==1000)
     {
+        [SVProgressHUD dismiss];
         [self scrollToBuyerStreet];
     }
     else if(tap.view.tag==1001)
     {
+        [SVProgressHUD dismiss];
         [self scrollToSaid];
     }
     else if(tap.view.tag==1002)
     {
+        [SVProgressHUD dismiss];
         [self scrollToMyBuyer];
     }
     else
@@ -354,7 +404,10 @@
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont fontWithName:@"youyuan" size:13];
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:1];
+    self.pageNum=1;
+    type=1;
+    isRefresh =YES;
+    [self setData];
     
 }
 
@@ -377,7 +430,10 @@
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont fontWithName:@"youyuan" size:13];
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:2];
+    isRefresh =YES;
+    self.pageNum=1;
+    type=2;
+    [self setData];
 
     
 }
@@ -400,7 +456,10 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:3];
+    isRefresh =YES;
+    self.pageNum=1;
+    type=3;
+    [self setData];
 
     
 }
@@ -422,8 +481,11 @@
     lab2.textColor = [UIColor grayColor];
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     lab1.textColor = [UIColor grayColor];
-    lab1.font = [UIFont fontWithName:@"youyuan" size:13];
-    [self setData:[[Parameter alloc]initWith:@"1" andPageSize:@"10"] andType:4];
+    lab1.font = [UIFont fontWithName:@"youyuan" size:13];;
+    isRefresh=YES;
+    self.pageNum=1;
+    type=4;
+    [self setData];
 
     
 }
