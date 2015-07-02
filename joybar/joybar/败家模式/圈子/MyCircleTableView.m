@@ -9,6 +9,7 @@
 #import "MyCircleTableView.h"
 #import "CusMyCircleTableViewCell.h"
 #import "CusCircleDetailViewController.h"
+#import "CusChatViewController.h"
 @implementation MyCircleTableView
 
 -(instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
@@ -47,8 +48,13 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CusCircleDetailViewController *VC = [[CusCircleDetailViewController alloc] init];
+    NSString *circleId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
+    NSString *circleName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:circleId AndTpye:2 andUserName:circleName];
+    VC.circleId = circleId;
+    VC.isFrom = isFromGroupChat;
     [self.viewController.navigationController pushViewController:VC animated:YES];
+
 }
 
 @end

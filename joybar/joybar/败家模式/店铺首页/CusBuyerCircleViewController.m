@@ -71,13 +71,14 @@
             [self.myCircleTableView endRefresh];
             [self.myCircleTableView reloadData];
 //            [SVProgressHUD dismiss];
-            [self hiddleHud];
             NSLog(@"%@",json);
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self hiddleHud];
+
     } failure:^(NSError *error) {
         
     }];

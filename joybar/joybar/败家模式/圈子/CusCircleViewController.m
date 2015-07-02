@@ -187,9 +187,16 @@
             [self.myCircleTableView.dataArr addObjectsFromArray:arr];
             [self.myCircleTableView endRefresh];
             [self.myCircleTableView reloadData];
-            [SVProgressHUD dismiss];
         }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [SVProgressHUD dismiss];
+
     } failure:^(NSError *error) {
+        
+        [self showHudFailed:@"请求失败"];
         
     }];
 }

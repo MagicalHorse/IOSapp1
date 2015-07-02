@@ -58,7 +58,6 @@
 //    [cartBtn addTarget:self action:@selector(didClickcartBtn) forControlEvents:(UIControlEventTouchUpInside)];
 //    [self.view addSubview:cartBtn];
     
-    [self initWithFooterView];
     
     [self getDetailData];
     
@@ -260,7 +259,16 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.productId forKey:@"productId"];
-    
+    NSString *userId =[[Public getUserInfo] objectForKey:@"id"];
+    if (userId)
+    {
+        [dic setObject:userId forKey:@"UserId"];
+    }
+    else
+    {
+        [dic setObject:@"0" forKey:@"UserId"];
+    }
+
     [SVProgressHUD showInView:self.view WithY:0 andHeight:kScreenHeight];
 
     [HttpTool postWithURL:@"Product/GetProductDetail" params:dic success:^(id json) {
@@ -270,6 +278,9 @@
             NSDictionary *dic = [json objectForKey:@"data"];
             prodata = [ProDetailData objectWithKeyValues:dic];
             [self initView:prodata];
+            
+            [self initWithFooterView];
+
         }
         else
         {
@@ -429,7 +440,7 @@
         {
             if (btn.selected==NO)
             {
-                prodata.LikeUsers.Count = [NSString stringWithFormat:@"%ld",[prodata.LikeUsers.Count integerValue]+1];
+                prodata.LikeUsers.Count = [NSString stringWithFormat:@"%d",[prodata.LikeUsers.Count integerValue]+1];
                 prodata.LikeUsers.IsLike = @"1";
                 [btn setImage:[UIImage imageNamed:@"点赞h"] forState:(UIControlStateNormal)];
                 [btn setTitle:prodata.LikeUsers.Count forState:(UIControlStateNormal)];
@@ -437,7 +448,7 @@
             }
             else
             {
-                prodata.LikeUsers.Count = [NSString stringWithFormat:@"%ld",[prodata.LikeUsers.Count integerValue]-1];
+                prodata.LikeUsers.Count = [NSString stringWithFormat:@"%d",[prodata.LikeUsers.Count integerValue]-1];
                 prodata.LikeUsers.IsLike = @"0";
                 
                 [btn setImage:[UIImage imageNamed:@"点赞"] forState:(UIControlStateNormal)];
@@ -468,11 +479,11 @@
     [dic setValue:prodata.ProductId forKey:@"Id"];
     if ([lab.text isEqualToString:@"收藏"])
     {
-        [dic setValue:@"0" forKey:@"Status"];
+        [dic setValue:@"1" forKey:@"Status"];
     }
     else
     {
-        [dic setValue:@"1" forKey:@"Status"];
+        [dic setValue:@"0" forKey:@"Status"];
     }
     
     [HttpTool postWithURL:@"Product/Favorite" params:dic success:^(id json) {

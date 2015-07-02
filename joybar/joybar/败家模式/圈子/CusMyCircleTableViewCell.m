@@ -24,10 +24,10 @@
 
 -(void)setData:(NSDictionary *)dic
 {
-    NSString *imgURL = [NSString stringWithFormat:@"%@_100x100.jpg",[dic objectForKey:@"Logo"]];
-    [self.headImage sd_setImageWithURL:[NSURL URLWithString:imgURL] placeholderImage:nil];
+    [self.headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:nil];
     self.nameLab.text = [dic objectForKey:@"Name"];
     self.timeLab.text = [dic objectForKey:@"UnReadLastTime"];
+    self.lastMessageLab.text = [dic objectForKey:@"UnReadMessage"];
     
     NSString *count = [NSString stringWithFormat:@"%@",[dic objectForKey:@"UnReadCount"]];
     if ([count isEqualToString:@"0"])
@@ -38,7 +38,6 @@
     {
         self.msgCountLab.text = count;
     }
-    
 }
 
 @end

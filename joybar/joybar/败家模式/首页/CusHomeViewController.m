@@ -78,7 +78,6 @@
     [self.view addSubview:self.homeScroll];
     
     [self initWithFirstTableView];
-    [self initWithSecondTableView];
     [self initNavView];
     
     //    购物车按钮
@@ -165,21 +164,26 @@
 
 -(void)initWithSecondTableView
 {
-    self.myBuyerTableView = [[MyBuyerTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
-    [self.homeScroll addSubview:self.myBuyerTableView];
-    
-    __weak CusHomeViewController *VC = self;
-    self.myBuyerTableView.headerRereshingBlock = ^()
+    if (!self.myBuyerTableView)
     {
-        [VC.myBuyerTableView.dataArr removeAllObjects];
-        VC.myBuyerPageNum = 1;
-        [VC getMyBuyerData:YES];
-    };
-    self.myBuyerTableView.footerRereshingBlock = ^()
-    {
-        VC.myBuyerPageNum++;
-        [VC getMyBuyerData:YES];
-    };
+        self.myBuyerTableView = [[MyBuyerTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
+        
+        [self.homeScroll addSubview:self.myBuyerTableView];
+        
+        __weak CusHomeViewController *VC = self;
+        self.myBuyerTableView.headerRereshingBlock = ^()
+        {
+            [VC.myBuyerTableView.dataArr removeAllObjects];
+            VC.myBuyerPageNum = 1;
+            [VC getMyBuyerData:YES];
+        };
+        self.myBuyerTableView.footerRereshingBlock = ^()
+        {
+            VC.myBuyerPageNum++;
+            [VC getMyBuyerData:YES];
+        };
+
+    }
 }
 
 -(void)getMyBuyerData:(BOOL)isRefresh
@@ -189,7 +193,7 @@
     [dic setValue:@"6" forKey:@"pagesize"];
     if (!isRefresh)
     {
-        [SVProgressHUD showInView:self.myBuyerTableView WithY:0 andHeight:kScreenHeight-64-49];
+        [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Product/MyBuyer" params:dic success:^(id json) {
         
@@ -210,26 +214,10 @@
             
             [self.myBuyerTableView.dataArr addObjectsFromArray:self.data.Products];
             
-            //            __weak CusHomeViewController *VC = self;
-            //            self.mainScorllView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
-            //                UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
-            //                imgView.backgroundColor = [UIColor lightGrayColor];
-            //
-            //                Banner *banner = [VC.data.Banners objectAtIndex:pageIndex];
-            //                if (banner)
-            //                {
-            //                    NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
-            //                    [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
-            //                }
-            //                return imgView;
-            //            };
-            //            self.mainScorllView.totalPagesCount = ^NSInteger(void){
-            //                return VC.data.Banners.count;
-            //            };
-            //            self.mainScorllView.TapActionBlock = ^(NSInteger pageIndex){
-            //                NSLog(@"点击了第%d个",pageIndex);
-            //            };
-            
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
         [self.myBuyerTableView reloadData];
         [self.myBuyerTableView endRefresh];
@@ -264,40 +252,25 @@
                 [self.homeTableView hiddenFooter:NO];
             }
             [self.homeTableView.dataArr addObjectsFromArray:self.data.Products];
-            [SVProgressHUD dismiss];
             headerScroll = [[YRADScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
             headerScroll.dataSource = self;
             headerScroll.delegate = self;
             //    adScrollView.cycleEnabled = NO;//如果设置为NO，则关闭循环滚动功能。
             [headerView addSubview:headerScroll];
-            
         }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [SVProgressHUD dismiss];
+
         [self.homeTableView reloadData];
         [self.homeTableView endRefresh];
         
     } failure:^(NSError *error) {
-        
+        [self showHudFailed:@"请求失败"];
     }];
 }
-
-//- (NSInteger) totalPagesCount
-//{
-//   return self.data.Banners.count;
-//}
-//
-//- (UIView *) fetchContentViewAtIndex:(NSInteger)pageIndex
-//{
-//    UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
-//    imgView.backgroundColor = [UIColor lightGrayColor];
-//
-//    Banner *banner = [self.data.Banners objectAtIndex:pageIndex];
-//    if (banner)
-//    {
-//        NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
-//        [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
-//    }
-//    return imgView;
-//}
 
 -(NSUInteger)numberOfViewsForYRADScrollView:(YRADScrollView *)adScrollView{
     return self.data.Banners.count;
@@ -410,6 +383,7 @@
         self.homeScroll.contentOffset = CGPointMake(0, 0);
         return;
     }
+    [self initWithSecondTableView];
     self.homeScroll.contentOffset = CGPointMake(kScreenWidth, 0);
 
     if (self.myBuyerTableView.dataArr.count==0)

@@ -67,8 +67,8 @@
     else if ([status isEqualToString:@"3"])
     {
         self.refundBtn.hidden = YES;
-        self.payBtn.hidden = NO;
-        [self.payBtn setTitle:@"撤销退款" forState:(UIControlStateNormal)];
+        self.payBtn.hidden = YES;
+//        [self.payBtn setTitle:@"撤销退款" forState:(UIControlStateNormal)];
     }
 //    else ([status isEqualToString:@"-10"]||[status isEqualToString:@"18"])
     else
@@ -90,6 +90,7 @@
         VC.proNumStr = self.orderListItem.OrderProductCount;
         VC.proPriceStr = self.orderListItem.Product.Price;
         VC.proSizeStr = self.orderListItem.Product.Productdesc;
+        VC.orderNum = self.orderListItem.OrderNo;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -117,6 +118,7 @@
         VC.proNumStr = self.orderListItem.OrderProductCount;
         VC.proPriceStr = self.orderListItem.Product.Price;
         VC.proSizeStr = self.orderListItem.Product.Productdesc;
+        VC.orderNum = self.orderListItem.OrderNo;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
     else if ([btn.titleLabel.text isEqual:@"撤销退款"])
@@ -133,7 +135,7 @@
         {
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];
             [dic setObject:self.orderListItem.OrderNo forKey:@"OrderNo"];
-            [self hudShowWithText:@"正在提货"];
+            [self hudShowWithText:@"正在确认提货"];
             [HttpTool postWithURL:@"Order/ConfirmGoods" params:dic success:^(id json) {
                 
                 if ([[json objectForKey:@"isSuccessful"] boolValue])

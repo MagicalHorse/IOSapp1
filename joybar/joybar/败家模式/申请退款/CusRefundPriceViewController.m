@@ -93,7 +93,7 @@
 //增加
 -(void)didCLickAddNum
 {
-    if (self.priceNum>=[self.orderItem.OrderProductCount integerValue])
+    if (self.priceNum>=[self.proNumStr integerValue])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"超过购买数量" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
         [alert show];
@@ -102,7 +102,7 @@
     
     self.priceNum+=1;
     buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
-    CGFloat price = self.priceNum*[self.orderItem.Product.Price floatValue];
+    CGFloat price = self.priceNum*[self.proPriceStr doubleValue];
     self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",price];
 }
 
@@ -117,7 +117,7 @@
     {
         self.priceNum-=1;
         buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
-        CGFloat price = self.priceNum*[self.orderItem.Product.Price floatValue];
+        CGFloat price = self.priceNum*[self.proPriceStr doubleValue];
         self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",price];
     }
 }
@@ -126,7 +126,13 @@
 -(void)didClickRefundBtn
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:self.orderItem.OrderNo forKey:@"OrderNo"];
+    [dic setObject:self.orderNum forKey:@"OrderNo"];
+    NSString *price = [self.refundPriceLab.text stringByReplacingOccurrencesOfString:@"￥" withString:@""];
+    if([price floatValue]==0)
+    {
+        [self showHudFailed:@"退款金额不能为0"];
+        return;
+    }
     [dic setObject:buyNumLab.text forKey:@"Count"];
     if ([self.refundText.text isEqualToString:@""])
     {
@@ -136,6 +142,7 @@
     }
     [dic setObject:self.refundText.text forKey:@"Reason"];
     
+    [self hudShow:@"正在申请退款..."];
     [HttpTool postWithURL:@"Order/Apply_Rma" params:dic success:^(id json) {
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
@@ -152,6 +159,7 @@
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self textHUDHiddle];
     } failure:^(NSError *error) {
         [self showHudFailed:@"请求失败"];
     }];
@@ -161,5 +169,29 @@
 {
     [self.scrollView endEditing:YES];
 }
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = -160;
+    self.view.frame = rect;
+    [UIView commitAnimations];
+}
+
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = 0;
+    self.view.frame = rect;
+    [UIView commitAnimations];
+}
+
+
+
+
 
 @end
