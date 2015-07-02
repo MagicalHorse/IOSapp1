@@ -12,4 +12,5 @@
 @interface BuyerIssueViewController : BaseViewController
 @property (nonatomic,strong)UIImage *image;
 @property (nonatomic,strong)NSMutableDictionary *images;
+@property (nonatomic,strong)NSNumber *productId;
 @end

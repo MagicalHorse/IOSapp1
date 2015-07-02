@@ -9,9 +9,11 @@
 #import "BuyerPaymentDtsViewController.h"
 #import "BuyerPaymentTableViewCell.h"
 #import "UMSocial.h"
+#import "UMSocialWechatHandler.h"
 
 @interface BuyerPaymentDtsViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>{
     int type;
+    BOOL isRefresh;
 }
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic ,strong) UILabel *lineLab;
@@ -51,7 +53,9 @@
 }
 -(void)setData
 {
-    [self hudShow:@"正在加载"];
+    if (isRefresh) {
+        [SVProgressHUD showInView:self.view WithY:64+40 andHeight:kScreenHeight-64-40];
+    }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
@@ -92,21 +96,26 @@
             self.dataArray=nil;
             [self showHudFailed:@"加载失败"];
         }
-        [self.tableView reloadData];
         [self.tableView1 reloadData];
+        [self.tableView reloadData];
         [self.tableView1 endRefresh];
+        [SVProgressHUD dismiss];
         [self.tableView endRefresh];
-
-        [self textHUDHiddle];
-
+        isRefresh =NO;
+      
     } failure:^(NSError *error) {
-        NSLog(@"%@",[error description]);
+        [self.tableView1 reloadData];
+        [self.tableView reloadData];
+        [self.tableView1 endRefresh];
+        [SVProgressHUD dismiss];
+        [self.tableView endRefresh];
     }];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     type=1;
+
     _tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
     _tempView.backgroundColor = kCustomColor(251, 250, 250);
     [self.view addSubview:_tempView] ;
@@ -151,6 +160,7 @@
     self.tableView.backgroundColor = kCustomColor(241, 241, 241);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
+    isRefresh=YES;
 
     __weak BuyerPaymentDtsViewController *VC = self;
     self.tableView.headerRereshingBlock = ^()
@@ -195,6 +205,8 @@
         }
         
     }else{
+        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
+        
         UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
         
         snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
@@ -204,10 +216,58 @@
                 UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary]valueForKey:UMShareToWechatSession];
                 
                 NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
+                [self hudShow:@"正在登录..."];
+                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",snsAccount.accessToken,snsAccount.openId]];
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                    
+                    NSString *str1 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    [self WXLogin:str1];
+                }];
+                
+                
             }
         });
 
     }
+}
+-(void)WXLogin:(NSString *)str
+{
+    NSMutableDictionary *dic =[NSMutableDictionary dictionary];
+    [dic setObject:str forKey:@"json"];
+    [dic setObject:APP_ID forKey:@"appid"];
+    [HttpTool postWithURL:@"User/OutSiteLogin" params:dic success:^(id json) {
+        
+        [self textHUDHiddle];
+        if([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
+            
+            NSArray *allKeys = [userInfoDic allKeys];
+            for (NSString *key in allKeys)
+            {
+                
+                NSString *value = [userInfoDic objectForKey:key];
+                if ([value isEqual:[NSNull null]])
+                {
+                    [userInfoDic setObject:@"" forKey:key];
+                }
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:userInfoDic forKey:@"userInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        [self showHudFailed:@"请求失败"];
+    }];
+    
 }
 
 #pragma mark alertDelegate
@@ -321,19 +381,27 @@
 {
     if (tap.view.tag==1000)
     {
+        [SVProgressHUD dismiss];
+        isRefresh=YES;
         [self scrollToBuyerStreet];
         
     }
     else if(tap.view.tag==1001)
     {
+        [SVProgressHUD dismiss];
+        isRefresh=YES;
         [self scrollToSaid];
     }
     else if(tap.view.tag==1002)
     {
+        [SVProgressHUD dismiss];
+        isRefresh=YES;
         [self scrollToMyBuyer];
     }
     else
     {
+        isRefresh=YES;
+        [SVProgressHUD dismiss];
         [self scrollToMyBuyer1];
     }
 }
@@ -383,6 +451,7 @@
         self.tableView1.tag = 2;
         self.tableView1.backgroundColor = kCustomColor(241, 241, 241);
         self.tableView1.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
         self.tableView1.tableFooterView =[[UIView alloc]init];
         [self.view addSubview:self.tableView1];
 
@@ -429,6 +498,10 @@
     
     if (self.tableView1 ==nil) {
         self.tableView1= [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:UITableViewStylePlain];
+        self.tableView1.backgroundColor = kCustomColor(241, 241, 241);
+        self.tableView1.separatorStyle = UITableViewCellSeparatorStyleNone;
+
+
         self.tableView1.dataSource=self;
         self.tableView1.delegate =self;
         self.tableView1.tag = 2;
@@ -480,6 +553,8 @@
     
     if (self.tableView1 ==nil) {
         self.tableView1= [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:UITableViewStylePlain];
+        self.tableView1.backgroundColor = kCustomColor(241, 241, 241);
+        self.tableView1.separatorStyle = UITableViewCellSeparatorStyleNone;
 
         self.tableView1.dataSource=self;
         self.tableView1.delegate =self;
