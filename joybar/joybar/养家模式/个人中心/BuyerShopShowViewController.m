@@ -38,6 +38,9 @@
     _textView.font =[UIFont fontWithName:@"youyuan" size:15];
     NSDictionary * temp =[Public getUserInfo];
     _textView.text =[temp objectForKey:@"description"];
+    
+    NSDictionary *dict=[Public getUserInfo];
+    self.textView.text =[dict objectForKey:@"Description"];
     [_textView becomeFirstResponder];
     [self.view addSubview:_textView];
     
@@ -46,10 +49,15 @@
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:self.textView.text forKey:@"description"];
     [HttpTool postWithURL:@"Buyer/SetStoreDescription" params:dict success:^(id json) {
-        NSLog(@"%@",[json objectForKey:@"message"]);
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
+            [dic setObject:self.textView.text forKey:@"Description"];
+            [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [self showHudFailed:@"修改失败"];
         }
         
     } failure:^(NSError *error) {

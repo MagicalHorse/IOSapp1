@@ -12,6 +12,7 @@
 #import "BueryAuthViewController.h"
 #import "BuyerShopShowViewController.h"
 #import "CusSettingViewController.h"
+#import "CusHomeStoreViewController.h"
 
 
 @interface BuyerMineViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
@@ -146,7 +147,13 @@
             BuyerShopShowViewController *shop =[[BuyerShopShowViewController alloc]init];
             [self.navigationController pushViewController:shop animated:YES];
         }else if(indexPath.row ==0){
-            NSLog(@"店铺预览");
+            NSDictionary * dict=[Public getUserInfo];
+
+            CusHomeStoreViewController * store=[[CusHomeStoreViewController alloc]init];
+            store.userId=[dict objectForKey:@"id"];
+            store.userName =[dict objectForKey:@"name"];
+            [self.navigationController pushViewController:store animated:YES];
+
         }
     }else if(indexPath.section ==1){
         NSLog(@"邀请买手");
