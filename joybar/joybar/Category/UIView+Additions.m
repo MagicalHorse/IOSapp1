@@ -32,7 +32,7 @@
         HUD = [[MBProgressHUD alloc] initWithView:self];
         HUD.tag = 20;
         [self addSubview:HUD];
-        HUD.delegate = self;
+//        HUD.delegate = self;
         HUD.labelText = @"加载中..";
     }
     [HUD show:YES];
@@ -44,7 +44,7 @@
         textHUD = [[MBProgressHUD alloc] initWithView:self];
         textHUD.tag = 10;
         [self addSubview:textHUD];
-        textHUD.delegate = self;
+//        textHUD.delegate = self;
         textHUD.labelText = content;
     }
     [textHUD show:YES];

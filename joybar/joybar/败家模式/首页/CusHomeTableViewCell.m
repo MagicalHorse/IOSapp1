@@ -13,6 +13,7 @@
 #import "CusChatViewController.h"
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
+#import "CusCustomerStoreViewController.h"
 @implementation CusHomeTableViewCell
 {
     CGFloat cellHeight;
@@ -247,10 +248,22 @@
 //点击头像
 -(void)didCLickHeaderImage
 {
-    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
-    VC.userId = self.homePro.Buyerid;
-    VC.userName = self.homePro.BuyerName;
-    [self.viewController.navigationController pushViewController:VC animated:YES];
+    NSString *level = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"level"]];
+    if ([level isEqualToString:@"8"])
+    {
+        CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+        VC.userId = self.homePro.Buyerid;
+        VC.userName = self.homePro.BuyerName;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+
+    }
+    else if ([level isEqualToString:@"1"])
+    {
+        CusCustomerStoreViewController *VC = [[CusCustomerStoreViewController alloc] init];
+        VC.userId = self.homePro.Buyerid;
+        VC.userName = self.homePro.BuyerName;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 -(void)didClickImage:(UITapGestureRecognizer *)tap

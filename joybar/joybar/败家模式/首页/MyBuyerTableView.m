@@ -46,9 +46,11 @@
     {
         [view removeFromSuperview];
     }
-    cell.homePro = [self.dataArr objectAtIndex:indexPath.row];
-    
-    [cell setData:nil];
+    if (self.dataArr.count>0)
+    {
+        cell.homePro = [self.dataArr objectAtIndex:indexPath.row];
+        [cell setData:nil];
+    }
     return cell;
 }
 

@@ -8,6 +8,7 @@
 
 #import "CusNearTableViewCell.h"
 #import "CusHomeStoreViewController.h"
+#import "CusCustomerStoreViewController.h"
 @implementation CusNearTableViewCell
 
 - (void)awakeFromNib {
@@ -116,10 +117,22 @@
 
 -(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
 {
-    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
-    VC.userName = self.nearItems.UserName;
-    VC.userId = self.nearItems.UserId;
-    [self.viewController.navigationController pushViewController:VC animated:YES];
+    NSString *level = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"level"]];
+    if ([level isEqualToString:@"8"])
+    {
+        CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+        VC.userName = self.nearItems.UserName;
+        VC.userId = self.nearItems.UserId;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else if ([level isEqualToString:@"1"])
+    {
+        CusCustomerStoreViewController *VC = [[CusCustomerStoreViewController alloc] init];
+        VC.userName = self.nearItems.UserName;
+        VC.userId = self.nearItems.UserId;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 @end

@@ -70,6 +70,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:self.circleId forKey:@"groupid"];
+    [self hudShow:@"获取圈子信息..."];
     [HttpTool postWithURL:@"Community/GetGroupDetail" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
@@ -82,7 +83,7 @@
         {
              [self showHudFailed:[json objectForKey:@"message"]];
         }
-        
+        [self textHUDHiddle];
     } failure:^(NSError *error) {
         [self showHudFailed:@"请求失败"];
     }];
@@ -331,8 +332,7 @@
             if (indexPath.row==1)
             {
                 UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 5, 40, 40)];
-                NSString *imageURL = [NSString stringWithFormat:@"%@_100x100.jpg",self.circleData.GroupPic];
-                [headerImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:nil];
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:self.circleData.GroupPic] placeholderImage:nil];
                 [cell.contentView addSubview:headerImage];
             }
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 100, 20)];
@@ -351,16 +351,24 @@
             btn.frame = CGRectMake(15, 20, kScreenWidth-30, 50);
             btn.backgroundColor = kCustomColor(253, 162, 41);
             btn.layer.cornerRadius = 3;
-            if ([self.circleData.IsOwer boolValue])
+            if (![self.circleData.IsMember boolValue])
             {
-                [btn setTitle:@"删除并退出" forState:(UIControlStateNormal)];
+                [btn setTitle:@"加入圈子" forState:(UIControlStateNormal)];
             }
             else
             {
-                [btn setTitle:@"退出圈子" forState:(UIControlStateNormal)];
+                if ([self.circleData.IsOwer boolValue])
+                {
+                    [btn setTitle:@"删除并退出" forState:(UIControlStateNormal)];
+                }
+                else
+                {
+                    [btn setTitle:@"退出圈子" forState:(UIControlStateNormal)];
+                }
             }
             [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
             btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
+            [btn addTarget:self action:@selector(didClickExitCircle:) forControlEvents:(UIControlEventTouchUpInside)];
             [cell.contentView addSubview:btn];
         }
     }
@@ -374,17 +382,24 @@
     {
         if ([self.circleData.IsOwer boolValue])
         {
-            return ((kScreenWidth-20)/4+20)*((self.circleData.Users.count+1)/4+1)+5;
+            if((self.circleData.Users.count+2)%4==0)
+            {
+                return ((kScreenWidth-20)/4+20)*((self.circleData.Users.count+2)/4)+5;
+            }
+            else
+            {
+                return ((kScreenWidth-20)/4+20)*((self.circleData.Users.count+2)/4+1)+5;
+            }
         }
-        return ((kScreenWidth-20)/4+20)*((self.circleData.Users.count+1)/4)+5;
 
-//        if((self.circleData.Users.count)%4==0)
-//        {
-//        }
-//        else
-//        {
-//            return ((kScreenWidth-20)/4+20)*((self.circleData.Users.count+1)/4+1)+5;
-//        }
+        if((self.circleData.Users.count)%4==0)
+        {
+            return ((kScreenWidth-20)/4+20)*((self.circleData.Users.count)/4)+5;
+        }
+        else
+        {
+            return ((kScreenWidth-20)/4+20)*((self.circleData.Users.count)/4+1)+5;
+        }
     }
     if (indexPath.section==1)
     {
@@ -492,6 +507,46 @@
         } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
             scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
         }
+    }
+}
+
+//退出圈子
+-(void)didClickExitCircle:(UIButton *)btn
+{
+    if ([btn.titleLabel.text isEqualToString:@"加入圈子"])
+    {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:self.circleId forKey:@"groupid"];
+        [HttpTool postWithURL:@"Community/JoinGroup" params:dic success:^(id json) {
+            if([[json objectForKey:@"isSuccessful"] boolValue])
+            {
+                [self getCircleDetailData];
+            }
+            else
+            {
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+        } failure:^(NSError *error) {
+            [self showHudFailed:@"请求失败"];
+        }];
+    }
+    else
+    {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:self.circleId forKey:@"groupid"];
+        [HttpTool postWithURL:@"Community/ExitGroup" params:dic success:^(id json) {
+            if([[json objectForKey:@"isSuccessful"] boolValue])
+            {
+                [self getCircleDetailData];
+            }
+            else
+            {
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+        } failure:^(NSError *error) {
+            [self showHudFailed:@"请求失败"];
+        }];
+
     }
 }
 @end

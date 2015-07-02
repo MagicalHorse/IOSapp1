@@ -55,14 +55,14 @@
 - (void)showWithStatus:(UIView *)view WithY:(CGFloat)y andHeight:(CGFloat)height
 {
     hudBgView = [[UIView alloc] init];
-    hudBgView.frame = CGRectMake(0, y, kScreenWidth, height);
+    hudBgView.frame = CGRectMake(view.origin.x, y, kScreenWidth, height);
     hudBgView.backgroundColor = [UIColor whiteColor];
     [view addSubview:hudBgView];
     
     spinnerView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinnerView.hidesWhenStopped = YES;
     spinnerView.bounds = CGRectMake(0, 0, 37, 37);
-    spinnerView.center = CGPointMake(kScreenWidth/2, self.hudBgView.height/2);
+    spinnerView.center = CGPointMake(view.width/2, self.hudBgView.height/2);
     [hudBgView addSubview:spinnerView];
     [spinnerView startAnimating];
 }

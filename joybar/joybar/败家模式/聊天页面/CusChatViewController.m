@@ -264,6 +264,20 @@
     }
 }
 
+-(void)changeTableViewFrameWhileHidden
+{
+    if (self.isFrom==isFromBuyPro)
+    {
+        self.tableView.frame = CGRectMake(0, 64+60, kScreenWidth, kScreenHeight-64-60-49);
+        [self addProductView];
+    }
+    else
+    {
+        self.tableView.frame = CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49);
+    }
+}
+
+
 #pragma mark UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

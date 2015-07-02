@@ -13,7 +13,7 @@
 #import "CusRefundPriceViewController.h"
 #import "CusAppealViewController.h"
 
-@interface CusOrderListViewController ()<UITableViewDelegate,UITableViewDataSource,orderListDelegate,refundDelegate>
+@interface CusOrderListViewController ()<UITableViewDelegate,UITableViewDataSource,orderListDelegate>
 
 @property (nonatomic ,strong) UIView *line;
 
@@ -82,8 +82,8 @@
     
     [self addNavBarViewAndTitle:@"我的订单"];
 
-    self.orderStatus = [NSString stringWithFormat:@"%ld",self.btnIndex];
-    [self getData:[NSString stringWithFormat:@"%ld",self.btnIndex]];
+    self.orderStatus = [NSString stringWithFormat:@"%ld",(long)self.btnIndex];
+    [self getData:[NSString stringWithFormat:@"%ld",(long)self.btnIndex]];
     self.line.frame = CGRectMake(5+kScreenWidth/4*self.btnIndex, 38, kScreenWidth/4-10, 2);
 }
 
@@ -111,11 +111,13 @@
         }
         else
         {
-            
+            [self showHudFailed:[json objectForKey:@"messsage"]];
         }
         
     } failure:^(NSError *error) {
         
+        [self showHudFailed:@"请求失败"];
+
     }];
 }
 
@@ -203,6 +205,7 @@
         default:
             break;
     }
+    
     [self getData:self.orderStatus];
 }
 
