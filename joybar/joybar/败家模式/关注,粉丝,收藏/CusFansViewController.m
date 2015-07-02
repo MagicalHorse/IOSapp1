@@ -79,6 +79,7 @@
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setValue:@"6" forKey:@"pagesize"];
     [dic setValue:@"1" forKey:@"status"];
+    [self hudShow];
     [HttpTool postWithURL:@"User/GetUserFavoite" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
@@ -99,8 +100,9 @@
         }
         else
         {
-            
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self hiddleHud];
         
     } failure:^(NSError *error) {
         

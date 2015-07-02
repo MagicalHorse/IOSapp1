@@ -39,7 +39,14 @@
     [HttpTool postWithURL:@"User/ChangePassword" params:dict success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            [self.navigationController popViewControllerAnimated:YES];
+            [self showHudSuccess:@"修改成功"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
 
     } failure:^(NSError *error) {

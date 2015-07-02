@@ -11,6 +11,9 @@
 #import "BuyerOpenMessageViewController.h"
 #import "CusAboutViewController.h"
 #import "AppDelegate.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocial.h"
+#import "CusBindMobileViewController.h"
 @interface CusSettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
@@ -43,6 +46,11 @@
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self addNavBarViewAndTitle:@"设置"];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindMoblieHandle) name:@"bindMobileNot" object:nil];
+}
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"bindMobileNot" object:self];
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -208,11 +216,32 @@
     {
         ChangePasswordViewController *VC = [[ChangePasswordViewController alloc] init];
         [self.navigationController pushViewController:VC animated:YES];
-    }else if(indexPath.section==1&&indexPath.row==1){
+    }
+    else if(indexPath.section==1&&indexPath.row==1)
+    {
         BuyerOpenMessageViewController * message =[[BuyerOpenMessageViewController alloc]init];
         [self.navigationController pushViewController:message animated:YES];
 
-    }else if(indexPath.section==0&&indexPath.row==0){
+    }
+    else if (indexPath.section==1&&indexPath.row==2)
+    {
+        if (![[[Public getUserInfo] objectForKey:@"IsBindMobile"] boolValue])
+        {
+           //手机号绑定
+            CusBindMobileViewController *VC = [[CusBindMobileViewController alloc] init];
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+    }
+    else if (indexPath.section==1&&indexPath.row==3)
+    {
+          //微信绑定
+        if (![[[Public getUserInfo] objectForKey:@"IsBindWeiXin"] boolValue])
+        {
+            [self bindWX];
+        }
+    }
+    else if(indexPath.section==0&&indexPath.row==0)
+    {
         
     }else if(indexPath.section==0&&indexPath.row==1){
         
@@ -242,6 +271,78 @@
         CusTabBarViewController *tab = [[CusTabBarViewController alloc] init];
         ad.window.rootViewController =tab;
     }
+}
+
+//微信登陆
+-(void)bindWX
+{
+    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
+    
+    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+    
+    snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
+        
+        if (response.responseCode == UMSResponseCodeSuccess) {
+            
+            UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary]valueForKey:UMShareToWechatSession];
+            
+            [self hudShow:@"正在绑定..."];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",snsAccount.accessToken,snsAccount.openId]];
+            NSURLRequest *request = [NSURLRequest requestWithURL:url];
+            [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                
+                NSString *str1 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                [self WXLogin:str1];
+            }];
+            
+        }
+    });
+}
+
+-(void)WXLogin:(NSString *)str
+{
+    NSMutableDictionary *dic =[NSMutableDictionary dictionary];
+    [dic setObject:str forKey:@"json"];
+    [dic setObject:APP_ID forKey:@"appid"];
+    [HttpTool postWithURL:@"User/OutSiteLogin" params:dic success:^(id json) {
+        
+        [self textHUDHiddle];
+        if([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
+            
+            NSArray *allKeys = [userInfoDic allKeys];
+            for (NSString *key in allKeys)
+            {
+                
+                NSString *value = [userInfoDic objectForKey:key];
+                if ([value isEqual:[NSNull null]])
+                {
+                    [userInfoDic setObject:@"" forKey:key];
+                }
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:userInfoDic forKey:@"userInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            
+            [self showHudSuccess:@"绑定成功"];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        [self showHudFailed:@"请求失败"];
+    }];
+    
+}
+
+-(void)bindMoblieHandle
+{
+    [self.tableView reloadData];
 }
 
 @end
