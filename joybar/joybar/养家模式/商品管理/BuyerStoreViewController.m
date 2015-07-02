@@ -203,7 +203,7 @@
             [cell.downBtn addTarget:self action:@selector(downClcke:) forControlEvents:UIControlEventTouchUpInside];
         }
         
-        cell.cyBtn.tag =[store.ProductId intValue];
+        cell.cyBtn.tag =indexPath.section;
         [cell.cyBtn addTarget:self action:@selector(cyClcke:) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -278,7 +278,9 @@
 }
 //修改
 -(void)sbClcke:(UIButton *)btn{
+    Store *st=[self.dataArray objectAtIndex:btn.tag];
     BuyerIssueViewController *issue =[[BuyerIssueViewController alloc]init];
+    issue.productId=st.ProductId;
     [self.navigationController pushViewController:issue animated:YES];
     
 }
@@ -292,6 +294,7 @@
     [HttpTool postWithURL:@"Product/Copy" params:dict success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
+            [self.dataArray insertObject:st atIndex:0];
             [self.tableView reloadData];
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
