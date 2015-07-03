@@ -14,14 +14,16 @@
 #import "ComeIn.h"
 #import "BuyerCircleViewController.h"
 #import "BuyerPaymentViewController.h"
-@interface BuyerHomeViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "UMSocialWechatHandler.h"
+#import "UMSocial.h"
+
+@interface BuyerHomeViewController ()<UITableViewDataSource,UITableViewDelegate,UMSocialUIDelegate>
 {
     BOOL isRefresh;
 
 }
 @property (strong, nonatomic)  BaseTableView *homeTableView;
 @property (nonatomic,strong)NSMutableDictionary * dataArray;
-
 @property (nonatomic,strong)UIImageView * img;
 @property (nonatomic,strong)UILabel * label;
 
@@ -34,6 +36,17 @@
 
     [self addNavBarViewAndTitle:@"首页"];
     self.retBtn.hidden = YES;
+    
+    //添加分享按钮
+    UIButton *finishBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    finishBtn.frame = CGRectMake(kScreenWidth-64, 9, 64, 64);
+    finishBtn.backgroundColor = [UIColor clearColor];
+    [finishBtn setImage:[UIImage imageNamed:@"分享.png"] forState:(UIControlStateNormal)];
+    [finishBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+    finishBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:16];
+    [finishBtn addTarget:self action:@selector(didClickFinishBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.navView addSubview:finishBtn];
+    
     self.homeTableView.tableFooterView =  [[UIView alloc]initWithFrame:CGRectZero];
     self.homeTableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     self.homeTableView.isShowFooterView =NO;
@@ -52,6 +65,35 @@
         [VC setData];
     };
     [self setData];
+}
+
+
+//分享
+-(void)didClickFinishBtn:(UIButton *)btn
+{
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self];
+        return;
+    }
+    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
+    
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:@"557f8f1c67e58edf32000208"
+                                      shareText:@"友盟社会化分享让您快速实现分享等社会化功能，www.umeng.com/social"
+                                     shareImage:[UIImage imageNamed:@"test1.jpg"]
+                                shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
+                                       delegate:self];
+}
+//实现回调方法（可选）：
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+    }
 }
 
 -(NSMutableDictionary *)dataArray{
@@ -91,11 +133,46 @@
     hearView.backgroundColor =kCustomColor(241, 241, 241);
     _img=[[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-120)*0.5, 12, 120, 120)];
     [hearView addSubview:_img];
+    
+    _img.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
+    [_img addGestureRecognizer:tap];
+    
     _label =[[UILabel alloc]initWithFrame:CGRectMake(0, _img.bottom+5, kScreenWidth, 15)];
     _label.textAlignment =NSTextAlignmentCenter;
     _label.font =[UIFont fontWithName:@"youyuan" size:15];
     [hearView addSubview:_label];
     return hearView;
+}
+
+-(void)didClickImage:(UITapGestureRecognizer *)tgr{
+
+    UIView  *bgView =[[UIView alloc]init];
+    bgView.userInteractionEnabled=YES;
+    bgView.backgroundColor =[UIColor blackColor];
+    [self.homeTableView addSubview:bgView];
+    bgView.frame =CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClick:)];
+    [bgView addGestureRecognizer:tap];
+    UIImageView *bgImg=(UIImageView *)tgr.view;
+    UIImageView * img=[[UIImageView alloc]init];
+    img.image = bgImg.image;
+    
+    [bgView addSubview:img];
+    bgView.alpha=0;
+    [UIView animateWithDuration:0.5 animations:^{
+        img.frame =CGRectMake(25, 80, 280, 280);
+        bgView.alpha=1;
+    }];
+    
+}
+-(void)didClick:(UITapGestureRecognizer *)tap
+{
+    tap.view.alpha =1;
+    [UIView animateWithDuration:0.5 animations:^{
+        tap.view.alpha =0;
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -191,7 +268,7 @@
         cell.pirceDd2View.hidden =YES;
     }else if(indexPath.row ==4){
         cell.iconView.image =[UIImage imageNamed:@"pic1"] ;
-        cell.tilteView.text =@"好友管理";
+        cell.tilteView.text =@"社交管理";
         cell.tilteD1View.text =@"我的粉丝";
         cell.tilteD2View.text =@"我的圈子";
         NSString *tempPirceD1 =[[[self.dataArray objectForKey:@"favorite"] objectForKey:@"favoritecount"] stringValue];

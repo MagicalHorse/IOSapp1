@@ -17,6 +17,7 @@
 @interface BuyerInComeViewController (){
 
     ComeIn * come;
+    
 
 }
 @property (weak, nonatomic) IBOutlet UIView *bgView;
@@ -62,6 +63,7 @@
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"收益管理"];
     self.view.backgroundColor = kCustomColor(241, 241, 241);
+    
 }
 
 

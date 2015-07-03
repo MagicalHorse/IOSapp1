@@ -14,6 +14,7 @@
 #import "CusChatViewController.h"
 #import "CusCircleDetailViewController.h"
 #import "BuyerSellViewController.h"
+#import "BuyerAddCircleViewController.h"
 
 @interface BuyerCircleViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     BOOL isRefresh;
@@ -86,10 +87,24 @@
         [SVProgressHUD dismiss];
         isRefresh =NO;    }];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:NO];
+    //tableView
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.tag = 1;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = kCustomColor(241, 241, 241);
+    self.tableView.tableFooterView =[[UIView alloc]init];
+    [self.view addSubview:self.tableView];
+    isRefresh=YES;
+    type=1;
+    [self setData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addNavBarViewAndTitle:@"好友管理"];
+    [self addNavBarViewAndTitle:@"社交管理"];
     
     _tempView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
     _tempView.backgroundColor = kCustomColor(251, 250, 250);
@@ -125,22 +140,17 @@
     lineView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:lineView];
     
+    //rightbtn
+    UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    searchBtn.frame = CGRectMake(kScreenWidth-64, 10, 64, 64);
+    [searchBtn setTitle:@"添加" forState:UIControlStateNormal];
+    [searchBtn setTitleColor :[UIColor blackColor] forState:UIControlStateNormal];
+    searchBtn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:15];
+    [searchBtn addTarget:self action:@selector(addCircle) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.navView addSubview:searchBtn];
     
     
-    //tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    self.tableView.tag = 1;
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.backgroundColor = kCustomColor(241, 241, 241);
-    self.tableView.tableFooterView =[[UIView alloc]init];
-    [self.view addSubview:self.tableView];
-    isRefresh=YES;
-    type=1;
-    [self setData];
-   
-    
+  
 }
 
 #pragma mark tableViewDelegate
@@ -211,7 +221,10 @@
     }
 }
 
-
+-(void)addCircle{
+    BuyerAddCircleViewController *addCircle=[[BuyerAddCircleViewController alloc]init];
+    [self.navigationController pushViewController:addCircle animated:YES];
+}
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
