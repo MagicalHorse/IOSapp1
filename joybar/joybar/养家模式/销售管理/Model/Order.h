@@ -17,4 +17,6 @@
 @property (nonatomic,strong)NSMutableArray *Products;
 @property (nonatomic,strong)NSNumber* Status;
 @property (nonatomic,copy)NSString* StatusName;
+@property (nonatomic,strong)NSNumber *GoodsAmount;
+@property (nonatomic,assign)BOOL IsGoodsPick;
 @end

@@ -126,6 +126,9 @@
         
     }
 }
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PaySuccessNotification" object:nil];
+}
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -204,9 +207,5 @@
     [self.delegate orderListDelegate];
 }
 
--(void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PaySuccessNotification" object:nil];
-}
 
 @end

@@ -8,7 +8,6 @@
 
 #import "BuyerStoreViewController.h"
 #import "BuyerSellTableViewCell.h"
-#import "Parameter.h"
 #import "BuerySotres.h"
 #import "Store.h"
 #import "MJExtension.h"
