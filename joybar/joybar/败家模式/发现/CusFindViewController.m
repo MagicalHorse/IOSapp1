@@ -64,7 +64,7 @@
     __weak CusFindViewController *VC = self;
     self.findTableView.headerRereshingBlock = ^()
     {
-        [VC.findArr removeAllObjects];
+        [VC.findTableView.dataArr removeAllObjects];
         VC.pageNum=1;
         [VC getFindData:YES];
     };

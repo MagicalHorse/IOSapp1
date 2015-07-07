@@ -16,6 +16,8 @@
 
 @property (nonatomic ,strong) NSMutableArray *dataArr;
 
+@property (nonatomic ,strong) NSMutableArray *selectProArr;
+
 @end
 
 @implementation CusProLinkViewController
@@ -35,9 +37,8 @@
     // Do any additional setup after loading the view.
     self.isSelectArr = [NSMutableArray array];
     self.dataArr = [NSMutableArray array];
+    self.selectProArr = [NSMutableArray array];
     
-    self.dataArr = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3",@"4",@"1",@"2",@"3",@"4",@"1",@"2",@"3",@"4",@"1",@"2",@"3",@"4",@"1",@"2",@"3",@"4"]];
-    self.isSelectArr = [NSMutableArray arrayWithArray:@[@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0",@"0"]];
     
     //tableView
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
@@ -45,6 +46,7 @@
     self.tableView.dataSource = self;
 //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     [self addNavBarViewAndTitle:self.titleStr];
     
@@ -67,12 +69,45 @@
     sureBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
     [sureBtn addTarget:self action:@selector(didCLickMakeSureBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:sureBtn];
+    [self getNewProListData];
 }
 
+-(void)getNewProListData
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:[[Public getUserInfo] objectForKey:@"id"] forKey:@"userid"];
+    [dic setObject:@"0" forKey:@"Filter"];
+    [dic setObject:@"1" forKey:@"page"];
+    [dic setObject:@"10000" forKey:@"pagesize"];
+    [self hudShow];
+    [HttpTool postWithURL:@"Product/GetUserProductList" params:dic success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            
+            [self.dataArr addObjectsFromArray:arr];
+            for (int i=0; i<arr.count; i++)
+            {
+                [self.isSelectArr insertObject:@"0" atIndex:i];
+            }
+            
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self hiddleHud];
+        
+    } failure:^(NSError *error) {
+        
+    }];
+}
 #pragma mark tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return self.dataArr.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -90,37 +125,44 @@
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    UIButton *selectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    selectBtn.frame = CGRectMake(5, 25, 30, 30);
-    selectBtn.tag = 1000+indexPath.row;
-    if([[self.isSelectArr objectAtIndex:indexPath.row] isEqualToString:@"0"])
+    if (self.dataArr.count>0)
     {
-        [selectBtn setImage:[UIImage imageNamed:@"圈icon"] forState:(UIControlStateNormal)];
+        
+        NSDictionary *proDic = [self.dataArr objectAtIndex:indexPath.row];
+        UIButton *selectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        selectBtn.frame = CGRectMake(5, 25, 30, 30);
+        selectBtn.tag = 1000+indexPath.row;
+        if([[self.isSelectArr objectAtIndex:indexPath.row] isEqualToString:@"0"])
+        {
+            [selectBtn setImage:[UIImage imageNamed:@"圈icon"] forState:(UIControlStateNormal)];
+        }
+        else
+        {
+            [selectBtn setImage:[UIImage imageNamed:@"对号icon"] forState:(UIControlStateNormal)];
+        }
+        [selectBtn addTarget:self action:@selector(didClickSelectProBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+        [cell.contentView addSubview:selectBtn];
+        
+        UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(selectBtn.right+5, 5, 70, 70)];
+//        proImage.backgroundColor = [UIColor orangeColor];
+        NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",[[proDic objectForKey:@"pic"] objectForKey:@"pic"]];
+        [proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:nil];
+        [cell.contentView addSubview:proImage];
+        
+        UILabel *desLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 10, kScreenWidth-140, 40)];
+        desLab.text = [proDic objectForKey:@"Name"];
+        desLab.numberOfLines = 0;
+        desLab.font = [UIFont fontWithName:@"youyuan" size:13];
+        desLab.textColor = [UIColor lightGrayColor];
+        [cell.contentView addSubview:desLab];
+        
+        UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-220, 50, 200, 40)];
+        priceLab.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"Price"]];
+        priceLab.font = [UIFont fontWithName:@"youyuan" size:15];
+        priceLab.textAlignment = NSTextAlignmentRight;
+        priceLab.textColor = [UIColor darkGrayColor];
+        [cell.contentView addSubview:priceLab];
     }
-    else
-    {
-        [selectBtn setImage:[UIImage imageNamed:@"对号icon"] forState:(UIControlStateNormal)];
-    }
-    [selectBtn addTarget:self action:@selector(didClickSelectProBtn:) forControlEvents:(UIControlEventTouchUpInside)];
-    [cell.contentView addSubview:selectBtn];
-    
-    UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(selectBtn.right+5, 5, 70, 70)];
-    proImage.backgroundColor = [UIColor orangeColor];
-    [cell.contentView addSubview:proImage];
-    
-    UILabel *desLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 10, kScreenWidth-140, 40)];
-    desLab.text = @"阿打算打算的阿萨德啊实打实大声道阿萨德爱上的";
-    desLab.numberOfLines = 0;
-    desLab.font = [UIFont fontWithName:@"youyuan" size:13];
-    desLab.textColor = [UIColor lightGrayColor];
-    [cell.contentView addSubview:desLab];
-    
-    UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-220, 50, 200, 40)];
-    priceLab.text = @"￥123456";
-    priceLab.font = [UIFont fontWithName:@"youyuan" size:15];
-    priceLab.textAlignment = NSTextAlignmentRight;
-    priceLab.textColor = [UIColor darkGrayColor];
-    [cell.contentView addSubview:priceLab];
     
     return cell;
 }
@@ -130,11 +172,21 @@
     return 80;
 }
 
-
 //确定
 -(void)didCLickMakeSureBtn:(UIButton *)btn
 {
-    
+    for (int i=0; i<self.isSelectArr.count; i++)
+    {
+        NSString *type = [self.isSelectArr objectAtIndex:i];
+        NSDictionary *proDic = [self.dataArr objectAtIndex:i];
+        if ([type isEqualToString:@"1"])
+        {
+            [self.selectProArr addObject:proDic];
+        }
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"selectProNot" object:self.selectProArr];
+//    NSLog(@"%@",self.selectProArr);
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)didClickSelectProBtn:(UIButton *)btn

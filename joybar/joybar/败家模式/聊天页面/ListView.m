@@ -138,13 +138,13 @@
         self.faceView.faceViewClickDelegate = self;
         [self.viewController.view addSubview:self.faceView];
     }
-    self.faceView.transform = CGAffineTransformIdentity;
+    self.faceView.frame = CGRectMake(0, kScreenHeight-216, kScreenWidth, 216-49);
     self.top = kScreenHeight - 216-49;
     self.openFace = YES;
     
     if ([self.sendMessageDelegate respondsToSelector:@selector(changeTableViewFrameWhileShow:)])
     {
-        [self.sendMessageDelegate changeTableViewFrameWhileShow:NO];
+        [self.sendMessageDelegate changeTableViewFrameWhileShow:YES];
     }
 }
 
@@ -152,7 +152,6 @@
 - (IBAction)moreBtnAction:(id)sender
 {
     self.frame = CGRectMake(0, kScreenHeight-49, kScreenWidth, 49);
-
 //    [UIView animateWithDuration:.3 animations:^{
 //        self.longBtn.alpha = 0;
 //        self.voiceBtn.alpha = 1.0f;
@@ -181,7 +180,8 @@
         [self.viewController.view addSubview:self.moreView];
         
     }
-    self.moreView.transform = CGAffineTransformIdentity;
+//    self.moreView.transform = CGAffineTransformIdentity;
+    self.moreView.frame = CGRectMake(0, kScreenHeight-164, kScreenWidth, 164);
     self.top = kScreenHeight -49-64-100;
     self.openListView = YES;
     

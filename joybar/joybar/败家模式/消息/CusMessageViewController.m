@@ -26,6 +26,7 @@
 
 
 
+
 @end
 
 @implementation CusMessageViewController
@@ -55,6 +56,38 @@
     [self.messageScroll addSubview:self.dynamicTableView];
     
     [self initWithNavView];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self getMessageList];
+}
+
+-(void)getMessageList
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:@"1" forKey:@"page"];
+    [dic setObject:@"10000" forKey:@"pagesize"];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [HttpTool postWithURL:@"Community/GetMessagesList" params:nil success:^(id json) {
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        if([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            
+            [self.msgTableView.dataArr addObjectsFromArray:arr];
+            [self.msgTableView reloadData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        [self showHudFailed:@"请求失败"];
+    }];
 }
 
 -(void)initWithNavView

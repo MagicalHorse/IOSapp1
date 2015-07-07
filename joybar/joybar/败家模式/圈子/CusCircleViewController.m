@@ -73,7 +73,7 @@
         VC.pageNum++;
         [VC getCircleData:YES];
     };
-
+    
 }
 
 -(void)initWithMyCircleTalbeView
@@ -95,12 +95,12 @@
     [self addNavBarViewAndTitle:@""];
     self.pageNum = 1;
     
-//    UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-//    searchBtn.frame = CGRectMake(-10, 10, 64, 64);
-//    searchBtn.backgroundColor = [UIColor clearColor];
-//    [searchBtn setImage:[UIImage imageNamed:@"search"] forState:(UIControlStateNormal)];
-//    [searchBtn addTarget:self action:@selector(didClickSearchBtn) forControlEvents:(UIControlEventTouchUpInside)];
-//    [self.navView addSubview:searchBtn];
+    //    UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    //    searchBtn.frame = CGRectMake(-10, 10, 64, 64);
+    //    searchBtn.backgroundColor = [UIColor clearColor];
+    //    [searchBtn setImage:[UIImage imageNamed:@"search"] forState:(UIControlStateNormal)];
+    //    [searchBtn addTarget:self action:@selector(didClickSearchBtn) forControlEvents:(UIControlEventTouchUpInside)];
+    //    [self.navView addSubview:searchBtn];
     
     tempView = [[UIView alloc] initWithFrame:CGRectMake(75, 0, kScreenWidth-150, 64)];
     tempView.backgroundColor = [UIColor clearColor];
@@ -133,7 +133,7 @@
         [lab addGestureRecognizer:tap];
     }
     self.retBtn.hidden = YES;
-
+    
 }
 
 -(void)getCircleData:(BOOL)isRefresh
@@ -147,6 +147,7 @@
     }
     [HttpTool postWithURL:@"Community/GetRecommendGroup" params:dic success:^(id json) {
         
+        [SVProgressHUD dismiss];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
@@ -162,9 +163,8 @@
             [self.circleTableView reloadData];
         }
         [self.circleTableView endRefresh];
-        [SVProgressHUD dismiss];
         NSLog(@"%@",json);
-
+        
     } failure:^(NSError *error) {
         
     }];
@@ -180,7 +180,7 @@
         [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Community/GetMyGroup" params:dic success:^(id json) {
-        
+        [SVProgressHUD dismiss];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
@@ -192,8 +192,7 @@
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [SVProgressHUD dismiss];
-
+        
     } failure:^(NSError *error) {
         
         [self showHudFailed:@"请求失败"];
@@ -223,7 +222,7 @@
             self.circleScroll.contentOffset = CGPointMake(0, 0);
             return;
         }
-
+        
         [self scrollToMyCircle];
     }
 }
@@ -250,12 +249,12 @@
 //点击搜索
 -(void)didClickSearchBtn
 {
-
+    
 }
 //推荐圈子
 -(void)scrollToRecommendCircle
 {
-
+    
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
     
@@ -278,15 +277,16 @@
         self.circleScroll.contentOffset = CGPointMake(0, 0);
         return;
     }
-
+    
     if (!self.myCircleTableView)
     {
         [self initWithMyCircleTalbeView];
     }
-    if (self.myCircleTableView.dataArr.count==0)
-    {
-        [self getMyCircleData:NO];
-    }
+    //    if (self.myCircleTableView.dataArr.count==0)
+    //    {
+    [self.myCircleTableView.dataArr removeAllObjects];
+    [self getMyCircleData:YES];
+    //    }
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
     

@@ -29,4 +29,5 @@ typedef void(^footerRereshing)(void);
 
 //隐藏加载更多
 -(void)hiddenFooter:(BOOL)hidden;
+-(void)hiddenHeader:(BOOL)hidden;
 @end

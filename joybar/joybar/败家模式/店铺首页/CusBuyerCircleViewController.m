@@ -30,7 +30,7 @@
 {
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"圈子"];
-    self.myCircleTableView = [[MyCircleTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
+    self.myCircleTableView = [[MyCircleTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) style:(UITableViewStylePlain)];
     [self.view addSubview:self.myCircleTableView];
     
     __weak CusBuyerCircleViewController *VC = self;

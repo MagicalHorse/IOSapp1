@@ -142,7 +142,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FansModel *fan = [fansItems.items objectAtIndex:indexPath.row];
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:fan.UserId AndTpye:2 andUserName:fan.UserName];
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:fan.UserId AndTpye:2 andUserName:fan.UserName andRoomId:@""];
     VC.isFrom = isFromPrivateChat;
     [self.navigationController pushViewController:VC animated:YES];
 }

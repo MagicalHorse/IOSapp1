@@ -88,6 +88,18 @@
     }
 }
 
+-(void)hiddenHeader:(BOOL)hidden
+{
+    if (hidden)
+    {
+        self.headerHidden = YES;
+    }
+    else
+    {
+        self.headerHidden = NO;
+    }
+}
+
 // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
 -(void)endRefresh
 {

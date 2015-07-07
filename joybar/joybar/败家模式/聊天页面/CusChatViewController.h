@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "ProDetailData.h"
+#import "ListView.h"
 
 enum {
     isFromPrivateChat = 1,
@@ -22,8 +23,9 @@ typedef NSUInteger isFromType;
 @property (nonatomic ,strong) ProDetailData *detailData;
 @property (nonatomic ,strong) NSString *circleId;
 @property (nonatomic ,assign) isFromType isFrom;
--(instancetype)initWithUserId:(NSString *)userId AndTpye:(int)type andUserName:(NSString *)Username;
+//@property (assign, nonatomic) id<MessageTableViewScrollViewDelegate>messageScrollDelegate;
 
+-(instancetype)initWithUserId:(NSString *)userId AndTpye:(int)type andUserName:(NSString *)Username andRoomId:(NSString *)roomId;
 
 
 @end

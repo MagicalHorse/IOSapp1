@@ -240,7 +240,7 @@
         return;
     }
     
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:self.homePro.Buyerid AndTpye:2 andUserName:self.homePro.BuyerName];
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:self.homePro.Buyerid AndTpye:2 andUserName:self.homePro.BuyerName andRoomId:@""];
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 

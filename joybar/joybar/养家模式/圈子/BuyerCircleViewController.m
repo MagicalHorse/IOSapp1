@@ -212,7 +212,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView.tag ==2) {
         NSString *userid =[[self.dataArray1[indexPath.row]objectForKey:@"UserId"]stringValue];
-        CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:[self.dataArray1[indexPath.row]objectForKey:@"UserName"]];
+        CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:[self.dataArray1[indexPath.row]objectForKey:@"UserName"] andRoomId:@""];
         chat.isFrom =isFromPrivateChat;
         [self.navigationController pushViewController:chat animated:YES];
     }else{

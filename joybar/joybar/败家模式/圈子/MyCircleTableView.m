@@ -50,7 +50,7 @@
 {
     NSString *circleId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
     NSString *circleName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:circleId AndTpye:2 andUserName:circleName];
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:circleId AndTpye:2 andUserName:circleName andRoomId:@""];
     VC.circleId = circleId;
     VC.isFrom = isFromGroupChat;
     [self.viewController.navigationController pushViewController:VC animated:YES];

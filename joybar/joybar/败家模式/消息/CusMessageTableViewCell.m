@@ -24,10 +24,29 @@
     
     UIImageView *headerImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12, 55, 55)];
     headerImg.layer.cornerRadius = headerImg.width/2;
-    headerImg.backgroundColor = [UIColor orangeColor];
+    [headerImg sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:nil];
     [self.contentView addSubview:headerImg];
     
-    UILabel *levelLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right+10, headerImg.top+3, 35, 15)];
+    UILabel *msgCountLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right-25, -5, 20, 20)];
+    NSString *count = [dic objectForKey:@"UnReadCount"];
+    if ([count isEqualToString:@"0"])
+    {
+        msgCountLab.hidden = YES;
+    }
+    else
+    {
+        msgCountLab.hidden = NO;
+    }
+    msgCountLab.text = count;
+    msgCountLab.backgroundColor = [UIColor redColor];
+    msgCountLab.textColor = [UIColor whiteColor];
+    msgCountLab.font = [UIFont systemFontOfSize:13];
+    msgCountLab.layer.cornerRadius = msgCountLab.width/2;
+    msgCountLab.layer.masksToBounds = YES;
+    msgCountLab.textAlignment = NSTextAlignmentCenter;
+    [headerImg addSubview:msgCountLab];
+    
+    UILabel *levelLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right+10, headerImg.top+3, 0, 15)];
     levelLab.backgroundColor = kCustomColor(228, 229, 230);
     levelLab.textAlignment = NSTextAlignmentCenter;
     levelLab.text = @"达人";
@@ -38,21 +57,23 @@
     [self.contentView addSubview:levelLab];
     
     UILabel *namelab = [[UILabel alloc] initWithFrame:CGRectMake(levelLab.right+5, headerImg.top+2, kScreenWidth-170, 20)];
-    namelab.text = @"啊实打实大师的阿萨德";
+    namelab.text = [dic objectForKey:@"Name"];
     namelab.font = [UIFont fontWithName:@"youyuan" size:16];
     [self.contentView addSubview:namelab];
     
     UILabel *lastMsg = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right+10, namelab.bottom+12, kScreenWidth-90, 20)];
     lastMsg.textColor = [UIColor grayColor];
-    lastMsg.text = @"啊实打实大师大师的阿什顿";
+    lastMsg.text = [dic objectForKey:@"UnReadMessage"];
     lastMsg.font =[UIFont fontWithName:@"youyuan" size:14];
     [self.contentView addSubview:lastMsg];
     
     UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-40, namelab.top, 40, 20)];
-    timeLab.text = @"13:00";
+    timeLab.text = [dic objectForKey:@"UpdateTime"];
     timeLab.font = [UIFont fontWithName:@"youyuan" size:13];
     timeLab.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:timeLab];
+    
+    
 
 }
 

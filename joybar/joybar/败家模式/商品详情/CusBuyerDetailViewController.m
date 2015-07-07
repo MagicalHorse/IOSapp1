@@ -381,7 +381,7 @@
         case 1000:
         {
             //私聊
-            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
+            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName andRoomId:@""];
             VC.detailData = prodata;
             VC.isFrom = isFromPrivateChat;
             [self.navigationController pushViewController:VC animated:YES];
@@ -396,7 +396,7 @@
         case 1002:
         {
             //我要买
-            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
+            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName andRoomId:@""];
             VC.detailData = prodata;
             VC.isFrom = isFromBuyPro;
             [self.navigationController pushViewController:VC animated:YES];

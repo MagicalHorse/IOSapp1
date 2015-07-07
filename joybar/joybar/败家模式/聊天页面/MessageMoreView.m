@@ -162,7 +162,7 @@
 #pragma mark - UIImagePickerControllerDelegate
 -(void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+//    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 //    //使用第三方PE
 //    [picker dismissViewControllerAnimated:NO completion:^{
 //        PECropViewController *controller = [[PECropViewController alloc] init];
@@ -174,9 +174,10 @@
 //    }];
     
     UIImage *selectImg = [info objectForKey:UIImagePickerControllerOriginalImage];
+    NSData *data = UIImageJPEGRepresentation(selectImg, 0.1);
     [picker dismissViewControllerAnimated:YES completion:^{
     }];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"sendImage" object:selectImg];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"sendImage" object:data];
 }
 
 //- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage

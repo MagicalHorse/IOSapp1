@@ -38,14 +38,16 @@
     {
         cell = [[CusMessageTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
-    
     for (UIView *view in cell.contentView.subviews)
     {
         [view removeFromSuperview];
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell setData:nil];
+    if (self.dataArr.count>0)
+    {
+        [cell setData:[self.dataArr objectAtIndex:indexPath.row]];
+    }
     return cell;
 }
 
@@ -56,9 +58,13 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CusChatViewController *VC = [[CusChatViewController alloc] init];
+    NSString *roomId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"RoomId"];
+    NSString *userId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
+    NSString *userName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
+
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:userId AndTpye:2 andUserName:userName andRoomId:roomId];
+    VC.isFrom = isFromPrivateChat;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
-
 
 @end

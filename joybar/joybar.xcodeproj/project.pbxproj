@@ -104,7 +104,6 @@
 		0AAB5B431B2AE01900782C0C /* FaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A6B1B2AE01800782C0C /* FaceView.m */; };
 		0AAB5B441B2AE01900782C0C /* ListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A6D1B2AE01800782C0C /* ListView.m */; };
 		0AAB5B451B2AE01900782C0C /* ListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB5A6E1B2AE01800782C0C /* ListView.xib */; };
-		0AAB5B461B2AE01900782C0C /* MessageFriendBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB5A6F1B2AE01800782C0C /* MessageFriendBg@2x.png */; };
 		0AAB5B471B2AE01900782C0C /* MessageMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A711B2AE01800782C0C /* MessageMoreView.m */; };
 		0AAB5B481B2AE01900782C0C /* MessageMoreView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB5A721B2AE01800782C0C /* MessageMoreView.xib */; };
 		0AAB5B491B2AE01900782C0C /* MessageSelfBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB5A731B2AE01800782C0C /* MessageSelfBg@2x.png */; };
@@ -578,7 +577,6 @@
 		0AAB5A6C1B2AE01800782C0C /* ListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListView.h; sourceTree = "<group>"; };
 		0AAB5A6D1B2AE01800782C0C /* ListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListView.m; sourceTree = "<group>"; };
 		0AAB5A6E1B2AE01800782C0C /* ListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListView.xib; sourceTree = "<group>"; };
-		0AAB5A6F1B2AE01800782C0C /* MessageFriendBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageFriendBg@2x.png"; sourceTree = "<group>"; };
 		0AAB5A701B2AE01800782C0C /* MessageMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageMoreView.h; sourceTree = "<group>"; };
 		0AAB5A711B2AE01800782C0C /* MessageMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageMoreView.m; sourceTree = "<group>"; };
 		0AAB5A721B2AE01800782C0C /* MessageMoreView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageMoreView.xib; sourceTree = "<group>"; };
@@ -1370,16 +1368,16 @@
 		0AAB5A571B2AE01800782C0C /* 消息 */ = {
 			isa = PBXGroup;
 			children = (
-				0AAB5A581B2AE01800782C0C /* CusDynTableViewCell.h */,
-				0AAB5A591B2AE01800782C0C /* CusDynTableViewCell.m */,
-				0AAB5A5A1B2AE01800782C0C /* CusMessageTableViewCell.h */,
-				0AAB5A5B1B2AE01800782C0C /* CusMessageTableViewCell.m */,
 				0AAB5A5C1B2AE01800782C0C /* CusMessageViewController.h */,
 				0AAB5A5D1B2AE01800782C0C /* CusMessageViewController.m */,
-				0AAB5A5E1B2AE01800782C0C /* DynamicTableView.h */,
-				0AAB5A5F1B2AE01800782C0C /* DynamicTableView.m */,
 				0AAB5A601B2AE01800782C0C /* MessageTableView.h */,
 				0AAB5A611B2AE01800782C0C /* MessageTableView.m */,
+				0AAB5A5A1B2AE01800782C0C /* CusMessageTableViewCell.h */,
+				0AAB5A5B1B2AE01800782C0C /* CusMessageTableViewCell.m */,
+				0AAB5A5E1B2AE01800782C0C /* DynamicTableView.h */,
+				0AAB5A5F1B2AE01800782C0C /* DynamicTableView.m */,
+				0AAB5A581B2AE01800782C0C /* CusDynTableViewCell.h */,
+				0AAB5A591B2AE01800782C0C /* CusDynTableViewCell.m */,
 			);
 			path = "消息";
 			sourceTree = "<group>";
@@ -1399,7 +1397,6 @@
 				0AAB5A6C1B2AE01800782C0C /* ListView.h */,
 				0AAB5A6D1B2AE01800782C0C /* ListView.m */,
 				0AAB5A6E1B2AE01800782C0C /* ListView.xib */,
-				0AAB5A6F1B2AE01800782C0C /* MessageFriendBg@2x.png */,
 				0AAB5A701B2AE01800782C0C /* MessageMoreView.h */,
 				0AAB5A711B2AE01800782C0C /* MessageMoreView.m */,
 				0AAB5A721B2AE01800782C0C /* MessageMoreView.xib */,
@@ -2393,7 +2390,6 @@
 				0AAB5B8D1B2AE01900782C0C /* biaoqing063.png in Resources */,
 				9D42E9621B27DAF200C85400 /* BuyerTicketTableViewCell.xib in Resources */,
 				0AAB5B321B2AE01900782C0C /* CusMyCircleTableViewCell.xib in Resources */,
-				0AAB5B461B2AE01900782C0C /* MessageFriendBg@2x.png in Resources */,
 				9D744DB61B2ED29100553648 /* CusAppealViewController.xib in Resources */,
 				0AAB5B711B2AE01900782C0C /* biaoqing035.png in Resources */,
 				0AAB5B811B2AE01900782C0C /* biaoqing051.png in Resources */,

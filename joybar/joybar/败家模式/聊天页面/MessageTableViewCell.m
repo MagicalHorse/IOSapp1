@@ -46,7 +46,6 @@
     return returnView;
 }
 
-
 //图片
 -(UIView *)imageBubbleView:(NSString *)text from:(BOOL)fromSelf withPosition:(int)position
 {
@@ -119,7 +118,7 @@
         proImage.frame =CGRectMake(10, 5, bgImageView.height-10, bgImageView.height-10);
 
     }
-    proImage.backgroundColor = [UIColor magentaColor];
+    [proImage sd_setImageWithURL:[NSURL URLWithString:text] placeholderImage:nil];
     [bgImageView addSubview:proImage];
     
     UILabel *linkLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+5, 5, bgImageView.width-proImage.width-20, bgImageView.height-10)];
