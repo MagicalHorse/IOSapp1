@@ -208,16 +208,15 @@
     return 60;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView.tag ==2) {
-        NSString *userid =[[self.dataArray1[indexPath.row]objectForKey:@"UserId"]stringValue];
-        CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:[self.dataArray1[indexPath.row]objectForKey:@"UserName"] andRoomId:@""];
+    if (type ==2 &&tableView.tag==2) {
+        NSString *userid =[[self.dataArray[indexPath.row]objectForKey:@"UserId"]stringValue];
+        CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:[self.dataArray[indexPath.row]objectForKey:@"UserName"] andRoomId:@""];
         chat.isFrom =isFromPrivateChat;
         [self.navigationController pushViewController:chat animated:YES];
     }else{
         CusCircleDetailViewController * detail =[[CusCircleDetailViewController alloc]init];
         detail.circleId = [self.dataArray[indexPath.row]objectForKey:@"Id"];
         [self.navigationController pushViewController:detail animated:YES];
-
     }
 }
 

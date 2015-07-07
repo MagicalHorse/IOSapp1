@@ -239,19 +239,20 @@
     if (self.isFrom==isFromPrivateChat||self.isFrom==isFromBuyPro)
     {
         type = @"private";
-        if (utype ==1)
-        {
-            arr = @[myId,toUserId]; //uid 败家
-            //        tempDict=[NSString stringWithFormat:@"%@_%@",myId,toUserId];
-            //        tempOwner=myId;
-        }
-        else
-        {
-            arr = @[toUserId,myId];
-            //        tempDict =[NSString stringWithFormat:@"%@_%@",toUserId,myId];
-            //        tempOwner =toUserId;
-        }
-
+//        if (utype ==1)
+//        {
+//            arr = @[myId,toUserId]; //uid 败家
+//            //        tempDict=[NSString stringWithFormat:@"%@_%@",myId,toUserId];
+//            //        tempOwner=myId;
+//        }
+//        else
+//        {
+//            arr = @[toUserId,myId];
+//            //        tempDict =[NSString stringWithFormat:@"%@_%@",toUserId,myId];
+//            //        tempOwner =toUserId;
+//        }
+        
+        arr = @[toUserId,myId];
     }
     else
     {
@@ -391,7 +392,6 @@
     [msgDic setValue:toUserName forKey:@"userName"];
     [msgDic setValue:@"" forKey:@"productId"];
 
-    
     //发送图片
     if ([type isEqualToString:@"发送图片"])
     {
