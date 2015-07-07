@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="youyuan.ttf">
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+            <string>YouYuan</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BuyerAddCircleViewController">
+            <connections>
+                <outlet property="circleField" destination="Zd8-fc-ZHf" id="XTp-sg-S15"/>
+                <outlet property="circleImg" destination="Thw-BJ-EVc" id="cwz-Qw-pUQ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hkE-oo-qnR">
+                    <rect key="frame" x="0.0" y="76" width="320" height="100"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Thw-BJ-EVc">
+                            <rect key="frame" x="132" y="7" width="57" height="57"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="57" id="HEJ-d5-ZDg"/>
+                                <constraint firstAttribute="height" constant="57" id="sYa-iF-fwi"/>
+                            </constraints>
+                            <state key="normal" image="jia">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="circleImgClick:" destination="-1" eventType="touchUpInside" id="VyO-fX-8LS"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="设置圈子头像" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Lz-WA-sPx">
+                            <rect key="frame" x="118" y="73" width="84" height="14"/>
+                            <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="centerY" secondItem="Thw-BJ-EVc" secondAttribute="centerY" constant="15" id="Cio-2z-nph"/>
+                        <constraint firstAttribute="height" constant="100" id="sEE-26-PRV"/>
+                        <constraint firstAttribute="centerX" secondItem="Thw-BJ-EVc" secondAttribute="centerX" id="xJF-ri-hYv"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k9q-uc-KQT">
+                    <rect key="frame" x="0.0" y="188" width="320" height="44"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="重点" translatesAutoresizingMaskIntoConstraints="NO" id="9s1-ad-ZWC">
+                            <rect key="frame" x="12" y="12" width="19" height="19"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="19" id="hrw-lC-zHD"/>
+                                <constraint firstAttribute="height" constant="19" id="pKB-OA-MVd"/>
+                            </constraints>
+                        </imageView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lkO-8Z-H8g">
+                            <rect key="frame" x="33" y="4" width="272" height="36"/>
+                            <subviews>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写圈子名称" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zd8-fc-ZHf">
+                                    <rect key="frame" x="2" y="0.0" width="268" height="36"/>
+                                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="aAW-Rt-oSC"/>
+                                    </connections>
+                                </textField>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="Zd8-fc-ZHf" firstAttribute="leading" secondItem="lkO-8Z-H8g" secondAttribute="leading" constant="2" id="329-VU-1m0"/>
+                                <constraint firstAttribute="height" constant="36" id="3H2-gT-jbr"/>
+                                <constraint firstItem="Zd8-fc-ZHf" firstAttribute="top" secondItem="lkO-8Z-H8g" secondAttribute="top" id="SDP-Wh-JQo"/>
+                                <constraint firstAttribute="trailing" secondItem="Zd8-fc-ZHf" secondAttribute="trailing" constant="2" id="c3f-iO-Rut"/>
+                                <constraint firstAttribute="bottom" secondItem="Zd8-fc-ZHf" secondAttribute="bottom" id="mgW-pv-Gf1"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="9s1-ad-ZWC" firstAttribute="top" secondItem="k9q-uc-KQT" secondAttribute="top" constant="12" id="D7m-NG-Ywo"/>
+                        <constraint firstAttribute="trailing" secondItem="lkO-8Z-H8g" secondAttribute="trailing" constant="15" id="SK4-7d-93T"/>
+                        <constraint firstItem="9s1-ad-ZWC" firstAttribute="leading" secondItem="k9q-uc-KQT" secondAttribute="leading" constant="12" id="Y5I-WV-zXE"/>
+                        <constraint firstItem="lkO-8Z-H8g" firstAttribute="leading" secondItem="9s1-ad-ZWC" secondAttribute="trailing" constant="2" id="jOz-U0-x0L"/>
+                        <constraint firstAttribute="height" constant="44" id="mtt-7S-mCX"/>
+                        <constraint firstItem="lkO-8Z-H8g" firstAttribute="top" secondItem="k9q-uc-KQT" secondAttribute="top" constant="4" id="pq5-VD-GM2"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Vt-IP-uex">
+                    <rect key="frame" x="0.0" y="519" width="320" height="49"/>
+                    <color key="backgroundColor" red="0.94509803920000002" green="0.94509803920000002" blue="0.94509803920000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="49" id="BIY-MQ-sEH"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                    <state key="normal" title="创建">
+                        <color key="titleColor" red="0.94117647059999998" green="0.56862745100000001" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="circleClick:" destination="-1" eventType="touchUpInside" id="gva-ot-v23"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="hkE-oo-qnR" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="76" id="3EK-dy-WS2"/>
+                <constraint firstAttribute="trailing" secondItem="hkE-oo-qnR" secondAttribute="trailing" id="Fyt-Xt-6H3"/>
+                <constraint firstItem="k9q-uc-KQT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="MgK-Eq-dCp"/>
+                <constraint firstItem="0Vt-IP-uex" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Mib-U8-DXT"/>
+                <constraint firstAttribute="trailing" secondItem="0Vt-IP-uex" secondAttribute="trailing" id="PDl-QI-ao7"/>
+                <constraint firstItem="k9q-uc-KQT" firstAttribute="top" secondItem="hkE-oo-qnR" secondAttribute="bottom" constant="12" id="bIV-qc-xCj"/>
+                <constraint firstAttribute="trailing" secondItem="k9q-uc-KQT" secondAttribute="trailing" id="kDQ-GF-yb8"/>
+                <constraint firstItem="hkE-oo-qnR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="sKM-IW-hun"/>
+                <constraint firstAttribute="bottom" secondItem="0Vt-IP-uex" secondAttribute="bottom" id="trB-kk-Ung"/>
+            </constraints>
+            <point key="canvasLocation" x="212" y="209"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="jia" width="57" height="57"/>
+        <image name="重点" width="19" height="19"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

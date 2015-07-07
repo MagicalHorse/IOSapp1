@@ -14,10 +14,18 @@
 #import "UMSocialWechatHandler.h"
 #import "UMSocial.h"
 #import "CusBindMobileViewController.h"
-@interface CusSettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
+#import "OSSClient.h"
+#import "OSSTool.h"
+#import "OSSData.h"
+#import "OSSLog.h"
+
+@interface CusSettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
+    OSSData *osData;
+}
 
 @property (nonatomic ,strong) UITableView *tableView;
-
+@property (nonatomic,strong)UILabel *nameLab;
+@property (nonatomic ,strong)UIImageView *headImageView;
 @end
 
 @implementation CusSettingViewController
@@ -30,6 +38,19 @@
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
+}
+
+-(void)aliyunSet{
+    OSSClient *ossclient = [OSSClient sharedInstanceManage];
+    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
+    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
+        NSString *signature = nil;
+        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
+        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
+        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
+        NSLog(@"here signature:%@", signature);
+        return signature;
+    }];
 }
 
 - (void)viewDidLoad
@@ -45,7 +66,8 @@
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self addNavBarViewAndTitle:@"设置"];
-
+    
+    [self aliyunSet];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindMoblieHandle) name:@"bindMobileNot" object:nil];
 }
 -(void)dealloc
@@ -53,6 +75,150 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"bindMobileNot" object:self];
 }
 
+
+-(void)LoaclCamera{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [[picker navigationBar] setTintColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1]];
+    picker.delegate = self;
+    //设置选择后的图片可被编辑
+    picker.allowsEditing = YES;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+//打开本地相册
+-(void)LocalPhoto
+{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [[picker navigationBar] setTintColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1]];
+    picker.delegate = self;
+    //设置选择后的图片可被编辑
+    picker.allowsEditing = YES;
+    [self presentViewController:picker animated:YES completion:nil];
+    
+}
+//当选择一张图片后进入这里
+-(void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+
+{
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    //当选择的类型是图片
+    if ([type isEqualToString:@"public.image"])
+    {
+        //先把图片转成NSData
+        UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        //设置image的尺寸
+        CGSize imagesize = image.size;
+        imagesize.height =57;
+        imagesize.width =57;
+        
+        //对图片大小进行压缩--
+        UIImage *imageNew = [self imageCompressForSize:image targetSize:imagesize];
+        [picker dismissViewControllerAnimated:YES completion:^{
+            self.headImageView.image=imageNew;
+        }];
+        //上传图片
+        [self hudShow:@"正在上传"];
+        NSDate *  senddate=[NSDate date];
+        NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+        [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
+        NSString *  locationString=[dateformatter stringFromDate:senddate];
+        NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
+        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
+        osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
+        NSData *data = UIImagePNGRepresentation(imageNew);
+        [osData setData:data withType:@"image/png"];
+        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+            if (isSuccess) {
+                
+                NSMutableDictionary *dict= [NSMutableDictionary dictionary];
+                [dict setObject:temp forKey:@"logo"];
+                [HttpTool postWithURL:@"User/ChangeUserLogo" params:dict success:^(id json) {
+                    BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+                    if (isSuccessful) {
+                        NSString *logo= [[json objectForKey:@"data"]objectForKey:@"logo"];
+                        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
+                        [dic setObject:logo forKey:@"logo"];
+                        [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                        
+                                          }else{
+                        [self showHudFailed:@"上传失败"];
+                    }
+                    [self textHUDHiddle];
+                    
+                } failure:^(NSError *error) {
+                    [self showHudFailed:@"上传失败"];
+                    [self textHUDHiddle];
+                }];
+                [self textHUDHiddle];
+            }else{
+                [self textHUDHiddle];
+                [self showHudFailed:@"上传失败"];
+            }
+        } withProgressCallback:^(float progress) {
+            NSLog(@"%f",progress);
+        }];
+        
+        
+        
+    }
+    
+}
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(UIImage *) imageCompressForSize:(UIImage *)sourceImage targetSize:(CGSize)size{
+    UIImage *newImage = nil;
+    CGSize imageSize = sourceImage.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    CGFloat targetWidth = size.width;
+    CGFloat targetHeight = size.height;
+    CGFloat scaleFactor = 0.0;
+    CGFloat scaledWidth = targetWidth;
+    CGFloat scaledHeight = targetHeight;
+    CGPoint thumbnailPoint = CGPointMake(0.0, 0.0);
+    if(CGSizeEqualToSize(imageSize, size) == NO){
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
+        if(widthFactor > heightFactor){
+            scaleFactor = widthFactor;
+        }
+        else{
+            scaleFactor = heightFactor;
+        }
+        scaledWidth = width * scaleFactor;
+        scaledHeight = height * scaleFactor;
+        if(widthFactor > heightFactor){
+            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
+        }else if(widthFactor < heightFactor){
+            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
+        }
+    }
+    
+    UIGraphicsBeginImageContext(size);
+    
+    CGRect thumbnailRect = CGRectZero;
+    thumbnailRect.origin = thumbnailPoint;
+    thumbnailRect.size.width = scaledWidth;
+    thumbnailRect.size.height = scaledHeight;
+    [sourceImage drawInRect:thumbnailRect];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    if(newImage == nil){
+        NSLog(@"scale image fail");
+    }
+    
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+    
+}
+//table
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headerView = [[UIView alloc] init];
@@ -129,25 +295,34 @@
     {
         if (indexPath.row==0)
         {
-            UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-110, 15, 70, 70)];
-            [headImageView sd_setImageWithURL:[NSURL URLWithString:[[Public getUserInfo] objectForKey:@"logo"]] placeholderImage:nil];
-            headImageView.clipsToBounds = YES;
+           _headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-110, 15, 70, 70)];
+            [_headImageView sd_setImageWithURL:[NSURL URLWithString:[[Public getUserInfo] objectForKey:@"logo"]] placeholderImage:nil];
+            _headImageView.clipsToBounds = YES;
             
-            headImageView.layer.cornerRadius = headImageView.width/2;
-            [cell.contentView addSubview:headImageView];
+            _headImageView.layer.cornerRadius = _headImageView.width/2;
+            [cell.contentView addSubview:_headImageView];
         }
         else
         {
-            UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-240, 12.5, 200, 30)];
-            nameLab.textAlignment = NSTextAlignmentRight;
-            nameLab.text =[[Public getUserInfo] objectForKey:@"nickname"];
-            nameLab.font = [UIFont fontWithName:@"youyuan" size:16];
-            nameLab.textColor = [UIColor lightGrayColor];
-            [cell.contentView addSubview:nameLab];
+            _nameLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-240, 12.5, 200, 30)];
+            _nameLab.textAlignment = NSTextAlignmentRight;
+            _nameLab.text =[[Public getUserInfo] objectForKey:@"nickname"];
+            _nameLab.font = [UIFont fontWithName:@"youyuan" size:16];
+            _nameLab.textColor = [UIColor lightGrayColor];
+            [cell.contentView addSubview:_nameLab];
         }
     }
     if(indexPath.section==1)
     {
+        if (indexPath.row==1) {
+            NSDictionary *dict=[Public getUserInfo];
+            BOOL IsOpenPush =[[dict objectForKey:@"IsOpenPush"]boolValue];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            UISwitch *pSwitch = [[UISwitch alloc]initWithFrame:CGRectMake(kScreenWidth-60, 13, 80, 50)];
+            [pSwitch addTarget:self action:@selector(switchMethod:) forControlEvents:UIControlEventValueChanged];
+            pSwitch.on =IsOpenPush;
+            [cell.contentView addSubview:pSwitch];
+        }
 //        if (indexPath.row==2)
 //        {
 //            cell.accessoryType = UITableViewCellAccessoryNone;
@@ -192,11 +367,28 @@
             }
         }
     }
-    
     return cell;
 }
 
-
+-(void)switchMethod :(UISwitch *)cusSwitch{
+    BOOL isButtonOn = [cusSwitch isOn];
+    NSMutableDictionary *dict =[NSMutableDictionary dictionary];
+    [dict setObject:@(isButtonOn) forKey:@"state"];
+    [HttpTool postWithURL:@"User/ChangePushState" params:dict success:^(id json) {
+        BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+        NSString *mssage= [json objectForKey:@"message"];
+        if (isSuccessful) {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
+            [dic setObject:@(isButtonOn) forKey:@"IsOpenPush"];
+            [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }else{
+            [self showHudFailed:mssage];
+        }
+        
+    } failure:^(NSError *error) {
+    }];
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0&&indexPath.row==0)
@@ -212,15 +404,36 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==1&&indexPath.row==0)
+    if (indexPath.section==0 &&indexPath.row==0) {
+        //修改头像
+        UIActionSheet *action= [[UIActionSheet alloc] initWithTitle:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"取消"
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:@"拍照", @"从手机相册选择", nil];
+        action.tag =101;
+        
+        [action showInView:self.view];
+    
+    }else if(indexPath.section ==0 &&indexPath.row==1)
+    {
+        UIAlertView *alert =[[UIAlertView alloc]initWithTitle:@"修改昵称" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+
+        [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+        
+        UITextField *nameField = [alert textFieldAtIndex:0];
+        nameField.text = self.nameLab.text;
+        [alert show];
+    }else if (indexPath.section==1&&indexPath.row==0)
     {
         ChangePasswordViewController *VC = [[ChangePasswordViewController alloc] init];
         [self.navigationController pushViewController:VC animated:YES];
     }
     else if(indexPath.section==1&&indexPath.row==1)
     {
-        BuyerOpenMessageViewController * message =[[BuyerOpenMessageViewController alloc]init];
-        [self.navigationController pushViewController:message animated:YES];
+        
+//        BuyerOpenMessageViewController * message =[[BuyerOpenMessageViewController alloc]init];
+//        [self.navigationController pushViewController:message animated:YES];
 
     }
     else if (indexPath.section==1&&indexPath.row==2)
@@ -261,15 +474,25 @@
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex==0)
-    {
-//        [Public showLoginVC:self];
-        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"userInfo"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    if (actionSheet.tag==101) {
+        if (buttonIndex ==0) {
+            [self LoaclCamera];
+            
+        }else if(buttonIndex ==1){
+            [self LocalPhoto];
+        }
         
-        AppDelegate *ad= (AppDelegate *)[UIApplication sharedApplication].delegate;
-        CusTabBarViewController *tab = [[CusTabBarViewController alloc] init];
-        ad.window.rootViewController =tab;
+    }else{
+        if (buttonIndex==0)
+        {
+            //        [Public showLoginVC:self];
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"userInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            AppDelegate *ad= (AppDelegate *)[UIApplication sharedApplication].delegate;
+            CusTabBarViewController *tab = [[CusTabBarViewController alloc] init];
+            ad.window.rootViewController =tab;
+        }
     }
 }
 
@@ -343,6 +566,39 @@
 -(void)bindMoblieHandle
 {
     [self.tableView reloadData];
+}
+#pragma mark alertDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == alertView.firstOtherButtonIndex) {
+        
+        UITextField *nameField = [alertView textFieldAtIndex:0];
+        if (nameField.text.length==0) {
+            [self showHudFailed:@"请填写昵称"];
+            return;
+        }
+        NSMutableDictionary *dict =[NSMutableDictionary dictionary];
+        [dict setObject:nameField.text forKey:@"nickname"];
+        [HttpTool postWithURL:@"User/ChangeNickname" params:dict success:^(id json) {
+            
+            BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+            if (isSuccessful) {
+                
+                [self.tableView reloadData];
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
+                [dic setObject:nameField.text forKey:@"nickname"];
+                [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+            }else{
+                [self showHudFailed:@"修改失败"];
+            }
+           
+        } failure:^(NSError *error) {
+            
+        }];
+    }
+    
 }
 
 @end

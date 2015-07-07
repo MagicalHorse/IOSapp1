@@ -9,6 +9,7 @@
 #import "BuyerTicketViewController.h"
 #import "BuyerTicketTableViewCell.h"
 #import "BuyerTicketDetailsViewController.h"
+
 @interface BuyerTicketViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UITableView *tableView;
@@ -41,15 +42,20 @@
 
 }
 -(void)setData{
+    
+    [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
     [HttpTool postWithURL:@"Promotion/List" params:nil success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             self.dataArray =[json objectForKey:@"data"];
             [self.tableView reloadData];
+        }else{
+            [self showHudFailed:@"加载失败"];
         }
+        [SVProgressHUD dismiss];
         
     } failure:^(NSError *error) {
-        
+        [SVProgressHUD dismiss];
     }];
 }
 

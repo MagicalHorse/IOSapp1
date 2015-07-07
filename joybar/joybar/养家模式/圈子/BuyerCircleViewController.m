@@ -14,18 +14,20 @@
 #import "CusChatViewController.h"
 #import "CusCircleDetailViewController.h"
 #import "BuyerSellViewController.h"
+#import "BuyerAddCircleViewController.h"
 
-@interface BuyerCircleViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic ,strong) UIScrollView *homeScroll;
-@property (nonatomic ,strong) UITableView * firstStroe;
+@interface BuyerCircleViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
+    BOOL isRefresh;
+    int type;
+}
 @property (nonatomic,strong) NSMutableArray *dataArray;
-@property (nonatomic,strong) NSMutableArray *dataArray1;
 
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIScrollView *tempView;
 @property (nonatomic ,strong) UITableView *tableView;
-@property (nonatomic ,assign) CGFloat startX;
-@property (nonatomic ,assign) CGFloat endX;
+@property (nonatomic ,strong) UITableView *fansTableView;
+
+
 @end
 
 @implementation BuyerCircleViewController
@@ -44,55 +46,66 @@
     }
     return _dataArray;
 }
--(NSMutableArray *)dataArray1{
-    if (_dataArray1 ==nil) {
-        _dataArray1 =[[NSMutableArray alloc]init];
-    }
-    return _dataArray1;
-}
 
-
--(void)setfirstStroeData
-{
-    NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
-    [dict setObject:@"1" forKey:@"Page"];
-    [dict setObject:@"6" forKey:@"Pagesize"];
-    [dict setValue:@"1" forKey:@"status"];
-
-    [HttpTool postWithURL:@"User/GetUserFavoite" params:dict success:^(id json) {
-        
-        BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
-        if (isSuccessful) {
-            NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
-            self.dataArray1 =array;
-            [self.firstStroe reloadData];
-        }
-    } failure:^(NSError *error) {
-        NSLog(@"%@",[error description]);
-    }];
-}
 -(void)setData
 {
+    if (isRefresh) {
+        [SVProgressHUD showInView:self.view WithY:64+40 andHeight:kScreenHeight-64-40];
+    }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
+    NSString *url;
+    if (type ==1) {
+        [dict setValue:@"1" forKey:@"status"];
+        url=@"Community/GetBuyerGroups";
+
+    }else{
+        url=@"User/GetUserFavoite";
+    }
     [dict setObject:@"1" forKey:@"Page"];
-    [dict setObject:@"10" forKey:@"Pagesize"];
-    [HttpTool postWithURL:@"Community/GetBuyerGroups" params:dict success:^(id json) {
+    [dict setObject:@"1000000" forKey:@"Pagesize"];
+    [HttpTool postWithURL:url params:dict success:^(id json) {
         
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
+            self.dataArray=nil;
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
             self.dataArray =array;
-            [self.tableView reloadData];
+        }else{
+            self.dataArray=nil;
+            [self showHudFailed:@"加载失败"];
         }
-    } failure:^(NSError *error) {
-        NSLog(@"%@",[error description]);
-    }];
-}
+        if(type==1){
+            [self.tableView reloadData];
 
+        }else{
+            [self.fansTableView reloadData];
+
+        }
+        [SVProgressHUD dismiss];
+        isRefresh =NO;
+    } failure:^(NSError *error) {
+        [SVProgressHUD dismiss];
+        isRefresh =NO;    }];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:NO];
+    //tableView
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.tag = 1;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = kCustomColor(241, 241, 241);
+    self.tableView.tableFooterView =[[UIView alloc]init];
+    [self.view addSubview:self.tableView];
+    isRefresh=YES;
+    type=1;
+    [self setData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addNavBarViewAndTitle:@"好友管理"];
-    [self setData];
+    [self addNavBarViewAndTitle:@"社交管理"];
+    
     _tempView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
     _tempView.backgroundColor = kCustomColor(251, 250, 250);
     [self.view addSubview:_tempView] ;
@@ -127,43 +140,28 @@
     lineView.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:lineView];
     
-    self.homeScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64)];
-    self.homeScroll.contentSize = CGSizeMake(kScreenWidth*2, 0);
-    self.homeScroll.alwaysBounceVertical = NO;
-    self.homeScroll.pagingEnabled = YES;
-    self.homeScroll.delegate = self;
-    self.homeScroll.directionalLockEnabled = YES;
-    self.homeScroll.showsHorizontalScrollIndicator = NO;
-    self.homeScroll.bounces = NO;
-    self.homeScroll.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.homeScroll];
+    //rightbtn
+    UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    searchBtn.frame = CGRectMake(kScreenWidth-64, 10, 64, 64);
+    [searchBtn setTitle:@"添加" forState:UIControlStateNormal];
+    [searchBtn setTitleColor :[UIColor blackColor] forState:UIControlStateNormal];
+    searchBtn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:15];
+    [searchBtn addTarget:self action:@selector(addCircle) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.navView addSubview:searchBtn];
     
-    //tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    self.tableView.tag = 1;
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.backgroundColor = kCustomColor(241, 241, 241);
-    self.tableView.tableFooterView =[[UIView alloc]init];
-    [self.homeScroll addSubview:self.tableView];
     
-   
-    
+  
 }
 
 #pragma mark tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(tableView.tag==1){
-        return self.dataArray.count;
-    }else{
-        return self.dataArray1.count;
-    }
+    return self.dataArray.count;
+    
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView.tag ==1) {
+    if (type ==1 &&tableView.tag==1) {
         static NSString *simpleIdentify = @"cell";
         BuyerCircleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleIdentify];
         if (cell == nil) {
@@ -186,13 +184,13 @@
         if (cell == nil) {
             cell =[[[NSBundle mainBundle] loadNibNamed:@"BuyerFansTableViewCell" owner:self options:nil] lastObject];
         }
-        if (self.dataArray1.count>0) {
-            [cell.fansImg sd_setImageWithURL:[NSURL URLWithString:[self.dataArray1[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:nil];
-            [cell.fansIcon sd_setImageWithURL:[NSURL URLWithString:[self.dataArray1[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:nil];
-            cell.fansTitle.text =[self.dataArray1[indexPath.row] objectForKey:@"UserName"];
-            cell.guanzhuLable.text =[[self.dataArray1[indexPath.row] objectForKey:@"FavoiteCount"] stringValue];
-             cell.fansiLable.text =[[self.dataArray1[indexPath.row] objectForKey:@"FansCount"] stringValue];
-            cell.hostoalBtn.tag =[[self.dataArray1[indexPath.row]objectForKey:@"UserId"]integerValue];
+        if (self.dataArray.count>0) {
+            [cell.fansImg sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:nil];
+            [cell.fansIcon sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:nil];
+            cell.fansTitle.text =[self.dataArray[indexPath.row] objectForKey:@"UserName"];
+            cell.guanzhuLable.text =[[self.dataArray[indexPath.row] objectForKey:@"FavoiteCount"] stringValue];
+             cell.fansiLable.text =[[self.dataArray[indexPath.row] objectForKey:@"FansCount"] stringValue];
+            cell.hostoalBtn.tag =[[self.dataArray[indexPath.row]objectForKey:@"UserId"]integerValue];
             [cell.hostoalBtn addTarget:self action:@selector(hosClick:) forControlEvents:UIControlEventTouchUpInside];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -223,51 +221,48 @@
     }
 }
 
-#pragma mark ScrollViewDeletegate
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    self.endX = scrollView.contentOffset.x;
-    
-    if (self.startX-self.endX==0)
-    {
-        return;
-    }
-    if (scrollView.contentOffset.x==0)
-    {
-        [self scrollToBuyerStreet];
-    }
-    else
-    {
-        [self scrollToSaid];
-    }
-
+-(void)addCircle{
+    BuyerAddCircleViewController *addCircle=[[BuyerAddCircleViewController alloc]init];
+    [self.navigationController pushViewController:addCircle animated:YES];
 }
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
     if (tap.view.tag==1000)
     {
-        self.homeScroll.contentOffset = CGPointMake(0, 0);
+        [SVProgressHUD dismiss];
+        isRefresh =YES;
+        type=1;
         [self scrollToBuyerStreet];
     }
     else
     {
-        self.homeScroll.contentOffset = CGPointMake(kScreenWidth, 0);
+        [SVProgressHUD dismiss];
+        isRefresh =YES;
+        type=2;
         [self scrollToSaid];
     }
 
 }
 
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    self.startX = scrollView.contentOffset.x;
-}
+
 //我的圈子
 -(void)scrollToBuyerStreet
 {
+    self.dataArray=nil;
+    [self.fansTableView removeFromSuperview];
+
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
-//    UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.tag = 1;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = kCustomColor(241, 241, 241);
+    self.tableView.tableFooterView =[[UIView alloc]init];
+    [self.view addSubview:self.tableView];
     
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab1.center.x, 38);
@@ -276,31 +271,25 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:15];
     lab2.textColor = [UIColor grayColor];
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
-//    lab3.textColor = [UIColor grayColor];
-//    lab3.font = [UIFont fontWithName:@"youyuan" size:13];
-    
+    [self setData];
 }
 
 //我的粉丝
 -(void)scrollToSaid
 {
+    self.dataArray=nil;
+    [self.tableView removeFromSuperview];
+
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
-//    UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
-    if (_firstStroe==nil)
-    {
-        _firstStroe= [[UITableView alloc] init];
-        _firstStroe.frame = CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64-40);
-        _firstStroe.backgroundColor = kCustomColor(241, 241, 241);
-        _firstStroe.tag=2;
-        _firstStroe.dataSource =self;
-        _firstStroe.delegate =self;
-        _firstStroe.tableFooterView =[[UIView alloc]init];
-
-        [self.homeScroll addSubview:_firstStroe];
-        [self setfirstStroeData];
-    }
-    
+    _fansTableView= [[UITableView alloc] init];
+    _fansTableView.frame = CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40);
+    _fansTableView.backgroundColor = kCustomColor(241, 241, 241);
+    _fansTableView.tag=2;
+    _fansTableView.dataSource =self;
+    _fansTableView.delegate =self;
+    _fansTableView.tableFooterView =[[UIView alloc]init];
+    [self.view addSubview:_fansTableView];
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab2.center.x, 38);
     }];
@@ -308,35 +297,11 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:15];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
-//    lab3.textColor = [UIColor grayColor];
-//    lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    [self setData];
     
 }
 
-////我的粉丝
-//-(void)scrollToMyBuyer
-//{
-//    UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
-//    UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
-//    UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
-//    if (_sceondStroe==nil)
-//    {
-//        _sceondStroe= [[CusFansViewController alloc] initIsY];
-//        _sceondStroe.view.frame = CGRectMake(kScreenWidth*2, 0, kScreenWidth, kScreenHeight-64);
-//        [self.homeScroll addSubview:_sceondStroe.view];
-//    }
-//    
-//    [UIView animateWithDuration:0.25 animations:^{
-//        self.lineLab.center = CGPointMake(lab3.center.x, 38);
-//    }];
-//    lab3.textColor = [UIColor orangeColor];
-//    lab3.font = [UIFont fontWithName:@"youyuan" size:15];
-//    lab1.textColor = [UIColor grayColor];
-//    lab1.font = [UIFont fontWithName:@"youyuan" size:13];
-//    lab2.textColor = [UIColor grayColor];
-//    lab2.font = [UIFont fontWithName:@"youyuan" size:13];
-//    
-//}
+
 
 
 @end

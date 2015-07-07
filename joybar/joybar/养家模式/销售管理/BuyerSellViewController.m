@@ -14,8 +14,8 @@
 #import "Product.h"
 #import "Order.h"
 #import "Orders.h"
-#import "Parameter.h"
 #import "BueryStoreDetailsController.h"
+#import "AppDelegate.h"
 
 @interface BuyerSellViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     BOOL isRefresh;
@@ -169,6 +169,7 @@
     };
     
     [self setData];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"PaySuccessNotification" object:self userInfo:nil];
 
 }
 
@@ -287,10 +288,16 @@
         UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(0, viewY-46, kScreenWidth, 45)];
         btn.tag =section;
         btn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:13];
-        [btn setTitle:@"确认退款" forState:UIControlStateNormal];
+        if (o.IsGoodsPick) {
+            [btn setTitle:@"充值并退款" forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+
+        }else{
+            [btn setTitle:@"确认退款" forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(showCountClick:) forControlEvents:UIControlEventTouchUpInside];
+        }
         [btn setTitleColor:kCustomColor(41, 121, 222) forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
-        [btn addTarget:self action:@selector(showCountClick:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:btn];
         
         UIView * v1=[[UIView alloc]initWithFrame:CGRectMake(0, btn.top, kScreenWidth, 0.5)];
@@ -310,8 +317,7 @@
         orderPLabel.textColor =[UIColor redColor];
     }
     
-  
-    
+
     cooutLabel.font = [UIFont fontWithName:@"youyuan" size:13];
     [view addSubview:cooutLabel];
     
@@ -347,10 +353,81 @@
 }
 
 
+//-(void)showCountClick:(UIButton *)btn{
+//    
+//    [self hudShow:@"正在处理"];
+//    Order *o =self.dataArray[btn.tag];
+//    if (o.OrderNo) {
+//        NSMutableDictionary *dict=[NSMutableDictionary dictionary];
+//        [dict setObject:o.OrderNo forKey:@"OrderNo"];
+//        [HttpTool postWithURL:@"Order/Apply_Rma" params:dict success:^(id json) {
+//            BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+//            if (isSuccessful) {
+//                [self.dataArray removeObject:o];
+//                [self.tableView reloadData];
+//            }else{
+//                [self showHudFailed:[json objectForKey:@"message"]];
+//            }
+//            [self textHUDHiddle];
+//        } failure:^(NSError *error) {
+//            [self showHudFailed:@"处理失败"];
+//            [self textHUDHiddle];
+//        }];
+//    }else{
+//        [self showHudFailed:@"订单编号不存在"];
+//    }
+//
+//}
 -(void)showCountClick:(UIButton *)btn{
     
-//    orderlist *o =self.dataArray[btn.tag];
+    Order *o =self.dataArray[btn.tag];
+    Product * product =[o.Products firstObject];
+    if (o) {
+        AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle:) name:@"PaySuccessNotification" object:o];
+        [app sendPay_demo:o.OrderNo andName:product.Name andPrice:[o.GoodsAmount stringValue]];
+    }else{
+        [self showHudFailed:@"订单编号不存在"];
+    }
+}
+
+-(void)paySuccessHandle:(NSNotification *)notification
+{
+    [self showHudSuccess:@"支付成功"];
     
+    NSLog(@"%@",[notification description]);
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        [self hudShow:@"正在处理"];
+        Order *o =nil;
+        if (o.OrderNo) {
+            NSMutableDictionary *dict=[NSMutableDictionary dictionary];
+            [dict setObject:o.OrderNo forKey:@"OrderNo"];
+            [HttpTool postWithURL:@"Order/Apply_Rma" params:dict success:^(id json) {
+                BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+                if (isSuccessful) {
+                    [self.dataArray removeObject:o];
+                    [self.tableView reloadData];
+                }else{
+                    [self showHudFailed:[json objectForKey:@"message"]];
+                }
+                [self textHUDHiddle];
+            } failure:^(NSError *error) {
+                [self showHudFailed:@"处理失败"];
+                [self textHUDHiddle];
+            }];
+        }else{
+            [self showHudFailed:@"订单编号不存在"];
+        }
+
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    });
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PaySuccessNotification" object:nil];
 }
 
 

@@ -51,6 +51,7 @@
     [self setData];
 }
 -(void)setData{
+    [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
     NSMutableDictionary *dict= [[NSMutableDictionary alloc]init];
     [dict setObject:self.Id forKey:@"promotionId"];
     [HttpTool postWithURL:@"Promotion/Detail" params:dict success:^(id json) {
@@ -59,9 +60,12 @@
             self.dataArray =[json objectForKey:@"data"];
             self.historyArray =[[json objectForKey:@"data"] objectForKey:@"history"];
             [self.tableView reloadData];
+        }else{
+            [self showHudFailed:@"加载失败"];
         }
+        [SVProgressHUD dismiss];
     } failure:^(NSError *error) {
-        
+        [SVProgressHUD dismiss];
     }];
 }
 #pragma mark tableViewDelegate
