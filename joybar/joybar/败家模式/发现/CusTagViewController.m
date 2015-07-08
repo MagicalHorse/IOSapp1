@@ -84,7 +84,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.BrandId forKey:@"BrandId"];
-    [dic setObject:[NSString stringWithFormat:@"%ld",self.pageNum] forKey:@"Page"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dic setObject:@"24" forKey:@"PageSize"];
     [HttpTool postWithURL:@"Product/GetProductListByBrandId" params:dic success:^(id json) {
         
@@ -129,11 +129,11 @@
     cell.contentView.backgroundColor =kCustomColor(234, 239, 239);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    
     if (self.tagArr.count>0)
     {
         NSRange range = NSMakeRange(indexPath.row*3, 3);
-        if (self.tagArr.count%3==1 && (indexPath.row == self.tagArr.count/3 + self.tagArr.count%3 - 1)) {
+        if (self.tagArr.count%3==1 && (indexPath.row == self.tagArr.count/3 + self.tagArr.count%3 - 1))
+        {
             range = NSMakeRange(indexPath.row*3, 1);
         }
         

@@ -11,6 +11,9 @@
 #import "AppDelegate.h"
 @interface BaseViewController ()
 
+@property (nonatomic, strong, readonly) UIActivityIndicatorView *spinnerView;
+@property (nonatomic ,strong) UIView *hudBgView;
+
 @end
 
 @implementation BaseViewController
@@ -112,6 +115,32 @@
     UIImageView *retImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 59/7, 110/7)];
     retImage.image = [UIImage imageNamed:@"back.png"];
     [self.retBtn addSubview:retImage];
+}
+
+- (void)showInView:(UIView *)view WithPoint:(CGPoint)point andHeight:(CGFloat)height
+{
+    [self showWithStatus:view WithPoint:point andHeight:height];
+}
+
+- (void)showWithStatus:(UIView *)view WithPoint:(CGPoint)point andHeight:(CGFloat)height
+{
+    _hudBgView = [[UIView alloc] init];
+    _hudBgView.frame = CGRectMake(point.x, point.y, kScreenWidth, height);
+    _hudBgView.backgroundColor = [UIColor whiteColor];
+    [view addSubview:_hudBgView];
+    
+    _spinnerView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    _spinnerView.hidesWhenStopped = YES;
+    _spinnerView.bounds = CGRectMake(0, 0, 37, 37);
+    _spinnerView.center = CGPointMake(view.width/2, self.hudBgView.height/2);
+    [_hudBgView addSubview:_spinnerView];
+    [_spinnerView startAnimating];
+}
+
+- (void)activityDismiss
+{
+    [self.hudBgView removeFromSuperview];
+    [self.spinnerView removeFromSuperview];
 }
 
 /*
@@ -224,7 +253,8 @@
     [self showHud:tip andImg:@"TipViewIcon.png"];
 }
 
-- (void)showHudFailed:(NSString *)tip {
+- (void)showHudFailed:(NSString *)tip
+{
     [self showHud:tip andImg:@"TipViewErrorIcon.png"];
 }
 
@@ -239,6 +269,8 @@
     [t_HUD show:YES];
     [t_HUD hide:YES afterDelay:1.0];
 }
+
+
 
 #pragma mark -
 #pragma mark MBProgressHUDDelegate methods

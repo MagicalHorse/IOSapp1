@@ -147,6 +147,15 @@
         [self.sendMessageDelegate changeTableViewFrameWhileShow:YES];
     }
 }
+-(void)handleProLinkDelegate:(NSArray *)proArr
+{
+    [self.sendMessageDelegate selectProLink:proArr];
+}
+
+-(void)handleImage:(NSData *)data
+{
+    [self.sendMessageDelegate selectImage:data];
+}
 
 //功能列表按钮
 - (IBAction)moreBtnAction:(id)sender
@@ -178,7 +187,6 @@
         self.moreView = [[[NSBundle mainBundle]loadNibNamed:@"MessageMoreView" owner:self options:nil] lastObject];
         self.moreView.messageMoreDelegate = self;
         [self.viewController.view addSubview:self.moreView];
-        
     }
 //    self.moreView.transform = CGAffineTransformIdentity;
     self.moreView.frame = CGRectMake(0, kScreenHeight-164, kScreenWidth, 164);
@@ -209,7 +217,8 @@
             self.faceView.transform = CGAffineTransformTranslate(self.faceView.transform, 0, kScreenHeight-49);
         }
         if (self.openListView && self.moreView != nil) {
-            self.moreView.transform = CGAffineTransformTranslate(self.faceView.transform, 0, kScreenHeight-49);
+//            self.moreView.transform = CGAffineTransformTranslate(self.faceView.transform, 0, kScreenHeight-49);
+            self.moreView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 164);
         }
         self.openKeyBoard = YES;
     }];
@@ -223,6 +232,7 @@
     [UIView animateWithDuration:0.25 animations:^{
         self.openKeyBoard = NO;
         self.frame = CGRectMake(0, self.viewController.view.frame.size.height-49, kScreenWidth, 49);
+        
     }];
 }
 

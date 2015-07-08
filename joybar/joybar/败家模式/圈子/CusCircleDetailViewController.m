@@ -485,6 +485,7 @@
     if (btn.tag-1000==self.circleData.Users.count)
     {
         CusInviteFriendViewController *VC = [[CusInviteFriendViewController alloc] init];
+        VC.circleId = self.circleId;
         [self.navigationController pushViewController:VC animated:YES];
     }
 

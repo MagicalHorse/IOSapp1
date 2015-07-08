@@ -193,10 +193,14 @@
     [dic setValue:@"6" forKey:@"pagesize"];
     if (!isRefresh)
     {
-        [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
+        [self showInView:self.homeScroll WithPoint:CGPointMake(kScreenWidth, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Product/MyBuyer" params:dic success:^(id json) {
         
+        [self activityDismiss];
+
+        NSLog(@"我的买手");
+
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSDictionary *dic = [[json objectForKey:@"data"] objectForKey:@"items"];
@@ -213,7 +217,6 @@
             }
             
             [self.myBuyerTableView.dataArr addObjectsFromArray:self.data.Products];
-            
         }
         else
         {
@@ -221,7 +224,6 @@
         }
         [self.myBuyerTableView reloadData];
         [self.myBuyerTableView endRefresh];
-        [SVProgressHUD dismiss];
         
     } failure:^(NSError *error) {
         
@@ -235,12 +237,15 @@
     [dic setValue:@"6" forKey:@"pagesize"];
     if (!isRefresh)
     {
-        [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
+        [self showInView:self.homeScroll WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
+//    [self hudShow];
     [HttpTool postWithURL:@"Product/Index" params:dic success:^(id json) {
         
+        [self activityDismiss];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
+            NSLog(@"买手街");
             NSDictionary *dic = [[json objectForKey:@"data"] objectForKey:@"items"];
             _data = [HomeData objectWithKeyValues:dic];
             if (_data.Products.count<6)
@@ -262,8 +267,8 @@
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [SVProgressHUD dismiss];
 
+//        [self hiddleHud];
         [self.homeTableView reloadData];
         [self.homeTableView endRefresh];
         

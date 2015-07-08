@@ -55,6 +55,9 @@
     self.dynamicTableView = [[DynamicTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     [self.messageScroll addSubview:self.dynamicTableView];
     
+    [self.msgTableView hiddenFooter:YES];
+    [self.msgTableView hiddenHeader:YES];
+
     [self initWithNavView];
 }
 
@@ -70,7 +73,7 @@
     [dic setObject:@"1" forKey:@"page"];
     [dic setObject:@"10000" forKey:@"pagesize"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [HttpTool postWithURL:@"Community/GetMessagesList" params:nil success:^(id json) {
+    [HttpTool postWithURL:@"Community/GetMessagesList" params:dic success:^(id json) {
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if([[json objectForKey:@"isSuccessful"] boolValue])
@@ -167,9 +170,11 @@
     self.startX = scrollView.contentOffset.x;
 }
 
-//推荐圈子
+
 -(void)scrollToMessage
 {
+    [self.msgTableView.dataArr removeAllObjects];
+    [self getMessageList];
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
     
@@ -182,7 +187,6 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:15];
 }
 
-//我的圈子
 -(void)scrollToDynamic
 {
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];

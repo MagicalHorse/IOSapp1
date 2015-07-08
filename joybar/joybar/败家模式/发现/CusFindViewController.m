@@ -145,7 +145,7 @@
     [dic setValue:@"6" forKey:@"pagesize"];
     if (!isRefresh)
     {
-        [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
+        [self showInView:self.scroll WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Product/GetBrandProductList" params:dic success:^(id json) {
         
@@ -171,7 +171,7 @@
         }
         [self.findTableView reloadData];
         [self.findTableView endRefresh];
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         
     } failure:^(NSError *error) {
         
@@ -186,7 +186,7 @@
     [dic setValue:@"0" forKey:@"CityId"];
     if (!isRefresh)
     {
-        [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
+        [self showInView:self.scroll WithPoint:CGPointMake(kScreenWidth, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Product/GetCityProductList" params:dic success:^(id json) {
         
@@ -211,7 +211,7 @@
         }
         [self.nearTableView reloadData];
         [self.nearTableView endRefresh];
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         
     } failure:^(NSError *error) {
         

@@ -128,7 +128,7 @@
 //按钮选中事件
 - (void)SelectedTabBarIndex:(UIButton*)button
 {
-    if (button.tag-100==2||button.tag-100==4)
+    if (button.tag-100==2||button.tag-100==4||button.tag-100==1)
     {
         NSDictionary *dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfo"];
         if (!dic)

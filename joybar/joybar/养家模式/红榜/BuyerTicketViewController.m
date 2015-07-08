@@ -43,7 +43,8 @@
 }
 -(void)setData{
     
-    [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
+    [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64-49];
+
     [HttpTool postWithURL:@"Promotion/List" params:nil success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
@@ -52,10 +53,10 @@
         }else{
             [self showHudFailed:@"加载失败"];
         }
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         
     } failure:^(NSError *error) {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
     }];
 }
 

@@ -76,18 +76,24 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.myCircleTableView.dataArr removeAllObjects];
+    [self getMyCircleData:YES];
+}
+
 -(void)initWithMyCircleTalbeView
 {
     self.myCircleTableView = [[MyCircleTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     [self.circleScroll addSubview:self.myCircleTableView];
     
-    __weak CusCircleViewController *VC = self;
-    self.myCircleTableView.headerRereshingBlock = ^()
-    {
-        [VC.myCircleTableView.dataArr removeAllObjects];
-        VC.pageNum = 1;
-        [VC getMyCircleData:YES];
-    };
+//    __weak CusCircleViewController *VC = self;
+//    self.myCircleTableView.headerRereshingBlock = ^()
+//    {
+//        [VC.myCircleTableView.dataArr removeAllObjects];
+//        VC.pageNum = 1;
+//        [VC getMyCircleData:YES];
+//    };
 }
 
 -(void)initWithNavView
@@ -143,11 +149,11 @@
     [dic setObject:@"6" forKey:@"pagesize"];
     if (!isRefresh)
     {
-        [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
+        [self showInView:self.circleScroll WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Community/GetRecommendGroup" params:dic success:^(id json) {
         
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
@@ -173,20 +179,27 @@
 -(void)getMyCircleData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
+    [dic setObject:@"1" forKey:@"page"];
     [dic setObject:@"10000" forKey:@"pagesize"];
     if (!isRefresh)
     {
-        [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight-64-49];
+        [self showInView:self.circleScroll WithPoint:CGPointMake(kScreenWidth, 0) andHeight:kScreenHeight-64-49];
     }
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [HttpTool postWithURL:@"Community/GetMyGroup" params:dic success:^(id json) {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
             [self.myCircleTableView.dataArr addObjectsFromArray:arr];
             [self.myCircleTableView endRefresh];
             [self.myCircleTableView reloadData];
+            
+            [self.myCircleTableView hiddenHeader:YES];
+            
+            [self.myCircleTableView hiddenFooter:YES];
+
         }
         else
         {
@@ -254,7 +267,6 @@
 //推荐圈子
 -(void)scrollToRecommendCircle
 {
-    
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
     
@@ -286,7 +298,6 @@
     //    {
     [self.myCircleTableView.dataArr removeAllObjects];
     [self getMyCircleData:YES];
-    //    }
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
     

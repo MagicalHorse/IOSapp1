@@ -20,7 +20,7 @@
 //typedef NSUInteger SVProgressHUDMaskType;
 
 @interface SVProgressHUD : UIView
-+ (void)showInView:(UIView *)view WithY:(CGFloat)y andHeight:(CGFloat)height;
++ (void)showInView:(UIView *)view WithPoint:(CGPoint)point andHeight:(CGFloat)height;
 + (void)dismiss;
 
 @end

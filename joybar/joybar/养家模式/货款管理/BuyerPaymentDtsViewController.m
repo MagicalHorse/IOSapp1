@@ -54,7 +54,8 @@
 -(void)setData
 {
     if (isRefresh) {
-        [SVProgressHUD showInView:self.view WithY:64+40 andHeight:kScreenHeight-64-40];
+        [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
+
     }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     
@@ -99,7 +100,7 @@
         [self.tableView1 reloadData];
         [self.tableView reloadData];
         [self.tableView1 endRefresh];
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         [self.tableView endRefresh];
         isRefresh =NO;
       
@@ -107,7 +108,7 @@
         [self.tableView1 reloadData];
         [self.tableView reloadData];
         [self.tableView1 endRefresh];
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         [self.tableView endRefresh];
     }];
 }
@@ -381,27 +382,27 @@
 {
     if (tap.view.tag==1000)
     {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         isRefresh=YES;
         [self scrollToBuyerStreet];
         
     }
     else if(tap.view.tag==1001)
     {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         isRefresh=YES;
         [self scrollToSaid];
     }
     else if(tap.view.tag==1002)
     {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         isRefresh=YES;
         [self scrollToMyBuyer];
     }
     else
     {
         isRefresh=YES;
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         [self scrollToMyBuyer1];
     }
 }

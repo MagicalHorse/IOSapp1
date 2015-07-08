@@ -25,7 +25,7 @@ typedef NSUInteger isFromType;
 @property (nonatomic ,assign) isFromType isFrom;
 //@property (assign, nonatomic) id<MessageTableViewScrollViewDelegate>messageScrollDelegate;
 
--(instancetype)initWithUserId:(NSString *)userId AndTpye:(int)type andUserName:(NSString *)Username andRoomId:(NSString *)roomId;
+-(instancetype)initWithUserId:(NSString *)userId AndTpye:(int)type andUserName:(NSString *)Username;
 
 
 @end

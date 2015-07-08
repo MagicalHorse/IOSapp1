@@ -186,7 +186,8 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.userId forKey:@"userid"];
-    [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight];
+    [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight];
+
     [HttpTool postWithURL:@"User/GetUserInfo" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
@@ -202,7 +203,7 @@
         {
             
         }
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         
     } failure:^(NSError *error) {
         

@@ -99,7 +99,7 @@
 -(void)setData
 {
     if (isRefresh) {
-        [SVProgressHUD showInView:self.view WithY:64+40 andHeight:kScreenHeight-64-40];
+        [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
     }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     [dict setObject:@"1" forKey:@"Page"];
@@ -135,12 +135,12 @@
             [self showHudFailed:@"加载失败"];
         }
         [self.tableView reloadData];
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         [self.tableView endRefresh];
         isRefresh =NO;
     } failure:^(NSError *error) {
         [self.tableView endRefresh];
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         NSLog(@"%@",[error description]);
     }];
 }
@@ -181,7 +181,7 @@
 {
     if (tap.view.tag==1000)
     {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
 
         type=1;
         isRefresh=YES;
@@ -189,17 +189,17 @@
     }
     else if(tap.view.tag==1001)
     {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         isRefresh=YES;
         type=2;
         [self scrollToSaid];
     }
     else
     {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         isRefresh=YES;
         type=3;
-        [self scrollToMyBuyer];
+        [self activityDismiss];
     }
 }
 

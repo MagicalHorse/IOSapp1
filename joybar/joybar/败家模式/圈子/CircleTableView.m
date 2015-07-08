@@ -42,7 +42,8 @@
     if (self.dataArr.count>0)
     {
         NSRange range = NSMakeRange(indexPath.row*2, 2);
-        if (self.dataArr.count%2==1 && (indexPath.row == self.dataArr.count/2 + self.dataArr.count%2 - 1)) {
+        if (self.dataArr.count%2==1 && (indexPath.row == self.dataArr.count/2 + self.dataArr.count%2 - 1))
+        {
             range = NSMakeRange(indexPath.row*2, 1);
         }
         NSArray *arr  =[self.dataArr subarrayWithRange:range];

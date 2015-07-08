@@ -39,4 +39,6 @@
 - (NSString *)getAsiErrorInfo:(id)error;
 - (NSString *)getasiCompeleteError:(id)result;
 
+- (void)showInView:(UIView *)view WithPoint:(CGPoint)point andHeight:(CGFloat)height;
+- (void)activityDismiss;
 @end
