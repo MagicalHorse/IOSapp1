@@ -130,6 +130,7 @@
         if (isSuccessful) {
             NSMutableArray *array =[json objectForKey:@"data"];
             BuerySotres *stores = [BuerySotres objectWithKeyValues :array];
+            
             if(stores.items.count<6)
             {
                 [self.tableView hiddenFooter:YES];
@@ -189,16 +190,19 @@
         
         cell.shareBtn.tag =indexPath.section;
         [cell.shareBtn addTarget:self action:@selector(shareClcke:) forControlEvents:UIControlEventTouchUpInside];
-        cell.sbBtn.tag =indexPath.section;
         
         if (type ==0) {
             [cell.sbBtn setTitle:@"删除" forState:UIControlStateNormal];
             [cell.sbBtn addTarget:self action:@selector(sbDelClcke:) forControlEvents:UIControlEventTouchUpInside];
+            cell.sbBtn.tag =indexPath.section;
+
             [cell.downBtn setTitle:@"上架" forState:UIControlStateNormal];
             [cell.downBtn addTarget:self action:@selector(downOnClcke:) forControlEvents:UIControlEventTouchUpInside];
             
         }else{
             [cell.sbBtn addTarget:self action:@selector(sbClcke:) forControlEvents:UIControlEventTouchUpInside];
+            cell.sbBtn.tag =indexPath.section;
+
             [cell.downBtn addTarget:self action:@selector(downClcke:) forControlEvents:UIControlEventTouchUpInside];
         }
         
@@ -279,7 +283,8 @@
 -(void)sbClcke:(UIButton *)btn{
     Store *st=[self.dataArray objectAtIndex:btn.tag];
     BuyerIssueViewController *issue =[[BuyerIssueViewController alloc]init];
-    issue.productId=st.ProductId;
+    issue.detail =st.Detail;
+    issue.productId =[st.ProductId stringValue];
     [self.navigationController pushViewController:issue animated:YES];
     
 }

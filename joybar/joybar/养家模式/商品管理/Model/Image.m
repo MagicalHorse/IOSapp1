@@ -1,18 +1,18 @@
 //
-//  Order.m
+//  Image.m
 //  joybar
 //
-//  Created by joybar on 15/5/26.
+//  Created by joybar on 15/7/8.
 //  Copyright (c) 2015年 卢兴. All rights reserved.
 //
 
-#import "Store.h"
+#import "Image.h"
 
-@implementation Store
+@implementation Image
 + (NSDictionary *)objectClassInArray
 {
     return @{
-             @"Detail" : @"Detail",
+             @"Tags" : @"Tag",
              };
     
 }

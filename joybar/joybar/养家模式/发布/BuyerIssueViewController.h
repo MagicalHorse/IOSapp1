@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
+@class Detail;
 
 @interface BuyerIssueViewController : BaseViewController
 @property (nonatomic,strong)UIImage *image;
 @property (nonatomic,strong)NSMutableDictionary *images;
-@property (nonatomic,strong)NSNumber *productId;
+@property (nonatomic,strong)Detail *detail;
+@property (nonatomic ,strong)NSString *productId;
 @end

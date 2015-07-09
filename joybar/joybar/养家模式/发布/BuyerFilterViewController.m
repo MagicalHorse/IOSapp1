@@ -15,6 +15,8 @@
 #import "OSSTool.h"
 #import "OSSData.h"
 #import "OSSLog.h"
+#import "Tag.h"
+#import "Image.h"
 
 
 @interface BuyerFilterViewController ()<BuyerTagDelegate,UIActionSheetDelegate>
@@ -22,6 +24,7 @@
     UIImage *cImage;
     CGPoint tagPoint;
     OSSData *osData;
+    Image *imgDic;
 }
 @property (nonatomic,strong)UIView *customInfoView;
 @property (nonatomic,strong)UIView *dscView;
@@ -64,6 +67,13 @@
     }
     return self;
 }
+-(instancetype)initWithImg:(UIImage *)image andImage :(Image *)dic{
+    if (self =[super init]) {
+        cImage=image;
+        imgDic =dic;
+    }
+    return self;
+}
 
 
 - (void)viewDidLoad {
@@ -94,6 +104,37 @@
     
     _bgImage=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 300)];
     _bgImage.image =cImage;
+
+    if(self.imageDic){
+        
+        NSArray *tags =[self.imageDic objectForKey:@"Tags"];
+        if (tags.count>0) {
+            for (int i =0; i<tags.count; i++) {
+                
+                CGFloat x = [[tags[i]objectForKey:@"PosX"] integerValue];
+                CGFloat y = [[tags[i]objectForKey:@"PosY"] integerValue];
+                CGPoint point ={x,y};
+                
+                [self didSelectedTag:[tags[i]objectForKey:@"Name"] AndPoint:point AndSourceId:[tags[i]objectForKey:@"SourceId"] AndSourceType:[tags[i]objectForKey:@"SourceType"]];
+            }
+          
+        }
+        
+        
+    }
+    if(imgDic){
+        NSMutableArray *tags =imgDic.Tags;
+        if (tags.count>0) {
+            for (int i =0; i<tags.count; i++) {
+                Tag *tag =tags[i];
+                CGFloat x = [tag.PosX integerValue];
+                CGFloat y = [tag.PosY integerValue];
+                CGPoint point ={x,y};
+                [self didSelectedTag:tag.Name AndPoint:point AndSourceId:[tag.SourceId stringValue] AndSourceType:[tag.SourceType stringValue]];
+                
+            }
+        }
+    }
     [self.view addSubview:_bgImage];
     _bgImage.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
@@ -157,31 +198,70 @@
     }
 }
 -(void)nextClick{
-    [self hudShow:@"正在加载..."];
-    NSDate *  senddate=[NSDate date];
-    NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
-    [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
-    NSString *  locationString=[dateformatter stringFromDate:senddate];
-    NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
+    
     
     self.issue =[[BuyerIssueViewController alloc]init];
-    
     self.issue.image =self.bgImage.image;
-    OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
-    osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
-    NSData *data = UIImagePNGRepresentation(self.bgImage.image);
-    [osData setData:data withType:@"image/png"];
-    [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
-        if (isSuccess) {
-            self.tempImageName =temp;
-            [self performSelectorOnMainThread:@selector(pushIssue:)withObject:self.issue waitUntilDone:YES];
-        }else{
-            [self showHudFailed:[error description]];
+    if (self.imageDic) {
+        
+        NSMutableDictionary *dict= [NSMutableDictionary dictionary];
+        self.tempImageName =[self.imageDic objectForKey:@"ImageUrl"];
+        [dict setObject:self.tempImageName forKey:@"ImageUrl"];
+        [dict setObject:self.tagsArray forKey:@"Tags"];
+        
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        if ([self.delegate respondsToSelector:@selector(pop:AndDic:)])
+        {
+            [self.delegate pop:self.bgImage.image AndDic:dict];
         }
-        [self textHUDHiddle];
-    } withProgressCallback:^(float progress) {
-        NSLog(@"%f",progress);
-    }];
+        
+        
+    }else if(imgDic){
+        
+        NSMutableDictionary *dict= [NSMutableDictionary dictionary];
+        self.tempImageName =imgDic.ImageUrl;
+        [dict setObject:self.tempImageName forKey:@"ImageUrl"];
+        if (imgDic.Tags.count>0) {
+            [dict setObject:imgDic.Tags forKey:@"Tags"];
+        }else{
+            [dict setObject:@"" forKey:@"Tags"];
+            
+        }
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        if ([self.delegate respondsToSelector:@selector(pop:AndDic:)])
+        {
+            [self.delegate pop:self.bgImage.image AndDic:dict];
+        }
+       
+       
+    }
+    else{
+        [self hudShow:@"正在加载..."];
+        NSDate *  senddate=[NSDate date];
+        NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+        [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
+        NSString *  locationString=[dateformatter stringFromDate:senddate];
+        NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
+        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
+        osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
+        NSData *data = UIImagePNGRepresentation(self.bgImage.image);
+        [osData setData:data withType:@"image/png"];
+        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+            if (isSuccess) {
+                self.tempImageName =temp;
+                [self performSelectorOnMainThread:@selector(pushIssue:)withObject:self.issue waitUntilDone:YES];
+            }else{
+                [self showHudFailed:[error description]];
+            }
+            [self textHUDHiddle];
+        } withProgressCallback:^(float progress) {
+            NSLog(@"%f",progress);
+        }];
+    }
+    
+    
     
 }
 -(void)pushIssue :(BuyerIssueViewController *)issue{
@@ -190,6 +270,7 @@
     NSMutableDictionary *dict= [NSMutableDictionary dictionary];
     [dict setObject:self.tempImageName forKey:@"ImageUrl"];
     [dict setObject:self.tagsArray forKey:@"Tags"];
+    
     issue.images =dict;
     [self.navigationController pushViewController:issue animated:YES];
     
@@ -197,7 +278,6 @@
     {
         [self.delegate choose:cImage andImgs:dict];
     }
-    
     
 }
 
@@ -252,8 +332,12 @@
     }
     if ([(UIPanGestureRecognizer *)pan state] == UIGestureRecognizerStateEnded)
     {
-//        CGPoint point = [pan locationInView:pan.view];
-        NSLog(@"%f---%f",pan.view.frame.origin.x,pan.view.frame.origin.y);
+        if (self.tagsArray) {
+            for (int i =0; i<self.tagsArray.count; i++) {
+                [self.tagsArray[i]setObject:@(pan.view.frame.origin.x) forKey:@"PosX"];
+                [self.tagsArray[i]setObject:@(pan.view.frame.origin.y) forKey:@"PosY"];
+            }
+        }
     }
 }
 //BuyerTagDelegate
@@ -288,12 +372,13 @@
     tagLab.text = tag;
     [tagImage addSubview:tagLab];
     
-    [self.tagArray setObject:tagText forKey:@"Name"];
-    [self.tagArray setObject:@(point.x) forKey:@"PosX"];
-    [self.tagArray setObject:@(point.y) forKey:@"PosY"];
-    [self.tagArray setObject:sourceId forKey:@"SourceId"];
-    [self.tagArray setObject:sourceType forKey:@"SourceType"];
-    [self.tagsArray addObject:self.tagArray];
+    NSMutableDictionary *tagArray =[NSMutableDictionary dictionary];
+    [tagArray setObject:tagText forKey:@"Name"];
+    [tagArray setObject:@(point.x) forKey:@"PosX"];
+    [tagArray setObject:@(point.y) forKey:@"PosY"];
+    [tagArray setObject:sourceId forKey:@"SourceId"];
+    [tagArray setObject:sourceType forKey:@"SourceType"];
+    [self.tagsArray addObject:tagArray];
     
 
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panTagImageView:)];

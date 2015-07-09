@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class Detail;
 @interface Store : NSObject
 
 @property (nonatomic,strong)NSNumber* BrandId;
@@ -18,5 +18,6 @@
 @property (nonatomic,strong)NSNumber *ProductId;
 @property (nonatomic,copy)NSString* ProductName;
 @property (nonatomic,strong)NSString* StoreItemNo;
+@property (nonatomic,strong)Detail *Detail;
 
 @end
