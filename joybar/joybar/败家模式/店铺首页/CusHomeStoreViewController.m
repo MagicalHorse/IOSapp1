@@ -16,6 +16,7 @@
 #import "MJRefresh.h"
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "CusHomeStoreHeader.h"
+#import "CusChatViewController.h"
 #define CELL_COUNT 30
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 
@@ -186,7 +187,8 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.userId forKey:@"userid"];
-    [SVProgressHUD showInView:self.view WithY:64 andHeight:kScreenHeight];
+    [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight];
+
     [HttpTool postWithURL:@"User/GetUserInfo" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
@@ -202,7 +204,7 @@
         {
             
         }
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         
     } failure:^(NSError *error) {
         
@@ -456,7 +458,9 @@
 //点击私聊
 -(void)didClickChat:(UIButton *)btn
 {
-    
+    CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:self.userId AndTpye:1 andUserName:self.userName];
+    chat.isFrom =isFromPrivateChat;
+    [self.navigationController pushViewController:chat animated:YES];
 }
 
 //点击关注

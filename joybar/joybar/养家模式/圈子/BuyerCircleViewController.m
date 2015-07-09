@@ -50,7 +50,7 @@
 -(void)setData
 {
     if (isRefresh) {
-        [SVProgressHUD showInView:self.view WithY:64+40 andHeight:kScreenHeight-64-40];
+        [self showInView:self.tempView WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
     }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     NSString *url;
@@ -81,10 +81,10 @@
             [self.fansTableView reloadData];
 
         }
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         isRefresh =NO;
     } failure:^(NSError *error) {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         isRefresh =NO;    }];
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -210,14 +210,13 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (type ==2 &&tableView.tag==2) {
         NSString *userid =[[self.dataArray[indexPath.row]objectForKey:@"UserId"]stringValue];
-        CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:[self.dataArray[indexPath.row]objectForKey:@"UserName"] andRoomId:@""];
+        CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:[self.dataArray[indexPath.row]objectForKey:@"UserName"]];
         chat.isFrom =isFromPrivateChat;
         [self.navigationController pushViewController:chat animated:YES];
     }else{
         CusCircleDetailViewController * detail =[[CusCircleDetailViewController alloc]init];
         detail.circleId = [self.dataArray[indexPath.row]objectForKey:@"Id"];
         [self.navigationController pushViewController:detail animated:YES];
-        
     }
 }
 
@@ -230,14 +229,14 @@
 {
     if (tap.view.tag==1000)
     {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         isRefresh =YES;
         type=1;
         [self scrollToBuyerStreet];
     }
     else
     {
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         isRefresh =YES;
         type=2;
         [self scrollToSaid];

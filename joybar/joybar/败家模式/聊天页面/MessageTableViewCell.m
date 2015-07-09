@@ -55,7 +55,12 @@
 //    imageView.clipsToBounds = YES;
     
     UIImageView *ImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 100, 100)];
-    ImgView.backgroundColor = [UIColor redColor];
+    
+    [ImgView sd_setImageWithURL:[NSURL URLWithString:text] placeholderImage:nil];
+    ImgView.contentMode = UIViewContentModeScaleAspectFit;
+    
+//    ImgView.backgroundColor = [UIColor redColor];
+    
 //    if(fromSelf){
 //        NSData *data = [NSData dataFromBase64String:text];
 //        ImgView.image = [UIImage imageWithData:data];

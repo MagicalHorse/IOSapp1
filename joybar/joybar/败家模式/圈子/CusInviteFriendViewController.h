@@ -10,4 +10,6 @@
 
 @interface CusInviteFriendViewController : BaseViewController
 
+@property (nonatomic ,strong) NSString *circleId;
+
 @end

@@ -107,7 +107,7 @@
 -(void)setData{
 
     if (isRefresh) {
-        [SVProgressHUD showInView:self.homeTableView WithY:0 andHeight:kScreenHeight-64-49];
+        [self showInView:self.homeTableView WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
      [HttpTool postWithURL:@"Buyer/Index" params:nil success:^(id json) {
          BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
@@ -121,10 +121,10 @@
 //             [self showHudFailed:@"加载失败"];
          }
          [self textHUDHiddle];
-         [SVProgressHUD dismiss];
+         [self activityDismiss];
          isRefresh=NO;
      } failure:^(NSError *error) {
-         [SVProgressHUD dismiss];
+         [self activityDismiss];
      }];
 }
 -(UIView *)tableHeaderViwe{

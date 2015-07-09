@@ -154,13 +154,9 @@
     [collectBtn addTarget:self action:@selector(didClickCollect:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.contentView addSubview:collectBtn];
     
-
-
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth-260, chatBtn.bottom+10, 240, 30)];
     bgView.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:bgView];
-    
-    
     
     for (int i=0; i<self.homePro.LikeUsers.Users.count; i++)
     {
@@ -186,20 +182,25 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
         [img addGestureRecognizer:tap];
     }
+    UIImageView *nightImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, bgView.bottom+5, kScreenWidth-40, 50)];
+    nightImage.clipsToBounds = YES;
+    nightImage.image = [UIImage imageNamed:@"打烊购框icon"];
+    [self.contentView addSubview:nightImage];
     
-    if (self.homePro.Promotion)
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, kScreenWidth-80, 20)];
+    lab.text = self.homePro.Promotion.DescriptionText;
+    lab.textColor = [UIColor redColor];
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.font = [UIFont fontWithName:@"youyuan" size:14];
+    [nightImage addSubview:lab];
+
+    if (![self.homePro.IsPromotion boolValue])
     {
-        UIImageView *nightImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, bgView.bottom+5, kScreenWidth-40, 50)];
-        nightImage.clipsToBounds = YES;
-        nightImage.image = [UIImage imageNamed:@"打烊购框icon"];
-        [self.contentView addSubview:nightImage];
-        
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, kScreenWidth-80, 20)];
-        lab.text = self.homePro.Promotion.DescriptionText;
-        lab.textColor = [UIColor redColor];
-        lab.textAlignment = NSTextAlignmentCenter;
-        lab.font = [UIFont fontWithName:@"youyuan" size:14];
-        [nightImage addSubview:lab];
+        nightImage.hidden = YES;
+    }
+    else
+    {
+        nightImage.hidden = NO;
     }
 }
 
@@ -240,7 +241,7 @@
         return;
     }
     
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:self.homePro.Buyerid AndTpye:2 andUserName:self.homePro.BuyerName andRoomId:@""];
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:self.homePro.Buyerid AndTpye:2 andUserName:self.homePro.BuyerName];
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 

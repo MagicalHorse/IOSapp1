@@ -37,9 +37,9 @@
     return sharedView;
 }
 #pragma mark - Show Methods
-+ (void)showInView:(UIView *)view WithY:(CGFloat)y andHeight:(CGFloat)height
++ (void)showInView:(UIView *)view WithPoint:(CGPoint)point andHeight:(CGFloat)height
 {
-    [[SVProgressHUD sharedView] showWithStatus:view WithY:y andHeight:height];
+    [[SVProgressHUD sharedView] showWithStatus:view WithPoint:point andHeight:height];
 }
 
 #pragma mark - Dismiss Methods
@@ -52,10 +52,10 @@
 
 #pragma mark - Master show/dismiss methods
 
-- (void)showWithStatus:(UIView *)view WithY:(CGFloat)y andHeight:(CGFloat)height
+- (void)showWithStatus:(UIView *)view WithPoint:(CGPoint)point andHeight:(CGFloat)height
 {
     hudBgView = [[UIView alloc] init];
-    hudBgView.frame = CGRectMake(view.origin.x, y, kScreenWidth, height);
+    hudBgView.frame = CGRectMake(point.x, point.y, kScreenWidth, height);
     hudBgView.backgroundColor = [UIColor whiteColor];
     [view addSubview:hudBgView];
     

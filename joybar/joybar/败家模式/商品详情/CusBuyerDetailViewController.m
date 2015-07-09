@@ -269,8 +269,8 @@
         [dic setObject:@"0" forKey:@"UserId"];
     }
 
-    [SVProgressHUD showInView:self.view WithY:0 andHeight:kScreenHeight];
-
+    [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
+    
     [HttpTool postWithURL:@"Product/GetProductDetail" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
@@ -286,7 +286,7 @@
         {
             
         }
-        [SVProgressHUD dismiss];
+        [self activityDismiss];
         
     } failure:^(NSError *error) {
         
@@ -381,7 +381,7 @@
         case 1000:
         {
             //私聊
-            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName andRoomId:@""];
+            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
             VC.detailData = prodata;
             VC.isFrom = isFromPrivateChat;
             [self.navigationController pushViewController:VC animated:YES];
@@ -396,7 +396,7 @@
         case 1002:
         {
             //我要买
-            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName andRoomId:@""];
+            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
             VC.detailData = prodata;
             VC.isFrom = isFromBuyPro;
             [self.navigationController pushViewController:VC animated:YES];

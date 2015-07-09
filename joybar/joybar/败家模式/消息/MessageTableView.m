@@ -28,7 +28,7 @@
 #pragma mark tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return self.dataArr.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -58,11 +58,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *roomId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"RoomId"];
+//    NSString *roomId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"RoomId"];
     NSString *userId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
     NSString *userName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
 
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:userId AndTpye:2 andUserName:userName andRoomId:roomId];
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:userId AndTpye:2 andUserName:userName];
     VC.isFrom = isFromPrivateChat;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }

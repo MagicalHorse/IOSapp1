@@ -8,14 +8,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CusProLinkViewController.h"
 
 @protocol MessageMoreViewDelegate <NSObject>
 
 -(void)reCreatNewNotification;
 
+-(void)handleProLinkDelegate:(NSArray *)proArr;
+
+-(void)handleImage:(NSData *)data;
+
 @end
 
-@interface MessageMoreView : UIView<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface MessageMoreView : UIView<UIImagePickerControllerDelegate,UINavigationControllerDelegate,proDelegate>
 
 //按钮标题
 @property (strong, nonatomic) NSMutableArray *btnTitle;

@@ -24,6 +24,7 @@
 @property (nonatomic ,assign) CGFloat startX;
 @property (nonatomic ,assign) CGFloat endX;
 
+@property (nonatomic ,assign) NSInteger pageNum;
 
 
 
@@ -36,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.pageNum = 1;
     self.messageScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64)];
     self.messageScroll.contentSize = CGSizeMake(kScreenWidth*2, 0);
     self.messageScroll.alwaysBounceVertical = NO;
@@ -52,8 +53,7 @@
     self.msgTableView = [[MessageTableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     [self.messageScroll addSubview:self.msgTableView];
     
-    self.dynamicTableView = [[DynamicTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
-    [self.messageScroll addSubview:self.dynamicTableView];
+    
     
     [self initWithNavView];
 }
@@ -70,13 +70,12 @@
     [dic setObject:@"1" forKey:@"page"];
     [dic setObject:@"10000" forKey:@"pagesize"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [HttpTool postWithURL:@"Community/GetMessagesList" params:nil success:^(id json) {
+    [HttpTool postWithURL:@"Community/GetMessagesList" params:dic success:^(id json) {
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
-            
             [self.msgTableView.dataArr addObjectsFromArray:arr];
             [self.msgTableView reloadData];
         }
@@ -87,6 +86,44 @@
         
     } failure:^(NSError *error) {
         [self showHudFailed:@"请求失败"];
+    }];
+}
+
+-(void)getDynamicData:(BOOL)isRefresh
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
+    [dic setObject:@"10" forKey:@"pagesize"];
+    if (!isRefresh)
+    {
+        [self showInView:self.messageScroll WithPoint:CGPointMake(kScreenWidth, 0) andHeight:kScreenHeight-64-49];
+    }
+    [HttpTool postWithURL:@"Community/UserDynamic" params:dic success:^(id json) {
+        
+        [self activityDismiss];
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            if(arr.count<10)
+            {
+                [self.dynamicTableView hiddenFooter:YES];
+            }
+            else
+            {
+                [self.dynamicTableView hiddenFooter:NO];
+            }
+            [self.dynamicTableView.dataArr addObjectsFromArray:arr];
+            [self.dynamicTableView reloadData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        
+        [self showHudFailed:@"请求失败"];
+
     }];
 }
 
@@ -167,9 +204,10 @@
     self.startX = scrollView.contentOffset.x;
 }
 
-//推荐圈子
 -(void)scrollToMessage
 {
+    [self.msgTableView.dataArr removeAllObjects];
+    [self getMessageList];
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
     
@@ -182,9 +220,31 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:15];
 }
 
-//我的圈子
 -(void)scrollToDynamic
 {
+    
+    if (!self.dynamicTableView)
+    {
+        self.dynamicTableView = [[DynamicTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
+        [self.messageScroll addSubview:self.dynamicTableView];
+        
+        __weak CusMessageViewController *VC = self;
+        self.dynamicTableView.headerRereshingBlock = ^()
+        {
+            [VC.dynamicTableView.dataArr removeAllObjects];
+            VC.pageNum=1;
+            [VC getDynamicData:YES];
+        };
+        
+        self.dynamicTableView.footerRereshingBlock = ^()
+        {
+            VC.pageNum++;
+            [VC getDynamicData:YES];
+        };
+
+        
+        [self getDynamicData:NO];
+    }
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
     

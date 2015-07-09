@@ -38,7 +38,10 @@
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     [cell layoutIfNeeded];
-    [cell setData:[self.dataArr objectAtIndex:indexPath.row]];
+    if (self.dataArr.count>0)
+    {
+        [cell setData:[self.dataArr objectAtIndex:indexPath.row]];
+    }
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -50,7 +53,7 @@
 {
     NSString *circleId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
     NSString *circleName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:circleId AndTpye:2 andUserName:circleName andRoomId:@""];
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:circleId AndTpye:2 andUserName:circleName];
     VC.circleId = circleId;
     VC.isFrom = isFromGroupChat;
     [self.viewController.navigationController pushViewController:VC animated:YES];

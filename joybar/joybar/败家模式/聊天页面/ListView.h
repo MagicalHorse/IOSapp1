@@ -17,6 +17,10 @@
 - (void)changeTableViewFrameWhileShow:(BOOL)isAction;
 
 - (void)changeTableViewFrameWhileHidden;
+
+- (void)selectProLink:(NSArray *)arr;
+
+- (void)selectImage:(NSData *)data;
 @end
 
 @interface ListView : UIView<FaceVIewItemClickDelegate,UITextViewDelegate,MessageMoreViewDelegate>
@@ -43,8 +47,6 @@
 @property (strong, nonatomic) FaceScroller *faceView;
 
 @property (strong, nonatomic) MessageMoreView *moreView;
-
-
 
 //  键盘是否开启
 @property (nonatomic) BOOL openKeyBoard;

@@ -7,7 +7,6 @@
 //
 
 #import "MessageMoreView.h"
-#import "CusProLinkViewController.h"
 //#import "PECropViewController.h"
 
 @implementation MessageMoreView
@@ -94,6 +93,7 @@
         {
             CusProLinkViewController *VC = [[CusProLinkViewController alloc] init];
             VC.titleStr = @"发送链接";
+            VC.delegate = self;
             [self.viewController.navigationController pushViewController:VC animated:YES];
         }
             break;
@@ -102,12 +102,18 @@
         {
             CusProLinkViewController *VC = [[CusProLinkViewController alloc] init];
             VC.titleStr = @"我的收藏";
+            VC.delegate = self;
             [self.viewController.navigationController pushViewController:VC animated:YES];
         }
             break;
         default:
             break;
     }
+}
+
+-(void)selectPro:(NSArray *)arr
+{
+    [self.messageMoreDelegate handleProLinkDelegate:arr];
 }
 
 - (void)imagePickerViewController:(NSString *)type
@@ -175,9 +181,10 @@
     
     UIImage *selectImg = [info objectForKey:UIImagePickerControllerOriginalImage];
     NSData *data = UIImageJPEGRepresentation(selectImg, 0.1);
+    [self.messageMoreDelegate handleImage:data];
     [picker dismissViewControllerAnimated:YES completion:^{
     }];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"sendImage" object:data];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"sendImage" object:data];
 }
 
 //- (void)cropViewController:(PECropViewController *)controller didFinishCroppingImage:(UIImage *)croppedImage
@@ -206,5 +213,7 @@
         
     }];
 }
+
+
 
 @end

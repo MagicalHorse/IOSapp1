@@ -184,16 +184,17 @@
             [self.selectProArr addObject:proDic];
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"selectProNot" object:self.selectProArr];
-//    NSLog(@"%@",self.selectProArr);
     [self.navigationController popViewControllerAnimated:YES];
+    
+    [self.delegate selectPro:self.selectProArr];
+
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"selectProNot" object:self.selectProArr];
+    
+//    NSLog(@"%@",self.selectProArr);
 }
 
 -(void)didClickSelectProBtn:(UIButton *)btn
 {
-//    [self.isSelectArr setObject:@"1" atIndexedSubscript:btn.tag-1000];
-    
-    
     NSString *str = [self.isSelectArr objectAtIndex:btn.tag-1000];
     if ([str isEqualToString:@"0"])
     {

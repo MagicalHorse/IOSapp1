@@ -23,6 +23,5 @@
 #import "MJExtension.h"
 #import "BaseTableView.h"
 #import "SocketManager.h"
-#import "SVProgressHUD.h"
 #import "payRequsestHandler.h"
 #endif

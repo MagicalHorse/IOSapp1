@@ -28,21 +28,22 @@
     [super viewDidLoad];
     self.isSelectArr = [NSMutableArray array];
     
+    _dataBase = [[NSMutableArray alloc] init] ;
     [self addNavBarViewAndTitle:@"邀请好友"];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49)style:(UITableViewStylePlain)];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.view addSubview:self.tableView];
-    //改变索引的颜色
-    self.tableView.sectionIndexColor = [UIColor blueColor];
-    //改变索引选中的背景颜色
-    self.tableView.sectionIndexTrackingBackgroundColor = [UIColor orangeColor];
-    //索引数组
-    _dataSource = [[NSMutableArray alloc] init] ;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+//    //改变索引的颜色
+//    self.tableView.sectionIndexColor = [UIColor blueColor];
+//    //改变索引选中的背景颜色
+//    self.tableView.sectionIndexTrackingBackgroundColor = [UIColor orangeColor];
+//    //索引数组
+//    _dataSource = [[NSMutableArray alloc] init] ;
     //tableview 数据源
-    _dataBase = [[NSMutableArray alloc] init] ;
-        
+    
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
     bottomView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:bottomView];
@@ -80,17 +81,16 @@
 
 -(void)getCityData
 {
-    [HttpTool postWithURL:@"Common/GetCityList" params:nil success:^(id json) {
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.circleId forKey:@"groupid"];
+    [HttpTool postWithURL:@"Community/GetValidFansListToGroup" params:dic success:^(id json) {
         NSLog(@"%@",json);
         
-        self.dataBase = [json objectForKey:@"data"];
-        
-        for (int i=0; i<self.dataBase.count; i++)
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            NSString *key = [[self.dataBase objectAtIndex:i] objectForKey:@"key"];
-            [self.dataSource addObject:key];
+            NSArray *arr =[json objectForKey:@"data"];
+            [self.dataBase addObjectsFromArray:arr];
             
-            NSArray *arr = [[self.dataBase objectAtIndex:i] objectForKey:@"cities"];
             NSMutableArray *array = [NSMutableArray array];
             for (int j=0; j<arr.count; j++)
             {
@@ -98,60 +98,60 @@
             }
             
             [self.isSelectArr addObject:array];
+            
+            [self.tableView reloadData];
         }
-        
-        NSLog(@"%@",self.isSelectArr);
-        
-        
-        
-        [self.tableView reloadData];
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
         
         
     } failure:^(NSError *error) {
-        
+        [self showHudFailed:@"请求失败"];
     }];
     
 }
-//返回索引数组
--(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-{
-    return _dataSource;
-}
-
-//响应点击索引时的委托方法
--(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-{
-    NSInteger count = 0;
-    
-    for(NSString *character in _dataSource)
-    {
-        if([character isEqualToString:title])
-        {
-            return count;
-        }
-        count ++;
-    }
-    return 0;
-}
-
-
-//返回section的个数
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return [_dataSource count];
-}
-
-//返回每个索引的内容
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return [_dataSource objectAtIndex:section];
-}
+////返回索引数组
+//-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+//{
+//    return _dataSource;
+//}
+//
+////响应点击索引时的委托方法
+//-(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
+//{
+//    NSInteger count = 0;
+//    
+//    for(NSString *character in _dataSource)
+//    {
+//        if([character isEqualToString:title])
+//        {
+//            return count;
+//        }
+//        count ++;
+//    }
+//    return 0;
+//}
+//
+//
+////返回section的个数
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//    // Return the number of sections.
+//    return [_dataSource count];
+//}
+//
+////返回每个索引的内容
+//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+//{
+//    return [_dataSource objectAtIndex:section];
+//}
 
 //返回每个section的行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[[self.dataBase objectAtIndex:section] objectForKey:@"cities"] count];
+    return self.dataBase.count;
 }
 
 //cell内容
@@ -169,46 +169,47 @@
     {
         [view removeFromSuperview];
     }
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    UIImageView *selectImage = [[UIImageView alloc] initWithFrame:CGRectMake(11, 17, 18, 18)];
-    selectImage.tag = indexPath.row+1000+10*indexPath.section;
-    if([[[self.isSelectArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] isEqualToString:@"0"])
+
+    if (self.dataBase.count>0)
     {
-        selectImage.image = [UIImage imageNamed:@"圈icon"];
+        NSDictionary *dic = [self.dataBase objectAtIndex:indexPath.row];
+        UIImageView *selectImage = [[UIImageView alloc] initWithFrame:CGRectMake(11, 17, 18, 18)];
+        selectImage.tag = indexPath.row+1000+10*indexPath.section;
+        if([[[self.isSelectArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] isEqualToString:@"0"])
+        {
+            selectImage.image = [UIImage imageNamed:@"圈icon"];
+        }
+        else
+        {
+            selectImage.image = [UIImage imageNamed:@"对号icon"];
+        }
+        [cell.contentView addSubview:selectImage];
+        
+        UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(selectImage.right+10, 5, 45, 45)];
+        [headerImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"UserLogo"]] placeholderImage:nil];
+        headerImage.clipsToBounds = YES;
+        headerImage.layer.cornerRadius = headerImage.width/2;
+        [cell.contentView addSubview:headerImage];
+        
+        UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImage.right+10, 17, 170, 20)];
+        nameLab.text = [dic objectForKey:@"UserName"];
+        nameLab.font = [UIFont fontWithName:@"youyuan" size:14];
+        [cell.contentView addSubview:nameLab];
     }
-    else
-    {
-        selectImage.image = [UIImage imageNamed:@"对号icon"];
-    }
-    [cell.contentView addSubview:selectImage];
-    
-    UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(selectImage.right+10, 5, 45, 45)];
-    headerImage.backgroundColor = [UIColor orangeColor];
-    headerImage.layer.cornerRadius = headerImage.width/2;
-    [cell.contentView addSubview:headerImage];
-    
-    UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImage.right+10, 17, 170, 20)];
-    nameLab.text = [[[[self.dataBase objectAtIndex:indexPath.section] objectForKey:@"cities"] objectAtIndex:indexPath.row] objectForKey:@"name"];
-    nameLab.font = [UIFont fontWithName:@"youyuan" size:14];
-    [cell.contentView addSubview:nameLab];
-    
-    
-    
     return cell;
 }
 
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return YES;
-}
-
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
-}
+//// Override to support conditional editing of the table view.
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return YES;
+//}
+//
+//-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
+//}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -270,7 +271,10 @@
 //确定
 -(void)didClickSureBtn:(UIButton *)btn
 {
-    
+    for (int i=0; i<self.dataBase.count; i++)
+    {
+        
+    }
 }
 
 @end
