@@ -187,8 +187,9 @@
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [HttpTool postWithURL:@"Community/GetMyGroup" params:dic success:^(id json) {
+
         [self activityDismiss];
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];

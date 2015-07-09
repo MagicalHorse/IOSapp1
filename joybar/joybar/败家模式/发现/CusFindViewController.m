@@ -261,6 +261,7 @@
 //品牌
 -(void)scrollToFirst
 {
+    [self activityDismiss];
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
     
@@ -276,7 +277,7 @@
 //同城
 -(void)scrollToSecond
 {
-    
+    [self activityDismiss];
     if (self.nearTableView.dataArr.count==0)
     {
         [self getNearData:NO];

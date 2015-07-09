@@ -140,7 +140,7 @@
 - (void)activityDismiss
 {
     [self.hudBgView removeFromSuperview];
-    [self.spinnerView removeFromSuperview];
+//    [self.spinnerView removeFromSuperview];
 }
 
 /*

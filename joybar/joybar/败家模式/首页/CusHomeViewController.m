@@ -136,6 +136,7 @@
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2+40)];
     headerView.backgroundColor = [UIColor whiteColor];
     self.homeTableView.tableHeaderView = headerView;
+    self.homeTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
     UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, kScreenWidth/2+10, kScreenWidth, 20)];
     lab.text = @"最新上新";
@@ -239,7 +240,6 @@
     {
         [self showInView:self.homeScroll WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
-//    [self hudShow];
     [HttpTool postWithURL:@"Product/Index" params:dic success:^(id json) {
         
         [self activityDismiss];
@@ -382,15 +382,16 @@
 
 -(void)scrollToMyBuyer
 {
+
     if (![Public getUserInfo])
     {
         [Public showLoginVC:self];
         self.homeScroll.contentOffset = CGPointMake(0, 0);
         return;
     }
+
     [self initWithSecondTableView];
     self.homeScroll.contentOffset = CGPointMake(kScreenWidth, 0);
-
     if (self.myBuyerTableView.dataArr.count==0)
     {
         [self getMyBuyerData:NO];

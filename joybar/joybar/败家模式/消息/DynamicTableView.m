@@ -26,7 +26,7 @@
 #pragma mark tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return self.dataArr.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -43,7 +43,7 @@
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell setData:nil];
+    [cell setData:[self.dataArr objectAtIndex:indexPath.row]];
     return cell;
 }
 
