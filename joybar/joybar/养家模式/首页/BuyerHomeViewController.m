@@ -115,7 +115,7 @@
              self.dataArray = [json objectForKey:@"data"];
              [self.homeTableView reloadData];
              [self.homeTableView endRefresh];
-             [self.img sd_setImageWithURL:[NSURL URLWithString:[self.dataArray objectForKey:@"barcode"]] placeholderImage:nil];
+             [self.img sd_setImageWithURL:[NSURL URLWithString:[self.dataArray objectForKey:@"barcode"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
              self.label.text = [self.dataArray objectForKey:@"shopname"];
          }else{
 //             [self showHudFailed:@"加载失败"];

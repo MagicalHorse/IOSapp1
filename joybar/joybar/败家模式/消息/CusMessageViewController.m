@@ -120,6 +120,8 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
         
+        [self.dynamicTableView endRefresh];
+        
     } failure:^(NSError *error) {
         
         [self showHudFailed:@"请求失败"];

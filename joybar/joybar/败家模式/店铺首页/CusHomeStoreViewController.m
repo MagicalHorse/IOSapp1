@@ -222,7 +222,7 @@
     headerImage.center = CGPointMake(kScreenWidth/2, 45);
     headerImage.bounds = CGRectMake(0, 0, 60, 60);
     headerImage.layer.cornerRadius = headerImage.width/2;
-    [headerImage sd_setImageWithURL:[NSURL URLWithString:self.storeData.Logo] placeholderImage:nil];
+    [headerImage sd_setImageWithURL:[NSURL URLWithString:self.storeData.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [contentView addSubview:headerImage];
     
     UILabel *namelab = [[UILabel alloc] initWithFrame:CGRectMake(0, headerImage.bottom+5, kScreenWidth, 20)];

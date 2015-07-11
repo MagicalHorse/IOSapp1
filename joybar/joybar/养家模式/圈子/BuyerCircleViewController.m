@@ -170,7 +170,7 @@
         if (self.dataArray.count>0) {
             NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",[self.dataArray[indexPath.row] objectForKey:@"Logo"]];
             
-            [cell.circleImg sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+            [cell.circleImg sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.CircleTitel.text =[self.dataArray[indexPath.row] objectForKey:@"Name"];
             cell.circleCout.text =[[self.dataArray[indexPath.row] objectForKey:@"UserCount"] stringValue];
         }
@@ -185,8 +185,8 @@
             cell =[[[NSBundle mainBundle] loadNibNamed:@"BuyerFansTableViewCell" owner:self options:nil] lastObject];
         }
         if (self.dataArray.count>0) {
-            [cell.fansImg sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:nil];
-            [cell.fansIcon sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:nil];
+            [cell.fansImg sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            [cell.fansIcon sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.fansTitle.text =[self.dataArray[indexPath.row] objectForKey:@"UserName"];
             cell.guanzhuLable.text =[[self.dataArray[indexPath.row] objectForKey:@"FavoiteCount"] stringValue];
              cell.fansiLable.text =[[self.dataArray[indexPath.row] objectForKey:@"FansCount"] stringValue];

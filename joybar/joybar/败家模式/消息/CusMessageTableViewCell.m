@@ -24,7 +24,7 @@
     
     UIImageView *headerImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12, 55, 55)];
     headerImg.layer.cornerRadius = headerImg.width/2;
-    [headerImg sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:nil];
+    [headerImg sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:headerImg];
     
     UILabel *msgCountLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right-25, -5, 20, 20)];

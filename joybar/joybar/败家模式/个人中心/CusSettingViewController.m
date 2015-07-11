@@ -296,7 +296,7 @@
         if (indexPath.row==0)
         {
            _headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-110, 15, 70, 70)];
-            [_headImageView sd_setImageWithURL:[NSURL URLWithString:[[Public getUserInfo] objectForKey:@"logo"]] placeholderImage:nil];
+            [_headImageView sd_setImageWithURL:[NSURL URLWithString:[[Public getUserInfo] objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             _headImageView.clipsToBounds = YES;
             
             _headImageView.layer.cornerRadius = _headImageView.width/2;

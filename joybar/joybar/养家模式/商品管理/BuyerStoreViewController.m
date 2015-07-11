@@ -181,7 +181,7 @@
         Store * store =[self.dataArray objectAtIndex:indexPath.section];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",store.Pic];
-        [cell.StoreImgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+        [cell.StoreImgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.StoreName.text =store.BrandName;
         cell.StoreDetails.text =store.ProductName;
         cell.StoreNo.text =store.StoreItemNo;

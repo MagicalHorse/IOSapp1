@@ -14,6 +14,7 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "CusCustomerStoreViewController.h"
+#import "SDWebImageManager.h"
 @implementation CusHomeTableViewCell
 {
     CGFloat cellHeight;
@@ -21,7 +22,7 @@
 -(void)setData:(NSDictionary *)dic
 {
     UIImageView *headImg = [[UIImageView alloc] initWithFrame:CGRectMake(7, 7, 55, 55)];
-    [headImg sd_setImageWithURL:[NSURL URLWithString:self.homePro.BuyerLogo] placeholderImage:[UIImage imageNamed:@"1.jpg"]];
+    [headImg sd_setImageWithURL:[NSURL URLWithString:self.homePro.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     headImg.layer.cornerRadius = headImg.width/2;
     headImg.clipsToBounds = YES;
     headImg.userInteractionEnabled = YES;
@@ -54,7 +55,7 @@
     
     //展示图片
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, locationLab.bottom+17, kScreenWidth, kScreenHeight-350)];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"test.jpg"]];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
     imageView.userInteractionEnabled = YES;
@@ -164,7 +165,7 @@
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(35*i, 0, 30, 30)];
         img.layer.cornerRadius = img.width/2;
         img.clipsToBounds = YES;
-        [img sd_setImageWithURL:[NSURL URLWithString:user.Logo] placeholderImage:[UIImage imageNamed:@"test.jpg"]];
+        [img sd_setImageWithURL:[NSURL URLWithString:user.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         img.backgroundColor = kCustomColor(245, 246, 247);
 
         img.tag = 1000+i;
@@ -212,14 +213,26 @@
         [Public showLoginVC:self.viewController];
         return;
     }
-    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
+    
+    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:self.homePro.ShareLink];
 
-    [UMSocialSnsService presentSnsIconSheetView:self.viewController
-                                         appKey:@"557f8f1c67e58edf32000208"
-                                      shareText:@"友盟社会化分享让您快速实现分享等社会化功能，www.umeng.com/social"
-                                     shareImage:[UIImage imageNamed:@"test1.jpg"]
-                                shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
-                                       delegate:self];
+    
+    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",self.homePro.ProductPic.Name]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        
+        [UMSocialSnsService presentSnsIconSheetView:self.viewController
+                                             appKey:@"557f8f1c67e58edf32000208"
+                                          shareText:@""
+                                         shareImage:image
+                                    shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
+                                           delegate:self];
+
+        
+    }];
+
+    
+    
 }
 //实现回调方法（可选）：
 -(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
@@ -229,6 +242,16 @@
     {
         //得到分享到的微博平台名
         NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+        
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:self.homePro.ProductId forKey:@"productid"];
+        [HttpTool postWithURL:@"Product/CreateShare" params:dic success:^(id json) {
+            
+            
+            
+        } failure:^(NSError *error) {
+                        
+        }];
     }
 }
 
@@ -242,6 +265,7 @@
     }
     
     CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:self.homePro.Buyerid AndTpye:2 andUserName:self.homePro.BuyerName];
+    VC.isFrom = isFromPrivateChat;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 

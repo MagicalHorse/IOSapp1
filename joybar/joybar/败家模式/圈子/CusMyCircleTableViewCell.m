@@ -24,7 +24,7 @@
 
 -(void)setData:(NSDictionary *)dic
 {
-    [self.headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:nil];
+    [self.headImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.nameLab.text = [dic objectForKey:@"Name"];
     self.timeLab.text = [dic objectForKey:@"UnReadLastTime"];
     self.lastMessageLab.text = [dic objectForKey:@"UnReadMessage"];

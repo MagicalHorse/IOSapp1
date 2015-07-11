@@ -33,7 +33,7 @@
     self.payPriceLab.text =[NSString stringWithFormat:@"￥%@",self.orderListItem.Amount];
     self.sizeLab.text = self.orderListItem.Product.Productdesc;
     NSString *tempUrl = [NSString stringWithFormat:@"%@_120x0.jpg",self.orderListItem.Product.Image];
-    [self.proImageView sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:nil];
+    [self.proImageView sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.proImageView.clipsToBounds = YES;
     NSString *status = self.orderListItem.OrderStatus;
     /*
@@ -104,6 +104,7 @@
         AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle) name:@"PaySuccessNotification" object:nil];
         [app sendPay_demo:self.orderListItem.OrderNo andName:self.orderListItem.Product.Name andPrice:self.orderListItem.Amount];
+        
     }
     else if ([btn.titleLabel.text isEqual:@"确认提货"])
     {

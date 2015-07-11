@@ -28,7 +28,7 @@
     
     UIImageView *headerImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12, 55, 55)];
     headerImg.layer.cornerRadius = headerImg.width/2;
-    [headerImg sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:nil];
+    [headerImg sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:headerImg];
     
     UILabel *namelab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right+10, headerImg.top+5, kScreenWidth-250, 20)];
@@ -49,7 +49,7 @@
     [self.contentView addSubview:timeLab];
     
     UIImageView *typeImage =[[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-70 ,headerImg.top , 55, 55)];
-    [typeImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"DataLogo"]] placeholderImage:nil];
+    [typeImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"DataLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:typeImage];
 }
 

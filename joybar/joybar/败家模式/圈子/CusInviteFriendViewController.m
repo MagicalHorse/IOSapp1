@@ -187,7 +187,7 @@
         [cell.contentView addSubview:selectImage];
         
         UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(selectImage.right+10, 5, 45, 45)];
-        [headerImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"UserLogo"]] placeholderImage:nil];
+        [headerImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         headerImage.clipsToBounds = YES;
         headerImage.layer.cornerRadius = headerImage.width/2;
         [cell.contentView addSubview:headerImage];

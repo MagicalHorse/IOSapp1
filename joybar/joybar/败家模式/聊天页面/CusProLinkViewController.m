@@ -127,7 +127,6 @@
     
     if (self.dataArr.count>0)
     {
-        
         NSDictionary *proDic = [self.dataArr objectAtIndex:indexPath.row];
         UIButton *selectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
         selectBtn.frame = CGRectMake(5, 25, 30, 30);
@@ -146,7 +145,7 @@
         UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(selectBtn.right+5, 5, 70, 70)];
 //        proImage.backgroundColor = [UIColor orangeColor];
         NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",[[proDic objectForKey:@"pic"] objectForKey:@"pic"]];
-        [proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:nil];
+        [proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         [cell.contentView addSubview:proImage];
         
         UILabel *desLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 10, kScreenWidth-140, 40)];

@@ -80,7 +80,7 @@
         NSString *icon=[self.dataArray[indexPath.section]objectForKey:@"icon"];
         NSString *name=[self.dataArray[indexPath.section]objectForKey:@"name"];
         NSString *tip=[self.dataArray[indexPath.section]objectForKey:@"tip"];
-        [cell.ticketIcon sd_setImageWithURL:[NSURL URLWithString:icon] placeholderImage:nil];
+        [cell.ticketIcon sd_setImageWithURL:[NSURL URLWithString:icon] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.ticketTitle.text = name;
         cell.ticketCount.text =tip;
     }

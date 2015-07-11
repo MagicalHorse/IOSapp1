@@ -70,7 +70,7 @@
     UIImageView *headerImage = [[UIImageView alloc] init];
     headerImage.center = CGPointMake(kScreenWidth/2, 50);
     headerImage.bounds = CGRectMake(0, 0, 50, 50);
-    [headerImage sd_setImageWithURL:[NSURL URLWithString:proData.BuyerLogo] placeholderImage:nil];
+    [headerImage sd_setImageWithURL:[NSURL URLWithString:proData.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     headerImage.layer.cornerRadius = headerImage.width/2;
     headerImage.clipsToBounds = YES;
     [self.scrollView addSubview:headerImage];
@@ -95,7 +95,7 @@
         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(self.imageScrollView.width*i, 0, self.imageScrollView.width, 300)];
         image.contentMode = UIViewContentModeScaleAspectFill;
         image.clipsToBounds = YES;
-        [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",[prodata.ProductPic objectAtIndex:i]]] placeholderImage:nil];
+        [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",[prodata.ProductPic objectAtIndex:i]]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         [self.imageScrollView addSubview:image];
     }
     _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.imageScrollView.bottom-30, kScreenWidth, 20)];
@@ -117,16 +117,16 @@
     sellNum.font = [UIFont fontWithName:@"youyuan" size:13];
     [self.scrollView addSubview:sellNum];
     
-    UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-80, lab.bottom-5, 40, 20)];
-    lab1.text = @"好评:";
-    lab1.font =[UIFont fontWithName:@"youyuan" size:13];
-    lab1.textColor = [UIColor grayColor];
-    [self.scrollView addSubview:lab1];
-    
-    UILabel *goodNum = [[UILabel alloc] initWithFrame:CGRectMake(lab1.right-5, lab1.top, 60, 20)];
-    goodNum.text = @"12345";
-    goodNum.font = [UIFont fontWithName:@"youyuan" size:13];
-    [self.scrollView addSubview:goodNum];
+//    UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-80, lab.bottom-5, 40, 20)];
+//    lab1.text = @"好评:";
+//    lab1.font =[UIFont fontWithName:@"youyuan" size:13];
+//    lab1.textColor = [UIColor grayColor];
+//    [self.scrollView addSubview:lab1];
+//    
+//    UILabel *goodNum = [[UILabel alloc] initWithFrame:CGRectMake(lab1.right-5, lab1.top, 60, 20)];
+//    goodNum.text = @"12345";
+//    goodNum.font = [UIFont fontWithName:@"youyuan" size:13];
+//    [self.scrollView addSubview:goodNum];
     
     UILabel *priceLab = [[UILabel alloc] init];
     priceLab.frame = CGRectMake(10, self.imageScrollView.bottom+5, 150, 20);
@@ -152,7 +152,7 @@
     locationLab.textColor = [UIColor grayColor];
     [self.scrollView addSubview:locationLab];
     
-    //打烊购
+//打烊购
 //-----------------------------------------------------------------------------------
     UIView *tempView = [[UIView alloc] init];
     tempView.backgroundColor = kCustomColor(239, 243, 244);
@@ -244,7 +244,7 @@
         HomeUsers *user = [proData.LikeUsers.Users objectAtIndex:i];
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(35*i, 0, 30, 30)];
         img.layer.cornerRadius = img.width/2;
-        [img sd_setImageWithURL:[NSURL URLWithString:user.Logo] placeholderImage:nil];
+        [img sd_setImageWithURL:[NSURL URLWithString:user.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         img.clipsToBounds = YES;
         img.tag = 1000+i;
         img.userInteractionEnabled = YES;

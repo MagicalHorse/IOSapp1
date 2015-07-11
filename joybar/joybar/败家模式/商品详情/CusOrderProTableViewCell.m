@@ -17,7 +17,7 @@
     self.addressLab.text = proDetailData.StoreName;
     NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",proDetailData.ProductPic.firstObject];
     self.proImage.clipsToBounds = YES;
-    [self.proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:nil];
+    [self.proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.proName.text = proDetailData.ProductName;
     self.numLab.text = [NSString stringWithFormat:@"x%@",self.buyNum];
     self.proNumLab.text = [NSString stringWithFormat:@"共%@件商品",self.buyNum];

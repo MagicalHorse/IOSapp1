@@ -27,7 +27,9 @@
 @implementation CusMineViewController
 
 -(void)viewWillAppear:(BOOL)animated
-{    
+{
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
     [self getMineData];
 }
 

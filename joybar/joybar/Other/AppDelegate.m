@@ -166,12 +166,15 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
+    NSString *urlStr = [NSString stringWithFormat:@"%@",url];
 
-    if ([sourceApplication isEqualToString:@"com.tencent.xin"])
+    if ([urlStr isEqualToString:@"wx281aa8c2686c0e7c://platformId=wechat"])
     {
         return  [UMSocialSnsService handleOpenURL:url];
+
     }
     return [WXApi handleOpenURL:url delegate:self];
+
 
 }
 
@@ -231,8 +234,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     [alter show];
 }
 
-
-
 -(void) onResp:(BaseResp*)resp
 {
     NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
@@ -256,7 +257,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
                 break;
             case WXErrCodeUserCancel:
             {
-                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"PayCancleNotification" object:self userInfo:nil];
             }
                 break;
                 
@@ -270,10 +271,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (alertView.tag==100)
-    {
-//        [self.WXPayVC.navigationController popToRootViewControllerAnimated:YES];
-    }
+
 }
 
 

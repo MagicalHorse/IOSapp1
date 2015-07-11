@@ -25,6 +25,7 @@
 {
     AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle) name:@"PaySuccessNotification" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(payCancelHandle) name:@"PayCancleNotification" object:nil];
     [app sendPay_demo:self.orderNum andName:self.proName andPrice:self.proPrice];
 }
 
@@ -35,14 +36,22 @@
 
 }
 
+-(void)payCancelHandle
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PaySuccessNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PayCancleNotification" object:nil];
+
 }
 
 @end

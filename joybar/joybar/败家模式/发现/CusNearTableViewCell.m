@@ -20,7 +20,7 @@
     UIImageView *headImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 55, 55)];
     headImg.layer.cornerRadius = headImg.width/2;
     headImg.clipsToBounds = YES;
-    [headImg sd_setImageWithURL:[NSURL URLWithString:self.nearItems.BuyerLogo] placeholderImage:nil];
+    [headImg sd_setImageWithURL:[NSURL URLWithString:self.nearItems.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     headImg.userInteractionEnabled = YES;
     [self.contentView addSubview:headImg];
     
@@ -66,7 +66,7 @@
         NSString *tempUrl = [NSString stringWithFormat:@"%@_320x0.jpg",[self.nearItems.Pic objectAtIndex:i]];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.clipsToBounds = YES;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:nil];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         [self.contentView addSubview:imageView];
     }
     

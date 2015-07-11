@@ -43,7 +43,10 @@
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell setData:[self.dataArr objectAtIndex:indexPath.row]];
+    if (self.dataArr.count>0)
+    {
+        [cell setData:[self.dataArr objectAtIndex:indexPath.row]];
+    }
     return cell;
 }
 

@@ -46,7 +46,7 @@
         headImage.layer.cornerRadius = headImage.width/2;
         headImage.backgroundColor = [UIColor whiteColor];
         headImage.contentMode = UIViewContentModeScaleAspectFill;
-        [headImage sd_setImageWithURL:[NSURL URLWithString:[[dataArr objectAtIndex:index] objectForKey:@"Logo"]] placeholderImage:nil];
+        [headImage sd_setImageWithURL:[NSURL URLWithString:[[dataArr objectAtIndex:index] objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         headImage.userInteractionEnabled = YES;
         headImage.tag = 1000+index;
         [image addSubview:headImage];

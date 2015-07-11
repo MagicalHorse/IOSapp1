@@ -11,7 +11,12 @@
 #import "OrderDetailData.h"
 #import "CusRefundPriceViewController.h"
 #import "AppDelegate.h"
-@interface CusOrderDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "Promotions.h"
+#import "CusChatViewController.h"
+#import "UMSocial.h"
+#import "UMSocialWechatHandler.h"
+#import "SDWebImageManager.h"
+@interface CusOrderDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UMSocialUIDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
 
@@ -43,9 +48,11 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:self.orderId forKey:@"OrderNo"];
+    [self hudShow];
     [HttpTool postWithURL:@"Order/GetUserOrderDetail" params:dic success:^(id json) {
         
-        if ([json objectForKey:@"isSuccessful"])
+        [self hiddleHud];
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.detailData = [OrderDetailData objectWithKeyValues:[json objectForKey:@"data"]];
             [self.tableView reloadData];
@@ -91,7 +98,7 @@
         }
         else
         {
-            
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
         NSLog(@"%@",[json objectForKey:@"message"]);
     } failure:^(NSError *error) {
@@ -123,7 +130,7 @@
     UIButton *shareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     shareBtn.frame = CGRectMake(100, -5, 60, 49);
     [shareBtn setImage:[UIImage imageNamed:@"现金分享icon"] forState:(UIControlStateNormal)];
-    [shareBtn addTarget:self action:@selector(didCLickMakeChatBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+    [shareBtn addTarget:self action:@selector(didCLickShareBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:shareBtn];
     
     UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(100, 28, 60, 20)];
@@ -158,6 +165,10 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+//    if (self.detailData.Promotions.count>0)
+//    {
+//        return 4;
+//    }
     return 4;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -181,6 +192,10 @@
     else if (section==1)
     {
         return 3;
+    }
+    else if (section==3)
+    {
+        return self.detailData.Promotions.count;
     }
     return 1;
 }
@@ -261,7 +276,7 @@
         if (indexPath.row==0)
         {
             UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 5, 40, 40)];
-            [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:nil];
+            [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             headerImage.layer.cornerRadius = headerImage.width/2;
             headerImage.clipsToBounds = YES;
             [cell.contentView addSubview:headerImage];
@@ -305,16 +320,24 @@
         {
             [view removeFromSuperview];
         }
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
-        lab.text = @"打烊购:";
-        lab.font = [UIFont fontWithName:@"youyuan" size:14];
-        [cell.contentView addSubview:lab];
-        
-        UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
-        lab1.textAlignment = NSTextAlignmentRight;
-        lab1.text = @"立减 30.00元";
-        lab1.font = [UIFont fontWithName:@"youyuan" size:14];
-        [cell.contentView addSubview:lab1];
+        if (self.detailData.Promotions.count>0)
+        {
+            for (int i=0; i<self.detailData.Promotions.count; i++)
+            {
+                Promotions *promotion = [self.detailData.Promotions objectAtIndex:i];
+                
+                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
+                lab.text = promotion.PromotionName;
+                lab.font = [UIFont fontWithName:@"youyuan" size:14];
+                [cell.contentView addSubview:lab];
+                
+                UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
+                lab1.textAlignment = NSTextAlignmentRight;
+                lab1.text = [NSString stringWithFormat:@"立减 %@元",promotion.Amount];
+                lab1.font = [UIFont fontWithName:@"youyuan" size:14];
+                [cell.contentView addSubview:lab1];
+            }
+        }
         return cell;
     }
     return nil;
@@ -354,7 +377,52 @@
 //点击私聊
 -(void)didCLickMakeChatBtn:(UIButton *)btn
 {
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:self.detailData.BuyerId AndTpye:2 andUserName:self.detailData.BuyerName];
+    VC.isFrom = isFromPrivateChat;
+    [self.navigationController pushViewController:VC animated:YES];
+}
+
+//分享
+-(void)didCLickShareBtn:(UIButton *)btn
+{
+    if (![self.detailData.IsShareable boolValue])
+    {
+        [self showHudFailed:@"未支付或为完成订单不能分享"];
+        return;
+    }
     
+    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:self.detailData.ShareLink];
+    
+    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",self.detailData.ProductPic]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:@"557f8f1c67e58edf32000208"
+                                          shareText:@""
+                                         shareImage:image
+                                    shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
+                                           delegate:self];
+    }];
+}
+
+//实现回调方法（可选）：
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+        
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:self.detailData.ProductId forKey:@"productid"];
+        [HttpTool postWithURL:@"Product/CreateShare" params:dic success:^(id json) {
+            
+        } failure:^(NSError *error) {
+            
+        }];
+    }
 }
 
 //付款
@@ -426,5 +494,9 @@
 }
 
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 @end
