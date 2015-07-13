@@ -118,7 +118,13 @@
     [self creatBtn:self.btn2];
     [self creatBtn:self.btn3];
     if (self.images) {
-        [_btn1 setBackgroundImage:self.image forState:UIControlStateNormal];
+        if (self.btnType ==2) {
+            [_btn2 setBackgroundImage:self.image forState:UIControlStateNormal];
+        }else if(self.btnType ==3){
+            [_btn3 setBackgroundImage:self.image forState:UIControlStateNormal];
+        }else{
+            [_btn1 setBackgroundImage:self.image forState:UIControlStateNormal];
+        }
     }
     if (self.detail) {
         NSMutableArray *images =self.detail.Images;
@@ -417,6 +423,7 @@
             if (self.detail) {
                 Image *image =[self.imagesArray objectAtIndex:0];
                 BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.image andImage:image];
+                filter.btnType =(int)self.btn1.tag;
                 filter.delegate=self;
                 [self.navigationController pushViewController:filter animated:YES];
                 
@@ -426,6 +433,7 @@
                     NSDictionary *imageurl =[self.imagesArray objectAtIndex:0];
                     BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.image];
                     filter.delegate=self;
+                    filter.btnType =(int)self.btn1.tag;
                     filter.imageDic =imageurl;
                     [self.navigationController pushViewController:filter animated:YES];
                 }
@@ -436,19 +444,23 @@
                 Image *image =[self.imagesArray objectAtIndex:1];
                 BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn2Img andImage:image];
                 filter.delegate=self;
+                filter.btnType =(int)self.btn2.tag;
                 [self.navigationController pushViewController:filter animated:YES];
                 
-            }else if (self.imagesArray.count>1) {
+            }else if (self.imagesArray.count>1) {//点击图片顺序会导致bug
                 
                 if ([self.imagesArray objectAtIndex:1]) {
                     NSDictionary *imageurl =[self.imagesArray objectAtIndex:1];
                     BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn2Img];
                     filter.imageDic =imageurl;
+                    filter.delegate =self;
+                    filter.btnType =(int)self.btn2.tag;
+
                     [self.navigationController pushViewController:filter animated:YES];
                 }
                 
             }else {
-                
+                self.btnType =(int)self.btn2.tag;
                 [Common saveUserDefault:@"3" keyName:@"backPhone"];
                 self.customCamera =[[BuyerCameraViewController alloc]initWithType:(int)i];
                 self.customCamera.delegate =self;
@@ -463,14 +475,18 @@
                 Image *image =[self.imagesArray objectAtIndex:2];
                 BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn3Img andImage:image];
                 filter.delegate=self;
+                filter.btnType =(int)self.btn3.tag;
                 [self.navigationController pushViewController:filter animated:YES];
                 
-            }else if (self.imagesArray.count>2) {
+            }else if (self.imagesArray.count>0) {
                 
                 if ([self.imagesArray objectAtIndex:2]) {
                     NSDictionary *imageurl =[self.imagesArray objectAtIndex:2];
                     BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn3Img];
                     filter.imageDic =imageurl;
+                    filter.delegate =self;
+                    filter.btnType =(int)self.btn3.tag;
+
                     [self.navigationController pushViewController:filter animated:YES];
                 }
                 
@@ -482,15 +498,12 @@
                 BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:self.customCamera];
                 [self presentViewController:nav animated:YES completion:nil];
             }
-            
             break;
             
         default:
             break;
     }
-   
-    
-    
+
     
 }
 
@@ -658,18 +671,38 @@
 }
 
 //filterDelegate
--(void)pop:(UIImage *)image AndDic:(NSMutableDictionary *)dic
+-(void)pop:(UIImage *)image AndDic:(NSMutableDictionary *)dic AndType:(int)type
 {
-//    if (self.imagesArray.count>0) {
-//        if (self.imagesArray[0]) {
-//            [self.imagesArray removeObjectAtIndex:0];
-//        }
-//        [self.imagesArray insertObject:dic atIndex:0];
-//    }else{
-//        [self.imagesArray addObject:dic];
-//    }
-//    [self.btn1 setBackgroundImage:image forState:UIControlStateNormal];
-//    self.image =image;
+    switch (type) {
+        case 1:
+            if (self.imagesArray.count >0) {
+                [self.imagesArray removeObjectAtIndex:0];
+                [self.imagesArray insertObject:dic atIndex:0];
+            }
+            [self.btn1 setBackgroundImage:image forState:UIControlStateNormal];
+            self.image =image;
+            break;
+        case 2:
+            if (self.imagesArray.count >0) {
+                [self.imagesArray removeObjectAtIndex:1];
+                [self.imagesArray insertObject:dic atIndex:1];
+            }
+            [self.btn2 setBackgroundImage:image forState:UIControlStateNormal];
+//            self.image =image;
+            break;
+        case 3:
+           
+            if (self.imagesArray.count >0) {
+                [self.imagesArray removeObjectAtIndex:2];
+                [self.imagesArray insertObject:dic atIndex:2];
+            }
+            [self.btn3 setBackgroundImage:image forState:UIControlStateNormal];
+            self.image =image;
+            break;
+        default:
+            break;
+    }
+
 }
 
 @end

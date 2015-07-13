@@ -12,12 +12,13 @@
 @protocol BuyerFilterDelgeate <NSObject>
 @optional
 -(void)choose:(UIImage *)image andImgs :(NSMutableDictionary *)array;
--(void)pop:(UIImage *)image AndDic :(NSMutableDictionary *)dic;
+-(void)pop:(UIImage *)image AndDic :(NSMutableDictionary *)dic AndType:(int)type;
 @end
 @interface BuyerFilterViewController : BaseViewController
 @property (nonatomic, weak) id <BuyerFilterDelgeate> delegate;
 -(instancetype)initWithImg:(UIImage *)image;
 -(instancetype)initWithImg:(UIImage *)image andImage :(Image *)dic;
 @property (nonatomic ,strong)NSDictionary *imageDic;
+@property (nonatomic ,assign)int btnType;
 
 @end

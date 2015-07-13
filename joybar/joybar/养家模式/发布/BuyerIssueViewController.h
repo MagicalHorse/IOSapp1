@@ -15,4 +15,5 @@
 @property (nonatomic,strong)NSMutableDictionary *images;
 @property (nonatomic,strong)Detail *detail;
 @property (nonatomic ,strong)NSString *productId;
+@property (nonatomic ,assign)int btnType;
 @end

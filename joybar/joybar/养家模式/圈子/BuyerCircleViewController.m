@@ -207,17 +207,27 @@
 {
     return 60;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *userid;
+    NSString *name;
+    CusChatViewController * chat;
     if (type ==2 &&tableView.tag==2) {
-        NSString *userid =[[self.dataArray[indexPath.row]objectForKey:@"UserId"]stringValue];
-        CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:[self.dataArray[indexPath.row]objectForKey:@"UserName"]];
+        userid =[[self.dataArray[indexPath.row]objectForKey:@"UserId"]stringValue];
+        name =[self.dataArray[indexPath.row]objectForKey:@"UserName"];
+        chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:name];
         chat.isFrom =isFromPrivateChat;
-        [self.navigationController pushViewController:chat animated:YES];
     }else{
-        CusCircleDetailViewController * detail =[[CusCircleDetailViewController alloc]init];
-        detail.circleId = [self.dataArray[indexPath.row]objectForKey:@"Id"];
-        [self.navigationController pushViewController:detail animated:YES];
+       
+        userid =[[self.dataArray[indexPath.row]objectForKey:@"Id"]stringValue];
+        name =[self.dataArray[indexPath.row]objectForKey:@"Name"];
+        chat = [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:name];
+        chat.circleId =userid;
+        chat.isFrom =isFromGroupChat;
+
     }
+    [self.navigationController pushViewController:chat animated:YES];
+
 }
 
 -(void)addCircle{
