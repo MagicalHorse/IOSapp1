@@ -387,7 +387,7 @@
 {
     if (![self.detailData.IsShareable boolValue])
     {
-        [self showHudFailed:@"未支付或为完成订单不能分享"];
+        [self showHudFailed:@"未支付或未完成订单不能分享"];
         return;
     }
     

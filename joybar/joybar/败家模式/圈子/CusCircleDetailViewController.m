@@ -271,23 +271,27 @@
                 [img sd_setImageWithURL:[NSURL URLWithString:circleUser.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 lab.text = circleUser.NickName;
                 
-                UIButton *deleteBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-                deleteBtn.frame = CGRectMake(img.width-18, 5, 27, 27);
-                deleteBtn.backgroundColor = [UIColor clearColor];
-                
-                [deleteBtn addTarget:self action:@selector(didClickDeleteUser:) forControlEvents:(UIControlEventTouchUpInside)];
-                if (self.hiddenDeleteBtn==YES)
+                if (i>0)
                 {
-                    deleteBtn.hidden = YES;
+                    UIButton *deleteBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+                    deleteBtn.frame = CGRectMake(img.width-18, 5, 27, 27);
+                    deleteBtn.backgroundColor = [UIColor clearColor];
+                    
+                    [deleteBtn addTarget:self action:@selector(didClickDeleteUser:) forControlEvents:(UIControlEventTouchUpInside)];
+
+                    if (self.hiddenDeleteBtn==YES)
+                    {
+                        deleteBtn.hidden = YES;
+                    }
+                    else
+                    {
+                        deleteBtn.hidden = NO;
+                    }
+                    [deleteBtn setImage:[UIImage imageNamed:@"shanchu"] forState:(UIControlStateNormal)];
+                    
+                    deleteBtn.tag = 100+i;
+                    [btn addSubview:deleteBtn];
                 }
-                else
-                {
-                    deleteBtn.hidden = NO;
-                }
-                [deleteBtn setImage:[UIImage imageNamed:@"shanchu"] forState:(UIControlStateNormal)];
-                
-                deleteBtn.tag = 100+i;
-                [btn addSubview:deleteBtn];
 
             }
             else
@@ -494,8 +498,30 @@
 //删除圈子用户
 -(void)didClickDeleteUser:(UIButton *)btn
 {
-    [self.circleData.Users removeObjectAtIndex:btn.tag-100];
-    [self.tableView reloadData];
+//    [self.circleData.Users removeObjectAtIndex:btn.tag-100];
+    
+    CircleDetailUser *user = [self.circleData.Users objectAtIndex:btn.tag-100];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.circleId forKey:@"groupid"];
+    [dic setObject:user.UserId forKey:@"userid"];
+    [self hudShow:@"正在删除"];
+    [HttpTool postWithURL:@"Community/RemoveGroupMember" params:dic success:^(id json) {
+        
+        [self textHUDHiddle];
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {            
+            [self getCircleDetailData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        
+        [self textHUDHiddle];
+        [self showHudFailed:@"请求失败"];
+    }];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
