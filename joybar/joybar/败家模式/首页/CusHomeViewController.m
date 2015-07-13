@@ -194,6 +194,8 @@
     [dic setValue:@"6" forKey:@"pagesize"];
     if (!isRefresh)
     {
+        [self activityDismiss];
+
         [self showInView:self.homeScroll WithPoint:CGPointMake(kScreenWidth, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Product/MyBuyer" params:dic success:^(id json) {
@@ -238,6 +240,8 @@
     [dic setValue:@"6" forKey:@"pagesize"];
     if (!isRefresh)
     {
+        [self activityDismiss];
+
         [self showInView:self.homeScroll WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Product/Index" params:dic success:^(id json) {
