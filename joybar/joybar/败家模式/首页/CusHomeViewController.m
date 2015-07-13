@@ -245,7 +245,6 @@
         [self activityDismiss];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            NSLog(@"买手街");
             NSDictionary *dic = [[json objectForKey:@"data"] objectForKey:@"items"];
             _data = [HomeData objectWithKeyValues:dic];
             if (_data.Products.count<6)
@@ -279,6 +278,8 @@
 
 -(NSUInteger)numberOfViewsForYRADScrollView:(YRADScrollView *)adScrollView{
     return self.data.Banners.count;
+    
+    
 }
 #pragma mark adViewDelegate
 -(void)adScrollView:(YRADScrollView *)adScrollView didClickedAtPage:(NSInteger)pageIndex{
@@ -310,7 +311,7 @@
     if (banner)
     {
         NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
-        [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
+        [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     }
     
     return imgView;

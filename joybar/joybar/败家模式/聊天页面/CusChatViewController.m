@@ -116,9 +116,9 @@
         
         [self.messageArr addObject:dic];
         
+        [self.tableView reloadData];
         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
 
-        [self.tableView reloadData];
     }];
 
     self.priceNum = 0;
@@ -146,8 +146,8 @@
     self.tableView.headerRereshingBlock = ^{
         
         VC.pageNum++;
-        [VC getRoomId];
-//        [VC getMessageListData];
+//        [VC getRoomId];
+        [VC getMessageListData:YES];
     };
     
     [self.tableView hiddenHeader:YES];
@@ -211,8 +211,7 @@
         {
             chatRoomData = [json objectForKey:@"data"];
             [self creatRoom];
-            [self getMessageListData];
-            [self.tableView endRefresh];
+            [self getMessageListData:NO];
         }
         else
         {
@@ -224,7 +223,7 @@
     }];
 }
 
--(void)getMessageListData
+-(void)getMessageListData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
@@ -232,6 +231,9 @@
     [dic setObject:@"10" forKey:@"pagesize"];
     
     [HttpTool postWithURL:@"Community/GetMessages" params:dic success:^(id json) {
+        
+        [self.tableView endRefresh];
+
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
             titleNameLab.text = toUserName;
@@ -248,9 +250,24 @@
             {
                 [self.messageArr insertObject:dic atIndex:0];
             }
-            [self.tableView setContentOffset:CGPointMake(0, kScreenHeight) animated:NO];
-
             [self.tableView reloadData];
+            
+            if (isRefresh)
+            {
+                [self.tableView setContentOffset:CGPointMake(0, arr.count*170) animated:NO];
+            }
+        
+            else
+            {
+                if (self.tableView.contentSize.height>kScreenHeight-64-49)
+                {
+                    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+                }
+                else
+                {
+                    [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+                }
+            }
         }
         else
         {
@@ -326,7 +343,7 @@
         UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 20, 40, 40)];
         headerImage.layer.cornerRadius = headerImage.width/2;
         headerImage.clipsToBounds = YES;
-        [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:nil];
+        [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         [self.navView addSubview:headerImage];
     }
 }
@@ -340,7 +357,7 @@
     UIImageView *productImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
     productImage.clipsToBounds = YES;
     NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",self.detailData.ProductPic.firstObject];
-    [productImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:nil];
+    [productImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [bgView addSubview:productImage];
     
     UILabel *proNameLab = [[UILabel alloc] initWithFrame:CGRectMake(productImage.right+5, productImage.top, 200, 20)];
@@ -542,14 +559,12 @@
     if (self.isFrom==isFromBuyPro)
     {
         self.tableView.frame = CGRectMake(0, 64+60, kScreenWidth, kScreenHeight-64-60-49);
-        [self addProductView];
     }
     else
     {
         self.tableView.frame = CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49);
     }
 }
-
 
 #pragma mark UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -615,7 +630,7 @@
                 UIImageView *photo = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-10-40, 15, 40, 40)];
                 photo.layer.cornerRadius = photo.width/2;
                 photo.clipsToBounds = YES;
-                [photo sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:nil];
+                [photo sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.contentView addSubview:photo];
                 
                 //图片
@@ -649,7 +664,7 @@
                 UIImageView *photo = [[UIImageView alloc]initWithFrame:CGRectMake(10, 15, 40, 40)];
                 photo.layer.cornerRadius = photo.width/2;
                 photo.clipsToBounds = YES;
-                [photo sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:nil];
+                [photo sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.contentView addSubview:photo];
                 
                 //图片
@@ -750,7 +765,7 @@
     UIImageView *proImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 65, 65)];
     NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",self.detailData.ProductPic.firstObject];
     
-    [proImg sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:nil];
+    [proImg sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [buyBgView addSubview:proImg];
     
     UILabel *proLab = [[UILabel alloc] initWithFrame:CGRectMake(proImg.right+10, proImg.top, kScreenWidth-95, 40)];

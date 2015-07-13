@@ -35,7 +35,7 @@
     self.refundText.layer.borderWidth = 0.5;
     self.refundText.layer.cornerRadius = 3;
     NSString *tempUrl = [NSString stringWithFormat:@"%@_100x100.jpg",self.proSizeStr];
-    [self.proImage sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:nil];
+    [self.proImage sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.proName.text = self.proNameStr;
     self.proNumLab.text = [NSString stringWithFormat:@"x%@",self.proNumStr];
     self.proSizeLab.text = self.proSizeStr;

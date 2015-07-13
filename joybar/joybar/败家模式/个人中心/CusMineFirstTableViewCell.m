@@ -24,7 +24,7 @@
     [self.contentView addSubview:bgView];
     
     self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
-    self.bgImageView.image = [UIImage imageNamed:@"3.jpg"];
+    self.bgImageView.image = [UIImage imageNamed:@"bgImage.png"];
     [bgView addSubview:self.bgImageView];
     
     UIImageView *circleImage = [[UIImageView alloc] init];
@@ -42,7 +42,7 @@
     headImage.layer.cornerRadius = headImage.width/2;
     headImage.clipsToBounds = YES;
     NSString *url = [[Public getUserInfo] objectForKey:@"logo"];
-    [headImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
+    [headImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:headImage];
 
     UILabel *namelab =[[UILabel alloc] init];

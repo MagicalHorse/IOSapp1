@@ -90,7 +90,7 @@
     NSString *prepayid = nil;
     
     //获取提交支付
-    NSString *send      = [self genPackage:prePayParams];
+    NSString *send = [self genPackage:prePayParams];
     
     //输出Debug Info
     [debugInfo appendFormat:@"API链接:%@\n", payUrl];
@@ -152,7 +152,7 @@
     //订单标题，展示给用户
     NSString *order_name    = name;
     //订单金额,单位（分）
-    NSString *order_price   = [NSString stringWithFormat:@"%.0f",[price doubleValue]*100];//1分钱测试
+    NSString *order_price   = [NSString stringWithFormat:@"%.0f",[price doubleValue]*100];
 
     //================================
     //预付单参数订单设置
@@ -175,7 +175,7 @@
     
     //获取prepayId（预支付交易会话标识）
     NSString *prePayid;
-    prePayid            = [self sendPrepay:packageParams];
+    prePayid = [self sendPrepay:packageParams];
     
     if ( prePayid != nil) {
         //获取到prepayid后进行第二次签名
@@ -202,7 +202,7 @@
         NSString *sign  = [self createMd5Sign:signParams];
         
         //添加签名
-        [signParams setObject: sign         forKey:@"sign"];
+        [signParams setObject: sign forKey:@"sign"];
         
         [debugInfo appendFormat:@"第二步签名成功，sign＝%@\n",sign];
         

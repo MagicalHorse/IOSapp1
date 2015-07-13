@@ -78,7 +78,7 @@
     headImage.bounds = CGRectMake(0, 0, 65, 65);
     headImage.layer.cornerRadius = headImage.width/2;
     headImage.clipsToBounds = YES;
-    [headImage sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"logo"]] placeholderImage:nil];
+    [headImage sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [_bgHeaderView addSubview:headImage];
     
     UILabel *namelab =[[UILabel alloc] init];

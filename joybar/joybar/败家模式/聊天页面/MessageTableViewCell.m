@@ -56,7 +56,7 @@
     
     UIImageView *ImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 100, 100)];
     
-    [ImgView sd_setImageWithURL:[NSURL URLWithString:text] placeholderImage:nil];
+    [ImgView sd_setImageWithURL:[NSURL URLWithString:text] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     ImgView.contentMode = UIViewContentModeScaleAspectFit;
     
 //    ImgView.backgroundColor = [UIColor redColor];
@@ -123,7 +123,7 @@
         proImage.frame =CGRectMake(10, 5, bgImageView.height-10, bgImageView.height-10);
 
     }
-    [proImage sd_setImageWithURL:[NSURL URLWithString:text] placeholderImage:nil];
+    [proImage sd_setImageWithURL:[NSURL URLWithString:text] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [bgImageView addSubview:proImage];
     
     UILabel *linkLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+5, 5, bgImageView.width-proImage.width-20, bgImageView.height-10)];

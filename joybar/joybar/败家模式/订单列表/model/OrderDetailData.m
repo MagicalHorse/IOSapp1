@@ -10,4 +10,10 @@
 
 @implementation OrderDetailData
 
+
++(NSDictionary *)objectClassInArray
+{
+    return @{@"Promotions":@"Promotions"};
+}
+
 @end

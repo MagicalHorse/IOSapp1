@@ -21,6 +21,7 @@
 @property (nonatomic ,copy) NSString *ProductName;
 @property (nonatomic ,copy) NSString *ProductId;
 @property (nonatomic ,copy) NSString *IsPromotion;
+@property (nonatomic ,copy) NSString *ShareLink;
 @property (nonatomic ,strong) ProductPic *ProductPic;
 @property (nonatomic ,strong) LikeUsers *LikeUsers;
 @property (nonatomic ,strong) ProDetailPromotion *Promotion;

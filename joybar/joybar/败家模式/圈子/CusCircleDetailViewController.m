@@ -268,7 +268,7 @@
             if (i<self.circleData.Users.count)
             {
                 CircleDetailUser *circleUser = [self.circleData.Users objectAtIndex:i];
-                [img sd_setImageWithURL:[NSURL URLWithString:circleUser.Logo] placeholderImage:nil];
+                [img sd_setImageWithURL:[NSURL URLWithString:circleUser.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 lab.text = circleUser.NickName;
                 
                 UIButton *deleteBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -332,7 +332,7 @@
             if (indexPath.row==1)
             {
                 UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 5, 40, 40)];
-                [headerImage sd_setImageWithURL:[NSURL URLWithString:self.circleData.GroupPic] placeholderImage:nil];
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:self.circleData.GroupPic] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.contentView addSubview:headerImage];
             }
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 100, 20)];

@@ -90,7 +90,7 @@
         cell.ordertoPrice.text = [[self.dataArray objectForKey:@"InCome"] stringValue];
         cell.userNO.text = [self.dataArray objectForKey:@"CustomerName"];
         cell.orderTime.text = [self.dataArray objectForKey:@"CreateTime"];
-        [cell.userPic sd_setImageWithURL:[NSURL URLWithString:[self.dataArray objectForKey:@"CustomerLogo"]] placeholderImage:nil];
+        [cell.userPic sd_setImageWithURL:[NSURL URLWithString:[self.dataArray objectForKey:@"CustomerLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.userPhone.text = [self.dataArray objectForKey:@"CustomerMobile"];
         cell.userAddress.text = [self.dataArray objectForKey:@"CustomerAddress"];
         

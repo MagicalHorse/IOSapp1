@@ -25,7 +25,6 @@
 {
     [super viewDidLoad];
     
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -38,9 +37,7 @@
     [self addNavBarViewAndTitle:@"确认订单"];
     
     [self getPrice];
-
 }
-
 
 -(void)getPrice
 {
@@ -59,7 +56,6 @@
         {
             
         }
-        
     } failure:^(NSError *error) {
         
     }];
@@ -166,7 +162,7 @@
             UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 5, 40, 40)];
             headerImage.backgroundColor = [UIColor orangeColor];
             headerImage.layer.cornerRadius = headerImage.width/2;
-            [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:nil];
+            [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             headerImage.clipsToBounds = YES;
             [cell.contentView addSubview:headerImage];
         }
@@ -311,6 +307,7 @@
             VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"TotalAmount"];
             VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
             [self showHudSuccess:@"提交成功"];
+            
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
                 [self.navigationController pushViewController:VC animated:YES];

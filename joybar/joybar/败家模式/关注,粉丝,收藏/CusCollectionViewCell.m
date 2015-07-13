@@ -20,7 +20,7 @@
 //    imageView.backgroundColor = [self randomColor];
     NSString *imgUrl = [NSString stringWithFormat:@"%@_320x0.jpg",[[dic objectForKey:@"pic"] objectForKey:@"pic"]];
     imageView.clipsToBounds = YES;
-    [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:nil];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:imageView];
     
     UIView *bgView = [[UIView alloc] init];

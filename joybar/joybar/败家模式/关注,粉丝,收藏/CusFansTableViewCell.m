@@ -24,7 +24,7 @@
     
     UIImageView *headerImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
     headerImg.layer.cornerRadius = headerImg.width/2;
-    [headerImg sd_setImageWithURL:[NSURL URLWithString:fanModel.UserLogo] placeholderImage:nil];
+    [headerImg sd_setImageWithURL:[NSURL URLWithString:fanModel.UserLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:headerImg];
     
     UILabel *levelLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right+10, headerImg.top+5, 0, 15)];

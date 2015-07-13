@@ -178,7 +178,7 @@
         if (self.selectBtnIndex==0)
         {
             UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
-            [proImage sd_setImageWithURL:[NSURL URLWithString:[dataDic objectForKey:@"Logo"]] placeholderImage:nil];
+            [proImage sd_setImageWithURL:[NSURL URLWithString:[dataDic objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             [cell.contentView addSubview:proImage];
             
             UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 30, 250, 20)];
@@ -198,7 +198,7 @@
         else
         {
             UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
-            [proImage sd_setImageWithURL:[NSURL URLWithString:[dataDic objectForKey:@"Logo"]] placeholderImage:nil];
+            [proImage sd_setImageWithURL:[NSURL URLWithString:[dataDic objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             proImage.layer.cornerRadius = proImage.width/2;
             [cell.contentView addSubview:proImage];
             
