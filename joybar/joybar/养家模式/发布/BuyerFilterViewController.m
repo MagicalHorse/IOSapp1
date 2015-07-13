@@ -25,6 +25,7 @@
     CGPoint tagPoint;
     OSSData *osData;
     Image *imgDic;
+    int viweTag;
 }
 @property (nonatomic,strong)UIView *customInfoView;
 @property (nonatomic,strong)UIView *dscView;
@@ -78,6 +79,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    viweTag=0;
     [self addNavBarViewAndTitle:@"编辑图片"];
     [self setInitView];
     [self aliyunSet];
@@ -131,7 +133,6 @@
                 CGFloat y = [tag.PosY integerValue];
                 CGPoint point ={x,y};
                 [self didSelectedTag:tag.Name AndPoint:point AndSourceId:[tag.SourceId stringValue] AndSourceType:[tag.SourceType stringValue]];
-                
             }
         }
     }
@@ -211,13 +212,13 @@
         
         
         [self.navigationController popViewControllerAnimated:YES];
-        if ([self.delegate respondsToSelector:@selector(pop:AndDic:)])
+        if ([self.delegate respondsToSelector:@selector(pop:AndDic:AndType:)])
         {
-            [self.delegate pop:self.bgImage.image AndDic:dict];
+            [self.delegate pop:self.bgImage.image AndDic:dict AndType:_btnType];
         }
         
         
-    }else if(imgDic){
+    }else if(imgDic){ //修改商品
         
         NSMutableDictionary *dict= [NSMutableDictionary dictionary];
         self.tempImageName =imgDic.ImageUrl;
@@ -230,15 +231,15 @@
         }
         
         [self.navigationController popViewControllerAnimated:YES];
-        if ([self.delegate respondsToSelector:@selector(pop:AndDic:)])
+        if ([self.delegate respondsToSelector:@selector(pop:AndDic:AndType:)])
         {
-            [self.delegate pop:self.bgImage.image AndDic:dict];
+            [self.delegate pop:self.bgImage.image AndDic:dict AndType:_btnType];
         }
        
        
     }
-    else{
-        [self hudShow:@"正在加载..."];
+    else{ //需要上传图片
+        [self hudShow:@"正在上传"];
         NSDate *  senddate=[NSDate date];
         NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
         [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
@@ -264,19 +265,20 @@
     
     
 }
--(void)pushIssue :(BuyerIssueViewController *)issue{
+-(void)pushIssue :(BuyerIssueViewController *)issue
+{
     
     
     NSMutableDictionary *dict= [NSMutableDictionary dictionary];
-    [dict setObject:self.tempImageName forKey:@"ImageUrl"];
-    [dict setObject:self.tagsArray forKey:@"Tags"];
+    [dict setObject:self.tempImageName forKey:@"ImageUrl"]; //取到上传图片的名称
+    [dict setObject:self.tagsArray forKey:@"Tags"];//取到该图片对应的tags
     
     issue.images =dict;
     [self.navigationController pushViewController:issue animated:YES];
     
     if ([self.delegate respondsToSelector:@selector(choose:andImgs:)])
     {
-        [self.delegate choose:cImage andImgs:dict];
+        [self.delegate choose:self.bgImage.image andImgs:dict];
     }
     
 }
@@ -301,6 +303,7 @@
 
 -(void)panTagImageView:(UIPanGestureRecognizer *)pan
 {
+    
     if ([(UIPanGestureRecognizer *)pan state] == UIGestureRecognizerStateBegan)
     {
         
@@ -332,11 +335,12 @@
     }
     if ([(UIPanGestureRecognizer *)pan state] == UIGestureRecognizerStateEnded)
     {
-        if (self.tagsArray) {
-            for (int i =0; i<self.tagsArray.count; i++) {
-                [self.tagsArray[i]setObject:@(pan.view.frame.origin.x) forKey:@"PosX"];
-                [self.tagsArray[i]setObject:@(pan.view.frame.origin.y) forKey:@"PosY"];
-            }
+        if (self.tagsArray) { //移动更变tag的位置
+            //得获取到哪一个tag移动，并更改其值
+            int i=(int)pan.view.tag;
+            [self.tagsArray[i]setObject:@(pan.view.frame.origin.x) forKey:@"PosX"];
+            [self.tagsArray[i]setObject:@(pan.view.frame.origin.y) forKey:@"PosY"];
+            
         }
     }
 }
@@ -382,7 +386,9 @@
     
 
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panTagImageView:)];
+    tagView.tag=viweTag;
     [tagView addGestureRecognizer:panGestureRecognizer];
+    viweTag++;
 }
 
 -(UIImage *)getNewImg:(UIImage *)img AndType :(int)type{

@@ -94,10 +94,11 @@
     
    
 }
-
+//关闭相机
 -(void)closeBtn{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+//打开本地相册
 -(void)chooseClick{
     [self LocalPhoto];
 }
@@ -120,7 +121,8 @@
 }
 
 - (void)snapButtonPressed:(UIButton *)button {
-        [self.camera capture];
+    button.userInteractionEnabled =NO;
+    [self.camera capture];
 }
 
 /* camera delegates */
@@ -166,6 +168,7 @@
 }
 -(void)dismissCamrea:(UIImage *)image andDataArray:(NSMutableDictionary *)array{
 
+    self.snapButton.userInteractionEnabled =YES;
     //如果有图片，把图片传回代理，没有则返回相机
     if (image !=nil) {
         [self dismissViewControllerAnimated:NO completion:nil];
@@ -211,8 +214,16 @@
         NSString *back= [Common getUserDefaultKeyName:@"backPhone"];
         if([back isEqualToString:@"1"]){
             [picker dismissViewControllerAnimated:NO completion:nil];
-
-            [self.navigationController pushViewController:[[BuyerFilterViewController alloc]initWithImg:image] animated:NO];
+            UIImage *imageNew =image;
+            //设置image的尺寸
+            CGSize imagesize = imageNew.size;
+            imagesize.height =kScreenHeight-200;
+            imagesize.width =kScreenWidth;
+            
+            //对图片大小进行压缩--
+            imageNew = [self imageCompressForSize:imageNew targetSize:imagesize];
+            BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:imageNew];
+            [self.navigationController pushViewController:filter animated:NO];
 
         }else{
             [picker dismissViewControllerAnimated:NO completion:nil];
@@ -224,6 +235,7 @@
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+    self.snapButton.userInteractionEnabled=YES;
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 

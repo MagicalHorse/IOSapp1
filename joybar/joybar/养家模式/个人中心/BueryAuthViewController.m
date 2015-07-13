@@ -194,17 +194,6 @@
     [self presentViewController:camera animated:YES completion:nil];
 }
 
-//-(void)addBtnBg:(CGRect)rect{
-//    _btnBgview =[[UIView alloc]initWithFrame:CGRectMake(rect.origin.x, 100, rect.size.width, rect.size.height)];
-//    _btnBgview.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-//    [self.view addSubview:_btnBgview];
-//    _btnLable =[[UILabel alloc]initWithFrame:CGRectMake(0, 0,_btnBgview.width , _btnBgview.height)];
-//    _btnLable.font =[UIFont fontWithName:@"yoyuan" size:50];
-//    _btnLable.textColor =[UIColor redColor];
-//    [_btnBgview addSubview:_btnLable];
-//   
-//}
-
 -(void)dismissCamrea:(UIImage *)image WithTag:(int)type AndDataArray:(NSMutableDictionary *)array{
     
     UIImage *imageNew =image;
