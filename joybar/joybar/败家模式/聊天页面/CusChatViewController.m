@@ -146,8 +146,8 @@
     self.tableView.headerRereshingBlock = ^{
         
         VC.pageNum++;
-        [VC getRoomId];
-//        [VC getMessageListData];
+//        [VC getRoomId];
+        [VC getMessageListData:YES];
     };
     
     [self.tableView hiddenHeader:YES];
@@ -211,8 +211,7 @@
         {
             chatRoomData = [json objectForKey:@"data"];
             [self creatRoom];
-            [self getMessageListData];
-            [self.tableView endRefresh];
+            [self getMessageListData:NO];
         }
         else
         {
@@ -224,7 +223,7 @@
     }];
 }
 
--(void)getMessageListData
+-(void)getMessageListData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
@@ -232,6 +231,9 @@
     [dic setObject:@"10" forKey:@"pagesize"];
     
     [HttpTool postWithURL:@"Community/GetMessages" params:dic success:^(id json) {
+        
+        [self.tableView endRefresh];
+
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
             titleNameLab.text = toUserName;
@@ -249,14 +251,22 @@
                 [self.messageArr insertObject:dic atIndex:0];
             }
             [self.tableView reloadData];
-        
-            if (self.tableView.contentSize.height>kScreenHeight-64-49)
+            
+            if (isRefresh)
             {
-                [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+                [self.tableView setContentOffset:CGPointMake(0, arr.count*170) animated:NO];
             }
+        
             else
             {
-                [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+                if (self.tableView.contentSize.height>kScreenHeight-64-49)
+                {
+                    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+                }
+                else
+                {
+                    [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+                }
             }
         }
         else

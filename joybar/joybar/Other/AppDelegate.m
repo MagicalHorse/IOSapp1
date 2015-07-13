@@ -20,6 +20,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
+//    NSLog(@"%.2f %",a/b);
+    
+    
     [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                    UIRemoteNotificationTypeSound |
                                                    UIRemoteNotificationTypeAlert)
@@ -171,7 +174,10 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     if ([urlStr isEqualToString:@"wx281aa8c2686c0e7c://platformId=wechat"])
     {
         return  [UMSocialSnsService handleOpenURL:url];
-
+    }
+    else if ([urlStr rangeOfString:@"wx281aa8c2686c0e7c://oauth?code="].location !=NSNotFound)
+    {
+        return  [UMSocialSnsService handleOpenURL:url];
     }
     return [WXApi handleOpenURL:url delegate:self];
 

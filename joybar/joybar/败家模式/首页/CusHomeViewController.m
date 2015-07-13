@@ -278,6 +278,8 @@
 
 -(NSUInteger)numberOfViewsForYRADScrollView:(YRADScrollView *)adScrollView{
     return self.data.Banners.count;
+    
+    
 }
 #pragma mark adViewDelegate
 -(void)adScrollView:(YRADScrollView *)adScrollView didClickedAtPage:(NSInteger)pageIndex{
