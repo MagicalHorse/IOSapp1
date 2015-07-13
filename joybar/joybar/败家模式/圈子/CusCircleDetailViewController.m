@@ -509,7 +509,7 @@
         
         [self textHUDHiddle];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
-        {            
+        {
             [self getCircleDetailData];
         }
         else
