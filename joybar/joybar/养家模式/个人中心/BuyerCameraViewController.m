@@ -193,7 +193,14 @@
     [[picker navigationBar] setTintColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1]];
     picker.delegate = self;
     //设置选择后的图片可被编辑
-    picker.allowsEditing = NO;
+    
+    NSString *back= [Common getUserDefaultKeyName:@"backPhone"];
+    if ([back isEqualToString:@"2"]) {
+        picker.allowsEditing = YES;
+    }else{
+        picker.allowsEditing = NO;
+    }
+    
     
     [self presentViewController:picker animated:YES completion:nil];
 
@@ -212,7 +219,7 @@
         //先把图片转成NSData
         UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
         NSString *back= [Common getUserDefaultKeyName:@"backPhone"];
-        if([back isEqualToString:@"1"] ||btype>0){
+        if([back isEqualToString:@"1"] ||[back isEqualToString:@"3"]){
             [picker dismissViewControllerAnimated:NO completion:nil];
             UIImage *imageNew =image;
             //设置image的尺寸

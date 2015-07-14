@@ -11,6 +11,7 @@
 
 @interface BueryAuthInfoViewController ()<UIScrollViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate,UITextFieldDelegate>{
     NSArray *imageNames;
+    BOOL isUpdate;
 }
 @property (nonatomic,strong)UIScrollView *customScrollView;
 @property (nonatomic,strong)UIButton * customButton;
@@ -30,7 +31,9 @@
 @property (nonatomic,strong)UITextField * field4;
 @property (nonatomic,strong)UITextView *dscText;
 
-
+//pickerView
+@property (strong ,nonatomic) UIView * topView;
+@property (strong ,nonatomic) UIView * footView;
 
 
 @end
@@ -248,7 +251,7 @@
     _cityLable=[[UILabel alloc]initWithFrame:CGRectMake(35, 0, kScreenWidth-100, 45)];
     _cityLable.font =[UIFont fontWithName:@"youyuan" size:15];
     _cityLable.text =@"省、市、区、县（请选择）";
-    _cityLable.textColor = kCustomColor(194, 194, 200);
+//    _cityLable.textColor = kCustomColor(194, 194, 200);
     [cityView addSubview:_cityLable];
     cityView.tag =2000;
     UIImageView *cityImg=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-24, 18, 12, 12)];
@@ -302,21 +305,79 @@
     
 }
 -(void)didSelect:(UITapGestureRecognizer *)tag{
-    _pickerView =[[UIPickerView alloc]init];
-    _pickerView.tag =tag.view.tag;
-    _pickerView.frame=CGRectMake(0, kScreenHeight-180, kScreenWidth, 180);
-    _pickerView.dataSource=self;
-    _pickerView.delegate =self;
-    _pickerView.backgroundColor = kCustomColor(231, 231, 231);
-    [self.view addSubview:_pickerView];
+    isUpdate =NO;
+    //添加_pickerView
+    CGFloat w = [UIScreen mainScreen].bounds.size.width;
+    CGFloat h = 250;
+    CGFloat y =[UIScreen mainScreen].bounds.size.height-h;
+    CGFloat x =0;
+    self.footView=  [[UIView alloc]initWithFrame:CGRectMake(x, y, w, h)];
+    self.footView.backgroundColor=kCustomColor(241, 241, 241);
+    self.topView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, w, [UIScreen mainScreen].bounds.size.height-h)];
+    
+    self.topView.backgroundColor = [UIColor colorWithRed:0  green:0 blue:0 alpha:0.2];
+    [self.view addSubview: self.topView];
+    [self.view addSubview:self.footView];
+    self.footView.hidden =NO;
+    self.topView.hidden=NO;
+    
+    CGFloat btnNOX =10;
+    CGFloat btnNOY=10;
+    CGFloat btnNOW =60;
+    CGFloat btnNOH =30;
+    UIButton *btnNO=   [[UIButton alloc]initWithFrame:CGRectMake(btnNOX, btnNOY, btnNOW, btnNOH)];
+    [btnNO setTitle:@"取消" forState:UIControlStateNormal];
+    btnNO.titleLabel.font =[UIFont fontWithName:@"youyuan" size:16];
+    [btnNO setTitleColor:kCustomColor(56,155,234)forState:UIControlStateNormal];
+    [btnNO addTarget:self action:@selector(btnNOCilck:) forControlEvents:UIControlEventTouchDown];
+    [self.footView addSubview:btnNO];
+    
+    
+    UIButton *btnYes=   [[UIButton alloc]initWithFrame:CGRectMake(w-btnNOW-5, btnNOY, btnNOW, btnNOH)];
+    [btnYes setTitle:@"完成" forState:UIControlStateNormal];
+    btnYes.titleLabel.font =[UIFont fontWithName:@"youyuan" size:16];
+    [btnYes setTitleColor:kCustomColor(56,155,234) forState:UIControlStateNormal];
+
+    [btnYes addTarget:self action:@selector(btnYesCilck:) forControlEvents:UIControlEventTouchDown];
+    
+    
+    [self.footView addSubview:btnYes];
+    self.pickerView=  [[UIPickerView alloc]initWithFrame:CGRectMake(0, btnNOY+btnNOH, w, h-btnNOY-btnNOH)];
+    self.pickerView.delegate=self;
+    self.pickerView.dataSource = self;
+    self.pickerView.tag =tag.view.tag;
+    [self.footView addSubview:self.pickerView];
     if (tag.view.tag ==1000) {
+        btnYes.tag =10;
+        btnNO.tag =101;
         [self setData1];
     }else{
+        btnYes.tag =20;
+        btnNO.tag =201;
         [self setData:@"0" WithType:1];
-
     }
-    
 }
+
+
+-(void)btnNOCilck:(UIButton *)btn
+{
+    self.footView.hidden =YES;
+    self.topView.hidden=YES;
+}
+-(void)btnYesCilck:(UIButton *)btn
+{
+    self.footView.hidden =YES;
+    self.topView.hidden=YES;
+    if (btn.tag ==10) {
+        if (!isUpdate) {
+            self.field1.text =[self.dataArray4[0]objectForKey:@"StoreName"];
+            self.field1.tag =[[self.dataArray4[0]objectForKey:@"StoreId"]intValue];
+        }
+    }else{
+        
+    }
+}
+
 -(void)customBtnClick{
     
     if (self.field2.text.length==0) {
@@ -416,11 +477,10 @@
     
 }
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    isUpdate =YES;
     if (pickerView.tag ==1000) {
-        
         self.field1.text =[self.dataArray4[row]objectForKey:@"StoreName"];
         self.field1.tag =[[self.dataArray4[row]objectForKey:@"StoreId"]intValue];
-        self.pickerView.hidden=YES;
     }else{
         if (component==0) {
             [self.cityText setValue:[self.dataArray1[row] objectForKey:@"Name"] forKey:@"1"];
@@ -457,7 +517,6 @@
             }
             _cityLable.text =temp;
             _cityText =nil;
-            _pickerView.hidden=YES;
         }
     }
     
@@ -478,7 +537,6 @@
         _dscText.text =@"详细地址（顾客支付后，到专柜提货的地址，请务必正确填写，否则会影响收款确认）";
     }
     [self.dscText resignFirstResponder];
-    self.pickerView.hidden =YES;
 }
 -(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [self.field1 resignFirstResponder];
@@ -489,7 +547,6 @@
     }
     [self.field4 resignFirstResponder];
     [self.dscText resignFirstResponder];
-    self.pickerView.hidden =YES;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
