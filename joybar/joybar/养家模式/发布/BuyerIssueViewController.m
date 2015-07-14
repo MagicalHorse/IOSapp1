@@ -16,6 +16,9 @@
 #import "Detail.h"
 #import "DetailSize.h"
 #import "Image.h"
+#import "MJExtension.h"
+#import "Tag.h"
+
 
 @interface BuyerIssueViewController ()<UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate,BuyerCameraDelgeate,BuyerFilterDelgeate>
 {
@@ -36,11 +39,9 @@
 @property (nonatomic,strong)UITextField *textField1;
 @property (nonatomic,strong)UITextField *textField2;
 
-@property (nonatomic,strong)UIButton *btn1;
-@property (nonatomic,strong)UIButton *btn2;
-@property (nonatomic,strong)UIButton *btn3;
-@property (nonatomic,strong)UIImage *btn2Img;
-@property (nonatomic,strong)UIImage *btn3Img;
+@property (nonatomic,strong)UIImageView *btn1;
+@property (nonatomic,strong)UIImageView *btn2;
+@property (nonatomic,strong)UIImageView *btn3;
 
 
 @property (nonatomic,strong)NSMutableArray *sizeArray;
@@ -63,9 +64,6 @@
     return _imagesArray;
 }
 
-
-
-
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -73,12 +71,16 @@
     {
         self.hidesBottomBarWhenPushed = YES;
         self.customScrollView = [[UIScrollView alloc]init];
-        self.btn1=[[UIButton alloc]init];
+        self.btn1=[[UIImageView alloc]init];
         self.btn1.tag=1;
-        self.btn2=[[UIButton alloc]init];
+        self.btn1.userInteractionEnabled =YES;
+        self.btn2=[[UIImageView alloc]init];
         self.btn2.tag=2;
-        self.btn3=[[UIButton alloc]init];
+        self.btn2.userInteractionEnabled =YES;
+        self.btn3=[[UIImageView alloc]init];
         self.btn3.tag=3;
+        self.btn3.userInteractionEnabled =YES;
+
     }
     return self;
 }
@@ -119,11 +121,11 @@
     [self creatBtn:self.btn3];
     if (self.images) {
         if (self.btnType ==2) {
-            [_btn2 setBackgroundImage:self.image forState:UIControlStateNormal];
+            self.btn2.image =self.image;
         }else if(self.btnType ==3){
-            [_btn3 setBackgroundImage:self.image forState:UIControlStateNormal];
+            self.btn3.image =self.image;
         }else{
-            [_btn1 setBackgroundImage:self.image forState:UIControlStateNormal];
+            self.btn1.image =self.image;
         }
     }
     if (self.detail) {
@@ -217,9 +219,6 @@
     [self.addInfoBtn addTarget:self action:@selector(addInfoView:) forControlEvents:UIControlEventTouchUpInside];
     [self.customScrollView addSubview:self.addInfoBtn];
     
-   
-    
-    
     //发布按钮
     _footerBtn =[[UIButton alloc]initWithFrame:CGRectMake(0,self.customScrollView.bottom, kScreenWidth, 50)];
     [_footerBtn setTitle:@"发布" forState:UIControlStateNormal];
@@ -243,16 +242,12 @@
         NSString *url =[NSString stringWithFormat:@"%@_120x0.jpg",img.ImageUrl];
          UIImage * image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
         if (i==0) {
-           
-            [self.btn1  setImage:image forState:UIControlStateNormal];
-            self.image =image;
+            self.btn1.image =image;
         }else if(i==1){
-            [self.btn2  setImage:image forState:UIControlStateNormal];
-            self.btn2Img=image;
+            self.btn2.image =image;
 
         }else if(i==2){
-            [self.btn3  setImage:image forState:UIControlStateNormal];
-            self.btn3Img=image;
+            self.btn3.image =image;
         }
     }
     for (int i=1; i<detail.Sizes.count; i++) {
@@ -286,15 +281,17 @@
     [Common saveUserDefault:@"1" keyName:@"backPhone"];
     [self.navigationController popViewControllerAnimated:YES];
     
-}-(void)creatBtn:(UIButton *)btn
+}-(void)creatBtn:(UIImageView *)btn
 {
     NSInteger i=btn.tag-1;
     btn.frame= CGRectMake((kScreenWidth/3-20)*i+15*(i+1), 15, kScreenWidth/3-20, 85);
     btn.layer.borderWidth= 1.5;
     btn.layer.borderColor = kCustomColor(169, 200, 234).CGColor;
-    [btn setTitle:@"+图片" forState:UIControlStateNormal];
-    [btn setTitleColor:kCustomColor(194, 194, 200)  forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(btnClick:)];
+    [btn addGestureRecognizer:tap];
+    
+ 
     [self.photoView addSubview:btn];
 }
 //发布
@@ -380,9 +377,7 @@
     [dict setObject:self.dscText.text forKey:@"Desc"];
     [dict setObject:self.priceText1.text forKey:@"Sku_Code"];
     
-    
-    
-   
+
     NSString *tempUrl;
     if (self.detail) {
         tempUrl =@"Product/Update";
@@ -406,7 +401,6 @@
                     [self dismissViewControllerAnimated:YES completion:nil];
                 });
             }
-
         }else{
             [self showHudFailed:@"操作失败"];
         }
@@ -416,22 +410,29 @@
     }];
 }
 //选择图片
--(void)btnClick:(UIButton *)btn{
-    NSInteger i =btn.tag;
+-(void)btnClick:(UITapGestureRecognizer *)btn{
+    NSInteger i =btn.view.tag;
     switch (i) {
         case 1:
-            if (self.detail) {
-                Image *image =[self.imagesArray objectAtIndex:0];
-                BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.image andImage:image];
+            if (self.detail){
+                Image *image =[[Image alloc]init];
+                if (![[self.imagesArray objectAtIndex:0] isKindOfClass:[Image class]]){
+                    image.ImageUrl =[[self.imagesArray objectAtIndex:0]objectForKey:@"ImageUrl"];
+                    image.Tags =[[self.imagesArray objectAtIndex:0]objectForKey:@"Tags"];
+                }else{
+                    image =[self.imagesArray objectAtIndex:0];
+                }
+
+                BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn1.image andImage:image];
                 filter.btnType =(int)self.btn1.tag;
                 filter.delegate=self;
                 [self.navigationController pushViewController:filter animated:YES];
                 
             }
-            else if(self.imagesArray.count>0) {
+            else if(self.btn1.image) {
                 if ([self.imagesArray objectAtIndex:0]) {
                     NSDictionary *imageurl =[self.imagesArray objectAtIndex:0];
-                    BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.image];
+                    BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn1.image];
                     filter.delegate=self;
                     filter.btnType =(int)self.btn1.tag;
                     filter.imageDic =imageurl;
@@ -441,17 +442,24 @@
                 break;
         case 2:
             if (self.detail) {
-                Image *image =[self.imagesArray objectAtIndex:1];
-                BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn2Img andImage:image];
+                
+                Image *image =[[Image alloc]init];
+                if (![[self.imagesArray objectAtIndex:1] isKindOfClass:[Image class]]){
+                    image.ImageUrl =[[self.imagesArray objectAtIndex:1]objectForKey:@"ImageUrl"];
+                    image.Tags =[[self.imagesArray objectAtIndex:1]objectForKey:@"Tags"];
+                }else{
+                    image =[self.imagesArray objectAtIndex:1];
+                }
+                BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn2.image andImage:image];
                 filter.delegate=self;
                 filter.btnType =(int)self.btn2.tag;
                 [self.navigationController pushViewController:filter animated:YES];
                 
-            }else if (self.imagesArray.count>1) {//点击图片顺序会导致bug
+            }else if (self.btn2.image) {//点击图片顺序会导致bug
                 
                 if ([self.imagesArray objectAtIndex:1]) {
                     NSDictionary *imageurl =[self.imagesArray objectAtIndex:1];
-                    BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn2Img];
+                    BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn2.image];
                     filter.imageDic =imageurl;
                     filter.delegate =self;
                     filter.btnType =(int)self.btn2.tag;
@@ -472,17 +480,23 @@
             break;
         case 3:
             if (self.detail) {
-                Image *image =[self.imagesArray objectAtIndex:2];
-                BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn3Img andImage:image];
+                Image *image =[[Image alloc]init];
+                if (![[self.imagesArray objectAtIndex:2] isKindOfClass:[Image class]]){
+                    image.ImageUrl =[[self.imagesArray objectAtIndex:2]objectForKey:@"ImageUrl"];
+                    image.Tags =[[self.imagesArray objectAtIndex:2]objectForKey:@"Tags"];
+                }else{
+                    image =[self.imagesArray objectAtIndex:2];
+                }
+                BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn3.image andImage:image];
                 filter.delegate=self;
                 filter.btnType =(int)self.btn3.tag;
                 [self.navigationController pushViewController:filter animated:YES];
                 
-            }else if (self.imagesArray.count>0) {
+            }else if (self.btn3.image) {
                 
                 if ([self.imagesArray objectAtIndex:2]) {
                     NSDictionary *imageurl =[self.imagesArray objectAtIndex:2];
-                    BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn3Img];
+                    BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn3.image];
                     filter.imageDic =imageurl;
                     filter.delegate =self;
                     filter.btnType =(int)self.btn3.tag;
@@ -652,18 +666,19 @@
             }else{
                 [self.imagesArray addObject:array];
             }
-            [self.btn1 setBackgroundImage:image forState:UIControlStateNormal];
-            self.image =image;
+            self.btn1.image =image;
             break;
         case 2:
-            [self.imagesArray addObject:array];
-            [self.btn2 setBackgroundImage:image forState:UIControlStateNormal];
-            self.btn2Img=image;
+            if (array) {
+                [self.imagesArray addObject:array];
+            }
+            self.btn2.image =image;
             break;
         case 3:
-            [self.imagesArray addObject:array];
-            [self.btn3 setBackgroundImage:image forState:UIControlStateNormal];
-            self.btn3Img=image;
+            if (array) {
+                [self.imagesArray addObject:array];
+            }
+            self.btn3.image =image;
             break;
         default:
             break;
@@ -679,16 +694,14 @@
                 [self.imagesArray removeObjectAtIndex:0];
                 [self.imagesArray insertObject:dic atIndex:0];
             }
-            [self.btn1 setBackgroundImage:image forState:UIControlStateNormal];
-            self.image =image;
+            self.btn1.image =image;
             break;
         case 2:
             if (self.imagesArray.count >0) {
                 [self.imagesArray removeObjectAtIndex:1];
                 [self.imagesArray insertObject:dic atIndex:1];
             }
-            [self.btn2 setBackgroundImage:image forState:UIControlStateNormal];
-//            self.image =image;
+            self.btn2.image =image;
             break;
         case 3:
            
@@ -696,8 +709,7 @@
                 [self.imagesArray removeObjectAtIndex:2];
                 [self.imagesArray insertObject:dic atIndex:2];
             }
-            [self.btn3 setBackgroundImage:image forState:UIControlStateNormal];
-            self.image =image;
+            self.btn3.image =image;
             break;
         default:
             break;

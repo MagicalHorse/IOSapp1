@@ -61,7 +61,7 @@
     
     
     _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 265)];
-    _bgImageView.image = [UIImage imageNamed:@"3.jpg"];
+    _bgImageView.image = [UIImage imageNamed:@"bgImage"];
     [_bgHeaderView addSubview:_bgImageView];
     
     UIImageView *circleImage = [[UIImageView alloc] init];

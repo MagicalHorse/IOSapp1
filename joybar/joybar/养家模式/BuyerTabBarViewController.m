@@ -24,6 +24,7 @@
 #import "BuyerMineViewController.h"
 #import "BuyerCameraViewController.h"
 #import "BuyerOpenViewController.h"
+#import "CusMessageViewController.h"
 @interface BuyerTabBarViewController ()<UIActionSheetDelegate>
 
 @end
@@ -57,7 +58,7 @@
     BuyerHomeViewController *homeView = [[BuyerHomeViewController alloc]init];
     BuyerTicketViewController *fastView = [[BuyerTicketViewController alloc]init];
     UIViewController *messageView = [[UIViewController alloc]init];
-    BuyerMessageViewController *fineView = [[BuyerMessageViewController alloc]init];
+    CusMessageViewController *fineView = [[CusMessageViewController alloc]init];
     BuyerMineViewController *myAccountView = [[BuyerMineViewController alloc] init];
     self.buyerHomeNav = [[BaseNavigationController alloc]initWithRootViewController:homeView];
     self.buyerTicketNav = [[BaseNavigationController alloc]initWithRootViewController:fastView];
