@@ -30,7 +30,7 @@
     self.numLab.text = [NSString stringWithFormat:@"x%@",self.orderListItem.OrderProductCount];
     self.proNameLab.text = [NSString stringWithFormat:@"共%@件商品",self.orderListItem.OrderProductCount];
     self.priceLab.text = [NSString stringWithFormat:@"￥%@",self.orderListItem.Product.Price];
-    self.payPriceLab.text =[NSString stringWithFormat:@"￥%@",self.orderListItem.Amount];
+    self.payPriceLab.text =[NSString stringWithFormat:@"￥%@",self.orderListItem.ActualAmount];
     self.sizeLab.text = self.orderListItem.Product.Productdesc;
     NSString *tempUrl = [NSString stringWithFormat:@"%@_120x0.jpg",self.orderListItem.Product.Image];
     [self.proImageView sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];

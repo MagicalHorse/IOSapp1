@@ -11,6 +11,7 @@
 #import "CusCollectionViewCell.h"
 #import "MJRefresh.h"
 #import "CHTCollectionViewWaterfallLayout.h"
+#import "CusBuyerDetailViewController.h"
 @interface CusCollectionViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,CHTCollectionViewDelegateWaterfallLayout>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -140,6 +141,14 @@
     return cell;
 }
 
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+    VC.productId = [[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"Id"];
+    [self.navigationController pushViewController: VC animated:YES];
+}
+
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -153,6 +162,7 @@
     NSLog(@"++++++++++++++%f",size1.height);
     return size1;
 }
+
 
 -(void)cancelCollect
 {

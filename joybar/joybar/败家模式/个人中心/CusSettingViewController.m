@@ -527,27 +527,15 @@
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
     [dic setObject:str forKey:@"json"];
     [dic setObject:APP_ID forKey:@"appid"];
-    [HttpTool postWithURL:@"User/OutSiteLogin" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"User/BindOutSideUser" params:dic success:^(id json) {
         
         [self textHUDHiddle];
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
-            
-            NSArray *allKeys = [userInfoDic allKeys];
-            for (NSString *key in allKeys)
-            {
-                
-                NSString *value = [userInfoDic objectForKey:key];
-                if ([value isEqual:[NSNull null]])
-                {
-                    [userInfoDic setObject:@"" forKey:key];
-                }
-            }
-            [[NSUserDefaults standardUserDefaults] setObject:userInfoDic forKey:@"userInfo"];
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfo"]];
+            [dic setObject:@"1" forKey:@"IsBindWeiXin"];
+            [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
             
             [self showHudSuccess:@"绑定成功"];
             [self.tableView reloadData];

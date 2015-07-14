@@ -31,5 +31,6 @@
 
 @property (nonatomic ,copy) NSString *ShareLink;
 @property (nonatomic ,copy) NSString *IsShareable;
+@property (nonatomic ,copy) NSString *ActualAmount;
 
 @end

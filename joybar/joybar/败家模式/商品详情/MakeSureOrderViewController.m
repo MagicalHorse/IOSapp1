@@ -9,7 +9,7 @@
 #import "MakeSureOrderViewController.h"
 #import "CusOrderProTableViewCell.h"
 #import "PayOrderViewController.h"
-@interface MakeSureOrderViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
+@interface MakeSureOrderViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
 
@@ -216,10 +216,12 @@
         phoneText = [[UITextField alloc] initWithFrame:CGRectMake(lab.right, 15, kScreenWidth-100, 30)];
         phoneText.borderStyle = UITextBorderStyleNone;
         phoneText.layer.borderColor = [UIColor grayColor].CGColor;
+        phoneText.keyboardType = UIKeyboardTypeNumberPad;
         phoneText.layer.borderWidth =0.5;
         phoneText.layer.cornerRadius = 3;
         phoneText.placeholder = @" 未填写";
         phoneText.font = [UIFont systemFontOfSize:14];
+        phoneText.delegate =self;
         [cell.contentView addSubview:phoneText];
         
         UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(phoneText.left, phoneText.bottom+5, 200, 20)];
@@ -304,7 +306,7 @@
         {
             PayOrderViewController *VC = [[PayOrderViewController alloc] init];
             VC.proName = self.detailData.ProductName;
-            VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"TotalAmount"];
+            VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"ActualAmount"];
             VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
             [self showHudSuccess:@"提交成功"];
             
@@ -316,7 +318,7 @@
         }
         else
         {
-            
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
         NSLog(@"%@",[json objectForKey:@"message"]);
         [self textHUDHiddle];
@@ -356,5 +358,34 @@
     [self.tableView endEditing:YES];
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    return YES;
+}
+
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = -120;
+    self.view.frame = rect;
+    [UIView commitAnimations];
+    return YES;
+}
+-(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = 0;
+    self.view.frame = rect;
+    [UIView commitAnimations];
+    
+    [textField resignFirstResponder];
+    return  YES;
+
+}
 
 @end

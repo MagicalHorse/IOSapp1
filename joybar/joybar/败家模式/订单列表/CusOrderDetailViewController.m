@@ -225,7 +225,7 @@
 
         if (self.detailData)
         {
-            NSArray *msgArr = @[self.detailData.OrderNo,self.detailData.OrderStatusName,[NSString stringWithFormat:@"￥%@",self.detailData.OrderAmount],self.detailData.CreateDate];
+            NSArray *msgArr = @[self.detailData.OrderNo,self.detailData.OrderStatusName,[NSString stringWithFormat:@"￥%@",self.detailData.ActualAmount],self.detailData.CreateDate];
             UILabel *msgLab = [[UILabel alloc] initWithFrame:CGRectMake(lab.right+10, 15, kScreenWidth-110, 20)];
             msgLab.text = [msgArr objectAtIndex:indexPath.row];
             msgLab.font = [UIFont fontWithName:@"youyuan" size:15];
@@ -443,7 +443,7 @@
     {
         AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle) name:@"PaySuccessNotification" object:nil];
-        [app sendPay_demo:self.detailData.OrderNo andName:self.detailData.ProductName andPrice:self.detailData.OrderAmount];
+        [app sendPay_demo:self.detailData.OrderNo andName:self.detailData.ProductName andPrice:self.detailData.ActualAmount];
     }
     else if ([btn.titleLabel.text isEqual:@"确认提货"])
     {

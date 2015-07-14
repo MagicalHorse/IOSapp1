@@ -20,5 +20,6 @@
 @property (nonatomic ,strong) OrderListPro *Product;
 @property (nonatomic ,copy) NSString *BuyerName;
 @property (nonatomic ,copy) NSString *OrderStatusStr;
+@property (nonatomic ,copy) NSString *ActualAmount;
 
 @end

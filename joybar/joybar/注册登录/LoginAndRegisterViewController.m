@@ -294,7 +294,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:loginPhoneText.text forKey:@"mobile"];
     [dic setObject:loginAuthText.text forKey:@"password"];
-    [self hudShow:@"正在登陆"];
+    [self hudShow:@"正在登录"];
     [HttpTool postWithURL:@"user/Login" params:dic success:^(id json) {
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
