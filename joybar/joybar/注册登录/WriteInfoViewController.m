@@ -49,6 +49,14 @@
         text.font = [UIFont fontWithName:@"youyuan" size:14];
         text.tag = 1000+i;
         [bgView addSubview:text];
+        if (i>0)
+        {
+            text.secureTextEntry = YES;
+        }
+        else
+        {
+            text.secureTextEntry = NO;
+        }
         
         if (i<2)
         {
@@ -114,16 +122,38 @@
     NSString *rePassword = ((UITextField *)[bgView viewWithTag:1002]).text;
     if (![passwordStr isEqualToString:rePassword])
     {
+        [self showHudFailed:@"密码不一致"];
         return;
     }
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
+    if ([nameStr isEqualToString:@""])
+    {
+        [self showHudFailed:@"请填写用户名"];
+        return;
+    }
     [dic setObject:nameStr forKey:@"name"];
+    if ([passwordStr isEqualToString:@""])
+    {
+        [self showHudFailed:@"请填写密码"];
+        return;
+    }
     [dic setObject:passwordStr forKey:@"password"];
+    
+    if (!self.mobilePhone)
+    {
+        [self showHudFailed:@"请填写手机号"];
+        return;
+    }
+    
     [dic setObject:self.mobilePhone forKey:@"mobile"];
+    if (!self.cityID)
+    {
+        [self showHudFailed:@"请选择城市"];
+        return;
+    }
     [dic setObject:self.cityID forKey:@"cityid"];
     
     [HttpTool postWithURL:@"user/Register" params:dic success:^(id json) {
-        NSLog(@"%@",[json objectForKey:@"message"]);
 
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {

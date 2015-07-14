@@ -83,6 +83,7 @@
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self.msgTableView endRefresh];
         
     } failure:^(NSError *error) {
         [self showHudFailed:@"请求失败"];

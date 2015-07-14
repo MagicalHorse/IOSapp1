@@ -16,6 +16,7 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "SDWebImageManager.h"
+#import "CusBuyerDetailViewController.h"
 @interface CusOrderDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UMSocialUIDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
@@ -363,6 +364,16 @@
         return 50;
     }
     return 80;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==2)
+    {
+        CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+        VC.productId = self.detailData.ProductId;
+        [self.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 //打电话

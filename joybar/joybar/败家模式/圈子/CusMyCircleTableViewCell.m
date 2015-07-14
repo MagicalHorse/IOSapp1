@@ -30,13 +30,14 @@
     self.lastMessageLab.text = [dic objectForKey:@"UnReadMessage"];
     
     NSString *count = [NSString stringWithFormat:@"%@",[dic objectForKey:@"UnReadCount"]];
+    self.msgCountLab.text = count;
     if ([count isEqualToString:@"0"])
     {
         self.msgCountLab.hidden = YES;
     }
     else
     {
-        self.msgCountLab.text = count;
+        self.msgCountLab.hidden = NO;
     }
 }
 

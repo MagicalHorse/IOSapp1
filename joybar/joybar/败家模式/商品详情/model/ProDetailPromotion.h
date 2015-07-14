@@ -15,5 +15,5 @@
 @property (nonatomic ,copy) NSString *Link;
 @property (nonatomic ,copy) NSString *Name;
 @property (nonatomic ,copy) NSString *TipText;
-
+@property (nonatomic ,copy) NSString *IsShow;
 @end
