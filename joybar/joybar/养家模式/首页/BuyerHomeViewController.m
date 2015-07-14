@@ -152,8 +152,8 @@
     UIView  *bgView =[[UIView alloc]init];
     bgView.userInteractionEnabled=YES;
     bgView.backgroundColor =[UIColor blackColor];
-    [self.homeTableView addSubview:bgView];
-    bgView.frame =CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    [self.view addSubview:bgView];
+    bgView.frame =CGRectMake(0, 64, kScreenWidth, kScreenHeight);
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClick:)];
     [bgView addGestureRecognizer:tap];
@@ -164,7 +164,9 @@
     [bgView addSubview:img];
     bgView.alpha=0;
     [UIView animateWithDuration:0.5 animations:^{
-        img.frame =CGRectMake(25, 80, 280, 280);
+
+        img.center = CGPointMake(kScreenWidth/2, (kScreenHeight-64-49)/2);
+        img.bounds = CGRectMake(0, 0, kScreenWidth-40, kScreenWidth-40);
         bgView.alpha=1;
     }];
     

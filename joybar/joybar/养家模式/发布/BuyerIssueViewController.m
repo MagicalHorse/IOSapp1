@@ -116,6 +116,9 @@
     self.photoView.backgroundColor =[UIColor whiteColor];
     [self.customScrollView addSubview:self.photoView];
     
+     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelect)];
+    [self.customScrollView addGestureRecognizer:tap];
+    
     [self creatBtn:self.btn1];
     [self creatBtn:self.btn2];
     [self creatBtn:self.btn3];
@@ -644,14 +647,46 @@
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.30];
     CGRect rect = self.view.frame;
-    rect.origin.y = -120;
+    rect.origin.y = -160;
     self.view.frame = rect;
     [UIView commitAnimations];
     return YES;
 }
--(BOOL)textViewShouldEndEditing:(UITextView *)textView{
+-(void)didSelect{
+    if (self.dscText.text.length ==0) {
+        self.dscText.text =@"给力商品描述点";
+    }
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = 0;
+    self.view.frame = rect;
+    [UIView commitAnimations];
+    [self.dscText resignFirstResponder];
+    [self.priceText1 resignFirstResponder];
+    [self.priceText resignFirstResponder];
+    [self.textField1 resignFirstResponder];
+    [self.textField2 resignFirstResponder];
+
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    self.dscText.text=@"";
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = -160;
+    self.view.frame = rect;
+    [UIView commitAnimations];
+}
+- (void)textViewDidEndEditing:(UITextView *)textView{
     [textView resignFirstResponder];
-    return  YES;
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = 0;
+    self.view.frame = rect;
+    [UIView commitAnimations];
 }
 
 -(void)dismissCamrea:(UIImage *)image WithTag:(int)type AndDataArray:(NSMutableDictionary *)array{
