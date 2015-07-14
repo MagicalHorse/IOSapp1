@@ -52,7 +52,12 @@
     //tableView
     self.msgTableView = [[MessageTableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     [self.messageScroll addSubview:self.msgTableView];
-    
+    __weak CusMessageViewController *VC = self;
+    self.msgTableView.headerRereshingBlock=^()
+    {
+        [VC.msgTableView.dataArr removeAllObjects];
+        [VC getMessageList];
+    };
     
     
     [self initWithNavView];
@@ -63,7 +68,6 @@
     [super viewWillAppear:animated];
     [self getMessageList];
 }
-
 -(void)getMessageList
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
@@ -87,6 +91,8 @@
         
     } failure:^(NSError *error) {
         [self showHudFailed:@"请求失败"];
+        [self.msgTableView endRefresh];
+
     }];
 }
 
