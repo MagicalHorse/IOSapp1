@@ -5,7 +5,7 @@
 //
 
 #define HomeURL  @"http://123.57.52.187:8080/app/"
-//#define HomeURL  @"http://192.168.1.9/app/"
+//#define HomeURL  @"http://123.57.52.187:8070/app"
 
 
 #import "HttpTool.h"

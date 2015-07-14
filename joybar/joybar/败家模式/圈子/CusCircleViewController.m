@@ -25,6 +25,7 @@
 @property (nonatomic ,assign) CGFloat endX;
 
 @property (nonatomic ,assign) NSInteger pageNum;
+@property (nonatomic ,assign) NSInteger myCirclePageNum;
 
 
 @end
@@ -48,6 +49,8 @@
     self.circleScroll.bounces = NO;
     self.circleScroll.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.circleScroll];
+    self.pageNum = 1;
+    self.myCirclePageNum = 1;
     
     [self initWithCircleTableView];
     
@@ -73,7 +76,6 @@
         VC.pageNum++;
         [VC getCircleData:YES];
     };
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -87,26 +89,24 @@
     self.myCircleTableView = [[MyCircleTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     [self.circleScroll addSubview:self.myCircleTableView];
     
-//    __weak CusCircleViewController *VC = self;
-//    self.myCircleTableView.headerRereshingBlock = ^()
-//    {
-//        [VC.myCircleTableView.dataArr removeAllObjects];
-//        VC.pageNum = 1;
-//        [VC getMyCircleData:YES];
-//    };
+    __weak CusCircleViewController *VC = self;
+    self.myCircleTableView.headerRereshingBlock = ^()
+    {
+        [VC.myCircleTableView.dataArr removeAllObjects];
+        VC.myCirclePageNum = 1;
+        [VC getMyCircleData:YES];
+    };
+    self.myCircleTableView.footerRereshingBlock = ^()
+    {
+        VC.myCirclePageNum++;
+        [VC getMyCircleData:YES];
+    };
 }
 
 -(void)initWithNavView
 {
     [self addNavBarViewAndTitle:@""];
     self.pageNum = 1;
-    
-    //    UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    //    searchBtn.frame = CGRectMake(-10, 10, 64, 64);
-    //    searchBtn.backgroundColor = [UIColor clearColor];
-    //    [searchBtn setImage:[UIImage imageNamed:@"search"] forState:(UIControlStateNormal)];
-    //    [searchBtn addTarget:self action:@selector(didClickSearchBtn) forControlEvents:(UIControlEventTouchUpInside)];
-    //    [self.navView addSubview:searchBtn];
     
     tempView = [[UIView alloc] initWithFrame:CGRectMake(75, 0, kScreenWidth-150, 64)];
     tempView.backgroundColor = [UIColor clearColor];
@@ -168,19 +168,24 @@
             [self.circleTableView.dataArr addObjectsFromArray:arr];
             [self.circleTableView reloadData];
         }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
         [self.circleTableView endRefresh];
         NSLog(@"%@",json);
         
     } failure:^(NSError *error) {
         
+            [self showHudFailed:@"请求失败"];
     }];
 }
 
 -(void)getMyCircleData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:@"1" forKey:@"page"];
-    [dic setObject:@"10000" forKey:@"pagesize"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",self.myCirclePageNum] forKey:@"page"];
+    [dic setObject:@"10" forKey:@"pagesize"];
     if (!isRefresh)
     {
         [self showInView:self.circleScroll WithPoint:CGPointMake(kScreenWidth, 0) andHeight:kScreenHeight-64-49];
@@ -193,14 +198,17 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            if (arr.count<10)
+            {
+                [self.myCircleTableView hiddenFooter:YES];
+            }
+            else
+            {
+                [self.myCircleTableView hiddenFooter:NO];
+            }
             [self.myCircleTableView.dataArr addObjectsFromArray:arr];
             [self.myCircleTableView endRefresh];
             [self.myCircleTableView reloadData];
-            
-            [self.myCircleTableView hiddenHeader:YES];
-            
-            [self.myCircleTableView hiddenFooter:YES];
-
         }
         else
         {

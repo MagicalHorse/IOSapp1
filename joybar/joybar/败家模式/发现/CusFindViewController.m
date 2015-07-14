@@ -196,7 +196,7 @@
             
             NearData *nearData = [NearData objectWithKeyValues:dic];
             
-            if (nearData.items.count<=6)
+            if (nearData.items.count<6)
             {
                 [self.nearTableView hiddenFooter:YES];
             }

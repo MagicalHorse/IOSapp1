@@ -159,8 +159,8 @@
     loginAuthText = [[UITextField alloc] initWithFrame:CGRectMake(10, 47, 200, 40)];
     loginAuthText.placeholder = @"请输入您的密码";
     loginAuthText.font = [UIFont fontWithName:@"youyuan" size:14];
-    loginAuthText.keyboardType = UIKeyboardTypeNumberPad;
-    
+//    loginAuthText.keyboardType = UIKeyboardTypeNumberPad;
+    loginAuthText.secureTextEntry = YES;
     [scroll addSubview:loginAuthText];
     
     UIButton *loginBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -337,8 +337,8 @@
 -(void)didClickAuthCode
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:registerPhoneText.text forKey:@"mobile"];
-    [dic setObject:registerAuthText.text forKey:@"code"];
+    [dic setValue:registerPhoneText.text forKey:@"mobile"];
+    [dic setValue:registerAuthText.text forKey:@"code"];
     [self hudShowWithText:@"正在验证"];
     [HttpTool postWithURL:@"user/VerifyCode" params:dic success:^(id json) {
 
@@ -364,8 +364,8 @@
 -(void)didCilckGetAuthCode
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:registerPhoneText.text forKey:@"mobile"];
-    [dic setObject:@"0" forKey:@"type"];
+    [dic setValue:registerPhoneText.text forKey:@"mobile"];
+    [dic setValue:@"0" forKey:@"type"];
     [self hudShowWithText:@"正在获取验证码"];
     [HttpTool postWithURL:@"user/SendMobileCode" params:dic success:^(id json) {
         
@@ -389,6 +389,7 @@
 //微信登陆
 -(void)didCLickWXLogin
 {
+    [self hudShow:@"正在登录..."];
     [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
 
     UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
@@ -399,9 +400,8 @@
             
             UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary]valueForKey:UMShareToWechatSession];
             
-            NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
-            
-            [self hudShow:@"正在登录..."];
+            NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid ,snsAccount.accessToken,snsAccount.iconURL);
+
             NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",snsAccount.accessToken,snsAccount.openId]];
             NSURLRequest *request = [NSURLRequest requestWithURL:url];
             [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -418,8 +418,8 @@
 -(void)WXLogin:(NSString *)str
 {
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
-    [dic setObject:str forKey:@"json"];
-    [dic setObject:APP_ID forKey:@"appid"];
+    [dic setValue:str forKey:@"json"];
+    [dic setValue:APP_ID forKey:@"appid"];
     [HttpTool postWithURL:@"User/OutSiteLogin" params:dic success:^(id json) {
         
         [self textHUDHiddle];

@@ -187,8 +187,7 @@
     nightLab1.textColor = [UIColor grayColor];
     [tempView addSubview:nightLab1];
 
-    NSLog(@"%@",proData.Promotion);
-    if (proData.Promotion)
+    if ([proData.Promotion.IsShow boolValue])
     {
         imageView1.hidden = NO;
         imageView2.hidden = NO;

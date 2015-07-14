@@ -18,6 +18,7 @@
 #import "MyBuyerTableView.h"
 #import "HomeTableView.h"
 #import "YRADScrollView.h"
+#import "BannerViewController.h"
 
 @interface CusHomeViewController ()<UIScrollViewDelegate,YRADScrollViewDataSource,YRADScrollViewDelegate>
 
@@ -288,6 +289,12 @@
 #pragma mark adViewDelegate
 -(void)adScrollView:(YRADScrollView *)adScrollView didClickedAtPage:(NSInteger)pageIndex{
     //    NSLog(@"-->>点击了:%@",[_nameArray objectAtIndex:pageIndex]);
+    Banner *banner = [self.data.Banners objectAtIndex:pageIndex];
+
+    BannerViewController *VC = [[BannerViewController alloc] init];
+    VC.link = banner.Link;
+    [self.navigationController pushViewController:VC animated:YES];
+    
 }
 //-(void)adScrollView:(YRADScrollView *)adScrollView didScrollToPage:(NSInteger)pageIndex
 //{

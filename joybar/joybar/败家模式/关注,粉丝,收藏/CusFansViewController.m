@@ -58,8 +58,6 @@
         [VC.fanArr removeAllObjects];
         VC.pageNum = 1;
         [VC getData];
-        
-    
     };
     self.tableView.footerRereshingBlock = ^{
         VC.pageNum++;
@@ -69,15 +67,13 @@
     [self addNavBarViewAndTitle:self.titleStr];
     
     [self getData];
-
-
 }
 
 -(void)getData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
-    [dic setValue:@"6" forKey:@"pagesize"];
+    [dic setValue:@"10" forKey:@"pagesize"];
     [dic setValue:@"1" forKey:@"status"];
     [self hudShow];
     [HttpTool postWithURL:@"User/GetUserFavoite" params:dic success:^(id json) {
@@ -86,7 +82,7 @@
         {
            fansItems = [FansItems objectWithKeyValues:[json objectForKey:@"data"]];
             
-            if (fansItems.items.count<6)
+            if (fansItems.items.count<10)
             {
                 [self.tableView hiddenFooter:YES];
             }
@@ -95,8 +91,8 @@
                 [self.tableView hiddenFooter:NO];
             }
             [self.fanArr addObjectsFromArray:fansItems.items];
-            [self.tableView reloadData];
             [self.tableView endRefresh];
+            [self.tableView reloadData];
         }
         else
         {
@@ -121,16 +117,17 @@
     {
         cell = [[CusFansTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
-    
     for (UIView *view in cell.contentView.subviews)
     {
         [view removeFromSuperview];
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    FansModel *fan = [fansItems.items objectAtIndex:indexPath.row];
-    [cell setData:fan];
-    
+    if (self.fanArr.count>0)
+    {
+        FansModel *fan = [self.fanArr objectAtIndex:indexPath.row];
+        [cell setData:fan];
+    }
     return cell;
 }
 
