@@ -200,55 +200,72 @@
 }
 -(void)nextClick{
     
-    
+    [self hudShow:@"正在上传"];
+    NSDate *  senddate=[NSDate date];
+    NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+    [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
+    NSString *  locationString=[dateformatter stringFromDate:senddate];
+    NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
+    OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
+    osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
+    NSData *data = UIImagePNGRepresentation(self.bgImage.image);
+    [osData setData:data withType:@"image/png"];
     self.issue =[[BuyerIssueViewController alloc]init];
     self.issue.image =self.bgImage.image;
     if (self.imageDic) {
+        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+            if (isSuccess) {
+                NSMutableDictionary *dict= [NSMutableDictionary dictionary];
+                self.tempImageName =[self.imageDic objectForKey:@"ImageUrl"];
+                [dict setObject:self.tempImageName forKey:@"ImageUrl"];
+                [dict setObject:self.tagsArray forKey:@"Tags"];
+                
+                [self.navigationController popViewControllerAnimated:YES];
+                if ([self.delegate respondsToSelector:@selector(pop:AndDic:AndType:)])
+                {
+                    [self.delegate pop:self.bgImage.image AndDic:dict AndType:_btnType];
+                }
+            }else{
+                [self showHudFailed:[error description]];
+            }
+            [self textHUDHiddle];
+        } withProgressCallback:^(float progress) {
+            NSLog(@"%f",progress);
+        }];
         
-        NSMutableDictionary *dict= [NSMutableDictionary dictionary];
-        self.tempImageName =[self.imageDic objectForKey:@"ImageUrl"];
-        [dict setObject:self.tempImageName forKey:@"ImageUrl"];
-        [dict setObject:self.tagsArray forKey:@"Tags"];
-        
-        
-        [self.navigationController popViewControllerAnimated:YES];
-        if ([self.delegate respondsToSelector:@selector(pop:AndDic:AndType:)])
-        {
-            [self.delegate pop:self.bgImage.image AndDic:dict AndType:_btnType];
-        }
         
         
     }else if(imgDic){ //修改商品
         
-        NSMutableDictionary *dict= [NSMutableDictionary dictionary];
-        self.tempImageName =imgDic.ImageUrl;
-        [dict setObject:self.tempImageName forKey:@"ImageUrl"];
-        if (imgDic.Tags.count>0) {
-            [dict setObject:imgDic.Tags forKey:@"Tags"];
-        }else{
-            [dict setObject:@"" forKey:@"Tags"];
-            
-        }
-        
-        [self.navigationController popViewControllerAnimated:YES];
-        if ([self.delegate respondsToSelector:@selector(pop:AndDic:AndType:)])
-        {
-            [self.delegate pop:self.bgImage.image AndDic:dict AndType:_btnType];
-        }
+        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+            if (isSuccess) {
+                NSMutableDictionary *dict= [NSMutableDictionary dictionary];
+                self.tempImageName =imgDic.ImageUrl;
+                [dict setObject:self.tempImageName forKey:@"ImageUrl"];
+                if (imgDic.Tags.count>0) {
+                    [dict setObject:imgDic.Tags forKey:@"Tags"];
+                }else{
+                    [dict setObject:@"" forKey:@"Tags"];
+                    
+                }
+                
+                [self.navigationController popViewControllerAnimated:YES];
+                if ([self.delegate respondsToSelector:@selector(pop:AndDic:AndType:)])
+                {
+                    [self.delegate pop:self.bgImage.image AndDic:dict AndType:_btnType];
+                }
+            }else{
+                [self showHudFailed:[error description]];
+            }
+            [self textHUDHiddle];
+        } withProgressCallback:^(float progress) {
+            NSLog(@"%f",progress);
+        }];
        
-       
+
     }
     else{ //需要上传图片
-        [self hudShow:@"正在上传"];
-        NSDate *  senddate=[NSDate date];
-        NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
-        [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
-        NSString *  locationString=[dateformatter stringFromDate:senddate];
-        NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
-        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
-        osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
-        NSData *data = UIImagePNGRepresentation(self.bgImage.image);
-        [osData setData:data withType:@"image/png"];
+        
         [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
             if (isSuccess) {
                 self.tempImageName =temp;

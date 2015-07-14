@@ -43,7 +43,9 @@
     self.tableView.delegate =self;
     self.tableView.dataSource =self;
     self.tableView.backgroundColor =kCustomColor(237, 237, 237);
+    self.tableView.separatorStyle =UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
+    
 }
 
 -(NSMutableDictionary *)dataArray{
