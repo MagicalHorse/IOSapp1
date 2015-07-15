@@ -90,7 +90,6 @@
         [self.msgTableView endRefresh];
         
     } failure:^(NSError *error) {
-        [self showHudFailed:@"请求失败"];
         [self.msgTableView endRefresh];
 
     }];
@@ -103,6 +102,8 @@
     [dic setObject:@"10" forKey:@"pagesize"];
     if (!isRefresh)
     {
+        [self activityDismiss];
+
         [self showInView:self.messageScroll WithPoint:CGPointMake(kScreenWidth, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Community/UserDynamic" params:dic success:^(id json) {
@@ -130,8 +131,8 @@
         [self.dynamicTableView endRefresh];
         
     } failure:^(NSError *error) {
-        
-        [self showHudFailed:@"请求失败"];
+        [self activityDismiss];
+        [self.msgTableView endRefresh];
 
     }];
 }

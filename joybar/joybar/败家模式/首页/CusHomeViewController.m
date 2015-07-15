@@ -172,6 +172,7 @@
         
         [self.homeScroll addSubview:self.myBuyerTableView];
         
+        self.myBuyerTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
         __weak CusHomeViewController *VC = self;
         self.myBuyerTableView.headerRereshingBlock = ^()
         {
@@ -231,6 +232,7 @@
         
     } failure:^(NSError *error) {
         [self activityDismiss];
+        [self.homeTableView endRefresh];
 
     }];
 }
@@ -278,8 +280,9 @@
         [self.homeTableView endRefresh];
         
     } failure:^(NSError *error) {
-        [self showHudFailed:@"请求失败"];
         [self activityDismiss];
+        [self.homeTableView endRefresh];
+
     }];
 }
 

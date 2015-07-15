@@ -293,7 +293,7 @@
         
     } failure:^(NSError *error) {
         
-        [self showHudFailed:@"请检查网络设置"];
+        [self hiddleHud];
         
     }];
 }

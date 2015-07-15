@@ -150,7 +150,7 @@
 - ( NSMutableDictionary *)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price
 {
     //订单标题，展示给用户
-    NSString *order_name    = name;
+    NSString *order_name    = @"阿娇撒飒飒大师大师大大撒啊实打实大师大师大神大神的萨达十大飒飒大师的就会v 很尴尬可见韩国开关可见韩国科技科技感快结婚过快结婚过看科技";
     //订单金额,单位（分）
     NSString *order_price   = [NSString stringWithFormat:@"%.0f",[price doubleValue]*100];
 

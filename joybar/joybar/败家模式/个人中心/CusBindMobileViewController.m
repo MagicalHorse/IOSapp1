@@ -115,7 +115,6 @@
         
     } failure:^(NSError *error) {
         
-        [self showHudFailed:@"请求失败"];
         
     }];
 }
@@ -145,7 +144,6 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
     } failure:^(NSError *error) {
-        [self showHudFailed:@"请求失败"];
     }];
 }
 

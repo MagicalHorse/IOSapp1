@@ -113,6 +113,8 @@
         //        [self.collectionView footerEndRefreshing];
     } failure:^(NSError *error) {
         
+        [self hiddleHud];
+
     }];
 }
 

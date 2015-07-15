@@ -159,30 +159,35 @@
     bgView.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:bgView];
     
-    for (int i=0; i<self.homePro.LikeUsers.Users.count; i++)
-    {
-        HomeUsers *user = [self.homePro.LikeUsers.Users objectAtIndex:i];
-        UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(35*i, 0, 30, 30)];
-        img.layer.cornerRadius = img.width/2;
-        img.clipsToBounds = YES;
-        [img sd_setImageWithURL:[NSURL URLWithString:user.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        img.backgroundColor = kCustomColor(245, 246, 247);
-
-        img.tag = 1000+i;
-        img.userInteractionEnabled = YES;
-        [bgView addSubview:img];
-//        if (i==6)
-//        {
-//            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, img.width, img.height-10)];
-//            lab.text = @"...";
-//            lab.textAlignment =NSTextAlignmentCenter;
-//            lab.textColor = [UIColor blackColor];
-//            [img addSubview:lab];
-//        }
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
-        [img addGestureRecognizer:tap];
-    }
+        for (int i=0; i<self.homePro.LikeUsers.Users.count; i++)
+        {
+            
+            if (i>7)
+            {
+                return;
+            }
+            HomeUsers *user = [self.homePro.LikeUsers.Users objectAtIndex:i];
+            UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(35*i, 0, 30, 30)];
+            img.layer.cornerRadius = img.width/2;
+            img.clipsToBounds = YES;
+            [img sd_setImageWithURL:[NSURL URLWithString:user.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            img.backgroundColor = kCustomColor(245, 246, 247);
+            
+            img.tag = 1000+i;
+            img.userInteractionEnabled = YES;
+            [bgView addSubview:img];
+            //        if (i==6)
+            //        {
+            //            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, img.width, img.height-10)];
+            //            lab.text = @"...";
+            //            lab.textAlignment =NSTextAlignmentCenter;
+            //            lab.textColor = [UIColor blackColor];
+            //            [img addSubview:lab];
+            //        }
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
+            [img addGestureRecognizer:tap];
+        }
     UIImageView *nightImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, bgView.bottom+5, kScreenWidth-40, 50)];
     nightImage.clipsToBounds = YES;
     nightImage.image = [UIImage imageNamed:@"打烊购框icon"];

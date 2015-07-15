@@ -101,7 +101,8 @@
         [self hiddleHud];
         
     } failure:^(NSError *error) {
-        
+        [self hiddleHud];
+
     }];
 }
 

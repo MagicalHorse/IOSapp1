@@ -149,6 +149,8 @@
     [dic setObject:@"6" forKey:@"pagesize"];
     if (!isRefresh)
     {
+        [self activityDismiss];
+
         [self showInView:self.circleScroll WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Community/GetRecommendGroup" params:dic success:^(id json) {
@@ -177,7 +179,10 @@
         
     } failure:^(NSError *error) {
         
-            [self showHudFailed:@"请求失败"];
+        [self activityDismiss];
+        [self.circleTableView endRefresh];
+
+
     }];
 }
 
@@ -188,6 +193,8 @@
     [dic setObject:@"10" forKey:@"pagesize"];
     if (!isRefresh)
     {
+        [self activityDismiss];
+
         [self showInView:self.circleScroll WithPoint:CGPointMake(kScreenWidth, 0) andHeight:kScreenHeight-64-49];
     }
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -217,7 +224,8 @@
         
     } failure:^(NSError *error) {
         
-        [self showHudFailed:@"请求失败"];
+        [self activityDismiss];
+        [self.myCircleTableView endRefresh];
         
     }];
 }

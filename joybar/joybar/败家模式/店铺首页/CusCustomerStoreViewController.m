@@ -17,6 +17,7 @@
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "CusHomeStoreHeader.h"
 #import "CusChatViewController.h"
+#import "CusBuyerDetailViewController.h"
 #define CELL_COUNT 30
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 
@@ -358,12 +359,14 @@
     return cell;
 }
 
-//- (CGSize)collectionView:(UICollectionView *)collectionView collectionViewLayout:(CustomCollectionViewLayout *)collectionViewLayout sizeOfItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    CGSize size = [Public getContentSizeWith:@"啊实打实大师大师阿萨帝爱上啊实打实大师大师阿萨帝爱上啊实打实大师大师阿萨帝爱上" andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
-//
-//    return CGSizeMake((kScreenWidth-15)/2, [_itemHeights[indexPath.row] floatValue]+size.height+35);
-//}
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+    VC.productId = [[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"Id"];
+    [self.navigationController pushViewController: VC animated:YES];
+}
+
+
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

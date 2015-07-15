@@ -141,9 +141,12 @@
     markLab.textColor = [UIColor redColor];
     [self.scrollView addSubview:markLab];
     
-    UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(10, priceLab.bottom+5, kScreenWidth-90, 20)];
+    UILabel *titleLab = [[UILabel alloc] init];
     titleLab.text = proData.ProductName;
     titleLab.font = [UIFont fontWithName:@"youyuan" size:14];
+    titleLab.numberOfLines = 0;
+    CGSize titleSize = [Public getContentSizeWith:titleLab.text andFontSize:14 andWidth:kScreenWidth-15];
+    titleLab.frame = CGRectMake(10, priceLab.bottom+5, kScreenWidth-15, titleSize.height);
     [self.scrollView addSubview:titleLab];
     
     UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(10, titleLab.bottom+5, kScreenWidth-20, 20)];
@@ -193,6 +196,9 @@
         imageView2.hidden = NO;
         nightView.frame = CGRectMake(0, 0, kScreenWidth, size.height+50);
         tempView.frame = CGRectMake(0, locationLab.bottom+10, kScreenWidth, nightView.height+10);
+        nightView.hidden = NO;
+        tempView.hidden = NO;
+
     }
     else
     {
@@ -200,12 +206,14 @@
         imageView2.hidden = YES;
         nightView.frame = CGRectMake(0, 0, kScreenWidth, 0);
         tempView.frame = CGRectMake(0, locationLab.bottom+10, kScreenWidth, 0);
+        nightView.hidden = YES;
+        tempView.hidden = YES;
     }
 //-----------------------------------------------------------------------------------
     
     
     
-    self.scrollView.contentSize = CGSizeMake(0, tempView.height+568);
+    self.scrollView.contentSize = CGSizeMake(0, tempView.height+568+titleLab.size.height);
 
     UIButton *collectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     collectBtn.backgroundColor = [UIColor clearColor];
