@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface BueryDetailsTableViewCell : UITableViewCell
+@interface BueryDetailsTableViewCell : UITableViewCell <UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *orderNO;
 @property (weak, nonatomic) IBOutlet UILabel *orderState;
 @property (weak, nonatomic) IBOutlet UILabel *orderPrice;

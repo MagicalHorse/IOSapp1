@@ -17,6 +17,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BuyerComeOutViewController">
             <connections>
                 <outlet property="priceField" destination="anO-JQ-dYi" id="irn-OS-xFN"/>
+                <outlet property="priceLable" destination="ZE9-EG-KIP" id="jpi-94-wrb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -25,13 +26,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="可提现的收益2375.00元" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZE9-EG-KIP">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="可提现的收益2375.00元" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZE9-EG-KIP">
                     <rect key="frame" x="20" y="75" width="147" height="14"/>
                     <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BKh-kn-8QX">
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BKh-kn-8QX">
                     <rect key="frame" x="0.0" y="101" width="320" height="45"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="重点" translatesAutoresizingMaskIntoConstraints="NO" id="v5Z-KM-0yK">
@@ -49,7 +50,7 @@
                                 <outlet property="delegate" destination="-1" id="WOu-ST-J9E"/>
                             </connections>
                         </textField>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="（元）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H7P-4G-cEc">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="（元）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H7P-4G-cEc">
                             <rect key="frame" x="261" y="16" width="45" height="15"/>
                             <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -69,14 +70,14 @@
                         <constraint firstAttribute="bottom" secondItem="anO-JQ-dYi" secondAttribute="bottom" id="imR-co-krK"/>
                     </constraints>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="重点" translatesAutoresizingMaskIntoConstraints="NO" id="1Og-dl-LCS">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="重点" translatesAutoresizingMaskIntoConstraints="NO" id="1Og-dl-LCS">
                     <rect key="frame" x="20" y="154" width="19" height="19"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="19" id="8LY-VL-92R"/>
                         <constraint firstAttribute="height" constant="19" id="X5Q-rD-ADq"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="温馨提示：提现金额将以微信零钱的形式发送至您所属微信号中，您可及时点开微信红包提现至微信零钱中。（由于微信相关规定，早8点-24点期间，微信红包60分钟内到账可直接提取；晚24点-早8点，红包顺延至早8:30后按顺序发放）" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5wn-Ft-Naw">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="温馨提示：提现金额将以微信零钱的形式发送至您所属微信号中，您可及时点开微信红包提现至微信零钱中。（由于微信相关规定，早8点-24点期间，微信红包60分钟内到账可直接提取；晚24点-早8点，红包顺延至早8:30后按顺序发放）" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5wn-Ft-Naw">
                     <rect key="frame" x="39" y="158" width="267" height="84"/>
                     <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -112,7 +113,7 @@
                 <constraint firstAttribute="trailing" secondItem="5wn-Ft-Naw" secondAttribute="trailing" constant="14" id="w4S-ma-L0X"/>
                 <constraint firstAttribute="trailing" secondItem="xxZ-fE-hDD" secondAttribute="trailing" id="xWE-St-ZpS"/>
             </constraints>
-            <point key="canvasLocation" x="228" y="121"/>
+            <point key="canvasLocation" x="-37" y="9"/>
         </view>
     </objects>
     <resources>

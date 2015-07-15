@@ -16,6 +16,7 @@
 #import "BuyerPaymentViewController.h"
 #import "UMSocialWechatHandler.h"
 #import "UMSocial.h"
+#import "SDWebImageManager.h"
 
 @interface BuyerHomeViewController ()<UITableViewDataSource,UITableViewDelegate,UMSocialUIDelegate>
 {
@@ -26,6 +27,7 @@
 @property (nonatomic,strong)NSMutableDictionary * dataArray;
 @property (nonatomic,strong)UIImageView * img;
 @property (nonatomic,strong)UILabel * label;
+
 
 @end
 
@@ -76,14 +78,33 @@
         [Public showLoginVC:self];
         return;
     }
-    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
     
-    [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"557f8f1c67e58edf32000208"
-                                      shareText:@"友盟社会化分享让您快速实现分享等社会化功能，www.umeng.com/social"
-                                     shareImage:[UIImage imageNamed:@"test1.jpg"]
-                                shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
-                                       delegate:self];
+    if (self.dataArray.count>0) {
+     
+        NSDictionary *dict =[self.dataArray objectForKey:@"share"];
+
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_200x200.jpg",[dict objectForKey:@"logo"]]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            
+            [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:[dict objectForKey:@"share_link"]];
+            
+            [UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:@"557f8f1c67e58edf32000208"
+                                              shareText:[dict objectForKey:@"desc"]
+                                             shareImage:image
+                                        shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
+                                               delegate:self];
+            
+            
+        }];
+        
+        
+    }else{
+        [self showHudFailed:@"首页数据异常"];
+    }
+    
+   
 }
 //实现回调方法（可选）：
 -(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response

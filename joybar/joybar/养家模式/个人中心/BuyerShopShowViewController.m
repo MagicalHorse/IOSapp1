@@ -46,6 +46,13 @@
     
 }
 -(void)setData{
+    
+    [self.textView resignFirstResponder];
+    if (self.textView.text.length>20) {
+        [self showHudFailed:@"店铺描述不能大于200字"];
+        return;
+    }
+    
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:self.textView.text forKey:@"description"];
     [HttpTool postWithURL:@"Buyer/SetStoreDescription" params:dict success:^(id json) {

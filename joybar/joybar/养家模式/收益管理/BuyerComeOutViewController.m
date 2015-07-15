@@ -14,6 +14,7 @@
 @interface BuyerComeOutViewController ()<UITextFieldDelegate>
 - (IBAction)btnClick:(UIButton *)sender;
 @property (weak, nonatomic) IBOutlet UITextField *priceField;
+@property (weak, nonatomic) IBOutlet UILabel *priceLable;
 
 @end
 
@@ -22,9 +23,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor =kCustomColor(241, 241, 241);
+    NSString *temp;
+    if (self.price.length>0) {
+        temp =self.price;
+    }else{
+        self.price =@"0.00";
+    }
+    self.priceLable.text = [NSString stringWithFormat:@"可提现的收益%@元",temp];
     [self addNavBarViewAndTitle:@"申请提现"];
 }
-
 
 - (IBAction)btnClick:(UIButton *)sender {
     
