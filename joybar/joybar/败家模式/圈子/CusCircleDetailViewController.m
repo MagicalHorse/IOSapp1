@@ -10,7 +10,13 @@
 #import "CusInviteFriendViewController.h"
 #import "CircleDetailData.h"
 #import "CircleDetailUser.h"
-@interface CusCircleDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
+#import "OSSClient.h"
+#import "OSSTool.h"
+#import "OSSData.h"
+#import "OSSLog.h"
+@interface CusCircleDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
+    OSSData *osData;
+}
 
 @property (nonatomic ,strong) UITableView *tableView;
 
@@ -326,6 +332,7 @@
 //            }
             if (indexPath.row==0)
             {
+                //圈子名称
                 UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 20)];
                 lab.text = self.circleData.GroupName;
                 lab.textColor = [UIColor grayColor];
@@ -417,29 +424,217 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.section==1&&indexPath.row==0)
-//    {
-//        _tempView.hidden = NO;
-//        _bgView.hidden = NO;
-//        [UIView animateWithDuration:0.15 animations:^{
-//            _tempView.alpha = 0.6;
-//
-//        }];
-//        
-//        _bgView.transform = CGAffineTransformMakeScale(0.001, 0.001);
-//        
-//        [UIView animateWithDuration:0.25
-//                         animations:^{
-//                             _bgView.transform = CGAffineTransformMakeScale(1, 1);
-//                             _bgView.alpha = 1;
-//
-//                         }completion:^(BOOL finish){
-//                             _cancleBtn.hidden = NO;
-//                         }];
-//
-//    }
+    if ([self.circleData.IsOwer boolValue]) {
+        if (indexPath.section==1&&indexPath.row==0) //修改圈子名称
+        {
+            UIAlertView *alert =[[UIAlertView alloc]initWithTitle:@"修改圈子名称" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+            
+            [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+            
+            UITextField *nameField = [alert textFieldAtIndex:0];
+            nameField.text = self.circleData.GroupName;
+            [alert show];
+
+            
+        }else if(indexPath.section ==1 &&indexPath.row ==1){//修改圈子头像
+            UIActionSheet *action= [[UIActionSheet alloc] initWithTitle:nil
+                                                               delegate:self
+                                                      cancelButtonTitle:@"取消"
+                                                 destructiveButtonTitle:nil
+                                                      otherButtonTitles:@"拍照", @"从手机相册选择", nil];
+            
+            [action showInView:self.view];
+
+        
+        }
+
+    }
+    
 }
 
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+
+    if (buttonIndex == alertView.firstOtherButtonIndex) {
+        
+        UITextField *nameField = [alertView textFieldAtIndex:0];
+        if (nameField.text.length==0) {
+            [self showHudFailed:@"请填写圈子名称"];
+            return;
+        }
+        NSMutableDictionary *dict =[NSMutableDictionary dictionary];
+        [dict setObject:self.circleId forKey:@"groupid"];//圈子编号
+        [dict setObject:nameField.text forKey:@"name"];//圈子名称
+
+        [HttpTool postWithURL:@"Community/RenameGroup" params:dict success:^(id json) {
+            
+            BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+            if (isSuccessful) {
+                
+                [self.tableView reloadData];
+                self.circleData.GroupName =nameField.text;
+                
+            }else{
+                [self showHudFailed:@"修改失败"];
+            }
+            
+        } failure:^(NSError *error) {
+            [self showHudFailed:@"服务器异常,请稍后再试"];
+        }];
+    }
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+   
+        if (buttonIndex ==0) {
+            [self LoaclCamera];
+            
+        }else if(buttonIndex ==1){
+            [self LocalPhoto];
+        }
+    
+}
+-(void)LoaclCamera{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [[picker navigationBar] setTintColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1]];
+    picker.delegate = self;
+    //设置选择后的图片可被编辑
+    picker.allowsEditing = YES;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+//打开本地相册
+-(void)LocalPhoto
+{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [[picker navigationBar] setTintColor:[UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:1]];
+    picker.delegate = self;
+    //设置选择后的图片可被编辑
+    picker.allowsEditing = YES;
+    [self presentViewController:picker animated:YES completion:nil];
+    
+}
+//当选择一张图片后进入这里
+-(void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+
+{
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    //当选择的类型是图片
+    if ([type isEqualToString:@"public.image"])
+    {
+        //先把图片转成NSData
+        UIImage* image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+        //设置image的尺寸
+        CGSize imagesize = image.size;
+        imagesize.height =57;
+        imagesize.width =57;
+        
+        //对图片大小进行压缩--
+        UIImage *imageNew = [self imageCompressForSize:image targetSize:imagesize];
+        [picker dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+        //上传图片
+        [self hudShow:@"正在上传"];
+        NSDate *  senddate=[NSDate date];
+        NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+        [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
+        NSString *  locationString=[dateformatter stringFromDate:senddate];
+        NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
+        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
+        osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
+        NSData *data = UIImagePNGRepresentation(imageNew);
+        [osData setData:data withType:@"image/png"];
+        [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
+            if (isSuccess) {
+                
+                NSMutableDictionary *dict= [NSMutableDictionary dictionary];
+                [dict setObject:self.circleId forKey:@"groupid"];
+                [dict setObject:temp forKey:@"logo"];
+                [HttpTool postWithURL:@"Community/ChangeGroupLogo" params:dict success:^(id json) {
+                    BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+                    if (isSuccessful) {
+                        
+                        NSString *logo= [[json objectForKey:@"data"]objectForKey:@"logo"];
+                        self.circleData.GroupPic=logo;
+                        [self.tableView reloadData];
+                    }else{
+                        [self showHudFailed:@"上传失败"];
+                    }
+                    [self textHUDHiddle];
+                    
+                } failure:^(NSError *error) {
+                    [self showHudFailed:@"上传失败"];
+                    [self textHUDHiddle];
+                }];
+                [self textHUDHiddle];
+            }else{
+                [self textHUDHiddle];
+                [self showHudFailed:@"上传失败"];
+            }
+        } withProgressCallback:^(float progress) {
+            NSLog(@"%f",progress);
+        }];
+        
+        
+        
+    }
+    
+}
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(UIImage *) imageCompressForSize:(UIImage *)sourceImage targetSize:(CGSize)size{
+    UIImage *newImage = nil;
+    CGSize imageSize = sourceImage.size;
+    CGFloat width = imageSize.width;
+    CGFloat height = imageSize.height;
+    CGFloat targetWidth = size.width;
+    CGFloat targetHeight = size.height;
+    CGFloat scaleFactor = 0.0;
+    CGFloat scaledWidth = targetWidth;
+    CGFloat scaledHeight = targetHeight;
+    CGPoint thumbnailPoint = CGPointMake(0.0, 0.0);
+    if(CGSizeEqualToSize(imageSize, size) == NO){
+        CGFloat widthFactor = targetWidth / width;
+        CGFloat heightFactor = targetHeight / height;
+        if(widthFactor > heightFactor){
+            scaleFactor = widthFactor;
+        }
+        else{
+            scaleFactor = heightFactor;
+        }
+        scaledWidth = width * scaleFactor;
+        scaledHeight = height * scaleFactor;
+        if(widthFactor > heightFactor){
+            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
+        }else if(widthFactor < heightFactor){
+            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
+        }
+    }
+    
+    UIGraphicsBeginImageContext(size);
+    
+    CGRect thumbnailRect = CGRectZero;
+    thumbnailRect.origin = thumbnailPoint;
+    thumbnailRect.size.width = scaledWidth;
+    thumbnailRect.size.height = scaledHeight;
+    [sourceImage drawInRect:thumbnailRect];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    if(newImage == nil){
+        NSLog(@"scale image fail");
+    }
+    
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+    
+}
 //点叉
 //-(void)didClickHiddenView:(UIButton *)btn
 //{
@@ -498,11 +693,10 @@
 //删除圈子用户
 -(void)didClickDeleteUser:(UIButton *)btn
 {
-//    [self.circleData.Users removeObjectAtIndex:btn.tag-100];
-    
-    CircleDetailUser *user = [self.circleData.Users objectAtIndex:btn.tag-100];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.circleId forKey:@"groupid"];
+    
+    CircleDetailUser *user = [self.circleData.Users objectAtIndex:btn.tag-100];
     [dic setObject:user.UserId forKey:@"userid"];
     [self hudShow:@"正在删除"];
     [HttpTool postWithURL:@"Community/RemoveGroupMember" params:dic success:^(id json) {
@@ -522,6 +716,8 @@
         [self textHUDHiddle];
         [self showHudFailed:@"请求失败"];
     }];
+    
+    
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -556,6 +752,30 @@
         } failure:^(NSError *error) {
             [self showHudFailed:@"请求失败"];
         }];
+    }else if([btn.titleLabel.text isEqualToString:@"删除并退出"])
+    {
+        
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:self.circleId forKey:@"groupid"];
+        [HttpTool postWithURL:@"Community/DeleteGroup" params:dic success:^(id json) {
+            
+            if ([[json objectForKey:@"isSuccessful"] boolValue])
+            {
+                [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
+            }
+            else
+            {
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+            [self textHUDHiddle];
+            
+        } failure:^(NSError *error) {
+            
+            [self textHUDHiddle];
+            [self showHudFailed:@"请求失败"];
+        }];
+        
+        
     }
     else
     {

@@ -185,7 +185,7 @@
     [priceView addSubview:dscView];
     
     UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(dscView.width-35, dscView.height-20, 30, 15)];
-    lable.text =@"30字";
+    lable.text =@"20字";
     lable.textColor =kCustomColor(194, 194, 200);
     lable.font =[UIFont fontWithName:@"youyuan" size:13];
 
@@ -351,6 +351,9 @@
         return;
     }else if(self.dscText.text.length==0){
         [self showHudFailed:@"请填写商品描述"];
+        return;
+    }else if(self.dscText.text.length>20){
+        [self showHudFailed:@"商品描述不能大于20字符"];
         return;
     }else if(tempSizegStr.length==0){
         [self showHudFailed:@"请填写规格"];
@@ -594,6 +597,12 @@
         self.customScrollView.contentSize = CGSizeMake(0,self.addInfoBtn.bottom+50);
     }
     [view removeFromSuperview];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = 0;
+    self.view.frame = rect;
+    [UIView commitAnimations];
 
 }
 -(void)addInfoView:(UIButton *)btn{
@@ -667,6 +676,7 @@
     [self.priceText resignFirstResponder];
     [self.textField1 resignFirstResponder];
     [self.textField2 resignFirstResponder];
+    
 
 }
 

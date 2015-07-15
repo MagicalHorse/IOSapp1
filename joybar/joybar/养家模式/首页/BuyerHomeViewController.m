@@ -81,8 +81,8 @@
     
     if (self.dataArray.count>0) {
      
+        
         NSDictionary *dict =[self.dataArray objectForKey:@"share"];
-
         [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_200x200.jpg",[dict objectForKey:@"logo"]]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
@@ -321,17 +321,17 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         ComeIn *come = [[ComeIn alloc]init];
-        come.today_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"]intValue];
-        come.total_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"]intValue];
-        come.avail_amout =[[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amout"]intValue];
+        come.today_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"]doubleValue];
+        come.total_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"]doubleValue];
+        come.avail_amout =[[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amout"]doubleValue];
         
         BuyerPaymentViewController * income= [[BuyerPaymentViewController alloc]init];
         [self.navigationController pushViewController:income animated:YES];
     }else if (indexPath.row == 1) {
         ComeIn *come = [[ComeIn alloc]init];
-        come.today_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"]intValue];
-        come.total_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"]intValue];
-        come.avail_amout =[[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amout"]intValue];
+        come.today_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"]doubleValue];
+        come.total_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"]doubleValue];
+        come.avail_amout =[[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amout"]doubleValue];
 
         BuyerInComeViewController * income= [[BuyerInComeViewController alloc]initWithComeIn:come];
         [self.navigationController pushViewController:income animated:YES];
