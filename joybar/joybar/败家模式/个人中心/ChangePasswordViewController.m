@@ -32,8 +32,8 @@
 -(void)didClickFinishBtn
 {
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
-    [dict setObject:self.oldPassword.text forKey:@"mobile"];
-    [dict setObject:self.setNewPassword.text forKey:@"oldpassword"];
+//    [dict setObject:self.oldPassword.text forKey:@"mobile"];
+    [dict setObject:self.oldPassword.text forKey:@"oldpassword"];
     [dict setObject:self.repeatPassword.text forKey:@"password"];
 
     [HttpTool postWithURL:@"User/ChangePassword" params:dict success:^(id json) {
