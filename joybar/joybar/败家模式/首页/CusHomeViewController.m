@@ -230,7 +230,8 @@
         [self.myBuyerTableView endRefresh];
         
     } failure:^(NSError *error) {
-        
+        [self activityDismiss];
+
     }];
 }
 
@@ -278,6 +279,7 @@
         
     } failure:^(NSError *error) {
         [self showHudFailed:@"请求失败"];
+        [self activityDismiss];
     }];
 }
 

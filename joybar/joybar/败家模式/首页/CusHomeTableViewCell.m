@@ -195,7 +195,7 @@
     lab.font = [UIFont fontWithName:@"youyuan" size:14];
     [nightImage addSubview:lab];
 
-    if (![self.homePro.IsPromotion boolValue])
+    if (![self.homePro.Promotion.IsShow boolValue])
     {
         nightImage.hidden = YES;
     }
@@ -227,8 +227,6 @@
                                          shareImage:image
                                     shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                            delegate:self];
-
-        
     }];
 
     

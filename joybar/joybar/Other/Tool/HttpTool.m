@@ -13,9 +13,10 @@
 #import "Common.h"
 #import "NSString+MD5.h"
 #import "MBProgressHUD.h"
+#import "BaseNavigationController.h"
+#import "LoginAndRegisterViewController.h"
 @interface HttpTool()
 @end
-
 
 @implementation HttpTool
 + (void)postWithURL:(NSString *)url params:(NSDictionary *)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
@@ -43,9 +44,19 @@
     // 2.发送请求
     [mgr POST:tempUrl parameters:signDic
       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          
+          if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"statusCode"]] isEqualToString:@"401"])
+          {
+              LoginAndRegisterViewController *VC = [[LoginAndRegisterViewController alloc] init];
+              BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
+              UIViewController* rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+              [rootViewController presentViewController:nav animated:YES completion:nil];
+          }
+
           if (success) {
               success(responseObject);
           }
+          
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           if (failure) {
               failure(error);

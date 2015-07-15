@@ -114,7 +114,7 @@
     {
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth/2*i, bgView.bottom-50, kScreenWidth/2, 50)];
         lab.userInteractionEnabled = YES;
-        lab.font = [UIFont fontWithName:@"youyuan" size:16];
+        lab.font = [UIFont systemFontOfSize:17];
         lab.backgroundColor = [UIColor clearColor];
         lab.textAlignment = NSTextAlignmentCenter;
         lab.textColor = [UIColor whiteColor];
@@ -131,55 +131,55 @@
     self.markImg.image = [UIImage imageNamed:@"xiaosanjiao.png"];
     [bgView addSubview:self.markImg];
     
-    UILabel *line1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 45,kScreenWidth-20, 0.5)];
+    UILabel *line1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 55,kScreenWidth-20, 0.5)];
     line1.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line1];
     
-    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 12, 30, 30)];
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 14, 30, 30)];
     lab.text = @"+86";
     lab.backgroundColor = [UIColor clearColor];
-    lab.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab.font = [UIFont systemFontOfSize:16];
     [scroll addSubview:lab];
     
-    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(lab.right, 15, 0.5, 24)];
+    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(lab.right+5, 12, 0.5, 34)];
     line2.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line2];
     
-    loginPhoneText = [[UITextField alloc] initWithFrame:CGRectMake(line2.right+15, 7, 200, 40)];
+    loginPhoneText = [[UITextField alloc] initWithFrame:CGRectMake(line2.right+15, 9, 200, 40)];
     loginPhoneText.placeholder = @"请输入您的手机号码";
-    loginPhoneText.font = [UIFont fontWithName:@"youyuan" size:14];
+    loginPhoneText.font = [UIFont systemFontOfSize:16];
     loginPhoneText.keyboardType = UIKeyboardTypeDefault;
     loginPhoneText.backgroundColor = [UIColor clearColor];
     [scroll addSubview:loginPhoneText];
     
-    UILabel *line3 = [[UILabel alloc] initWithFrame:CGRectMake(10, line2.bottom+50, kScreenWidth-20, 0.5)];
+    UILabel *line3 = [[UILabel alloc] initWithFrame:CGRectMake(10, line2.bottom+60, kScreenWidth-20, 0.5)];
     line3.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line3];
     
-    loginAuthText = [[UITextField alloc] initWithFrame:CGRectMake(10, 47, 200, 40)];
+    loginAuthText = [[UITextField alloc] initWithFrame:CGRectMake(10, 60, kScreenWidth-100, 40)];
     loginAuthText.placeholder = @"请输入您的密码";
-    loginAuthText.font = [UIFont fontWithName:@"youyuan" size:14];
+    loginAuthText.font = [UIFont systemFontOfSize:16];
 //    loginAuthText.keyboardType = UIKeyboardTypeNumberPad;
     loginAuthText.secureTextEntry = YES;
     [scroll addSubview:loginAuthText];
     
     UIButton *loginBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    loginBtn.frame = CGRectMake(10, loginAuthText.bottom+20, kScreenWidth-20, 35);
+    loginBtn.frame = CGRectMake(10, loginAuthText.bottom+20, kScreenWidth-20, 45);
     loginBtn.backgroundColor = kCustomColor(234, 134, 87);
     [loginBtn setTitle:@"登录" forState:(UIControlStateNormal)];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    loginBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:16];
+    loginBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     //    loginBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     loginBtn.layer.cornerRadius = 3;
     [loginBtn addTarget:self action:@selector(didClickLogin) forControlEvents:(UIControlEventTouchUpInside)];
     [scroll addSubview:loginBtn];
     
-    UILabel *forgetPassword = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-80, 47, 100, 40)];
+    UILabel *forgetPassword = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-80, 60, 100, 40)];
     forgetPassword.text = @"忘记密码了 ?";
     forgetPassword.userInteractionEnabled = YES;
     forgetPassword.textColor = kCustomColor(122, 226, 220);
     forgetPassword.backgroundColor = [UIColor clearColor];
-    forgetPassword.font = [UIFont fontWithName:@"youyuan" size:10];
+    forgetPassword.font = [UIFont systemFontOfSize:12];
     forgetPassword.textAlignment = NSTextAlignmentLeft;
     [scroll addSubview:forgetPassword];
     
@@ -187,19 +187,17 @@
     [forgetPassword addGestureRecognizer:forgetTap];
     
     //第三方登录
-    
-    UILabel *line7 = [[UILabel alloc] initWithFrame:CGRectMake(40, scroll.height-140, (kScreenWidth-100-65)/2, 0.5)];
+    UILabel *line7 = [[UILabel alloc] initWithFrame:CGRectMake(40, scroll.height-220, (kScreenWidth-100-65)/2, 0.5)];
     line7.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line7];
-    UILabel *disanfang = [[UILabel alloc] initWithFrame:CGRectMake(line7.right+10, scroll.height-150, 65, 20)];
+    UILabel *disanfang = [[UILabel alloc] initWithFrame:CGRectMake(line7.right+10, scroll.height-230, 65, 20)];
     disanfang.text = @"第三方登录";
-    disanfang.font = [UIFont fontWithName:@"youyuan" size:13];
+    disanfang.font = [UIFont systemFontOfSize:13];
     [scroll addSubview:disanfang];
     
-    UILabel *line8 = [[UILabel alloc] initWithFrame:CGRectMake(disanfang.right+10, scroll.height-140, line7.width, 0.5)];
+    UILabel *line8 = [[UILabel alloc] initWithFrame:CGRectMake(disanfang.right+10, scroll.height-220, line7.width, 0.5)];
     line8.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line8];
-    
     
     UIButton *WXLoginBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     WXLoginBtn.center = CGPointMake(kScreenWidth/2, disanfang.bottom+40);
@@ -207,49 +205,48 @@
     [WXLoginBtn setBackgroundImage:[UIImage imageNamed:@"微信"] forState:(UIControlStateNormal)];
     [WXLoginBtn addTarget:self action:@selector(didCLickWXLogin) forControlEvents:(UIControlEventTouchUpInside)];
     [scroll addSubview:WXLoginBtn];
-
 }
 
 -(void)addRegisterView
 {
     //注册
-    UILabel *line4 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth+10, 45,kScreenWidth-20, 0.5)];
+    UILabel *line4 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth+10, 55,kScreenWidth-20, 0.5)];
     line4.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line4];
     
-    UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth+10, 12, 30, 30)];
+    UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth+10, 14, 30, 30)];
     lab1.text = @"+86";
-    lab1.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab1.font = [UIFont systemFontOfSize:16];
     [scroll addSubview:lab1];
     
-    UILabel *line5 = [[UILabel alloc] initWithFrame:CGRectMake(40+kScreenWidth, 15, 0.5, 24)];
+    UILabel *line5 = [[UILabel alloc] initWithFrame:CGRectMake(45+kScreenWidth, 12, 0.5, 34)];
     line5.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line5];
     
-    registerPhoneText = [[UITextField alloc] initWithFrame:CGRectMake(line5.right+15, 7, 200, 40)];
+    registerPhoneText = [[UITextField alloc] initWithFrame:CGRectMake(line5.right+15, 9, 200, 40)];
     registerPhoneText.delegate = self;
     registerPhoneText.placeholder = @"请输入您的手机号码";
     registerPhoneText.backgroundColor = [UIColor clearColor];
-    registerPhoneText.font = [UIFont fontWithName:@"youyuan" size:14];
+    registerPhoneText.font = [UIFont systemFontOfSize:16];
     registerPhoneText.keyboardType = UIKeyboardTypeNumberPad;
     [scroll addSubview:registerPhoneText];
     
-    UILabel *line6 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth+10, line5.bottom+50, kScreenWidth-20, 0.5)];
+    UILabel *line6 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth+10, line5.bottom+60, kScreenWidth-20, 0.5)];
     line6.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line6];
     
-    registerAuthText = [[UITextField alloc] initWithFrame:CGRectMake(kScreenWidth+10, 47, 200, 40)];
+    registerAuthText = [[UITextField alloc] initWithFrame:CGRectMake(kScreenWidth+10, 60, 200, 40)];
     registerAuthText.placeholder = @"请输入短信验证码";
-    registerAuthText.font = [UIFont fontWithName:@"youyuan" size:14];
+    registerAuthText.font = [UIFont systemFontOfSize:16];
     registerAuthText.keyboardType = UIKeyboardTypeNumberPad;
     [scroll addSubview:registerAuthText];
     
-    UILabel *authCodeLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth*2-80, 47, 100, 40)];
+    UILabel *authCodeLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth*2-80, 60, 100, 40)];
     authCodeLab.text = @"验证并登陆>";
     authCodeLab.userInteractionEnabled = YES;
     authCodeLab.textColor = kCustomColor(122, 226, 220);
     authCodeLab.backgroundColor = [UIColor clearColor];
-    authCodeLab.font = [UIFont fontWithName:@"youyuan" size:10];
+    authCodeLab.font = [UIFont systemFontOfSize:12];
     authCodeLab.textAlignment = NSTextAlignmentLeft;
     [scroll addSubview:authCodeLab];
     
@@ -260,14 +257,12 @@
     authBtn.frame = CGRectMake(kScreenWidth*2-75, 10, 132/2, 56/2);
     [authBtn setTitle:@"验证" forState:(UIControlStateNormal)];
     authBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    authBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+    authBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [authBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [authBtn setBackgroundImage:[UIImage imageNamed:@"yanzheng.png"] forState:(UIControlStateNormal)];
     [authBtn addTarget:self action:@selector(didCilckGetAuthCode) forControlEvents:(UIControlEventTouchUpInside)];
     authBtn.hidden = YES;
     [scroll addSubview:authBtn];
-
-    
 }
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string

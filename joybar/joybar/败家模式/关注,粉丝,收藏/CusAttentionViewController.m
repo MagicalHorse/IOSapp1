@@ -248,7 +248,6 @@
         } completion:^(BOOL finished) {
             selectImageView.hidden = YES;
         }];
-
     }
 }
 
