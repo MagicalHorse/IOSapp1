@@ -86,6 +86,7 @@
 - (IBAction)comeOutBtnClick:(UIButton *)sender {
     
     BuyerComeOutViewController * comeOut=[[BuyerComeOutViewController alloc]init];
+    comeOut.price = self.availAmountLable.text;
     [self.navigationController pushViewController:comeOut animated:YES];
 }
 @end

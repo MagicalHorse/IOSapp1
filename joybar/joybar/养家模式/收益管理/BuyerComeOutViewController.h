@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface BuyerComeOutViewController : BaseViewController
-
+@property (nonatomic ,copy)NSString *price;
 @end

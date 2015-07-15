@@ -269,7 +269,7 @@
                 <outlet property="userPhone" destination="DAP-Y9-SNA" id="d8K-es-VsH"/>
                 <outlet property="userPic" destination="D4I-c4-3S3" id="9Rm-pd-IcC"/>
             </connections>
-            <point key="canvasLocation" x="174" y="107.5"/>
+            <point key="canvasLocation" x="77" y="73.5"/>
         </tableViewCell>
     </objects>
 </document>
