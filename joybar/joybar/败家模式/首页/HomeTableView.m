@@ -57,7 +57,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
-    if ([pro.IsPromotion boolValue])
+    if ([pro.Promotion.IsShow boolValue])
     {
         return kScreenHeight-100;
     }
