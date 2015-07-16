@@ -111,42 +111,6 @@
     }];
     
 }
-////返回索引数组
-//-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-//{
-//    return _dataSource;
-//}
-//
-////响应点击索引时的委托方法
-//-(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-//{
-//    NSInteger count = 0;
-//    
-//    for(NSString *character in _dataSource)
-//    {
-//        if([character isEqualToString:title])
-//        {
-//            return count;
-//        }
-//        count ++;
-//    }
-//    return 0;
-//}
-//
-//
-////返回section的个数
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    // Return the number of sections.
-//    return [_dataSource count];
-//}
-//
-////返回每个索引的内容
-//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    return [_dataSource objectAtIndex:section];
-//}
-
 //返回每个section的行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -270,9 +234,16 @@
 //确定
 -(void)didClickSureBtn:(UIButton *)btn
 {
+    
+    NSLog(@"asdasdasdasda");
     for (int i=0; i<self.dataBase.count; i++)
     {
-        
+        if ([[self.isSelectArr objectAtIndex:i] isEqualToString:@"1"])
+        {
+            NSMutableDictionary *dic = [self.dataBase objectAtIndex:i];
+            
+//            NSString *selectArr =
+        }
     }
 }
 
