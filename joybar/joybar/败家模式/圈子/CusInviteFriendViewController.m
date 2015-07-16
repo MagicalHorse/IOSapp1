@@ -242,7 +242,7 @@
         {
             NSMutableDictionary *dic = [self.dataBase objectAtIndex:i];
             
-//            NSString *selectArr =
+//            NSString *selectStr =
         }
     }
 }
