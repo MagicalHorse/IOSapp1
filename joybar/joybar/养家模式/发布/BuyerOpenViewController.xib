@@ -29,13 +29,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vED-sD-Nbg">
-                    <rect key="frame" x="0.0" y="84" width="320" height="81"/>
+                    <rect key="frame" x="0.0" y="84" width="320" height="90"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="重点" translatesAutoresizingMaskIntoConstraints="NO" id="LUd-gm-Nuz">
-                            <rect key="frame" x="20" y="12" width="19" height="19"/>
+                            <rect key="frame" x="20" y="14" width="19" height="19"/>
                         </imageView>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入货号" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="woJ-CJ-YuL">
-                            <rect key="frame" x="118" y="4" width="178" height="35"/>
+                            <rect key="frame" x="118" y="6" width="178" height="35"/>
                             <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
@@ -43,47 +43,52 @@
                             </connections>
                         </textField>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="货号:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="beh-4Q-S66">
-                            <rect key="frame" x="46" y="13" width="46" height="17"/>
+                            <rect key="frame" x="46" y="15" width="46" height="17"/>
                             <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
                             <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Pv-zH-avY">
-                            <rect key="frame" x="20" y="40" width="300" height="1"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Pv-zH-avY">
+                            <rect key="frame" x="20" y="45" width="300" height="1"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="eyP-r3-66l"/>
                             </constraints>
                         </view>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="重点" translatesAutoresizingMaskIntoConstraints="NO" id="xhT-Wo-6Wb">
-                            <rect key="frame" x="20" y="48" width="19" height="19"/>
+                            <rect key="frame" x="20" y="57" width="19" height="19"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="销售价:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JCX-HS-7e0">
-                            <rect key="frame" x="46" y="49" width="65" height="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="价格:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JCX-HS-7e0">
+                            <rect key="frame" x="46" y="58" width="46" height="17"/>
                             <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
                             <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入金额" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mzy-B0-9kE">
-                            <rect key="frame" x="118" y="41" width="183" height="35"/>
+                            <rect key="frame" x="118" y="50" width="154" height="35"/>
                             <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
                             <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="6hT-ND-N4q"/>
                             </connections>
                         </textField>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="元" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1NE-OE-Xrg">
+                            <rect key="frame" x="293" y="59" width="17" height="17"/>
+                            <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
+                            <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="81" id="1Tk-oh-hvW"/>
+                        <constraint firstAttribute="height" constant="90" id="1Tk-oh-hvW"/>
+                        <constraint firstAttribute="trailing" secondItem="1NE-OE-Xrg" secondAttribute="trailing" constant="10" id="2vy-8M-ISZ"/>
                         <constraint firstItem="5Pv-zH-avY" firstAttribute="leading" secondItem="vED-sD-Nbg" secondAttribute="leading" constant="20" id="3db-jH-PyS"/>
+                        <constraint firstAttribute="bottom" secondItem="1NE-OE-Xrg" secondAttribute="bottom" constant="14" id="5gx-WS-w0c"/>
                         <constraint firstAttribute="trailing" secondItem="5Pv-zH-avY" secondAttribute="trailing" id="7yw-B5-UMc"/>
-                        <constraint firstItem="5Pv-zH-avY" firstAttribute="top" secondItem="vED-sD-Nbg" secondAttribute="top" constant="40" id="Ep7-Ch-BGg"/>
+                        <constraint firstItem="5Pv-zH-avY" firstAttribute="top" secondItem="vED-sD-Nbg" secondAttribute="top" constant="45" id="Ep7-Ch-BGg"/>
                     </constraints>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="重点" translatesAutoresizingMaskIntoConstraints="NO" id="rdy-N0-tsG">
-                    <rect key="frame" x="20" y="173" width="19" height="19"/>
-                </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s6Q-8Q-WIX">
                     <rect key="frame" x="0.0" y="519" width="320" height="49"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -98,23 +103,11 @@
                         <action selector="btnClick" destination="-1" eventType="touchUpInside" id="3iv-hX-aI5"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您好，我們會以微信紅包的形式發送給你，請注意查收您好，我們會以微信紅包的形式發送給你，請注意查收您好，我們會以微信紅包的形式發送給你，請注意查收" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d56-Ne-fRL">
-                    <rect key="frame" x="40" y="175" width="272" height="60"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="60" id="aFe-e3-NR8"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="14"/>
-                    <color key="textColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="vED-sD-Nbg" secondAttribute="trailing" id="9H9-1G-vue"/>
-                <constraint firstItem="d56-Ne-fRL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="Dz0-29-X09"/>
-                <constraint firstItem="d56-Ne-fRL" firstAttribute="top" secondItem="vED-sD-Nbg" secondAttribute="bottom" constant="10" id="VZg-JS-7b2"/>
                 <constraint firstItem="s6Q-8Q-WIX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="el9-0t-N9Y"/>
-                <constraint firstAttribute="trailing" secondItem="d56-Ne-fRL" secondAttribute="trailing" constant="8" id="hxB-jl-SMj"/>
                 <constraint firstAttribute="bottom" secondItem="s6Q-8Q-WIX" secondAttribute="bottom" id="iZ1-zf-yvu"/>
                 <constraint firstItem="vED-sD-Nbg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="pac-aB-NLT"/>
                 <constraint firstAttribute="trailing" secondItem="s6Q-8Q-WIX" secondAttribute="trailing" id="tDM-6W-xK2"/>

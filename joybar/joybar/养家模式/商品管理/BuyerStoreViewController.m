@@ -12,9 +12,12 @@
 #import "Store.h"
 #import "MJExtension.h"
 #import "BuyerIssueViewController.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocial.h"
+#import "Image.h"
+#import "Detail.h"
 
-
-@interface BuyerStoreViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
+@interface BuyerStoreViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UMSocialUIDelegate>{
     int type;
     BOOL isRefresh;
     
@@ -277,8 +280,29 @@
 }
 //分享
 -(void)shareClcke:(UIButton *)btn{
- 
-    
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self];
+        return;
+    }
+    Store *st=[self.dataArray objectAtIndex:btn.tag];
+
+    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",st.Pic]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        
+    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        
+        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:st.ShareLink];
+        
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:@"557f8f1c67e58edf32000208"
+                                          shareText:st.ProductName
+                                         shareImage:image
+                                    shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
+                                           delegate:self];
+        
+        
+    }];
+
 }
 //修改
 -(void)sbClcke:(UIButton *)btn{

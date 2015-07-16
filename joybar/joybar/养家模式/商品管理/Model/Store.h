@@ -17,7 +17,8 @@
 @property (nonatomic,strong)NSNumber *Price;
 @property (nonatomic,strong)NSNumber *ProductId;
 @property (nonatomic,copy)NSString* ProductName;
-@property (nonatomic,strong)NSString* StoreItemNo;
+@property (nonatomic,copy)NSString* StoreItemNo;
+@property (nonatomic,copy)NSString *ShareLink;
 @property (nonatomic,strong)Detail *Detail;
 
 @end

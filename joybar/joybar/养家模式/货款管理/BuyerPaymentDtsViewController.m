@@ -196,41 +196,46 @@
     for (int i=0; i<self.orderNos.allValues.count; i++) {
         tempPrice +=[self.orderNos.allValues[i] doubleValue];
     }
-    BOOL bing= [[dict objectForKey:@"IsBindWeiXin"]boolValue];
-    if (bing) {
-        if (self.orderNos.count>0) {
-            UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提取现款" message: [NSString stringWithFormat:@"%.2f",tempPrice] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [alert show];
-        }else{
-            [self showHudFailed:@"请选择要提现的订单"];
-        }
-        
-    }else{
-        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
-        
-        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
-        
-        snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
-            
-            if (response.responseCode == UMSResponseCodeSuccess) {
-                
-                UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary]valueForKey:UMShareToWechatSession];
-                
-                NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
-                [self hudShow:@"正在登录..."];
-                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",snsAccount.accessToken,snsAccount.openId]];
-                NSURLRequest *request = [NSURLRequest requestWithURL:url];
-                [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                    
-                    NSString *str1 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                    [self WXLogin:str1];
-                }];
-                
-                
+    if (self.dataArray.count>0) {
+        BOOL bing= [[dict objectForKey:@"IsBindWeiXin"]boolValue];
+        if (bing) {
+            if (self.orderNos.count>0) {
+                UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提取现款" message: [NSString stringWithFormat:@"%.2f",tempPrice] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                [alert show];
+            }else{
+                [self showHudFailed:@"请选择要提现的订单"];
             }
-        });
-
+            
+        }else{
+            [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
+            
+            UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+            
+            snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
+                
+                if (response.responseCode == UMSResponseCodeSuccess) {
+                    
+                    UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary]valueForKey:UMShareToWechatSession];
+                    
+                    NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
+                    [self hudShow:@"正在登录..."];
+                    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",snsAccount.accessToken,snsAccount.openId]];
+                    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                        
+                        NSString *str1 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                        [self WXLogin:str1];
+                    }];
+                    
+                    
+                }
+            });
+            
+        }
+    }else{
+        [self showHudFailed:@"没有可提现的订单"];
     }
+    
 }
 -(void)WXLogin:(NSString *)str
 {
