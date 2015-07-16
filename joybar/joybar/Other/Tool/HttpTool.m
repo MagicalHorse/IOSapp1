@@ -4,8 +4,8 @@
 //  Copyright (c) 2014年 xinhuaruide. All rights reserved.
 //
 
-//#define HomeURL  @"http://123.57.52.187:8080/app/"
-#define HomeURL  @"http://123.57.52.187:8070/app/"
+#define HomeURL  @"http://123.57.52.187:8080/app/"
+//#define HomeURL  @"http://123.57.52.187:8070/app/"
 
 
 #import "HttpTool.h"

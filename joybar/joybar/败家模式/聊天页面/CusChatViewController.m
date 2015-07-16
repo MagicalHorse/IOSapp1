@@ -174,7 +174,7 @@
     {
         NSString *face_Image = [dict objectForKey:@"png"];
         NSString *faceName = [dict objectForKey:@"chs"];
-        [faceDict setObject:face_Image forKey:faceName];
+        [faceDict setValue:face_Image forKey:faceName];
     }
     [[NSUserDefaults standardUserDefaults] setObject:faceDict forKey:@"faceInfo"];
     
@@ -184,25 +184,23 @@
     //    }
     [self addTitleView];
     [self aliyunSet];
-
-    
     
 }
 
 -(void)getRoomId
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    if (self.isFrom==isFromPrivateChat)
+    if (self.isFrom==isFromPrivateChat||self.isFrom==isFromBuyPro)
     {
-        [dic setObject:@"0" forKey:@"groupId"];
-        [dic setObject:[[Public getUserInfo] objectForKey:@"id"] forKey:@"fromUser"];
-        [dic setObject:toUserId forKey:@"toUser"];
+        [dic setValue:@"0" forKey:@"groupId"];
+        [dic setValue:[[Public getUserInfo] objectForKey:@"id"] forKey:@"fromUser"];
+        [dic setValue:toUserId forKey:@"toUser"];
     }
     else if (self.isFrom==isFromGroupChat)
     {
-        [dic setObject:self.circleId forKey:@"groupId"];
-        [dic setObject:@"0" forKey:@"fromUser"];
-        [dic setObject:@"0" forKey:@"toUser"];
+        [dic setValue:self.circleId forKey:@"groupId"];
+        [dic setValue:@"0" forKey:@"fromUser"];
+        [dic setValue:@"0" forKey:@"toUser"];
     }
     
     [HttpTool postWithURL:@"Community/GetRoom" params:dic success:^(id json) {
@@ -226,9 +224,9 @@
 -(void)getMessageListData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
-    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
-    [dic setObject:@"10" forKey:@"pagesize"];
+    [dic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
+    [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
+    [dic setValue:@"10" forKey:@"pagesize"];
     
     [HttpTool postWithURL:@"Community/GetMessages" params:dic success:^(id json) {
         
@@ -409,7 +407,7 @@
             [self textHUDHiddle];
             
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-            [dic setObject:temp forKey:@"imageurl"];
+            [dic setValue:temp forKey:@"imageurl"];
             [HttpTool postWithURL:@"Community/UploadChatImage" params:dic success:^(id json) {
                 
                 [self textHUDHiddle];
@@ -691,23 +689,26 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSMutableDictionary *msgDic = [self.messageArr objectAtIndex:indexPath.row];
-    if ([[msgDic objectForKey:@"type"] isEqualToString:@"img"])
+    if (self.messageArr.count>0)
     {
-        return 170;
+        NSMutableDictionary *msgDic = [self.messageArr objectAtIndex:indexPath.row];
+        
+        if ([[msgDic objectForKey:@"type"] isEqualToString:@"img"])
+        {
+            return 170;
+        }
+        //链接
+        else if ([[msgDic objectForKey:@"type"] isEqualToString:@"product_img"])
+        {
+            return 170;
+        }
+        if ([[msgDic objectForKey:@"type"] isEqualToString:@""])
+        {
+            UIFont *font = [UIFont systemFontOfSize:15];
+            CGSize size = [[msgDic objectForKey:@"body"] sizeWithFont:font constrainedToSize:CGSizeMake(180.0f, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
+            return size.height+59;
+        }
     }
-    //链接
-    else if ([[msgDic objectForKey:@"type"] isEqualToString:@"product_img"])
-    {
-        return 170;
-    }
-    if ([[msgDic objectForKey:@"type"] isEqualToString:@""])
-    {
-        UIFont *font = [UIFont systemFontOfSize:15];
-        CGSize size = [[msgDic objectForKey:@"body"] sizeWithFont:font constrainedToSize:CGSizeMake(180.0f, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
-        return size.height+59;
-    }
-    
     return 170;
 }
 -(void)didClickTableView
@@ -817,8 +818,17 @@
         self.sizeName = size.Size;
         kuCunLab.text = [NSString stringWithFormat:@"库存%@件",size.Inventory];
     };
-    
-    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(10, sizeBtn.bottom+10, kScreenWidth-10, 0.5)];
+
+    UIView *line1 = [[UIView alloc] init];
+    if (self.detailData.Sizes.count>0)
+    {
+        line1.frame =CGRectMake(10, sizeBtn.bottom+10, kScreenWidth-10, 0.5);
+    }
+    else
+    {
+        line1.frame =CGRectMake(10, sizeBtn.bottom+23, kScreenWidth-10, 0.5);
+
+    }
     line1.backgroundColor = [UIColor lightGrayColor];
     [buyBgView addSubview:line1];
     

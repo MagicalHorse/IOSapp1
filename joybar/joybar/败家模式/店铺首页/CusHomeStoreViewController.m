@@ -113,12 +113,15 @@
 
 -(void) getCollectListData
 {
+    
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.userId forKey:@"userid"];
+    [dic setObject:@"0" forKey:@"Filter"];
     [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setObject:@"20" forKey:@"pagesize"];
     [self hudShow];
-    [HttpTool postWithURL:@"Product/GetUserFavoriteList" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Product/GetUserProductList" params:dic success:^(id json) {
+        
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
@@ -141,9 +144,42 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
         [self hiddleHud];
+        
     } failure:^(NSError *error) {
         
     }];
+
+//    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+//    [dic setObject:self.userId forKey:@"userid"];
+//    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
+//    [dic setObject:@"20" forKey:@"pagesize"];
+//    [self hudShow];
+//    [HttpTool postWithURL:@"Product/GetUserProductList" params:dic success:^(id json) {
+//        if ([[json objectForKey:@"isSuccessful"] boolValue])
+//        {
+//            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+//            if (arr.count<6)
+//            {
+//                self.collectionView.footerHidden = YES;
+//            }
+//            else
+//            {
+//                self.collectionView.footerHidden = NO;
+//            }
+//            [self.dataSource addObjectsFromArray:arr];
+//            
+//            [self.collectionView reloadData];
+//            [self.collectionView headerEndRefreshing];
+//            [self.collectionView footerEndRefreshing];
+//        }
+//        else
+//        {
+//            [self showHudFailed:[json objectForKey:@"message"]];
+//        }
+//        [self hiddleHud];
+//    } failure:^(NSError *error) {
+//        
+//    }];
 }
 
 -(void)getNewProListData
