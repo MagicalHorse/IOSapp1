@@ -64,7 +64,7 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             [self.navigationController popViewControllerAnimated:YES];
         }else{
-            [self showHudFailed:@"修改失败"];
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
         
     } failure:^(NSError *error) {

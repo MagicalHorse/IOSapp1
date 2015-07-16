@@ -8,7 +8,9 @@
 
 #import "BuyerOpenViewController.h"
 
-@interface BuyerOpenViewController ()<UITextFieldDelegate>
+@interface BuyerOpenViewController ()<UITextFieldDelegate>{
+    BOOL isPrice;
+}
 - (IBAction)btnClick;
 @property (nonatomic,strong)UIView *tempView;
 @property (nonatomic,strong)UIView *bgView;
@@ -17,6 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *noText;
 @property (weak, nonatomic) IBOutlet UIButton *btn;
+- (IBAction)textChange:(id)sender;
 
 @end
 
@@ -27,6 +30,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        isPrice=NO;
         self.hidesBottomBarWhenPushed = YES;
         
     }
@@ -56,9 +60,13 @@
     if (self.priceText.text.length==0) {
         [self showHudFailed:@"请输入货号"];
         return;
-    }
+    }else
     if (self.noText.text.length==0) {
         [self showHudFailed:@"请输入金额"];
+        return;
+    }else
+    if (!isPrice) {
+        [self showHudFailed:@"价格只能为两位小数"];
         return;
     }
     [self hudShow:@"正在创建"];
@@ -157,8 +165,35 @@
 
 }
 
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
+    return YES;
+}
+- (IBAction)textChange:(id)sender {
+    UITextField *text =(UITextField *)sender;
+    if (![self isKindOfNumer:[text text]]) {
+        isPrice=NO;
+        [self showHudFailed:@"价格只能为两位小数点"];
+    }else{
+        isPrice=YES;
+    }
+
+}
+-(BOOL)isKindOfNumer:(NSString *)text{
+    
+    NSArray *array= [text componentsSeparatedByString:@"."];
+    if (array.count ==2) {
+        NSString *temp= array[1];
+        if (temp.length>2) {
+            return NO;
+        }else{
+            return YES;
+        }
+        return YES;
+    }else if(array.count>2){
+        return NO;
+    }
     return YES;
 }
 @end

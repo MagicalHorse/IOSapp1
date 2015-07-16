@@ -69,6 +69,7 @@
                             <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
                             <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             <connections>
+                                <action selector="textChange:" destination="-1" eventType="editingChanged" id="sXX-gT-Ec4"/>
                                 <outlet property="delegate" destination="-1" id="6hT-ND-N4q"/>
                             </connections>
                         </textField>
