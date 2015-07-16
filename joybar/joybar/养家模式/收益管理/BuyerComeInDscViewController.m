@@ -199,7 +199,7 @@
         [self activityDismiss];
         isRefresh=YES;
         type=3;
-        [self activityDismiss];
+        [self scrollToMyBuyer];
     }
 }
 
@@ -220,6 +220,7 @@
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    self.dataArray =nil;
     [self setData];
 
 }
@@ -241,6 +242,7 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    self.dataArray =nil;
     [self setData];
 
 }
@@ -262,6 +264,7 @@
     lab1.font = [UIFont fontWithName:@"youyuan" size:13];
     lab2.textColor = [UIColor grayColor];
     lab2.font = [UIFont fontWithName:@"youyuan" size:13];
+    self.dataArray =nil;
     [self setData];
 
 }
