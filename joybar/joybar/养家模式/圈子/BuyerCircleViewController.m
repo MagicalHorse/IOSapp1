@@ -26,7 +26,7 @@
 @property (nonatomic ,strong) UIScrollView *tempView;
 @property (nonatomic ,strong) UITableView *tableView;
 @property (nonatomic ,strong) UITableView *fansTableView;
-
+@property (nonatomic ,strong)UIButton *searchBtn;
 
 @end
 
@@ -50,16 +50,17 @@
 -(void)setData
 {
     if (isRefresh) {
-        [self showInView:self.tempView WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
+        [self showInView:self.view WithPoint:CGPointMake(0,104) andHeight:kScreenHeight-104];
     }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     NSString *url;
     if (type ==1) {
-        [dict setValue:@"1" forKey:@"status"];
         url=@"Community/GetBuyerGroups";
 
     }else{
         url=@"User/GetUserFavoite";
+        [dict setValue:@"1" forKey:@"status"];
+
     }
     [dict setObject:@"1" forKey:@"Page"];
     [dict setObject:@"1000000" forKey:@"Pagesize"];
@@ -67,7 +68,6 @@
         
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            self.dataArray=nil;
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
             self.dataArray =array;
         }else{
@@ -89,18 +89,23 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:NO];
-    //tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    self.tableView.tag = 1;
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.backgroundColor = kCustomColor(241, 241, 241);
-    self.tableView.tableFooterView =[[UIView alloc]init];
-    [self.view addSubview:self.tableView];
-    isRefresh=YES;
-    type=1;
-    [self setData];
+    
+    NSString *isUpdate =[Common getUserDefaultKeyName:@"privateOrGroup"];
+    if ([isUpdate isEqualToString:@"1"]) {
+        //tableView
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        self.tableView.tag = 1;
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
+        self.tableView.backgroundColor = kCustomColor(241, 241, 241);
+        self.tableView.tableFooterView =[[UIView alloc]init];
+        [self.view addSubview:self.tableView];
+        isRefresh=YES;
+        type=1;
+        [self setData];
+    }
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -141,15 +146,26 @@
     [self.view addSubview:lineView];
     
     //rightbtn
-    UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    searchBtn.frame = CGRectMake(kScreenWidth-64, 10, 64, 64);
-    [searchBtn setTitle:@"添加" forState:UIControlStateNormal];
-    [searchBtn setTitleColor :[UIColor blackColor] forState:UIControlStateNormal];
-    searchBtn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:15];
-    [searchBtn addTarget:self action:@selector(addCircle) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.navView addSubview:searchBtn];
+    _searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    _searchBtn.frame = CGRectMake(kScreenWidth-64, 10, 64, 64);
+    [_searchBtn setTitle:@"添加" forState:UIControlStateNormal];
+    [_searchBtn setTitleColor :[UIColor blackColor] forState:UIControlStateNormal];
+    _searchBtn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:15];
+    [_searchBtn addTarget:self action:@selector(addCircle) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.navView addSubview:_searchBtn];
     
-    
+    //tableView
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40) style:(UITableViewStylePlain)];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.tag = 1;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = kCustomColor(241, 241, 241);
+    self.tableView.tableFooterView =[[UIView alloc]init];
+    [self.view addSubview:self.tableView];
+    isRefresh=YES;
+    type=1;
+    [self setData];
   
 }
 
@@ -217,6 +233,7 @@
         name =[self.dataArray[indexPath.row]objectForKey:@"UserName"];
         chat= [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:name];
         chat.isFrom =isFromPrivateChat;
+        [Common saveUserDefault:@"2" keyName:@"privateOrGroup"];
     }else{
        
         userid =[[self.dataArray[indexPath.row]objectForKey:@"Id"]stringValue];
@@ -224,6 +241,7 @@
         chat = [[CusChatViewController alloc]initWithUserId:userid AndTpye:1 andUserName:name];
         chat.circleId =userid;
         chat.isFrom =isFromGroupChat;
+        [Common saveUserDefault:@"1" keyName:@"privateOrGroup"];
 
     }
     [self.navigationController pushViewController:chat animated:YES];
@@ -239,6 +257,7 @@
 {
     if (tap.view.tag==1000)
     {
+        self.searchBtn.hidden=NO;
         [self activityDismiss];
         isRefresh =YES;
         type=1;
@@ -246,6 +265,7 @@
     }
     else
     {
+        self.searchBtn.hidden=YES;
         [self activityDismiss];
         isRefresh =YES;
         type=2;
@@ -291,6 +311,7 @@
 
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
+ 
     _fansTableView= [[UITableView alloc] init];
     _fansTableView.frame = CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40);
     _fansTableView.backgroundColor = kCustomColor(241, 241, 241);
