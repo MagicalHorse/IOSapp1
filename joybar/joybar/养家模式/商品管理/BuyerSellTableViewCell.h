@@ -13,8 +13,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *firstConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *threeConstraint;
 @property (weak, nonatomic) IBOutlet UIImageView *StoreImgView;
-@property (weak, nonatomic) IBOutlet UILabel *StoreName;
-
 @property (weak, nonatomic) IBOutlet UILabel *StoreDetails;
 @property (weak, nonatomic) IBOutlet UILabel *StoreNo;
 

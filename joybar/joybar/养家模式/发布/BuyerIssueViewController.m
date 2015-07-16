@@ -187,7 +187,7 @@
     dscView.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
     [priceView addSubview:dscView];
     
-    UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(dscView.width-65, dscView.height-20, 60, 15)];
+    UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(dscView.width-60, dscView.height-20, 60, 15)];
     lable.text =@"100字";
     lable.textColor =kCustomColor(194, 194, 200);
     lable.font =[UIFont fontWithName:@"youyuan" size:13];

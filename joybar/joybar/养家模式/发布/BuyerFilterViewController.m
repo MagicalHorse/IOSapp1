@@ -149,19 +149,45 @@
     [titieView addSubview:titieLable];
     [self.view addSubview:titieView];
     
-    UIView * tzhiView=[[UIView alloc]initWithFrame:CGRectMake(0, _bgImage.bottom, kScreenWidth, 110)];
+    UIScrollView * tzhiView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, _bgImage.bottom, kScreenWidth, 110)];
+    tzhiView.contentSize =CGSizeMake(kScreenWidth+100, 0);
     tzhiView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:tzhiView];
     
 
-    for (int i=0; i<4; i++) {
+    for (int i=0; i<5; i++) {
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4-20)*i+15*(i+1), 15, kScreenWidth/4-20, 60)];
         btn.tag =i+1;
-        btn.backgroundColor =[UIColor greenColor];
+        
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [tzhiView addSubview:btn];
         UILabel *label =[[UILabel alloc]initWithFrame:CGRectMake((kScreenWidth/4-20)*i+15*(i+1), btn.bottom+10, kScreenWidth/4-20, 13)];
-        label.text=@"我是滤镜";
+        label.textAlignment=NSTextAlignmentCenter;
+        switch (i) {
+            case 0:
+                label.text=@"原图";
+                [btn setImage:cImage forState:UIControlStateNormal];
+                break;
+            case 1:
+                label.text=@"诺曼底";
+                [btn setImage:[self getNewImg:cImage AndType:1] forState:UIControlStateNormal];
+                break;
+            case 2:
+                label.text=@"流年";
+                [btn setImage:[self getNewImg:cImage AndType:2] forState:UIControlStateNormal];
+                break;
+            case 3:
+                label.text=@"琥珀";
+                [btn setImage:[self getNewImg:cImage AndType:3] forState:UIControlStateNormal];
+                break;
+            case 4:
+                label.text=@"冷绿";
+                [btn setImage:[self getNewImg:cImage AndType:4] forState:UIControlStateNormal];
+                break;
+
+            default:
+                break;
+        }
         label.font =[UIFont fontWithName:@"youyuan" size:13];
         [tzhiView addSubview:label];
         
@@ -182,15 +208,18 @@
     UIImage *image =cImage;
     switch (i) {
         case 1:
-            self.bgImage.image =[self getNewImg:image AndType:1];
+            self.bgImage.image =cImage;
             break;
         case 2:
-            self.bgImage.image =[self getNewImg:image AndType:2];
+            self.bgImage.image =[self getNewImg:image AndType:1];
             break;
         case 3:
-            self.bgImage.image =[self getNewImg:image AndType:3];
+            self.bgImage.image =[self getNewImg:image AndType:2];
             break;
         case 4:
+            self.bgImage.image =[self getNewImg:image AndType:3];
+            break;
+        case 5:
             self.bgImage.image =[self getNewImg:image AndType:4];
             break;
             
@@ -216,7 +245,7 @@
         [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
             if (isSuccess) {
                 NSMutableDictionary *dict= [NSMutableDictionary dictionary];
-                self.tempImageName =[self.imageDic objectForKey:@"ImageUrl"];
+                self.tempImageName =temp;
                 [dict setObject:self.tempImageName forKey:@"ImageUrl"];
                 [dict setObject:self.tagsArray forKey:@"Tags"];
                 
@@ -240,7 +269,7 @@
         [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
             if (isSuccess) {
                 NSMutableDictionary *dict= [NSMutableDictionary dictionary];
-                self.tempImageName =imgDic.ImageUrl;
+                self.tempImageName =temp;
                 [dict setObject:self.tempImageName forKey:@"ImageUrl"];
                 if (imgDic.Tags.count>0) {
                     [dict setObject:imgDic.Tags forKey:@"Tags"];
