@@ -17,7 +17,6 @@
 }
 -(void)setData:(NSDictionary *)dic
 {
-    
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 79, kScreenWidth, 0.5)];
     line.backgroundColor = [UIColor lightGrayColor];
     [self.contentView addSubview:line];
@@ -28,7 +27,7 @@
     [self.contentView addSubview:headerImg];
     
     UILabel *msgCountLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right-25, -5, 20, 20)];
-    NSString *count = [dic objectForKey:@"UnReadCount"];
+    NSString *count = [NSString stringWithFormat:@"%@",[dic objectForKey:@"UnReadCount"]];
     if ([count isEqualToString:@"0"])
     {
         msgCountLab.hidden = YES;
@@ -72,8 +71,6 @@
     timeLab.font = [UIFont fontWithName:@"youyuan" size:13];
     timeLab.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:timeLab];
-    
-    
 
 }
 
