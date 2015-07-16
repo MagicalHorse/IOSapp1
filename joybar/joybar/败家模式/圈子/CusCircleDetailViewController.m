@@ -69,6 +69,11 @@
     [self addTitleView];
 
 //    [self addBigView];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self getCircleDetailData];
 }
 
@@ -87,11 +92,10 @@
         }
         else
         {
-             [self showHudFailed:[json objectForKey:@"message"]];
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
         [self textHUDHiddle];
     } failure:^(NSError *error) {
-        [self showHudFailed:@"请求失败"];
     }];
 }
 
@@ -108,7 +112,6 @@
     circleNumLab = [[UILabel alloc] init];
     circleNumLab.center = CGPointMake(kScreenWidth/2, nameLab.bottom+10);
     circleNumLab.bounds = CGRectMake(0, 0, 100, 20);
-//    circleNumLab.text = @"10000人";
     circleNumLab.textColor = [UIColor lightGrayColor];
     circleNumLab.font = [UIFont fontWithName:@"youyuan" size:12];
     circleNumLab.textAlignment = NSTextAlignmentCenter;
@@ -182,11 +185,14 @@
 //    [_bgView addSubview:shareBtn];
 //}
 
+
+
 #pragma mark tableViewDelegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -714,7 +720,6 @@
     } failure:^(NSError *error) {
         
         [self textHUDHiddle];
-        [self showHudFailed:@"请求失败"];
     }];
     
     
@@ -750,7 +755,6 @@
                 [self showHudFailed:[json objectForKey:@"message"]];
             }
         } failure:^(NSError *error) {
-            [self showHudFailed:@"请求失败"];
         }];
     }else if([btn.titleLabel.text isEqualToString:@"删除并退出"])
     {
@@ -791,7 +795,6 @@
                 [self showHudFailed:[json objectForKey:@"message"]];
             }
         } failure:^(NSError *error) {
-            [self showHudFailed:@"请求失败"];
         }];
 
     }

@@ -86,8 +86,10 @@
     [dic setObject:self.BrandId forKey:@"BrandId"];
     [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dic setObject:@"24" forKey:@"PageSize"];
+    [self hudShow];
     [HttpTool postWithURL:@"Product/GetProductListByBrandId" params:dic success:^(id json) {
         
+        [self hiddleHud];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
@@ -108,8 +110,8 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
     } failure:^(NSError *error) {
-        
-        [self showHudFailed:@"请检查当前网络设置"];
+
+        [self hiddleHud];
     }];
 }
 

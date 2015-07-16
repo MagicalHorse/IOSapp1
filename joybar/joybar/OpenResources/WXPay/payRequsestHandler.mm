@@ -150,7 +150,18 @@
 - ( NSMutableDictionary *)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price
 {
     //订单标题，展示给用户
-    NSString *order_name    = name;
+    NSString *order_name;
+    if (name.length>13)
+    {
+        NSString *str= [name substringWithRange:NSMakeRange(0, 13)];
+        NSString *str1 = [NSString stringWithFormat:@"%@...",str];
+        order_name = str1;
+    }
+    else
+    {
+        order_name = name;
+    }
+    
     //订单金额,单位（分）
     NSString *order_price   = [NSString stringWithFormat:@"%.0f",[price doubleValue]*100];
 

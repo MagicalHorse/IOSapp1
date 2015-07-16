@@ -92,7 +92,6 @@
         }
         [self textHUDHiddle];
     } failure:^(NSError *error) {
-        [self showHudFailed:@"网络繁忙,请稍后再试"];
         [self textHUDHiddle];
     }];
     

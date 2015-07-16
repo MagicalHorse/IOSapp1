@@ -13,15 +13,12 @@
 #import "UMSocialSnsService.h"
 #import "payRequsestHandler.h"
 #import "APService.h"
-
+#define size 10
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
-//    NSLog(@"%.2f %",a/b);
-    
     
     [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                    UIRemoteNotificationTypeSound |

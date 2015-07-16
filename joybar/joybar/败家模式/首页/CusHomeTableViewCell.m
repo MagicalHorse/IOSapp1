@@ -13,7 +13,6 @@
 #import "CusChatViewController.h"
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
-#import "CusCustomerStoreViewController.h"
 #import "SDWebImageManager.h"
 @implementation CusHomeTableViewCell
 {
@@ -115,7 +114,7 @@
     shareBtn.layer.cornerRadius = 3;
     [shareBtn addTarget:self action:@selector(didClickShare:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.contentView addSubview:shareBtn];
-
+    
     UIButton *chatBtn = [[UIButton alloc] initWithFrame:CGRectMake(shareBtn.left-100, descriptionLab.bottom+10, 80, 33)];
     chatBtn.backgroundColor = kCustomColor(248, 248, 248);
     chatBtn.layer.borderColor = kCustomColor(236, 236, 236).CGColor;
@@ -161,24 +160,29 @@
     
     for (int i=0; i<self.homePro.LikeUsers.Users.count; i++)
     {
+        
+        if (i>7)
+        {
+            return;
+        }
         HomeUsers *user = [self.homePro.LikeUsers.Users objectAtIndex:i];
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(35*i, 0, 30, 30)];
         img.layer.cornerRadius = img.width/2;
         img.clipsToBounds = YES;
         [img sd_setImageWithURL:[NSURL URLWithString:user.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         img.backgroundColor = kCustomColor(245, 246, 247);
-
+        
         img.tag = 1000+i;
         img.userInteractionEnabled = YES;
         [bgView addSubview:img];
-//        if (i==6)
-//        {
-//            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, img.width, img.height-10)];
-//            lab.text = @"...";
-//            lab.textAlignment =NSTextAlignmentCenter;
-//            lab.textColor = [UIColor blackColor];
-//            [img addSubview:lab];
-//        }
+        //        if (i==6)
+        //        {
+        //            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, img.width, img.height-10)];
+        //            lab.text = @"...";
+        //            lab.textAlignment =NSTextAlignmentCenter;
+        //            lab.textColor = [UIColor blackColor];
+        //            [img addSubview:lab];
+        //        }
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
         [img addGestureRecognizer:tap];
@@ -194,7 +198,7 @@
     lab.textAlignment = NSTextAlignmentCenter;
     lab.font = [UIFont fontWithName:@"youyuan" size:14];
     [nightImage addSubview:lab];
-
+    
     if (![self.homePro.Promotion.IsShow boolValue])
     {
         nightImage.hidden = YES;
@@ -215,7 +219,7 @@
     }
     
     [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:self.homePro.ShareLink];
-
+    
     
     [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",self.homePro.ProductPic.Name]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         
@@ -228,7 +232,7 @@
                                     shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                            delegate:self];
     }];
-
+    
     
     
 }
@@ -248,7 +252,7 @@
             
             
         } failure:^(NSError *error) {
-                        
+            
         }];
     }
 }
@@ -271,22 +275,11 @@
 //点击头像
 -(void)didCLickHeaderImage
 {
-    NSString *level = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"level"]];
-    if ([level isEqualToString:@"8"])
-    {
-        CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
-        VC.userId = self.homePro.Buyerid;
-        VC.userName = self.homePro.BuyerName;
-        [self.viewController.navigationController pushViewController:VC animated:YES];
-
-    }
-    else if ([level isEqualToString:@"1"])
-    {
-        CusCustomerStoreViewController *VC = [[CusCustomerStoreViewController alloc] init];
-        VC.userId = self.homePro.Buyerid;
-        VC.userName = self.homePro.BuyerName;
-        [self.viewController.navigationController pushViewController:VC animated:YES];
-    }
+    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    VC.userId = self.homePro.Buyerid;
+    VC.userName = self.homePro.BuyerName;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
+    
 }
 
 -(void)didClickImage:(UITapGestureRecognizer *)tap
@@ -329,12 +322,12 @@
                 
                 self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%d",[self.homePro.LikeUsers.Count integerValue]-1];
                 self.homePro.LikeUsers.IsLike = @"0";
-
+                
                 [btn setImage:[UIImage imageNamed:@"点赞"] forState:(UIControlStateNormal)];
                 [btn setTitle:self.homePro.LikeUsers.Count forState:(UIControlStateNormal)];
                 btn.selected = NO;
             }
-
+            
         }
         else
         {

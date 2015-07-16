@@ -317,7 +317,6 @@
         [self textHUDHiddle];
     } failure:^(NSError *error) {
         
-        [self showHudFailed:@"请求失败"];
     }];
 }
 
@@ -351,7 +350,6 @@
         [self textHUDHiddle];
         
     } failure:^(NSError *error) {
-        [self showHudFailed:@"请求失败"];
     }];
 }
 
@@ -377,7 +375,6 @@
         [self textHUDHiddle];
     } failure:^(NSError *error) {
         
-        [self showHudFailed:@"请求失败"];
     }];
 }
 
@@ -444,7 +441,6 @@
         }
         
     } failure:^(NSError *error) {
-        [self showHudFailed:@"请求失败"];
     }];
     
 }

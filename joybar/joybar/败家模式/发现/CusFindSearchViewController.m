@@ -9,7 +9,6 @@
 #import "CusFindSearchViewController.h"
 #import "CusTagViewController.h"
 #import "CusHomeStoreViewController.h"
-#import "CusCustomerStoreViewController.h"
 @interface CusFindSearchViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UIView *line;
@@ -231,22 +230,11 @@
     else
     {
         
-        NSString *level = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"level"]];
-        if ([level isEqualToString:@"8"])
-        {
             CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
             VC.userId = [dic objectForKey:@"Id"];
             VC.userName = [dic objectForKey:@"Name"];
             [self.navigationController pushViewController:VC animated:YES];
             
-        }
-        else if ([level isEqualToString:@"1"])
-        {
-            CusCustomerStoreViewController *VC =[[CusCustomerStoreViewController alloc] init];
-            VC.userId = [dic objectForKey:@"Id"];
-            VC.userName = [dic objectForKey:@"Name"];
-            [self.navigationController pushViewController:VC animated:YES];
-        }
 
     }
 }
@@ -293,7 +281,7 @@
         
     } failure:^(NSError *error) {
         
-        [self showHudFailed:@"请检查网络设置"];
+        [self hiddleHud];
         
     }];
 }

@@ -116,8 +116,6 @@
         
     } failure:^(NSError *error) {
         
-        [self showHudFailed:@"请求失败"];
-
     }];
 }
 

@@ -56,10 +56,13 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
-    if ([pro.Promotion.IsShow boolValue])
+    if (self.dataArr.count>0)
     {
-        return kScreenHeight-100;
+        HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
+        if ([pro.Promotion.IsShow boolValue])
+        {
+            return kScreenHeight-100;
+        }
     }
     return kScreenHeight-150;
 }
@@ -70,7 +73,7 @@
     {
         return;
     }
-
+    
     CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
     HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
     VC.productId = pro.ProductId;

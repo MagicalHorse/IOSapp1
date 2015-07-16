@@ -91,13 +91,13 @@
             NSArray *arr =[json objectForKey:@"data"];
             [self.dataBase addObjectsFromArray:arr];
             
-            NSMutableArray *array = [NSMutableArray array];
+//            NSMutableArray *array = [NSMutableArray array];
             for (int j=0; j<arr.count; j++)
             {
-                [array addObject:@"0"];
+                [self.isSelectArr addObject:@"0"];
             }
             
-            [self.isSelectArr addObject:array];
+//            [self.isSelectArr addObjectsFromArray:array];
             
             [self.tableView reloadData];
         }
@@ -108,46 +108,9 @@
         
         
     } failure:^(NSError *error) {
-        [self showHudFailed:@"请求失败"];
     }];
     
 }
-////返回索引数组
-//-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-//{
-//    return _dataSource;
-//}
-//
-////响应点击索引时的委托方法
-//-(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
-//{
-//    NSInteger count = 0;
-//    
-//    for(NSString *character in _dataSource)
-//    {
-//        if([character isEqualToString:title])
-//        {
-//            return count;
-//        }
-//        count ++;
-//    }
-//    return 0;
-//}
-//
-//
-////返回section的个数
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    // Return the number of sections.
-//    return [_dataSource count];
-//}
-//
-////返回每个索引的内容
-//-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    return [_dataSource objectAtIndex:section];
-//}
-
 //返回每个section的行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -175,8 +138,8 @@
     {
         NSDictionary *dic = [self.dataBase objectAtIndex:indexPath.row];
         UIImageView *selectImage = [[UIImageView alloc] initWithFrame:CGRectMake(11, 17, 18, 18)];
-        selectImage.tag = indexPath.row+1000+10*indexPath.section;
-        if([[[self.isSelectArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] isEqualToString:@"0"])
+        selectImage.tag = indexPath.row+1000;
+        if([[self.isSelectArr objectAtIndex:indexPath.row] isEqualToString:@"0"])
         {
             selectImage.image = [UIImage imageNamed:@"圈icon"];
         }
@@ -200,16 +163,6 @@
     return cell;
 }
 
-//// Override to support conditional editing of the table view.
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return YES;
-//}
-//
-//-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
-//}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -222,19 +175,19 @@
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    UIImageView *img = (UIImageView *)[cell.contentView viewWithTag:indexPath.row+1000+10*indexPath.section];
+    UIImageView *img = (UIImageView *)[cell.contentView viewWithTag:indexPath.row+1000];
     
-    NSString *str = [[self.isSelectArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    NSString *str = [self.isSelectArr objectAtIndex:indexPath.row];
     if ([str isEqualToString:@"0"])
     {
-        [[self.isSelectArr objectAtIndex:indexPath.section] setObject:@"1" atIndexedSubscript:indexPath.row];
+        [self.isSelectArr setObject:@"1" atIndexedSubscript:indexPath.row];
         img.image = [UIImage imageNamed:@"对号icon"];
     }
     else
     {
         img.image = [UIImage imageNamed:@"圈icon"];
 
-        [[self.isSelectArr objectAtIndex:indexPath.section] setObject:@"0" atIndexedSubscript:indexPath.row];
+        [self.isSelectArr setObject:@"0" atIndexedSubscript:indexPath.row];
     }
 }
 
@@ -271,10 +224,42 @@
 //确定
 -(void)didClickSureBtn:(UIButton *)btn
 {
+    
+    NSLog(@"asdasdasdasda");
+    NSMutableString *selectStr = [NSMutableString string];
     for (int i=0; i<self.dataBase.count; i++)
     {
-        
+        if ([[self.isSelectArr objectAtIndex:i] isEqualToString:@"1"])
+        {
+            NSMutableDictionary *dic = [self.dataBase objectAtIndex:i];
+            NSString *str = [NSString stringWithFormat:@"%@,",[dic objectForKey:@"UserId"]];
+            
+            NSLog(@"%@",str);
+            
+            [selectStr appendString:str];
+        }
     }
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.circleId forKey:@"groupId"];
+    [dic setObject:selectStr forKey:@"userids"];
+    [HttpTool postWithURL:@"Community/AddFansToGroup" params:dic success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            [self showHudSuccess:@"邀请成功"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+            });
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 @end

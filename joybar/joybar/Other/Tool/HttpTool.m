@@ -5,7 +5,7 @@
 //
 
 #define HomeURL  @"http://123.57.52.187:8080/app/"
-//#define HomeURL  @"http://123.57.52.187:8070/app"
+//#define HomeURL  @"http://123.57.52.187:8070/app/"
 
 
 #import "HttpTool.h"
@@ -21,11 +21,15 @@
 @implementation HttpTool
 + (void)postWithURL:(NSString *)url params:(NSDictionary *)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
-//    // 0.验证网络
-//    [Common IsReachability:^{
+    UIViewController* rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+
+    // 0.验证网络
+    [Common IsReachability:^{
 //        [MBProgressHUD showError:@"没有网络连接"];
-//        if (failure)failure(nil);
-//    }];
+        [rootViewController.view showHudFailed:@"没有网络连接"];
+        
+        if (failure)failure(nil);
+    }];
     NSString  *tempUrl = [HomeURL stringByAppendingFormat:@"%@",url];
     
     NSString *md5Str = [HttpTool signatureStr:params];

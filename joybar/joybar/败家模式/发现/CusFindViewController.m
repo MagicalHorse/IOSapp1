@@ -145,6 +145,8 @@
     [dic setValue:@"6" forKey:@"pagesize"];
     if (!isRefresh)
     {
+        [self activityDismiss];
+
         [self showInView:self.scroll WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Product/GetBrandProductList" params:dic success:^(id json) {
@@ -174,7 +176,9 @@
         [self activityDismiss];
         
     } failure:^(NSError *error) {
-        
+        [self.nearTableView endRefresh];
+        [self activityDismiss];
+
     }];
 }
 
@@ -186,6 +190,8 @@
     [dic setValue:@"0" forKey:@"CityId"];
     if (!isRefresh)
     {
+        [self activityDismiss];
+
         [self showInView:self.scroll WithPoint:CGPointMake(kScreenWidth, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Product/GetCityProductList" params:dic success:^(id json) {
@@ -214,7 +220,9 @@
         [self activityDismiss];
         
     } failure:^(NSError *error) {
-        
+        [self activityDismiss];
+        [self.nearTableView endRefresh];
+
     }];
 
 }

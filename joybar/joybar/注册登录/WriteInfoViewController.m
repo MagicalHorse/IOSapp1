@@ -153,8 +153,11 @@
     }
     [dic setObject:self.cityID forKey:@"cityid"];
     
+    [self hudShow];
+    
     [HttpTool postWithURL:@"user/Register" params:dic success:^(id json) {
 
+        [self hiddleHud];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
@@ -175,6 +178,7 @@
         }
         
     } failure:^(NSError *error) {
+        [self hiddleHud];
         NSLog(@"%@",[error description]);
     }];
 }
