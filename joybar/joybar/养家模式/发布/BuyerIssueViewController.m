@@ -23,6 +23,7 @@
 @interface BuyerIssueViewController ()<UITextFieldDelegate,UITextViewDelegate,UIScrollViewDelegate,BuyerCameraDelgeate,BuyerFilterDelgeate>
 {
     int count;
+    BOOL isPrice;
 }
 @property (nonatomic,strong)UIScrollView *customScrollView;
 @property (nonatomic,strong)UIView *customInfoView;
@@ -69,6 +70,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
+        isPrice=NO;
         self.hidesBottomBarWhenPushed = YES;
         self.customScrollView = [[UIScrollView alloc]init];
         self.btn1=[[UIImageView alloc]init];
@@ -170,6 +172,7 @@
     _priceText=[[UITextField alloc]initWithFrame:CGRectMake(priceImg.right, 45, kScreenWidth-priceImg.right, 40)];
     _priceText.keyboardType =UIKeyboardTypeDecimalPad;
     _priceText.delegate =self;
+    [_priceText addTarget:self action:@selector(priceTextChanged:) forControlEvents:UIControlEventEditingChanged];
     _priceText.font =[UIFont fontWithName:@"youyuan" size:16];
     _priceText.placeholder =@"价格（元）";
     [priceView addSubview:_priceText];
@@ -184,8 +187,8 @@
     dscView.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
     [priceView addSubview:dscView];
     
-    UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(dscView.width-35, dscView.height-20, 30, 15)];
-    lable.text =@"20字";
+    UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(dscView.width-65, dscView.height-20, 60, 15)];
+    lable.text =@"100字";
     lable.textColor =kCustomColor(194, 194, 200);
     lable.font =[UIFont fontWithName:@"youyuan" size:13];
 
@@ -233,6 +236,30 @@
         [self updateInfoView:self.detail];
     }
     
+}
+-(void)priceTextChanged:(UITextField *)textField{
+    if (![self isKindOfNumer:textField.text]) {
+        isPrice=NO;
+        [self showHudFailed:@"价格只能为两位小数点"];
+    }else{
+        isPrice=YES;
+    }
+}
+-(BOOL)isKindOfNumer:(NSString *)text{
+    
+    NSArray *array= [text componentsSeparatedByString:@"."];
+    if (array.count ==2) {
+        NSString *temp= array[1];
+        if (temp.length>2) {
+            return NO;
+        }else{
+            return YES;
+        }
+        return YES;
+    }else if(array.count>2){
+        return NO;
+    }
+    return YES;
 }
 //修改才会进
 -(void)updateInfoView:(Detail *)detail
@@ -349,11 +376,14 @@
     }else if(self.priceText.text.length==0){
         [self showHudFailed:@"请填写价格"];
         return;
+    }else if(!isPrice){
+        [self showHudFailed:@"价格只能为两位小数点"];
+        return;
     }else if(self.dscText.text.length==0){
         [self showHudFailed:@"请填写商品描述"];
         return;
-    }else if(self.dscText.text.length>20){
-        [self showHudFailed:@"商品描述不能大于20字符"];
+    }else if(self.dscText.text.length>100){
+        [self showHudFailed:@"商品描述不能大于100字符"];
         return;
     }else if(tempSizegStr.length==0){
         [self showHudFailed:@"请填写规格"];
@@ -681,7 +711,9 @@
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
-    self.dscText.text=@"";
+    if ([textView.text isEqualToString:@"给力商品描述点"]) {
+         self.dscText.text=@"";
+    }
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.30];
     CGRect rect = self.view.frame;
@@ -690,6 +722,9 @@
     [UIView commitAnimations];
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
+    if(textView.text.length==0){
+        self.dscText.text=@"给力商品描述点";
+    }
     [textView resignFirstResponder];
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.30];
