@@ -153,7 +153,7 @@
 
             CusHomeStoreViewController * store=[[CusHomeStoreViewController alloc]init];
             store.userId=[dict objectForKey:@"id"];
-            store.userName =[dict objectForKey:@"name"];
+            store.userName =[dict objectForKey:@"nickname"];
             [self.navigationController pushViewController:store animated:YES];
 
         }

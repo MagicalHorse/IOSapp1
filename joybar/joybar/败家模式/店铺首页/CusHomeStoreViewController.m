@@ -66,7 +66,7 @@
     [self initializeUserInterface];
 //    [self initializeDataSource];
     [self getData];
-    [self getCollectListData];
+    [self getProListData];
     // 2.集成刷新控件
 //    [self addHeader];
     [self addFooter];
@@ -102,7 +102,7 @@
         
         if (self.isCollect==YES)
         {
-            [vc getCollectListData];
+            [vc getProListData];
         }
         else
         {
@@ -111,7 +111,7 @@
     }];
 }
 
--(void) getCollectListData
+-(void) getProListData
 {
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
@@ -224,7 +224,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.userId forKey:@"userid"];
-    [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight];
+//    [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight];
 
     [HttpTool postWithURL:@"User/GetUserInfo" params:dic success:^(id json) {
         
@@ -239,21 +239,53 @@
         }
         else
         {
-            
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [self activityDismiss];
+//        [self activityDismiss];
         
     } failure:^(NSError *error) {
         
     }];
 }
 
+-(void) getCollectListData
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.userId forKey:@"userid"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
+    [dic setObject:@"20" forKey:@"pagesize"];
+    [self hudShow];
+    [HttpTool postWithURL:@"Product/GetUserFavoriteList" params:dic success:^(id json) {
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            if (arr.count<6)
+            {
+                self.collectionView.footerHidden = YES;
+            }
+            else
+            {
+                self.collectionView.footerHidden = NO;
+            }
+            [self.dataSource addObjectsFromArray:arr];
+            
+            [self.collectionView reloadData];
+            [self.collectionView headerEndRefreshing];
+            [self.collectionView footerEndRefreshing];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self hiddleHud];
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+
 -(void)addHeaderView:(UIView *)contentView
 {
-//    UIView *bgView;
-//    bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, contentView.height)];
-//    bgView.backgroundColor = [UIColor whiteColor];
-//    [
     
     UIImageView *headerImage = [[UIImageView alloc] init];
     headerImage.center = CGPointMake(kScreenWidth/2, 45);
@@ -358,58 +390,69 @@
     descLab.frame = CGRectMake(10, tempView.bottom+10, kScreenWidth-20, size.height);
     [contentView addSubview:descLab];
     
-    NSArray *btnNameArr = @[[NSString stringWithFormat:@"商品 %@",self.storeData.ProductCount],[NSString stringWithFormat:@"上新 %@",self.storeData.NewProductCount]];
-    for (int i=0; i<btnNameArr.count; i++)
+    if ([self.storeData.IsBuyer boolValue])
     {
-        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        btn.frame = CGRectMake(kScreenWidth/btnNameArr.count*i, contentView.height-40, kScreenWidth/btnNameArr.count-1, 40);
-        btn.backgroundColor = [UIColor clearColor];
-        [btn setTitle:[btnNameArr objectAtIndex:i] forState:(UIControlStateNormal)];
-        [btn setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
-        [btn addTarget:self action:@selector(didClickclassify:) forControlEvents:(UIControlEventTouchUpInside)];
-        btn.tag = 100+i;
-        btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
-        [contentView addSubview:btn];
+        NSArray *btnNameArr = @[[NSString stringWithFormat:@"商品 %@",self.storeData.ProductCount],[NSString stringWithFormat:@"上新 %@",self.storeData.NewProductCount]];
+        for (int i=0; i<btnNameArr.count; i++)
+        {
+            UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+            btn.frame = CGRectMake(kScreenWidth/btnNameArr.count*i, contentView.height-40, kScreenWidth/btnNameArr.count-1, 40);
+            btn.backgroundColor = [UIColor clearColor];
+            [btn setTitle:[btnNameArr objectAtIndex:i] forState:(UIControlStateNormal)];
+            [btn setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
+            [btn addTarget:self action:@selector(didClickclassify:) forControlEvents:(UIControlEventTouchUpInside)];
+            btn.tag = 100+i;
+            btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+            [contentView addSubview:btn];
+            
+            UIView *verticalLine = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth/btnNameArr.count*i, contentView.height-35, 1, 30)];
+            verticalLine.backgroundColor = kCustomColor(239, 239, 239);
+            [contentView addSubview:verticalLine];
+        }
         
-        UIView *verticalLine = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth/btnNameArr.count*i, contentView.height-35, 1, 30)];
-        verticalLine.backgroundColor = kCustomColor(239, 239, 239);
-        [contentView addSubview:verticalLine];
-    }
-    
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.height, kScreenWidth, 0.5)];
-    line.backgroundColor = kCustomColor(239, 239, 239);
-    [contentView addSubview:line];
-    
-    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.height-40, kScreenWidth, 0.5)];
-    line1.backgroundColor = kCustomColor(239, 239, 239);
-    [contentView addSubview:line1];
-    
-    self.orangeLine = [[UIView alloc] initWithFrame:CGRectMake(20, contentView.height-2, kScreenWidth/btnNameArr.count-40, 2)];
-    if (self.isCollect)
-    {
-        self.orangeLine.frame =CGRectMake(20, contentView.height-2, kScreenWidth/btnNameArr.count-40, 2);
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.height, kScreenWidth, 0.5)];
+        line.backgroundColor = kCustomColor(239, 239, 239);
+        [contentView addSubview:line];
+        
+        UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.height-40, kScreenWidth, 0.5)];
+        line1.backgroundColor = kCustomColor(239, 239, 239);
+        [contentView addSubview:line1];
+        
+        self.orangeLine = [[UIView alloc] initWithFrame:CGRectMake(20, contentView.height-2, kScreenWidth/btnNameArr.count-40, 2)];
+        if (self.isCollect)
+        {
+            self.orangeLine.frame =CGRectMake(20, contentView.height-2, kScreenWidth/btnNameArr.count-40, 2);
+        }
+        else
+        {
+            self.orangeLine.frame =CGRectMake(kScreenWidth/2+20, contentView.height-2, kScreenWidth/2-40, 2);
+        }
+        self.orangeLine.backgroundColor = [UIColor orangeColor];
+        [contentView addSubview:self.orangeLine];
     }
     else
     {
-        self.orangeLine.frame =CGRectMake(kScreenWidth/2+20, contentView.height-2, kScreenWidth/2-40, 2);
+        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        btn.frame = CGRectMake(kScreenWidth/3, contentView.height-40, kScreenWidth/3-1, 40);
+        btn.backgroundColor = [UIColor clearColor];
+        [btn setTitle:[NSString stringWithFormat:@"收藏 %@",self.storeData.ProductCount] forState:(UIControlStateNormal)];
+        [btn setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
+        [btn addTarget:self action:@selector(didClickCollectBtn) forControlEvents:(UIControlEventTouchUpInside)];
+        btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+        [contentView addSubview:btn];
+        
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.height, kScreenWidth, 0.5)];
+        line.backgroundColor = kCustomColor(239, 239, 239);
+        [contentView addSubview:line];
+        
+        UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.height-40, kScreenWidth, 0.5)];
+        line1.backgroundColor = kCustomColor(239, 239, 239);
+        [contentView addSubview:line1];
+
     }
-    self.orangeLine.backgroundColor = [UIColor orangeColor];
-    [contentView addSubview:self.orangeLine];
+    
     
 }
-
-//- (void)initializeDataSource {
-//    
-//    _dataSource = [[NSMutableArray alloc] init];
-//    _itemHeights = [[NSMutableArray alloc] init];
-//    
-//    for (int i = 0; i < 10; i ++)
-//    {
-//        [_dataSource addObject:@"1"];
-//        CGFloat itemHeight = arc4random() % 200 + 200;
-//        [_itemHeights addObject:@(itemHeight)];
-//    }
-//}
 
 - (void)initializeUserInterface
 {
@@ -581,13 +624,21 @@
     if (btnTag==100)
     {
         self.isCollect = YES;
-        [self getCollectListData];
+        [self getProListData];
     }
     else if (btnTag==101)
     {
         self.isCollect = NO;
         [self getNewProListData];
     }
+}
+
+-(void)didClickCollectBtn
+{
+    [self.dataSource removeAllObjects];
+    self.pageNum = 1;
+    [self getCollectListData];
+
 }
 
 -(CGSize)getContentSizeWith:(NSString *)content
