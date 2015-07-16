@@ -10,8 +10,8 @@
 
 @interface Tag : NSObject
 @property (nonatomic,copy)NSString* Name;
-@property (nonatomic,strong)NSNumber* PosX;
-@property (nonatomic,strong)NSNumber* PosY;
+@property (nonatomic,assign)float PosX;
+@property (nonatomic,assign)float PosY;
 @property (nonatomic,strong)NSNumber* ResourceId;
 @property (nonatomic,strong)NSNumber* SourceId;
 @property (nonatomic,strong)NSNumber* SourceType;

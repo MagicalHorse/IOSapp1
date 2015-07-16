@@ -129,8 +129,8 @@
         if (tags.count>0) {
             for (int i =0; i<tags.count; i++) {
                 Tag *tag =tags[i];
-                CGFloat x = [tag.PosX integerValue];
-                CGFloat y = [tag.PosY integerValue];
+                CGFloat x = tag.PosX ;
+                CGFloat y = tag.PosY;
                 CGPoint point ={x,y};
                 [self didSelectedTag:tag.Name AndPoint:point AndSourceId:[tag.SourceId stringValue] AndSourceType:[tag.SourceType stringValue]];
             }
