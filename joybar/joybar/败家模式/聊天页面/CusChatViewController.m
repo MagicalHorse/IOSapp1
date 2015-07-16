@@ -311,21 +311,21 @@
 {
     [self addNavBarViewAndTitle:@""];
     titleNameLab = [[UILabel alloc] init];
-    titleNameLab.center = CGPointMake(kScreenWidth/2, 32);
-    titleNameLab.bounds = CGRectMake(0, 0, 200, 20);
+    titleNameLab.center = CGPointMake(kScreenWidth/2, 42);
+    titleNameLab.bounds = CGRectMake(0, 0, 200, 44);
     titleNameLab.text = @"收取消息中...";
     titleNameLab.textAlignment = NSTextAlignmentCenter;
     titleNameLab.font = [UIFont fontWithName:@"youyuan" size:17];
     [self.navView addSubview:titleNameLab];
     
-    UILabel *statusLab = [[UILabel alloc] init];
-    statusLab.center = CGPointMake(kScreenWidth/2, titleNameLab.bottom+10);
-    statusLab.bounds = CGRectMake(0, 0, 100, 20);
-    statusLab.text = @"在线";
-    statusLab.textColor = [UIColor lightGrayColor];
-    statusLab.font = [UIFont fontWithName:@"youyuan" size:12];
-    statusLab.textAlignment = NSTextAlignmentCenter;
-    [self.navView addSubview:statusLab];
+//    UILabel *statusLab = [[UILabel alloc] init];
+//    statusLab.center = CGPointMake(kScreenWidth/2, titleNameLab.bottom+10);
+//    statusLab.bounds = CGRectMake(0, 0, 100, 20);
+//    statusLab.text = @"在线";
+//    statusLab.textColor = [UIColor lightGrayColor];
+//    statusLab.font = [UIFont fontWithName:@"youyuan" size:12];
+//    statusLab.textAlignment = NSTextAlignmentCenter;
+//    [self.navView addSubview:statusLab];
     
     if (self.isFrom==isFromGroupChat)
     {
@@ -337,11 +337,11 @@
     }
     else
     {
-        UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 20, 40, 40)];
-        headerImage.layer.cornerRadius = headerImage.width/2;
-        headerImage.clipsToBounds = YES;
-        [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        [self.navView addSubview:headerImage];
+//        UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 20, 40, 40)];
+//        headerImage.layer.cornerRadius = headerImage.width/2;
+//        headerImage.clipsToBounds = YES;
+//        [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+//        [self.navView addSubview:headerImage];
     }
 }
 

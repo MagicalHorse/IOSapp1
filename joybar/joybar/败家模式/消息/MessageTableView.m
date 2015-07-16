@@ -58,8 +58,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSString *roomId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"RoomId"];
-    NSString *userId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
+    NSString *userId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"id"];
     NSString *userName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
 
     CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:userId AndTpye:2 andUserName:userName];
