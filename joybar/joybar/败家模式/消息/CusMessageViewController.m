@@ -79,7 +79,7 @@
 -(void)getMessageList
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:[NSString stringWithFormat:@"%ld",self.msgPageNum] forKey:@"page"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.msgPageNum] forKey:@"page"];
     [dic setObject:@"10" forKey:@"pagesize"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [HttpTool postWithURL:@"Community/GetMessagesList" params:dic success:^(id json) {

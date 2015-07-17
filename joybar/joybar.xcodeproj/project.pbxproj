@@ -392,6 +392,7 @@
 		9DF36CE31B0039BC00637206 /* HttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF36CE01B0039BC00637206 /* HttpTool.m */; };
 		9DF36CE41B0039BC00637206 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF36CE21B0039BC00637206 /* Reachability.m */; };
 		9DF36CE71B003A3B00637206 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF36CE61B003A3B00637206 /* Common.m */; };
+		9DF6C2C81B58F100005FB71E /* ProductPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF6C2C71B58F100005FB71E /* ProductPicture.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1038,6 +1039,8 @@
 		9DF36CE21B0039BC00637206 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		9DF36CE51B003A3B00637206 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		9DF36CE61B003A3B00637206 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
+		9DF6C2C61B58F100005FB71E /* ProductPicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPicture.h; sourceTree = "<group>"; };
+		9DF6C2C71B58F100005FB71E /* ProductPicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPicture.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1314,6 +1317,8 @@
 				0AAB5A321B2AE01800782C0C /* ProDetailPromotion.m */,
 				0AAB5A331B2AE01800782C0C /* ProDetailSize.h */,
 				0AAB5A341B2AE01800782C0C /* ProDetailSize.m */,
+				9DF6C2C61B58F100005FB71E /* ProductPicture.h */,
+				9DF6C2C71B58F100005FB71E /* ProductPicture.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -2593,6 +2598,7 @@
 				0A4ADAF91B4CBF7800B5AC00 /* DetailSize.m in Sources */,
 				0AAB5BB41B2AE01900782C0C /* Banner.m in Sources */,
 				0A4ADAED1B4CBC1900B5AC00 /* Detail.m in Sources */,
+				9DF6C2C81B58F100005FB71E /* ProductPicture.m in Sources */,
 				9D1E12F61B44034D00435531 /* CusBindMobileViewController.m in Sources */,
 				0DB5B01E1ACCDEE6000FE9C8 /* NSData+Base64.m in Sources */,
 				9DF36CD91B0039A700637206 /* AFSecurityPolicy.m in Sources */,

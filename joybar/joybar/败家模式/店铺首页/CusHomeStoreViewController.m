@@ -113,7 +113,6 @@
 
 -(void) getProListData
 {
-    
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.userId forKey:@"userid"];
     [dic setObject:@"0" forKey:@"Filter"];

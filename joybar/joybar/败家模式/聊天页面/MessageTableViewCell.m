@@ -21,14 +21,26 @@
     UIView *returnView = [[UIView alloc] init];
     returnView.backgroundColor = [UIColor clearColor];
     
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:fromSelf == YES?@"橙色对话框@2x":@"白色对话框@2x" ofType:@"png"];
+//    [[NSBundle mainBundle] pathForResource:fromSelf == YES?@"橙色对话框":@"白色对话框" ofType:@"png"];
     
     //背影图片
-    UIImage *bubble = [UIImage imageWithContentsOfFile:imagePath];
+//    UIImage *bubble = [UIImage imageWithContentsOfFile:imagePath];
+    
+    //    bgImageView.image = [bubble stretchableImageWithLeftCapWidth:floorf(bubble.size.width/2) topCapHeight:floorf(bubble.size.height/2)];
     
     UIImageView *bgImageView = [[UIImageView alloc] init];
-    bgImageView.image = [bubble stretchableImageWithLeftCapWidth:floorf(bubble.size.width/2) topCapHeight:floorf(bubble.size.height/2)];
     
+    NSString *imagePath;
+    if (fromSelf)
+    {
+        imagePath = @"橙色对话框.png";
+    }
+    else
+    {
+        imagePath = @"白色对话框.png";
+    }
+
+    bgImageView.image = [UIImage imageNamed:imagePath];
     bgImageView.frame = CGRectMake(0.0f, 40, textView.width+40.0f, textView.height+30.0f);
     
     if(fromSelf)
@@ -74,12 +86,21 @@
         imageView.frame = CGRectMake(kScreenWidth-position-(ImgView.width+10.0f), 5.0f, ImgView.width+10.0f, ImgView.height+10.0f);
     else
         imageView.frame = CGRectMake(position, 5.0f, ImgView.width+10.0f, ImgView.height+10.0f);
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:fromSelf == YES?@"橙色对话框@2x":@"白色对话框@2x" ofType:@"png"];
     
     //背影图片
-    UIImage *bubble = [UIImage imageWithContentsOfFile:imagePath];
     UIImageView *bgImageView = [[UIImageView alloc] init];
-    bgImageView.image = [bubble stretchableImageWithLeftCapWidth:floorf(bubble.size.width/2) topCapHeight:floorf(bubble.size.height/2)];
+    NSString *imagePath;
+    if (fromSelf)
+    {
+        imagePath = @"橙色对话框.png";
+    }
+    else
+    {
+        imagePath = @"白色对话框.png";
+    }
+    
+    bgImageView.image = [UIImage imageNamed:imagePath];
+
     bgImageView.frame = CGRectMake(0.0f, 40, imageView.width+10, imageView.height);
     [imageView addSubview:bgImageView];
     [bgImageView addSubview:ImgView];
@@ -92,13 +113,20 @@
     UIView *returnView = [[UIView alloc] init];
     returnView.backgroundColor = [UIColor clearColor];
     
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:fromSelf == YES?@"橙色对话框@2x":@"白色对话框@2x" ofType:@"png"];
-    
-    //背影图片
-    UIImage *bubble = [UIImage imageWithContentsOfFile:imagePath];
     UIImageView *bgImageView = [[UIImageView alloc] init];
-    bgImageView.image = [bubble stretchableImageWithLeftCapWidth:floorf(bubble.size.width/2) topCapHeight:floorf(bubble.size.height/2)];
     
+    NSString *imagePath;
+    if (fromSelf)
+    {
+        imagePath = @"橙色对话框.png";
+    }
+    else
+    {
+        imagePath = @"白色对话框.png";
+    }
+    
+    bgImageView.image = [UIImage imageNamed:imagePath];
+
     bgImageView.frame = CGRectMake(0.0f, 40, 230, 90);
     
     if(fromSelf)

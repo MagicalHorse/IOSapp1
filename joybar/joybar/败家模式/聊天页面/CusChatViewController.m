@@ -238,7 +238,6 @@
             {
                 [self.tableView setContentOffset:CGPointMake(0, arr.count*170) animated:NO];
             }
-        
             else
             {
                 if (self.tableView.contentSize.height>kScreenHeight-64-49)
@@ -572,7 +571,7 @@
     if (self.messageArr.count>0)
     {
         NSDictionary *msgDic = [self.messageArr objectAtIndex:indexPath.row];
-        
+
         //广播
         if ([[msgDic objectForKey:@"type"] isEqualToString:@"notice"])
         {

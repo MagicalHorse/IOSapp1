@@ -11,6 +11,7 @@
 #import "CusChatViewController.h"
 #import "ProDetailData.h"
 #import "HomeUsers.h"
+#import "ProductPicture.h"
 @interface CusBuyerDetailViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
@@ -92,10 +93,12 @@
     
     for (int i=0; i<prodata.ProductPic.count; i++)
     {
+        ProductPicture *pic = [prodata.ProductPic objectAtIndex:i];
+        
         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(self.imageScrollView.width*i, 0, self.imageScrollView.width, 300)];
         image.contentMode = UIViewContentModeScaleAspectFill;
         image.clipsToBounds = YES;
-        [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",[prodata.ProductPic objectAtIndex:i]]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",pic.Logo ]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         [self.imageScrollView addSubview:image];
     }
     _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.imageScrollView.bottom-30, kScreenWidth, 20)];
@@ -210,8 +213,6 @@
         tempView.hidden = YES;
     }
 //-----------------------------------------------------------------------------------
-    
-    
     
     self.scrollView.contentSize = CGSizeMake(0, tempView.height+568+titleLab.size.height);
 
