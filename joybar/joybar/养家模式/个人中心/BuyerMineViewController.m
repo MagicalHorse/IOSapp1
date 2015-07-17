@@ -38,9 +38,13 @@
     self.tableView.dataSource = self;
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableView];
+}
 
-   
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
+    [self.tableView reloadData];
 }
 
 -(UIView *)setHeaderView{
@@ -57,8 +61,6 @@
     UIImageView *messageImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     messageImg.image = [UIImage imageNamed:@"设置.png"];
     [messageBtn addSubview:messageImg];
-    
-    
     
     _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 265)];
     _bgImageView.image = [UIImage imageNamed:@"bgImage"];

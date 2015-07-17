@@ -23,6 +23,7 @@ typedef NSUInteger isFromType;
 @property (nonatomic ,strong) ProDetailData *detailData;
 @property (nonatomic ,strong) NSString *circleId;
 @property (nonatomic ,assign) isFromType isFrom;
+//@property (nonatomic ,strong) NSString *chatRoomId;
 //@property (assign, nonatomic) id<MessageTableViewScrollViewDelegate>messageScrollDelegate;
 
 -(instancetype)initWithUserId:(NSString *)userId AndTpye:(int)type andUserName:(NSString *)Username;

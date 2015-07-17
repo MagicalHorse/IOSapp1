@@ -141,7 +141,7 @@
         lab.font = [UIFont fontWithName:@"youyuan" size:15];
         [cell.contentView addSubview:lab];
         
-        NSArray *msgArr = @[self.detailData.ProductName,self.detailData.BuyerMobile,self.detailData.PickAddress];
+        NSArray *msgArr = @[self.detailData.BuyerName,self.detailData.BuyerMobile,self.detailData.PickAddress];
         UILabel *msgLab = [[UILabel alloc] init];
         msgLab.text = [msgArr objectAtIndex:indexPath.row];
         msgLab.font = [UIFont fontWithName:@"youyuan" size:15];

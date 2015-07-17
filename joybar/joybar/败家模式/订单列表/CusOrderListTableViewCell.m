@@ -139,7 +139,7 @@
         {
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];
             [dic setObject:self.orderListItem.OrderNo forKey:@"OrderNo"];
-            [self hudShowWithText:@"正在确认提货"];
+            [self hudShow:@"正在确认提货"];
             [HttpTool postWithURL:@"Order/ConfirmGoods" params:dic success:^(id json) {
                 
                 if ([[json objectForKey:@"isSuccessful"] boolValue])

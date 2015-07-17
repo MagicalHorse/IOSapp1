@@ -77,18 +77,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
 }
 
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    
-//    [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
-//        
-//        NSLog(@"啊飒飒大师大师大大神大神大神的");
-//        
-//    }];
 }
 
 -(void)aliyunSet{
@@ -109,16 +102,10 @@
     [super viewDidLoad];
 
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
-        
-        NSLog(@"哈哈哈哈哈哈:%@",args);
-        
         NSDictionary *dic = args.firstObject;
-        
         [self.messageArr addObject:dic];
-        
         [self.tableView reloadData];
         [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
-
     }];
 
     self.priceNum = 0;
@@ -146,7 +133,6 @@
     self.tableView.headerRereshingBlock = ^{
         
         VC.pageNum++;
-//        [VC getRoomId];
         [VC getMessageListData:YES];
     };
     
@@ -166,7 +152,6 @@
     
     NSMutableDictionary *faceDict = [NSMutableDictionary dictionary];
     NSString *emojPath = [[NSBundle mainBundle]pathForResource:@"FaceList" ofType:@"plist"];
-    
     NSArray *emojItem = [NSArray arrayWithContentsOfFile:emojPath];
     
     //将表情的名称以及对应的图片存入字典,方便使用.
@@ -181,7 +166,6 @@
     //    if ([chatRoomId isEqualToString:@""])
     //    {
     [self getRoomId];
-    //    }
     [self addTitleView];
     [self aliyunSet];
     
@@ -723,18 +707,30 @@
     }];
 }
 
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    
-//    [listView.messageTF resignFirstResponder];
-//    //    [listView moreBtnAction:nil];
-//    [UIView animateWithDuration:0.25 animations:^{
-//        listView.moreView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 164);
-//        listView.frame = CGRectMake(0, self.view.frame.size.height-49, kScreenWidth, 49);
-//        listView.faceView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 216-49);
-//        [self changeTableViewFrameWhileHidden];
-//    }];
-//}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
+}
+
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [listView.messageTF resignFirstResponder];
+    //    [listView moreBtnAction:nil];
+    [UIView animateWithDuration:0.25 animations:^{
+        listView.moreView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 164);
+        listView.frame = CGRectMake(0, self.view.frame.size.height-49, kScreenWidth, 49);
+        listView.faceView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 216-49);
+        [self changeTableViewFrameWhileHidden];
+    }];
+
+}
+
 
 ////获取当前时间（接收和发送消息的时间）
 //-(NSString *)getCurrentTime

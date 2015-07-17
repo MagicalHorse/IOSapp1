@@ -34,7 +34,7 @@
     self.refundText.layer.borderColor = [UIColor grayColor].CGColor;
     self.refundText.layer.borderWidth = 0.5;
     self.refundText.layer.cornerRadius = 3;
-    NSString *tempUrl = [NSString stringWithFormat:@"%@_100x100.jpg",self.proSizeStr];
+    NSString *tempUrl = [NSString stringWithFormat:@"%@_320x0.jpg",self.proImageStr];
     [self.proImage sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.proName.text = self.proNameStr;
     self.proNumLab.text = [NSString stringWithFormat:@"x%@",self.proNumStr];
@@ -144,13 +144,14 @@
     
     [self hudShow:@"正在申请退款..."];
     [HttpTool postWithURL:@"Order/Apply_Rma" params:dic success:^(id json) {
+       
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
             [self showHudSuccess:@"申请退款成功"];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 
-                [self.navigationController popViewControllerAnimated:YES];
+                [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:1] animated:YES];
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"refundNotification" object:self userInfo:nil];
             });

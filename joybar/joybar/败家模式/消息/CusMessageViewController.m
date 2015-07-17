@@ -25,7 +25,7 @@
 @property (nonatomic ,assign) CGFloat endX;
 
 @property (nonatomic ,assign) NSInteger pageNum;
-
+@property (nonatomic ,assign) NSInteger msgPageNum;
 
 
 @end
@@ -38,6 +38,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.pageNum = 1;
+    self.msgPageNum = 1;
     self.messageScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64)];
     self.messageScroll.contentSize = CGSizeMake(kScreenWidth*2, 0);
     self.messageScroll.alwaysBounceVertical = NO;
@@ -55,7 +56,13 @@
     __weak CusMessageViewController *VC = self;
     self.msgTableView.headerRereshingBlock=^()
     {
+        VC.msgPageNum = 1;
         [VC.msgTableView.dataArr removeAllObjects];
+        [VC getMessageList];
+    };
+    self.msgTableView.footerRereshingBlock = ^()
+    {
+        VC.msgPageNum++;
         [VC getMessageList];
     };
     
@@ -72,8 +79,8 @@
 -(void)getMessageList
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:@"1" forKey:@"page"];
-    [dic setObject:@"10000" forKey:@"pagesize"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",self.msgPageNum] forKey:@"page"];
+    [dic setObject:@"10" forKey:@"pagesize"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [HttpTool postWithURL:@"Community/GetMessagesList" params:dic success:^(id json) {
         
@@ -81,6 +88,14 @@
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            if (arr.count<10)
+            {
+                [self.msgTableView hiddenFooter:YES];
+            }
+            else
+            {
+                [self.msgTableView hiddenFooter:NO];
+            }
             [self.msgTableView.dataArr addObjectsFromArray:arr];
             [self.msgTableView reloadData];
         }

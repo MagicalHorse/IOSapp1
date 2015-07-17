@@ -303,7 +303,10 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        [cell setData:self.detailData];
+        if (self.detailData)
+        {
+            [cell setData:self.detailData];
+        }
         
         return cell;
         
@@ -457,6 +460,7 @@
         VC.proNameStr = self.detailData.ProductName;
         VC.proNumStr = self.detailData.ProductCount;
         VC.proPriceStr = self.detailData.Price;
+        VC.orderNum = self.detailData.OrderNo;
         VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
         [self.navigationController pushViewController:VC animated:YES];
     }
@@ -466,10 +470,43 @@
     }
 }
 
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex)
+    {
+        case 1:
+        {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+            [dic setObject:self.detailData.OrderNo forKey:@"OrderNo"];
+            [self hudShow:@"正在确认提货"];
+            [HttpTool postWithURL:@"Order/ConfirmGoods" params:dic success:^(id json) {
+                
+                if ([[json objectForKey:@"isSuccessful"] boolValue])
+                {
+                    [self showHudSuccess:@"提货成功"];
+                    
+                    [self getData];
+                }
+                else
+                {
+                    [self showHudFailed:[json objectForKey:@"message"]];
+                }
+                [self textHUDHiddle];
+                
+            } failure:^(NSError *error) {
+                
+            }];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+
 //取消订单
 -(void)didClickCancelBtn:(UIButton *)btn
 {
-    
     if ([btn.titleLabel.text isEqual:@"申请退款"])
     {
         CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
@@ -477,6 +514,7 @@
         VC.proNameStr = self.detailData.ProductName;
         VC.proNumStr = self.detailData.ProductCount;
         VC.proPriceStr = self.detailData.Price;
+        VC.orderNum = self.detailData.OrderNo;
         VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
          [self.navigationController pushViewController:VC animated:YES];
     }
@@ -503,7 +541,6 @@
         [self.navigationController popViewControllerAnimated:YES];
     });
 }
-
 
 -(void)dealloc
 {
