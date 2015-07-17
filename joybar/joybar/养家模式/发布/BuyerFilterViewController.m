@@ -271,13 +271,7 @@
                 NSMutableDictionary *dict= [NSMutableDictionary dictionary];
                 self.tempImageName =temp;
                 [dict setObject:self.tempImageName forKey:@"ImageUrl"];
-                if (imgDic.Tags.count>0) {
-                    [dict setObject:imgDic.Tags forKey:@"Tags"];
-                }else{
-                    [dict setObject:@"" forKey:@"Tags"];
-                    
-                }
-                
+                [dict setObject:self.tagsArray forKey:@"Tags"];
                 [self.navigationController popViewControllerAnimated:YES];
                 if ([self.delegate respondsToSelector:@selector(pop:AndDic:AndType:)])
                 {

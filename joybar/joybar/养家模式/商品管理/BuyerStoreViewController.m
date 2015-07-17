@@ -38,6 +38,10 @@
     }
     return self;
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [self setData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     type=1;
@@ -98,7 +102,6 @@
         VC.pageNum++;
         [VC setData];
     };
-    [self setData];
     self.tableView.backgroundColor = kCustomColor(241, 241, 241);
     
 }
