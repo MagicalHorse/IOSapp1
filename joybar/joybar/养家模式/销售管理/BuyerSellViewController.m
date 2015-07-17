@@ -354,32 +354,32 @@
 }
 
 
-//-(void)showCountClick:(UIButton *)btn{
-//    
-//    [self hudShow:@"正在处理"];
-//    Order *o =self.dataArray[btn.tag];
-//    if (o.OrderNo) {
-//        NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-//        [dict setObject:o.OrderNo forKey:@"OrderNo"];
-//        [HttpTool postWithURL:@"Order/Apply_Rma" params:dict success:^(id json) {
-//            BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
-//            if (isSuccessful) {
-//                [self.dataArray removeObject:o];
-//                [self.tableView reloadData];
-//            }else{
-//                [self showHudFailed:[json objectForKey:@"message"]];
-//            }
-//            [self textHUDHiddle];
-//        } failure:^(NSError *error) {
-//            [self showHudFailed:@"处理失败"];
-//            [self textHUDHiddle];
-//        }];
-//    }else{
-//        [self showHudFailed:@"订单编号不存在"];
-//    }
-//
-//}
 -(void)showCountClick:(UIButton *)btn{
+    
+    [self hudShow:@"正在处理"];
+    Order *o =self.dataArray[btn.tag];
+    if (o.OrderNo) {
+        NSMutableDictionary *dict=[NSMutableDictionary dictionary];
+        [dict setObject:o.OrderNo forKey:@"OrderNo"];
+        [HttpTool postWithURL:@"Order/Apply_Rma" params:dict success:^(id json) {
+            BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+            if (isSuccessful) {
+                [self.dataArray removeObject:o];
+                [self.tableView reloadData];
+            }else{
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+            [self textHUDHiddle];
+        } failure:^(NSError *error) {
+            [self showHudFailed:@"处理失败"];
+            [self textHUDHiddle];
+        }];
+    }else{
+        [self showHudFailed:@"订单编号不存在"];
+    }
+
+}
+-(void)onClick:(UIButton *)btn{
     
     Order *o =self.dataArray[btn.tag];
     Product * product =[o.Products firstObject];

@@ -49,7 +49,6 @@
     [finishBtn addTarget:self action:@selector(didClickFinishBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:finishBtn];
     
-    self.homeTableView.tableFooterView =  [[UIView alloc]initWithFrame:CGRectZero];
     self.homeTableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     self.homeTableView.isShowFooterView =NO;
     self.homeTableView.delegate = self;
@@ -81,7 +80,6 @@
     
     if (self.dataArray.count>0) {
      
-        
         NSDictionary *dict =[self.dataArray objectForKey:@"share"];
         [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_200x200.jpg",[dict objectForKey:@"logo"]]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             
@@ -152,7 +150,7 @@
 }
 -(UIView *)tableHeaderViwe{
     
-    UIView * hearView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 160)];
+    UIView * hearView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
     hearView.backgroundColor =kCustomColor(241, 241, 241);
     _img=[[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-120)*0.5, 12, 120, 120)];
     [hearView addSubview:_img];
