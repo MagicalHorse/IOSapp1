@@ -70,7 +70,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        isPrice=NO;
+        
         self.hidesBottomBarWhenPushed = YES;
         self.customScrollView = [[UIScrollView alloc]init];
         self.btn1=[[UIImageView alloc]init];
@@ -187,7 +187,7 @@
     dscView.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
     [priceView addSubview:dscView];
     
-    UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(dscView.width-65, dscView.height-20, 60, 15)];
+    UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(dscView.width-60, dscView.height-20, 60, 15)];
     lable.text =@"100字";
     lable.textColor =kCustomColor(194, 194, 200);
     lable.font =[UIFont fontWithName:@"youyuan" size:13];
@@ -209,7 +209,7 @@
     [dscView addSubview:_dscText];
     
     CGRect  infoRect =CGRectMake(priceViewX, priceView.bottom+12, priceViewW, 70);
-    self.customInfoView = [self setInfoView:infoRect];
+    self.customInfoView = [self setInfoView:infoRect andShow:1];
     self.customInfoView.tag =10;
     self.customInfoView.backgroundColor =[UIColor whiteColor];
     
@@ -222,7 +222,7 @@
     [self.addInfoBtn setTitleColor: kCustomColor(38, 118, 210) forState:UIControlStateNormal];
     
     [self.addInfoBtn setBackgroundColor:[UIColor whiteColor]];
-    [self.addInfoBtn addTarget:self action:@selector(addInfoView:) forControlEvents:UIControlEventTouchUpInside];
+    [self.addInfoBtn addTarget:self action:@selector(addInfoView:andShow:) forControlEvents:UIControlEventTouchUpInside];
     [self.customScrollView addSubview:self.addInfoBtn];
     
     //发布按钮
@@ -234,6 +234,11 @@
     self.customScrollView.contentSize = CGSizeMake(0, self.addInfoBtn.bottom+50);
     if (self.detail) {
         [self updateInfoView:self.detail];
+        isPrice=YES;
+
+    }
+    else{
+        isPrice=NO;
     }
     
 }
@@ -282,7 +287,7 @@
     }
     for (int i=1; i<detail.Sizes.count; i++) {
        
-        [self addInfoView:self.addInfoBtn];
+        [self addInfoView:self.addInfoBtn andShow:1];
     }
   
     if(self.viewItems.count>0){
@@ -453,8 +458,10 @@
             if (self.detail){
                 Image *image =[[Image alloc]init];
                 if (![[self.imagesArray objectAtIndex:0] isKindOfClass:[Image class]]){
-                    image.ImageUrl =[[self.imagesArray objectAtIndex:0]objectForKey:@"ImageUrl"];
-                    image.Tags =[[self.imagesArray objectAtIndex:0]objectForKey:@"Tags"];
+                    NSDictionary *dict=self.imagesArray[0];
+                    image= [Image objectWithKeyValues:dict];
+//                    image.ImageUrl =[[self.imagesArray objectAtIndex:0]objectForKey:@"ImageUrl"];
+//                    image.Tags =[[self.imagesArray objectAtIndex:0]objectForKey:@"Tags"];
                 }else{
                     image =[self.imagesArray objectAtIndex:0];
                 }
@@ -558,7 +565,8 @@
 }
 
 
--(UIView *)setInfoView:(CGRect)rect{
+-(UIView *)setInfoView:(CGRect)rect andShow:(int)isShow
+{
 
     UIView * view =[[UIView alloc]initWithFrame:rect];
     
@@ -590,7 +598,7 @@
         [addBtn addTarget:self action:@selector(delInfoView:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:addBtn];
     }
-    if (self.detail) {
+    if (self.detail &&isShow==1) {
         if (self.detail.Sizes.count>0) {
             DetailSize *size=self.detail.Sizes[0];
             _textField1.text =size.Name;
@@ -635,7 +643,8 @@
     [UIView commitAnimations];
 
 }
--(void)addInfoView:(UIButton *)btn{
+-(void)addInfoView:(UIButton *)btn andShow:(int)isShow
+{
     count++;
     CGRect  infoRect;
     
@@ -644,7 +653,7 @@
     }else{
          infoRect =CGRectMake(0,(self.customInfoView.bottom+(count-1)*70)-count*15, kScreenWidth, 70);
     }
-    UIView *view= [self setInfoView:infoRect];
+    UIView *view= [self setInfoView:infoRect andShow:isShow];
     
 
     view.tag =count*100;

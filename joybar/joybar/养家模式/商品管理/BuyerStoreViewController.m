@@ -38,6 +38,10 @@
     }
     return self;
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [self setData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     type=1;
@@ -98,7 +102,6 @@
         VC.pageNum++;
         [VC setData];
     };
-    [self setData];
     self.tableView.backgroundColor = kCustomColor(241, 241, 241);
     
 }
@@ -185,7 +188,6 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",store.Pic];
         [cell.StoreImgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        cell.StoreName.text =store.BrandName;
         cell.StoreDetails.text =store.ProductName;
         cell.StoreNo.text =store.StoreItemNo;
         cell.StorePirce.text =[NSString stringWithFormat:@"￥%@",[store.Price stringValue]];
