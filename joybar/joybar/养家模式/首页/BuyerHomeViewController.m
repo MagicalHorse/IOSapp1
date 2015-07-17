@@ -152,14 +152,14 @@
     
     UIView * hearView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
     hearView.backgroundColor =kCustomColor(241, 241, 241);
-    _img=[[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-120)*0.5, 12, 120, 120)];
+    _img=[[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth-150)*0.5, 12, 150, 150)];
     [hearView addSubview:_img];
     
     _img.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
     [_img addGestureRecognizer:tap];
     
-    _label =[[UILabel alloc]initWithFrame:CGRectMake(0, _img.bottom+5, kScreenWidth, 15)];
+    _label =[[UILabel alloc]initWithFrame:CGRectMake(0, _img.bottom+10, kScreenWidth, 15)];
     _label.textAlignment =NSTextAlignmentCenter;
     _label.font =[UIFont fontWithName:@"youyuan" size:15];
     [hearView addSubview:_label];

@@ -108,7 +108,7 @@
 
     _bgView = [[UIView alloc] init];
     _bgView.center = CGPointMake(kScreenWidth/2, kScreenHeight/2);
-    _bgView.bounds = CGRectMake(0, 0, kScreenWidth-50, (kScreenWidth-50)*1.35);
+    _bgView.bounds = CGRectMake(0, 0, kScreenWidth-50, (kScreenWidth-50)*1.20);
     _bgView.layer.cornerRadius = 4;
     _bgView.backgroundColor = kCustomColor(245, 246, 247);
     _bgView.hidden = NO;
@@ -123,19 +123,27 @@
     [_cancleBtn addTarget:self action:@selector(didClickHiddenView:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:_cancleBtn];
 
+    NSDictionary *dict =[Public getUserInfo];
+    UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 60, 60)];
+    [headerImage sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    headerImage.layer.cornerRadius = headerImage.width/2;
+    headerImage.clipsToBounds = YES;
+    [_bgView addSubview:headerImage];
+    
+    
 
-    UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(80, 25, _bgView.width-100, 20)];
-    titleLab.text = no;
+    UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImage.right+5, headerImage.top+10, _bgView.width-100, 20)];
+    titleLab.text = [NSString stringWithFormat:@"订单号:%@",no];
     titleLab.font = [UIFont fontWithName:@"youyuan" size:16];
     [_bgView addSubview:titleLab];
 
-    UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(80, titleLab.bottom+2, _bgView.width-100, 20)];
-    numLab.text = price;
-    numLab.font = [UIFont fontWithName:@"youyuan" size:14];
-    numLab.textColor = [UIColor darkGrayColor];
+    UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(titleLab.left, titleLab.bottom+2, _bgView.width-100, 20)];
+    numLab.text = [NSString stringWithFormat:@"￥%@",price];
+    numLab.font = [UIFont systemFontOfSize:14];
+    numLab.textColor = [UIColor redColor];
     [_bgView addSubview:numLab];
 
-    UIImageView *codeImage = [[UIImageView alloc] initWithFrame:CGRectMake(35, 75+10, _bgView.width-70, _bgView.width-70)];
+    UIImageView *codeImage = [[UIImageView alloc] initWithFrame:CGRectMake(35, headerImage.bottom+10, _bgView.width-70, _bgView.width-70)];
     codeImage.image =img;
     [_bgView addSubview:codeImage];
 

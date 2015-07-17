@@ -361,7 +361,7 @@
     if (o.OrderNo) {
         NSMutableDictionary *dict=[NSMutableDictionary dictionary];
         [dict setObject:o.OrderNo forKey:@"OrderNo"];
-        [HttpTool postWithURL:@"Order/Apply_Rma" params:dict success:^(id json) {
+        [HttpTool postWithURL:@"Order/RMAConfirm" params:dict success:^(id json) {
             BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
             if (isSuccessful) {
                 [self.dataArray removeObject:o];
@@ -405,7 +405,7 @@
         if (o.OrderNo) {
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
             [dict setObject:o.OrderNo forKey:@"OrderNo"];
-            [HttpTool postWithURL:@"Order/Apply_Rma" params:dict success:^(id json) {
+            [HttpTool postWithURL:@"Order/RMAConfirm" params:dict success:^(id json) {
                 BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
                 if (isSuccessful) {
                     [self.dataArray removeObject:o];
