@@ -36,6 +36,7 @@
 @property (nonatomic,strong)NSMutableArray *tagsArray;
 @property (nonatomic,strong)NSString *tempImageName;
 @property (nonatomic,strong)BuyerIssueViewController *issue;
+@property (nonatomic ,strong)UIScrollView *customScrollView;
 @end
 
 @implementation BuyerFilterViewController
@@ -98,13 +99,17 @@
 }
 -(void) setInitView{
     
-    self.view.backgroundColor =kCustomColor(241, 241, 241);
+    _customScrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight)];
+    _customScrollView.backgroundColor =kCustomColor(241, 241, 241);
+    [self.view addSubview:_customScrollView];
+    if (kScreenHeight==480) {
+        _customScrollView.contentSize =CGSizeMake(0, kScreenHeight+50);
+    }
     
-    UIView *titieView=[[UIView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
+    UIView *titieView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     titieView.backgroundColor =[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.3];
    
-    
-    _bgImage=[[UIImageView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, 300)];
+    _bgImage=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 300)];
     _bgImage.image =cImage;
 
     if(self.imageDic){
@@ -121,8 +126,6 @@
             }
           
         }
-        
-        
     }
     if(imgDic){
         NSMutableArray *tags =imgDic.Tags;
@@ -136,7 +139,7 @@
             }
         }
     }
-    [self.view addSubview:_bgImage];
+    [_customScrollView addSubview:_bgImage];
     _bgImage.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
     [_bgImage addGestureRecognizer:tap];
@@ -147,12 +150,12 @@
     titieLable.textColor =[UIColor whiteColor];
     titieLable.textAlignment = NSTextAlignmentCenter;
     [titieView addSubview:titieLable];
-    [self.view addSubview:titieView];
+    [_customScrollView addSubview:titieView];
     
     UIScrollView * tzhiView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, _bgImage.bottom, kScreenWidth, 110)];
     tzhiView.contentSize =CGSizeMake(kScreenWidth+100, 0);
     tzhiView.backgroundColor =[UIColor whiteColor];
-    [self.view addSubview:tzhiView];
+    [_customScrollView addSubview:tzhiView];
     
 
     for (int i=0; i<5; i++) {
@@ -301,9 +304,6 @@
             NSLog(@"%f",progress);
         }];
     }
-    
-    
-    
 }
 -(void)pushIssue :(BuyerIssueViewController *)issue
 {

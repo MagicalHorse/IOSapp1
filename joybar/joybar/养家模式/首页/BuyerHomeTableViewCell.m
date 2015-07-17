@@ -12,9 +12,14 @@
 
 - (void)awakeFromNib {
 
-    if (kScreenWidth == 320) {
-        _lableXConstraint.constant -=35;
-        _lableLConstraint.constant -=35;
+    NSLog(@"%f",kScreenWidth);
+    
+    if (kScreenWidth == 375) {
+        _lableXConstraint.constant +=20;
+        _lableLConstraint.constant +=20;
+    }else if(kScreenWidth >375){
+        _lableXConstraint.constant +=35;
+        _lableLConstraint.constant +=35;
     }
     
 }

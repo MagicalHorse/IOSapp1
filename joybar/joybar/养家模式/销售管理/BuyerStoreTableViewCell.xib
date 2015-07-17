@@ -10,7 +10,6 @@
             <string>YouYuan</string>
             <string>YouYuan</string>
             <string>YouYuan</string>
-            <string>YouYuan</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -27,7 +26,7 @@
                         <rect key="frame" x="15" y="8" width="80" height="80"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="耐克男鞋2015新款AIR FORCE AF1 空军1号板鞋" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="uWB-IY-UjA">
-                        <rect key="frame" x="103" y="30" width="154" height="26"/>
+                        <rect key="frame" x="103" y="12" width="143" height="26"/>
                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -45,25 +44,19 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥567.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0r5-q1-hJR">
-                        <rect key="frame" x="257" y="11" width="53" height="16"/>
+                        <rect key="frame" x="255" y="11" width="53" height="16"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="NIKE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="owo-Mv-lLq">
-                        <rect key="frame" x="103" y="8" width="109" height="21"/>
-                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="17"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Adg-95-eK2">
-                        <rect key="frame" x="295" y="32" width="15" height="16"/>
+                        <rect key="frame" x="293" y="32" width="15" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="规格:180/92A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEc-Ft-fIs">
-                        <rect key="frame" x="232" y="65" width="78" height="13"/>
+                        <rect key="frame" x="230" y="65" width="78" height="13"/>
                         <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="13"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -72,10 +65,10 @@
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="Adg-95-eK2" secondAttribute="centerY" constant="10" id="UMu-76-KJ4"/>
                     <constraint firstItem="0r5-q1-hJR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="YPQ-vT-1lM"/>
-                    <constraint firstAttribute="trailing" secondItem="0r5-q1-hJR" secondAttribute="trailing" constant="10" id="a6G-Sj-7VH"/>
+                    <constraint firstAttribute="trailing" secondItem="0r5-q1-hJR" secondAttribute="trailing" constant="12" id="a6G-Sj-7VH"/>
                     <constraint firstAttribute="centerY" secondItem="cEc-Ft-fIs" secondAttribute="centerY" constant="-21.5" id="jbj-As-6ZY"/>
-                    <constraint firstAttribute="trailing" secondItem="Adg-95-eK2" secondAttribute="trailing" constant="10" id="rpm-Q7-aFL"/>
-                    <constraint firstAttribute="trailing" secondItem="cEc-Ft-fIs" secondAttribute="trailing" constant="10" id="uLi-5q-Zws"/>
+                    <constraint firstAttribute="trailing" secondItem="Adg-95-eK2" secondAttribute="trailing" constant="12" id="rpm-Q7-aFL"/>
+                    <constraint firstAttribute="trailing" secondItem="cEc-Ft-fIs" secondAttribute="trailing" constant="12" id="uLi-5q-Zws"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -85,7 +78,6 @@
                 <outlet property="noView" destination="Le1-G6-8jN" id="fuu-pL-8qd"/>
                 <outlet property="picView" destination="9IN-xb-cjd" id="Qan-Pm-YDC"/>
                 <outlet property="priceView" destination="0r5-q1-hJR" id="JfP-rD-XMB"/>
-                <outlet property="titleView" destination="owo-Mv-lLq" id="YcV-us-KIw"/>
             </connections>
             <point key="canvasLocation" x="64" y="244.5"/>
         </tableViewCell>
