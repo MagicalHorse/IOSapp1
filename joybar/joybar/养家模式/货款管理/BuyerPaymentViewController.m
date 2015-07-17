@@ -92,18 +92,19 @@
     UITableViewCell *cell =[[UITableViewCell alloc]init];
     cell.selectionStyle =UITableViewCellSelectionStyleNone;
     if (indexPath.row ==0) {
-        UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(60, 18, 60, 14)];
+        UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(0, 18, kScreenWidth/2-10, 14)];
         lable.text =@"总货款:";
+        lable.textAlignment =NSTextAlignmentRight;
         lable.font =[UIFont fontWithName:@"youyuan" size:14];
         [cell addSubview:lable];
         
-        UILabel * lablePrice =[[UILabel alloc]initWithFrame:CGRectMake(lable.right, 15, 200, 20)];
+        UILabel * lablePrice =[[UILabel alloc]initWithFrame:CGRectMake(lable.right, 13, kScreenWidth/2-5, 24)];
+        lablePrice.font =[UIFont systemFontOfSize:24];
         if ([self.dataArray objectForKey:@"TotalAmount"]) {
             lablePrice.text =[NSString stringWithFormat:@"￥%@",[self.dataArray objectForKey:@"TotalAmount"]];
         }else{
             lablePrice.text =@"￥0.00";
         }
-        lablePrice.font =[UIFont fontWithName:@"youyuan" size:20];
         [cell addSubview:lablePrice];
        
 
@@ -112,7 +113,8 @@
         lable.font =[UIFont fontWithName:@"youyuan" size:14];
         [cell addSubview:lable];
         
-       UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 5, 5)];
+        
+       UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
         view.backgroundColor =[UIColor orangeColor];
         [cell addSubview:view];
         
@@ -128,14 +130,14 @@
             lable.text =@"已提现货款0.00";
         }
 
-        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(cell.right-215, 15, 200, 14)];
+        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
         labPrice.textAlignment =NSTextAlignmentRight;
         if ([self.dataArray objectForKey:@"PickedAmount"]) {
              labPrice.text =[NSString stringWithFormat:@"￥%@",[self.dataArray objectForKey:@"PickedAmount"]];
         }else{
             labPrice.text =@"￥0.00";
         }
-        labPrice.font =[UIFont fontWithName:@"youyuan" size:14];
+        labPrice.font =[UIFont systemFontOfSize:14];
         [cell addSubview:labPrice];
 
     
@@ -146,7 +148,7 @@
         lable.font =[UIFont fontWithName:@"youyuan" size:14];
         [cell addSubview:lable];
         
-        UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 5, 5)];
+        UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
         view.backgroundColor =[UIColor orangeColor];
         [cell addSubview:view];
         
@@ -161,14 +163,14 @@
             lable.text =@"可提现货款0.00";
         }
         
-        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(cell.right-215, 15, 200, 14)];
+        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
         labPrice.textAlignment =NSTextAlignmentRight;
         if ([self.dataArray objectForKey:@"CanPickAmount"]) {
              labPrice.text =[NSString stringWithFormat:@"￥%@",[self.dataArray objectForKey:@"CanPickAmount"]];
         }else{
             labPrice.text =@"￥0.00";
         }
-        labPrice.font =[UIFont fontWithName:@"youyuan" size:14];
+        labPrice.font =[UIFont systemFontOfSize:14];
         [cell addSubview:labPrice];
         
     }else if(indexPath.row ==3){
@@ -176,7 +178,7 @@
         lable.font =[UIFont fontWithName:@"youyuan" size:14];
         [cell addSubview:lable];
         
-        UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 5, 5)];
+        UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
         view.backgroundColor =[UIColor orangeColor];
         [cell addSubview:view];
         
@@ -193,14 +195,14 @@
         }
         
         
-        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(cell.right-215, 15, 200, 14)];
+        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
         labPrice.textAlignment =NSTextAlignmentRight;
         if ([self.dataArray objectForKey:@"FrozenAmount"]) {
              labPrice.text =[NSString stringWithFormat:@"￥%@",[self.dataArray objectForKey:@"FrozenAmount"]];
         }else{
             labPrice.text =@"￥0.00";
         }
-        labPrice.font =[UIFont fontWithName:@"youyuan" size:14];
+        labPrice.font =[UIFont systemFontOfSize:14];
         [cell addSubview:labPrice];
         
     }else if(indexPath.row ==4){
@@ -208,7 +210,7 @@
         lable.font =[UIFont fontWithName:@"youyuan" size:14];
         [cell addSubview:lable];
         
-        UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 5, 5)];
+        UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
         view.backgroundColor =[UIColor orangeColor];
         [cell addSubview:view];
         
@@ -225,14 +227,14 @@
         }
         
         
-        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(cell.right-215, 15, 200, 14)];
+        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
         labPrice.textAlignment =NSTextAlignmentRight;
         if ([self.dataArray objectForKey:@"RmaAmount"]) {
             labPrice.text =[NSString stringWithFormat:@"￥%@",[self.dataArray objectForKey:@"RmaAmount"]];
         }else{
             labPrice.text =@"￥0.00";
         }
-        labPrice.font =[UIFont fontWithName:@"youyuan" size:14];
+        labPrice.font =[UIFont systemFontOfSize: 14];
         [cell addSubview:labPrice];
     }
     

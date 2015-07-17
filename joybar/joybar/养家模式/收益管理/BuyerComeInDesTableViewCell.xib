@@ -96,7 +96,7 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p0W-CK-MV9">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p0W-CK-MV9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="15"/>
                         <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -110,7 +110,11 @@
                 <constraints>
                     <constraint firstItem="ifi-lE-k1x" firstAttribute="top" secondItem="kLY-or-6bh" secondAttribute="bottom" constant="11" id="FsE-ik-0Y3"/>
                     <constraint firstAttribute="bottom" secondItem="ifi-lE-k1x" secondAttribute="bottom" constant="10" id="aki-6t-T1U"/>
+                    <constraint firstItem="p0W-CK-MV9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="bLr-ue-nec"/>
                     <constraint firstAttribute="trailing" secondItem="ifi-lE-k1x" secondAttribute="trailing" constant="10" id="bRf-8e-kxp"/>
+                    <constraint firstItem="p0W-CK-MV9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="nUI-oN-tl2"/>
+                    <constraint firstAttribute="trailing" secondItem="p0W-CK-MV9" secondAttribute="trailing" id="oI9-0l-Yy8"/>
+                    <constraint firstAttribute="centerY" secondItem="p0W-CK-MV9" secondAttribute="centerY" constant="44.5" id="ot3-7b-gF0"/>
                     <constraint firstAttribute="trailing" secondItem="kLY-or-6bh" secondAttribute="trailing" constant="10" id="qOX-By-1Vk"/>
                 </constraints>
             </tableViewCellContentView>
