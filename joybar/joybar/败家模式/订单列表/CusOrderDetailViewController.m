@@ -129,12 +129,12 @@
     [bottomView addSubview:lab];
     
     UIButton *shareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    shareBtn.frame = CGRectMake(100, -5, 60, 49);
+    shareBtn.frame = CGRectMake(70, -5, 60, 49);
     [shareBtn setImage:[UIImage imageNamed:@"现金分享icon"] forState:(UIControlStateNormal)];
     [shareBtn addTarget:self action:@selector(didCLickShareBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:shareBtn];
     
-    UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(100, 28, 60, 20)];
+    UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(70, 28, 60, 20)];
     lab1.textAlignment = NSTextAlignmentCenter;
     lab1.text = @"现金分享";
     lab1.font = [UIFont fontWithName:@"youyuan" size:11];

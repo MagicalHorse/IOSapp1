@@ -50,7 +50,6 @@
 		0AAB5B051B2AE01900782C0C /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59E71B2AE01800782C0C /* ChangePasswordViewController.m */; };
 		0AAB5B061B2AE01900782C0C /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB59E81B2AE01800782C0C /* ChangePasswordViewController.xib */; };
 		0AAB5B071B2AE01900782C0C /* CusMineFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59EA1B2AE01800782C0C /* CusMineFirstTableViewCell.m */; };
-		0AAB5B081B2AE01900782C0C /* CusMineSecTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59EC1B2AE01800782C0C /* CusMineSecTableViewCell.m */; };
 		0AAB5B091B2AE01900782C0C /* CusMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59EE1B2AE01800782C0C /* CusMineViewController.m */; };
 		0AAB5B0A1B2AE01900782C0C /* CusSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59F01B2AE01800782C0C /* CusSettingViewController.m */; };
 		0AAB5B0B1B2AE01900782C0C /* MineData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59F31B2AE01800782C0C /* MineData.m */; };
@@ -479,8 +478,6 @@
 		0AAB59E81B2AE01800782C0C /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		0AAB59E91B2AE01800782C0C /* CusMineFirstTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusMineFirstTableViewCell.h; sourceTree = "<group>"; };
 		0AAB59EA1B2AE01800782C0C /* CusMineFirstTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusMineFirstTableViewCell.m; sourceTree = "<group>"; };
-		0AAB59EB1B2AE01800782C0C /* CusMineSecTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusMineSecTableViewCell.h; sourceTree = "<group>"; };
-		0AAB59EC1B2AE01800782C0C /* CusMineSecTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusMineSecTableViewCell.m; sourceTree = "<group>"; };
 		0AAB59ED1B2AE01800782C0C /* CusMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusMineViewController.h; sourceTree = "<group>"; };
 		0AAB59EE1B2AE01800782C0C /* CusMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusMineViewController.m; sourceTree = "<group>"; };
 		0AAB59EF1B2AE01800782C0C /* CusSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusSettingViewController.h; sourceTree = "<group>"; };
@@ -1191,8 +1188,6 @@
 				0AAB59E81B2AE01800782C0C /* ChangePasswordViewController.xib */,
 				0AAB59E91B2AE01800782C0C /* CusMineFirstTableViewCell.h */,
 				0AAB59EA1B2AE01800782C0C /* CusMineFirstTableViewCell.m */,
-				0AAB59EB1B2AE01800782C0C /* CusMineSecTableViewCell.h */,
-				0AAB59EC1B2AE01800782C0C /* CusMineSecTableViewCell.m */,
 				0AAB59ED1B2AE01800782C0C /* CusMineViewController.h */,
 				0AAB59EE1B2AE01800782C0C /* CusMineViewController.m */,
 				0AAB59EF1B2AE01800782C0C /* CusSettingViewController.h */,
@@ -2666,7 +2661,6 @@
 				0AAB5B291B2AE01900782C0C /* ProDetailSize.m in Sources */,
 				0AAB5B241B2AE01900782C0C /* CusProDetailViewController.m in Sources */,
 				0AAB59DC1B283B9A00782C0C /* BuyerPaymentDtsViewController.m in Sources */,
-				0AAB5B081B2AE01900782C0C /* CusMineSecTableViewCell.m in Sources */,
 				0AAB5B121B2AE01900782C0C /* FansItems.m in Sources */,
 				0AAB5B421B2AE01900782C0C /* FaceScroller.m in Sources */,
 				9DF36CE41B0039BC00637206 /* Reachability.m in Sources */,

@@ -10,17 +10,22 @@
 #import "AppDelegate.h"
 #import "BuyerTabBarViewController.h"
 #import "CusMineFirstTableViewCell.h"
-#import "CusMineSecTableViewCell.h"
 #import "CusSettingViewController.h"
 #import "CusCollectionViewController.h"
 #import "BueryAuthViewController.h"
 #import "MineData.h"
+#import "CusAttentionViewController.h"
+#import "CusFansViewController.h"
+#import "CusBuyerCircleViewController.h"
 @interface CusMineViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong)UIViewController* vcview;
 
 @property (nonatomic ,strong) UITableView *tableView;
 
 @property (nonatomic ,strong) MineData *mineData;
+
+@property (nonatomic ,strong) UIImageView *bgImageView;
+
 
 @end
 
@@ -41,6 +46,87 @@
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
+    
+    UIView*bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 300-15)];
+    bgView.backgroundColor = [UIColor whiteColor];
+    bgView.layer.shadowOpacity = 0.5;
+    self.tableView.tableHeaderView = bgView;
+    
+    self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
+    self.bgImageView.image = [UIImage imageNamed:@"bgImage.png"];
+    [bgView addSubview:self.bgImageView];
+    
+    UIImageView *circleImage = [[UIImageView alloc] init];
+    circleImage.center = CGPointMake(kScreenWidth/2, 110);
+    circleImage.bounds = CGRectMake(0, 0, 75, 75);
+    circleImage.layer.borderWidth = 0.5;
+    circleImage.layer.cornerRadius = circleImage.width/2;
+    circleImage.layer.borderColor = [UIColor whiteColor].CGColor;
+    circleImage.backgroundColor = [UIColor clearColor];
+    [bgView addSubview:circleImage];
+    
+    UIImageView *headImage = [[UIImageView alloc] init];
+    headImage.center = CGPointMake(circleImage.center.x, circleImage.center.y);
+    headImage.bounds = CGRectMake(0, 0, 65, 65);
+    headImage.layer.cornerRadius = headImage.width/2;
+    headImage.clipsToBounds = YES;
+    NSString *url = [[Public getUserInfo] objectForKey:@"logo"];
+    [headImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    [bgView addSubview:headImage];
+    
+    UILabel *namelab =[[UILabel alloc] init];
+    namelab.center = CGPointMake(headImage.center.x, circleImage.bottom+15);
+    namelab.bounds = CGRectMake(0, 0, 150, 150);
+    namelab.text = [[Public getUserInfo] objectForKey:@"nickname"];
+    namelab.textColor = [UIColor whiteColor];
+    namelab.textAlignment = NSTextAlignmentCenter;
+    namelab.font = [UIFont fontWithName:@"youyuan" size:18];
+    [bgView addSubview:namelab];
+    
+    UIView *tempView = [[UIView alloc] init];
+    tempView.center = CGPointMake(kScreenWidth/2, self.bgImageView.bottom+43);
+    tempView.bounds = CGRectMake(0, 0, kScreenWidth-60, 70);
+    tempView.backgroundColor = [UIColor clearColor];
+    [bgView addSubview:tempView];
+    
+    NSArray *nameArr = @[@"关注",@"粉丝",@"圈子"];
+    NSArray *numArr ;
+    if(self.mineData)
+    {
+        numArr = @[self.mineData.FollowingCount,self.mineData.FollowerCount,self.mineData.CommunityCount];
+    }
+    else
+    {
+        numArr = @[@"0",@"0",@"0"];
+    }
+    for (int i=0; i<3; i++)
+    {
+        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        btn.center = CGPointMake(tempView.width/3*i+tempView.width/6, 35);
+        btn.bounds = CGRectMake(0, 0, 70, 70);
+        btn.adjustsImageWhenHighlighted = NO;
+        [btn setImage:[UIImage imageNamed:@"圆.png"] forState:(UIControlStateNormal)];
+        btn.tag = 1000+i;
+        [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+        [tempView addSubview:btn];
+        
+        UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 30, 13)];
+        numLab.font = [UIFont fontWithName:@"youyuan" size:12];
+        numLab.textColor = [UIColor darkGrayColor];
+        numLab.textAlignment = NSTextAlignmentCenter;
+        numLab.text = [numArr objectAtIndex:i];
+        [btn addSubview:numLab];
+        
+        UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(20, numLab.bottom, 30, 20)];
+        nameLab.font = [UIFont fontWithName:@"youyuan" size:14];
+        nameLab.textColor = [UIColor grayColor];
+        nameLab.text = [nameArr objectAtIndex:i];
+        nameLab.textAlignment = NSTextAlignmentCenter;
+        [btn addSubview:nameLab];
+    }
+
+    
+    
     
     UIButton *messageBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     messageBtn.frame = CGRectMake(kScreenWidth-50, 30, 64, 64);
@@ -75,84 +161,36 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 3;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==0)
+    static NSString *iden = @"cell";
+    CusMineFirstTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+    if (cell==nil)
     {
-        static NSString *iden = @"cell";
-        CusMineFirstTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-        if (cell==nil)
-        {
-            cell = [[CusMineFirstTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-        }
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        for (UIView *view in cell.contentView.subviews)
-        {
-            [view removeFromSuperview];
-        }
-        cell.backgroundColor = kCustomColor(245, 246, 247);
-        [cell setData:self.mineData];
-
-        return cell;
+        cell = [[CusMineFirstTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
-    else if (indexPath.row==1)
+    cell.backgroundColor = [UIColor clearColor];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    for (UIView *view in cell.contentView.subviews)
     {
-        static NSString *iden = @"cell1";
-        CusMineSecTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-        if (cell==nil)
-        {
-            cell = [[CusMineSecTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-        }
-        for (UIView *view in cell.contentView.subviews)
-        {
-            [view removeFromSuperview];
-        }
-
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.backgroundColor = kCustomColor(245, 246, 247);
-        [cell setData:self.mineData];
-
-        return cell;
+        [view removeFromSuperview];
     }
-    else
+    cell.backgroundColor = kCustomColor(245, 246, 247);
+
+    if (self.mineData)
     {
-        static NSString *iden = @"cell2";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-        if (cell==nil)
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-        }
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        for (UIView *view in cell.contentView.subviews)
-        {
-            [view removeFromSuperview];
-        }
-        
-        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49, kScreenWidth, 0.5)];
-        line.backgroundColor = [UIColor lightGrayColor];
-        [cell.contentView addSubview:line];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        NSArray *arr = @[@"我的收藏",@"我要养家"];
-        cell.textLabel.text = [arr objectAtIndex:indexPath.row-2];
-        cell.textLabel.font = [UIFont fontWithName:@"youyuan" size:14];
-
-        return cell;
+        [cell setData:self.mineData andIndexPath:indexPath];
     }
+
+    return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==0)
-    {
-        return 300;
-    }
-    else if (indexPath.row==1)
     {
         return 100;
     }
@@ -164,12 +202,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==2)
+    if (indexPath.row==1)
     {
         CusCollectionViewController *VC = [[CusCollectionViewController alloc] init];
         [self.navigationController pushViewController:VC animated:YES];
     }
-    if (indexPath.row==3)
+    if (indexPath.row==2)
     {
         NSString *AuditStatus = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"AuditStatus"]];
         if ([AuditStatus isEqualToString:@"1"])
@@ -195,10 +233,10 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CusMineFirstTableViewCell  *cell = (CusMineFirstTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+//    CusMineFirstTableViewCell  *cell = (CusMineFirstTableViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     if (scrollView.contentOffset.y<0)
     {
-        cell.bgImageView.frame = CGRectMake(scrollView.contentOffset.y, scrollView.contentOffset.y, kScreenWidth-2*scrollView.contentOffset.y, 200-scrollView.contentOffset.y);
+        self.bgImageView.frame = CGRectMake(scrollView.contentOffset.y, scrollView.contentOffset.y, kScreenWidth-2*scrollView.contentOffset.y, 200-scrollView.contentOffset.y);
     }
 
 }
@@ -208,5 +246,51 @@
 {
     CusSettingViewController *VC = [[CusSettingViewController alloc] init];
     [self.navigationController pushViewController:VC animated:YES];
+}
+
+//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return 300-15;
+//}
+
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    
+//    return bgView;
+//
+//}
+
+-(void)didClickBtn:(UIButton *)btn
+{
+    switch (btn.tag)
+    {
+        case 1000:
+        {
+            CusAttentionViewController *VC = [[CusAttentionViewController alloc] init];
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+            
+            break;
+            
+        case 1001:
+        {
+            CusFansViewController *VC = [[CusFansViewController alloc] init];
+            VC.titleStr = @"粉丝";
+            [self.navigationController pushViewController:VC animated:YES];
+            
+        }
+            break;
+            
+        case 1002:
+        {
+            CusBuyerCircleViewController *VC = [[CusBuyerCircleViewController alloc] init];
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+            break;
+            
+        default:
+            break;
+    }
+
 }
 @end

@@ -10,124 +10,98 @@
 #import "CusFansViewController.h"
 #import "CusBuyerCircleViewController.h"
 #import "CusAttentionViewController.h"
+#import "CusOrderListViewController.h"
 @implementation CusMineFirstTableViewCell
 
 - (void)awakeFromNib {
     // Initialization code
 }
 
--(void)setData:(MineData *)mineData
+-(void)setData:(MineData *)mineData andIndexPath:(NSIndexPath *)indexPath
 {
-    UIView*bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 300-15)];
-    bgView.backgroundColor = [UIColor whiteColor];
-    bgView.layer.shadowOpacity = 0.5;
-    [self.contentView addSubview:bgView];
-    
-    self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
-    self.bgImageView.image = [UIImage imageNamed:@"bgImage.png"];
-    [bgView addSubview:self.bgImageView];
-    
-    UIImageView *circleImage = [[UIImageView alloc] init];
-    circleImage.center = CGPointMake(kScreenWidth/2, 110);
-    circleImage.bounds = CGRectMake(0, 0, 75, 75);
-    circleImage.layer.borderWidth = 0.5;
-    circleImage.layer.cornerRadius = circleImage.width/2;
-    circleImage.layer.borderColor = [UIColor whiteColor].CGColor;
-    circleImage.backgroundColor = [UIColor clearColor];
-    [self.contentView addSubview:circleImage];
-    
-    UIImageView *headImage = [[UIImageView alloc] init];
-    headImage.center = CGPointMake(circleImage.center.x, circleImage.center.y);
-    headImage.bounds = CGRectMake(0, 0, 65, 65);
-    headImage.layer.cornerRadius = headImage.width/2;
-    headImage.clipsToBounds = YES;
-    NSString *url = [[Public getUserInfo] objectForKey:@"logo"];
-    [headImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    [self.contentView addSubview:headImage];
-
-    UILabel *namelab =[[UILabel alloc] init];
-    namelab.center = CGPointMake(headImage.center.x, circleImage.bottom+15);
-    namelab.bounds = CGRectMake(0, 0, 150, 150);
-    namelab.text = [[Public getUserInfo] objectForKey:@"nickname"];
-    namelab.textColor = [UIColor whiteColor];
-    namelab.textAlignment = NSTextAlignmentCenter;
-    namelab.font = [UIFont fontWithName:@"youyuan" size:18];
-    [self.contentView addSubview:namelab];
-        
-    UIView *tempView = [[UIView alloc] init];
-    tempView.center = CGPointMake(kScreenWidth/2, self.bgImageView.bottom+43);
-    tempView.bounds = CGRectMake(0, 0, kScreenWidth-60, 70);
-    tempView.backgroundColor = [UIColor clearColor];
-    [bgView addSubview:tempView];
-    
-    NSArray *nameArr = @[@"关注",@"粉丝",@"圈子"];
-    NSArray *numArr ;
-    if(mineData)
+    if (indexPath.row==0)
     {
-        numArr = @[mineData.FollowingCount,mineData.FollowerCount,mineData.CommunityCount];
+        self.accessoryType = UITableViewCellAccessoryNone;
+
+        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/4)];
+        bgView.backgroundColor = [UIColor whiteColor];
+        [self.contentView addSubview:bgView];
+        bgView.layer.shadowOpacity = 0.5;
+        
+        NSArray *imgArr = @[@"全部",@"待付款",@"专柜自提",@"售后"];
+        NSArray *numArr = @[@"0",@"0",@"0",@"0"];
+        if (mineData)
+        {
+            numArr = @[mineData.AllOrderCount,mineData.WaitPaymentOrderCount,mineData.PickedSelfOrderCount,mineData.AfterSaleOrderCount];
+        }
+        for (int i=0; i<imgArr.count; i++)
+        {
+            UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+            btn.frame = CGRectMake(kScreenWidth/imgArr.count*i, 0, kScreenWidth/imgArr.count, kScreenWidth/imgArr.count);
+            btn.tag = 1000+i;
+            btn.backgroundColor = [UIColor clearColor];
+            [btn addTarget:self action:@selector(didClickBtn1:) forControlEvents:(UIControlEventTouchUpInside)];
+            [bgView addSubview:btn];
+            
+            UIImageView *imgView = [[UIImageView alloc] init];
+            imgView.center = CGPointMake(btn.width/2, btn.height/2-10);
+            imgView.bounds = CGRectMake(0, 0, 20, 20);
+            imgView.backgroundColor = [UIColor clearColor];
+            imgView.image = [UIImage imageNamed:[imgArr objectAtIndex:i]];
+            [btn addSubview:imgView];
+            
+            UILabel *lab = [[UILabel alloc] init];
+            lab.center = CGPointMake(btn.width/2, btn.height/2+15);
+            lab.bounds = CGRectMake(0, 0, btn.width, btn.height);
+            lab.font = [UIFont fontWithName:@"youyuan" size:13];
+            lab.text = [imgArr objectAtIndex:i];
+            lab.textColor = [UIColor darkGrayColor];
+            lab.textAlignment = NSTextAlignmentCenter;
+            [btn addSubview:lab];
+            
+            UILabel *numLab = [[UILabel alloc] init];
+            numLab.center = CGPointMake(imgView.right, imgView.top);
+            numLab.bounds = CGRectMake(0, 0, 18, 18);
+            numLab.backgroundColor = [UIColor whiteColor];
+            numLab.clipsToBounds = YES;
+            numLab.layer.borderColor = [UIColor orangeColor].CGColor;
+            numLab.layer.borderWidth = 1;
+            numLab.text = [numArr objectAtIndex:i];
+            if ([numLab.text isEqualToString:@"0"])
+            {
+                numLab.hidden = YES;
+            }
+            else
+            {
+                numLab.hidden = NO;
+            }
+            numLab.textColor = [UIColor orangeColor];
+            numLab.textAlignment = NSTextAlignmentCenter;
+            numLab.font = [UIFont systemFontOfSize:12];
+            numLab.layer.cornerRadius = numLab.width/2;
+            [btn addSubview:numLab];
+        }
+
     }
     else
     {
-        numArr = @[@"0",@"0",@"0"];
-    }
-    for (int i=0; i<3; i++)
-    {
-        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        btn.center = CGPointMake(tempView.width/3*i+tempView.width/6, 35);
-        btn.bounds = CGRectMake(0, 0, 70, 70);
-        btn.adjustsImageWhenHighlighted = NO;
-        [btn setImage:[UIImage imageNamed:@"圆.png"] forState:(UIControlStateNormal)];
-        btn.tag = 1000+i;
-        [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
-        [tempView addSubview:btn];
-        
-        UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 30, 13)];
-        numLab.font = [UIFont fontWithName:@"youyuan" size:12];
-        numLab.textColor = [UIColor darkGrayColor];
-        numLab.textAlignment = NSTextAlignmentCenter;
-        numLab.text = [numArr objectAtIndex:i];
-        [btn addSubview:numLab];
-        
-        UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(20, numLab.bottom, 30, 20)];
-        nameLab.font = [UIFont fontWithName:@"youyuan" size:14];
-        nameLab.textColor = [UIColor grayColor];
-        nameLab.text = [nameArr objectAtIndex:i];
-        nameLab.textAlignment = NSTextAlignmentCenter;
-        [btn addSubview:nameLab];
+        self.backgroundColor = [UIColor clearColor];
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49, kScreenWidth, 0.5)];
+        line.backgroundColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:line];
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        NSArray *arr = @[@"我的收藏",@"我要养家"];
+        self.textLabel.text = [arr objectAtIndex:indexPath.row-1];
+        self.textLabel.font = [UIFont fontWithName:@"youyuan" size:14];
     }
 }
 
--(void)didClickBtn:(UIButton *)btn
+-(void)didClickBtn1:(UIButton *)btn
 {
-    switch (btn.tag)
-    {
-        case 1000:
-        {
-            CusAttentionViewController *VC = [[CusAttentionViewController alloc] init];
-            [self.viewController.navigationController pushViewController:VC animated:YES];
-        }
-            
-            break;
-            
-        case 1001:
-        {
-            CusFansViewController *VC = [[CusFansViewController alloc] init];
-            VC.titleStr = @"粉丝";
-            [self.viewController.navigationController pushViewController:VC animated:YES];
-
-        }
-            break;
-
-        case 1002:
-        {
-            CusBuyerCircleViewController *VC = [[CusBuyerCircleViewController alloc] init];
-            [self.viewController.navigationController pushViewController:VC animated:YES];
-        }
-            break;
-
-        default:
-            break;
-    }
+    NSInteger index = btn.tag-1000;
+    CusOrderListViewController *VC = [[CusOrderListViewController alloc] init];
+    VC.btnIndex = index;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 

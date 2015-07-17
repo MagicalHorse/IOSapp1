@@ -187,15 +187,15 @@
     [forgetPassword addGestureRecognizer:forgetTap];
     
     //第三方登录
-    UILabel *line7 = [[UILabel alloc] initWithFrame:CGRectMake(40, scroll.height-220, (kScreenWidth-100-65)/2, 0.5)];
+    UILabel *line7 = [[UILabel alloc] initWithFrame:CGRectMake(40, loginBtn.bottom+60, (kScreenWidth-100-65)/2, 0.5)];
     line7.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line7];
-    UILabel *disanfang = [[UILabel alloc] initWithFrame:CGRectMake(line7.right+10, scroll.height-230, 65, 20)];
+    UILabel *disanfang = [[UILabel alloc] initWithFrame:CGRectMake(line7.right+10, loginBtn.bottom+50, 65, 20)];
     disanfang.text = @"第三方登录";
     disanfang.font = [UIFont systemFontOfSize:13];
     [scroll addSubview:disanfang];
     
-    UILabel *line8 = [[UILabel alloc] initWithFrame:CGRectMake(disanfang.right+10, scroll.height-220, line7.width, 0.5)];
+    UILabel *line8 = [[UILabel alloc] initWithFrame:CGRectMake(disanfang.right+10, loginBtn.bottom+60, line7.width, 0.5)];
     line8.backgroundColor = [UIColor lightGrayColor];
     [scroll addSubview:line8];
     

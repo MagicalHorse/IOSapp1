@@ -10,7 +10,7 @@
 #import "MineData.h"
 @interface CusMineFirstTableViewCell : UITableViewCell
 
--(void)setData:(MineData *)mineData;
+-(void)setData:(MineData *)mineData andIndexPath:(NSIndexPath *)indexPath;
 
 @property (nonatomic ,strong) UIImageView *bgImageView;
 

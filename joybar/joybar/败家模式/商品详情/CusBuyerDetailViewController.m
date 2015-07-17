@@ -447,7 +447,7 @@
         {
             if (btn.selected==NO)
             {
-                prodata.LikeUsers.Count = [NSString stringWithFormat:@"%d",[prodata.LikeUsers.Count integerValue]+1];
+                prodata.LikeUsers.Count = [NSString stringWithFormat:@"%ld",[prodata.LikeUsers.Count integerValue]+1];
                 prodata.LikeUsers.IsLike = @"1";
                 [btn setImage:[UIImage imageNamed:@"点赞h"] forState:(UIControlStateNormal)];
                 [btn setTitle:prodata.LikeUsers.Count forState:(UIControlStateNormal)];
@@ -455,7 +455,7 @@
             }
             else
             {
-                prodata.LikeUsers.Count = [NSString stringWithFormat:@"%d",[prodata.LikeUsers.Count integerValue]-1];
+                prodata.LikeUsers.Count = [NSString stringWithFormat:@"%ld",[prodata.LikeUsers.Count integerValue]-1];
                 prodata.LikeUsers.IsLike = @"0";
                 
                 [btn setImage:[UIImage imageNamed:@"点赞"] forState:(UIControlStateNormal)];

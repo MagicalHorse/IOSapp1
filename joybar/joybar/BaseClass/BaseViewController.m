@@ -101,7 +101,6 @@
     titleLab.font =[UIFont fontWithName:@"youyuan" size:17];
     titleLab.shadowOffset = CGSizeMake(0, 1);
     [self.navView addSubview:titleLab];
-    
     //返回按钮
     self.retBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.retBtn.frame = CGRectMake(13, 25, 50, 40);
