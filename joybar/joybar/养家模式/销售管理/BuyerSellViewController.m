@@ -58,12 +58,15 @@
     if (self.customerId) {
         [dict setObject:self.customerId forKey:@"CustomerId"];
     }
-    if (type ==3) {
-        [dict setObject:@"3" forKey:@"OrderProductType"];
-    }else if(type ==2){
+    if (type ==1) {
         [dict setObject:@"0" forKey:@"Status"];
+    }else if(type ==2){
+        [dict setObject:@"1" forKey:@"Status"];
 
-    }else if(type ==4){
+    }else if(type ==3){
+        [dict setObject:@"2" forKey:@"Status"];
+    }
+    else if(type ==4){
         [dict setObject:@"3" forKey:@"Status"];
     }
     [HttpTool postWithURL:@"Order/GetOrderList" params:dict success:^(id json) {
@@ -157,9 +160,6 @@
     __weak BuyerSellViewController *VC = self;
     self.tableView.headerRereshingBlock = ^()
     {
-        if (VC.dataArray.count>0) {
-            VC.dataArray =nil;
-        }
         VC.pageNum=1;
         [VC setData];
     };
@@ -170,7 +170,6 @@
     };
     
     [self setData];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"PaySuccessNotification" object:self userInfo:nil];
 
 }
 
@@ -220,10 +219,10 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 74)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
     view.backgroundColor = [UIColor whiteColor];
     
-        UIView *viewBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 20)];
+        UIView *viewBg = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
         viewBg.backgroundColor =  kCustomColor(237, 237, 237);
         [view addSubview:viewBg];
 
@@ -341,7 +340,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
    
-    return 74;
+    return 64;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
