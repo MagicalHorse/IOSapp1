@@ -12,6 +12,7 @@
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (weak, nonatomic) IBOutlet UITableView *cTableView;
 @property (weak, nonatomic) IBOutlet UITextField *tagTextField;
+- (IBAction)clearClick:(id)sender;
 
 @end
 
@@ -85,7 +86,10 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     if (textField.text.length==0) {
         return NO;
+    }else if(self.cType!=1){
+        return NO;
     }
+    
     if ([self.delegate respondsToSelector:@selector(didSelectedTag:AndPoint:AndSourceId:AndSourceType:)]) {
         [self.delegate didSelectedTag:textField.text AndPoint:self.cpoint AndSourceId:@"0" AndSourceType:@"50"];
     }
@@ -101,9 +105,10 @@
         [self.delegate didSelectedTag:text AndPoint:self.cpoint AndSourceId:Id AndSourceType:@"51"];
     }
     [self.navigationController popViewControllerAnimated:YES];
-    
-    
 }
 
 
+- (IBAction)clearClick:(id)sender {
+    self.tagTextField.text =@"";
+}
 @end

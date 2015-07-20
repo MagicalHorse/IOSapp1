@@ -43,6 +43,8 @@
 @property (nonatomic,strong)UIImageView *btn1;
 @property (nonatomic,strong)UIImageView *btn2;
 @property (nonatomic,strong)UIImageView *btn3;
+@property (nonatomic,strong)UILabel *titLable;
+@property (nonatomic,strong)UILabel *titLable2;
 
 
 @property (nonatomic,strong)NSMutableArray *sizeArray;
@@ -93,7 +95,19 @@
     }
     return _viewItems;
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    if (self.btn2.image==nil) {
+        _titLable.hidden=NO;
+    }else{
+        _titLable.hidden=YES;
+    }
+    if(self.btn3.image ==nil){
+        _titLable2.hidden=NO;
+    }else{
+        _titLable2.hidden=YES;
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     count=0;
@@ -124,6 +138,9 @@
     [self creatBtn:self.btn1];
     [self creatBtn:self.btn2];
     [self creatBtn:self.btn3];
+    [self creatBtnTitle:self.btn2];
+    [self creatBtnTitle:self.btn3];
+
     if (self.images) {
         if (self.btnType ==2) {
             self.btn2.image =self.image;
@@ -156,7 +173,13 @@
     UIImageView *priceImg1=[[UIImageView alloc]initWithFrame:CGRectMake(15, 10, 19, 19)];
     priceImg1.image =[UIImage imageNamed:@"重点"];
     [priceView addSubview:priceImg1];
-    _priceText1=[[UITextField alloc]initWithFrame:CGRectMake(priceImg1.right, 0, kScreenWidth-priceImg1.right, 40)];
+    UILabel *huohao =[[UILabel alloc]initWithFrame:CGRectMake(priceImg1.right+2, 0, 42, 40)];
+    huohao.text =@"货号:";
+    huohao.font =[UIFont fontWithName:@"youyuan" size:16];
+    [priceView addSubview:huohao];
+
+    
+    _priceText1=[[UITextField alloc]initWithFrame:CGRectMake(huohao.right, 0, kScreenWidth-huohao.right, 40)];
     _priceText1.delegate =self;
     _priceText1.font =[UIFont systemFontOfSize:16];
     _priceText1.placeholder =@"货号";
@@ -169,13 +192,25 @@
     UIImageView *priceImg=[[UIImageView alloc]initWithFrame:CGRectMake(15, 55, 19, 19)];
     priceImg.image =[UIImage imageNamed:@"重点"];
     [priceView addSubview:priceImg];
-    _priceText=[[UITextField alloc]initWithFrame:CGRectMake(priceImg.right, 45, kScreenWidth-priceImg.right, 40)];
+    
+    UILabel *jiage =[[UILabel alloc]initWithFrame:CGRectMake(priceImg.right+2, 45, 42, 40)];
+    jiage.text =@"价格:";
+    jiage.font =[UIFont fontWithName:@"youyuan" size:16];
+    [priceView addSubview:jiage];
+    
+    _priceText=[[UITextField alloc]initWithFrame:CGRectMake(jiage.right, 45, kScreenWidth-jiage.right-45, 40)];
     _priceText.keyboardType =UIKeyboardTypeDecimalPad;
     _priceText.delegate =self;
     [_priceText addTarget:self action:@selector(priceTextChanged:) forControlEvents:UIControlEventEditingChanged];
     _priceText.font =[UIFont systemFontOfSize:16];
     _priceText.placeholder =@"价格（元）";
     [priceView addSubview:_priceText];
+    UILabel *jiageyuan =[[UILabel alloc]initWithFrame:CGRectMake(_priceText.right-10, 45, 42, 40)];
+    jiageyuan.textAlignment =NSTextAlignmentRight;
+    jiageyuan.text =@"元";
+    jiageyuan.font =[UIFont fontWithName:@"youyuan" size:16];
+    [priceView addSubview:jiageyuan];
+    
     
     UIView *lineView=[[UIView alloc]initWithFrame:CGRectMake(15, _priceText.bottom, kScreenWidth-15, 0.5)];
     lineView.backgroundColor =[UIColor lightGrayColor];
@@ -187,7 +222,7 @@
     dscView.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
     [priceView addSubview:dscView];
     
-    UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(dscView.width-60, dscView.height-20, 60, 15)];
+    UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(dscView.right-55, dscView.height-20, 60, 15)];
     lable.text =@"100字";
     lable.textColor =kCustomColor(194, 194, 200);
     lable.font =[UIFont systemFontOfSize:13];
@@ -328,6 +363,24 @@
     
  
     [self.photoView addSubview:btn];
+}
+-(void)creatBtnTitle :(UIImageView *)btn{
+    if (btn.tag==2) {
+        _titLable =[[UILabel alloc]initWithFrame:CGRectMake(btn.frame.origin.x, btn.frame.origin.y, btn.frame.size.width, btn.frame.size.height)];
+        _titLable.text =@"+图片";
+        _titLable.textColor =[UIColor grayColor];
+        _titLable.textAlignment =NSTextAlignmentCenter;
+        _titLable.font =[UIFont fontWithName:@"youyuan" size:16];
+        [self.photoView addSubview:_titLable];
+    }else if(btn.tag ==3){
+        _titLable2 =[[UILabel alloc]initWithFrame:CGRectMake(btn.frame.origin.x, btn.frame.origin.y, btn.frame.size.width, btn.frame.size.height)];
+        _titLable2.text =@"+图片";
+        _titLable2.textColor =[UIColor grayColor];
+        _titLable2.textAlignment =NSTextAlignmentCenter;
+        _titLable2.font =[UIFont fontWithName:@"youyuan" size:16];
+        [self.photoView addSubview:_titLable2];
+    }
+   
 }
 //发布
 -(void)publicsh{
@@ -571,19 +624,28 @@
 
     UIView * view =[[UIView alloc]initWithFrame:rect];
     
-   
-    _textField1 =[[UITextField alloc]initWithFrame:CGRectMake(15, 15, (kScreenWidth-80)/2, 40)];
+    UILabel *lable1 =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 40, 40)];
+    lable1.text =@"规格:";
+    lable1.font =[UIFont fontWithName:@"youyuan" size:16];
+    [view addSubview:lable1];
+
+    _textField1 =[[UITextField alloc]initWithFrame:CGRectMake(lable1.right+2, 15, (kScreenWidth-160)/2, 40)];
     _textField1.delegate =self;
-    _textField1.placeholder =@"规格";
     _textField1.layer.borderWidth= 1.5;
 
     _textField1.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
     [view addSubview:_textField1];
     
-    _textField2 =[[UITextField alloc]initWithFrame:CGRectMake(_textField1.right+15, 15, (kScreenWidth-80)/2, 40)];
+    
+    UILabel *lable2 =[[UILabel alloc]initWithFrame:CGRectMake(_textField1.right+15, 15, 40, 40)];
+    lable2.text =@"库存:";
+    lable2.font =[UIFont fontWithName:@"youyuan" size:16];
+    [view addSubview:lable2];
+
+    
+    _textField2 =[[UITextField alloc]initWithFrame:CGRectMake(lable2.right+2, 15, (kScreenWidth-160)/2, 40)];
     _textField2.delegate =self;
     _textField2.keyboardType=UIKeyboardTypeNumberPad;
-    _textField2.placeholder =@"库存";
     _textField2.layer.borderWidth= 1.5;
     _textField2.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
 
@@ -770,12 +832,15 @@
             self.btn1.image =image;
             break;
         case 2:
+            self.titLable.hidden=YES;
             if (array) {
                 [self.imagesArray addObject:array];
             }
             self.btn2.image =image;
             break;
         case 3:
+            self.titLable2.hidden=YES;
+
             if (array) {
                 [self.imagesArray addObject:array];
             }

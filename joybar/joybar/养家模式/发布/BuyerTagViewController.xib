@@ -35,12 +35,27 @@
                                 <outlet property="delegate" destination="-1" id="HXG-wR-yhB"/>
                             </connections>
                         </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gfz-yW-iqP">
+                            <rect key="frame" x="282" y="12" width="30" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="30" id="ZuO-iN-4gE"/>
+                                <constraint firstAttribute="height" constant="21" id="ndg-er-wyE"/>
+                            </constraints>
+                            <state key="normal" image="bqshanchu">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="clearClick:" destination="-1" eventType="touchUpInside" id="eol-S3-2jK"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Gfz-yW-iqP" secondAttribute="trailing" constant="8" id="KAu-hU-bzS"/>
                         <constraint firstItem="HEO-cW-NeE" firstAttribute="leading" secondItem="dal-yc-AXD" secondAttribute="leading" constant="15" id="ePg-g4-t2P"/>
                         <constraint firstItem="HEO-cW-NeE" firstAttribute="top" secondItem="dal-yc-AXD" secondAttribute="top" constant="12" id="nvc-M4-ohJ"/>
                         <constraint firstAttribute="height" constant="44" id="r2L-fk-J0W"/>
+                        <constraint firstItem="Gfz-yW-iqP" firstAttribute="top" secondItem="dal-yc-AXD" secondAttribute="top" constant="12" id="sp0-Mv-KBI"/>
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="oqq-aA-VqN">
@@ -67,6 +82,7 @@
         </view>
     </objects>
     <resources>
+        <image name="bqshanchu" width="21" height="21"/>
         <image name="search" width="19" height="19"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

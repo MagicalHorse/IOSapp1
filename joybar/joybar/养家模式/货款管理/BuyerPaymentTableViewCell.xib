@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HJg-A4-gan">
-                        <rect key="frame" x="0.0" y="8" width="320" height="60"/>
+                        <rect key="frame" x="0.0" y="10" width="320" height="60"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KR7-Cr-yb1">
                                 <rect key="frame" x="284" y="8" width="21" height="21"/>
@@ -87,7 +87,7 @@
                 <constraints>
                     <constraint firstItem="HJg-A4-gan" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="V0m-Eg-Ka8"/>
                     <constraint firstAttribute="trailing" secondItem="HJg-A4-gan" secondAttribute="trailing" id="WFM-J0-bu5"/>
-                    <constraint firstItem="HJg-A4-gan" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="kRh-x5-lIx"/>
+                    <constraint firstItem="HJg-A4-gan" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="kRh-x5-lIx"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

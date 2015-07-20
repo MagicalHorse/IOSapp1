@@ -21,14 +21,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="来源：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="otn-j1-xtG">
-                        <rect key="frame" x="235" y="27" width="45" height="18"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <rect key="frame" x="235" y="28" width="45" height="15"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="15/04/15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kLY-or-6bh">
-                        <rect key="frame" x="248" y="56" width="61.5" height="12"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15/04/15" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kLY-or-6bh">
+                        <rect key="frame" x="250" y="54" width="60" height="15"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -74,29 +74,29 @@
                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已提货" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ifi-lE-k1x">
-                        <rect key="frame" x="265" y="76" width="45" height="18"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" text="已提货" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ifi-lE-k1x">
+                        <rect key="frame" x="265" y="80" width="45" height="14"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p0W-CK-MV9">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="15"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="10"/>
                         <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="asj-IZ-dDx">
-                        <rect key="frame" x="280" y="27" width="30" height="18"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <rect key="frame" x="280" y="28" width="30" height="15"/>
+                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="asj-IZ-dDx" secondAttribute="trailing" constant="10" id="5ha-ud-Paz"/>
-                    <constraint firstItem="otn-j1-xtG" firstAttribute="top" secondItem="p0W-CK-MV9" secondAttribute="bottom" constant="12" id="Cru-NE-mx7"/>
+                    <constraint firstItem="otn-j1-xtG" firstAttribute="top" secondItem="p0W-CK-MV9" secondAttribute="bottom" constant="18" id="Cru-NE-mx7"/>
                     <constraint firstItem="kLY-or-6bh" firstAttribute="top" secondItem="asj-IZ-dDx" secondAttribute="bottom" constant="11" id="FPP-dZ-TUm"/>
-                    <constraint firstItem="ifi-lE-k1x" firstAttribute="top" secondItem="kLY-or-6bh" secondAttribute="bottom" constant="8" id="FsE-ik-0Y3"/>
-                    <constraint firstItem="asj-IZ-dDx" firstAttribute="top" secondItem="p0W-CK-MV9" secondAttribute="bottom" constant="12" id="HlA-52-thl"/>
+                    <constraint firstItem="ifi-lE-k1x" firstAttribute="top" secondItem="kLY-or-6bh" secondAttribute="bottom" constant="11" id="FsE-ik-0Y3"/>
+                    <constraint firstItem="asj-IZ-dDx" firstAttribute="top" secondItem="p0W-CK-MV9" secondAttribute="bottom" constant="18" id="HlA-52-thl"/>
                     <constraint firstItem="kLY-or-6bh" firstAttribute="top" secondItem="otn-j1-xtG" secondAttribute="bottom" constant="11" id="WUj-aN-NkH"/>
                     <constraint firstAttribute="bottom" secondItem="ifi-lE-k1x" secondAttribute="bottom" constant="10" id="aki-6t-T1U"/>
                     <constraint firstItem="p0W-CK-MV9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="bLr-ue-nec"/>
@@ -104,7 +104,7 @@
                     <constraint firstAttribute="trailing" secondItem="ifi-lE-k1x" secondAttribute="trailing" constant="10" id="bRf-8e-kxp"/>
                     <constraint firstItem="p0W-CK-MV9" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="nUI-oN-tl2"/>
                     <constraint firstAttribute="trailing" secondItem="p0W-CK-MV9" secondAttribute="trailing" id="oI9-0l-Yy8"/>
-                    <constraint firstAttribute="centerY" secondItem="p0W-CK-MV9" secondAttribute="centerY" constant="44.5" id="ot3-7b-gF0"/>
+                    <constraint firstAttribute="centerY" secondItem="p0W-CK-MV9" secondAttribute="centerY" constant="47" id="ot3-7b-gF0"/>
                     <constraint firstAttribute="trailing" secondItem="kLY-or-6bh" secondAttribute="trailing" constant="10" id="qOX-By-1Vk"/>
                 </constraints>
             </tableViewCellContentView>
