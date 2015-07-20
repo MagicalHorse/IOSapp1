@@ -148,9 +148,7 @@
     //rightbtn
     _searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     _searchBtn.frame = CGRectMake(kScreenWidth-64, 10, 64, 64);
-    [_searchBtn setTitle:@"添加" forState:UIControlStateNormal];
-    [_searchBtn setTitleColor :[UIColor blackColor] forState:UIControlStateNormal];
-    _searchBtn.titleLabel.font =[UIFont systemFontOfSize:15];
+    [_searchBtn setImage:[UIImage imageNamed:@"tianjia-1"] forState:UIControlStateNormal];
     [_searchBtn addTarget:self action:@selector(addCircle) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:_searchBtn];
     
@@ -187,6 +185,8 @@
             NSString * temp =[NSString stringWithFormat:@"%@_200x200.jpg",[self.dataArray[indexPath.row] objectForKey:@"Logo"]];
             
             [cell.circleImg sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            cell.circleImg.layer.cornerRadius = cell.circleImg.width/2;
+            cell.circleImg.clipsToBounds =YES;
             cell.CircleTitel.text =[self.dataArray[indexPath.row] objectForKey:@"Name"];
             cell.circleCout.text =[[self.dataArray[indexPath.row] objectForKey:@"UserCount"] stringValue];
         }
