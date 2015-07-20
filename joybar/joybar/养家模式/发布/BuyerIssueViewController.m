@@ -181,8 +181,8 @@
     
     _priceText1=[[UITextField alloc]initWithFrame:CGRectMake(huohao.right, 0, kScreenWidth-huohao.right, 40)];
     _priceText1.delegate =self;
-    _priceText1.font =[UIFont systemFontOfSize:16];
-    _priceText1.placeholder =@"货号";
+    _priceText1.font =[UIFont fontWithName:@"youyuan" size:16];
+    _priceText1.placeholder =@"请输入";
     [priceView addSubview:_priceText1];
     UIView *lineView1=[[UIView alloc]initWithFrame:CGRectMake(15, _priceText1.bottom, kScreenWidth-15, 0.5)];
     lineView1.backgroundColor =[UIColor lightGrayColor];
@@ -202,8 +202,8 @@
     _priceText.keyboardType =UIKeyboardTypeDecimalPad;
     _priceText.delegate =self;
     [_priceText addTarget:self action:@selector(priceTextChanged:) forControlEvents:UIControlEventEditingChanged];
-    _priceText.font =[UIFont systemFontOfSize:16];
-    _priceText.placeholder =@"价格（元）";
+    _priceText.font =[UIFont fontWithName:@"youyuan" size:16];
+    _priceText.placeholder =@"请输入";
     [priceView addSubview:_priceText];
     UILabel *jiageyuan =[[UILabel alloc]initWithFrame:CGRectMake(_priceText.right-10, 45, 42, 40)];
     jiageyuan.textAlignment =NSTextAlignmentRight;

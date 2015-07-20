@@ -14,7 +14,7 @@
 {
     return @{
              @"Banners" : @"Banner",@"Products":@"HomeProduct"
-             };
+            };
 }
 
 

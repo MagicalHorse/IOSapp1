@@ -17,7 +17,7 @@
 #import "OSSTool.h"
 #import "OSSData.h"
 #import "OSSLog.h"
-
+#import "CusBuyerDetailViewController.h"
 @interface CusChatViewController ()<UITableViewDataSource,UITableViewDelegate,SendMessageTextDelegate,UIScrollViewDelegate,MessageMoreViewDelegate>
 
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -126,8 +126,8 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTableView)];
-    [self.tableView addGestureRecognizer:tap];
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTableView)];
+//    [self.tableView addGestureRecognizer:tap];
     
     __weak CusChatViewController *VC = self;
     self.tableView.headerRereshingBlock = ^{
@@ -422,6 +422,7 @@
 //选择商品回调
 -(void)selectProLink:(NSArray *)arr
 {
+    [self.selectProLinkArr removeAllObjects];
     [self.selectProLinkArr addObjectsFromArray:arr];
     [self sendMessageWithType:@"发送商品" andText:@""];
 }
@@ -694,17 +695,29 @@
     }
     return 170;
 }
--(void)didClickTableView
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [listView.messageTF resignFirstResponder];
-//    [listView moreBtnAction:nil];
-    [UIView animateWithDuration:0.25 animations:^{
-        listView.moreView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 164);
-        listView.frame = CGRectMake(0, self.view.frame.size.height-49, kScreenWidth, 49);
-        listView.faceView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 216-49);
-        [self changeTableViewFrameWhileHidden];
-    }];
+    NSMutableDictionary *msgDic = [self.messageArr objectAtIndex:indexPath.row];
+    if ([[msgDic objectForKey:@"type"] isEqualToString:@"product_img"])
+    {
+        CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+        VC.productId = [msgDic objectForKey:@"productId"];
+        [self.navigationController pushViewController: VC animated:YES];
+    }
 }
+
+//-(void)didClickTableView
+//{
+//    [listView.messageTF resignFirstResponder];
+////    [listView moreBtnAction:nil];
+//    [UIView animateWithDuration:0.25 animations:^{
+//        listView.moreView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 164);
+//        listView.frame = CGRectMake(0, self.view.frame.size.height-49, kScreenWidth, 49);
+//        listView.faceView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 216-49);
+//        [self changeTableViewFrameWhileHidden];
+//    }];
+//}
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -730,17 +743,6 @@
 
 }
 
-
-////获取当前时间（接收和发送消息的时间）
-//-(NSString *)getCurrentTime
-//{
-//    NSDate *nowUTC = [NSDate date];
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
-//    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-//    [dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-//    return [dateFormatter stringFromDate:nowUTC];
-//}
 
 //立即购买
 -(void)didClickBuyBtn

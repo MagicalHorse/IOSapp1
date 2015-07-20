@@ -64,7 +64,7 @@
     for (int i=0; i<self.homePro.ProductPic.Tags.count; i++)
     {
         HomePicTag *tag = [self.homePro.ProductPic.Tags objectAtIndex:i];
-        CGSize size = [Public getContentSizeWith:tag.TagName andFontSize:13 andHigth:20];
+        CGSize size = [Public getContentSizeWith:tag.Name andFontSize:13 andHigth:20];
         CGFloat x = [tag.PosX floatValue];
         CGFloat y = [tag.PosY floatValue];
         UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
@@ -88,7 +88,7 @@
         UILabel *tagLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tagImage.width, tagView.height)];
         tagLab.textColor = [UIColor whiteColor];
         tagLab.font = [UIFont systemFontOfSize:13];
-        tagLab.text = tag.TagName;
+        tagLab.text = tag.Name;
         [tagImage addSubview:tagLab];
     }
     

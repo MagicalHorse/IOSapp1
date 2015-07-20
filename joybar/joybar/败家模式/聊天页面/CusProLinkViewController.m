@@ -69,7 +69,46 @@
     sureBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [sureBtn addTarget:self action:@selector(didCLickMakeSureBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:sureBtn];
-    [self getNewProListData];
+    if ([self.titleStr isEqualToString:@"发送链接"])
+    {
+        [self getNewProListData];
+    }
+    else
+    {
+        [self getCollect];
+    }
+}
+
+-(void)getCollect
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:@"1" forKey:@"page"];
+    [dic setObject:@"10000" forKey:@"pagesize"];
+    [self hudShow];
+    [HttpTool postWithURL:@"Product/GetMyFavoriteProductList" params:dic success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            
+            [self.dataArr addObjectsFromArray:arr];
+            for (int i=0; i<arr.count; i++)
+            {
+                [self.isSelectArr insertObject:@"0" atIndex:i];
+            }
+            
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self hiddleHud];
+        
+    } failure:^(NSError *error) {
+        
+    }];
+
 }
 
 -(void)getNewProListData
@@ -170,7 +209,6 @@
 {
     return 80;
 }
-
 //确定
 -(void)didCLickMakeSureBtn:(UIButton *)btn
 {
@@ -186,10 +224,7 @@
     [self.navigationController popViewControllerAnimated:YES];
     
     [self.delegate selectPro:self.selectProArr];
-
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"selectProNot" object:self.selectProArr];
     
-//    NSLog(@"%@",self.selectProArr);
 }
 
 -(void)didClickSelectProBtn:(UIButton *)btn
@@ -206,7 +241,6 @@
         [btn setImage:[UIImage imageNamed:@"圈icon"] forState:(UIControlStateNormal)];
         [self.isSelectArr setObject:@"0" atIndexedSubscript:btn.tag-1000];
     }
-    NSLog(@"%@",self.isSelectArr);
 
 }
 

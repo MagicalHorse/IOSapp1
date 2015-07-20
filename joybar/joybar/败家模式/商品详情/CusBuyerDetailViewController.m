@@ -12,6 +12,7 @@
 #import "ProDetailData.h"
 #import "HomeUsers.h"
 #import "ProductPicture.h"
+#import "HomePicTag.h"
 @interface CusBuyerDetailViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
@@ -51,14 +52,6 @@
     UIImageView *retImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 59/7, 110/7)];
     retImage.image = [UIImage imageNamed:@"back.png"];
     [returnBtn addSubview:retImage];
-    
-//    UIButton *cartBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-//    cartBtn.frame = CGRectMake(kScreenWidth-54, 10, 64, 64);
-//    cartBtn.backgroundColor = [UIColor clearColor];
-//    [cartBtn setImage:[UIImage imageNamed:@"购物车"] forState:(UIControlStateNormal)];
-//    [cartBtn addTarget:self action:@selector(didClickcartBtn) forControlEvents:(UIControlEventTouchUpInside)];
-//    [self.view addSubview:cartBtn];
-    
     
     [self getDetailData];
     
@@ -100,6 +93,39 @@
         image.clipsToBounds = YES;
         [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",pic.Logo ]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         [self.imageScrollView addSubview:image];
+        
+        ProductPicture *proPic = [prodata.ProductPic objectAtIndex:i];
+        //标签View
+        for (int j=0; j<proPic.Tags.count; j++)
+        {
+            HomePicTag *proTags = [proPic.Tags objectAtIndex:j];
+            CGSize size = [Public getContentSizeWith:proTags.Name andFontSize:13 andHigth:20];
+            CGFloat x = [proTags.PosX floatValue]*kScreenWidth;
+            CGFloat y = [proTags.PosY floatValue]*kScreenHeight;
+            UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
+            tagView.backgroundColor = [UIColor clearColor];
+            [image addSubview:tagView];
+            
+            UIImageView *pointImage = [[UIImageView alloc] init];
+            pointImage.center = CGPointMake(10, tagView.height/2);
+            pointImage.bounds = CGRectMake(0, 0, 12, 12);
+            pointImage.image = [UIImage imageNamed:@"yuan"];
+            [tagView addSubview:pointImage];
+            
+            UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(pointImage.right+5, 0, 15, tagView.height)];
+            jiaoImage.image = [UIImage imageNamed:@"bqqian"];
+            [tagView addSubview:jiaoImage];
+            
+            UIImageView *tagImage = [[UIImageView alloc] initWithFrame:CGRectMake(jiaoImage.right, 0, size.width+10, tagView.height)];
+            tagImage.image = [UIImage imageNamed:@"bqhou"];
+            [tagView addSubview:tagImage];
+            
+            UILabel *tagLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tagImage.width, tagView.height)];
+            tagLab.textColor = [UIColor whiteColor];
+            tagLab.font = [UIFont systemFontOfSize:13];
+            tagLab.text = proTags.Name;
+            [tagImage addSubview:tagLab];
+        }
     }
     _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.imageScrollView.bottom-30, kScreenWidth, 20)];
     _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
@@ -119,17 +145,6 @@
     sellNum.text = proData.TurnCount;
     sellNum.font = [UIFont systemFontOfSize:13];
     [self.scrollView addSubview:sellNum];
-    
-//    UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-80, lab.bottom-5, 40, 20)];
-//    lab1.text = @"好评:";
-//    lab1.font =[UIFont fontWithName:@"youyuan" size:13];
-//    lab1.textColor = [UIColor grayColor];
-//    [self.scrollView addSubview:lab1];
-//    
-//    UILabel *goodNum = [[UILabel alloc] initWithFrame:CGRectMake(lab1.right-5, lab1.top, 60, 20)];
-//    goodNum.text = @"12345";
-//    goodNum.font = [UIFont fontWithName:@"youyuan" size:13];
-//    [self.scrollView addSubview:goodNum];
     
     UILabel *priceLab = [[UILabel alloc] init];
     priceLab.frame = CGRectMake(10, self.imageScrollView.bottom+5, 150, 20);
@@ -281,6 +296,7 @@
     
     [HttpTool postWithURL:@"Product/GetProductDetail" params:dic success:^(id json) {
         
+        NSLog(@"%@",json);
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSDictionary *dic = [json objectForKey:@"data"];
@@ -288,7 +304,6 @@
             [self initView:prodata];
             
             [self initWithFooterView];
-
         }
         else
         {

@@ -8,6 +8,11 @@
 //#define HomeURL  @"http://123.57.52.187:8070/app/"
 
 
+//#define HomeURL  @"http://123.57.77.86:8080/app/"
+
+
+
+
 #import "HttpTool.h"
 #import "AFNetworking.h"
 #import "Common.h"
