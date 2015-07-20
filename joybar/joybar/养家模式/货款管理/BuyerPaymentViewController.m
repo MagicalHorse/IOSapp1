@@ -198,7 +198,8 @@
         UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
         labPrice.textAlignment =NSTextAlignmentRight;
         if ([self.dataArray objectForKey:@"FrozenAmount"]) {
-             labPrice.text =[NSString stringWithFormat:@"￥%@",[self.dataArray objectForKey:@"FrozenAmount"]];
+            float temp =[[self.dataArray objectForKey:@"FrozenAmount"] floatValue];
+             labPrice.text =[NSString stringWithFormat:@"￥%.2f",temp];
         }else{
             labPrice.text =@"￥0.00";
         }
