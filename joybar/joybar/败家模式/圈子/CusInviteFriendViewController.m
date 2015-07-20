@@ -83,9 +83,11 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.circleId forKey:@"groupid"];
+    [self hudShow];
     [HttpTool postWithURL:@"Community/GetValidFansListToGroup" params:dic success:^(id json) {
         NSLog(@"%@",json);
         
+        [self hiddleHud];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr =[json objectForKey:@"data"];
@@ -108,6 +110,8 @@
         
         
     } failure:^(NSError *error) {
+        
+        [self hiddleHud];
     }];
     
 }

@@ -39,9 +39,25 @@
     [self.window makeKeyAndVisible];
     
     [self connectionSoctet];
-   
+    
+    NSString *userId =[[Public getUserInfo] objectForKey:@"id"];
+    if (![userId isEqualToString:@""])
+    {
+        [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
+    }
+    
+    
     return YES;
 }
+
+- (void)tagsAliasCallback:(int)iResCode
+                     tags:(NSSet *)tags
+                    alias:(NSString *)alias {
+    NSString *callbackString =
+    [NSString stringWithFormat:@"%d, \ntags: %@, \nalias: %@\n", iResCode,tags,alias];
+    NSLog(@"TagsAlias回调:%@", callbackString);
+}
+
 -(void)newMsg{
     
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {

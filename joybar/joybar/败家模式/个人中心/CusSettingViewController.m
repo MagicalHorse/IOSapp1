@@ -18,7 +18,7 @@
 #import "OSSTool.h"
 #import "OSSData.h"
 #import "OSSLog.h"
-
+#import "APService.h"
 @interface CusSettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     OSSData *osData;
 }
@@ -488,6 +488,8 @@
             //        [Public showLoginVC:self];
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [APService setAlias:@"" callbackSelector:nil object:self];
             
             AppDelegate *ad= (AppDelegate *)[UIApplication sharedApplication].delegate;
             CusTabBarViewController *tab = [[CusTabBarViewController alloc] init];

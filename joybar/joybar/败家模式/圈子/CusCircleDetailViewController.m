@@ -349,7 +349,8 @@
             if (indexPath.row==1)
             {
                 UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 5, 40, 40)];
-                [headerImage sd_setImageWithURL:[NSURL URLWithString:self.circleData.GroupPic] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                NSString *imageURL = [NSString stringWithFormat:@"%@_100x100.jpg",self.circleData.GroupPic];
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.contentView addSubview:headerImage];
             }
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 100, 20)];

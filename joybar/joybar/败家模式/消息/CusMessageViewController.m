@@ -66,7 +66,6 @@
         [VC getMessageList];
     };
     
-    
     [self initWithNavView];
 }
 
