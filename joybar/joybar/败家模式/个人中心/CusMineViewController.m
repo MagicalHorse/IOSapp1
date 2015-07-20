@@ -30,12 +30,19 @@
 @end
 
 @implementation CusMineViewController
-
+{
+    UIImageView *headImage;
+    UILabel *namelab;
+}
 -(void)viewWillAppear:(BOOL)animated
 {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    NSString *url = [[Public getUserInfo] objectForKey:@"logo"];
+    [headImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    namelab.text = [[Public getUserInfo] objectForKey:@"nickname"];
 
     [self getMineData];
+    
 }
 
 - (void)viewDidLoad {
@@ -65,19 +72,16 @@
     circleImage.backgroundColor = [UIColor clearColor];
     [bgView addSubview:circleImage];
     
-    UIImageView *headImage = [[UIImageView alloc] init];
+    headImage = [[UIImageView alloc] init];
     headImage.center = CGPointMake(circleImage.center.x, circleImage.center.y);
     headImage.bounds = CGRectMake(0, 0, 65, 65);
     headImage.layer.cornerRadius = headImage.width/2;
     headImage.clipsToBounds = YES;
-    NSString *url = [[Public getUserInfo] objectForKey:@"logo"];
-    [headImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [bgView addSubview:headImage];
     
-    UILabel *namelab =[[UILabel alloc] init];
+    namelab =[[UILabel alloc] init];
     namelab.center = CGPointMake(headImage.center.x, circleImage.bottom+15);
     namelab.bounds = CGRectMake(0, 0, 150, 150);
-    namelab.text = [[Public getUserInfo] objectForKey:@"nickname"];
     namelab.textColor = [UIColor whiteColor];
     namelab.textAlignment = NSTextAlignmentCenter;
     namelab.font = [UIFont fontWithName:@"youyuan" size:18];
@@ -226,7 +230,6 @@
         else if ([AuditStatus isEqualToString:@"0"])
         {
             //正在申请中
-            
         }
     }
 }
