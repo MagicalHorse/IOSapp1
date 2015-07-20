@@ -21,14 +21,14 @@
 }
 +(CGSize)getContentSizeWith:(NSString *)content andFontSize:(NSInteger)fontSize andHigth:(NSInteger)higth
 {
-    CGSize size = [content sizeWithFont:[UIFont fontWithName:@"youyuan" size:fontSize] constrainedToSize:CGSizeMake( CGFLOAT_MAX,higth) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [content sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake( CGFLOAT_MAX,higth) lineBreakMode:NSLineBreakByWordWrapping];
     
     return size;
 }
 
 +(CGSize)getContentSizeWith:(NSString *)content andFontSize:(NSInteger)fontSize andWidth:(NSInteger)width
 {
-    CGSize size = [content sizeWithFont:[UIFont fontWithName:@"youyuan" size:fontSize] constrainedToSize:CGSizeMake(width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [content sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake(width, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
     return size;
 }

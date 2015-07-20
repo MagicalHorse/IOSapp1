@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <mutableArray key="youyuan.ttf">
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-        </mutableArray>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CusRefundPriceViewController">
             <connections>
@@ -51,22 +40,22 @@
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="爱的骄傲的骄傲是阿萨德阿萨德阿萨德" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BEn-Db-kGe">
-                                    <rect key="frame" x="98" y="14" width="199" height="30"/>
+                                    <rect key="frame" x="98" y="11" width="199" height="34"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="ZOw-bh-Khi"/>
+                                        <constraint firstAttribute="height" constant="34" id="ZOw-bh-Khi"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="颜色:默认,     尺码:默认" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P76-hS-nfB">
-                                    <rect key="frame" x="98" y="50" width="144" height="12"/>
-                                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="12"/>
+                                    <rect key="frame" x="98" y="51" width="124.5" height="14.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DwJ-0R-HKK">
-                                    <rect key="frame" x="98" y="69" width="52" height="17"/>
+                                    <rect key="frame" x="98" y="72" width="52" height="17"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="52" id="Rwc-96-S7W"/>
                                     </constraints>
@@ -75,7 +64,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥ 123.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JLg-Tg-Grc">
-                                    <rect key="frame" x="234" y="69" width="63" height="17"/>
+                                    <rect key="frame" x="234" y="72" width="62.5" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -91,7 +80,7 @@
                                 <constraint firstItem="JLg-Tg-Grc" firstAttribute="top" secondItem="P76-hS-nfB" secondAttribute="bottom" constant="7" id="eqI-7W-NZP"/>
                                 <constraint firstItem="DwJ-0R-HKK" firstAttribute="top" secondItem="P76-hS-nfB" secondAttribute="bottom" constant="7" id="gOJ-E1-aBJ"/>
                                 <constraint firstItem="bqb-Pp-oX7" firstAttribute="leading" secondItem="9o8-bS-7VD" secondAttribute="leading" constant="15" id="ocK-79-PdX"/>
-                                <constraint firstItem="BEn-Db-kGe" firstAttribute="top" secondItem="9o8-bS-7VD" secondAttribute="top" constant="14" id="uHP-8u-Zzx"/>
+                                <constraint firstItem="BEn-Db-kGe" firstAttribute="top" secondItem="9o8-bS-7VD" secondAttribute="top" constant="11" id="uHP-8u-Zzx"/>
                                 <constraint firstItem="DwJ-0R-HKK" firstAttribute="leading" secondItem="bqb-Pp-oX7" secondAttribute="trailing" constant="8" id="xgK-eK-T1t"/>
                                 <constraint firstItem="BEn-Db-kGe" firstAttribute="leading" secondItem="bqb-Pp-oX7" secondAttribute="trailing" constant="8" id="ySW-ol-LVu"/>
                             </constraints>
@@ -119,16 +108,16 @@
                                         <constraint firstAttribute="height" constant="21" id="Hwr-il-iaf"/>
                                         <constraint firstAttribute="width" constant="73" id="QYr-dA-9iV"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pL3-6Z-TkQ">
-                                    <rect key="frame" x="99" y="64" width="24" height="21"/>
+                                    <rect key="frame" x="99" y="64" width="25.5" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="M3G-0j-1ng"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="16"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -137,7 +126,7 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="rOZ-sH-Cfj"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="退款金额:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="80v-q3-3MG">
@@ -146,16 +135,16 @@
                                         <constraint firstAttribute="height" constant="21" id="fa6-NM-BdH"/>
                                         <constraint firstAttribute="width" constant="73" id="zEi-VR-moX"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="退货数量:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r4R-B4-2XC">
-                                    <rect key="frame" x="15" y="115" width="68" height="21"/>
+                                    <rect key="frame" x="15" y="115" width="64.5" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="s4R-yn-nNh"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="15"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>

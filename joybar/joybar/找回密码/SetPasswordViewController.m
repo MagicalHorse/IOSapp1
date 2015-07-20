@@ -36,7 +36,7 @@
         UITextField *text = [[UITextField alloc] initWithFrame:CGRectMake(15, 45*i, kScreenWidth, 45)];
         text.placeholder = [name objectAtIndex:i];
         text.tag = 1000+i;
-        text.font = [UIFont fontWithName:@"youyuan" size:14];
+        text.font = [UIFont systemFontOfSize:14];
         [bgView addSubview:text];
     }
     UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(10, 45,kScreenWidth-20, 0.5)];
@@ -46,7 +46,7 @@
     UIButton *submitBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     submitBtn.frame = CGRectMake(15, bgView.bottom+30, kScreenWidth-30, 40);
     [submitBtn setTitle:@"确定" forState:(UIControlStateNormal)];
-    submitBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
+    submitBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [submitBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     submitBtn.layer.cornerRadius = 3;
     submitBtn.backgroundColor = kCustomColor(253, 137, 83);

@@ -78,7 +78,7 @@
     
     UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(0, headerImage.bottom+5, kScreenWidth, 20)];
     nameLab.text = proData.BuyerName;
-    nameLab.font = [UIFont fontWithName:@"youyuan" size:16];
+    nameLab.font = [UIFont systemFontOfSize:16];
     nameLab.textAlignment = NSTextAlignmentCenter;
     [self.scrollView addSubview:nameLab];
     
@@ -111,13 +111,13 @@
     
     UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-80, 65, 40, 20)];
     lab.text = @"成交:";
-    lab.font =[UIFont fontWithName:@"youyuan" size:13];
+    lab.font =[UIFont systemFontOfSize:13];
     lab.textColor = [UIColor grayColor];
     [self.scrollView addSubview:lab];
     
     UILabel *sellNum = [[UILabel alloc] initWithFrame:CGRectMake(lab.right-5, lab.top, 60, 20)];
     sellNum.text = proData.TurnCount;
-    sellNum.font = [UIFont fontWithName:@"youyuan" size:13];
+    sellNum.font = [UIFont systemFontOfSize:13];
     [self.scrollView addSubview:sellNum];
     
 //    UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-80, lab.bottom-5, 40, 20)];
@@ -140,13 +140,13 @@
     
     UILabel *markLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-140, self.imageScrollView.bottom+5, 130, 20)];
     markLab.text = @"*商品只支持商城自提";
-    markLab.font = [UIFont fontWithName:@"youyuan" size:12];
+    markLab.font = [UIFont systemFontOfSize:12];
     markLab.textColor = [UIColor redColor];
     [self.scrollView addSubview:markLab];
     
     UILabel *titleLab = [[UILabel alloc] init];
     titleLab.text = proData.ProductName;
-    titleLab.font = [UIFont fontWithName:@"youyuan" size:14];
+    titleLab.font = [UIFont systemFontOfSize:14];
     titleLab.numberOfLines = 0;
     CGSize titleSize = [Public getContentSizeWith:titleLab.text andFontSize:14 andWidth:kScreenWidth-15];
     titleLab.frame = CGRectMake(10, priceLab.bottom+5, kScreenWidth-15, titleSize.height);
@@ -154,7 +154,7 @@
     
     UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(10, titleLab.bottom+5, kScreenWidth-20, 20)];
     locationLab.text = [NSString stringWithFormat:@"自提地点: %@",proData.PickAddress];
-    locationLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    locationLab.font = [UIFont systemFontOfSize:13];
     locationLab.textColor = [UIColor grayColor];
     [self.scrollView addSubview:locationLab];
     
@@ -180,7 +180,7 @@
 
     UILabel *nightLab = [[UILabel alloc] initWithFrame:CGRectMake(imageView1.right+5, imageView1.top, kScreenWidth-60, imageView1.height)];
     nightLab.text = proData.Promotion.DescriptionText;
-    nightLab.font = [UIFont fontWithName:@"youyuan" size:11];
+    nightLab.font = [UIFont systemFontOfSize:11];
     nightLab.textColor = [UIColor grayColor];
     [tempView addSubview:nightLab];
 
@@ -189,7 +189,7 @@
     nightLab1.numberOfLines = 0;
     CGSize size = [Public getContentSizeWith:nightLab1.text andFontSize:11 andWidth:kScreenWidth-60];
     nightLab1.frame = CGRectMake(imageView2.right+5, imageView2.top, kScreenWidth-60, size.height);
-    nightLab1.font = [UIFont fontWithName:@"youyuan" size:11];
+    nightLab1.font = [UIFont systemFontOfSize:11];
     nightLab1.textColor = [UIColor grayColor];
     [tempView addSubview:nightLab1];
 
@@ -344,14 +344,14 @@
             lab.textAlignment = NSTextAlignmentCenter;
             lab.text = [titleArr objectAtIndex:i];
             lab.tag = 10000+i;
-            lab.font = [UIFont fontWithName:@"youyuan" size:12];
+            lab.font = [UIFont systemFontOfSize:12];
             [btn addSubview:lab];
         }
         else
         {
             btn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
             [btn setTitle:[arr objectAtIndex:i-2] forState:(UIControlStateNormal)];
-            btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+            btn.titleLabel.font = [UIFont systemFontOfSize:14];
             [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
 //            if (i==2)
 //            {

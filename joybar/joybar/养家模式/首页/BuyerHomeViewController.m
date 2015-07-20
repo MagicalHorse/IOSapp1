@@ -45,7 +45,7 @@
     finishBtn.backgroundColor = [UIColor clearColor];
     [finishBtn setImage:[UIImage imageNamed:@"分享.png"] forState:(UIControlStateNormal)];
     [finishBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-    finishBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:16];
+    finishBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [finishBtn addTarget:self action:@selector(didClickFinishBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:finishBtn];
     
@@ -163,7 +163,7 @@
     
     _label =[[UILabel alloc]initWithFrame:CGRectMake(0, _img.bottom+10, kScreenWidth, 15)];
     _label.textAlignment =NSTextAlignmentCenter;
-    _label.font =[UIFont fontWithName:@"youyuan" size:15];
+    _label.font =[UIFont systemFontOfSize:15];
     [hearView addSubview:_label];
     return hearView;
 }

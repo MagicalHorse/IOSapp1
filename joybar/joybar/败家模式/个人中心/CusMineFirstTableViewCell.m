@@ -53,7 +53,7 @@
             UILabel *lab = [[UILabel alloc] init];
             lab.center = CGPointMake(btn.width/2, btn.height/2+15);
             lab.bounds = CGRectMake(0, 0, btn.width, btn.height);
-            lab.font = [UIFont fontWithName:@"youyuan" size:13];
+            lab.font = [UIFont systemFontOfSize:13];
             lab.text = [imgArr objectAtIndex:i];
             lab.textColor = [UIColor darkGrayColor];
             lab.textAlignment = NSTextAlignmentCenter;
@@ -92,7 +92,7 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         NSArray *arr = @[@"我的收藏",@"我要养家"];
         self.textLabel.text = [arr objectAtIndex:indexPath.row-1];
-        self.textLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+        self.textLabel.font = [UIFont systemFontOfSize:14];
     }
 }
 

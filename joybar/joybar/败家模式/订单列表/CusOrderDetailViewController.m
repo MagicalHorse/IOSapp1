@@ -125,7 +125,7 @@
     UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 28, 60, 20)];
     lab.textAlignment = NSTextAlignmentCenter;
     lab.text = @"联系买手";
-    lab.font = [UIFont fontWithName:@"youyuan" size:11];
+    lab.font = [UIFont systemFontOfSize:11];
     [bottomView addSubview:lab];
     
     UIButton *shareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -137,13 +137,13 @@
     UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(70, 28, 60, 20)];
     lab1.textAlignment = NSTextAlignmentCenter;
     lab1.text = @"现金分享";
-    lab1.font = [UIFont fontWithName:@"youyuan" size:11];
+    lab1.font = [UIFont systemFontOfSize:11];
     [bottomView addSubview:lab1];
 
     payBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     payBtn.frame = CGRectMake(kScreenWidth-90, 10, 70, 30);
     [payBtn setTitle:@"付款" forState:(UIControlStateNormal)];
-    payBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+    payBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [payBtn setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
     payBtn.layer.borderColor = [UIColor redColor].CGColor;
     payBtn.layer.borderWidth = 0.5;
@@ -154,7 +154,7 @@
     cancelBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     cancelBtn.frame = CGRectMake(payBtn.left-90, 10, 70, 30);
     [cancelBtn setTitle:@"取消订单" forState:(UIControlStateNormal)];
-    cancelBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [cancelBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
     cancelBtn.layer.borderColor = [UIColor blackColor].CGColor;
     cancelBtn.layer.borderWidth = 0.5;
@@ -220,7 +220,7 @@
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
         lab.textColor = [UIColor grayColor];
         lab.text = [arr objectAtIndex:indexPath.row];
-        lab.font = [UIFont fontWithName:@"youyuan" size:15];
+        lab.font = [UIFont systemFontOfSize:15];
         [cell.contentView addSubview:lab];
 
         if (self.detailData)
@@ -228,7 +228,7 @@
             NSArray *msgArr = @[self.detailData.OrderNo,self.detailData.OrderStatusName,[NSString stringWithFormat:@"￥%@",self.detailData.ActualAmount],self.detailData.CreateDate];
             UILabel *msgLab = [[UILabel alloc] initWithFrame:CGRectMake(lab.right+10, 15, kScreenWidth-110, 20)];
             msgLab.text = [msgArr objectAtIndex:indexPath.row];
-            msgLab.font = [UIFont fontWithName:@"youyuan" size:15];
+            msgLab.font = [UIFont systemFontOfSize:15];
             [cell.contentView addSubview:msgLab];
         }
         
@@ -253,7 +253,7 @@
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
         lab.textColor = [UIColor grayColor];
         lab.text = [arr objectAtIndex:indexPath.row];
-        lab.font = [UIFont fontWithName:@"youyuan" size:15];
+        lab.font = [UIFont systemFontOfSize:15];
         [cell.contentView addSubview:lab];
         
         if (self.detailData)
@@ -261,7 +261,7 @@
             NSArray *msgArr = @[self.detailData.BuyerName,self.detailData.BuyerMobile,self.detailData.PickAddress];
             UILabel *msgLab = [[UILabel alloc] init];
             msgLab.text = [msgArr objectAtIndex:indexPath.row];
-            msgLab.font = [UIFont fontWithName:@"youyuan" size:15];
+            msgLab.font = [UIFont systemFontOfSize:15];
             [cell.contentView addSubview:msgLab];
             if (indexPath.row<2)
             {
@@ -332,13 +332,13 @@
                 
                 UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
                 lab.text = promotion.PromotionName;
-                lab.font = [UIFont fontWithName:@"youyuan" size:14];
+                lab.font = [UIFont systemFontOfSize:14];
                 [cell.contentView addSubview:lab];
                 
                 UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
                 lab1.textAlignment = NSTextAlignmentRight;
                 lab1.text = [NSString stringWithFormat:@"立减 %@元",promotion.Amount];
-                lab1.font = [UIFont fontWithName:@"youyuan" size:14];
+                lab1.font = [UIFont systemFontOfSize:14];
                 [cell.contentView addSubview:lab1];
             }
         }

@@ -30,7 +30,7 @@
     [WXApi registerApp:APP_ID];
 
     //状态栏白色
-//    [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    [application setStatusBarStyle:UIStatusBarStyleLightContent];
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -73,11 +73,11 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
         NSLog(@"第一次启动");
         
+        [self _initWithScrollViewForSoftHelp];
 
     }else{
         NSLog(@"不是第一次启动");
-        [self _initWithScrollViewForSoftHelp];
-
+        [application setStatusBarStyle:UIStatusBarStyleDefault];
     }
     return YES;
 }
@@ -120,6 +120,7 @@
 - (void)introDidFinish
 {
     UIScrollView *sc = (UIScrollView *)[self.window viewWithTag:33333];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [sc removeFromSuperview];
 }
 

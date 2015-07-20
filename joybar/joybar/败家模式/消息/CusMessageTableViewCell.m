@@ -52,23 +52,23 @@
     levelLab.textColor = [UIColor grayColor];
     levelLab.layer.masksToBounds = YES;
     levelLab.layer.cornerRadius =2;
-    levelLab.font = [UIFont fontWithName:@"youyuan" size:14];
+    levelLab.font = [UIFont systemFontOfSize:14];
     [self.contentView addSubview:levelLab];
     
     UILabel *namelab = [[UILabel alloc] initWithFrame:CGRectMake(levelLab.right+5, headerImg.top+2, kScreenWidth-170, 20)];
     namelab.text = [dic objectForKey:@"Name"];
-    namelab.font = [UIFont fontWithName:@"youyuan" size:16];
+    namelab.font = [UIFont systemFontOfSize:16];
     [self.contentView addSubview:namelab];
     
     UILabel *lastMsg = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right+10, namelab.bottom+12, kScreenWidth-90, 20)];
     lastMsg.textColor = [UIColor grayColor];
     lastMsg.text = [dic objectForKey:@"UnReadMessage"];
-    lastMsg.font =[UIFont fontWithName:@"youyuan" size:14];
+    lastMsg.font =[UIFont systemFontOfSize:14];
     [self.contentView addSubview:lastMsg];
     
     UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-40, namelab.top, 40, 20)];
     timeLab.text = [dic objectForKey:@"UpdateTime"];
-    timeLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    timeLab.font = [UIFont systemFontOfSize:13];
     timeLab.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:timeLab];
 

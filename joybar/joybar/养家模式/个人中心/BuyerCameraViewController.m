@@ -65,7 +65,7 @@
     
     _chooseBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-80, kScreenHeight-90, 70, 70)];
     [_chooseBtn setTitle:@"相册" forState:UIControlStateNormal];
-    _chooseBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:18];
+    _chooseBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     [_chooseBtn addTarget:self action:@selector(chooseClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_chooseBtn];
     

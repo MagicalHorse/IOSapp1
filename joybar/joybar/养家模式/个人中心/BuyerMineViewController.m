@@ -89,7 +89,7 @@
     namelab.text = [dict objectForKey:@"nickname"];
     namelab.textColor = [UIColor whiteColor];
     namelab.textAlignment = NSTextAlignmentCenter;
-    namelab.font = [UIFont fontWithName:@"youyuan" size:18];
+    namelab.font = [UIFont systemFontOfSize:18];
     [_bgHeaderView addSubview:namelab];
     
     UIView *tempView = [[UIView alloc] init];
@@ -127,19 +127,19 @@
     if (indexPath.section == 0) {
         NSArray *arr = @[@"店铺预览",@"店铺介绍"];
         cell.textLabel.text = [arr objectAtIndex:indexPath.row];
-        cell.textLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+        cell.textLabel.font = [UIFont systemFontOfSize:14];
         return cell;
         
     }else if(indexPath.section == 1){
         cell.textLabel.text = @"邀请买手";
-        cell.textLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+        cell.textLabel.font = [UIFont systemFontOfSize:14];
         return cell;
     }
     else{
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.text = @"我要败家";
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        cell.textLabel.font = [UIFont fontWithName:@"youyuan" size:15];
+        cell.textLabel.font = [UIFont systemFontOfSize:15];
         return cell;
     }
 }

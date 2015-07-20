@@ -33,7 +33,7 @@
     btn.layer.borderColor = [UIColor redColor].CGColor;
     [btn setTitle:@"提交申请" forState:(UIControlStateNormal)];
     btn.layer.cornerRadius = 3;
-    btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:13];
+    btn.titleLabel.font = [UIFont systemFontOfSize:13];
     [btn setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
     [bottomView addSubview:btn];
 

@@ -46,7 +46,7 @@
     searchBtn.frame = CGRectMake(kScreenWidth-64, 10, 64, 64);
     [searchBtn setTitle:@"取消" forState:UIControlStateNormal];
     [searchBtn setTitleColor :[UIColor blackColor] forState:UIControlStateNormal];
-    searchBtn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:15];
+    searchBtn.titleLabel.font =[UIFont systemFontOfSize:15];
     [searchBtn addTarget:self action:@selector(calClick) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:searchBtn];
 }
@@ -135,7 +135,7 @@
 
     UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImage.right+5, headerImage.top+10, _bgView.width-100, 20)];
     titleLab.text = [NSString stringWithFormat:@"订单号:%@",no];
-    titleLab.font = [UIFont fontWithName:@"youyuan" size:16];
+    titleLab.font = [UIFont systemFontOfSize:16];
     [_bgView addSubview:titleLab];
 
     UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(titleLab.left, titleLab.bottom+2, _bgView.width-100, 20)];

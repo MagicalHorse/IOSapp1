@@ -34,12 +34,12 @@
     levelLab.textColor = [UIColor grayColor];
     levelLab.layer.masksToBounds = YES;
     levelLab.layer.cornerRadius =2;
-    levelLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    levelLab.font = [UIFont systemFontOfSize:13];
     [self.contentView addSubview:levelLab];
     
     UILabel *namelab = [[UILabel alloc] initWithFrame:CGRectMake(levelLab.right+5, headerImg.top+4, kScreenWidth-190, 20)];
     namelab.text =fanModel.UserName;
-    namelab.font = [UIFont fontWithName:@"youyuan" size:14];
+    namelab.font = [UIFont systemFontOfSize:14];
     [self.contentView addSubview:namelab];
     
 //    UIImageView *locationImg = [[UIImageView alloc] initWithFrame:CGRectMake(headerImg.right+10, namelab.bottom+5, 13, 13)];
@@ -55,13 +55,13 @@
     UILabel *attentionLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right+10, namelab.bottom+5, 70, 20)];
     attentionLab.text = [NSString stringWithFormat:@"关注 %@",fanModel.FavoiteCount];
     attentionLab.textColor = [UIColor lightGrayColor];
-    attentionLab.font = [UIFont fontWithName:@"youyuan" size:12];
+    attentionLab.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:attentionLab];
     
     UILabel *fansLab = [[UILabel alloc] initWithFrame:CGRectMake(attentionLab.right+5, namelab.bottom+5, 70, 20)];
     fansLab.text = [NSString stringWithFormat:@"粉丝 %@",fanModel.FansCount];
     fansLab.textColor = [UIColor lightGrayColor];
-    fansLab.font = [UIFont fontWithName:@"youyuan" size:12];
+    fansLab.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:fansLab];
 
     
@@ -79,7 +79,7 @@
         [attentionBtn setTitle:@"关注" forState:(UIControlStateNormal)];
     }
     [attentionBtn setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
-    attentionBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:13];
+    attentionBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [attentionBtn addTarget:self action:@selector(didClickAttention:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.contentView addSubview:attentionBtn];
     

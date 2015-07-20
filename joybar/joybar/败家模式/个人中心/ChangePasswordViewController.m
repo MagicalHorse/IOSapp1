@@ -24,7 +24,7 @@
     finishBtn.backgroundColor = [UIColor clearColor];
     [finishBtn setTitle:@"完成" forState:(UIControlStateNormal)];
     [finishBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-    finishBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:16];
+    finishBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [finishBtn addTarget:self action:@selector(didClickFinishBtn) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:finishBtn];
 }

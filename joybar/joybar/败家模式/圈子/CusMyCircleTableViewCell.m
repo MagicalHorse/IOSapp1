@@ -15,9 +15,9 @@
     self.backgroundColor = [UIColor whiteColor];
     self.headImage.layer.cornerRadius = self.headImage.width/2;
     self.headImage.clipsToBounds = YES;
-    self.nameLab.font = [UIFont fontWithName:@"youyuan" size:17];
-    self.timeLab.font = [UIFont fontWithName:@"youyuan" size:12];
-    self.lastMessageLab.font = [UIFont fontWithName:@"youyuan" size:14];
+    self.nameLab.font = [UIFont systemFontOfSize:17];
+    self.timeLab.font = [UIFont systemFontOfSize:12];
+    self.lastMessageLab.font = [UIFont systemFontOfSize:14];
     self.msgCountLab.layer.cornerRadius = self.msgCountLab.width/2;
     self.msgCountLab.layer.masksToBounds = YES;
 }

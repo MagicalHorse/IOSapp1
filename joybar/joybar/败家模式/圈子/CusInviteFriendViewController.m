@@ -57,7 +57,7 @@
     
     UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(self.allSelectBtn.right+5, 15, 60, 20)];
     lab.text = @"全选";
-    lab.font = [UIFont fontWithName:@"youyuan" size:14];
+    lab.font = [UIFont systemFontOfSize:14];
     lab.textColor = [UIColor grayColor];
     [bottomView addSubview:lab];
     
@@ -69,7 +69,7 @@
     sureBtn.frame = CGRectMake(kScreenWidth-80, 7, 70, 35);
     [sureBtn setTitle:@"确定" forState:(UIControlStateNormal)];
     [sureBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    sureBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:15];
+    sureBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     sureBtn.layer.cornerRadius = 3;
     sureBtn.backgroundColor = [UIColor orangeColor];
     [sureBtn addTarget:self action:@selector(didClickSureBtn:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -161,7 +161,7 @@
         
         UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImage.right+10, 17, 170, 20)];
         nameLab.text = [dic objectForKey:@"UserName"];
-        nameLab.font = [UIFont fontWithName:@"youyuan" size:14];
+        nameLab.font = [UIFont systemFontOfSize:14];
         [cell.contentView addSubview:nameLab];
     }
     return cell;

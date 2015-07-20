@@ -77,7 +77,7 @@
     sureBtn.backgroundColor = [UIColor orangeColor];
     [sureBtn setTitle:@"确认" forState:(UIControlStateNormal)];
     [sureBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    sureBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+    sureBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [sureBtn addTarget:self action:@selector(didCLickMakeSureBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:sureBtn];
     
@@ -87,7 +87,7 @@
 //    NSLog(@"%f",price);
     priceLab.text = [NSString stringWithFormat:@"合计: ￥%@",[self.priceDic objectForKey:@"saletotalamount"]];
     priceLab.textColor = [UIColor redColor];
-    priceLab.font = [UIFont fontWithName:@"youyuan" size:16];
+    priceLab.font = [UIFont systemFontOfSize:16];
     [bottomView addSubview:priceLab];
     
 }
@@ -138,13 +138,13 @@
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
         lab.textColor = [UIColor grayColor];
         lab.text = [arr objectAtIndex:indexPath.row];
-        lab.font = [UIFont fontWithName:@"youyuan" size:15];
+        lab.font = [UIFont systemFontOfSize:15];
         [cell.contentView addSubview:lab];
         
         NSArray *msgArr = @[self.detailData.BuyerName,self.detailData.BuyerMobile,self.detailData.PickAddress];
         UILabel *msgLab = [[UILabel alloc] init];
         msgLab.text = [msgArr objectAtIndex:indexPath.row];
-        msgLab.font = [UIFont fontWithName:@"youyuan" size:15];
+        msgLab.font = [UIFont systemFontOfSize:15];
         [cell.contentView addSubview:msgLab];
         if (indexPath.row<2)
         {
@@ -210,7 +210,7 @@
         
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 70, 20)];
         lab.text = @"提货电话:";
-        lab.font = [UIFont fontWithName:@"youyuan" size:14];
+        lab.font = [UIFont systemFontOfSize:14];
         [cell.contentView addSubview:lab];
         
         phoneText = [[UITextField alloc] initWithFrame:CGRectMake(lab.right, 15, kScreenWidth-100, 30)];
@@ -227,7 +227,7 @@
         UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(phoneText.left, phoneText.bottom+5, 200, 20)];
         lab1.text = @"*输入您的手机, 方便买手找到你";
         lab1.textColor = [UIColor orangeColor];
-        lab1.font = [UIFont fontWithName:@"youyuan" size:11];
+        lab1.font = [UIFont systemFontOfSize:11];
         [cell.contentView addSubview:lab1];
         
         return cell;
@@ -249,13 +249,13 @@
         
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
         lab.text = self.detailData.Promotion.Name;
-        lab.font = [UIFont fontWithName:@"youyuan" size:14];
+        lab.font = [UIFont systemFontOfSize:14];
         [cell.contentView addSubview:lab];
         
         UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
         lab1.textAlignment = NSTextAlignmentRight;
         lab1.text = [NSString stringWithFormat:@"立减 %@",[self.priceDic objectForKey:@"discountamount"]];
-        lab1.font = [UIFont fontWithName:@"youyuan" size:14];
+        lab1.font = [UIFont systemFontOfSize:14];
         [cell.contentView addSubview:lab1];
 
         return cell;

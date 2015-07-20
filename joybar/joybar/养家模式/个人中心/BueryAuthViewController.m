@@ -78,13 +78,13 @@
     
     UILabel *nlable =[[UILabel alloc]initWithFrame:CGRectMake(image.right+2, 10, 80, 24)];
     nlable.text =@"您的姓名:";
-    nlable.font = [UIFont fontWithName:@"youyuan" size:17];
+    nlable.font = [UIFont systemFontOfSize:17];
     [nameView addSubview:nlable];
      
      _nField= [[UITextField alloc]initWithFrame:CGRectMake(nlable.right+3, 10, kScreenWidth-120-19, 24)];
     _nField.delegate =self;
      _nField.placeholder =@"请输入";
-     _nField.font =[UIFont fontWithName:@"youyuan" size:17];
+     _nField.font =[UIFont systemFontOfSize:17];
     [nameView addSubview:_nField];
     
     UIView * nview = [[UIView alloc]initWithFrame:CGRectMake(20, _nField.bottom+10, kScreenWidth-40, 1)];
@@ -94,7 +94,7 @@
     
     UILabel * lable=[[UILabel alloc]initWithFrame:CGRectMake(20, nameView.bottom+20, 200, 20)];
     lable.text =@"身份证/护照";
-    lable.font = [UIFont fontWithName:@"youyuan" size:18];
+    lable.font = [UIFont systemFontOfSize:18];
     [_customScrollView addSubview:lable];
     
     UIView * view = [[UIView alloc]initWithFrame:CGRectMake(20, 50+64, kScreenWidth-40, 1)];
@@ -103,7 +103,7 @@
     
     _btn1=[[UIButton alloc]initWithFrame:CGRectMake(20, 61+64, kScreenWidth-40, 200)];
     [_btn1 setTitle:@"＋正面" forState:UIControlStateNormal];
-    _btn1.titleLabel.font =[UIFont fontWithName:@"youyuan" size:18];
+    _btn1.titleLabel.font =[UIFont systemFontOfSize:18];
     [_btn1 setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     _btn1.layer.borderWidth= 2;
     _btn1.layer.borderColor = kCustomColor(169, 200, 234).CGColor;
@@ -112,7 +112,7 @@
     
     _btn2=[[UIButton alloc]initWithFrame:CGRectMake(20, 271+64, kScreenWidth-40, 200)];
     [_btn2 setTitle:@"＋反面" forState:UIControlStateNormal];
-    _btn2.titleLabel.font =[UIFont fontWithName:@"youyuan" size:18];
+    _btn2.titleLabel.font =[UIFont systemFontOfSize:18];
     [_btn2 setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [_btn2 addTarget:self action:@selector(btn2Click) forControlEvents:UIControlEventTouchUpInside];
 
@@ -127,7 +127,7 @@
     UILabel * lableStore=[[UILabel alloc]initWithFrame:CGRectMake(20, 521+64, 200, 20)];
     lableStore.text =@"工牌照片";
     
-    lableStore.font = [UIFont fontWithName:@"youyuan" size:18];
+    lableStore.font = [UIFont systemFontOfSize:18];
     [_customScrollView addSubview:lableStore];
 
     UIView * view1 = [[UIView alloc]initWithFrame:CGRectMake(20, 551+64, kScreenWidth-40, 1)];
@@ -137,7 +137,7 @@
     
     _btn3=[[UIButton alloc]initWithFrame:CGRectMake(20, 562+64, kScreenWidth-40, 200)];
     [_btn3 setTitle:@"＋工牌照片" forState:UIControlStateNormal];
-    _btn3.titleLabel.font =[UIFont fontWithName:@"youyuan" size:18];
+    _btn3.titleLabel.font =[UIFont systemFontOfSize:18];
     [_btn3 setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     _btn3.layer.borderWidth= 2;
     _btn3.layer.borderColor = kCustomColor(169, 200, 234).CGColor;
@@ -159,7 +159,7 @@
     
     [_customButton setTitle:@"下一步" forState:UIControlStateNormal];
     [_customButton setTitleColor:kCustomColor(56,155, 234) forState:UIControlStateNormal];
-    _customButton.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
+    _customButton.titleLabel.font = [UIFont systemFontOfSize:17];
     
     
     _customScrollView.contentSize =CGSizeMake(0, 792+64);

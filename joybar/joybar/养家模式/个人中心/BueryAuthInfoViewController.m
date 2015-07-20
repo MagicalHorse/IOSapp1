@@ -188,9 +188,8 @@
     
     UILabel * lable=[[UILabel alloc]initWithFrame:CGRectMake(20, 10, 200, 20)];
     lable.text =@"商场专柜信息";
-    lable.font =[UIFont fontWithName:@"youyuan" size:15];
 
-    lable.font = [UIFont fontWithName:@"youyuan" size:16];
+    lable.font = [UIFont systemFontOfSize:16];
     [storeInfo addSubview:lable];
     
     UIView * view = [self bgView:lable.bottom+10];
@@ -199,7 +198,7 @@
 
     _field1 = [[UILabel alloc]initWithFrame:CGRectMake( 35, view.bottom, kScreenWidth-60, 40)];
     _field1.text =@"商场名称";
-    _field1.font =[UIFont fontWithName:@"youyuan" size:15];
+    _field1.font =[UIFont systemFontOfSize:15];
 
     [storeInfo addSubview:_field1];
     storeInfo.tag =1000;
@@ -215,7 +214,7 @@
     
     _field2 =[self customField:_field1.bottom+1 andPlaceholder:@"专柜名称"];
 
-    _field2.font =[UIFont fontWithName:@"youyuan" size:15];
+    _field2.font =[UIFont systemFontOfSize:15];
 
     [storeInfo addSubview:_field2];
     [storeInfo addSubview:[self bgView:_field2.bottom]];
@@ -223,7 +222,7 @@
 
     
     _field3 =[self customField:_field2.bottom+1 andPlaceholder:@"专柜位置（楼层、区号）"];
-    _field3.font =[UIFont fontWithName:@"youyuan" size:15];
+    _field3.font =[UIFont systemFontOfSize:15];
 
     [storeInfo addSubview:_field3];
     [storeInfo addSubview:[self bgImg:_field2.bottom+12]];
@@ -234,7 +233,7 @@
     [self.customScrollView addSubview:addressView];
     UILabel * lable1=[[UILabel alloc]initWithFrame:CGRectMake(20, 10, 200, 20)];
     lable1.text =@"商场自提点";
-    lable1.font = [UIFont fontWithName:@"youyuan" size:16];
+    lable1.font = [UIFont systemFontOfSize:16];
     [addressView addSubview:lable1];
 
    
@@ -249,7 +248,7 @@
     [cityView addSubview:[self bgImg:12]];
     
     _cityLable=[[UILabel alloc]initWithFrame:CGRectMake(35, 0, kScreenWidth-100, 45)];
-    _cityLable.font =[UIFont fontWithName:@"youyuan" size:15];
+    _cityLable.font =[UIFont systemFontOfSize:15];
     _cityLable.text =@"省、市、区、县（请选择）";
 //    _cityLable.textColor = kCustomColor(194, 194, 200);
     [cityView addSubview:_cityLable];
@@ -275,7 +274,7 @@
     _dscText=[[UITextView alloc]init];
     _dscText.delegate =self;
     _dscText.textColor =kCustomColor(194, 194, 200);
-    _dscText.font =[UIFont fontWithName:@"youyuan" size:15];
+    _dscText.font =[UIFont systemFontOfSize:15];
     _dscText.frame =CGRectMake(img.right, 0, dscView.width-img.width-8, dscView.height-22);
     
     
@@ -285,7 +284,7 @@
     UILabel *zishu =[[UILabel alloc]initWithFrame:CGRectMake(10, dscView.height-20, dscView.width-18, 15)];
     zishu.textAlignment =NSTextAlignmentRight;
     zishu.text =@"30字";
-    zishu.font =[UIFont fontWithName:@"youyuan" size:15];
+    zishu.font =[UIFont systemFontOfSize:15];
     zishu.textColor =kCustomColor(194, 194, 200);
     [dscView addSubview:zishu];
     [addressView addSubview:dscView];
@@ -300,7 +299,7 @@
     
     [_customButton setTitle:@"确认提交" forState:UIControlStateNormal];
     [_customButton setTitleColor:kCustomColor(56,155,234) forState:UIControlStateNormal];
-    _customButton.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
+    _customButton.titleLabel.font = [UIFont systemFontOfSize:17];
     _customScrollView.contentSize =CGSizeMake(0, kScreenHeight-64);
     
 }
@@ -327,7 +326,7 @@
     CGFloat btnNOH =30;
     UIButton *btnNO=   [[UIButton alloc]initWithFrame:CGRectMake(btnNOX, btnNOY, btnNOW, btnNOH)];
     [btnNO setTitle:@"取消" forState:UIControlStateNormal];
-    btnNO.titleLabel.font =[UIFont fontWithName:@"youyuan" size:16];
+    btnNO.titleLabel.font =[UIFont systemFontOfSize:16];
     [btnNO setTitleColor:kCustomColor(56,155,234)forState:UIControlStateNormal];
     [btnNO addTarget:self action:@selector(btnNOCilck:) forControlEvents:UIControlEventTouchDown];
     [self.footView addSubview:btnNO];
@@ -335,7 +334,7 @@
     
     UIButton *btnYes=   [[UIButton alloc]initWithFrame:CGRectMake(w-btnNOW-5, btnNOY, btnNOW, btnNOH)];
     [btnYes setTitle:@"完成" forState:UIControlStateNormal];
-    btnYes.titleLabel.font =[UIFont fontWithName:@"youyuan" size:16];
+    btnYes.titleLabel.font =[UIFont systemFontOfSize:16];
     [btnYes setTitleColor:kCustomColor(56,155,234) forState:UIControlStateNormal];
 
     [btnYes addTarget:self action:@selector(btnYesCilck:) forControlEvents:UIControlEventTouchDown];

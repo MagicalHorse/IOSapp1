@@ -122,7 +122,7 @@
     NSLog(@"%@",[[[self.dataBase objectAtIndex:indexPath.section]objectForKey:@"cities"]objectAtIndex:indexPath.row]);
     
     cell.textLabel.text = [[[[self.dataBase objectAtIndex:indexPath.section] objectForKey:@"cities"] objectAtIndex:indexPath.row] objectForKey:@"name"];
-    cell.textLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
     
     return cell;
 }

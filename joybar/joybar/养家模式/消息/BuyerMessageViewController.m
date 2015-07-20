@@ -44,7 +44,7 @@
     {
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(tempView.width/2*i, 18, tempView.width/2, 50)];
         lab.userInteractionEnabled = YES;
-        lab.font = [UIFont fontWithName:@"youyuan" size:15];
+        lab.font = [UIFont systemFontOfSize:15];
         lab.backgroundColor = [UIColor clearColor];
         lab.textAlignment = NSTextAlignmentCenter;
         lab.textColor = [UIColor grayColor];
@@ -54,7 +54,7 @@
         if (i==0)
         {
             lab.textColor = [UIColor orangeColor];
-            lab.font = [UIFont fontWithName:@"youyuan" size:17];
+            lab.font = [UIFont systemFontOfSize:17];
             
             self.lineLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 70, 3)];
             self.lineLab.center = CGPointMake(lab.center.x, 63);
@@ -162,9 +162,9 @@
         self.lineLab.center = CGPointMake(lab1.center.x, 63);
     }];
     lab1.textColor = [UIColor orangeColor];
-    lab1.font = [UIFont fontWithName:@"youyuan" size:17];
+    lab1.font = [UIFont systemFontOfSize:17];
     lab2.textColor = [UIColor grayColor];
-    lab2.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab2.font = [UIFont systemFontOfSize:15];
 }
 
 //我的圈子
@@ -184,9 +184,9 @@
         self.lineLab.center = CGPointMake(lab2.center.x, 63);
     }];
     lab2.textColor = [UIColor orangeColor];
-    lab2.font = [UIFont fontWithName:@"youyuan" size:17];
+    lab2.font = [UIFont systemFontOfSize:17];
     lab1.textColor = [UIColor grayColor];
-    lab1.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab1.font = [UIFont systemFontOfSize:15];
     
 }
 

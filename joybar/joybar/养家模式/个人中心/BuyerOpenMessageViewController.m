@@ -46,7 +46,7 @@
     cell.backgroundColor = [UIColor whiteColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.font = [UIFont fontWithName:@"youyuan" size:16];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
     
     if (indexPath.row==0)
     {

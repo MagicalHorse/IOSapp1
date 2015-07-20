@@ -61,7 +61,7 @@
         button.frame = CGRectMake(kScreenWidth/arr.count*i, 0, kScreenWidth/arr.count, 40);
         [button setTitle:[arr objectAtIndex:i] forState:(UIControlStateNormal)];
         [button setTitleColor:[UIColor grayColor] forState:(UIControlStateNormal)];
-        button.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+        button.titleLabel.font = [UIFont systemFontOfSize:14];
         button.tag = 1000+i;
         [button addTarget:self action:@selector(didClickOrderBtn:) forControlEvents:(UIControlEventTouchUpInside)];
         [headerBar addSubview:button];

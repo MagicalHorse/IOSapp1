@@ -49,7 +49,14 @@
 {
     [super viewWillAppear:animated];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]){
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
+        NSLog(@"第一次启动");
+        
+    }else{
+        NSLog(@"不是第一次启动");
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    }
 
 }
 
@@ -98,7 +105,7 @@
     titleLab.backgroundColor = [UIColor clearColor];
     titleLab.textAlignment = NSTextAlignmentCenter;
     titleLab.textColor = [UIColor blackColor];
-    titleLab.font =[UIFont fontWithName:@"youyuan" size:17];
+    titleLab.font =[UIFont systemFontOfSize:17];
     titleLab.shadowOffset = CGSizeMake(0, 1);
     [self.navView addSubview:titleLab];
     //返回按钮

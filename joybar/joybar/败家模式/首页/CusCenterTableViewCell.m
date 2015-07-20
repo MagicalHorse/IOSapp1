@@ -29,12 +29,12 @@
     self.descLab.text = @"撒娇雷克萨斯登录";
     CGSize size = [self getContentSizeWith:self.descLab.text];
     self.descLab.frame = CGRectMake(10, imageView.bottom+10, kScreenWidth-20, size.height);
-    self.descLab.font = [UIFont fontWithName:@"youyuan" size:16];
+    self.descLab.font = [UIFont systemFontOfSize:16];
     [self.contentView addSubview:self.descLab];
     
     self.timeLab = [[UILabel alloc] initWithFrame:CGRectMake(10, self.descLab.bottom+30, 50, 17)];
     self.timeLab.text = @"123天前";
-    self.timeLab.font = [UIFont fontWithName:@"youyuan" size:14];
+    self.timeLab.font = [UIFont systemFontOfSize:14];
     self.timeLab.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:self.timeLab];
     
@@ -106,7 +106,7 @@
 
 -(CGSize)getContentSizeWith:(NSString *)content
 {
-    CGSize size = [content sizeWithFont:[UIFont fontWithName:@"youyuan" size:16] constrainedToSize:CGSizeMake(kScreenWidth-20, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [content sizeWithFont:[UIFont systemFontOfSize:16] constrainedToSize:CGSizeMake(kScreenWidth-20, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
     return size;
 }

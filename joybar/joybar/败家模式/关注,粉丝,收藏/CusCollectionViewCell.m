@@ -30,7 +30,7 @@
     UILabel *nameLab = [[UILabel alloc] init];
     nameLab.text = [dic objectForKey:@"Name"];
     nameLab.numberOfLines = 0;
-    nameLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    nameLab.font = [UIFont systemFontOfSize:13];
     CGSize size = [Public getContentSizeWith:nameLab.text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
     nameLab.frame = CGRectMake(5, 5, (kScreenWidth-15)/2-10, size.height);
     [bgView addSubview:nameLab];

@@ -84,7 +84,7 @@
     namelab.bounds = CGRectMake(0, 0, 150, 150);
     namelab.textColor = [UIColor whiteColor];
     namelab.textAlignment = NSTextAlignmentCenter;
-    namelab.font = [UIFont fontWithName:@"youyuan" size:18];
+    namelab.font = [UIFont systemFontOfSize:18];
     [bgView addSubview:namelab];
     
     UIView *tempView = [[UIView alloc] init];
@@ -115,14 +115,14 @@
         [tempView addSubview:btn];
         
         UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 30, 13)];
-        numLab.font = [UIFont fontWithName:@"youyuan" size:12];
+        numLab.font = [UIFont systemFontOfSize:12];
         numLab.textColor = [UIColor darkGrayColor];
         numLab.textAlignment = NSTextAlignmentCenter;
         numLab.text = [numArr objectAtIndex:i];
         [btn addSubview:numLab];
         
         UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(20, numLab.bottom, 30, 20)];
-        nameLab.font = [UIFont fontWithName:@"youyuan" size:14];
+        nameLab.font = [UIFont systemFontOfSize:14];
         nameLab.textColor = [UIColor grayColor];
         nameLab.text = [nameArr objectAtIndex:i];
         nameLab.textAlignment = NSTextAlignmentCenter;

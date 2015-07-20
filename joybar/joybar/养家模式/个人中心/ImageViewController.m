@@ -56,7 +56,7 @@
     
      UIButton *btn1= [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-90, kScreenHeight-77, 80, 70)];
     [btn1 setTitle:@"使用照片" forState:UIControlStateNormal];
-    btn1.titleLabel.font = [UIFont fontWithName:@"youyuan" size:18];
+    btn1.titleLabel.font = [UIFont systemFontOfSize:18];
     [btn1 addTarget:self action:@selector(btn1Click) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
 }

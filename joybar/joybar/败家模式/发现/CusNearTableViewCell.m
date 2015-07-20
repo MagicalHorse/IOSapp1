@@ -29,12 +29,12 @@
     
     UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(headImg.right+10, headImg.top+5, 170, 20)];
     nameLab.text = self.nearItems.UserName;
-    nameLab.font = [UIFont fontWithName:@"youyuan" size:17];
+    nameLab.font = [UIFont systemFontOfSize:17];
     [self.contentView addSubview:nameLab];
     
     UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(headImg.right+10,nameLab.bottom+10 , 170, 20)];
     locationLab.text = self.nearItems.Address;
-    locationLab.font = [UIFont fontWithName:@"youyuan" size:15];
+    locationLab.font = [UIFont systemFontOfSize:15];
     locationLab.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:locationLab];
     
@@ -52,7 +52,7 @@
     {
         [attentionBtn setTitle:@"关注" forState:(UIControlStateNormal)];
     }
-    attentionBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:13];
+    attentionBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [attentionBtn setTitleColor:[UIColor orangeColor] forState:(UIControlStateNormal)];
     [attentionBtn addTarget:self action:@selector(didClickAttentionBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.contentView addSubview:attentionBtn];

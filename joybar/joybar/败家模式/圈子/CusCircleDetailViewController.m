@@ -106,14 +106,14 @@
     nameLab.bounds = CGRectMake(0, 0, 200, 20);
     nameLab.text = @"圈子信息";
     nameLab.textAlignment = NSTextAlignmentCenter;
-    nameLab.font = [UIFont fontWithName:@"youyuan" size:17];
+    nameLab.font = [UIFont systemFontOfSize:17];
     [self.navView addSubview:nameLab];
     
     circleNumLab = [[UILabel alloc] init];
     circleNumLab.center = CGPointMake(kScreenWidth/2, nameLab.bottom+10);
     circleNumLab.bounds = CGRectMake(0, 0, 100, 20);
     circleNumLab.textColor = [UIColor lightGrayColor];
-    circleNumLab.font = [UIFont fontWithName:@"youyuan" size:12];
+    circleNumLab.font = [UIFont systemFontOfSize:12];
     circleNumLab.textAlignment = NSTextAlignmentCenter;
     [self.navView addSubview:circleNumLab];
     
@@ -218,7 +218,7 @@
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, kScreenWidth, 30)];
         lab.text = @"圈子成员";
         lab.textColor = [UIColor grayColor];
-        lab.font = [UIFont fontWithName:@"youyuan" size:15];
+        lab.font = [UIFont systemFontOfSize:15];
         [header addSubview:lab];
     }
     return header;
@@ -274,7 +274,7 @@
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, img.bottom, btn.width, 20)];
             lab.textAlignment = NSTextAlignmentCenter;
             lab.textColor = [UIColor darkGrayColor];
-            lab.font = [UIFont fontWithName:@"youyuan" size:12];
+            lab.font = [UIFont systemFontOfSize:12];
             [btn addSubview:lab];
             
             if (i<self.circleData.Users.count)
@@ -342,20 +342,22 @@
                 UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 20)];
                 lab.text = self.circleData.GroupName;
                 lab.textColor = [UIColor grayColor];
-                lab.font = [UIFont fontWithName:@"youyuan" size:14];
+                lab.font = [UIFont systemFontOfSize:14];
                 lab.textAlignment = NSTextAlignmentRight;
                 [cell.contentView addSubview:lab];
             }
             if (indexPath.row==1)
             {
                 UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 5, 40, 40)];
-                NSString *imageURL = [NSString stringWithFormat:@"%@_100x100.jpg",self.circleData.GroupPic];
-                [headerImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                NSString * temp =[NSString stringWithFormat:@"%@_200x200.jpg",self.circleData.GroupPic];
+                headerImage.layer.cornerRadius = headerImage.width/2;
+                headerImage.clipsToBounds =YES;
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.contentView addSubview:headerImage];
             }
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 100, 20)];
             lab.text = [arr objectAtIndex:indexPath.row];
-            lab.font = [UIFont fontWithName:@"youyuan" size:16];
+            lab.font = [UIFont systemFontOfSize:16];
             [cell.contentView addSubview:lab];
             
             UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 50, kScreenWidth, 1)];
@@ -385,7 +387,7 @@
                 }
             }
             [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-            btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
+            btn.titleLabel.font = [UIFont systemFontOfSize:17];
             [btn addTarget:self action:@selector(didClickExitCircle:) forControlEvents:(UIControlEventTouchUpInside)];
             [cell.contentView addSubview:btn];
         }

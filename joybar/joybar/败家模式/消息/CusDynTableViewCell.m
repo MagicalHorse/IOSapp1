@@ -33,19 +33,19 @@
     
     UILabel *namelab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right+10, headerImg.top+5, kScreenWidth-250, 20)];
     namelab.text = [dic objectForKey:@"UserName"];
-    namelab.font = [UIFont fontWithName:@"youyuan" size:16];
+    namelab.font = [UIFont systemFontOfSize:16];
     [self.contentView addSubview:namelab];
     
     UILabel *typeLab =[[UILabel alloc] initWithFrame:CGRectMake(namelab.right+5, namelab.top, 100, 20)];
     typeLab.text = [dic objectForKey:@"Context"];
     typeLab.textColor = [UIColor lightGrayColor];
-    typeLab.font = [UIFont fontWithName:@"youyuan" size:15];
+    typeLab.font = [UIFont systemFontOfSize:15];
     [self.contentView addSubview:typeLab];
     
     UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right+10, namelab.bottom+10, kScreenWidth-90, 20)];
     timeLab.textColor = [UIColor grayColor];
     timeLab.text = [dic objectForKey:@"CreateTime"];
-    timeLab.font =[UIFont fontWithName:@"youyuan" size:14];
+    timeLab.font =[UIFont systemFontOfSize:14];
     [self.contentView addSubview:timeLab];
     
     UIImageView *typeImage =[[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-70 ,headerImg.top , 55, 55)];

@@ -298,7 +298,7 @@
     titleNameLab.bounds = CGRectMake(0, 0, 200, 44);
     titleNameLab.text = @"收取消息中...";
     titleNameLab.textAlignment = NSTextAlignmentCenter;
-    titleNameLab.font = [UIFont fontWithName:@"youyuan" size:17];
+    titleNameLab.font = [UIFont systemFontOfSize:17];
     [self.navView addSubview:titleNameLab];
     
 //    UILabel *statusLab = [[UILabel alloc] init];
@@ -342,14 +342,14 @@
     
     UILabel *proNameLab = [[UILabel alloc] initWithFrame:CGRectMake(productImage.right+5, productImage.top, 200, 20)];
     proNameLab.text = self.detailData.ProductName;
-    proNameLab.font = [UIFont fontWithName:@"youyuan" size:14];
+    proNameLab.font = [UIFont systemFontOfSize:14];
     proNameLab.textColor = [UIColor darkGrayColor];
     [bgView addSubview:proNameLab];
     
     UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(productImage.right+5, proNameLab.bottom+5, 200, 20)];
     priceLab.text = [NSString stringWithFormat:@"￥%@",self.detailData.Price];
     priceLab.textColor = [UIColor darkGrayColor];
-    priceLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    priceLab.font = [UIFont systemFontOfSize:13];
     [bgView addSubview:priceLab];
     
     UIButton *buyBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -357,7 +357,7 @@
     buyBtn.backgroundColor = [UIColor orangeColor];
     buyBtn.layer.cornerRadius = 3;
     [buyBtn setTitle:@"立即购买" forState:(UIControlStateNormal)];
-    buyBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:13];
+    buyBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [buyBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [buyBtn addTarget:self action:@selector(didClickBuyBtn) forControlEvents:(UIControlEventTouchUpInside)];
     [bgView addSubview:buyBtn];
@@ -603,7 +603,7 @@
                 nameLab.textAlignment = NSTextAlignmentRight;
                 nameLab.text = @"我自己";
                 nameLab.backgroundColor = [UIColor clearColor];
-                nameLab.font = [UIFont fontWithName:@"youyuan" size:13];
+                nameLab.font = [UIFont systemFontOfSize:13];
                 nameLab.textColor = [UIColor grayColor];
                 [cell.contentView addSubview:nameLab];
                 
@@ -637,7 +637,7 @@
                 nameLab.textAlignment = NSTextAlignmentLeft;
                 nameLab.text = [msgDic objectForKey:@"userName"];
                 nameLab.backgroundColor = [UIColor clearColor];
-                nameLab.font = [UIFont fontWithName:@"youyuan" size:13];
+                nameLab.font = [UIFont systemFontOfSize:13];
                 nameLab.textColor = [UIColor grayColor];
                 [cell.contentView addSubview:nameLab];
                 
@@ -766,13 +766,13 @@
     UILabel *proLab = [[UILabel alloc] initWithFrame:CGRectMake(proImg.right+10, proImg.top, kScreenWidth-95, 40)];
     proLab.text = self.detailData.ProductName;
     proLab.numberOfLines = 2;
-    proLab.font = [UIFont fontWithName:@"youyuan" size:14];
+    proLab.font = [UIFont systemFontOfSize:14];
     [buyBgView addSubview:proLab];
     
     UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(proImg.right+10, proLab.bottom, 200, 20)];
     priceLab.text =[NSString stringWithFormat:@"￥%@",self.detailData.Price];
     priceLab.textColor = [UIColor redColor];
-    priceLab.font = [UIFont fontWithName:@"youyuan" size:16];
+    priceLab.font = [UIFont systemFontOfSize:16];
     [buyBgView addSubview:priceLab];
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(10, proImg.bottom+10, kScreenWidth-10, 0.5)];
@@ -782,12 +782,12 @@
     UILabel *colorLab = [[UILabel alloc] initWithFrame:CGRectMake(10, line.bottom+10, 120, 20)];
     colorLab.text = @"颜色: 默认";
     colorLab.textColor = [UIColor grayColor];
-    colorLab.font = [UIFont fontWithName:@"youyuan" size:14];
+    colorLab.font = [UIFont systemFontOfSize:14];
     [buyBgView addSubview:colorLab];
     
     UILabel *sizeLab = [[UILabel alloc] initWithFrame:CGRectMake(10, colorLab.bottom+10, 40, 20)];
     sizeLab.text = @"尺码:";
-    sizeLab.font = [UIFont fontWithName:@"youyuan" size:15];
+    sizeLab.font = [UIFont systemFontOfSize:15];
     [buyBgView addSubview:sizeLab];
     
     
@@ -832,7 +832,7 @@
     //数量
     UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(10, line1.bottom+20, 40, 20)];
     numLab.text = @"数量:";
-    numLab.font = [UIFont fontWithName:@"youyuan" size:15];
+    numLab.font = [UIFont systemFontOfSize:15];
     [buyBgView addSubview:numLab];
     
     UIView *numView = [[UIView alloc] initWithFrame:CGRectMake(numLab.right+6, line1.bottom+15, 120, 30)];
@@ -868,7 +868,7 @@
     
     kuCunLab = [[UILabel alloc] initWithFrame:CGRectMake(numView.right+10, numView.top+5, 150, 20)];
     kuCunLab.textColor = [UIColor redColor];
-    kuCunLab.font = [UIFont fontWithName:@"youyuan" size:15];
+    kuCunLab.font = [UIFont systemFontOfSize:15];
     [buyBgView addSubview:kuCunLab];
     
     UIButton *cancelBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -877,7 +877,7 @@
     cancelBtn.layer.cornerRadius = 3;
     [cancelBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [cancelBtn setTitle:@"取消" forState:(UIControlStateNormal)];
-    cancelBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:16];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [cancelBtn addTarget:self action:@selector(didClickCancelBtn) forControlEvents:(UIControlEventTouchUpInside)];
     [buyBgView addSubview:cancelBtn];
     
@@ -887,7 +887,7 @@
     finishBtn.layer.cornerRadius = 3;
     [finishBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [finishBtn setTitle:@"确定" forState:(UIControlStateNormal)];
-    finishBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:16];
+    finishBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [finishBtn addTarget:self action:@selector(didClickFinishlBtn) forControlEvents:(UIControlEventTouchUpInside)];
     [buyBgView addSubview:finishBtn];
     

@@ -56,7 +56,7 @@
     searchText.borderStyle = UITextBorderStyleNone;
     searchText.delegate = self;
     searchText.returnKeyType = UIReturnKeySearch;
-    searchText.font = [UIFont fontWithName:@"youyuan" size:14];
+    searchText.font = [UIFont systemFontOfSize:14];
     [searchView addSubview:searchText];
     
     UIButton *cancelBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -64,7 +64,7 @@
     cancelBtn.backgroundColor = [UIColor clearColor];
     [cancelBtn setTitle:@"取消" forState:(UIControlStateNormal)];
     [cancelBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-    cancelBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:15];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [cancelBtn addTarget:self action:@selector(didClickCancelBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:cancelBtn];
     
@@ -79,7 +79,7 @@
         button.frame = CGRectMake(kScreenWidth/arr.count*i, 0, kScreenWidth/arr.count, 40);
         [button setTitle:[arr objectAtIndex:i] forState:(UIControlStateNormal)];
         [button setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
-        button.titleLabel.font = [UIFont fontWithName:@"youyuan" size:15];
+        button.titleLabel.font = [UIFont systemFontOfSize:15];
         [button addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
         button.tag = 1000+i;
         [headerView addSubview:button];
@@ -183,7 +183,7 @@
             UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 30, 250, 20)];
             nameLab.text = [dataDic objectForKey:@"Name"];
             nameLab.textColor = [UIColor grayColor];
-            nameLab.font = [UIFont fontWithName:@"youyuan" size:15];
+            nameLab.font = [UIFont systemFontOfSize:15];
             [cell.contentView addSubview:nameLab];
         }
         //    else if (self.selectBtnIndex==1)
@@ -204,7 +204,7 @@
             UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 30, 250, 20)];
             nameLab.text = [dataDic objectForKey:@"Name"];
             nameLab.textColor = [UIColor grayColor];
-            nameLab.font = [UIFont fontWithName:@"youyuan" size:15];
+            nameLab.font = [UIFont systemFontOfSize:15];
             [cell.contentView addSubview:nameLab];
         }
     }
