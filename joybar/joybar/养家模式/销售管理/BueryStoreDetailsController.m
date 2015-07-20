@@ -35,7 +35,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setData:storeCode];
     [self addNavBarViewAndTitle:@"订单详情"];
     self.tableView =[[UITableView alloc]init];
     self.tableView.frame =CGRectMake(0, 64, kScreenWidth, kScreenHeight-64);
@@ -45,7 +44,7 @@
     self.tableView.backgroundColor =kCustomColor(237, 237, 237);
     self.tableView.separatorStyle =UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-    
+    [self setData:storeCode];
 }
 
 -(NSMutableDictionary *)dataArray{
@@ -57,16 +56,21 @@
 }
 -(void)setData:(NSString*)code
 {
+    [self showInView:self.tableView WithPoint:CGPointMake(0,0) andHeight:kScreenHeight-64];
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     [dict setValue:code forKey:@"OrderNo"];
-    [HttpTool postWithURL:@"Order/GetOrderDetail" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"Order/GetBuyerOrderDetail" params:dict success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             _dataArray = [json objectForKey:@"data"];
             [self.tableView reloadData];
+        }else{
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self activityDismiss];
     } failure:^(NSError *error) {
-        NSLog(@"%@",[error description]);
+        [self showHudFailed:@"服务器异常,请稍后再试"];
+        [self activityDismiss];
     }];
 }
 #pragma mark - Table view data source
@@ -92,7 +96,9 @@
         cell.ordertoPrice.text = [[self.dataArray objectForKey:@"InCome"] stringValue];
         cell.userNO.text = [self.dataArray objectForKey:@"CustomerName"];
         cell.orderTime.text = [self.dataArray objectForKey:@"CreateTime"];
-        [cell.userPic sd_setImageWithURL:[NSURL URLWithString:[self.dataArray objectForKey:@"CustomerLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",[self.dataArray objectForKey:@"Logo"]];
+
+        [cell.userPic sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.userPhone.text = [self.dataArray objectForKey:@"CustomerMobile"];
         cell.userAddress.text = [self.dataArray objectForKey:@"CustomerAddress"];
         
