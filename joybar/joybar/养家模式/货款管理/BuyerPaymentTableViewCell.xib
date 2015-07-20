@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -29,13 +29,13 @@
                                 <state key="selected" image="选中"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="订单金额:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPF-60-I6j">
-                                <rect key="frame" x="8" y="8" width="66" height="22"/>
+                                <rect key="frame" x="8" y="9" width="66" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单金额:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXD-uY-mcb">
-                                <rect key="frame" x="246.5" y="12" width="60.5" height="17"/>
+                                <rect key="frame" x="246" y="11" width="61" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -65,7 +65,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015/1/14" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zfc-Ef-Xx8">
-                                <rect key="frame" x="239" y="35" width="66" height="17"/>
+                                <rect key="frame" x="239" y="36" width="66" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -76,10 +76,10 @@
                             <constraint firstItem="KR7-Cr-yb1" firstAttribute="top" secondItem="HJg-A4-gan" secondAttribute="top" constant="8" id="BBl-vP-RTd"/>
                             <constraint firstAttribute="trailing" secondItem="KR7-Cr-yb1" secondAttribute="trailing" constant="15" id="Khg-hK-9XE"/>
                             <constraint firstAttribute="height" constant="60" id="LKp-aj-UhW"/>
-                            <constraint firstAttribute="bottom" secondItem="Zfc-Ef-Xx8" secondAttribute="bottom" constant="8" id="N4q-Vm-5VM"/>
+                            <constraint firstAttribute="bottom" secondItem="Zfc-Ef-Xx8" secondAttribute="bottom" constant="7" id="N4q-Vm-5VM"/>
                             <constraint firstAttribute="trailing" secondItem="pXD-uY-mcb" secondAttribute="trailing" constant="13" id="PeG-ZT-ljt"/>
                             <constraint firstAttribute="trailing" secondItem="Zfc-Ef-Xx8" secondAttribute="trailing" constant="15" id="ksn-N8-QwM"/>
-                            <constraint firstItem="pXD-uY-mcb" firstAttribute="top" secondItem="HJg-A4-gan" secondAttribute="top" constant="12" id="w3R-t2-783"/>
+                            <constraint firstItem="pXD-uY-mcb" firstAttribute="top" secondItem="HJg-A4-gan" secondAttribute="top" constant="11" id="w3R-t2-783"/>
                         </constraints>
                     </view>
                 </subviews>
