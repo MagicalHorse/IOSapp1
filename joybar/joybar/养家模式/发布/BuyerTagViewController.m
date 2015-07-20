@@ -31,7 +31,7 @@
     searchBtn.frame = CGRectMake(kScreenWidth-64, 10, 64, 64);
     [searchBtn setTitle:@"取消" forState:UIControlStateNormal];
     [searchBtn setTitleColor :[UIColor blackColor] forState:UIControlStateNormal];
-    searchBtn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:15];
+    searchBtn.titleLabel.font =[UIFont systemFontOfSize:15];
     [searchBtn addTarget:self action:@selector(searchBtnClick) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:searchBtn];
     

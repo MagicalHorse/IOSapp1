@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <mutableArray key="youyuan.ttf">
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-        </mutableArray>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -22,53 +14,65 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9IN-xb-cjd">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9IN-xb-cjd">
                         <rect key="frame" x="15" y="8" width="80" height="80"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="80" id="fSP-Le-jrJ"/>
+                            <constraint firstAttribute="width" constant="80" id="vT1-cd-Gya"/>
+                        </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="耐克男鞋2015新款AIR FORCE AF1 空军1号板鞋" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="uWB-IY-UjA">
-                        <rect key="frame" x="103" y="12" width="143" height="26"/>
-                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="13"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="货号：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GVu-HR-Fxp">
                         <rect key="frame" x="103" y="61" width="51" height="21"/>
-                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="254874" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Le1-G6-8jN">
                         <rect key="frame" x="143" y="62" width="45" height="21"/>
-                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥567.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0r5-q1-hJR">
-                        <rect key="frame" x="255" y="11" width="53" height="16"/>
+                        <rect key="frame" x="255" y="11" width="53" height="15.5"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="x1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Adg-95-eK2">
-                        <rect key="frame" x="293" y="32" width="15" height="16"/>
+                        <rect key="frame" x="293" y="32" width="14.5" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="规格:180/92A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEc-Ft-fIs">
-                        <rect key="frame" x="230" y="65" width="78" height="13"/>
-                        <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="13"/>
+                        <rect key="frame" x="227" y="63" width="80.5" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="耐克男鞋2015新款AIR FORCE AF1 空军1号板鞋" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="uWB-IY-UjA">
+                        <rect key="frame" x="103" y="11" width="143" height="31.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="143" id="GKc-ai-ynJ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="9IN-xb-cjd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="129-nT-BkS"/>
+                    <constraint firstItem="9IN-xb-cjd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="AAI-lp-RGM"/>
+                    <constraint firstAttribute="bottom" secondItem="9IN-xb-cjd" secondAttribute="bottom" constant="12.5" id="EtW-Om-2U9"/>
+                    <constraint firstItem="uWB-IY-UjA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="IQ6-sD-sb8"/>
                     <constraint firstAttribute="centerY" secondItem="Adg-95-eK2" secondAttribute="centerY" constant="10" id="UMu-76-KJ4"/>
                     <constraint firstItem="0r5-q1-hJR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="YPQ-vT-1lM"/>
                     <constraint firstAttribute="trailing" secondItem="0r5-q1-hJR" secondAttribute="trailing" constant="12" id="a6G-Sj-7VH"/>
                     <constraint firstAttribute="centerY" secondItem="cEc-Ft-fIs" secondAttribute="centerY" constant="-21.5" id="jbj-As-6ZY"/>
                     <constraint firstAttribute="trailing" secondItem="Adg-95-eK2" secondAttribute="trailing" constant="12" id="rpm-Q7-aFL"/>
                     <constraint firstAttribute="trailing" secondItem="cEc-Ft-fIs" secondAttribute="trailing" constant="12" id="uLi-5q-Zws"/>
+                    <constraint firstItem="uWB-IY-UjA" firstAttribute="leading" secondItem="9IN-xb-cjd" secondAttribute="trailing" constant="8" id="wHu-a9-eXR"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

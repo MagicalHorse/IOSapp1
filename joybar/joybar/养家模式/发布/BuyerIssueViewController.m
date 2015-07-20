@@ -158,7 +158,7 @@
     [priceView addSubview:priceImg1];
     _priceText1=[[UITextField alloc]initWithFrame:CGRectMake(priceImg1.right, 0, kScreenWidth-priceImg1.right, 40)];
     _priceText1.delegate =self;
-    _priceText1.font =[UIFont fontWithName:@"youyuan" size:16];
+    _priceText1.font =[UIFont systemFontOfSize:16];
     _priceText1.placeholder =@"货号";
     [priceView addSubview:_priceText1];
     UIView *lineView1=[[UIView alloc]initWithFrame:CGRectMake(15, _priceText1.bottom, kScreenWidth-15, 0.5)];
@@ -173,7 +173,7 @@
     _priceText.keyboardType =UIKeyboardTypeDecimalPad;
     _priceText.delegate =self;
     [_priceText addTarget:self action:@selector(priceTextChanged:) forControlEvents:UIControlEventEditingChanged];
-    _priceText.font =[UIFont fontWithName:@"youyuan" size:16];
+    _priceText.font =[UIFont systemFontOfSize:16];
     _priceText.placeholder =@"价格（元）";
     [priceView addSubview:_priceText];
     
@@ -190,7 +190,7 @@
     UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(dscView.width-60, dscView.height-20, 60, 15)];
     lable.text =@"100字";
     lable.textColor =kCustomColor(194, 194, 200);
-    lable.font =[UIFont fontWithName:@"youyuan" size:13];
+    lable.font =[UIFont systemFontOfSize:13];
 
     [dscView addSubview:lable];
 
@@ -202,7 +202,7 @@
     _dscText=[[UITextView alloc]init];
     _dscText.delegate =self;
     _dscText.textColor =kCustomColor(194, 194, 200);
-    _dscText.font =[UIFont fontWithName:@"youyuan" size:15];
+    _dscText.font =[UIFont systemFontOfSize:15];
     _dscText.frame =CGRectMake(zdImg.right, 0, kScreenWidth-30-zdImg.width-8, 60);
     
     _dscText.text =@"给力商品描述点";
@@ -218,7 +218,7 @@
     self.addInfoBtn= [[UIButton alloc]init];
     self.addInfoBtn.frame = CGRectMake(priceViewX,self.customInfoView.bottom+0.5 , priceViewW, 50);
     [self.addInfoBtn setTitle:@"添加规格库存" forState:UIControlStateNormal];
-    self.addInfoBtn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:17];
+    self.addInfoBtn.titleLabel.font =[UIFont systemFontOfSize:17];
     [self.addInfoBtn setTitleColor: kCustomColor(38, 118, 210) forState:UIControlStateNormal];
     
     [self.addInfoBtn setBackgroundColor:[UIColor whiteColor]];

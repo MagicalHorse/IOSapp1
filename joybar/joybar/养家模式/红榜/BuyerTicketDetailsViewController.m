@@ -87,29 +87,29 @@
 {
     UITableViewCell *cell =[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
     
-    cell.textLabel.font =[UIFont fontWithName:@"youyuan" size:15];
+    cell.textLabel.font =[UIFont systemFontOfSize:15];
     if (indexPath.section==0 &&indexPath.row ==0) {
         cell.textLabel.text =@"奖励说明";
     }else if(indexPath.section == 0&&indexPath.row ==1){
         NSLog(@"%@",[self.dataArray objectForKey:@"desc"]);
         cell.textLabel.text=[self.dataArray objectForKey:@"desc"];
         cell.textLabel.numberOfLines =0;
-        cell.textLabel.font =[UIFont fontWithName:@"youyuan" size:12];
+        cell.textLabel.font =[UIFont systemFontOfSize:12];
         
 
     }else if(indexPath.section == 1&&indexPath.row ==0){
         cell.textLabel.text=@"当前进度";
     }else if(indexPath.section == 1&&indexPath.row ==1){
         cell.textLabel.text=[self.dataArray objectForKey:@"tip"];
-        cell.textLabel.font =[UIFont fontWithName:@"youyuan" size:12];
+        cell.textLabel.font =[UIFont systemFontOfSize:12];
 
     }else if(indexPath.section ==2&&indexPath.row ==0){
           cell.textLabel.text=@"历史记录";
     }else if(indexPath.section ==2 &&indexPath.row >0){
         cell.textLabel.text = [self.historyArray[indexPath.row-1] objectForKey:@"endtime"];
         cell.detailTextLabel.text =  [self.historyArray[indexPath.row-1] objectForKey:@"status_str"];
-        cell.textLabel.font =[UIFont fontWithName:@"youyuan" size:12];
-        cell.detailTextLabel.font =[UIFont fontWithName:@"youyuan" size:12];
+        cell.textLabel.font =[UIFont systemFontOfSize:12];
+        cell.detailTextLabel.font =[UIFont systemFontOfSize:12];
 
     }
     
@@ -128,7 +128,7 @@
         
         UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
         NSString *cellText = cell.textLabel.text;
-        UIFont *cellFont = [UIFont fontWithName:@"youyuan" size:12];
+        UIFont *cellFont = [UIFont systemFontOfSize:12];
         CGSize constraintSize = CGSizeMake(280.0f, MAXFLOAT);
         CGSize labelSize = [cellText sizeWithFont:cellFont constrainedToSize:constraintSize lineBreakMode:0];
         

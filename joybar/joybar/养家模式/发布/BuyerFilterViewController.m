@@ -145,7 +145,7 @@
     [_bgImage addGestureRecognizer:tap];
     
     UILabel* titieLable= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
-    titieLable.font =[UIFont fontWithName:@"youyuan" size:17];
+    titieLable.font =[UIFont systemFontOfSize:17];
     titieLable.text =@"点击图片任意位置添加标签";
     titieLable.textColor =[UIColor whiteColor];
     titieLable.textAlignment = NSTextAlignmentCenter;
@@ -191,7 +191,7 @@
             default:
                 break;
         }
-        label.font =[UIFont fontWithName:@"youyuan" size:13];
+        label.font =[UIFont systemFontOfSize:13];
         [tzhiView addSubview:label];
         
 
@@ -415,7 +415,7 @@
     
     UILabel *tagLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tagImage.width, tagView.height)];
     tagLab.textColor = [UIColor whiteColor];
-    tagLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    tagLab.font = [UIFont systemFontOfSize:13];
     tagLab.text = tag;
     [tagImage addSubview:tagLab];
     

@@ -95,7 +95,7 @@
         UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(0, 18, kScreenWidth/2-10, 14)];
         lable.text =@"总货款:";
         lable.textAlignment =NSTextAlignmentRight;
-        lable.font =[UIFont fontWithName:@"youyuan" size:14];
+        lable.font =[UIFont systemFontOfSize:14];
         [cell addSubview:lable];
         
         UILabel * lablePrice =[[UILabel alloc]initWithFrame:CGRectMake(lable.right, 13, kScreenWidth/2-5, 24)];
@@ -110,7 +110,7 @@
 
     }else if(indexPath.row ==1){
         UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
-        lable.font =[UIFont fontWithName:@"youyuan" size:14];
+        lable.font =[UIFont systemFontOfSize:14];
         [cell addSubview:lable];
         
         
@@ -145,7 +145,7 @@
         
         
         UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
-        lable.font =[UIFont fontWithName:@"youyuan" size:14];
+        lable.font =[UIFont systemFontOfSize:14];
         [cell addSubview:lable];
         
         UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
@@ -175,7 +175,7 @@
         
     }else if(indexPath.row ==3){
         UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
-        lable.font =[UIFont fontWithName:@"youyuan" size:14];
+        lable.font =[UIFont systemFontOfSize:14];
         [cell addSubview:lable];
         
         UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
@@ -208,7 +208,7 @@
         
     }else if(indexPath.row ==4){
         UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
-        lable.font =[UIFont fontWithName:@"youyuan" size:14];
+        lable.font =[UIFont systemFontOfSize:14];
         [cell addSubview:lable];
         
         UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];

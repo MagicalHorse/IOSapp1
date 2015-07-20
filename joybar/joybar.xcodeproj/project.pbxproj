@@ -320,7 +320,6 @@
 		9D467EFA1B05C4FA005CAA36 /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D467EF01B05C4FA005CAA36 /* NSObject+MJKeyValue.m */; };
 		9D467EFB1B05C4FA005CAA36 /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D467EF21B05C4FA005CAA36 /* NSObject+MJProperty.m */; };
 		9D467EFC1B05C4FA005CAA36 /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D467EF41B05C4FA005CAA36 /* NSString+MJExtension.m */; };
-		9D53B79D1B0219160024D90A /* youyuan.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D53B79C1B0219160024D90A /* youyuan.ttf */; };
 		9D5FD0D01ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5FD0CF1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m */; };
 		9D6C94761AE0AA200066F794 /* WriteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94751AE0AA200066F794 /* WriteInfoViewController.m */; };
 		9D6C948A1AE0F0A30066F794 /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94891AE0F0A30066F794 /* FindPasswordViewController.m */; };
@@ -758,7 +757,6 @@
 		0AE7E1161B2027CE00159B02 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0AEF3D171B21859B0064A1E1 /* BaseTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableView.h; sourceTree = "<group>"; };
 		0AEF3D181B21859B0064A1E1 /* BaseTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableView.m; sourceTree = "<group>"; };
-		0AEF3D1A1B21860F0064A1E1 /* HelveticaNeueLTPro-Lt.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeueLTPro-Lt.otf"; sourceTree = "<group>"; };
 		0AEF3D1B1B2186540064A1E1 /* NSString+JSMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JSMessagesView.h"; sourceTree = "<group>"; };
 		0AEF3D1C1B2186540064A1E1 /* NSString+JSMessagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSMessagesView.m"; sourceTree = "<group>"; };
 		0D60BCA01ACCD74D00BF625A /* joybar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = joybar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -911,7 +909,6 @@
 		9D467EF21B05C4FA005CAA36 /* NSObject+MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJProperty.m"; sourceTree = "<group>"; };
 		9D467EF31B05C4FA005CAA36 /* NSString+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MJExtension.h"; sourceTree = "<group>"; };
 		9D467EF41B05C4FA005CAA36 /* NSString+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MJExtension.m"; sourceTree = "<group>"; };
-		9D53B79C1B0219160024D90A /* youyuan.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = youyuan.ttf; sourceTree = SOURCE_ROOT; };
 		9D5FD0CE1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginAndRegisterViewController.h; sourceTree = "<group>"; };
 		9D5FD0CF1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginAndRegisterViewController.m; sourceTree = "<group>"; };
 		9D6C94741AE0AA200066F794 /* WriteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteInfoViewController.h; sourceTree = "<group>"; };
@@ -1699,9 +1696,7 @@
 			isa = PBXGroup;
 			children = (
 				0ACDBDD91B3BEA890096B531 /* PushConfig.plist */,
-				0AEF3D1A1B21860F0064A1E1 /* HelveticaNeueLTPro-Lt.otf */,
 				0AE7E1161B2027CE00159B02 /* Images.xcassets */,
-				9D53B79C1B0219160024D90A /* youyuan.ttf */,
 				0D60BCAB1ACCD74D00BF625A /* joybar-Info.plist */,
 				0D60BCAC1ACCD74D00BF625A /* InfoPlist.strings */,
 				0D60BCB11ACCD74D00BF625A /* joybar-Prefix.pch */,
@@ -2357,7 +2352,6 @@
 				9DDB17171AE7741F0014D8B2 /* MBProgressHUD.bundle in Resources */,
 				9D744DD91B2FCB9B00553648 /* UMSLoginViewController.xib in Resources */,
 				0AAB5B481B2AE01900782C0C /* MessageMoreView.xib in Resources */,
-				9D53B79D1B0219160024D90A /* youyuan.ttf in Resources */,
 				0AAB5B551B2AE01900782C0C /* biaoqing007.png in Resources */,
 				0AAB5B5F1B2AE01900782C0C /* biaoqing017.png in Resources */,
 				0ACDBDDA1B3BEA890096B531 /* PushConfig.plist in Resources */,

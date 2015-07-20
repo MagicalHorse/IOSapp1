@@ -21,7 +21,7 @@
     searchBtn.frame = CGRectMake(kScreenWidth-64, 10, 64, 64);
     [searchBtn setTitle:@"完成" forState:UIControlStateNormal];
     [searchBtn setTitleColor :[UIColor blackColor] forState:UIControlStateNormal];
-    searchBtn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:15];
+    searchBtn.titleLabel.font =[UIFont systemFontOfSize:15];
     [searchBtn addTarget:self action:@selector(setData) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:searchBtn];
     [self setInitView];
@@ -35,7 +35,7 @@
     _textView.layer.borderWidth= 1.5;
     _textView.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
     _textView.delegate =self;
-    _textView.font =[UIFont fontWithName:@"youyuan" size:15];
+    _textView.font =[UIFont systemFontOfSize:15];
     NSDictionary * temp =[Public getUserInfo];
     _textView.text =[temp objectForKey:@"description"];
     

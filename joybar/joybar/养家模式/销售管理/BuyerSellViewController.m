@@ -117,7 +117,7 @@
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(_tempView.width/4*i, 0, _tempView.width/4, 35)];
         
         lab.userInteractionEnabled = YES;
-        lab.font = [UIFont fontWithName:@"youyuan" size:13];
+        lab.font = [UIFont systemFontOfSize:13];
         lab.backgroundColor = [UIColor clearColor];
         lab.textAlignment = NSTextAlignmentCenter;
         lab.textColor = [UIColor grayColor];
@@ -127,7 +127,7 @@
         if (i==0)
         {
             lab.textColor = [UIColor orangeColor];
-            lab.font = [UIFont fontWithName:@"youyuan" size:15];
+            lab.font = [UIFont systemFontOfSize:15];
             
             self.lineLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _tempView.width/5, 3)];
             self.lineLab.center = CGPointMake(lab.center.x, 38);
@@ -237,11 +237,11 @@
         orderLabel.text = @"订单号:";
         orderLabel.frame =CGRectMake(15, 35, 60, 16);
     }
-    orderLabel.font = [UIFont fontWithName:@"youyuan" size:16];
+    orderLabel.font = [UIFont systemFontOfSize:16];
     [view addSubview:orderLabel];
     
     UILabel *orderNumLabel = [[UILabel alloc]initWithFrame:CGRectMake(orderLabel.right, 36, 150, 15)];
-    orderNumLabel.font = [UIFont fontWithName:@"youyuan" size:15];
+    orderNumLabel.font = [UIFont systemFontOfSize:15];
     orderNumLabel.text =o.OrderNo;
     [view addSubview:orderNumLabel];
     
@@ -249,7 +249,7 @@
     orderSLabel.textAlignment =NSTextAlignmentRight;
     orderSLabel.text = o.StatusName;
     orderSLabel.textColor =[UIColor redColor];
-    orderSLabel.font = [UIFont fontWithName:@"youyuan" size:16];
+    orderSLabel.font = [UIFont systemFontOfSize:16];
     [view addSubview:orderSLabel];
     
     UIView *viewLine = [[UIView alloc]initWithFrame:CGRectMake(15, orderSLabel.bottom+14.5, kScreenWidth-30, 1)];
@@ -288,7 +288,7 @@
         viewY= 100;
         UIButton * btn = [[UIButton alloc]initWithFrame:CGRectMake(0, viewY-46, kScreenWidth, 45)];
         btn.tag =section;
-        btn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:13];
+        btn.titleLabel.font =[UIFont systemFontOfSize:13];
         if (o.IsGoodsPick) {
             [btn setTitle:@"充值并退款" forState:UIControlStateNormal];
             [btn addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -298,7 +298,7 @@
             [btn addTarget:self action:@selector(showCountClick:) forControlEvents:UIControlEventTouchUpInside];
         }
         [btn setTitleColor:kCustomColor(41, 121, 222) forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
+        btn.titleLabel.font = [UIFont systemFontOfSize:17];
         [view addSubview:btn];
         
         UIView * v1=[[UIView alloc]initWithFrame:CGRectMake(0, btn.top, kScreenWidth, 0.5)];
@@ -319,7 +319,7 @@
     }
     
 
-    cooutLabel.font = [UIFont fontWithName:@"youyuan" size:13];
+    cooutLabel.font = [UIFont systemFontOfSize:13];
     [view addSubview:cooutLabel];
     
     orderPLabel.text = [o.InCome stringValue];
@@ -333,7 +333,7 @@
     [view addSubview:orderPLabel1];
 
     orderPTLabel.frame=CGRectMake(orderPLabel1.left-40, 20, 40, 13);
-    orderPTLabel.font = [UIFont fontWithName:@"youyuan" size:13];
+    orderPTLabel.font = [UIFont systemFontOfSize:13];
     [view addSubview:orderPTLabel];
     
     
@@ -475,13 +475,13 @@
         self.lineLab.center = CGPointMake(lab1.center.x, 38);
     }];
     lab1.textColor = [UIColor orangeColor];
-    lab1.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab1.font = [UIFont systemFontOfSize:15];
     lab2.textColor = [UIColor grayColor];
-    lab2.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab2.font = [UIFont systemFontOfSize:13];
     lab3.textColor = [UIColor grayColor];
-    lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab3.font = [UIFont systemFontOfSize:13];
     lab4.textColor = [UIColor grayColor];
-    lab4.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab4.font = [UIFont systemFontOfSize:13];
     self.pageNum=1;
     type=1;
     isRefresh =YES;
@@ -501,13 +501,13 @@
         self.lineLab.center = CGPointMake(lab2.center.x, 38);
     }];
     lab2.textColor = [UIColor orangeColor];
-    lab2.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab2.font = [UIFont systemFontOfSize:15];
     lab1.textColor = [UIColor grayColor];
-    lab1.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab1.font = [UIFont systemFontOfSize:13];
     lab3.textColor = [UIColor grayColor];
-    lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab3.font = [UIFont systemFontOfSize:13];
     lab4.textColor = [UIColor grayColor];
-    lab4.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab4.font = [UIFont systemFontOfSize:13];
     isRefresh =YES;
     self.pageNum=1;
     type=2;
@@ -527,13 +527,13 @@
         self.lineLab.center = CGPointMake(lab3.center.x, 38);
     }];
     lab3.textColor = [UIColor orangeColor];
-    lab3.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab3.font = [UIFont systemFontOfSize:15];
     lab4.textColor = [UIColor grayColor];
-    lab4.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab4.font = [UIFont systemFontOfSize:13];
     lab2.textColor = [UIColor grayColor];
-    lab2.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab2.font = [UIFont systemFontOfSize:13];
     lab1.textColor = [UIColor grayColor];
-    lab1.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab1.font = [UIFont systemFontOfSize:13];
     isRefresh =YES;
     self.pageNum=1;
     type=3;
@@ -553,13 +553,13 @@
         self.lineLab.center = CGPointMake(lab4.center.x, 38);
     }];
     lab4.textColor = [UIColor orangeColor];
-    lab4.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab4.font = [UIFont systemFontOfSize:15];
     lab3.textColor = [UIColor grayColor];
-    lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab3.font = [UIFont systemFontOfSize:13];
     lab2.textColor = [UIColor grayColor];
-    lab2.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab2.font = [UIFont systemFontOfSize:13];
     lab1.textColor = [UIColor grayColor];
-    lab1.font = [UIFont fontWithName:@"youyuan" size:13];;
+    lab1.font = [UIFont systemFontOfSize:13];;
     isRefresh=YES;
     self.pageNum=1;
     type=4;
