@@ -184,7 +184,7 @@
             cell =[[[NSBundle mainBundle] loadNibNamed:@"BuyerCircleTableViewCell" owner:self options:nil] lastObject];
         }
         if (self.dataArray.count>0) {
-            NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",[self.dataArray[indexPath.row] objectForKey:@"Logo"]];
+            NSString * temp =[NSString stringWithFormat:@"%@_200x200.jpg",[self.dataArray[indexPath.row] objectForKey:@"Logo"]];
             
             [cell.circleImg sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.CircleTitel.text =[self.dataArray[indexPath.row] objectForKey:@"Name"];

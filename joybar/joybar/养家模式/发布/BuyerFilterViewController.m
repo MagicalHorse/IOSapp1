@@ -118,9 +118,9 @@
         if (tags.count>0) {
             for (int i =0; i<tags.count; i++) {
                 
-                CGFloat x = [[tags[i]objectForKey:@"PosX"] integerValue];
-                CGFloat y = [[tags[i]objectForKey:@"PosY"] integerValue];
-                CGPoint point ={x,y};
+                CGFloat x = [[tags[i]objectForKey:@"PosX"] floatValue];
+                CGFloat y = [[tags[i]objectForKey:@"PosY"] floatValue];
+                CGPoint point ={x*kScreenWidth,y*kScreenHeight};
                 
                 [self didSelectedTag:[tags[i]objectForKey:@"Name"] AndPoint:point AndSourceId:[tags[i]objectForKey:@"SourceId"] AndSourceType:[tags[i]objectForKey:@"SourceType"]];
             }
@@ -134,7 +134,7 @@
                 Tag *tag =tags[i];
                 CGFloat x = tag.PosX ;
                 CGFloat y = tag.PosY;
-                CGPoint point ={x,y};
+                CGPoint point ={x*kScreenWidth,y*kScreenHeight};
                 [self didSelectedTag:tag.Name AndPoint:point AndSourceId:[tag.SourceId stringValue] AndSourceType:[tag.SourceType stringValue]];
             }
         }
@@ -378,9 +378,12 @@
         if (self.tagsArray) { //移动更变tag的位置
             //得获取到哪一个tag移动，并更改其值
             int i=(int)pan.view.tag;
-            [self.tagsArray[i]setObject:@(pan.view.frame.origin.x) forKey:@"PosX"];
-            [self.tagsArray[i]setObject:@(pan.view.frame.origin.y) forKey:@"PosY"];
-            
+            CGFloat tempX =pan.view.frame.origin.x/kScreenWidth;
+            CGFloat tempY =pan.view.frame.origin.y/kScreenHeight;
+
+            [self.tagsArray[i]setObject:@(tempX) forKey:@"PosX"];
+            [self.tagsArray[i]setObject:@(tempY) forKey:@"PosY"];
+        
         }
     }
 }
@@ -417,9 +420,11 @@
     [tagImage addSubview:tagLab];
     
     NSMutableDictionary *tagArray =[NSMutableDictionary dictionary];
+    CGFloat tempX =point.x/kScreenWidth;
+    CGFloat tempY =point.y/kScreenHeight;
     [tagArray setObject:tagText forKey:@"Name"];
-    [tagArray setObject:@(point.x) forKey:@"PosX"];
-    [tagArray setObject:@(point.y) forKey:@"PosY"];
+    [tagArray setObject:@(tempX) forKey:@"PosX"];
+    [tagArray setObject:@(tempY) forKey:@"PosY"];
     [tagArray setObject:sourceId forKey:@"SourceId"];
     [tagArray setObject:sourceType forKey:@"SourceType"];
     [self.tagsArray addObject:tagArray];

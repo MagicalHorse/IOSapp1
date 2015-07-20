@@ -97,7 +97,8 @@
         cell.userNO.text = [self.dataArray objectForKey:@"CustomerName"];
         cell.orderTime.text = [self.dataArray objectForKey:@"CreateTime"];
         NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",[self.dataArray objectForKey:@"Logo"]];
-
+        cell.userPic.layer.cornerRadius = cell.userPic.width/2;
+        cell.userPic.clipsToBounds =YES;
         [cell.userPic sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.userPhone.text = [self.dataArray objectForKey:@"CustomerMobile"];
         cell.userAddress.text = [self.dataArray objectForKey:@"CustomerAddress"];

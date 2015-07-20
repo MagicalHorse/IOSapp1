@@ -139,12 +139,14 @@
              self.img.image =image;
              self.label.text = [self.dataArray objectForKey:@"shopname"];
          }else{
-//             [self showHudFailed:@"加载失败"];
+             [self showHudFailed:[json objectForKey:@"message"]];
          }
+         
          [self textHUDHiddle];
          [self activityDismiss];
          isRefresh=NO;
      } failure:^(NSError *error) {
+         [self textHUDHiddle];
          [self activityDismiss];
      }];
 }

@@ -42,13 +42,6 @@
    
     return YES;
 }
--(void)newMsg{
-    
-    [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
-        
-        NSLog(@"哈哈哈哈哈哈:");
-    }];
-}
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     [application setApplicationIconBadgeNumber:0];
@@ -65,9 +58,9 @@
             
         }];
 
-//        [socket on:@"disconnect" callback:^(NSArray *args) {
-//            NSLog(@"disconnect");
-//        }];
+        [socket on:@"disconnect" callback:^(NSArray *args) {
+            NSLog(@"disconnect");
+        }];
     }];
 }
 
