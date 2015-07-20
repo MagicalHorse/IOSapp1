@@ -43,7 +43,7 @@
     UIButton *finishBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     finishBtn.frame = CGRectMake(kScreenWidth-64, 9, 64, 64);
     finishBtn.backgroundColor = [UIColor clearColor];
-    [finishBtn setImage:[UIImage imageNamed:@"分享.png"] forState:(UIControlStateNormal)];
+    [finishBtn setImage:[UIImage imageNamed:@"maishoufenxiang"] forState:(UIControlStateNormal)];
     [finishBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
     finishBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [finishBtn addTarget:self action:@selector(didClickFinishBtn:) forControlEvents:(UIControlEventTouchUpInside)];

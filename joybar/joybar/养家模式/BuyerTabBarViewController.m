@@ -149,7 +149,6 @@
                                                       cancelButtonTitle:@"取消"
                                                  destructiveButtonTitle:nil
                                                       otherButtonTitles:@"开小票", @"发布商品", nil];
-            
             // Show the sheet
             [action showInView:self.view];
             return;
