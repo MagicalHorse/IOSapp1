@@ -39,7 +39,7 @@
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(_tempView.width/3*i, 0, _tempView.width/3, 32)];
         
         lab.userInteractionEnabled = YES;
-        lab.font = [UIFont fontWithName:@"youyuan" size:13];
+        lab.font = [UIFont systemFontOfSize:13];
         lab.backgroundColor = [UIColor clearColor];
         lab.textAlignment = NSTextAlignmentCenter;
         lab.textColor = [UIColor grayColor];
@@ -49,7 +49,7 @@
         if (i==0)
         {
             lab.textColor = [UIColor orangeColor];
-            lab.font = [UIFont fontWithName:@"youyuan" size:15];
+            lab.font = [UIFont systemFontOfSize:15];
             
             self.lineLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _tempView.width/3-30, 3)];
             self.lineLab.center = CGPointMake(lab.center.x, 38);
@@ -200,11 +200,11 @@
         self.lineLab.center = CGPointMake(lab1.center.x, 38);
     }];
     lab1.textColor = [UIColor orangeColor];
-    lab1.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab1.font = [UIFont systemFontOfSize:15];
     lab2.textColor = [UIColor grayColor];
-    lab2.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab2.font = [UIFont systemFontOfSize:13];
     lab3.textColor = [UIColor grayColor];
-    lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab3.font = [UIFont systemFontOfSize:13];
     self.pageNum=1;
     isRefresh=YES;
     [self setData];
@@ -221,11 +221,11 @@
         self.lineLab.center = CGPointMake(lab2.center.x, 38);
     }];
     lab2.textColor = [UIColor orangeColor];
-    lab2.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab2.font = [UIFont systemFontOfSize:15];
     lab1.textColor = [UIColor grayColor];
-    lab1.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab1.font = [UIFont systemFontOfSize:13];
     lab3.textColor = [UIColor grayColor];
-    lab3.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab3.font = [UIFont systemFontOfSize:13];
     self.pageNum=1;
     isRefresh=YES;
     [self setData];
@@ -242,11 +242,11 @@
         self.lineLab.center = CGPointMake(lab3.center.x, 38);
     }];
     lab3.textColor = [UIColor orangeColor];
-    lab3.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab3.font = [UIFont systemFontOfSize:15];
     lab1.textColor = [UIColor grayColor];
-    lab1.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab1.font = [UIFont systemFontOfSize:13];
     lab2.textColor = [UIColor grayColor];
-    lab2.font = [UIFont fontWithName:@"youyuan" size:13];
+    lab2.font = [UIFont systemFontOfSize:13];
     self.pageNum=1;
     isRefresh=YES;
     [self setData];

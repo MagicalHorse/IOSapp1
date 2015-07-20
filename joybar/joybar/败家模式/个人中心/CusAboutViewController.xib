@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <mutableArray key="youyuan.ttf">
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-            <string>YouYuan</string>
-        </mutableArray>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CusAboutViewController">
             <connections>
@@ -35,7 +28,7 @@
                         <constraint firstAttribute="width" constant="60" id="D3t-kV-uBc"/>
                         <constraint firstAttribute="height" constant="27" id="Yai-Gq-Yp0"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="12"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -57,7 +50,7 @@
                         <constraint firstAttribute="width" constant="198" id="crA-zt-IGu"/>
                         <constraint firstAttribute="height" constant="12" id="vm3-Y2-exX"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="12"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -73,18 +66,18 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L9t-Pr-7Ff">
-                    <rect key="frame" x="0.0" y="186" width="320" height="156"/>
+                    <rect key="frame" x="0.0" y="186" width="320" height="180"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1lV-nq-VkY">
-                            <rect key="frame" x="15" y="8" width="290" height="130"/>
+                            <rect key="frame" x="15" y="8" width="290" height="180"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="130" id="rfI-uz-sfp"/>
+                                <constraint firstAttribute="height" constant="180" id="rfI-uz-sfp"/>
                             </constraints>
                             <string key="text">    北京神马软件有限责任公司成立于2014年，公司将丰富的线下经验和互联网技术进行结合，通过O2O的方式为时尚买手建立与消费者直接沟通和提供交易服务的交互平台，进而帮助百货行业提高销售业绩，提升行业竞争力。
 
     公司一直以来以“超出用户期望”为目标，致力于为用户提供丰富的正品商品、便捷的购物方式和优秀的售后服务，努力打造更 好的互联网时代购物体验。</string>
-                            <fontDescription key="fontDescription" name="YouYuan" family="YouYuan" pointSize="13"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -92,7 +85,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="1lV-nq-VkY" firstAttribute="leading" secondItem="L9t-Pr-7Ff" secondAttribute="leading" constant="15" id="2Lm-ir-vE8"/>
-                        <constraint firstAttribute="height" constant="156" id="X1F-yG-aMO"/>
+                        <constraint firstAttribute="height" constant="180" id="X1F-yG-aMO"/>
                         <constraint firstAttribute="trailing" secondItem="1lV-nq-VkY" secondAttribute="trailing" constant="15" id="cKa-Gs-8bA"/>
                         <constraint firstItem="1lV-nq-VkY" firstAttribute="top" secondItem="L9t-Pr-7Ff" secondAttribute="top" constant="8" id="kn2-8H-kob"/>
                     </constraints>

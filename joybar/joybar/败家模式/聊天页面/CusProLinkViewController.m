@@ -66,7 +66,7 @@
     sureBtn.layer.cornerRadius = 3;
     [sureBtn setTitle:@"确定" forState:(UIControlStateNormal)];
     [sureBtn setTitleColor:[UIColor orangeColor] forState:(UIControlStateNormal)];
-    sureBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+    sureBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [sureBtn addTarget:self action:@selector(didCLickMakeSureBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:sureBtn];
     [self getNewProListData];
@@ -151,13 +151,13 @@
         UILabel *desLab = [[UILabel alloc] initWithFrame:CGRectMake(proImage.right+10, 10, kScreenWidth-140, 40)];
         desLab.text = [proDic objectForKey:@"Name"];
         desLab.numberOfLines = 0;
-        desLab.font = [UIFont fontWithName:@"youyuan" size:13];
+        desLab.font = [UIFont systemFontOfSize:13];
         desLab.textColor = [UIColor lightGrayColor];
         [cell.contentView addSubview:desLab];
         
         UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-220, 50, 200, 40)];
         priceLab.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"Price"]];
-        priceLab.font = [UIFont fontWithName:@"youyuan" size:15];
+        priceLab.font = [UIFont systemFontOfSize:15];
         priceLab.textAlignment = NSTextAlignmentRight;
         priceLab.textColor = [UIColor darkGrayColor];
         [cell.contentView addSubview:priceLab];

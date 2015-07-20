@@ -20,6 +20,7 @@
 @property (nonatomic ,strong) CusTabBarViewController *cusTab;
 @property (nonatomic ,strong) BuyerTabBarViewController *buyerTab;
 @property (nonatomic ,strong) BaseNavigationController *baseNav;
+@property (nonatomic ,strong) CusTabBarViewController *cusTabbar;
 
 - (void)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price;
 @end

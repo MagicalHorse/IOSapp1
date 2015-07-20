@@ -63,14 +63,14 @@
         UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(20+20*index+(kScreenWidth-60)/2*index, image.bottom+10, image.width, 15)];
         nameLab.text = [[dataArr objectAtIndex:index] objectForKey:@"Name"];
         nameLab.textAlignment = NSTextAlignmentCenter;
-        nameLab.font = [UIFont fontWithName:@"youyuan" size:15];
+        nameLab.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:nameLab];
         
         
         UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(20+20*index+(kScreenWidth-60)/2*index, nameLab.bottom+3, image.width, 13)];
         numLab.text = [NSString stringWithFormat:@"人数: %@",[[dataArr objectAtIndex:index] objectForKey:@"MemberCount"]];
         numLab.textAlignment = NSTextAlignmentCenter;
-        numLab.font = [UIFont fontWithName:@"youyuan" size:11];
+        numLab.font = [UIFont systemFontOfSize:11];
         [self.contentView addSubview:numLab];
         
         UIImageView *locationImg = [[UIImageView alloc] initWithFrame:CGRectMake(35+20*index+(kScreenWidth-60)/2*index, numLab.bottom+3, 13, 13)];
@@ -83,7 +83,7 @@
         addressLab.textAlignment = NSTextAlignmentLeft;
         addressLab.textColor = [UIColor lightGrayColor];
         addressLab.backgroundColor = [UIColor clearColor];
-        addressLab.font = [UIFont fontWithName:@"youyuan" size:11];
+        addressLab.font = [UIFont systemFontOfSize:11];
         [self.contentView addSubview:addressLab];
     }
 }

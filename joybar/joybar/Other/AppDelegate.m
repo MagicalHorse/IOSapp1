@@ -13,7 +13,7 @@
 #import "UMSocialSnsService.h"
 #import "payRequsestHandler.h"
 #import "APService.h"
-#define size 10
+
 @implementation AppDelegate
 
 
@@ -30,17 +30,107 @@
     [WXApi registerApp:APP_ID];
 
     //状态栏白色
-//    [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    [application setStatusBarStyle:UIStatusBarStyleLightContent];
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    CusTabBarViewController *cusTabbar = [[CusTabBarViewController alloc] init];
-    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:cusTabbar];
-    self.window.rootViewController = nav;
-    [self.window makeKeyAndVisible];
     
     [self connectionSoctet];
-   
+    
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidSetup:)
+                          name:kJPFNetworkDidSetupNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidClose:)
+                          name:kJPFNetworkDidCloseNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidRegister:)
+                          name:kJPFNetworkDidRegisterNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidLogin:)
+                          name:kJPFNetworkDidLoginNotification
+                        object:nil];
+    [defaultCenter addObserver:self
+                      selector:@selector(networkDidReceiveMessage:)
+                          name:kJPFNetworkDidReceiveMessageNotification
+                        object:nil];
+    
+    NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
+    if (![userId isEqualToString:@""])
+    {
+        [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
+    }
+
+    _cusTabbar = [[CusTabBarViewController alloc] init];
+    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:_cusTabbar];
+    self.window.rootViewController = nav;
+    [self.window makeKeyAndVisible];
+
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
+        NSLog(@"第一次启动");
+        
+        [self _initWithScrollViewForSoftHelp];
+
+    }else{
+        NSLog(@"不是第一次启动");
+        [application setStatusBarStyle:UIStatusBarStyleDefault];
+    }
     return YES;
+}
+
+//当软件第一次启动时运行
+- (void)_initWithScrollViewForSoftHelp
+{
+    //创建存放引导图片的数组
+    NSArray *helpImageArray = @[@"引导1",@"引导2",@"引导3",@"引导4"];
+
+    UIScrollView *helpScrollView = [[UIScrollView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    helpScrollView.backgroundColor = [UIColor clearColor];
+    helpScrollView.pagingEnabled = YES;
+    [helpScrollView setShowsHorizontalScrollIndicator:NO];
+    [helpScrollView setShowsVerticalScrollIndicator:NO];
+    helpScrollView.clipsToBounds = YES;
+    helpScrollView.tag = 33333;
+    helpScrollView.bounces = NO;
+    helpScrollView.contentSize = CGSizeMake(kScreenWidth*[helpImageArray count], kScreenHeight);
+    [self.window addSubview:helpScrollView];
+
+    for (int i = 0; i < [helpImageArray count]; i++)
+    {
+        UIImageView *helpImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth*i, 0, helpScrollView.width, helpScrollView.height)];
+        helpImage.image = [UIImage imageNamed:helpImageArray[i]];
+        [helpScrollView addSubview:helpImage];
+        //创建进入按钮
+        if (i == ([helpImageArray count]-1))
+        {
+            UIButton *enterBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+            enterBtn.center = CGPointMake(kScreenWidth/2+kScreenWidth*i, kScreenHeight/4*3);
+            enterBtn.bounds = CGRectMake(0, 0, (kScreenWidth-80)/2, 100);
+            enterBtn.backgroundColor = [UIColor clearColor];
+            [enterBtn addTarget:self action:@selector(introDidFinish) forControlEvents:(UIControlEventTouchUpInside)];
+            [helpScrollView addSubview:enterBtn];
+        }
+    }
+}
+//引导页结束
+- (void)introDidFinish
+{
+    UIScrollView *sc = (UIScrollView *)[self.window viewWithTag:33333];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    [sc removeFromSuperview];
+}
+
+
+- (void)tagsAliasCallback:(int)iResCode
+                     tags:(NSSet *)tags
+                    alias:(NSString *)alias {
+    NSString *callbackString =
+    [NSString stringWithFormat:@"%d, \ntags: %@, \nalias: %@\n", iResCode,tags,alias];
+    NSLog(@"TagsAlias回调:%@", callbackString);
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -108,7 +198,6 @@ forRemoteNotification:(NSDictionary *)userInfo
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     [APService handleRemoteNotification:userInfo];
-    NSLog(@"收到通知");
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:
@@ -125,22 +214,54 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     [APService showLocalNotificationAtFront:notification identifierKey:nil];
 }
 
+- (void)networkDidSetup:(NSNotification *)notification {
+    NSLog(@"已连接");
+}
+
+- (void)networkDidClose:(NSNotification *)notification {
+    NSLog(@"未连接");
+}
+
+- (void)networkDidRegister:(NSNotification *)notification {
+    NSLog(@"%@", [notification userInfo]);
+    NSLog(@"已注册");
+}
+
+- (void)networkDidLogin:(NSNotification *)notification {
+    NSLog(@"已登录");
+}
+
+- (void)networkDidReceiveMessage:(NSNotification *)notification {
+    NSDictionary *userInfo = [notification userInfo];
+    NSString *title = [userInfo valueForKey:@"title"];
+    NSString *content = [userInfo valueForKey:@"content"];
+    NSDictionary *extra = [userInfo valueForKey:@"extras"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    
+    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    
+    NSString *currentContent = [NSString
+                                stringWithFormat:
+                                @"收到自定义消息:%@\ntitle:%@\ncontent:%@\n,%@",
+                                [NSDateFormatter localizedStringFromDate:[NSDate date]
+                                                               dateStyle:NSDateFormatterNoStyle
+                                                               timeStyle:NSDateFormatterMediumStyle],
+                                title, content,extra];
+    NSLog(@"%@", currentContent);
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    
 }
 
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -150,8 +271,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    
-    
 //    return [WXApi handleOpenURL:url delegate:self];
     
     return  [UMSocialSnsService handleOpenURL:url];
@@ -264,11 +383,5 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
         }
     }
 }
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-
-}
-
 
 @end

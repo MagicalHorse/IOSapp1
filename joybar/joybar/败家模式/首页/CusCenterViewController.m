@@ -71,7 +71,7 @@
 
 -(CGSize)getContentSizeWith:(NSString *)content
 {
-    CGSize size = [content sizeWithFont:[UIFont fontWithName:@"youyuan" size:16] constrainedToSize:CGSizeMake(kScreenWidth-20, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [content sizeWithFont:[UIFont systemFontOfSize:16] constrainedToSize:CGSizeMake(kScreenWidth-20, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
     return size;
 }

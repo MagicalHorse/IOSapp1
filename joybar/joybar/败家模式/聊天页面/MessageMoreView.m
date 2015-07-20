@@ -69,7 +69,7 @@
         lab.bounds = CGRectMake(0, 0, btn.width, 20);
         lab.textAlignment = NSTextAlignmentCenter;
         lab.text = [self.btnTitle objectAtIndex:i];
-        lab.font = [UIFont fontWithName:@"youyuan" size:13];
+        lab.font = [UIFont systemFontOfSize:13];
         [btn addSubview:lab];
     }
 }

@@ -207,7 +207,7 @@
     [self getImageRange:message :array];
     UIView *returnView = [[UIView alloc] initWithFrame:CGRectZero];
     NSArray *data = array;
-    UIFont *fon = [UIFont fontWithName:@"youyuan" size:15];
+    UIFont *fon = [UIFont systemFontOfSize:15];
     CGFloat upX = 0;
     CGFloat upY = 0;
     CGFloat X = 0;

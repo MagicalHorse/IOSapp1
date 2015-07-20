@@ -146,7 +146,7 @@
         button.frame = CGRectMake(0, 160/6*i+14, 170, 160/6);
         [button setTitle:[arr objectAtIndex:i] forState:(UIControlStateNormal)];
         [button setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-        button.titleLabel.font = [UIFont fontWithName:@"youyuan" size:15];
+        button.titleLabel.font = [UIFont systemFontOfSize:15];
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
         [button addTarget:self action:@selector(didCLickSelectBtn:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -158,7 +158,7 @@
         label.text = [NSString stringWithFormat:@"(%@)",[labArr objectAtIndex:i]];
         label.textAlignment = NSTextAlignmentRight;
         label.textColor = [UIColor whiteColor];
-        label.font = [UIFont fontWithName:@"youyuan" size:15];
+        label.font = [UIFont systemFontOfSize:15];
         label.tag = 100+i;
         [selectImageView addSubview:label];
         [self.labArr addObject:label];
@@ -189,7 +189,7 @@
     
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(imageView.right+5, 0, bgView.width-imageView.width, 30)];
     textField.placeholder = @"请输您要找的人";
-    textField.font = [UIFont fontWithName:@"youyuan" size:15];
+    textField.font = [UIFont systemFontOfSize:15];
     textField.returnKeyType = UIReturnKeySearch;
     textField.delegate = self;
     [bgView addSubview:textField];

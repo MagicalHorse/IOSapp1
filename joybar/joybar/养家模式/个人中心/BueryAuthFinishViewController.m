@@ -44,14 +44,14 @@
     UILabel* lable=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     lable.textAlignment = NSTextAlignmentCenter;
     lable.text =@"发送完成，请等待验证";
-    lable.font = [UIFont fontWithName:@"youyuan" size:20];
+    lable.font = [UIFont systemFontOfSize:20];
     [view addSubview:lable];
 
     UIButton * btn=[[UIButton alloc]initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
     btn.backgroundColor =[UIColor whiteColor];
     [btn setTitle:@"回到首页" forState:UIControlStateNormal];
     [btn setTitleColor:kCustomColor(56,155, 234) forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
+    btn.titleLabel.font = [UIFont systemFontOfSize:17];
     [self.view addSubview:btn];
     
     [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];

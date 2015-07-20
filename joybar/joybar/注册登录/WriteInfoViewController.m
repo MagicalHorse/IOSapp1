@@ -46,7 +46,7 @@
     {
         UITextField *text = [[UITextField alloc] initWithFrame:CGRectMake(15, 45*i, kScreenWidth, 45)];
         text.placeholder = [arr objectAtIndex:i];
-        text.font = [UIFont fontWithName:@"youyuan" size:14];
+        text.font = [UIFont systemFontOfSize:14];
         text.tag = 1000+i;
         [bgView addSubview:text];
         if (i>0)
@@ -76,13 +76,13 @@
     cityNameLab = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 200, 45)];
     cityNameLab.text = @"未选择";
     cityNameLab.textAlignment = NSTextAlignmentLeft;
-    cityNameLab.font = [UIFont fontWithName:@"youyuan" size:14];
+    cityNameLab.font = [UIFont systemFontOfSize:14];
     cityNameLab.textColor = kCustomColor(253, 137, 83);
     [bgView addSubview:cityNameLab];
     
     UILabel *selectCity = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-85, 0, 70, 45)];
     selectCity.text = @"更换城市 >";
-    selectCity.font = [UIFont fontWithName:@"youyuan" size:14];
+    selectCity.font = [UIFont systemFontOfSize:14];
     selectCity.textColor = [UIColor lightGrayColor];
     [bgView addSubview:selectCity];
     
@@ -92,7 +92,7 @@
     UIButton *submitBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     submitBtn.frame = CGRectMake(15, bgView.bottom+20, kScreenWidth-30, 40);
     [submitBtn setTitle:@"确定" forState:(UIControlStateNormal)];
-    submitBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
+    submitBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [submitBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     submitBtn.layer.cornerRadius = 3;
     submitBtn.backgroundColor = kCustomColor(253, 137, 83);

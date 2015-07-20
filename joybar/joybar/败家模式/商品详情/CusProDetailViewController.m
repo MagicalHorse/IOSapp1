@@ -103,7 +103,7 @@
     
     UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(10, self.imageScrollView.bottom+10, kScreenWidth-90, 20)];
     titleLab.text = @"[卷儿] 印花风格连衣裙";
-    titleLab.font = [UIFont fontWithName:@"youyuan" size:15];
+    titleLab.font = [UIFont systemFontOfSize:15];
     [self.scrollView addSubview:titleLab];
     
     UIButton *shareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -120,7 +120,7 @@
     
     UILabel *shareLab = [[UILabel alloc] initWithFrame:CGRectMake(0, shareImg.bottom-4, shareBtn.width, 20)];
     shareLab.text = @"分享";
-    shareLab.font = [UIFont fontWithName:@"youyuan" size:11];
+    shareLab.font = [UIFont systemFontOfSize:11];
     shareLab.textColor = [UIColor lightGrayColor];
     shareLab.textAlignment = NSTextAlignmentCenter;
     [shareBtn addSubview:shareLab];
@@ -156,7 +156,7 @@
     
     UILabel *pinpai = [[UILabel alloc] initWithFrame:CGRectMake(10, originalPriceLab.bottom+5, 40, 20)];
     pinpai.text = @"品牌:";
-    pinpai.font = [UIFont fontWithName:@"youyuan" size:15];
+    pinpai.font = [UIFont systemFontOfSize:15];
     [self.scrollView addSubview:pinpai];
     
     UILabel *pinpaiName = [[UILabel alloc] initWithFrame:CGRectMake(pinpai.right+5, originalPriceLab.bottom+5, kScreenWidth-100, 20)];
@@ -166,7 +166,7 @@
     
     UILabel *colorLab = [[UILabel alloc] initWithFrame:CGRectMake(10, pinpai.bottom+28, 40, 20)];
     colorLab.text = @"颜色:";
-    colorLab.font = [UIFont fontWithName:@"youyuan" size:15];
+    colorLab.font = [UIFont systemFontOfSize:15];
     [self.scrollView addSubview:colorLab];
 
     
@@ -201,7 +201,7 @@
 //选择尺码
     UILabel *sizeLab = [[UILabel alloc] initWithFrame:CGRectMake(10, colorTempView.bottom+15, 40, 20)];
     sizeLab.text = @"尺码:";
-    sizeLab.font = [UIFont fontWithName:@"youyuan" size:15];
+    sizeLab.font = [UIFont systemFontOfSize:15];
     [self.scrollView addSubview:sizeLab];
 
     DWTagList*sizeBtn = [[DWTagList alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth-100, 300.0f)];
@@ -215,7 +215,7 @@
 //数量
     UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(10, sizeBtn.bottom+22, 40, 20)];
     numLab.text = @"数量:";
-    numLab.font = [UIFont fontWithName:@"youyuan" size:15];
+    numLab.font = [UIFont systemFontOfSize:15];
     [self.scrollView addSubview:numLab];
 
     UIView *numView = [[UIView alloc] initWithFrame:CGRectMake(numLab.right+6, sizeBtn.bottom+15, 120, 35)];
@@ -274,13 +274,13 @@
             lab.bounds = CGRectMake(0, 0, 30, 20);
             lab.textAlignment = NSTextAlignmentCenter;
             lab.text = [titleArr objectAtIndex:i];
-            lab.font = [UIFont fontWithName:@"youyuan" size:12];
+            lab.font = [UIFont systemFontOfSize:12];
             [btn addSubview:lab];
         }
         else
         {
             [btn setTitle:[arr objectAtIndex:i-2] forState:(UIControlStateNormal)];
-            btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+            btn.titleLabel.font = [UIFont systemFontOfSize:14];
             [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
             if (i==2)
             {

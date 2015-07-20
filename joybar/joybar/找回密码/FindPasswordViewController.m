@@ -38,7 +38,7 @@
     
     UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(10, 12, 30, 30)];
     lab1.text = @"+86";
-    lab1.font = [UIFont fontWithName:@"youyuan" size:15];
+    lab1.font = [UIFont systemFontOfSize:15];
     [bgView addSubview:lab1];
     
     UILabel *line5 = [[UILabel alloc] initWithFrame:CGRectMake(40, 15, 0.5, 24)];
@@ -49,13 +49,13 @@
     registerPhoneText.delegate = self;
     registerPhoneText.placeholder = @"请输入您的手机号码";
     registerPhoneText.backgroundColor = [UIColor clearColor];
-    registerPhoneText.font = [UIFont fontWithName:@"youyuan" size:14];
+    registerPhoneText.font = [UIFont systemFontOfSize:14];
     registerPhoneText.keyboardType = UIKeyboardTypeNumberPad;
     [bgView addSubview:registerPhoneText];
     
     registerAuthText = [[UITextField alloc] initWithFrame:CGRectMake(10, 47, 200, 40)];
     registerAuthText.placeholder = @"请输入短信验证码";
-    registerAuthText.font = [UIFont fontWithName:@"youyuan" size:14];
+    registerAuthText.font = [UIFont systemFontOfSize:14];
     registerAuthText.keyboardType = UIKeyboardTypeNumberPad;
     [bgView addSubview:registerAuthText];
     
@@ -63,7 +63,7 @@
     authBtn.frame = CGRectMake(kScreenWidth-75, 10, 132/2, 56/2);
     [authBtn setTitle:@"验证" forState:(UIControlStateNormal)];
     authBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    authBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+    authBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [authBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [authBtn setBackgroundImage:[UIImage imageNamed:@"yanzheng.png"] forState:(UIControlStateNormal)];
     [authBtn addTarget:self action:@selector(didCilckGetAuthCode) forControlEvents:(UIControlEventTouchUpInside)];
@@ -73,7 +73,7 @@
     UIButton *submitBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     submitBtn.frame = CGRectMake(15, bgView.bottom+30, kScreenWidth-30, 40);
     [submitBtn setTitle:@"确定" forState:(UIControlStateNormal)];
-    submitBtn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:17];
+    submitBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [submitBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     submitBtn.layer.cornerRadius = 3;
     submitBtn.backgroundColor = kCustomColor(253, 137, 83);

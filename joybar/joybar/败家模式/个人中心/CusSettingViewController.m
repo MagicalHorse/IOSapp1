@@ -18,7 +18,7 @@
 #import "OSSTool.h"
 #import "OSSData.h"
 #import "OSSLog.h"
-
+#import "APService.h"
 @interface CusSettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     OSSData *osData;
 }
@@ -289,7 +289,7 @@
     
     NSArray *nameArr = @[@[@"头像",@"昵称"],@[@"账户密码",@"消息免打扰",@"手机号绑定",@"微信绑定"],@[@"关于我们"]];
     cell.textLabel.text = [[nameArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    cell.textLabel.font = [UIFont fontWithName:@"youyuan" size:18];
+    cell.textLabel.font = [UIFont systemFontOfSize:18];
 
     if (indexPath.section==0)
     {
@@ -307,7 +307,7 @@
             _nameLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-240, 12.5, 200, 30)];
             _nameLab.textAlignment = NSTextAlignmentRight;
             _nameLab.text =[[Public getUserInfo] objectForKey:@"nickname"];
-            _nameLab.font = [UIFont fontWithName:@"youyuan" size:16];
+            _nameLab.font = [UIFont systemFontOfSize:16];
             _nameLab.textColor = [UIColor lightGrayColor];
             [cell.contentView addSubview:_nameLab];
         }
@@ -337,7 +337,7 @@
         
             UILabel *lab =[[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-70, 17, 50, 20)];
             lab.text = @"已绑定";
-            lab.font = [UIFont fontWithName:@"youyuan" size:14];
+            lab.font = [UIFont systemFontOfSize:14];
             lab.textColor = [UIColor lightGrayColor];
             [cell.contentView addSubview:lab];
             if ([[[Public getUserInfo] objectForKey:@"IsBindMobile"] boolValue])
@@ -353,7 +353,7 @@
         {
             UILabel *lab =[[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-70, 17, 50, 20)];
             lab.text = @"已绑定";
-            lab.font = [UIFont fontWithName:@"youyuan" size:14];
+            lab.font = [UIFont systemFontOfSize:14];
             lab.textColor = [UIColor lightGrayColor];
             [cell.contentView addSubview:lab];
             
@@ -488,6 +488,8 @@
             //        [Public showLoginVC:self];
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [APService setAlias:@"" callbackSelector:nil object:self];
             
             AppDelegate *ad= (AppDelegate *)[UIApplication sharedApplication].delegate;
             CusTabBarViewController *tab = [[CusTabBarViewController alloc] init];

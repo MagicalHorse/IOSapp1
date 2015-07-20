@@ -296,14 +296,14 @@
     UILabel *namelab = [[UILabel alloc] initWithFrame:CGRectMake(0, headerImage.bottom+5, kScreenWidth, 20)];
     namelab.text = self.storeData.UserName;
     namelab.textAlignment = NSTextAlignmentCenter;
-    namelab.font = [UIFont fontWithName:@"youyuan" size:17];
+    namelab.font = [UIFont systemFontOfSize:17];
     [contentView addSubview:namelab];
     
     UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(0, namelab.bottom+5, kScreenWidth, 20)];
     locationLab.text = self.storeData.Address;
     locationLab.textColor = [UIColor darkGrayColor];
     locationLab.textAlignment = NSTextAlignmentCenter;
-    locationLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    locationLab.font = [UIFont systemFontOfSize:13];
     [contentView addSubview:locationLab];
     
     UIView *btnBgView = [[UIView alloc] init];
@@ -364,7 +364,7 @@
         UILabel *numLab = [[UILabel alloc] init];
         numLab.center = CGPointMake(circleBtn.width/2, circleBtn.height/2-10);
         numLab.bounds = CGRectMake(0, 0, 30, 13);
-        numLab.font = [UIFont fontWithName:@"youyuan" size:12];
+        numLab.font = [UIFont systemFontOfSize:12];
         numLab.textColor = [UIColor darkGrayColor];
         numLab.textAlignment = NSTextAlignmentCenter;
         numLab.text = [numArr objectAtIndex:i];
@@ -373,7 +373,7 @@
         UILabel *titleLab = [[UILabel alloc] init];
         titleLab.center = CGPointMake(circleBtn.width/2, circleBtn.height/2+5);
         titleLab.bounds = CGRectMake(0, 0, 30, 20);
-        titleLab.font = [UIFont fontWithName:@"youyuan" size:14];
+        titleLab.font = [UIFont systemFontOfSize:14];
         titleLab.textColor = [UIColor grayColor];
         titleLab.text = [nameArr objectAtIndex:i];
         titleLab.textAlignment = NSTextAlignmentCenter;
@@ -384,7 +384,7 @@
     descLab.text = self.storeData.Description;
     CGSize size = [self getContentSizeWith:descLab.text];
     descLab.numberOfLines = 0;
-    descLab.font = [UIFont fontWithName:@"youyuan" size:14];
+    descLab.font = [UIFont systemFontOfSize:14];
     descLab.textColor = [UIColor darkGrayColor];
     descLab.frame = CGRectMake(10, tempView.bottom+10, kScreenWidth-20, size.height);
     [contentView addSubview:descLab];
@@ -401,7 +401,7 @@
             [btn setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
             [btn addTarget:self action:@selector(didClickclassify:) forControlEvents:(UIControlEventTouchUpInside)];
             btn.tag = 100+i;
-            btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+            btn.titleLabel.font = [UIFont systemFontOfSize:14];
             [contentView addSubview:btn];
             
             UIView *verticalLine = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth/btnNameArr.count*i, contentView.height-35, 1, 30)];
@@ -437,7 +437,7 @@
         [btn setTitle:[NSString stringWithFormat:@"收藏 %@",self.storeData.ProductCount] forState:(UIControlStateNormal)];
         [btn setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
         [btn addTarget:self action:@selector(didClickCollectBtn) forControlEvents:(UIControlEventTouchUpInside)];
-        btn.titleLabel.font = [UIFont fontWithName:@"youyuan" size:14];
+        btn.titleLabel.font = [UIFont systemFontOfSize:14];
         [contentView addSubview:btn];
         
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, contentView.height, kScreenWidth, 0.5)];
@@ -642,7 +642,7 @@
 
 -(CGSize)getContentSizeWith:(NSString *)content
 {
-    CGSize size = [content sizeWithFont:[UIFont fontWithName:@"youyuan" size:14] constrainedToSize:CGSizeMake(kScreenWidth-20, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [content sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(kScreenWidth-20, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
     return size;
 }

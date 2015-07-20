@@ -32,7 +32,7 @@
     
     UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(headImg.width+20, 7, kScreenWidth-100, 30)];
     titleLab.text = self.homePro.BuyerName;
-    titleLab.font = [UIFont fontWithName:@"youyuan" size:18];
+    titleLab.font = [UIFont systemFontOfSize:18];
     [self.contentView addSubview:titleLab];
     
     UIImageView *locationImg = [[UIImageView alloc] initWithFrame:CGRectMake(headImg.width+20, titleLab.bottom+3, 13, 13)];
@@ -41,7 +41,7 @@
     
     UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(locationImg.right, titleLab.bottom, kScreenWidth-170, 20)];
     locationLab.text = self.homePro.BuyerAddress;
-    locationLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    locationLab.font = [UIFont systemFontOfSize:13];
     locationLab.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:locationLab];
     
@@ -49,7 +49,7 @@
     timeLab.text = self.homePro.CreateTime;
     timeLab.textAlignment = NSTextAlignmentRight;
     timeLab.textColor = [UIColor lightGrayColor];
-    timeLab.font = [UIFont fontWithName:@"youyuan" size:13];
+    timeLab.font = [UIFont systemFontOfSize:13];
     [self.contentView addSubview:timeLab];
     
     //展示图片
@@ -87,19 +87,19 @@
         
         UILabel *tagLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tagImage.width, tagView.height)];
         tagLab.textColor = [UIColor whiteColor];
-        tagLab.font = [UIFont fontWithName:@"youyuan" size:13];
+        tagLab.font = [UIFont systemFontOfSize:13];
         tagLab.text = tag.TagName;
         [tagImage addSubview:tagLab];
     }
     
     UILabel *descriptionLab = [[UILabel alloc] initWithFrame:CGRectMake(10, imageView.bottom+10, kScreenWidth-20, 20)];
     descriptionLab.text = self.homePro.ProductName;
-    descriptionLab.font = [UIFont fontWithName:@"youyuan" size:16];
+    descriptionLab.font = [UIFont systemFontOfSize:16];
     [self.contentView addSubview:descriptionLab];
     
     UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(10, descriptionLab.bottom+14, 100, 20)];
     priceLab.text = [NSString stringWithFormat:@"￥%@",self.homePro.Price];
-    priceLab.font = [UIFont fontWithName:@"youyuan" size:18];
+    priceLab.font = [UIFont systemFontOfSize:18];
     priceLab.textColor = [UIColor redColor];
     [self.contentView addSubview:priceLab];
     
@@ -109,7 +109,7 @@
     [shareBtn setTitle:@" 分享" forState:(UIControlStateNormal)];
     [shareBtn setImage:[UIImage imageNamed:@"fenxiang"] forState:(UIControlStateNormal)];
     [shareBtn setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
-    shareBtn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:14];
+    shareBtn.titleLabel.font =[UIFont systemFontOfSize:14];
     shareBtn.layer.borderWidth = 0.5;
     shareBtn.layer.cornerRadius = 3;
     [shareBtn addTarget:self action:@selector(didClickShare:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -121,7 +121,7 @@
     [chatBtn setTitle:@" 私聊" forState:(UIControlStateNormal)];
     [chatBtn setImage:[UIImage imageNamed:@"评论"] forState:(UIControlStateNormal)];
     [chatBtn setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
-    chatBtn.titleLabel.font =[UIFont fontWithName:@"youyuan" size:14];
+    chatBtn.titleLabel.font =[UIFont systemFontOfSize:14];
     chatBtn.layer.borderWidth = 0.5;
     chatBtn.layer.cornerRadius = 3;
     [chatBtn addTarget:self action:@selector(didClickChat) forControlEvents:(UIControlEventTouchUpInside)];
@@ -196,7 +196,7 @@
     lab.text = self.homePro.Promotion.DescriptionText;
     lab.textColor = [UIColor redColor];
     lab.textAlignment = NSTextAlignmentCenter;
-    lab.font = [UIFont fontWithName:@"youyuan" size:14];
+    lab.font = [UIFont systemFontOfSize:14];
     [nightImage addSubview:lab];
     
     if (![self.homePro.Promotion.IsShow boolValue])
