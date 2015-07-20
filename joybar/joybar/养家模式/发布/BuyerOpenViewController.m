@@ -127,6 +127,7 @@
     UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, 20, 60, 60)];
     [headerImage sd_setImageWithURL:[NSURL URLWithString:[dict objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     headerImage.layer.cornerRadius = headerImage.width/2;
+    
     headerImage.clipsToBounds = YES;
     [_bgView addSubview:headerImage];
     

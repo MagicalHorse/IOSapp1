@@ -25,9 +25,7 @@
 
     // 0.验证网络
     [Common IsReachability:^{
-//        [MBProgressHUD showError:@"没有网络连接"];
         [rootViewController.view showHudFailed:@"没有网络连接"];
-        
         if (failure)failure(nil);
     }];
     NSString  *tempUrl = [HomeURL stringByAppendingFormat:@"%@",url];
@@ -44,7 +42,8 @@
     }
     // 1.创建请求管理对象
     AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
-    
+    mgr.requestSerializer.timeoutInterval = 20.f;
+
     // 2.发送请求
     [mgr POST:tempUrl parameters:signDic
       success:^(AFHTTPRequestOperation *operation, id responseObject) {

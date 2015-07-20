@@ -147,9 +147,9 @@
             
         }];
 
-//        [socket on:@"disconnect" callback:^(NSArray *args) {
-//            NSLog(@"disconnect");
-//        }];
+        [socket on:@"disconnect" callback:^(NSArray *args) {
+            NSLog(@"disconnect");
+        }];
     }];
 }
 

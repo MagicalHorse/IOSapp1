@@ -414,6 +414,7 @@
             
         }
     }
+    
     [dict setObject:self.imagesArray forKey:@"Images"];
     [dict setObject:self.dscText.text forKey:@"Desc"];
     [dict setObject:self.priceText1.text forKey:@"Sku_Code"];
@@ -443,7 +444,7 @@
                 });
             }
         }else{
-            [self showHudFailed:@"操作失败"];
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
         [self textHUDHiddle];
     } failure:^(NSError *error) {
@@ -700,6 +701,17 @@
     [UIView commitAnimations];
     return YES;
 }
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
+    [textField resignFirstResponder];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.30];
+    CGRect rect = self.view.frame;
+    rect.origin.y = 0;
+    self.view.frame = rect;
+    [UIView commitAnimations];
+    return YES;
+}
+
 -(void)didSelect{
     if (self.dscText.text.length ==0) {
         self.dscText.text =@"给力商品描述点";
