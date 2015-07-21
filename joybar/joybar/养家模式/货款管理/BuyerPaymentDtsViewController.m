@@ -298,7 +298,7 @@
                 [self setData];
                 [self showHudSuccess:@"提取成功"];
             }else{
-                [self showHudFailed:@"提取失败"];
+                [self showHudFailed:[json objectForKey:@"message"]];
             }
             [self textHUDHiddle];
             
