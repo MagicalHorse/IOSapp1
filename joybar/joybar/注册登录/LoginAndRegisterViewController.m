@@ -412,7 +412,7 @@
 -(void)didCLickWXLogin
 {
     [self hudShow:@"正在登录..."];
-    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
+    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:nil];
 
     UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
     

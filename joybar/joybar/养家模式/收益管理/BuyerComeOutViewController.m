@@ -61,7 +61,7 @@
     }else{
         
     
-        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
+        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:nil];
         
         UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
         

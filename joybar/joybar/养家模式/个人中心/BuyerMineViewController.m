@@ -165,12 +165,12 @@
             [Public showLoginVC:self];
             return;
         }
-        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://www.umeng.com/social"];
+        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1003672874"];
         
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:@"557f8f1c67e58edf32000208"
-                                          shareText:@"友盟社会化分享让您快速实现分享等社会化功能，www.umeng.com/social"
-                                         shareImage:[UIImage imageNamed:@"test1.jpg"]
+                                          shareText:@"快来关注shopping平台，24小时售卖实体百货商品，送货上门现场自提随心选!"
+                                         shareImage:[UIImage imageNamed:@"shareLogo"]
                                     shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                            delegate:self];
     
