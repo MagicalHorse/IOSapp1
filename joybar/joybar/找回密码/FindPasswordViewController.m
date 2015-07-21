@@ -17,6 +17,9 @@
     UIButton*authBtn;
     UITextField *registerPhoneText;
     UITextField *registerAuthText;
+    NSTimer *timer;
+    NSInteger timerInterget;
+    
 }
 - (void)viewDidLoad
 {
@@ -60,10 +63,10 @@
     [bgView addSubview:registerAuthText];
     
     authBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    authBtn.frame = CGRectMake(kScreenWidth-75, 10, 132/2, 56/2);
+    authBtn.frame = CGRectMake(kScreenWidth-75, 10, 132/2, 56/1.8);
     [authBtn setTitle:@"验证" forState:(UIControlStateNormal)];
     authBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    authBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    authBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [authBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [authBtn setBackgroundImage:[UIImage imageNamed:@"yanzheng.png"] forState:(UIControlStateNormal)];
     [authBtn addTarget:self action:@selector(didCilckGetAuthCode) forControlEvents:(UIControlEventTouchUpInside)];
@@ -106,12 +109,42 @@
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
+            timerInterget = 60;
             
+            timer = [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                                     target:self
+                                                   selector:@selector(checkButtonAction:)
+                                                   userInfo:nil
+                                                    repeats:YES];
+            [timer fire];
+
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
         
     } failure:^(NSError *error) {
         NSLog(@"%@",[error description]);
     }];
+}
+
+- (void)checkButtonAction:(NSTimer *)time
+{
+    if (timerInterget >0 && timerInterget <= 60)
+    {
+        timerInterget--;
+        NSString *str = [NSString stringWithFormat:@" %ld″",(long)timerInterget];
+        [authBtn setTitle:str forState:UIControlStateNormal];
+        [authBtn setUserInteractionEnabled:NO];
+    }
+    else
+    {
+        [authBtn setTitle:@"重新获取" forState:UIControlStateNormal];
+        timerInterget = 60;
+        [authBtn setUserInteractionEnabled:YES];
+        [time invalidate];
+    }
 }
 
 //确定

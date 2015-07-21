@@ -15,6 +15,7 @@
 
 @property (nonatomic ,strong) UIImageView *markImg;
 
+
 @end
 
 @implementation LoginAndRegisterViewController
@@ -27,6 +28,9 @@
     UITextField *registerAuthText;
     UITextField *loginPhoneText;
     UITextField *loginAuthText;
+    NSTimer *timer;
+    NSInteger timerInterget;
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,9 +43,9 @@
     
     UIImageView *logoImg = [[UIImageView alloc] init];
     logoImg.center = CGPointMake(kScreenWidth/2, bgView.height/2-20);
-    logoImg.bounds = CGRectMake(0, 0, 60, 60);
+    logoImg.bounds = CGRectMake(0, 0, 65, 65);
     logoImg.layer.masksToBounds = YES;
-    logoImg.backgroundColor = [UIColor blackColor];
+    logoImg.image = [UIImage imageNamed:@"logo"];
     logoImg.layer.cornerRadius = logoImg.size.width/2;
     [bgView addSubview:logoImg];
 
@@ -254,13 +258,13 @@
     [authCodeLab addGestureRecognizer:authTap];
     
     authBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    authBtn.frame = CGRectMake(kScreenWidth*2-75, 10, 132/2, 56/2);
+    authBtn.frame = CGRectMake(kScreenWidth*2-75, 10, 132/2, 56/1.8);
     [authBtn setTitle:@"验证" forState:(UIControlStateNormal)];
     authBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    authBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    authBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [authBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [authBtn setBackgroundImage:[UIImage imageNamed:@"yanzheng.png"] forState:(UIControlStateNormal)];
-    [authBtn addTarget:self action:@selector(didCilckGetAuthCode) forControlEvents:(UIControlEventTouchUpInside)];
+    [authBtn addTarget:self action:@selector(didCilckGetAuthCode:) forControlEvents:(UIControlEventTouchUpInside)];
     authBtn.hidden = YES;
     [scroll addSubview:authBtn];
 }
@@ -354,7 +358,7 @@
 }
 
 //获取验证码
--(void)didCilckGetAuthCode
+-(void)didCilckGetAuthCode:(UIButton *)btn
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:registerPhoneText.text forKey:@"mobile"];
@@ -366,7 +370,14 @@
         
         if ([jsonDic objectForKey:@"isSuccessful"])
         {
-            
+            timerInterget = 60;
+
+            timer = [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                                     target:self
+                                                   selector:@selector(checkButtonAction:)
+                                                   userInfo:nil
+                                                    repeats:YES];
+            [timer fire];
         }
         else
         {
@@ -377,6 +388,25 @@
         
     }];
 }
+
+- (void)checkButtonAction:(NSTimer *)time
+{
+    if (timerInterget >0 && timerInterget <= 60)
+    {
+        timerInterget--;
+        NSString *str = [NSString stringWithFormat:@" %ld″",(long)timerInterget];
+        [authBtn setTitle:str forState:UIControlStateNormal];
+        [authBtn setUserInteractionEnabled:NO];
+    }
+    else
+    {
+        [authBtn setTitle:@"重新获取" forState:UIControlStateNormal];
+        timerInterget = 60;
+        [authBtn setUserInteractionEnabled:YES];
+        [time invalidate];
+    }
+}
+
 
 //微信登陆
 -(void)didCLickWXLogin

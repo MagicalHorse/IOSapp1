@@ -33,13 +33,11 @@
 {
     UIImageView *headImage;
     UILabel *namelab;
+    UIView *tempView;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    NSString *url = [[Public getUserInfo] objectForKey:@"logo"];
-    [headImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    namelab.text = [[Public getUserInfo] objectForKey:@"nickname"];
 
     [self getMineData];
     
@@ -87,7 +85,7 @@
     namelab.font = [UIFont systemFontOfSize:18];
     [bgView addSubview:namelab];
     
-    UIView *tempView = [[UIView alloc] init];
+    tempView = [[UIView alloc] init];
     tempView.center = CGPointMake(kScreenWidth/2, self.bgImageView.bottom+43);
     tempView.bounds = CGRectMake(0, 0, kScreenWidth-60, 70);
     tempView.backgroundColor = [UIColor clearColor];
@@ -95,14 +93,7 @@
     
     NSArray *nameArr = @[@"关注",@"粉丝",@"圈子"];
     NSArray *numArr ;
-    if(self.mineData)
-    {
-        numArr = @[self.mineData.FollowingCount,self.mineData.FollowerCount,self.mineData.CommunityCount];
-    }
-    else
-    {
-        numArr = @[@"0",@"0",@"0"];
-    }
+    numArr = @[@"0",@"0",@"0"];
     for (int i=0; i<3; i++)
     {
         UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -119,6 +110,7 @@
         numLab.textColor = [UIColor darkGrayColor];
         numLab.textAlignment = NSTextAlignmentCenter;
         numLab.text = [numArr objectAtIndex:i];
+        numLab.tag = 100+i;
         [btn addSubview:numLab];
         
         UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(20, numLab.bottom, 30, 20)];
@@ -128,9 +120,6 @@
         nameLab.textAlignment = NSTextAlignmentCenter;
         [btn addSubview:nameLab];
     }
-
-    
-    
     
     UIButton *messageBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     messageBtn.frame = CGRectMake(kScreenWidth-50, 30, 64, 64);
@@ -153,10 +142,25 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.mineData = [MineData objectWithKeyValues:[json objectForKey:@"data"]];
+            
+               NSArray *numArr = @[self.mineData.FollowingCount,self.mineData.FollowerCount,self.mineData.CommunityCount];
+            for (int i=0; i<numArr.count; i++)
+            {
+                UIButton *btn = (UIButton *)[tempView viewWithTag:i+1000];
+                UILabel *lab = (UILabel *)[btn viewWithTag:100+i];
+                lab.text = [numArr objectAtIndex:i];
+            }
+            NSString *url = [[Public getUserInfo] objectForKey:@"logo"];
+            [headImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            namelab.text = [[Public getUserInfo] objectForKey:@"nickname"];
+
             [self.tableView reloadData];
         }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        NSLog(@"%@",json);
         
     } failure:^(NSError *error) {
         
