@@ -6,7 +6,6 @@
 
 //#define HomeURL  @"http://123.57.52.187:8080/app/"
 //#define HomeURL  @"http://123.57.52.187:8070/app/"
-
 #define HomeURL  @"http://123.57.77.86:8080/app/"
 
 #import "HttpTool.h"
@@ -38,7 +37,8 @@
     [signDic setObject:[HttpTool getDeviceUUIDString] forKey:@"uid"];
     [signDic setObject:@"2.3" forKey:@"client_version"];
     [signDic setObject:@"IOS" forKey:@"channel"];
-    if (TOKEN) {
+    if (TOKEN)
+    {
         [signDic setObject:TOKEN forKey:@"token"];
     }
     // 1.创建请求管理对象
@@ -99,7 +99,7 @@
 
 + (void)getWithURL:(NSString *)url params:(NSDictionary *)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
-    // 0.验证网络
+// 0.验证网络
 //    [Common IsReachability:^{
 //        [MBProgressHUD showError:@"没有网络连接"];
 //        if (failure)failure(nil);
@@ -128,19 +128,32 @@
     [tempDic setObject:@"2.3" forKey:@"client_version"];
     if (TOKEN) {
         [tempDic setObject:TOKEN forKey:@"token"];
-
     }
     [tempDic setObject:[HttpTool getDeviceUUIDString] forKey:@"uid"];
     
     NSArray* ary = [tempDic allKeys];
+    NSMutableDictionary *tempDictAry = [NSMutableDictionary dictionary]; //小写key的字典
+    for (NSString *str in ary) {
+        
+        NSString *tempStr = [str lowercaseString];
+        NSString *tempValue =[tempDic objectForKey:str];
+        [tempDictAry setObject:tempValue forKey:tempStr];
+
+    }
+    NSMutableArray *tempAry =[NSMutableArray array]; //排序array
+    for (NSString * str in tempDictAry.allKeys) {
+        [tempAry addObject:str];
+    }
+    
     NSSortDescriptor *sd1 = [NSSortDescriptor sortDescriptorWithKey:nil ascending:YES];//yes升序排列，no,降序排列
-    NSArray *myary = [ary sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sd1, nil]];//注意这里的ary进行排序后会生产一个新的数组指针，myary，不能在用ary,ary还是保持不变的。
+    NSArray *myary = [tempAry sortedArrayUsingDescriptors:[NSArray arrayWithObjects:sd1, nil]];//注意这里的ary进行排序后会生产一个新的数组指针，myary，不能在用ary,ary还是保持不变的。
     NSMutableString *tempStr =[[NSMutableString alloc]init];
     
     for (int i=0; i<myary.count; i++)
     {
         NSString *key = [myary objectAtIndex:i];
-        NSString *value = [tempDic objectForKey:key];
+        NSString *value = [tempDictAry objectForKey:key];
+        
         NSString *str = [NSString stringWithFormat:@"%@=%@",key,value];
         [tempStr appendString:str];
         if (i!=myary.count-1)

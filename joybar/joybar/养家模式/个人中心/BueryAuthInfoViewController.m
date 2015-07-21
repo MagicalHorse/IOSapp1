@@ -106,7 +106,6 @@
         if (isSuccessful) {
             self.dataArray4 =[json objectForKey:@"data"];
             [self.pickerView reloadAllComponents];
-//            [self textHUDHiddle];
         }else{
             [self showHudFailed:@"数据加载失败"];
         }
