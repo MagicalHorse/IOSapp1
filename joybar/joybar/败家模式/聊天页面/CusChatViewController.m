@@ -77,12 +77,25 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-}
-
+    [SIOSocket socketWithHost: SocketUrl response: ^(SIOSocket *socket) {
+        [SocketManager socketManager].socket = socket;
+        [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+            
+            NSLog(@"connnection is success:%@",[args description]);
+            
+        }];
+        
+        [socket on:@"disconnect" callback:^(NSArray *args) {
+            NSLog(@"disconnect");
+        }];
+    }];}
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    [[SocketManager  socketManager].socket emit:@"disconnect"];
+
 }
+
 
 -(void)aliyunSet{
     OSSClient *ossclient = [OSSClient sharedInstanceManage];
