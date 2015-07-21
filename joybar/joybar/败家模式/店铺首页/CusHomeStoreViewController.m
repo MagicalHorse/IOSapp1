@@ -18,6 +18,7 @@
 #import "CusHomeStoreHeader.h"
 #import "CusChatViewController.h"
 #import "CusBuyerDetailViewController.h"
+#import "CusAttentionViewController.h"
 #define CELL_COUNT 30
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 
@@ -589,8 +590,9 @@
     {
         case 1000:
         {
-            CusFansViewController *VC = [[CusFansViewController alloc] init];
-            VC.titleStr = @"关注的人";
+            CusAttentionViewController *VC = [[CusAttentionViewController alloc] init];
+//            VC.titleStr = @"关注的人";
+            VC.userId = self.userId;
             [self.navigationController pushViewController:VC animated:YES];
         }
             break;
@@ -598,6 +600,7 @@
         {
             CusFansViewController *VC = [[CusFansViewController alloc] init];
             VC.titleStr = @"粉丝";
+            VC.userId = self.userId;
             [self.navigationController pushViewController:VC animated:YES];
         }
             break;
@@ -605,6 +608,7 @@
         {
             //圈子
             CusBuyerCircleViewController *VC = [[CusBuyerCircleViewController alloc] init];
+            VC.userId = self.userId;
             [self.navigationController pushViewController:VC animated:YES];
             
         }

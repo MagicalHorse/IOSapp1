@@ -10,6 +10,7 @@
 
 @interface CusFansViewController : BaseViewController
 
+@property (nonatomic ,strong) NSString *userId;
 @property (nonatomic ,strong) NSString *titleStr;
 @property (nonatomic ,strong) BaseTableView *tableView;
 

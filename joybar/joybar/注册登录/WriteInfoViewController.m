@@ -176,10 +176,13 @@
             
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
         
     } failure:^(NSError *error) {
         [self hiddleHud];
-        NSLog(@"%@",[error description]);
     }];
 }
 

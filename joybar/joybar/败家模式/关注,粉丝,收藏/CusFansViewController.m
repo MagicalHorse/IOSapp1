@@ -65,7 +65,6 @@
     };
     
     [self addNavBarViewAndTitle:self.titleStr];
-    
     [self getData];
 }
 
@@ -75,6 +74,7 @@
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setValue:@"10" forKey:@"pagesize"];
     [dic setValue:@"1" forKey:@"status"];
+    [dic setValue:self.userId forKey:@"UserId"];
     [self hudShow];
     [HttpTool postWithURL:@"User/GetUserFavoite" params:dic success:^(id json) {
         

@@ -26,7 +26,7 @@
 @property (strong, nonatomic) NSMutableArray *btnTitle;
 //按钮图片
 @property (strong, nonatomic) NSMutableArray *imageArray;
-@property (strong, nonatomic) id<MessageMoreViewDelegate> messageMoreDelegate;
+@property (assign, nonatomic) id<MessageMoreViewDelegate> messageMoreDelegate;
 
 
 @end

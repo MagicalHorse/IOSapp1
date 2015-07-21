@@ -71,12 +71,10 @@
 
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
-        NSLog(@"第一次启动");
         
         [self _initWithScrollViewForSoftHelp];
 
     }else{
-        NSLog(@"不是第一次启动");
         [application setStatusBarStyle:UIStatusBarStyleDefault];
     }
     return YES;
@@ -86,7 +84,15 @@
 - (void)_initWithScrollViewForSoftHelp
 {
     //创建存放引导图片的数组
-    NSArray *helpImageArray = @[@"引导1",@"引导2",@"引导3",@"引导4"];
+    NSArray *helpImageArray ;
+    if (kScreenHeight==480)
+    {
+        helpImageArray= @[@"img1_960*640",@"img2_960*640",@"img3_960*640",@"img4_960*640"];
+    }
+    else
+    {
+        helpImageArray= @[@"img1",@"img2",@"img3",@"img4"];
+    }
 
     UIScrollView *helpScrollView = [[UIScrollView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     helpScrollView.backgroundColor = [UIColor clearColor];
@@ -123,7 +129,6 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [sc removeFromSuperview];
 }
-
 
 - (void)tagsAliasCallback:(int)iResCode
                      tags:(NSSet *)tags

@@ -55,10 +55,11 @@
 -(void)getMyCircleData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:[NSString stringWithFormat:@"%ld",self.pageNum] forKey:@"page"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setObject:@"10" forKey:@"pagesize"];
+    [dic setObject:self.userId forKey:@"UserId"];
     [self hudShow];
-    [HttpTool postWithURL:@"Community/GetMyGroup" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Community/GetUserGroups" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {

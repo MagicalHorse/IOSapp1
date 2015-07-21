@@ -11,10 +11,11 @@
 @interface HomePicTag : NSObject
 
 
-@property (nonatomic ,strong) NSString *TagId;
-@property (nonatomic ,strong) NSString *TagName;
+@property (nonatomic ,strong) NSString *Id;
+@property (nonatomic ,strong) NSString *Name;
 @property (nonatomic ,strong) NSString *PosX;
 @property (nonatomic ,strong) NSString *PosY;
+@property (nonatomic ,strong) NSString *SourceId;
 
 
 @end

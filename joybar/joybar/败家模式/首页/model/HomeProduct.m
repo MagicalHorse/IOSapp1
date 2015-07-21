@@ -10,9 +10,9 @@
 
 @implementation HomeProduct
 
-//+(NSDictionary *)objectClassInArray
-//{
-//    return @{@"ProductPic":@"HomeProductPic",@"LikeUsers":@"HomeLikeUsers"};
-//}
++(NSDictionary *)objectClassInArray
+{
+    return @{@"ProductPic":@"HomeProductPic",@"LikeUsers":@"HomeLikeUsers"};
+}
 
 @end
