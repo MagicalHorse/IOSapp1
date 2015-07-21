@@ -170,7 +170,7 @@
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:@"557f8f1c67e58edf32000208"
                                           shareText:@"快来关注shopping平台，24小时售卖实体百货商品，送货上门现场自提随心选!"
-                                         shareImage:[UIImage imageNamed:@"test1.jpg"]
+                                         shareImage:[UIImage imageNamed:@"shareLogo"]
                                     shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                            delegate:self];
     
