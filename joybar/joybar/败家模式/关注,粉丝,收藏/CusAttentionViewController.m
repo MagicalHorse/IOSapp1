@@ -95,8 +95,10 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
-    [dic setValue:@"6" forKey:@"pagesize"];
+    [dic setValue:@"10" forKey:@"pagesize"];
     [dic setValue:@"0" forKey:@"status"];
+    [dic setValue:self.userId forKey:@"UserId"];
+
     [self hudShow];
     [HttpTool postWithURL:@"User/GetUserFavoite" params:dic success:^(id json) {
         
@@ -104,7 +106,7 @@
         {
             fansItems = [FansItems objectWithKeyValues:[json objectForKey:@"data"]];
             
-            if (fansItems.items.count<6)
+            if (fansItems.items.count<10)
             {
                 [self.tableView hiddenFooter:YES];
             }

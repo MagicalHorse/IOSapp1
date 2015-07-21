@@ -10,4 +10,6 @@
 
 @interface CusAttentionViewController : BaseViewController
 
+@property (nonatomic ,strong) NSString *userId;
+
 @end

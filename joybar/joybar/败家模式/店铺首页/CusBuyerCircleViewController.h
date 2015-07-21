@@ -10,4 +10,6 @@
 
 @interface CusBuyerCircleViewController : BaseViewController
 
+@property (nonatomic ,strong) NSString *userId;
+
 @end

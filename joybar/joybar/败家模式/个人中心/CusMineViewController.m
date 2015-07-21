@@ -287,6 +287,7 @@
         case 1002:
         {
             CusBuyerCircleViewController *VC = [[CusBuyerCircleViewController alloc] init];
+            VC.userId = [[Public getUserInfo] objectForKey:@"id"];
             [self.navigationController pushViewController:VC animated:YES];
         }
             break;
