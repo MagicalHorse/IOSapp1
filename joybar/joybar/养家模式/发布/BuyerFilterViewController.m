@@ -109,7 +109,7 @@
     UIView *titieView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     titieView.backgroundColor =[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.3];
    
-    _bgImage=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 300)];
+    _bgImage=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth)];
     _bgImage.image =cImage;
 
     if(self.imageDic){

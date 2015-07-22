@@ -32,7 +32,10 @@
 @end
 
 @implementation BuyerHomeViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [self setData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -65,7 +68,6 @@
         }
         [VC setData];
     };
-    [self setData];
 }
 
 

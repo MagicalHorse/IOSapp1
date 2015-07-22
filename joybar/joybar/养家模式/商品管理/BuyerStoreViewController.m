@@ -234,7 +234,7 @@
     [HttpTool postWithURL:@"Product/OnLine" params:dict success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            [self.dataArray addObject:st];
+            [self.dataArray removeObject:st];
             [self.tableView reloadData];
         }
         NSLog(@"%@",[json objectForKey:@"message"]);
