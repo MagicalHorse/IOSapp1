@@ -98,6 +98,7 @@
     [dic setValue:@"10" forKey:@"pagesize"];
     [dic setValue:@"0" forKey:@"status"];
     [dic setValue:self.userId forKey:@"UserId"];
+    [dic setValue:[[Public getUserInfo] objectForKey:@"id"] forKey:@"CurrentUserId"];
 
     [self hudShow];
     [HttpTool postWithURL:@"User/GetUserFavoite" params:dic success:^(id json) {

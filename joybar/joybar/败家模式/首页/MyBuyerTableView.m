@@ -61,10 +61,10 @@
         HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
         if ([pro.Promotion.IsShow boolValue])
         {
-            return kScreenHeight-100;
+            return kScreenWidth+250;
         }
     }
-    return kScreenHeight-150;
+    return kScreenWidth+190;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -73,7 +73,7 @@
     {
         return;
     }
-    
+
     CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
     HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
     VC.productId = pro.ProductId;

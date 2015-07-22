@@ -94,6 +94,7 @@
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
+            [self.dataSource removeAllObjects];
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
             //            if (arr.count<6)
             //            {

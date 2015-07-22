@@ -9,7 +9,7 @@
 #import "CusHomeStoreViewController.h"
 #import "CusFansViewController.h"
 #import "CusCollectionViewController.h"
-#import "CusCollectionViewCell.h"
+#import "CusHomeStoreCollectionViewCell.h"
 #import "CusMyCircleTableViewCell.h"
 #import "CusBuyerCircleViewController.h"
 #import "HomeStoreData.h"
@@ -22,7 +22,7 @@
 #define CELL_COUNT 30
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 
-@interface CusHomeStoreViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout,UIScrollViewDelegate>
+@interface CusHomeStoreViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, CHTCollectionViewDelegateWaterfallLayout,UIScrollViewDelegate,handleCollectDelegate>
 
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -124,6 +124,7 @@
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
+            [self.dataSource removeAllObjects];
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
             if (arr.count<6)
             {
@@ -194,6 +195,7 @@
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
+            [self.dataSource removeAllObjects];
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
             if (arr.count<6)
             {
@@ -291,6 +293,7 @@
     headerImage.center = CGPointMake(kScreenWidth/2, 45);
     headerImage.bounds = CGRectMake(0, 0, 60, 60);
     headerImage.layer.cornerRadius = headerImage.width/2;
+    headerImage.clipsToBounds = YES;
     [headerImage sd_setImageWithURL:[NSURL URLWithString:self.storeData.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [contentView addSubview:headerImage];
     
@@ -464,7 +467,7 @@
     _collectionView.backgroundColor = [UIColor clearColor];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
-    [_collectionView registerClass:[CusCollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
+    [_collectionView registerClass:[CusHomeStoreCollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
     [_collectionView registerClass:[CusHomeStoreHeader class]
         forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader
                withReuseIdentifier:HEADER_IDENTIFIER];
@@ -480,12 +483,13 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {    
-    CusCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
+    CusHomeStoreCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
     if (cell==nil)
     {
-        cell = [[CusCollectionViewCell alloc]init];
+        cell = [[CusHomeStoreCollectionViewCell alloc]init];
     }
-    
+    cell.delegate = self;
+
     cell.backgroundColor = [UIColor yellowColor];
     
     for (UIView *view in cell.contentView.subviews)
@@ -649,6 +653,18 @@
     CGSize size = [content sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(kScreenWidth-20, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     
     return size;
+}
+
+-(void)collectHandle
+{
+    if (self.isCollect==YES)
+    {
+        [self getProListData];
+    }
+    else
+    {
+        [self getNewProListData];
+    }
 }
 
 @end

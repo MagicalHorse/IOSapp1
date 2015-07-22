@@ -72,7 +72,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.msgTableView.dataArr removeAllObjects];
+//    [self.msgTableView.dataArr removeAllObjects];
     [self getMessageList];
 }
 -(void)getMessageList
@@ -86,6 +86,8 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
+            [self.msgTableView.dataArr removeAllObjects];
+
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
             if (arr.count<10)
             {
@@ -231,7 +233,6 @@
 
 -(void)scrollToMessage
 {
-    [self.msgTableView.dataArr removeAllObjects];
     [self getMessageList];
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];

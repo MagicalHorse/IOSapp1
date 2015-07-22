@@ -14,6 +14,7 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "SDWebImageManager.h"
+#import "CusTagViewController.h"
 @implementation CusHomeTableViewCell
 {
     CGFloat cellHeight;
@@ -53,7 +54,7 @@
     [self.contentView addSubview:timeLab];
     
     //展示图片
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, locationLab.bottom+17, kScreenWidth, kScreenHeight-350)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, locationLab.bottom+17, kScreenWidth, kScreenWidth)];
     [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
@@ -64,11 +65,14 @@
     for (int i=0; i<self.homePro.ProductPic.Tags.count; i++)
     {
         HomePicTag *tag = [self.homePro.ProductPic.Tags objectAtIndex:i];
+        NSLog(@"%@",tag.Name);
+
         CGSize size = [Public getContentSizeWith:tag.Name andFontSize:13 andHigth:20];
-        CGFloat x = [tag.PosX floatValue];
-        CGFloat y = [tag.PosY floatValue];
+        CGFloat x = [tag.PosX floatValue]*kScreenWidth;
+        CGFloat y = [tag.PosY floatValue]*kScreenHeight;
         UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
         tagView.backgroundColor = [UIColor clearColor];
+        tagView.tag = 100+i;
         [imageView addSubview:tagView];
         
         UIImageView *pointImage = [[UIImageView alloc] init];
@@ -90,6 +94,10 @@
         tagLab.font = [UIFont systemFontOfSize:13];
         tagLab.text = tag.Name;
         [tagImage addSubview:tagLab];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTag:)];
+        [tagView addGestureRecognizer:tap];
+                                                                                                           
     }
     
     UILabel *descriptionLab = [[UILabel alloc] initWithFrame:CGRectMake(10, imageView.bottom+10, kScreenWidth-20, 20)];
@@ -311,7 +319,7 @@
         {
             if (btn.selected==NO)
             {
-                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%d",[self.homePro.LikeUsers.Count integerValue]+1];
+                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%ld",[self.homePro.LikeUsers.Count integerValue]+1];
                 self.homePro.LikeUsers.IsLike = @"1";
                 [btn setImage:[UIImage imageNamed:@"点赞h"] forState:(UIControlStateNormal)];
                 [btn setTitle:self.homePro.LikeUsers.Count forState:(UIControlStateNormal)];
@@ -319,24 +327,31 @@
             }
             else
             {
-                
-                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%d",[self.homePro.LikeUsers.Count integerValue]-1];
+                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%ld",[self.homePro.LikeUsers.Count integerValue]-1];
                 self.homePro.LikeUsers.IsLike = @"0";
                 
                 [btn setImage:[UIImage imageNamed:@"点赞"] forState:(UIControlStateNormal)];
                 [btn setTitle:self.homePro.LikeUsers.Count forState:(UIControlStateNormal)];
                 btn.selected = NO;
             }
-            
         }
         else
         {
-            
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
         
     } failure:^(NSError *error) {
         
     }];
+}
+
+-(void)didClickTag:(UITapGestureRecognizer *)tap
+{
+    HomePicTag *tag = [self.homePro.ProductPic.Tags objectAtIndex:tap.view.tag-100];
+    CusTagViewController *VC = [[CusTagViewController alloc] init];
+    VC.BrandId = tag.Id;
+    VC.BrandName = tag.Name;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 @end
