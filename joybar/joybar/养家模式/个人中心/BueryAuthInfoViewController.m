@@ -249,7 +249,6 @@
     _cityLable=[[UILabel alloc]initWithFrame:CGRectMake(35, 0, kScreenWidth-100, 45)];
     _cityLable.font =[UIFont systemFontOfSize:15];
     _cityLable.text =@"省、市、区、县（请选择）";
-//    _cityLable.textColor = kCustomColor(194, 194, 200);
     [cityView addSubview:_cityLable];
     cityView.tag =2000;
     UIImageView *cityImg=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-24, 18, 12, 12)];
@@ -303,6 +302,9 @@
     
 }
 -(void)didSelect:(UITapGestureRecognizer *)tag{
+    
+    [self resignText];
+
     isUpdate =NO;
     //添加_pickerView
     CGFloat w = [UIScreen mainScreen].bounds.size.width;
@@ -532,23 +534,18 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    [self.field1 resignFirstResponder];
-    [self.field2 resignFirstResponder];
-    [self.field3 resignFirstResponder];
-    [self.field4 resignFirstResponder];
-    if(self.dscText.text.length <1){
-        _dscText.text =@"详细地址（顾客支付后，到专柜提货的地址，请务必正确填写，否则会影响收款确认）";
-    }
-    [self.dscText resignFirstResponder];
+    [self resignText];
 }
--(void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+
+
+-(void)resignText{
     [self.field1 resignFirstResponder];
     [self.field2 resignFirstResponder];
     [self.field3 resignFirstResponder];
+    [self.field4 resignFirstResponder];
     if(self.dscText.text.length <1){
         _dscText.text =@"详细地址（顾客支付后，到专柜提货的地址，请务必正确填写，否则会影响收款确认）";
     }
-    [self.field4 resignFirstResponder];
     [self.dscText resignFirstResponder];
 }
 

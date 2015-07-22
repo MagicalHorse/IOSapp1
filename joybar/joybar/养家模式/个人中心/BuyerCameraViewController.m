@@ -52,18 +52,19 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.camera = [[LLSimpleCamera alloc] initWithQuality:CameraQualityPhoto];
     [self.camera attachToViewController:self withDelegate:self];
-    self.camera.view.frame = CGRectMake(0, 80, kScreenWidth, kScreenHeight-200);
+    self.camera.view.frame = CGRectMake(0, 64, kScreenWidth, kScreenWidth);
     self.camera.fixOrientationAfterCapture = NO;
     
     // snap button to capture image
     
-    UIButton * btn=[[UIButton alloc]initWithFrame:CGRectMake(10, kScreenHeight-90, 70, 70)];
+    CGFloat btnY =  (kScreenWidth+64 +70);
+    UIButton * btn=[[UIButton alloc]initWithFrame:CGRectMake(10,btnY, 70, 70)];
     [btn setImage:[UIImage imageNamed:@"shanchu1"] forState:UIControlStateNormal];
 
     [btn addTarget:self action:@selector(closeBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
-    _chooseBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-80, kScreenHeight-90, 70, 70)];
+    _chooseBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-80,btnY, 70, 70)];
     [_chooseBtn setTitle:@"相册" forState:UIControlStateNormal];
     _chooseBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     [_chooseBtn addTarget:self action:@selector(chooseClick) forControlEvents:UIControlEventTouchUpInside];
@@ -72,7 +73,7 @@
 
     
     self.snapButton = [[UIButton alloc]init];
-    self.snapButton.frame = CGRectMake((kScreenWidth-70)*0.5, kScreenHeight-90, 70.0f, 70.0f);
+    self.snapButton.frame = CGRectMake((kScreenWidth-70)*0.5,btnY, 70.0f, 70.0f);
     [self.snapButton setImage:[UIImage imageNamed:@"paizhao"] forState:UIControlStateNormal];
     [self.snapButton addTarget:self action:@selector(snapButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.snapButton];
@@ -131,9 +132,8 @@
     UIImage *imageNew =image;
     //设置image的尺寸
     CGSize imagesize = imageNew.size;
-    imagesize.height =kScreenHeight-200;
+    imagesize.height=kScreenWidth;
     imagesize.width =kScreenWidth;
-    
     //对图片大小进行压缩--
     imageNew = [self imageCompressForSize:imageNew targetSize:imagesize];
     self.imageController = [[ImageViewController alloc] initWithImage:imageNew];
@@ -224,7 +224,7 @@
             UIImage *imageNew =image;
             //设置image的尺寸
             CGSize imagesize = imageNew.size;
-            imagesize.height =kScreenHeight-200;
+            imagesize.height =kScreenWidth;
             imagesize.width =kScreenWidth;
             
             //对图片大小进行压缩--
@@ -232,7 +232,6 @@
             self.imageController = [[ImageViewController alloc] initWithImage:imageNew];
             self.imageController.delegate=self;
             [self.navigationController pushViewController:self.imageController animated:NO];
-
 
         }else{
             [picker dismissViewControllerAnimated:NO completion:nil];
@@ -248,18 +247,6 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
--(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
-{
-    UIGraphicsBeginImageContext(newSize);
-    
-    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return newImage;
-}
 -(UIImage *) imageCompressForSize:(UIImage *)sourceImage targetSize:(CGSize)size{
     UIImage *newImage = nil;
     CGSize imageSize = sourceImage.size;
@@ -306,52 +293,6 @@
     
     return newImage;
     
-}
-
--(UIImage *) imageCompressForWidth:(UIImage *)sourceImage targetWidth:(CGFloat)defineWidth{
-    UIImage *newImage = nil;
-    CGSize imageSize = sourceImage.size;
-    CGFloat width = imageSize.width;
-    CGFloat height = imageSize.height;
-    CGFloat targetWidth = defineWidth;
-    CGFloat targetHeight = height / (width / targetWidth);
-    CGSize size = CGSizeMake(targetWidth, targetHeight);
-    CGFloat scaleFactor = 0.0;
-    CGFloat scaledWidth = targetWidth;
-    CGFloat scaledHeight = targetHeight;
-    CGPoint thumbnailPoint = CGPointMake(0.0, 0.0);
-    if(CGSizeEqualToSize(imageSize, size) == NO){
-        CGFloat widthFactor = targetWidth / width;
-        CGFloat heightFactor = targetHeight / height;
-        if(widthFactor > heightFactor){
-            scaleFactor = widthFactor;
-        }
-        else{
-            scaleFactor = heightFactor;
-        }
-        scaledWidth = width * scaleFactor;
-        scaledHeight = height * scaleFactor;
-        if(widthFactor > heightFactor){
-            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
-        }else if(widthFactor < heightFactor){
-            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
-        }
-    }
-    UIGraphicsBeginImageContext(size);
-    CGRect thumbnailRect = CGRectZero;
-    thumbnailRect.origin = thumbnailPoint;
-    thumbnailRect.size.width = scaledWidth;
-    thumbnailRect.size.height = scaledHeight;
-    
-    [sourceImage drawInRect:thumbnailRect];
-    
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-    if(newImage == nil){
-        NSLog(@"scale image fail");
-    }
-    
-    UIGraphicsEndImageContext();
-    return newImage;
 }
 
 @end

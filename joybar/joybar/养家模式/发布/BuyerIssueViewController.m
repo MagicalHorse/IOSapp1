@@ -334,9 +334,9 @@
                 if ([v isKindOfClass: [UITextField class]] ) {
                     UITextField *ctext =(UITextField *)v;
                     DetailSize *size=detail.Sizes[y+1];
-                    if (i==0) {
+                    if (i==1) {
                         ctext.text=size.Name;
-                    }else{
+                    }else if(i==3){
                         ctext.text =[size.Inventory stringValue];
                     }
                 }

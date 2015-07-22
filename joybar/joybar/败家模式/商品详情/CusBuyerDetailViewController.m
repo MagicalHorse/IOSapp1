@@ -307,12 +307,14 @@
         }
         else
         {
-            
+            [self showHudFailed:[json objectForKey:@"message"]];
+
         }
         [self activityDismiss];
         
     } failure:^(NSError *error) {
-        
+        [self showHudFailed:@"服务器异常,请稍后再试"];
+        [self activityDismiss];
     }];
 }
 
