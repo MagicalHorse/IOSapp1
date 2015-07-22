@@ -224,6 +224,8 @@
         }
         else if ([AuditStatus isEqualToString:@"-1"])
         {
+            [self showHudFailed:@"亲您提交的信息有误,请您重新提交"];
+
             //被拒绝
         }
         else if ([AuditStatus isEqualToString:@"-2"])
@@ -233,6 +235,7 @@
         }
         else if ([AuditStatus isEqualToString:@"0"])
         {
+            [self showHudFailed:@"亲不用急,正在审核中"];
             //正在申请中
         }
     }
@@ -284,7 +287,6 @@
             CusFansViewController *VC = [[CusFansViewController alloc] init];
             VC.titleStr = @"粉丝";
             [self.navigationController pushViewController:VC animated:YES];
-            
         }
             break;
             

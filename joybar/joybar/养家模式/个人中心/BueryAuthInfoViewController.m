@@ -424,6 +424,11 @@
     [HttpTool postWithURL:@"Buyer/CreateAuthBuyer" params:dict success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
+            
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
+            [dic setObject:@"0" forKey:@"AuditStatus"];
+            [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             BueryAuthFinishViewController * finish =[[BueryAuthFinishViewController alloc]init];
             [self.navigationController pushViewController:finish animated:YES];
         }else{

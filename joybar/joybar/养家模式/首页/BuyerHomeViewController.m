@@ -236,15 +236,16 @@
         cell.tilteD1View.text =@"今日收益";
         cell.tilteD2View.text =@"累积收益";
         cell.pirceD1View.text =@"500";
-        NSString *tempPirce =[[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"] stringValue];
-        if (tempPirce.length>0) {
-            cell.pirceD1View.text =[NSString stringWithFormat:@"%@",tempPirce];
+        CGFloat tempPirce = [[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"] floatValue];
+        if (tempPirce >0) {
+            cell.pirceD1View.text =[NSString stringWithFormat:@"%.2f",tempPirce];
         }else{
             cell.pirceD1View.text=@"0.00";
         }
-        NSString *tempPirceD2 =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"] stringValue];
-        if (tempPirce.length >0) {
-            cell.pirceD2View.text =[NSString stringWithFormat:@"%@",tempPirceD2];
+        float  tempPirceD2 =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"] floatValue];
+        
+        if (tempPirce  >0) {
+            cell.pirceD2View.text =[NSString stringWithFormat:@"%.2f",tempPirceD2];
         }else{
             cell.pirceD2View.text=@"0.00";
         }
