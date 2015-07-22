@@ -1,14 +1,14 @@
 //
-//  CusCollectionViewCell.m
+//  CusHomeStoreCollectionViewCell.m
 //  joybar
 //
-//  Created by 123 on 15/5/12.
+//  Created by 123 on 15/7/22.
 //  Copyright (c) 2015年 卢兴. All rights reserved.
 //
 
-#import "CusCollectionViewCell.h"
+#import "CusHomeStoreCollectionViewCell.h"
 
-@implementation CusCollectionViewCell
+@implementation CusHomeStoreCollectionViewCell
 {
     NSDictionary *dataDic;
 }
@@ -17,7 +17,7 @@
 {
     dataDic = dic;
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-15)/2, height)];
-//    imageView.backgroundColor = [self randomColor];
+    //    imageView.backgroundColor = [self randomColor];
     NSString *imgUrl = [NSString stringWithFormat:@"%@_320x0.jpg",[[dic objectForKey:@"pic"] objectForKey:@"pic"]];
     imageView.clipsToBounds = YES;
     [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
@@ -49,13 +49,25 @@
     priceLab.textColor = [UIColor redColor];
     priceLab.font = [UIFont systemFontOfSize:14];
     [bgView addSubview:priceLab];
-
+    
     UIButton *clickZan = [UIButton buttonWithType:(UIButtonTypeCustom)];
     clickZan.frame = CGRectMake((kScreenWidth-15)/2-60, nameLab.bottom+5, 60, 20);
     clickZan.backgroundColor = [UIColor clearColor];
-    [clickZan setImage:[UIImage imageNamed:@"xingxing"] forState:(UIControlStateNormal)];
-    NSString *count =[NSString stringWithFormat:@"%@",[[dic objectForKey:@"LikeUser"] objectForKey:@"Count"]];
+    if (![[dic objectForKey:@"IsFavorite"] boolValue])
+    {
+        [clickZan setImage:[UIImage imageNamed:@"xing"] forState:(UIControlStateNormal)];
+        clickZan.selected = NO;
+
+    }
+    else
+    {
+        [clickZan setImage:[UIImage imageNamed:@"xingxing"] forState:(UIControlStateNormal)];
+        clickZan.selected = YES;
+    }
+    
+    NSString *count =[NSString stringWithFormat:@"%@",[dic objectForKey:@"IsFavorite"]];
     [clickZan setTitle:count forState:(UIControlStateNormal)];
+
     clickZan.titleLabel.font = [UIFont systemFontOfSize:11];
     [clickZan setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
     clickZan.userInteractionEnabled = YES;
@@ -67,15 +79,32 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[dataDic objectForKey:@"Id"] forKey:@"Id"];
-    [dic setValue:@"0" forKey:@"Status"];
-//    [self hudShow:@"正在取消收藏"];
+    if (btn.selected)
+    {
+        [dic setValue:@"0" forKey:@"Status"];
+    }
+    else
+    {
+        [dic setValue:@"1" forKey:@"Status"];
+
+    }
+    //    [self hudShow:@"正在取消收藏"];
     [HttpTool postWithURL:@"Product/Favorite" params:dic success:^(id json) {
         
-//        [self textHUDHiddle];
+        //        [self textHUDHiddle];
         if ([json objectForKey:@"isSuccessful"])
         {
-            [btn setImage:[UIImage imageNamed:@"xing"] forState:(UIControlStateNormal)];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"cancelCollectNot" object:self userInfo:nil];
+            if (btn.selected)
+            {
+                [btn setImage:[UIImage imageNamed:@"xing"] forState:(UIControlStateNormal)];
+                btn.selected = NO;
+            }
+            else
+            {
+                [btn setImage:[UIImage imageNamed:@"xingxing"] forState:(UIControlStateNormal)];
+                btn.selected = YES;
+            }
+            [self.delegate collectHandle];
         }
         else
         {
@@ -85,7 +114,7 @@
     } failure:^(NSError *error) {
     }];
     
-
+    
 }
 
 @end
