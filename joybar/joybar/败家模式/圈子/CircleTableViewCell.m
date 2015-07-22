@@ -90,12 +90,16 @@
 
 -(void)didClickImage:(UITapGestureRecognizer *)tap
 {
-    NSString *circleId = [[arr objectAtIndex:tap.view.tag-1000] objectForKey:@"Id"];
-    NSString *circleName = [[arr objectAtIndex:tap.view.tag-1000] objectForKey:@"Name"];
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:circleId AndTpye:2 andUserName:circleName];
-    VC.circleId = circleId;
-    VC.isFrom = isFromGroupChat;
-    [self.viewController.navigationController pushViewController:VC animated:YES];
+    if (arr.count>0) {
+        NSString *circleId = [[arr objectAtIndex:tap.view.tag-1000] objectForKey:@"Id"];
+        NSString *circleName = [[arr objectAtIndex:tap.view.tag-1000] objectForKey:@"Name"];
+        CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:circleId AndTpye:2 andUserName:circleName];
+        VC.circleId = circleId;
+        VC.isFrom = isFromGroupChat;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
+    
+   
 }
 
 @end

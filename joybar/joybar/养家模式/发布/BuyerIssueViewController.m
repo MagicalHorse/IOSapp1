@@ -391,9 +391,11 @@
         UIView *v =view.subviews[i];
         if ([v isKindOfClass: [UITextField class]] ) {
             UITextField *ctext =(UITextField *)v;
-            if (i==0) {
+            NSLog(@"%@",ctext.text);
+            if (i==1) {
                 [tempSizes setValue:ctext.text forKey:@"name"];
-            }else{
+            }else if(i==3)
+            {
                 [tempSizes setValue:ctext.text forKey:@"Inventory"];
             }
         }
@@ -410,9 +412,9 @@
                 if ([v isKindOfClass: [UITextField class]] ) {
                     UITextField *ctext =(UITextField *)v;
                     NSLog(@"%@",ctext.text);
-                    if (i==0) {
+                    if (i==1) {
                         [tempSizes1 setValue:ctext.text forKey:@"name"];
-                    }else{
+                    }else if(i==3){
                         [tempSizes1 setValue:ctext.text forKey:@"Inventory"];
                     }
                 }

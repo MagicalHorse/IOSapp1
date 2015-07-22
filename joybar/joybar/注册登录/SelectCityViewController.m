@@ -49,21 +49,30 @@
 
 -(void)getCityData
 {
+    
+    [self hudShow];
     [HttpTool postWithURL:@"Common/GetCityList" params:nil success:^(id json) {
-        NSLog(@"%@",json);
         
-        self.dataBase = [json objectForKey:@"data"];
-        
-        for (int i=0; i<self.dataBase.count; i++)
+        [self hiddleHud];
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            NSString *key = [[self.dataBase objectAtIndex:i] objectForKey:@"key"];
-            [self.dataSource addObject:key];
+            self.dataBase = [json objectForKey:@"data"];
+            
+            for (int i=0; i<self.dataBase.count; i++)
+            {
+                NSString *key = [[self.dataBase objectAtIndex:i] objectForKey:@"key"];
+                [self.dataSource addObject:key];
+            }
+            
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
         
-        [self.tableView reloadData];
-        
     } failure:^(NSError *error) {
-        
+        [self hiddleHud];
     }];
 
 }
