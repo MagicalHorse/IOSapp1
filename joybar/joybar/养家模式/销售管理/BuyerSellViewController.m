@@ -196,7 +196,7 @@
     
     cell.titleView.text =product.BrandName;
     cell.detileView.text =product.Name;
-    cell.noView.text =[product.StoreItemNo stringValue];
+    cell.noView.text =product.StoreItemNo ;
     cell.priceView.text =[NSString stringWithFormat:@"%@%@",@"￥",product.Price];
     cell.countView.text =[NSString stringWithFormat:@"%@%@",@"x",product.Count];
     cell.guigeView.text =[NSString stringWithFormat:@"%@%@",@"规格：",product.SizeName];
