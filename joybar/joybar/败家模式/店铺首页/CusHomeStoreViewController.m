@@ -124,7 +124,6 @@
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            [self.dataSource removeAllObjects];
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
             if (arr.count<6)
             {
@@ -195,7 +194,6 @@
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            [self.dataSource removeAllObjects];
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
             if (arr.count<6)
             {
@@ -657,6 +655,9 @@
 
 -(void)collectHandle
 {
+    self.pageNum = 1;
+    [self.dataSource removeAllObjects];
+
     if (self.isCollect==YES)
     {
         [self getProListData];

@@ -96,6 +96,11 @@
                 cancelBtn.hidden = YES;
                 payBtn.hidden = YES;
             }
+            else
+            {
+                cancelBtn.hidden = YES;
+                payBtn.hidden = YES;
+            }
         }
         else
         {
@@ -161,7 +166,6 @@
     cancelBtn.layer.cornerRadius = 3;
     [cancelBtn addTarget:self action:@selector(didClickCancelBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:cancelBtn];
-
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -249,7 +253,7 @@
             [view removeFromSuperview];
         }
         
-        NSArray *arr = @[@"买手账号:",@"买手电话:",@"自提地址:"];
+        NSArray *arr = @[@"买手昵称:",@"买手电话:",@"自提地址:"];
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
         lab.textColor = [UIColor grayColor];
         lab.text = [arr objectAtIndex:indexPath.row];

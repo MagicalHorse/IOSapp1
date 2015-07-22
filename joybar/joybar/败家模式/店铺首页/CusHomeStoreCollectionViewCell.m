@@ -65,10 +65,10 @@
         clickZan.selected = YES;
     }
     
-    NSString *count =[NSString stringWithFormat:@"%@",[dic objectForKey:@"IsFavorite"]];
+    NSString *count =[NSString stringWithFormat:@" %@",[dic objectForKey:@"FavoriteCount"]];
     [clickZan setTitle:count forState:(UIControlStateNormal)];
 
-    clickZan.titleLabel.font = [UIFont systemFontOfSize:11];
+    clickZan.titleLabel.font = [UIFont systemFontOfSize:14];
     [clickZan setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
     clickZan.userInteractionEnabled = YES;
     [clickZan addTarget:self action:@selector(didClickCancelCollect:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -88,10 +88,8 @@
         [dic setValue:@"1" forKey:@"Status"];
 
     }
-    //    [self hudShow:@"正在取消收藏"];
     [HttpTool postWithURL:@"Product/Favorite" params:dic success:^(id json) {
         
-        //        [self textHUDHiddle];
         if ([json objectForKey:@"isSuccessful"])
         {
             if (btn.selected)
