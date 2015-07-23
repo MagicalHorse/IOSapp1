@@ -111,6 +111,7 @@
         
     }];
 }
+
 -(void)initBottomView
 {
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
