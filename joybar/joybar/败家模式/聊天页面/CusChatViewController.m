@@ -18,6 +18,7 @@
 #import "OSSData.h"
 #import "OSSLog.h"
 #import "CusBuyerDetailViewController.h"
+#import "ProductPicture.h"
 @interface CusChatViewController ()<UITableViewDataSource,UITableViewDelegate,SendMessageTextDelegate,UIScrollViewDelegate,MessageMoreViewDelegate>
 
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -263,7 +264,7 @@
 }
 -(void)creatRoom
 {
-    NSArray *arr=[NSArray array];
+    NSArray *arr;
     NSString *myId=[[Public getUserInfo]objectForKey:@"id"]; //买手
     NSString *type;
     
@@ -339,7 +340,9 @@
     
     UIImageView *productImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
     productImage.clipsToBounds = YES;
-    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",self.detailData.ProductPic.firstObject];
+    ProductPicture *pic = self.detailData.ProductPic.firstObject;
+    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",pic.Logo];
+
     [productImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [bgView addSubview:productImage];
     
@@ -763,8 +766,8 @@
     [self.view addSubview:buyBgView];
     
     UIImageView *proImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 65, 65)];
-    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",self.detailData.ProductPic.firstObject];
-    
+    ProductPicture *pic = self.detailData.ProductPic.firstObject;
+    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",pic.Logo];    
     [proImg sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [buyBgView addSubview:proImg];
     

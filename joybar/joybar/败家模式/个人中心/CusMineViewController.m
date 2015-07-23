@@ -37,6 +37,8 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    
+    [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
     [self getMineData];
@@ -277,6 +279,7 @@
         case 1000:
         {
             CusAttentionViewController *VC = [[CusAttentionViewController alloc] init];
+            VC.userId = [[Public getUserInfo] objectForKey:@"id"];
             [self.navigationController pushViewController:VC animated:YES];
         }
             
@@ -286,6 +289,7 @@
         {
             CusFansViewController *VC = [[CusFansViewController alloc] init];
             VC.titleStr = @"粉丝";
+            VC.userId = [[Public getUserInfo] objectForKey:@"id"];
             [self.navigationController pushViewController:VC animated:YES];
         }
             break;
@@ -294,6 +298,7 @@
         {
             CusBuyerCircleViewController *VC = [[CusBuyerCircleViewController alloc] init];
             VC.userId = [[Public getUserInfo] objectForKey:@"id"];
+            
             [self.navigationController pushViewController:VC animated:YES];
         }
             break;

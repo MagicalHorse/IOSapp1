@@ -101,7 +101,7 @@
             HomePicTag *proTags = [proPic.Tags objectAtIndex:j];
             CGSize size = [Public getContentSizeWith:proTags.Name andFontSize:13 andHigth:20];
             CGFloat x = [proTags.PosX floatValue]*kScreenWidth;
-            CGFloat y = [proTags.PosY floatValue]*kScreenHeight;
+            CGFloat y = [proTags.PosY floatValue]*kScreenWidth;
             UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
             tagView.backgroundColor = [UIColor clearColor];
             [image addSubview:tagView];

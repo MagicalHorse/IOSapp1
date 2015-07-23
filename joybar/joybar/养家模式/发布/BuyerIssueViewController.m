@@ -97,6 +97,8 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    
+    [super viewWillAppear:animated];
     if (self.btn2.image==nil) {
         _titLable.hidden=NO;
     }else{
@@ -512,7 +514,7 @@
     switch (i) {
         case 1:
             if (self.detail){
-                Image *image =[[Image alloc]init];
+                Image *image;
                 if (![[self.imagesArray objectAtIndex:0] isKindOfClass:[Image class]]){
                     NSDictionary *dict=self.imagesArray[0];
                     image= [Image objectWithKeyValues:dict];

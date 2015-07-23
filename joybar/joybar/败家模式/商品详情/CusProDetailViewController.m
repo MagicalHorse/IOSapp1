@@ -37,6 +37,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 }
 
@@ -239,7 +240,7 @@
     
     buyNumLab = [[UILabel alloc] initWithFrame:CGRectMake(44, 0, numView.width-88, 35)];
     buyNumLab.backgroundColor = [UIColor whiteColor];
-    buyNumLab.text = [NSString stringWithFormat:@"%ld",self.priceNum];
+    buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
     buyNumLab.textAlignment = NSTextAlignmentCenter;
     [numView addSubview:buyNumLab];
     
@@ -348,7 +349,7 @@
 -(void)didCLickAddNum
 {
     self.priceNum+=1;
-    buyNumLab.text = [NSString stringWithFormat:@"%ld",self.priceNum];
+    buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
 }
 
 //减少
@@ -361,7 +362,7 @@
     else
     {
         self.priceNum-=1;
-        buyNumLab.text = [NSString stringWithFormat:@"%ld",self.priceNum];
+        buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
     }
 }
 

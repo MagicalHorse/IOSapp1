@@ -40,7 +40,7 @@
 //http 请求
 +(NSData *) httpSend:(NSString *)url method:(NSString *)method data:(NSString *)data
 {
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5];
+    NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5] autorelease];
     //设置提交方式
     [request setHTTPMethod:method];
     //设置数据类型

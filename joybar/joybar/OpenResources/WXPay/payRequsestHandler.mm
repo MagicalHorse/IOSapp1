@@ -87,7 +87,7 @@
 //提交预支付
 -(NSString *)sendPrepay:(NSMutableDictionary *)prePayParams
 {
-    NSString *prepayid = nil;
+    NSString *prepayid = [NSString string];
     
     //获取提交支付
     NSString *send = [self genPackage:prePayParams];
@@ -100,7 +100,8 @@
     NSData *res = [WXUtil httpSend:payUrl method:@"POST" data:send];
     
     //输出Debug Info
-    [debugInfo appendFormat:@"服务器返回：\n%@\n\n",[[NSString alloc] initWithData:res encoding:NSUTF8StringEncoding]];
+    NSString *str =[[[NSString alloc] initWithData:res encoding:NSUTF8StringEncoding] autorelease];
+    [debugInfo appendFormat:@"服务器返回：\n%@\n\n",str];
     
     XMLHelper *xml  = [[XMLHelper alloc] autorelease];
     
@@ -122,7 +123,7 @@
         if( [sign isEqualToString:send_sign]){
             if( [result_code isEqualToString:@"SUCCESS"]) {
                 //验证业务处理状态
-                prepayid    = [resParams objectForKey:@"prepay_id"];
+                prepayid  = [resParams objectForKey:@"prepay_id"];
                 return_code = 0;
                 
                 [debugInfo appendFormat:@"获取预支付交易标示成功！\n"];

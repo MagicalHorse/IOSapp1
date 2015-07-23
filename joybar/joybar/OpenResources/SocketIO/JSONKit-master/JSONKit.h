@@ -104,8 +104,6 @@ typedef unsigned int   NSUInteger;
 #define JSONKIT_VERSION_MAJOR 1
 #define JSONKIT_VERSION_MINOR 4
 
-#define USE_JSONKIT 1
-    
 typedef NSUInteger JKFlags;
 
 /*

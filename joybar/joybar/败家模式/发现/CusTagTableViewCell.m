@@ -67,8 +67,6 @@
     CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
     VC.productId = proId;
     [self.viewController.navigationController pushViewController:VC animated:YES];
-    
-    NSLog(@"%ld",tap.view.tag-10);
 }
 
 @end

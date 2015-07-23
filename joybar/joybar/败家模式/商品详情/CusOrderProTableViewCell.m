@@ -7,7 +7,7 @@
 //
 
 #import "CusOrderProTableViewCell.h"
-
+#import "ProductPicture.h"
 @implementation CusOrderProTableViewCell
 
 -(void)setData:(ProDetailData *)proDetailData
@@ -15,7 +15,8 @@
     self.sizeLab.text = [NSString stringWithFormat:@"颜色:默认  规格:%@",self.sizeName];
     self.buyNameLab.text = proDetailData.BuyerName;
     self.addressLab.text = proDetailData.StoreName;
-    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",proDetailData.ProductPic.firstObject];
+    ProductPicture *pic = proDetailData.ProductPic.firstObject;
+    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",pic.Logo];
     self.proImage.clipsToBounds = YES;
     [self.proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.proName.text = proDetailData.ProductName;

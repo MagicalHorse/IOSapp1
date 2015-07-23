@@ -438,6 +438,7 @@
 
 -(UIImage *)getNewImg:(UIImage *)img AndType :(int)type{
     
+    
     NSString *nameLUT = [NSString stringWithFormat:@"filter_lut_%d",type];
     CIFilter *lutFilter = [CIFilter filterWithLUT:nameLUT dimension:64];
     
@@ -445,7 +446,7 @@
     [lutFilter setValue:ciImage forKey:@"inputImage"];
     CIImage *outputImage = [lutFilter outputImage];
     
-    CIContext *context = [CIContext contextWithOptions:[NSDictionary dictionaryWithObject:(__bridge id)(CGColorSpaceCreateDeviceRGB()) forKey:kCIContextWorkingColorSpace]];
+    CIContext *context = [CIContext contextWithOptions:[NSDictionary dictionaryWithObject:(__bridge_transfer id)(CGColorSpaceCreateDeviceRGB()) forKey:kCIContextWorkingColorSpace]];
     
     UIImage *newImage = [UIImage imageWithCGImage:[context createCGImage:outputImage fromRect:outputImage.extent]];
     return newImage;

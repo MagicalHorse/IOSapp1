@@ -311,7 +311,7 @@
         orderPLabel.textColor =[UIColor blackColor];
         
     }else{
-        viewY= 55;
+//        viewY= 55;
         cooutLabel.text = @"佣金:";
         orderPTLabel.text = @"实付:";
         orderPLabel.textColor =[UIColor redColor];

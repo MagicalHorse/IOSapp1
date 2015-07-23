@@ -69,7 +69,7 @@
 
         CGSize size = [Public getContentSizeWith:tag.Name andFontSize:13 andHigth:20];
         CGFloat x = [tag.PosX floatValue]*kScreenWidth;
-        CGFloat y = [tag.PosY floatValue]*kScreenHeight;
+        CGFloat y = [tag.PosY floatValue]*kScreenWidth;
         UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
         tagView.backgroundColor = [UIColor clearColor];
         tagView.tag = 100+i;
@@ -319,7 +319,7 @@
         {
             if (btn.selected==NO)
             {
-                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%ld",[self.homePro.LikeUsers.Count integerValue]+1];
+                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%ld",(long)[self.homePro.LikeUsers.Count integerValue]+1];
                 self.homePro.LikeUsers.IsLike = @"1";
                 [btn setImage:[UIImage imageNamed:@"点赞h"] forState:(UIControlStateNormal)];
                 [btn setTitle:self.homePro.LikeUsers.Count forState:(UIControlStateNormal)];
@@ -327,7 +327,7 @@
             }
             else
             {
-                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%ld",[self.homePro.LikeUsers.Count integerValue]-1];
+                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%ld",(long)[self.homePro.LikeUsers.Count integerValue]-1];
                 self.homePro.LikeUsers.IsLike = @"0";
                 
                 [btn setImage:[UIImage imageNamed:@"点赞"] forState:(UIControlStateNormal)];

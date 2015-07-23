@@ -80,6 +80,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self.myCircleTableView.dataArr removeAllObjects];
     [self getMyCircleData:YES];
 }
@@ -189,7 +190,7 @@
 -(void)getMyCircleData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:[NSString stringWithFormat:@"%ld",self.myCirclePageNum] forKey:@"page"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.myCirclePageNum] forKey:@"page"];
     [dic setObject:@"10" forKey:@"pagesize"];
     if (!isRefresh)
     {

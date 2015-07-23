@@ -38,8 +38,9 @@
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName{
     //NSLog(@"遇到结束标签:%@",elementName);
     
-    if( ![contentString isEqualToString:@"\n"] && ![elementName isEqualToString:@"root"]){
-        [dictionary setObject: [contentString copy] forKey:elementName];
+    if( ![contentString isEqualToString:@"\n"] && ![elementName isEqualToString:@"root"])
+    {
+        [dictionary setObject: [[contentString copy] autorelease] forKey:elementName];
         //NSLog(@"%@=%@",elementName, contentString);
     }
 }

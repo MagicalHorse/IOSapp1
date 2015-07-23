@@ -134,7 +134,7 @@
             [view removeFromSuperview];
         }
         
-        NSArray *arr = @[@"买手账号:",@"买手电话:",@"自提地址:"];
+        NSArray *arr = @[@"买手昵称:",@"买手电话:",@"自提地址:"];
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
         lab.textColor = [UIColor grayColor];
         lab.text = [arr objectAtIndex:indexPath.row];

@@ -153,6 +153,7 @@
     payBtn.layer.borderColor = [UIColor redColor].CGColor;
     payBtn.layer.borderWidth = 0.5;
     payBtn.layer.cornerRadius = 3;
+    payBtn.hidden = YES;
     [payBtn addTarget:self action:@selector(didClickPayBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:payBtn];
     
@@ -164,6 +165,7 @@
     cancelBtn.layer.borderColor = [UIColor blackColor].CGColor;
     cancelBtn.layer.borderWidth = 0.5;
     cancelBtn.layer.cornerRadius = 3;
+    cancelBtn.hidden = YES;
     [cancelBtn addTarget:self action:@selector(didClickCancelBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:cancelBtn];
 }

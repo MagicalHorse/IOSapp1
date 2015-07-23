@@ -274,7 +274,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *iden = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+    UITableViewCell *cell;
 //    if (cell==nil)
 //    {
         cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];

@@ -76,9 +76,10 @@
 }
 + (unsigned char *)createRGBABitmapFromImage:(CGImageRef)image
 {
-    CGContextRef context = NULL;
+    
+    CGContextRef context;
     CGColorSpaceRef colorSpace;
-    unsigned char *bitmap;
+    ;
     NSInteger bitmapSize;
     NSInteger bytesPerRow;
     
@@ -88,7 +89,7 @@
     bytesPerRow   = (width * 4);
     bitmapSize     = (bytesPerRow * height);
     
-    bitmap = malloc( bitmapSize );
+   unsigned char *bitmap = malloc(bitmapSize);
     if (bitmap == NULL)
     {
         return NULL;
