@@ -118,13 +118,12 @@
 
 - (void)imagePickerViewController:(NSString *)type
 {
-    UIImagePickerControllerSourceType sourceType;
     UIImagePickerController *picker = [[UIImagePickerController alloc]init];
     
     if ([type isEqualToString:@"0"])
     {
 //    相册
-        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        picker.sourceType =UIImagePickerControllerSourceTypePhotoLibrary;
     }else if([type isEqualToString:@"1"])
     {
 //    拍照
@@ -137,7 +136,7 @@
         }else
         {
             if (isSource) {
-                sourceType = UIImagePickerControllerSourceTypeCamera;
+                picker.sourceType = UIImagePickerControllerSourceTypeCamera;
             }else{
 //                DLog(@"模拟器无法打开相机");
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"模拟器无法打开相机" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
@@ -146,7 +145,6 @@
             }
         }
     }
-    picker.sourceType = sourceType;
     picker.delegate = self;
     [self.viewController presentViewController:picker animated:YES completion:^{
         

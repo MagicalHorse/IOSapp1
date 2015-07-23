@@ -8,7 +8,6 @@
 
 #import "BuyerIssueViewController.h"
 #import "FeSlideFilterView.h"
-#import "CIFilter+LUT.h"
 #import "JSONKit.h"
 #import "BuyerCameraViewController.h"
 #import "BuyerFilterViewController.h"

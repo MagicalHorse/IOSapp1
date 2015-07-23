@@ -37,6 +37,11 @@
 @property (nonatomic,strong)NSString *tempImageName;
 @property (nonatomic,strong)BuyerIssueViewController *issue;
 @property (nonatomic ,strong)UIScrollView *customScrollView;
+@property (nonatomic ,strong)UIImage* getNewImg1;
+@property (nonatomic ,strong)UIImage* getNewImg2;
+@property (nonatomic ,strong)UIImage* getNewImg3;
+@property (nonatomic ,strong)UIImage* getNewImg4;
+
 @end
 
 @implementation BuyerFilterViewController
@@ -173,19 +178,23 @@
                 break;
             case 1:
                 label.text=@"诺曼底";
-                [btn setImage:[self getNewImg:cImage AndType:1] forState:UIControlStateNormal];
+                [self getNewImg:cImage AndType:1];
+                [btn setImage:self.getNewImg1 forState:UIControlStateNormal];
                 break;
             case 2:
                 label.text=@"流年";
-                [btn setImage:[self getNewImg:cImage AndType:2] forState:UIControlStateNormal];
+                [self getNewImg:cImage AndType:2];
+                [btn setImage:self.getNewImg2 forState:UIControlStateNormal];
                 break;
             case 3:
                 label.text=@"琥珀";
-                [btn setImage:[self getNewImg:cImage AndType:3] forState:UIControlStateNormal];
+                [self getNewImg:cImage AndType:3];
+                [btn setImage:self.getNewImg3 forState:UIControlStateNormal];
                 break;
             case 4:
                 label.text=@"冷绿";
-                [btn setImage:[self getNewImg:cImage AndType:4] forState:UIControlStateNormal];
+                [self getNewImg:cImage AndType:4];
+                [btn setImage:self.getNewImg4 forState:UIControlStateNormal];
                 break;
 
             default:
@@ -214,16 +223,20 @@
             self.bgImage.image =cImage;
             break;
         case 2:
-            self.bgImage.image =[self getNewImg:image AndType:1];
+            [self getNewImg:image AndType:1];
+            self.bgImage.image =self.getNewImg1;
             break;
         case 3:
-            self.bgImage.image =[self getNewImg:image AndType:2];
+            [self getNewImg:image AndType:2];
+            self.bgImage.image =self.getNewImg2;
             break;
         case 4:
-            self.bgImage.image =[self getNewImg:image AndType:3];
+            [self getNewImg:image AndType:3];
+            self.bgImage.image =self.getNewImg3;
             break;
         case 5:
-            self.bgImage.image =[self getNewImg:image AndType:4];
+            [self getNewImg:image AndType:4];
+            self.bgImage.image =self.getNewImg4;
             break;
             
         default:
@@ -436,8 +449,25 @@
     viweTag++;
 }
 
--(UIImage *)getNewImg:(UIImage *)img AndType :(int)type{
+
+-(void)getNewImg:(UIImage *)img{
     
+    
+    NSString *nameLUT = [NSString stringWithFormat:@"filter_lut_%d",1];
+    CIFilter *lutFilter = [CIFilter filterWithLUT:nameLUT dimension:64];
+    
+    CIImage *ciImage = [[CIImage alloc] initWithImage:img];
+    [lutFilter setValue:ciImage forKey:@"inputImage"];
+    CIImage *outputImage = [lutFilter outputImage];
+    
+    CIContext *context = [CIContext contextWithOptions:[NSDictionary dictionaryWithObject:(__bridge_transfer id)(CGColorSpaceCreateDeviceRGB()) forKey:kCIContextWorkingColorSpace]];
+    CGImageRef ref =[context createCGImage:outputImage fromRect:outputImage.extent];
+    CGImageRelease(ref);
+    
+    
+}
+
+-(void)getNewImg:(UIImage *)img AndType :(int)type{
     
     NSString *nameLUT = [NSString stringWithFormat:@"filter_lut_%d",type];
     CIFilter *lutFilter = [CIFilter filterWithLUT:nameLUT dimension:64];
@@ -447,9 +477,25 @@
     CIImage *outputImage = [lutFilter outputImage];
     
     CIContext *context = [CIContext contextWithOptions:[NSDictionary dictionaryWithObject:(__bridge_transfer id)(CGColorSpaceCreateDeviceRGB()) forKey:kCIContextWorkingColorSpace]];
-    
-    UIImage *newImage = [UIImage imageWithCGImage:[context createCGImage:outputImage fromRect:outputImage.extent]];
-    return newImage;
+    CGImageRef ref =[context createCGImage:outputImage fromRect:outputImage.extent];
+    switch (type) {
+        case 1:
+           self.getNewImg1= [UIImage imageWithCGImage:ref];
+            break;
+        case 2:
+            self.getNewImg2= [UIImage imageWithCGImage:ref];
+            break;
+        case 3:
+            self.getNewImg3= [UIImage imageWithCGImage:ref];
+            break;
+        case 4:
+            self.getNewImg4= [UIImage imageWithCGImage:ref];
+            break;
+        default:
+            break;
+    }
+    CGImageRelease(ref);
+
 }
 //actionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
