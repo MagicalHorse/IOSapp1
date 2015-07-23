@@ -77,6 +77,7 @@
 + (unsigned char *)createRGBABitmapFromImage:(CGImageRef)image
 {
     
+    
     CGContextRef context;
     CGColorSpaceRef colorSpace;
     ;
@@ -116,7 +117,7 @@
     {
         free (bitmap);
     }
-    
+
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), image);
     
     CGContextRelease(context);

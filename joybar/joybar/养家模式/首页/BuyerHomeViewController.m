@@ -217,15 +217,15 @@
         cell.tilteView.text =@"货款管理";
         cell.tilteD1View.text =@"今日货款";
         cell.tilteD2View.text =@"累积货款";
-        NSString *tempPirce =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"todaygoodsamount"] stringValue];
-        if (tempPirce.length>0) {
-            cell.pirceD1View.text =[NSString stringWithFormat:@"%@",tempPirce];
+        CGFloat tempPirce =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"todaygoodsamount"] floatValue];
+        if (tempPirce >0) {
+            cell.pirceD1View.text =[NSString stringWithFormat:@"%.2f",tempPirce];
         }else{
             cell.pirceD1View.text=@"0.00";
         }
-        NSString *tempPirceD2 =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"totalgoodsamount"] stringValue];
-        if (tempPirce.length >0) {
-            cell.pirceD2View.text =[NSString stringWithFormat:@"%@",tempPirceD2];
+        CGFloat  tempPirceD2 =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"totalgoodsamount"] floatValue];
+        if (tempPirceD2 >0) {
+            cell.pirceD2View.text =[NSString stringWithFormat:@"%.2f",tempPirceD2];
         }else{
             cell.pirceD2View.text=@"0.00";
         }
@@ -237,14 +237,13 @@
         cell.tilteView.text =@"收益管理";
         cell.tilteD1View.text =@"今日收益";
         cell.tilteD2View.text =@"累积收益";
-        cell.pirceD1View.text =@"500";
         CGFloat tempPirce = [[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"] floatValue];
         if (tempPirce >0) {
             cell.pirceD1View.text =[NSString stringWithFormat:@"%.2f",tempPirce];
         }else{
             cell.pirceD1View.text=@"0.00";
         }
-        float  tempPirceD2 =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"] floatValue];
+        CGFloat  tempPirceD2 =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"] floatValue];
         
         if (tempPirce  >0) {
             cell.pirceD2View.text =[NSString stringWithFormat:@"%.2f",tempPirceD2];

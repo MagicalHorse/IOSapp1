@@ -101,7 +101,8 @@
         UILabel * lablePrice =[[UILabel alloc]initWithFrame:CGRectMake(lable.right, 13, kScreenWidth/2-5, 24)];
         lablePrice.font =[UIFont systemFontOfSize:24];
         if ([self.dataArray objectForKey:@"TotalAmount"]) {
-            lablePrice.text =[NSString stringWithFormat:@"￥%@",[self.dataArray objectForKey:@"TotalAmount"]];
+            CGFloat totalAmount= [[self.dataArray objectForKey:@"TotalAmount"] floatValue];
+            lablePrice.text =[NSString stringWithFormat:@"￥%.2f",totalAmount];
         }else{
             lablePrice.text =@"￥0.00";
         }
@@ -120,6 +121,7 @@
         
        
         if ([self.dataArray objectForKey:@"PickedPercent"]) {
+            
             lable.text =[NSString stringWithFormat:@"已提现货款 %@％",[self.dataArray objectForKey:@"PickedPercent"]];
             
             [UIView animateWithDuration:1.5 animations:^{
@@ -127,13 +129,14 @@
                 view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"PickedPercent"] integerValue]*0.01, 5);
             }];
         }else{
-            lable.text =@"已提现货款0.00";
+            lable.text =@"已提现货款0.00%";
         }
 
         UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
         labPrice.textAlignment =NSTextAlignmentRight;
         if ([self.dataArray objectForKey:@"PickedAmount"]) {
-             labPrice.text =[NSString stringWithFormat:@"￥%@",[self.dataArray objectForKey:@"PickedAmount"]];
+            CGFloat pickedAmount =[[self.dataArray objectForKey:@"PickedAmount"] floatValue];
+            labPrice.text =[NSString stringWithFormat:@"￥%.2f",pickedAmount];;
         }else{
             labPrice.text =@"￥0.00";
         }
@@ -160,13 +163,14 @@
                 view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"CanPickPercent"] integerValue]*0.01, 5);
             }];
         }else{
-            lable.text =@"可提现货款0.00";
+            lable.text =@"可提现货款0.00%";
         }
         
         UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
         labPrice.textAlignment =NSTextAlignmentRight;
         if ([self.dataArray objectForKey:@"CanPickAmount"]) {
-             labPrice.text =[NSString stringWithFormat:@"￥%@",[self.dataArray objectForKey:@"CanPickAmount"]];
+            CGFloat canPickAmount = [[self.dataArray objectForKey:@"CanPickAmount"] floatValue];
+             labPrice.text =[NSString stringWithFormat:@"￥%.2f",canPickAmount];
         }else{
             labPrice.text =@"￥0.00";
         }
@@ -191,15 +195,15 @@
                 view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"FrozenPercent"] integerValue]*0.01, 5);
             }];
         }else{
-            lable.text =@"冻结货款0.00";
+            lable.text =@"冻结货款0.00%";
         }
         
         
         UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
         labPrice.textAlignment =NSTextAlignmentRight;
         if ([self.dataArray objectForKey:@"FrozenAmount"]) {
-            float temp =[[self.dataArray objectForKey:@"FrozenAmount"] floatValue];
-             labPrice.text =[NSString stringWithFormat:@"￥%.2f",temp];
+            CGFloat temp =[[self.dataArray objectForKey:@"FrozenAmount"] floatValue];
+            labPrice.text =[NSString stringWithFormat:@"￥%.2f",temp];
         }else{
             labPrice.text =@"￥0.00";
         }
@@ -224,14 +228,15 @@
                 view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"RmaPercent"] integerValue]*0.01, 5);
             }];
         }else{
-            lable.text =@"退款0.00";
+            lable.text =@"退款0.00%";
         }
         
         
         UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
         labPrice.textAlignment =NSTextAlignmentRight;
         if ([self.dataArray objectForKey:@"RmaAmount"]) {
-            labPrice.text =[NSString stringWithFormat:@"￥%@",[self.dataArray objectForKey:@"RmaAmount"]];
+            CGFloat rmaAmount =[[self.dataArray objectForKey:@"RmaAmount"] floatValue];
+            labPrice.text =[NSString stringWithFormat:@"￥%.2f",rmaAmount];
         }else{
             labPrice.text =@"￥0.00";
         }
