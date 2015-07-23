@@ -89,7 +89,7 @@
             {
                 cancelBtn.hidden = YES;
                 payBtn.hidden = NO;
-                [payBtn setTitle:@"撤销退货" forState:(UIControlStateNormal)];
+                [payBtn setTitle:@"撤销退款" forState:(UIControlStateNormal)];
             }
             else if ([status isEqualToString:@"-10"]||[status isEqualToString:@"18"])
             {
@@ -471,7 +471,7 @@
         VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
         [self.navigationController pushViewController:VC animated:YES];
     }
-    else if ([btn.titleLabel.text isEqual:@"撤销退货"])
+    else if ([btn.titleLabel.text isEqual:@"撤销退款"])
     {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setObject:self.detailData.OrderNo forKey:@"OrderNo"];

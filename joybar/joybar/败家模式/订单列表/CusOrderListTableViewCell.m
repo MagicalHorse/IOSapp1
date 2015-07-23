@@ -68,7 +68,7 @@
     {
         self.refundBtn.hidden = YES;
         self.payBtn.hidden = NO;
-        [self.payBtn setTitle:@"撤销退货" forState:(UIControlStateNormal)];
+        [self.payBtn setTitle:@"撤销退款" forState:(UIControlStateNormal)];
     }
     else
     {
@@ -121,7 +121,7 @@
         VC.orderNum = self.orderListItem.OrderNo;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
-    else if ([btn.titleLabel.text isEqual:@"撤销退货"])
+    else if ([btn.titleLabel.text isEqual:@"撤销退款"])
     {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setObject:self.orderListItem.OrderNo forKey:@"OrderNo"];
