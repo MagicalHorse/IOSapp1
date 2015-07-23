@@ -51,7 +51,7 @@
     [view addSubview:img];
 
     UILabel* lable1=[[UILabel alloc]initWithFrame:CGRectMake(40, 150-24, kScreenWidth-40, 14)];
-    lable1.text =@"预计到账时间5月19日";
+    lable1.text =@"预计1时间内到账";
     lable1.font = [UIFont systemFontOfSize:14];
     [view addSubview:lable1];
     

@@ -125,7 +125,7 @@
                 
                 CGFloat x = [[tags[i]objectForKey:@"PosX"] floatValue];
                 CGFloat y = [[tags[i]objectForKey:@"PosY"] floatValue];
-                CGPoint point ={x*kScreenWidth,y*kScreenHeight};
+                CGPoint point ={x*kScreenWidth,y*kScreenWidth};
                 
                 [self didSelectedTag:[tags[i]objectForKey:@"Name"] AndPoint:point AndSourceId:[tags[i]objectForKey:@"SourceId"] AndSourceType:[tags[i]objectForKey:@"SourceType"]];
             }
@@ -139,7 +139,7 @@
                 Tag *tag =tags[i];
                 CGFloat x = tag.PosX ;
                 CGFloat y = tag.PosY;
-                CGPoint point ={x*kScreenWidth,y*kScreenHeight};
+                CGPoint point ={x*kScreenWidth,y*kScreenWidth};
                 [self didSelectedTag:tag.Name AndPoint:point AndSourceId:[tag.SourceId stringValue] AndSourceType:[tag.SourceType stringValue]];
             }
         }
@@ -392,7 +392,7 @@
             //得获取到哪一个tag移动，并更改其值
             int i=(int)pan.view.tag;
             CGFloat tempX =pan.view.frame.origin.x/kScreenWidth;
-            CGFloat tempY =pan.view.frame.origin.y/kScreenHeight;
+            CGFloat tempY =pan.view.frame.origin.y/kScreenWidth;
 
             [self.tagsArray[i]setObject:@(tempX) forKey:@"PosX"];
             [self.tagsArray[i]setObject:@(tempY) forKey:@"PosY"];
@@ -434,7 +434,7 @@
     
     NSMutableDictionary *tagArray =[NSMutableDictionary dictionary];
     CGFloat tempX =point.x/kScreenWidth;
-    CGFloat tempY =point.y/kScreenHeight;
+    CGFloat tempY =point.y/kScreenWidth;
     [tagArray setObject:tagText forKey:@"Name"];
     [tagArray setObject:@(tempX) forKey:@"PosX"];
     [tagArray setObject:@(tempY) forKey:@"PosY"];
