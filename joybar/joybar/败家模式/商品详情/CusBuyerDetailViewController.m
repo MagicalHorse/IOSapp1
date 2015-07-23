@@ -91,7 +91,7 @@
         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(self.imageScrollView.width*i, 0, self.imageScrollView.width, 300)];
         image.contentMode = UIViewContentModeScaleAspectFill;
         image.clipsToBounds = YES;
-        [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",pic.Logo ]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",pic.Logo ]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         [self.imageScrollView addSubview:image];
         
         ProductPicture *proPic = [prodata.ProductPic objectAtIndex:i];

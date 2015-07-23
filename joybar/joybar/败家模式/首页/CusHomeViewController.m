@@ -310,7 +310,7 @@
 //        Banner *banner = [self.data.Banners objectAtIndex:pageIndex];
 //        if (banner)
 //        {
-//            NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
+//            NSString *temp =[NSString stringWithFormat:@"%@",banner.Pic];
 //            [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:nil];
 //        }
 //}
@@ -326,7 +326,7 @@
     Banner *banner = [self.data.Banners objectAtIndex:pageIndex];
     if (banner)
     {
-        NSString *temp =[NSString stringWithFormat:@"%@_320x0.jpg",banner.Pic];
+        NSString *temp =[NSString stringWithFormat:@"%@",banner.Pic];
         [imgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     }
     

@@ -16,7 +16,7 @@
     self.buyNameLab.text = proDetailData.BuyerName;
     self.addressLab.text = proDetailData.StoreName;
     ProductPicture *pic = proDetailData.ProductPic.firstObject;
-    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",pic.Logo];
+    NSString *imageURL = [NSString stringWithFormat:@"%@",pic.Logo];
     self.proImage.clipsToBounds = YES;
     [self.proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.proName.text = proDetailData.ProductName;

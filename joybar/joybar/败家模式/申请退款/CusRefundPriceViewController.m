@@ -34,7 +34,7 @@
     self.refundText.layer.borderColor = [UIColor grayColor].CGColor;
     self.refundText.layer.borderWidth = 0.5;
     self.refundText.layer.cornerRadius = 3;
-    NSString *tempUrl = [NSString stringWithFormat:@"%@_320x0.jpg",self.proImageStr];
+    NSString *tempUrl = [NSString stringWithFormat:@"%@",self.proImageStr];
     [self.proImage sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.proName.text = self.proNameStr;
     self.proNumLab.text = [NSString stringWithFormat:@"x%@",self.proNumStr];
