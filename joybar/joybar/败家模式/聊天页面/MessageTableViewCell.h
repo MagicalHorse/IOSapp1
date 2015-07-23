@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TGRImageViewController.h"
+#import "TGRImageZoomAnimationController.h"
 
-@interface MessageTableViewCell : UITableViewCell
+@interface MessageTableViewCell : UITableViewCell<UIViewControllerTransitioningDelegate>
 
 //发送消息的日期
 //@property (strong, nonatomic) UILabel *senderAndTimeLabel;

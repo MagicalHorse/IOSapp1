@@ -323,6 +323,10 @@
 		9D5D2E491B5F9E3C00DBFDC3 /* CHANGELOG.md in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E451B5F9E3C00DBFDC3 /* CHANGELOG.md */; };
 		9D5D2E4A1B5F9E3C00DBFDC3 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E471B5F9E3C00DBFDC3 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9D5D2E4B1B5F9E3C00DBFDC3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E481B5F9E3C00DBFDC3 /* README.md */; };
+		9D5D2E541B60BF7200DBFDC3 /* TGRImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E4E1B60BF7200DBFDC3 /* TGRImageViewController.m */; };
+		9D5D2E551B60BF7200DBFDC3 /* TGRImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D5D2E4F1B60BF7200DBFDC3 /* TGRImageViewController.xib */; };
+		9D5D2E561B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E511B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m */; };
+		9D5D2E571B60BF7200DBFDC3 /* UIImage+AspectFit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E531B60BF7200DBFDC3 /* UIImage+AspectFit.m */; };
 		9D5FD0D01ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5FD0CF1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m */; };
 		9D6C94761AE0AA200066F794 /* WriteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94751AE0AA200066F794 /* WriteInfoViewController.m */; };
 		9D6C948A1AE0F0A30066F794 /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94891AE0F0A30066F794 /* FindPasswordViewController.m */; };
@@ -915,6 +919,13 @@
 		9D5D2E461B5F9E3C00DBFDC3 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		9D5D2E471B5F9E3C00DBFDC3 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		9D5D2E481B5F9E3C00DBFDC3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9D5D2E4D1B60BF7200DBFDC3 /* TGRImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGRImageViewController.h; sourceTree = "<group>"; };
+		9D5D2E4E1B60BF7200DBFDC3 /* TGRImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGRImageViewController.m; sourceTree = "<group>"; };
+		9D5D2E4F1B60BF7200DBFDC3 /* TGRImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TGRImageViewController.xib; sourceTree = "<group>"; };
+		9D5D2E501B60BF7200DBFDC3 /* TGRImageZoomAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGRImageZoomAnimationController.h; sourceTree = "<group>"; };
+		9D5D2E511B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGRImageZoomAnimationController.m; sourceTree = "<group>"; };
+		9D5D2E521B60BF7200DBFDC3 /* UIImage+AspectFit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AspectFit.h"; sourceTree = "<group>"; };
+		9D5D2E531B60BF7200DBFDC3 /* UIImage+AspectFit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AspectFit.m"; sourceTree = "<group>"; };
 		9D5FD0CE1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginAndRegisterViewController.h; sourceTree = "<group>"; };
 		9D5FD0CF1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginAndRegisterViewController.m; sourceTree = "<group>"; };
 		9D6C94741AE0AA200066F794 /* WriteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteInfoViewController.h; sourceTree = "<group>"; };
@@ -1734,6 +1745,7 @@
 		0DB5AF321ACCDE6F000FE9C8 /* OpenResources */ = {
 			isa = PBXGroup;
 			children = (
+				9D5D2E4C1B60BF7200DBFDC3 /* Vertigo */,
 				9D5D2E441B5F9E3C00DBFDC3 /* JSONKit-master */,
 				9D1E12F11B43C3B600435531 /* YRADScrollView.h */,
 				9D1E12F21B43C3B700435531 /* YRADScrollView.m */,
@@ -2049,6 +2061,20 @@
 				9D5D2E481B5F9E3C00DBFDC3 /* README.md */,
 			);
 			path = "JSONKit-master";
+			sourceTree = "<group>";
+		};
+		9D5D2E4C1B60BF7200DBFDC3 /* Vertigo */ = {
+			isa = PBXGroup;
+			children = (
+				9D5D2E4D1B60BF7200DBFDC3 /* TGRImageViewController.h */,
+				9D5D2E4E1B60BF7200DBFDC3 /* TGRImageViewController.m */,
+				9D5D2E4F1B60BF7200DBFDC3 /* TGRImageViewController.xib */,
+				9D5D2E501B60BF7200DBFDC3 /* TGRImageZoomAnimationController.h */,
+				9D5D2E511B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m */,
+				9D5D2E521B60BF7200DBFDC3 /* UIImage+AspectFit.h */,
+				9D5D2E531B60BF7200DBFDC3 /* UIImage+AspectFit.m */,
+			);
+			path = Vertigo;
 			sourceTree = "<group>";
 		};
 		9D5FD0CD1ADF9EAB00FE9A78 /* 注册登录 */ = {
@@ -2444,6 +2470,7 @@
 				9D744DDB1B2FCB9B00553648 /* UMSShareListController.xib in Resources */,
 				0AAB5B8A1B2AE01900782C0C /* biaoqing060.png in Resources */,
 				9D42E95E1B27DAF200C85400 /* BuyerInComeViewController.xib in Resources */,
+				9D5D2E551B60BF7200DBFDC3 /* TGRImageViewController.xib in Resources */,
 				0AAB5B4D1B2AE01900782C0C /* MessageView_smileBg@2x.png in Resources */,
 				9DDB171B1AE7741F0014D8B2 /* TipViewIcon.png in Resources */,
 				9D744DDA1B2FCB9B00553648 /* UMSnsAccountViewController.xib in Resources */,
@@ -2590,7 +2617,9 @@
 				0A5305121B12C05300997BF4 /* SDWebImageDecoder.m in Sources */,
 				9D467EF91B05C4FA005CAA36 /* NSObject+MJCoding.m in Sources */,
 				0AAB5B091B2AE01900782C0C /* CusMineViewController.m in Sources */,
+				9D5D2E541B60BF7200DBFDC3 /* TGRImageViewController.m in Sources */,
 				9DDB17251AE7741F0014D8B2 /* UIScrollView+MJExtension.m in Sources */,
+				9D5D2E561B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m in Sources */,
 				9D42E94F1B27DAF200C85400 /* BuerySotres.m in Sources */,
 				0AA5AD3A1B3011CE009C26FD /* BuyerTicketDetailsViewController.m in Sources */,
 				9D42E9641B27DAF200C85400 /* BueryDetailsTableViewCell.m in Sources */,
@@ -2636,6 +2665,7 @@
 				0AAB5B441B2AE01900782C0C /* ListView.m in Sources */,
 				9D42E94C1B27DAF200C85400 /* BuyerSellTableViewCell.m in Sources */,
 				9D6C948A1AE0F0A30066F794 /* FindPasswordViewController.m in Sources */,
+				9D5D2E571B60BF7200DBFDC3 /* UIImage+AspectFit.m in Sources */,
 				0AAB5BAB1B2AE01900782C0C /* OrderListData.m in Sources */,
 				0A53051D1B12C05300997BF4 /* UIView+WebCacheOperation.m in Sources */,
 				0AAB5BB31B2AE01900782C0C /* HomeTableView.m in Sources */,

@@ -19,6 +19,7 @@
 #import "OSSLog.h"
 #import "CusBuyerDetailViewController.h"
 #import "ProductPicture.h"
+
 @interface CusChatViewController ()<UITableViewDataSource,UITableViewDelegate,SendMessageTextDelegate,UIScrollViewDelegate,MessageMoreViewDelegate>
 
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -84,9 +85,7 @@
 {
     [super viewDidDisappear:animated];
     [[SocketManager  socketManager].socket emit:@"disconnect"];
-
 }
-
 
 -(void)aliyunSet{
     OSSClient *ossclient = [OSSClient sharedInstanceManage];
@@ -711,7 +710,19 @@
         VC.productId = [msgDic objectForKey:@"productId"];
         [self.navigationController pushViewController: VC animated:YES];
     }
+    if ([[msgDic objectForKey:@"type"] isEqualToString:@"img"])
+    {
+        [self setBigImageView];
+    }
+
 }
+
+-(void)setBigImageView
+{
+    UIImageView *bigImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    
+}
+
 
 //-(void)didClickTableView
 //{

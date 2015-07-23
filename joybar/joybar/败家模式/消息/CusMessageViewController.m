@@ -72,7 +72,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [self.msgTableView.dataArr removeAllObjects];
+    self.msgPageNum = 1;
+    [self.msgTableView.dataArr removeAllObjects];
     [self getMessageList];
 }
 -(void)getMessageList
@@ -86,8 +87,6 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            [self.msgTableView.dataArr removeAllObjects];
-
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
             if (arr.count<10)
             {
@@ -107,6 +106,7 @@
         [self.msgTableView endRefresh];
         
     } failure:^(NSError *error) {
+        
         [self.msgTableView endRefresh];
 
     }];

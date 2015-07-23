@@ -67,10 +67,9 @@
     else if ([status isEqualToString:@"3"])
     {
         self.refundBtn.hidden = YES;
-        self.payBtn.hidden = YES;
-//        [self.payBtn setTitle:@"撤销退款" forState:(UIControlStateNormal)];
+        self.payBtn.hidden = NO;
+        [self.payBtn setTitle:@"撤销退货" forState:(UIControlStateNormal)];
     }
-//    else ([status isEqualToString:@"-10"]||[status isEqualToString:@"18"])
     else
     {
         self.refundBtn.hidden = YES;
@@ -122,9 +121,28 @@
         VC.orderNum = self.orderListItem.OrderNo;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
-    else if ([btn.titleLabel.text isEqual:@"撤销退款"])
+    else if ([btn.titleLabel.text isEqual:@"撤销退货"])
     {
-        
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:self.orderListItem.OrderNo forKey:@"OrderNo"];
+        [self hudShow:@"正在取消"];
+        [HttpTool postWithURL:@"Order/CancelRma" params:dic success:^(id json) {
+            
+            if ([[json objectForKey:@"isSuccessful"] boolValue])
+            {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self.delegate orderListDelegate];
+                });
+            }
+            else
+            {
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+            [self textHUDHiddle];
+            
+        } failure:^(NSError *error) {
+        }];
+
     }
 }
 -(void)dealloc{
