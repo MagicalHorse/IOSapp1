@@ -297,6 +297,7 @@
                 self.pageNum=1;
                 [self setData];
                 [self showHudSuccess:@"提取成功"];
+                [self.orderNos removeAllObjects];
             }else{
                 [self showHudFailed:[json objectForKey:@"message"]];
             }
@@ -333,7 +334,7 @@
             cell.stateLabel.text =@"退款中";
         }else if(type ==3){
             cell.stateBtn.hidden =YES;
-            cell.stateLabel.hidden=YES;
+            cell.stateLabel.hidden=NO;
         }
         else if(type ==4){
             cell.stateBtn.hidden =YES;
