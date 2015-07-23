@@ -12,7 +12,9 @@
 #define END_FLAG @"]"
 
 @implementation MessageTableViewCell
-
+{
+    UIImageView *ImgView;
+}
 //泡泡文本
 - (UIView *)bubbleView:(NSString *)text from:(BOOL)fromSelf withPosition:(int)position{
     
@@ -20,13 +22,6 @@
     
     UIView *returnView = [[UIView alloc] init];
     returnView.backgroundColor = [UIColor clearColor];
-    
-//    [[NSBundle mainBundle] pathForResource:fromSelf == YES?@"橙色对话框":@"白色对话框" ofType:@"png"];
-    
-    //背影图片
-//    UIImage *bubble = [UIImage imageWithContentsOfFile:imagePath];
-    
-    //    bgImageView.image = [bubble stretchableImageWithLeftCapWidth:floorf(bubble.size.width/2) topCapHeight:floorf(bubble.size.height/2)];
     
     UIImageView *bgImageView = [[UIImageView alloc] init];
     
@@ -66,11 +61,12 @@
     
 //    imageView.clipsToBounds = YES;
     
-    UIImageView *ImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 100, 100)];
+    ImgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 100, 100)];
     
     [ImgView sd_setImageWithURL:[NSURL URLWithString:text] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    ImgView.contentMode = UIViewContentModeScaleAspectFit;
-    
+    ImgView.contentMode = UIViewContentModeScaleAspectFill;
+    ImgView.clipsToBounds = YES;
+    ImgView.userInteractionEnabled = YES;
 //    ImgView.backgroundColor = [UIColor redColor];
     
 //    if(fromSelf){
@@ -102,9 +98,38 @@
     bgImageView.image = [UIImage imageNamed:imagePath];
 
     bgImageView.frame = CGRectMake(0.0f, 40, imageView.width+10, imageView.height);
+    bgImageView.userInteractionEnabled = YES;
     [imageView addSubview:bgImageView];
     [bgImageView addSubview:ImgView];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickShowBigImage:)];
+    [ImgView addGestureRecognizer:tap];
     return imageView;
+}
+
+//点击放大
+-(void)didClickShowBigImage:(UITapGestureRecognizer *)tap
+{
+    TGRImageViewController *viewController = [[TGRImageViewController alloc] initWithImage:ImgView.image];
+    viewController.transitioningDelegate = self;
+    
+    [self.viewController presentViewController:viewController animated:YES completion:nil];
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    if ([presented isKindOfClass:TGRImageViewController.class])
+    {
+        return [[TGRImageZoomAnimationController alloc] initWithReferenceImageView:ImgView];
+    }
+    return nil;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
+    if ([dismissed isKindOfClass:TGRImageViewController.class]) {
+        return [[TGRImageZoomAnimationController alloc] initWithReferenceImageView:ImgView];
+    }
+    return nil;
 }
 
 //发送链接

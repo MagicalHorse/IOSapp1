@@ -13,7 +13,7 @@
 #import "CusRefundPriceViewController.h"
 #import "CusAppealViewController.h"
 
-@interface CusOrderListViewController ()<UITableViewDelegate,UITableViewDataSource,orderListDelegate>
+@interface CusOrderListViewController ()<UITableViewDelegate,UITableViewDataSource,orderListDelegate,orderDelegate>
 
 @property (nonatomic ,strong) UIView *line;
 
@@ -149,6 +149,7 @@
 {
     CusOrderDetailViewController *VC = [[CusOrderDetailViewController alloc] init];
     OrderListItem *item = [self.orderListData.items objectAtIndex:indexPath.row];
+    VC.delegate = self;
     VC.orderId = item.OrderNo;
     [self.navigationController pushViewController:VC animated:YES];
     
@@ -217,10 +218,16 @@
     [self getData:self.orderStatus];
 }
 
+-(void)refreshOrderList
+{
+    [self getData:self.orderStatus];
+}
+
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"refundNotification" object:nil];
 }
+
 
 
 

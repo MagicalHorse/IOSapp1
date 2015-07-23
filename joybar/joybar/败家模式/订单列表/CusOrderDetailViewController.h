@@ -8,7 +8,15 @@
 
 #import "BaseViewController.h"
 
+@protocol orderDelegate <NSObject>
+
+-(void)refreshOrderList;
+
+@end
+
 @interface CusOrderDetailViewController : BaseViewController
 
 @property (nonatomic ,strong) NSString *orderId;
+
+@property (nonatomic ,assign) id<orderDelegate> delegate;
 @end
