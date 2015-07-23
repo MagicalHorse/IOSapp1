@@ -341,7 +341,7 @@
     UIImageView *productImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
     productImage.clipsToBounds = YES;
     ProductPicture *pic = self.detailData.ProductPic.firstObject;
-    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",pic.Logo];
+    NSString *imageURL = [NSString stringWithFormat:@"%@",pic.Logo];
 
     [productImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [bgView addSubview:productImage];
@@ -628,7 +628,7 @@
                 //链接
                 else if ([[msgDic objectForKey:@"type"] isEqualToString:@"product_img"])
                 {
-                    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",[msgDic objectForKey:@"body"]];
+                    NSString *imageURL = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"body"]];
                     //发送链接
                     [cell.contentView addSubview:[cell productLinkBubbleView:imageURL AndProcuctLink:[msgDic objectForKey:@"sharelink"] from:YES withPosition:60]];
                 }
@@ -767,7 +767,7 @@
     
     UIImageView *proImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 65, 65)];
     ProductPicture *pic = self.detailData.ProductPic.firstObject;
-    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",pic.Logo];    
+    NSString *imageURL = [NSString stringWithFormat:@"%@",pic.Logo];
     [proImg sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [buyBgView addSubview:proImg];
     

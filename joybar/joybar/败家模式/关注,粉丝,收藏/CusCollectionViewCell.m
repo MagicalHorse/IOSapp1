@@ -18,7 +18,7 @@
     dataDic = dic;
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-15)/2, height)];
 //    imageView.backgroundColor = [self randomColor];
-    NSString *imgUrl = [NSString stringWithFormat:@"%@_320x0.jpg",[[dic objectForKey:@"pic"] objectForKey:@"pic"]];
+    NSString *imgUrl = [NSString stringWithFormat:@"%@",[[dic objectForKey:@"pic"] objectForKey:@"pic"]];
     imageView.clipsToBounds = YES;
     [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:imageView];

@@ -62,7 +62,7 @@
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.center = CGPointMake(kScreenWidth/6+kScreenWidth/3*i, kScreenWidth/6-5+headImg.bottom+10);
         imageView.bounds = CGRectMake(0, 0, kScreenWidth/3-10, kScreenWidth/3-10);
-        NSString *tempUrl = [NSString stringWithFormat:@"%@_320x0.jpg",[self.nearItems.Pic objectAtIndex:i]];
+        NSString *tempUrl = [NSString stringWithFormat:@"%@",[self.nearItems.Pic objectAtIndex:i]];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.clipsToBounds = YES;
         [imageView sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];

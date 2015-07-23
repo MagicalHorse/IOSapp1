@@ -183,7 +183,7 @@
         
         UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(selectBtn.right+5, 5, 70, 70)];
 //        proImage.backgroundColor = [UIColor orangeColor];
-        NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",[[proDic objectForKey:@"pic"] objectForKey:@"pic"]];
+        NSString *imageURL = [NSString stringWithFormat:@"%@",[[proDic objectForKey:@"pic"] objectForKey:@"pic"]];
         [proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         [cell.contentView addSubview:proImage];
         

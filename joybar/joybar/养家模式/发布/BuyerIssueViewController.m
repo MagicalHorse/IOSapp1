@@ -305,12 +305,12 @@
 //修改才会进
 -(void)updateInfoView:(Detail *)detail
 {
-    self.priceText1.text =detail.Sku_Code;
+
     self.priceText.text =[detail.Price stringValue];
     self.dscText.text =detail.Desc;
     for (int i=0; i<detail.Images.count; i++) {
         Image *img =detail.Images[i];
-        NSString *url =[NSString stringWithFormat:@"%@_120x0.jpg",img.ImageUrl];
+        NSString *url =[NSString stringWithFormat:@"%@",img.ImageUrl];
          UIImage * image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
         if (i==0) {
             self.btn1.image =image;

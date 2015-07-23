@@ -96,7 +96,7 @@
         cell.ordertoPrice.text = [[self.dataArray objectForKey:@"InCome"] stringValue];
         cell.userNO.text = [self.dataArray objectForKey:@"CustomerName"];
         cell.orderTime.text = [self.dataArray objectForKey:@"CreateTime"];
-        NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",[self.dataArray objectForKey:@"Logo"]];
+        NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray objectForKey:@"Logo"]];
         cell.userPic.layer.cornerRadius = cell.userPic.width/2;
         cell.userPic.clipsToBounds =YES;
         [cell.userPic sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];

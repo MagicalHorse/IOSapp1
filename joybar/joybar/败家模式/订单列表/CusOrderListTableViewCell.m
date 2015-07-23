@@ -32,7 +32,7 @@
     self.priceLab.text = [NSString stringWithFormat:@"￥%@",self.orderListItem.Product.Price];
     self.payPriceLab.text =[NSString stringWithFormat:@"￥%@",self.orderListItem.ActualAmount];
     self.sizeLab.text = self.orderListItem.Product.Productdesc;
-    NSString *tempUrl = [NSString stringWithFormat:@"%@_120x0.jpg",self.orderListItem.Product.Image];
+    NSString *tempUrl = [NSString stringWithFormat:@"%@",self.orderListItem.Product.Image];
     [self.proImageView sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.proImageView.clipsToBounds = YES;
     NSString *status = self.orderListItem.OrderStatus;

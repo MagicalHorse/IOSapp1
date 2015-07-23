@@ -349,7 +349,7 @@
             if (indexPath.row==1)
             {
                 UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 5, 40, 40)];
-                NSString * temp =[NSString stringWithFormat:@"%@_200x200.jpg",self.circleData.GroupPic];
+                NSString * temp =[NSString stringWithFormat:@"%@",self.circleData.GroupPic];
                 headerImage.layer.cornerRadius = headerImage.width/2;
                 headerImage.clipsToBounds =YES;
                 [headerImage sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];

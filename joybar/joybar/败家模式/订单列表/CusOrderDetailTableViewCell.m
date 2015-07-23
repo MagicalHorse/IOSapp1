@@ -16,7 +16,7 @@
 
 -(void)setData:(OrderDetailData *)detailData
 {
-    NSString *imageURL = [NSString stringWithFormat:@"%@_320x0.jpg",detailData.ProductPic];
+    NSString *imageURL = [NSString stringWithFormat:@"%@",detailData.ProductPic];
     [self.proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.proImage.clipsToBounds = YES;
     

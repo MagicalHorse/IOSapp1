@@ -186,7 +186,7 @@
     if(self.dataArray.count>0){
         Store * store =[self.dataArray objectAtIndex:indexPath.section];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",store.Pic];
+        NSString * temp =[NSString stringWithFormat:@"%@",store.Pic];
         [cell.StoreImgView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.StoreDetails.text =store.ProductName;
         cell.StoreNo.text =store.StoreItemNo;
@@ -289,7 +289,7 @@
     }
     Store *st=[self.dataArray objectAtIndex:btn.tag];
 
-    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@_320x0.jpg",st.Pic]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",st.Pic]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
         

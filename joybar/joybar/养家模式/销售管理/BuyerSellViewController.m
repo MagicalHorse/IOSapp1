@@ -201,7 +201,7 @@
     cell.countView.text =[NSString stringWithFormat:@"%@%@",@"x",product.Count];
     cell.guigeView.text =[NSString stringWithFormat:@"%@%@",@"规格：",product.SizeName];
     cell.picView.clipsToBounds =YES;
-    NSString * temp =[NSString stringWithFormat:@"%@_120x0.jpg",product.Picture ];
+    NSString * temp =[NSString stringWithFormat:@"%@",product.Picture ];
     [cell.picView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

@@ -50,7 +50,7 @@
         tagImage.tag = index + 10;
         tagImage.userInteractionEnabled = YES;
         
-        NSString *imageURL = [NSString stringWithFormat:@"%@_120x0.jpg",[[dataArr objectAtIndex:index] objectForKey:@"Pic"]];
+        NSString *imageURL = [NSString stringWithFormat:@"%@",[[dataArr objectAtIndex:index] objectForKey:@"Pic"]];
         [tagImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         tagImage.contentMode = UIViewContentModeScaleAspectFill;
         tagImage.clipsToBounds = YES;
