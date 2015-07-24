@@ -22,7 +22,7 @@
                             <constraint firstAttribute="height" constant="70" id="gS9-4H-l5P"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sXb-qW-VOd">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="215" translatesAutoresizingMaskIntoConstraints="NO" id="sXb-qW-VOd">
                         <rect key="frame" x="95" y="8" width="215" height="0.0"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="215" id="lrN-Rk-e2T"/>

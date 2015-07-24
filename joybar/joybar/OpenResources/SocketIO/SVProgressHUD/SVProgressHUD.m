@@ -17,10 +17,6 @@
 @property (nonatomic, strong, readonly) UIActivityIndicatorView *spinnerView;
 @property (nonatomic ,strong) UIView *hudBgView;
 
-- (void)showWithStatus:(NSString*)string networkIndicator:(BOOL)show;
-
-- (void)dismiss;
-
 @end
 
 
