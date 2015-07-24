@@ -308,6 +308,7 @@
 
     self.priceText.text =[detail.Price stringValue];
     self.dscText.text =detail.Desc;
+    self.priceText1.text =detail.Sku_Code;
     for (int i=0; i<detail.Images.count; i++) {
         Image *img =detail.Images[i];
         NSString *url =[NSString stringWithFormat:@"%@",img.ImageUrl];
