@@ -152,10 +152,6 @@
             NSLog(@"connnection is success:%@",[args description]);
             
         }];
-        
-        [socket on:@"disconnect" callback:^(NSArray *args) {
-            NSLog(@"disconnect");
-        }];
     }];
 }
 

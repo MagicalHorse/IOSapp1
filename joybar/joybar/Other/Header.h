@@ -46,7 +46,6 @@
 //获取服务器端支付数据地址（商户自定义）
 #define SP_URL          @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php"
 
-#define HomeURL  @"http://123.57.52.187:8080/app/"
-//#define HomeURL  @"http://123.57.52.187:8070/app/"
-//#define HomeURL  @"http://123.57.77.86:8080/app/"
+#define HomeURL  @"http://123.57.52.187:8080/app/" //开发
+//#define HomeURL  @"http://123.57.77.86:8080/app/" //测试
 

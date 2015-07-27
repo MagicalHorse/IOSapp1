@@ -84,7 +84,7 @@
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [[SocketManager  socketManager].socket emit:@"disconnect"];
+    [[SocketManager  socketManager].socket emit:@"leaveRoom"];
 }
 
 -(void)aliyunSet{
@@ -278,7 +278,8 @@
         arr = [chatRoomData objectForKey:@"userList"];
     }
     NSDictionary *dic = @{@"room_id":[chatRoomData objectForKey:@"id"],@"title":@"私聊",@"owner":[chatRoomData objectForKey:@"owner"],@"users":arr,@"type":type,@"sessionId":@"",@"signValue":@"",@"token":@"",@"userName":toUserName};
-    [[SocketManager socketManager].socket emit:@"join room" args:@[[chatRoomData objectForKey:@"owner"],dic]];
+    
+    [[SocketManager socketManager].socket emit:@"join room" args:@[myId,dic]];
 }
 
 #pragma mark - UI

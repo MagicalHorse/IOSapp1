@@ -90,16 +90,14 @@
             [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:[dict objectForKey:@"share_link"]];
             
             [UMSocialSnsService presentSnsIconSheetView:self
-                                                 appKey:@"557f8f1c67e58edf32000208"
-                                              shareText:[dict objectForKey:@"desc"]
-                                             shareImage:image
+                                        appKey:@"557f8f1c67e58edf32000208"
+                                        shareText:[dict objectForKey:@"desc"]
+                                        shareImage:image
                                         shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                                delegate:self];
-            
-            
+            [UMSocialData defaultData].extConfig.wechatSessionData.title = [dict objectForKey:@"title"];
+            [UMSocialData defaultData].extConfig.wechatTimelineData.title = [dict objectForKey:@"title"];
         }];
-        
-        
     }else{
         [self showHudFailed:@"首页数据异常"];
     }
