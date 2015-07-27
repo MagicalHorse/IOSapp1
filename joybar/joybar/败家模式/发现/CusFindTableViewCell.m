@@ -21,7 +21,7 @@
     UIImageView *brandImage= [[UIImageView alloc] init];
     brandImage.center = CGPointMake(kScreenWidth/2, 30);
     brandImage.bounds = CGRectMake(0, 0, 50, 50);
-    [brandImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.findItems]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    [brandImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.findItems.BrandLogo]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:brandImage];
     
     for (int i=0; i<self.findItems.Product.count; i++)

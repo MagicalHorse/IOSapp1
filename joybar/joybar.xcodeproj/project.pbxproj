@@ -64,7 +64,6 @@
 		0AAB5B151B2AE01900782C0C /* CusFindTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A0A1B2AE01800782C0C /* CusFindTableViewCell.m */; };
 		0AAB5B161B2AE01900782C0C /* CusFindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A0C1B2AE01800782C0C /* CusFindViewController.m */; };
 		0AAB5B171B2AE01900782C0C /* CusNearTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A0E1B2AE01800782C0C /* CusNearTableViewCell.m */; };
-		0AAB5B181B2AE01900782C0C /* CusTagTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A101B2AE01800782C0C /* CusTagTableViewCell.m */; };
 		0AAB5B191B2AE01900782C0C /* CusTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A121B2AE01800782C0C /* CusTagViewController.m */; };
 		0AAB5B1A1B2AE01900782C0C /* FindTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A141B2AE01800782C0C /* FindTableView.m */; };
 		0AAB5B1B1B2AE01900782C0C /* FindData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A171B2AE01800782C0C /* FindData.m */; };
@@ -512,8 +511,6 @@
 		0AAB5A0C1B2AE01800782C0C /* CusFindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusFindViewController.m; sourceTree = "<group>"; };
 		0AAB5A0D1B2AE01800782C0C /* CusNearTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusNearTableViewCell.h; sourceTree = "<group>"; };
 		0AAB5A0E1B2AE01800782C0C /* CusNearTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusNearTableViewCell.m; sourceTree = "<group>"; };
-		0AAB5A0F1B2AE01800782C0C /* CusTagTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusTagTableViewCell.h; sourceTree = "<group>"; };
-		0AAB5A101B2AE01800782C0C /* CusTagTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusTagTableViewCell.m; sourceTree = "<group>"; };
 		0AAB5A111B2AE01800782C0C /* CusTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusTagViewController.h; sourceTree = "<group>"; };
 		0AAB5A121B2AE01800782C0C /* CusTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusTagViewController.m; sourceTree = "<group>"; };
 		0AAB5A131B2AE01800782C0C /* FindTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindTableView.h; sourceTree = "<group>"; };
@@ -1272,8 +1269,6 @@
 				0AAB5A211B2AE01800782C0C /* NearTableView.m */,
 				0AAB5A0D1B2AE01800782C0C /* CusNearTableViewCell.h */,
 				0AAB5A0E1B2AE01800782C0C /* CusNearTableViewCell.m */,
-				0AAB5A0F1B2AE01800782C0C /* CusTagTableViewCell.h */,
-				0AAB5A101B2AE01800782C0C /* CusTagTableViewCell.m */,
 				0AAB5A111B2AE01800782C0C /* CusTagViewController.h */,
 				0AAB5A121B2AE01800782C0C /* CusTagViewController.m */,
 				0AAB5A151B2AE01800782C0C /* model */,
@@ -2682,7 +2677,6 @@
 				0AAB5B151B2AE01900782C0C /* CusFindTableViewCell.m in Sources */,
 				9D42E9531B27DAF200C85400 /* BuyerCircleViewController.m in Sources */,
 				9DDB17161AE7741F0014D8B2 /* MBProgressHUD+Add.m in Sources */,
-				0AAB5B181B2AE01900782C0C /* CusTagTableViewCell.m in Sources */,
 				0AAB5BBB1B2AE01900782C0C /* MyBuyerTableView.m in Sources */,
 				9D8CDE681B00BEBC00B8708B /* SelectCityViewController.m in Sources */,
 				0AAB5B301B2AE01900782C0C /* CusInviteFriendViewController.m in Sources */,
