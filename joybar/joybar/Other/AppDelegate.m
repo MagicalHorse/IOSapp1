@@ -19,7 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
+    application.statusBarHidden = YES;
     [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                    UIRemoteNotificationTypeSound |
                                                    UIRemoteNotificationTypeAlert)
@@ -29,8 +29,6 @@
     //向微信注册
     [WXApi registerApp:APP_ID];
 
-    //状态栏白色
-    [application setStatusBarStyle:UIStatusBarStyleLightContent];
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -75,7 +73,7 @@
         [self _initWithScrollViewForSoftHelp];
 
     }else{
-        [application setStatusBarStyle:UIStatusBarStyleDefault];
+        
     }
     return YES;
 }

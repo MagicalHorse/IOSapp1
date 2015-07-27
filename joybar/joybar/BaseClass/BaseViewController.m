@@ -42,6 +42,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
 //    [self addNavBarViewAndTitle:@"adasd"];
 //    [self initNoDataView];
+    [UIApplication sharedApplication].statusBarHidden = NO;
+
     
 }
 
@@ -49,14 +51,16 @@
 {
     [super viewWillAppear:animated];
     
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]){
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
-        NSLog(@"第一次启动");
-        
-    }else{
-        NSLog(@"不是第一次启动");
+//    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]){
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
+//        NSLog(@"第一次启动");
+//        
+//    }else{
+//        NSLog(@"不是第一次启动");
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-    }
+//    }
+    
+
 
 }
 

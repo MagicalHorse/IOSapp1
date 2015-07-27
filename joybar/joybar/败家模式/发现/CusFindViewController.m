@@ -169,16 +169,14 @@
             [self.findTableView.dataArr addObjectsFromArray:self.findData.items];
             
             [self.findTableView reloadData];
-            
         }
         [self.findTableView reloadData];
         [self.findTableView endRefresh];
         [self activityDismiss];
         
     } failure:^(NSError *error) {
-        [self.nearTableView endRefresh];
+        [self.findTableView endRefresh];
         [self activityDismiss];
-
     }];
 }
 

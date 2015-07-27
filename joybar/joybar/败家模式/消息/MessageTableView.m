@@ -58,14 +58,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *userId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"id"];
-    NSString *userName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
-//    NSString *roomId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"RoomId"];
-
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:userId AndTpye:2 andUserName:userName];
-    VC.isFrom = isFromPrivateChat;
-//    VC.chatRoomId = roomId;
-    [self.viewController.navigationController pushViewController:VC animated:YES];
+    if (self.dataArr.count>0)
+    {
+        NSString *userId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"id"];
+        NSString *userName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
+        //    NSString *roomId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"RoomId"];
+        
+        CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:userId AndTpye:2 andUserName:userName];
+        VC.isFrom = isFromPrivateChat;
+        //    VC.chatRoomId = roomId;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
+    
 }
 
 @end
