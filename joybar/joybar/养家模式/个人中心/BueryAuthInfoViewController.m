@@ -19,13 +19,12 @@
 @property (nonatomic,strong)NSMutableArray *dataArray1;
 @property (nonatomic,strong)NSMutableArray *dataArray2;
 @property (nonatomic,strong)NSMutableArray *dataArray3;
-@property (nonatomic,strong)NSMutableArray *dataArray4;
 
 
 @property (nonatomic,strong)UILabel * cityLable;
 @property (nonatomic,copy)NSMutableDictionary * cityText;
 @property (nonatomic,copy)NSMutableDictionary * cityKey;
-@property (nonatomic,strong)UILabel * field1;
+@property (nonatomic,strong)UITextField * field1;
 @property (nonatomic,strong)UITextField * field2;
 @property (nonatomic,strong)UITextField * field3;
 @property (nonatomic,strong)UITextField * field4;
@@ -93,26 +92,7 @@
     }
     return _dataArray3;
 }
--(NSMutableArray *)dataArray4{
-    if (_dataArray4 ==nil) {
-        _dataArray4 =[[NSMutableArray alloc]init];
-    }
-    return _dataArray4;
-}
--(void)setData1{
-//    [self hudShow:@"正在加载中..."];
-    [HttpTool postWithURL:@"Buyer/GetStoreList" params:nil success:^(id json) {
-        BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
-        if (isSuccessful) {
-            self.dataArray4 =[json objectForKey:@"data"];
-            [self.pickerView reloadAllComponents];
-        }else{
-            [self showHudFailed:@"数据加载失败"];
-        }
-    } failure:^(NSError *error) {
-        
-    }];
-}
+
 -(void)setData:(NSString *)parentId WithType:(int)type{
 //    [self hudShow:@"正在加载中..."];
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
@@ -147,6 +127,8 @@
             [self showHudFailed:@"数据加载失败"];
         }
     } failure:^(NSError *error) {
+        [self showHudFailed:@"服务器异常,请稍后再试"];
+
         NSLog(@"%@",[error description]);
     }];
 }
@@ -195,21 +177,20 @@
     [storeInfo addSubview:view];
     
 
-    _field1 = [[UILabel alloc]initWithFrame:CGRectMake( 35, view.bottom, kScreenWidth-60, 40)];
-    _field1.text =@"商场名称";
+    _field1 = [[UITextField alloc]initWithFrame:CGRectMake( 35, view.bottom, kScreenWidth-60, 40)];
+    _field1.placeholder =@"商场名称";
     _field1.font =[UIFont systemFontOfSize:15];
 
     [storeInfo addSubview:_field1];
-    storeInfo.tag =1000;
     [storeInfo addSubview:[self bgView:_field1.bottom]];
     [storeInfo addSubview:[self bgImg:view.bottom+12]];
     
-    UIImageView *labelImg=[[UIImageView alloc]initWithFrame:CGRectMake(_field1.right, _field1.center.y-3, 12, 12)];
-    labelImg.image =[UIImage imageNamed:@"展开"];
-    [storeInfo addSubview:labelImg];
-    
-    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelect:)];
-    [storeInfo addGestureRecognizer:tap1];
+//    UIImageView *labelImg=[[UIImageView alloc]initWithFrame:CGRectMake(_field1.right, _field1.center.y-3, 12, 12)];
+//    labelImg.image =[UIImage imageNamed:@"展开"];
+//    [storeInfo addSubview:labelImg];
+//    
+//    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelect:)];
+//    [storeInfo addGestureRecognizer:tap1];
     
     _field2 =[self customField:_field1.bottom+1 andPlaceholder:@"专柜名称"];
 
@@ -347,15 +328,11 @@
     self.pickerView.dataSource = self;
     self.pickerView.tag =tag.view.tag;
     [self.footView addSubview:self.pickerView];
-    if (tag.view.tag ==1000) {
-        btnYes.tag =10;
-        btnNO.tag =101;
-        [self setData1];
-    }else{
+   
         btnYes.tag =20;
         btnNO.tag =201;
         [self setData:@"0" WithType:1];
-    }
+    
 }
 
 
@@ -368,14 +345,6 @@
 {
     self.footView.hidden =YES;
     self.topView.hidden=YES;
-    if (btn.tag ==10) {
-        if (!isUpdate) {
-            self.field1.text =[self.dataArray4[0]objectForKey:@"StoreName"];
-            self.field1.tag =[[self.dataArray4[0]objectForKey:@"StoreId"]intValue];
-        }
-    }else{
-        
-    }
 }
 
 -(void)customBtnClick{
@@ -386,7 +355,7 @@
     }else if(self.field3.text.length==0){
         [self showHudFailed:@"请填写专柜位置"];
         return;
-    }else if([self.field1.text isEqualToString:@"商场名称"]){
+    }else if(self.field1.text.length==0){
         [self showHudFailed:@"请选择商场名称"];
         return;
     }else if([self.dscText.text isEqualToString:@"详细地址（顾客支付后，到专柜提货的地址，请务必正确填写，否则会影响收款确认）"] ||self.dscText.text.length ==0){
@@ -414,7 +383,6 @@
         [dict setObject:[self.dataArray3[0] objectForKey:@"Id"] forKey:@"DistrictId"];
     }
     [dict setObject:self.dscText.text forKey:@"Address"];
-    [dict setObject:@(self.field1.tag)  forKey:@"StoreId"];
     [dict setObject:self.field1.text  forKey:@"StoreName"];
     [dict setObject:self.field2.text forKey:@"SectionName"];
     [dict setObject:self.field3.text forKey:@"SectionLocate"];
@@ -444,18 +412,11 @@
    }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    if (pickerView.tag==1000) {
-        return 1;
-    }
     return 3;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    if (pickerView.tag==1000) {
-        
-        return self.dataArray4.count;
-        
-    }else{
+  
         if (component ==1) {
             return self.dataArray2.count;
         }else if (component==2) {
@@ -463,14 +424,10 @@
         }else{
             return self.dataArray1.count;
         }
-    }
-   
-    
+
 }
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    if (pickerView.tag ==1000) {
-        return [self.dataArray4[row] objectForKey:@"StoreName"];
-    }else{
+   
         if (component ==1) {
             return [self.dataArray2[row] objectForKey:@"Name"];
         }else if(component==2){
@@ -478,52 +435,49 @@
         }else{
             return [self.dataArray1[row] objectForKey:@"Name"];
         }
-    }
+    
     
 }
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     isUpdate =YES;
-    if (pickerView.tag ==1000) {
-        self.field1.text =[self.dataArray4[row]objectForKey:@"StoreName"];
-        self.field1.tag =[[self.dataArray4[row]objectForKey:@"StoreId"]intValue];
+   
+    if (component==0) {
+        [self.cityText setValue:[self.dataArray1[row] objectForKey:@"Name"] forKey:@"1"];
+        [self.cityKey setValue:[self.dataArray1[row] objectForKey:@"Id"] forKey:@"1"];
+        [self setData:[[self.dataArray1[row] objectForKey:@"Id"]stringValue] WithType:2];
+        
+    }else if(component ==1){
+        
+        [self.cityText setValue:[self.dataArray2[row] objectForKey:@"Name"] forKey:@"2"];
+        [self.cityKey setValue:[self.dataArray2[row] objectForKey:@"Id"] forKey:@"2"];
+        [self setData:[[self.dataArray2[row] objectForKey:@"Id"]stringValue] WithType:3];
+        
     }else{
-        if (component==0) {
-            [self.cityText setValue:[self.dataArray1[row] objectForKey:@"Name"] forKey:@"1"];
-            [self.cityKey setValue:[self.dataArray1[row] objectForKey:@"Id"] forKey:@"1"];
-            [self setData:[[self.dataArray1[row] objectForKey:@"Id"]stringValue] WithType:2];
-            
-        }else if(component ==1){
-            
-            [self.cityText setValue:[self.dataArray2[row] objectForKey:@"Name"] forKey:@"2"];
-            [self.cityKey setValue:[self.dataArray2[row] objectForKey:@"Id"] forKey:@"2"];
-            [self setData:[[self.dataArray2[row] objectForKey:@"Id"]stringValue] WithType:3];
+        [self.cityText setValue:[self.dataArray3[row] objectForKey:@"Name"] forKey:@"3"];
+        [self.cityKey setValue:[self.dataArray3[row] objectForKey:@"Id"] forKey:@"3"];
+        
+        NSMutableString *temp =[[NSMutableString alloc]init];
+        if ([self.cityText objectForKey:@"1"]) {
+            [temp appendString:[self.cityText objectForKey:@"1"]];
+        }else{
+            [temp appendString:[self.dataArray1[0] objectForKey:@"Name"]];
+        }
+        if ([self.cityText objectForKey:@"2"]) {
+            [temp appendString:[self.cityText objectForKey:@"2"]];
             
         }else{
-            [self.cityText setValue:[self.dataArray3[row] objectForKey:@"Name"] forKey:@"3"];
-            [self.cityKey setValue:[self.dataArray3[row] objectForKey:@"Id"] forKey:@"3"];
-            
-            NSMutableString *temp =[[NSMutableString alloc]init];
-            if ([self.cityText objectForKey:@"1"]) {
-                [temp appendString:[self.cityText objectForKey:@"1"]];
-            }else{
-                [temp appendString:[self.dataArray1[0] objectForKey:@"Name"]];
-            }
-            if ([self.cityText objectForKey:@"2"]) {
-                [temp appendString:[self.cityText objectForKey:@"2"]];
-                
-            }else{
-                [temp appendString:[self.dataArray2[0] objectForKey:@"Name"]];
-            }
-            if ([self.cityText objectForKey:@"3"]) {
-                [temp appendString:[self.cityText objectForKey:@"3"]];
-                
-            }else{
-                [temp appendString:[self.dataArray3[0] objectForKey:@"Name"]];
-            }
-            _cityLable.text =temp;
-            _cityText =nil;
+            [temp appendString:[self.dataArray2[0] objectForKey:@"Name"]];
         }
+        if ([self.cityText objectForKey:@"3"]) {
+            [temp appendString:[self.cityText objectForKey:@"3"]];
+            
+        }else{
+            [temp appendString:[self.dataArray3[0] objectForKey:@"Name"]];
+        }
+        _cityLable.text =temp;
+        _cityText =nil;
     }
+    
     
 }
 

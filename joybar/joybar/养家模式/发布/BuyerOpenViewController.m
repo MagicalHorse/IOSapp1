@@ -84,7 +84,7 @@
                 decodedImage = [UIImage imageWithData:decodedImageData];
             }
             
-            NSString *no =[[json objectForKey:@"data"]objectForKey:@"OrderNo"];
+            NSString *no =[[json objectForKey:@"data"]objectForKey:@"ProductName"];
             NSString *price =[[[json objectForKey:@"data"] objectForKey:@"Amount"]stringValue];
             [self addBigView:decodedImage AndNo:no AndPrice:price];
         }else{
@@ -134,7 +134,7 @@
     
 
     UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImage.right+5, headerImage.top+10, _bgView.width-100, 20)];
-    titleLab.text = [NSString stringWithFormat:@"订单号:%@",no];
+    titleLab.text = [NSString stringWithFormat:@"商品名:%@",no];
     titleLab.font = [UIFont systemFontOfSize:16];
     [_bgView addSubview:titleLab];
 

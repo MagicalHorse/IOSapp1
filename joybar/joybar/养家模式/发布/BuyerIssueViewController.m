@@ -181,6 +181,7 @@
 
     
     _priceText1=[[UITextField alloc]initWithFrame:CGRectMake(huohao.right, 0, kScreenWidth-huohao.right, 40)];
+    _priceText1.tag =10001;
     _priceText1.delegate =self;
     _priceText1.font =[UIFont fontWithName:@"youyuan" size:16];
     _priceText1.placeholder =@"请输入";
@@ -200,6 +201,7 @@
     [priceView addSubview:jiage];
     
     _priceText=[[UITextField alloc]initWithFrame:CGRectMake(jiage.right, 45, kScreenWidth-jiage.right-45, 40)];
+    _priceText.tag =10002;
     _priceText.keyboardType =UIKeyboardTypeDecimalPad;
     _priceText.delegate =self;
     [_priceText addTarget:self action:@selector(priceTextChanged:) forControlEvents:UIControlEventEditingChanged];
@@ -636,6 +638,7 @@
     _textField1 =[[UITextField alloc]initWithFrame:CGRectMake(lable1.right+2, 15, (kScreenWidth-160)/2, 40)];
     _textField1.delegate =self;
     _textField1.layer.borderWidth= 1.5;
+    _textField1.tag =10003;
 
     _textField1.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
     [view addSubview:_textField1];
@@ -648,6 +651,8 @@
 
     
     _textField2 =[[UITextField alloc]initWithFrame:CGRectMake(lable2.right+2, 15, (kScreenWidth-160)/2, 40)];
+    _textField2.tag =10004;
+
     _textField2.delegate =self;
     _textField2.keyboardType=UIKeyboardTypeNumberPad;
     _textField2.layer.borderWidth= 1.5;
@@ -746,12 +751,12 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     
-   [textField resignFirstResponder];
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.30];
     CGRect rect = self.view.frame;
     rect.origin.y = 0;
     self.view.frame = rect;
+    [textField resignFirstResponder];
     [UIView commitAnimations];
     return YES;
 }
@@ -759,24 +764,33 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
+    CGRect rect = self.view.frame;
+    if (rect.origin.y==-160) {
+        return YES;
+    }
+    if (textField.tag==10001 ||textField.tag ==10002) {
+        return YES;
+    }
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.30];
-    CGRect rect = self.view.frame;
     rect.origin.y = -160;
     self.view.frame = rect;
     [UIView commitAnimations];
     return YES;
 }
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
-    [textField resignFirstResponder];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.30];
-    CGRect rect = self.view.frame;
-    rect.origin.y = 0;
-    self.view.frame = rect;
-    [UIView commitAnimations];
-    return YES;
-}
+//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
+//    CGRect rect = self.view.frame;
+//    if (rect.origin.y==-160) {
+//        return YES;
+//    }
+//    [textField resignFirstResponder];
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:0.30];
+//    rect.origin.y = 0;
+//    self.view.frame = rect;
+//    [UIView commitAnimations];
+//    return YES;
+//}
 
 -(void)didSelect{
     if (self.dscText.text.length ==0) {
@@ -787,38 +801,29 @@
     CGRect rect = self.view.frame;
     rect.origin.y = 0;
     self.view.frame = rect;
-    [UIView commitAnimations];
     [self.dscText resignFirstResponder];
     [self.priceText1 resignFirstResponder];
     [self.priceText resignFirstResponder];
     [self.textField1 resignFirstResponder];
     [self.textField2 resignFirstResponder];
-    
+    [UIView commitAnimations];
 
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [self.priceText1 resignFirstResponder];
+    [self.priceText resignFirstResponder];
+    [self.dscText resignFirstResponder];
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     if ([textView.text isEqualToString:@"给力商品描述点"]) {
          self.dscText.text=@"";
     }
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.30];
-    CGRect rect = self.view.frame;
-    rect.origin.y = -160;
-    self.view.frame = rect;
-    [UIView commitAnimations];
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
     if(textView.text.length==0){
         self.dscText.text=@"给力商品描述点";
     }
-    [textView resignFirstResponder];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.30];
-    CGRect rect = self.view.frame;
-    rect.origin.y = 0;
-    self.view.frame = rect;
-    [UIView commitAnimations];
 }
 
 -(void)dismissCamrea:(UIImage *)image WithTag:(int)type AndDataArray:(NSMutableDictionary *)array{
