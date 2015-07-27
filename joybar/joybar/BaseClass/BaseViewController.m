@@ -42,7 +42,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
 //    [self addNavBarViewAndTitle:@"adasd"];
 //    [self initNoDataView];
-    [UIApplication sharedApplication].statusBarHidden = NO;
 
     
 }
