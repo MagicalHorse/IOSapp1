@@ -264,11 +264,13 @@
     [self.customScrollView addSubview:self.addInfoBtn];
     
     //发布按钮
-    _footerBtn =[[UIButton alloc]initWithFrame:CGRectMake(0,self.customScrollView.bottom, kScreenWidth, 50)];
+    _footerBtn =[[UIButton alloc]initWithFrame:CGRectMake(0,kScreenHeight-50, kScreenWidth, 50)];
     [_footerBtn setTitle:@"发布" forState:UIControlStateNormal];
     [_footerBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [_footerBtn setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:_footerBtn];
     [_footerBtn addTarget:self action:@selector(publicsh) forControlEvents:UIControlEventTouchUpInside];
+    
     self.customScrollView.contentSize = CGSizeMake(0, self.addInfoBtn.bottom+50);
     if (self.detail) {
         [self updateInfoView:self.detail];
@@ -739,74 +741,38 @@
     }else{
         [self.viewItems addObject:[NSString stringWithFormat:@"%d",count*100]];
     }
-    
-    if (kScreenHeight+50<self.addInfoBtn.bottom+count*5) {
-        self.customScrollView.contentSize = CGSizeMake(0, self.addInfoBtn.bottom+count*5);
-        
-    }else{
-        self.customScrollView.contentSize = CGSizeMake(0,self.addInfoBtn.bottom+50);
-    }
+    self.customScrollView.contentSize = CGSizeMake(0,self.customScrollView.contentSize.height+50);
+//    if (kScreenHeight+50<self.customScrollView.contentSize.height) {
+//        self.customScrollView.contentSize = CGSizeMake(0, self.customScrollView.contentSize.height+250);
+//        
+//    }else{
+//        
+//    }
 }
 
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.30];
-    CGRect rect = self.view.frame;
-    rect.origin.y = 0;
-    self.view.frame = rect;
     [textField resignFirstResponder];
-    [UIView commitAnimations];
     return YES;
 }
 
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    CGRect rect = self.view.frame;
-    if (rect.origin.y==-160) {
-        return YES;
-    }
-    if (textField.tag==10001 ||textField.tag ==10002) {
-        return YES;
-    }
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.30];
-    rect.origin.y = -160;
-    self.view.frame = rect;
-    [UIView commitAnimations];
+    self.customScrollView.contentSize =CGSizeMake(0, self.addInfoBtn.bottom+250);
     return YES;
 }
-//- (BOOL)textFieldShouldEndEditing:(UITextField *)textField{
-//    CGRect rect = self.view.frame;
-//    if (rect.origin.y==-160) {
-//        return YES;
-//    }
-//    [textField resignFirstResponder];
-//    [UIView beginAnimations:nil context:NULL];
-//    [UIView setAnimationDuration:0.30];
-//    rect.origin.y = 0;
-//    self.view.frame = rect;
-//    [UIView commitAnimations];
-//    return YES;
-//}
 
 -(void)didSelect{
     if (self.dscText.text.length ==0) {
         self.dscText.text =@"给力商品描述点";
     }
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.30];
-    CGRect rect = self.view.frame;
-    rect.origin.y = 0;
-    self.view.frame = rect;
     [self.dscText resignFirstResponder];
     [self.priceText1 resignFirstResponder];
     [self.priceText resignFirstResponder];
     [self.textField1 resignFirstResponder];
     [self.textField2 resignFirstResponder];
-    [UIView commitAnimations];
 
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
