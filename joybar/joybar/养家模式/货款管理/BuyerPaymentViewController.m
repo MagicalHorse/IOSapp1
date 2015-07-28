@@ -122,7 +122,7 @@
        
         if ([self.dataArray objectForKey:@"PickedPercent"]) {
             
-            lable.text =[NSString stringWithFormat:@"已提现货款 %@％",[self.dataArray objectForKey:@"PickedPercent"]];
+            lable.text =[NSString stringWithFormat:@"已提现货款 %@",[self.dataArray objectForKey:@"PickedPercent"]];
             
             [UIView animateWithDuration:1.5 animations:^{
                 
@@ -156,7 +156,7 @@
         [cell addSubview:view];
         
         if ([self.dataArray objectForKey:@"CanPickPercent"]) {
-            lable.text =[NSString stringWithFormat:@"可提现货款 %@％",[self.dataArray objectForKey:@"CanPickPercent"]];
+            lable.text =[NSString stringWithFormat:@"可提现货款 %@",[self.dataArray objectForKey:@"CanPickPercent"]];
             
             [UIView animateWithDuration:1.5 animations:^{
                 
@@ -188,7 +188,7 @@
         
         
         if ([self.dataArray objectForKey:@"FrozenPercent"]) {
-            lable.text =[NSString stringWithFormat:@"冻结货款 %@％",[self.dataArray objectForKey:@"FrozenPercent"]];
+            lable.text =[NSString stringWithFormat:@"冻结货款 %@",[self.dataArray objectForKey:@"FrozenPercent"]];
             
             [UIView animateWithDuration:1.5 animations:^{
                 
@@ -221,7 +221,7 @@
         
         
         if ([self.dataArray objectForKey:@"RmaPercent"]) {
-            lable.text =[NSString stringWithFormat:@"退款 %@％",[self.dataArray objectForKey:@"RmaPercent"]];
+            lable.text =[NSString stringWithFormat:@"退款 %@",[self.dataArray objectForKey:@"RmaPercent"]];
             
             [UIView animateWithDuration:1.5 animations:^{
                 
