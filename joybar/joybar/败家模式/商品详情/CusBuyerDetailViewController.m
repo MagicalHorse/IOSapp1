@@ -313,7 +313,7 @@
         [self activityDismiss];
         
     } failure:^(NSError *error) {
-        [self showHudFailed:@"服务器异常,请稍后再试"];
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
         [self activityDismiss];
     }];
 }

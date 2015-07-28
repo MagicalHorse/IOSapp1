@@ -11,7 +11,7 @@
 
 @interface BueryAuthInfoViewController ()<UIScrollViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate,UITextFieldDelegate>{
     NSMutableDictionary *imageNames;
-    BOOL isUpdate;
+    int type;
 }
 @property (nonatomic,strong)UIScrollView *customScrollView;
 @property (nonatomic,strong)UIButton * customButton;
@@ -22,6 +22,10 @@
 
 
 @property (nonatomic,strong)UILabel * cityLable;
+@property (nonatomic,strong)UILabel * shiLable;
+@property (nonatomic,strong)UILabel * xianLable;
+
+
 @property (nonatomic,copy)NSMutableDictionary * cityText;
 @property (nonatomic,copy)NSMutableDictionary * cityKey;
 @property (nonatomic,strong)UITextField * field1;
@@ -58,8 +62,7 @@
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"身份材料认证"];
     [self settingView];
-
-    
+    type=1;
 }
 -(NSMutableDictionary*)cityText{
     if (_cityText ==nil) {
@@ -93,8 +96,8 @@
     return _dataArray3;
 }
 
--(void)setData:(NSString *)parentId WithType:(int)type{
-//    [self hudShow:@"正在加载中..."];
+-(void)setData:(NSString *)parentId{
+
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:parentId forKey:@"parentId"];
     [HttpTool postWithURL:@"Common/GetCityListByParentId" params:dict success:^(id json) {
@@ -102,34 +105,19 @@
         if (isSuccessful) {
             if (type==1) {
                 self.dataArray1 =[json objectForKey:@"data"];
-                [self setData: [[self.dataArray1 objectAtIndex:0] objectForKey:@"Id"] WithType:2];
-                [self.cityKey setObject:[self.dataArray1[0] objectForKey:@"Id"] forKey:@"1"];
-
-
             }else if(type ==2){
                 self.dataArray2 =[json objectForKey:@"data"];
-                 [self setData: [[self.dataArray2 objectAtIndex:0] objectForKey:@"Id"] WithType:3];
-                [self.pickerView reloadComponent:1];
-                [self.cityKey setObject:[self.dataArray2[0] objectForKey:@"Id"] forKey:@"2"];
-                [self.pickerView selectRow:0 inComponent:1 animated:YES];
-                
             }else if(type ==3){
                 self.dataArray3 =[json objectForKey:@"data"];
-                [self.cityKey setObject:[self.dataArray3[0] objectForKey:@"Id"] forKey:@"3"];
-
-                [self.pickerView reloadComponent:2];
-                [self.pickerView selectRow:0 inComponent:2 animated:YES];
             }
-
             [self.pickerView reloadAllComponents];
-//            [self textHUDHiddle];
+            [self.pickerView selectRow:0 inComponent:0 animated:YES];
+
         }else{
-            [self showHudFailed:@"数据加载失败"];
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
     } failure:^(NSError *error) {
-        [self showHudFailed:@"服务器异常,请稍后再试"];
-
-        NSLog(@"%@",[error description]);
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
     }];
 }
 
@@ -159,9 +147,11 @@
     CGFloat scW = kScreenWidth;
     CGFloat scH = kScreenHeight -scY-50;
     _customScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(scX, scY, scW, scH)];
-    [self.view addSubview:_customScrollView];
-    _customScrollView.delegate =self;
     _customScrollView.backgroundColor =kCustomColor(241, 241, 241);
+    [self.view addSubview:_customScrollView];
+     UITapGestureRecognizer *customScrollViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectCustomScrollView)];
+    [_customScrollView addGestureRecognizer:customScrollViewTap];
+
     
     UIView * storeInfo= [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 163)];
     storeInfo.backgroundColor =[UIColor whiteColor];
@@ -185,12 +175,6 @@
     [storeInfo addSubview:[self bgView:_field1.bottom]];
     [storeInfo addSubview:[self bgImg:view.bottom+12]];
     
-//    UIImageView *labelImg=[[UIImageView alloc]initWithFrame:CGRectMake(_field1.right, _field1.center.y-3, 12, 12)];
-//    labelImg.image =[UIImage imageNamed:@"展开"];
-//    [storeInfo addSubview:labelImg];
-//    
-//    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelect:)];
-//    [storeInfo addGestureRecognizer:tap1];
     
     _field2 =[self customField:_field1.bottom+1 andPlaceholder:@"专柜名称"];
 
@@ -208,7 +192,7 @@
     [storeInfo addSubview:[self bgImg:_field2.bottom+12]];
     
     
-    UIView *addressView= [[UIView alloc]initWithFrame:CGRectMake(0, _field3.bottom+15, kScreenWidth, 213)];
+    UIView *addressView= [[UIView alloc]initWithFrame:CGRectMake(0, _field3.bottom+15, kScreenWidth, 310)];
     addressView.backgroundColor =[UIColor whiteColor];
     [self.customScrollView addSubview:addressView];
     UILabel * lable1=[[UILabel alloc]initWithFrame:CGRectMake(20, 10, 200, 20)];
@@ -216,10 +200,7 @@
     lable1.font = [UIFont systemFontOfSize:16];
     [addressView addSubview:lable1];
 
-   
-
-
-        
+    //省
     UIView * view1 = [self bgView:lable1.bottom+10];
     [addressView addSubview:view1];
     
@@ -229,7 +210,7 @@
     
     _cityLable=[[UILabel alloc]initWithFrame:CGRectMake(35, 0, kScreenWidth-100, 45)];
     _cityLable.font =[UIFont systemFontOfSize:15];
-    _cityLable.text =@"省、市、区、县（请选择）";
+    _cityLable.text =@"请选择省";
     [cityView addSubview:_cityLable];
     cityView.tag =2000;
     UIImageView *cityImg=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-24, 18, 12, 12)];
@@ -239,6 +220,43 @@
     [cityView addSubview:[self bgView:50]];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelect:)];
     [cityView addGestureRecognizer:tap];
+    
+    //市
+    UIView * shiView=[[UIView alloc]initWithFrame:CGRectMake(0, cityView.bottom+3, kScreenWidth, 45)];
+    [addressView addSubview:shiView];
+    [shiView addSubview:[self bgImg:12]];
+    
+    _shiLable=[[UILabel alloc]initWithFrame:CGRectMake(35, 0, kScreenWidth-100, 45)];
+    _shiLable.font =[UIFont systemFontOfSize:15];
+    _shiLable.text =@"请选择市";
+    [shiView addSubview:_shiLable];
+    shiView.tag =3000;
+    UIImageView *shiImg=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-24, 18, 12, 12)];
+    shiImg.image =[UIImage imageNamed:@"展开"];
+    
+    [shiView addSubview:shiImg];
+    [shiView addSubview:[self bgView:50]];
+    UITapGestureRecognizer *shiTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelect:)];
+    [shiView addGestureRecognizer:shiTap];
+    
+    //区、县
+    UIView * xianView=[[UIView alloc]initWithFrame:CGRectMake(0, shiView.bottom+3, kScreenWidth, 45)];
+    [addressView addSubview:xianView];
+    [xianView addSubview:[self bgImg:12]];
+    
+    _xianLable=[[UILabel alloc]initWithFrame:CGRectMake(35, 0, kScreenWidth-100, 45)];
+    _xianLable.font =[UIFont systemFontOfSize:15];
+    _xianLable.text =@"请选择区、县";
+    [xianView addSubview:_xianLable];
+    xianView.tag =4000;
+    UIImageView *xianImg=[[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-24, 18, 12, 12)];
+    xianImg.image =[UIImage imageNamed:@"展开"];
+    
+    [xianView addSubview:xianImg];
+    [xianView addSubview:[self bgView:50]];
+    UITapGestureRecognizer *xianTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelect:)];
+    [xianView addGestureRecognizer:xianTap];
+
     
     
     UIView *dscView =[[UIView alloc]initWithFrame:CGRectMake(20, addressView.height-100, kScreenWidth-40, 80)];
@@ -283,55 +301,78 @@
     
 }
 -(void)didSelect:(UITapGestureRecognizer *)tag{
-    
+    if (tag.view.tag ==2000) {
+        type =1;
+    }else if(tag.view.tag==3000){
+        if ([self.cityLable.text isEqualToString:@"请选择省"]) {
+            [self showHudFailed:@"请选择省"];
+            return;
+        }
+        type =2;
+    }else{
+        if ([self.shiLable.text isEqualToString:@"请选择市"]) {
+            [self showHudFailed:@"请选择市"];
+            return;
+        }
+        type =3;
+    }
     [self resignText];
 
-    isUpdate =NO;
-    //添加_pickerView
-    CGFloat w = [UIScreen mainScreen].bounds.size.width;
-    CGFloat h = 250;
-    CGFloat y =[UIScreen mainScreen].bounds.size.height-h;
-    CGFloat x =0;
-    self.footView=  [[UIView alloc]initWithFrame:CGRectMake(x, y, w, h)];
-    self.footView.backgroundColor=kCustomColor(241, 241, 241);
-    self.topView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, w, [UIScreen mainScreen].bounds.size.height-h)];
-    
-    self.topView.backgroundColor = [UIColor colorWithRed:0  green:0 blue:0 alpha:0.2];
-    [self.view addSubview: self.topView];
-    [self.view addSubview:self.footView];
-    self.footView.hidden =NO;
-    self.topView.hidden=NO;
-    
-    CGFloat btnNOX =10;
-    CGFloat btnNOY=10;
-    CGFloat btnNOW =60;
-    CGFloat btnNOH =30;
-    UIButton *btnNO=   [[UIButton alloc]initWithFrame:CGRectMake(btnNOX, btnNOY, btnNOW, btnNOH)];
-    [btnNO setTitle:@"取消" forState:UIControlStateNormal];
-    btnNO.titleLabel.font =[UIFont systemFontOfSize:16];
-    [btnNO setTitleColor:kCustomColor(56,155,234)forState:UIControlStateNormal];
-    [btnNO addTarget:self action:@selector(btnNOCilck:) forControlEvents:UIControlEventTouchDown];
-    [self.footView addSubview:btnNO];
-    
-    
-    UIButton *btnYes=   [[UIButton alloc]initWithFrame:CGRectMake(w-btnNOW-5, btnNOY, btnNOW, btnNOH)];
-    [btnYes setTitle:@"完成" forState:UIControlStateNormal];
-    btnYes.titleLabel.font =[UIFont systemFontOfSize:16];
-    [btnYes setTitleColor:kCustomColor(56,155,234) forState:UIControlStateNormal];
-
-    [btnYes addTarget:self action:@selector(btnYesCilck:) forControlEvents:UIControlEventTouchDown];
-    
-    
-    [self.footView addSubview:btnYes];
-    self.pickerView=  [[UIPickerView alloc]initWithFrame:CGRectMake(0, btnNOY+btnNOH, w, h-btnNOY-btnNOH)];
-    self.pickerView.delegate=self;
-    self.pickerView.dataSource = self;
-    self.pickerView.tag =tag.view.tag;
-    [self.footView addSubview:self.pickerView];
-   
+    if (!self.pickerView) {
+        //添加_pickerView
+        CGFloat w = [UIScreen mainScreen].bounds.size.width;
+        CGFloat h = 250;
+        CGFloat y =[UIScreen mainScreen].bounds.size.height-h;
+        CGFloat x =0;
+        self.footView=  [[UIView alloc]initWithFrame:CGRectMake(x, y, w, h)];
+        self.footView.backgroundColor=kCustomColor(241, 241, 241);
+        self.topView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, w, [UIScreen mainScreen].bounds.size.height-h)];
+        
+        self.topView.backgroundColor = [UIColor colorWithRed:0  green:0 blue:0 alpha:0.2];
+        [self.view addSubview: self.topView];
+        [self.view addSubview:self.footView];
+        self.footView.hidden =NO;
+        self.topView.hidden=NO;
+        
+        CGFloat btnNOX =10;
+        CGFloat btnNOY=10;
+        CGFloat btnNOW =60;
+        CGFloat btnNOH =30;
+        UIButton *btnNO=   [[UIButton alloc]initWithFrame:CGRectMake(btnNOX, btnNOY, btnNOW, btnNOH)];
+        [btnNO setTitle:@"取消" forState:UIControlStateNormal];
+        btnNO.titleLabel.font =[UIFont systemFontOfSize:16];
+        [btnNO setTitleColor:kCustomColor(56,155,234)forState:UIControlStateNormal];
+        [btnNO addTarget:self action:@selector(btnNOCilck:) forControlEvents:UIControlEventTouchDown];
+        [self.footView addSubview:btnNO];
+        
+        
+        UIButton *btnYes=   [[UIButton alloc]initWithFrame:CGRectMake(w-btnNOW-5, btnNOY, btnNOW, btnNOH)];
+        [btnYes setTitle:@"完成" forState:UIControlStateNormal];
+        btnYes.titleLabel.font =[UIFont systemFontOfSize:16];
+        [btnYes setTitleColor:kCustomColor(56,155,234) forState:UIControlStateNormal];
+        
+        [btnYes addTarget:self action:@selector(btnYesCilck:) forControlEvents:UIControlEventTouchDown];
+        
+        [self.footView addSubview:btnYes];
+        self.pickerView=  [[UIPickerView alloc]initWithFrame:CGRectMake(0, btnNOY+btnNOH, w, h-btnNOY-btnNOH)];
+        self.pickerView.delegate=self;
+        self.pickerView.dataSource = self;
+        self.pickerView.tag =tag.view.tag;
+        [self.footView addSubview:self.pickerView];
         btnYes.tag =20;
         btnNO.tag =201;
-        [self setData:@"0" WithType:1];
+    }else{
+        self.footView.hidden =NO;
+        self.topView.hidden=NO;
+    }
+    
+    if (type ==1) {
+        [self setData:@"0"];
+    }else if(type ==2){
+        [self setData:[[self.cityKey objectForKey:@"1"] stringValue]];
+    }else{
+        [self setData:[[self.cityKey objectForKey:@"2"] stringValue]];
+    }
     
 }
 
@@ -343,6 +384,25 @@
 }
 -(void)btnYesCilck:(UIButton *)btn
 {
+    if (type==1) {
+        if ([self.cityLable.text isEqualToString:@"请选择省"]) {
+            self.cityLable.text =[self.dataArray1[0]objectForKey:@"Name"];
+            [self.cityText setValue:[self.dataArray1[0] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
+            [self.cityKey setValue:[self.dataArray1[0] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+        }
+    }else if(type ==2){
+        if ([self.shiLable.text isEqualToString:@"请选择市"]) {
+            self.shiLable.text =[self.dataArray2[0]objectForKey:@"Name"];
+            [self.cityText setValue:[self.dataArray2[0] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
+            [self.cityKey setValue:[self.dataArray2[0] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+        }
+    }else{
+        if ([self.xianLable.text isEqualToString:@"请选择区、县"]) {
+            self.xianLable.text =[self.dataArray3[0]objectForKey:@"Name"];
+            [self.cityText setValue:[self.dataArray3[0] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
+            [self.cityKey setValue:[self.dataArray3[0] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+        }
+    }
     self.footView.hidden =YES;
     self.topView.hidden=YES;
 }
@@ -361,26 +421,27 @@
     }else if([self.dscText.text isEqualToString:@"详细地址（顾客支付后，到专柜提货的地址，请务必正确填写，否则会影响收款确认）"] ||self.dscText.text.length ==0){
         [self showHudFailed:@"请填写详细地址"];
         return;
-    }else if([self.cityLable.text isEqualToString:@"省、市、区、县（请选择）"] ||self.cityLable.text.length ==0){
-        [self showHudFailed:@"请选择商场自提点"];
+    }else if([self.cityLable.text isEqualToString:@"请选择省"]){
+        [self showHudFailed:@"请选择省"];
+        return;
+    }else if([self.shiLable.text isEqualToString:@"请选择市"]){
+        [self showHudFailed:@"请选择市"];
+        return;
+    }else if([self.xianLable.text isEqualToString:@"请选择区、县"]){
+        [self showHudFailed:@"请选择区、县"];
         return;
     }
-    [self hudShow:@"正在加载..."];
+
+    [self hudShow:@"正在提交"];
     NSMutableDictionary * dict =[[NSMutableDictionary alloc]init];
     if ([self.cityKey objectForKey:@"1"]) {
         [dict setObject:[self.cityKey objectForKey:@"1"] forKey:@"ProvinceId"];
-    }else{
-        [dict setObject:[self.dataArray1[0] objectForKey:@"Id"] forKey:@"ProvinceId"];
     }
     if ([self.cityKey objectForKey:@"2"]) {
         [dict setObject:[self.cityKey objectForKey:@"2"] forKey:@"CityId"];
-    }else{
-        [dict setObject:[self.dataArray2[0] objectForKey:@"Id"] forKey:@"CityId"];
     }
     if ([self.cityKey objectForKey:@"3"]) {
         [dict setObject:[self.cityKey objectForKey:@"3"] forKey:@"DistrictId"];
-    }else{
-        [dict setObject:[self.dataArray3[0] objectForKey:@"Id"] forKey:@"DistrictId"];
     }
     [dict setObject:self.dscText.text forKey:@"Address"];
     [dict setObject:self.field1.text  forKey:@"StoreName"];
@@ -395,7 +456,6 @@
     [HttpTool postWithURL:@"Buyer/CreateAuthBuyer" params:dict success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            
             NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
             [dic setObject:@"0" forKey:@"AuditStatus"];
             [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
@@ -407,78 +467,52 @@
         }
         [self textHUDHiddle];
     } failure:^(NSError *error) {
-        [self showHudFailed:@"提交失败"];
+        [self textHUDHiddle];
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
     }];
     
    }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
-    return 3;
+    return 1;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-  
-        if (component ==1) {
-            return self.dataArray2.count;
-        }else if (component==2) {
-            return self.dataArray3.count;
-        }else{
+        if (type ==1) {
             return self.dataArray1.count;
+        }else if (type==2) {
+            return self.dataArray2.count;
+        }else{
+            return self.dataArray3.count;
         }
 
 }
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
    
-        if (component ==1) {
-            return [self.dataArray2[row] objectForKey:@"Name"];
-        }else if(component==2){
-            return [self.dataArray3[row] objectForKey:@"Name"];
-        }else{
+        if (type ==1) {
             return [self.dataArray1[row] objectForKey:@"Name"];
+        }else if(type==2){
+            return [self.dataArray2[row] objectForKey:@"Name"];
+        }else{
+            return [self.dataArray3[row] objectForKey:@"Name"];
         }
-    
     
 }
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    isUpdate =YES;
-   
-    if (component==0) {
-        [self.cityText setValue:[self.dataArray1[row] objectForKey:@"Name"] forKey:@"1"];
-        [self.cityKey setValue:[self.dataArray1[row] objectForKey:@"Id"] forKey:@"1"];
-        [self setData:[[self.dataArray1[row] objectForKey:@"Id"]stringValue] WithType:2];
-        
-    }else if(component ==1){
-        
-        [self.cityText setValue:[self.dataArray2[row] objectForKey:@"Name"] forKey:@"2"];
-        [self.cityKey setValue:[self.dataArray2[row] objectForKey:@"Id"] forKey:@"2"];
-        [self setData:[[self.dataArray2[row] objectForKey:@"Id"]stringValue] WithType:3];
-        
-    }else{
-        [self.cityText setValue:[self.dataArray3[row] objectForKey:@"Name"] forKey:@"3"];
-        [self.cityKey setValue:[self.dataArray3[row] objectForKey:@"Id"] forKey:@"3"];
-        
-        NSMutableString *temp =[[NSMutableString alloc]init];
-        if ([self.cityText objectForKey:@"1"]) {
-            [temp appendString:[self.cityText objectForKey:@"1"]];
-        }else{
-            [temp appendString:[self.dataArray1[0] objectForKey:@"Name"]];
-        }
-        if ([self.cityText objectForKey:@"2"]) {
-            [temp appendString:[self.cityText objectForKey:@"2"]];
-            
-        }else{
-            [temp appendString:[self.dataArray2[0] objectForKey:@"Name"]];
-        }
-        if ([self.cityText objectForKey:@"3"]) {
-            [temp appendString:[self.cityText objectForKey:@"3"]];
-            
-        }else{
-            [temp appendString:[self.dataArray3[0] objectForKey:@"Name"]];
-        }
-        _cityLable.text =temp;
-        _cityText =nil;
-    }
     
+    if (type ==1) {
+        [self.cityText setValue:[self.dataArray1[row] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
+        [self.cityKey setValue:[self.dataArray1[row] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+        _cityLable.text =[self.dataArray1[row] objectForKey:@"Name"];
+    }else if(type ==2){
+        [self.cityText setValue:[self.dataArray2[row] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
+        [self.cityKey setValue:[self.dataArray2[row] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+        _shiLable.text =[self.dataArray2[row] objectForKey:@"Name"];
+    }else{
+        [self.cityText setValue:[self.dataArray3[row] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
+        [self.cityKey setValue:[self.dataArray3[row] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+        _xianLable.text =[self.dataArray3[row] objectForKey:@"Name"];
+    }
     
 }
 
@@ -487,7 +521,7 @@
 
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+-(void)didSelectCustomScrollView{
     
     [self resignText];
 }
@@ -510,11 +544,12 @@
 }
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
     
+    
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.30];
-    CGRect rect = self.view.frame;
+    CGRect rect = self.customScrollView.frame;
     rect.origin.y = -120;
-    self.view.frame = rect;
+    self.customScrollView.frame = rect;
     [UIView commitAnimations];
     return YES;
     
@@ -525,9 +560,9 @@
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.30];
-    CGRect rect = self.view.frame;
-    rect.origin.y = 0;
-    self.view.frame = rect;
+    CGRect rect = self.customScrollView.frame;
+    rect.origin.y = 64;
+    self.customScrollView.frame = rect;
     [UIView commitAnimations];
     return YES;
 }
