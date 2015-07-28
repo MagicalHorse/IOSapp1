@@ -10,7 +10,7 @@
 #import "BueryAuthFinishViewController.h"
 
 @interface BueryAuthInfoViewController ()<UIScrollViewDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate,UITextFieldDelegate>{
-    NSArray *imageNames;
+    NSMutableDictionary *imageNames;
     BOOL isUpdate;
 }
 @property (nonatomic,strong)UIScrollView *customScrollView;
@@ -47,7 +47,7 @@
     }
     return self;
 }
--(instancetype)initWithImgNames:(NSArray *)arrayNames{
+-(instancetype)initWithImgNames:(NSMutableDictionary *)arrayNames{
     if (self =[super init]) {
         imageNames =arrayNames;
     }
@@ -386,9 +386,10 @@
     [dict setObject:self.field1.text  forKey:@"StoreName"];
     [dict setObject:self.field2.text forKey:@"SectionName"];
     [dict setObject:self.field3.text forKey:@"SectionLocate"];
-    [dict setObject:imageNames[0] forKey:@"WorkCard"];
-    [dict setObject:imageNames[1]forKey:@"CardBack"];
-    [dict setObject:imageNames[2] forKey:@"CardFront"];
+    
+    [dict setObject:[imageNames objectForKey:@"CardFront"] forKey:@"CardFront"]; //正面
+    [dict setObject:[imageNames objectForKey:@"CardBack"] forKey:@"CardBack"];//反面
+    [dict setObject:[imageNames objectForKey:@"WorkCard"] forKey:@"WorkCard"];//工牌
     [dict setObject:self.textName forKey:@"Name"];
 
     [HttpTool postWithURL:@"Buyer/CreateAuthBuyer" params:dict success:^(id json) {

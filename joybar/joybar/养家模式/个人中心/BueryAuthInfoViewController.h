@@ -9,6 +9,6 @@
 #import "BaseViewController.h"
 
 @interface BueryAuthInfoViewController : BaseViewController
--(instancetype)initWithImgNames:(NSArray *)arrayNames;
+-(instancetype)initWithImgNames:(NSMutableDictionary *)arrayNames;
 @property (nonatomic,strong) NSString *textName;
 @end
