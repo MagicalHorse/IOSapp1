@@ -20,10 +20,10 @@
 @property (nonatomic,strong)UIScrollView *customScrollView;
 @property (nonatomic,strong)UIButton * customButton;
 @property (nonatomic,strong)UIButton * btn1;
-
 @property (nonatomic,strong)UIButton * btn2;
 @property (nonatomic,strong)UIButton * btn3;
 @property (nonatomic,strong)UITextField *nField;
+@property (nonatomic,strong)NSMutableDictionary *dict;
 @end
 
 @implementation BueryAuthViewController
@@ -36,29 +36,20 @@
     }
     return self;
 }
-
+-(NSMutableDictionary *)dict{
+    if (_dict ==nil) {
+        _dict =[NSMutableDictionary dictionary];
+    }
+    return _dict;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"身份材料认证"];
     [self settingView];
-    [self aliyunSet];
     [Common saveUserDefault:@"2" keyName:@"backPhone"];
 
     
 }
--(void)aliyunSet{
-    OSSClient *ossclient = [OSSClient sharedInstanceManage];
-    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
-    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
-        NSString *signature = nil;
-        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
-        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
-        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
-        NSLog(@"here signature:%@", signature);
-        return signature;
-    }];
-}
-
 - (void)settingView {
     CGFloat scX =0;
     CGFloat scY =64;
@@ -169,11 +160,11 @@
 }
 -(void)customBtnClick{
     
-    if (self.btn1.imageView.image==nil ||self.btn2.imageView.image ==nil||self.btn3.imageView.image ==nil ||self.nField.text.length ==0) {
+    if (self.dict.count<3 ||self.nField.text.length ==0) {
         [self showHudFailed:@"请填写名称，及上传图片"];
         return;
     }
-    BueryAuthInfoViewController * finish =[[BueryAuthInfoViewController alloc]initWithImgNames:[NSArray arrayWithObjects:@"1.png",@"2.png",@"3.png", nil]];
+    BueryAuthInfoViewController * finish =[[BueryAuthInfoViewController alloc]initWithImgNames:self.dict];
     finish.textName =self.nField.text;
     [self.navigationController pushViewController:finish animated:YES];
     
@@ -205,17 +196,23 @@
     //对图片大小进行压缩--
     imageNew = [self imageCompressForSize:imageNew targetSize:imagesize];
     NSData *imageData = UIImageJPEGRepresentation(imageNew,1);
+    NSDate *  senddate=[NSDate date];
+    NSDateFormatter  *dateformatter=[[NSDateFormatter alloc] init];
+    [dateformatter setDateFormat:@"YYYYMMddHHmmsss"];
+    NSString *  locationString=[dateformatter stringFromDate:senddate];
+    NSString *temp=[NSString stringWithFormat:@"%@.png",locationString];
     
     if (type==1) {
         [self hudShow:@"正在上传..."];
         OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
-        osData = [[OSSData alloc] initWithBucket:bucket withKey:@"1.png"];
+        osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
         NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
         [osData setData:data withType:@"image/png"];
         [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
             if (isSuccess) {
                 [self.btn1 setImage:imageNew forState:UIControlStateNormal];
                 [self textHUDHiddle];
+                [self.dict setObject:temp forKey:@"CardFront"];
             }else{
                 [self showHudFailed:@"上传失败"];
             }
@@ -226,13 +223,15 @@
     }else if(type ==2){
         [self hudShow:@"正在上传..."];
         OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
-        osData = [[OSSData alloc] initWithBucket:bucket withKey:@"2.png"];
+        osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
         NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
         [osData setData:data withType:@"image/png"];
         [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
             if (isSuccess) {
                 [self.btn2 setImage:imageNew forState:UIControlStateNormal];
                 [self textHUDHiddle];
+                [self.dict setObject:temp forKey:@"CardBack"];
+
             }else{
                 [self showHudFailed:@"上传失败"];
             }
@@ -241,35 +240,25 @@
         
     }else if(type ==3){
         [self hudShow:@"正在上传..."];
+        OSSBucket *bucket = [[OSSBucket alloc] initWithBucket:AlyBucket];
+        osData = [[OSSData alloc] initWithBucket:bucket withKey:temp];
         NSData *data = UIImagePNGRepresentation([UIImage imageWithData:imageData]);
         [osData setData:data withType:@"image/png"];
         [osData uploadWithUploadCallback:^(BOOL isSuccess, NSError *error) {
             if (isSuccess) {
                 [self.btn3 setImage:imageNew forState:UIControlStateNormal];
                 [self textHUDHiddle];
+                [self.dict setObject:temp forKey:@"WorkCard"];
             }else{
                 [self showHudFailed:@"上传失败"];
             }
         } withProgressCallback:^(float progress) {
-            
-            //NSLog(@"current get %f", progress);
         }];
     }
 
 }
 
--(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
-{
-    UIGraphicsBeginImageContext(newSize);
-    
-    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return newImage;
-}
+
 -(UIImage *) imageCompressForSize:(UIImage *)sourceImage targetSize:(CGSize)size{
     UIImage *newImage = nil;
     CGSize imageSize = sourceImage.size;
@@ -316,52 +305,6 @@
     
     return newImage;
     
-}
-
--(UIImage *) imageCompressForWidth:(UIImage *)sourceImage targetWidth:(CGFloat)defineWidth{
-    UIImage *newImage = nil;
-    CGSize imageSize = sourceImage.size;
-    CGFloat width = imageSize.width;
-    CGFloat height = imageSize.height;
-    CGFloat targetWidth = defineWidth;
-    CGFloat targetHeight = height / (width / targetWidth);
-    CGSize size = CGSizeMake(targetWidth, targetHeight);
-    CGFloat scaleFactor = 0.0;
-    CGFloat scaledWidth = targetWidth;
-    CGFloat scaledHeight = targetHeight;
-    CGPoint thumbnailPoint = CGPointMake(0.0, 0.0);
-    if(CGSizeEqualToSize(imageSize, size) == NO){
-        CGFloat widthFactor = targetWidth / width;
-        CGFloat heightFactor = targetHeight / height;
-        if(widthFactor > heightFactor){
-            scaleFactor = widthFactor;
-        }
-        else{
-            scaleFactor = heightFactor;
-        }
-        scaledWidth = width * scaleFactor;
-        scaledHeight = height * scaleFactor;
-        if(widthFactor > heightFactor){
-            thumbnailPoint.y = (targetHeight - scaledHeight) * 0.5;
-        }else if(widthFactor < heightFactor){
-            thumbnailPoint.x = (targetWidth - scaledWidth) * 0.5;
-        }
-    }
-    UIGraphicsBeginImageContext(size);
-    CGRect thumbnailRect = CGRectZero;
-    thumbnailRect.origin = thumbnailPoint;
-    thumbnailRect.size.width = scaledWidth;
-    thumbnailRect.size.height = scaledHeight;
-    
-    [sourceImage drawInRect:thumbnailRect];
-    
-    newImage = UIGraphicsGetImageFromCurrentImageContext();
-    if(newImage == nil){
-        NSLog(@"scale image fail");
-    }
-    
-    UIGraphicsEndImageContext();
-    return newImage;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{

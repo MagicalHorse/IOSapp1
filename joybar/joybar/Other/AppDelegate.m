@@ -13,7 +13,8 @@
 #import "UMSocialSnsService.h"
 #import "payRequsestHandler.h"
 #import "APService.h"
-
+#import "OSSClient.h"
+#import "OSSTool.h"
 @implementation AppDelegate
 
 
@@ -74,6 +75,7 @@
     {
         
     }
+    [self aliyunSet];
     return YES;
 }
 
@@ -139,7 +141,7 @@
     [application setApplicationIconBadgeNumber:0];
     [application cancelAllLocalNotifications];
 }
-
+//socket
 -(void)connectionSoctet{
     
     [SIOSocket socketWithHost: SocketUrl response: ^(SIOSocket *socket) {
@@ -149,6 +151,19 @@
             NSLog(@"connnection is success:%@",[args description]);
             
         }];
+    }];
+}
+//阿里云
+-(void)aliyunSet{
+    OSSClient *ossclient = [OSSClient sharedInstanceManage];
+    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
+    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
+        NSString *signature = nil;
+        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
+        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
+        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
+        NSLog(@"here signature:%@", signature);
+        return signature;
     }];
 }
 

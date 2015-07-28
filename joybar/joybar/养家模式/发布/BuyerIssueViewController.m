@@ -460,8 +460,6 @@
     }
     [self hudShow:@"正在发布"];
    
-    
-    
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:self.priceText.text forKey:@"Price"];
     [dict setObject:self.sizeArray forKey:@"Sizes"];

@@ -30,20 +30,6 @@
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"创建圈子"];
     self.view.backgroundColor =kCustomColor(231, 231, 231);
-    [self aliyunSet];
-}
-
--(void)aliyunSet{
-    OSSClient *ossclient = [OSSClient sharedInstanceManage];
-    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
-    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
-        NSString *signature = nil;
-        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
-        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
-        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
-        NSLog(@"here signature:%@", signature);
-        return signature;
-    }];
 }
 - (IBAction)circleClick:(UIButton *)sender {
     
