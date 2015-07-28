@@ -29,9 +29,8 @@
     //向微信注册
     [WXApi registerApp:APP_ID];
 
-    // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+    self.window.backgroundColor = [UIColor whiteColor];
     [self connectionSoctet];
     
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
@@ -69,10 +68,10 @@
 
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
-        
         [self _initWithScrollViewForSoftHelp];
-
-    }else{
+    }
+    else
+    {
         
     }
     return YES;
@@ -82,7 +81,7 @@
 - (void)_initWithScrollViewForSoftHelp
 {
     //创建存放引导图片的数组
-    NSArray *helpImageArray ;
+    NSArray *helpImageArray;
     if (kScreenHeight==480)
     {
         helpImageArray= @[@"img1_960*640",@"img2_960*640",@"img3_960*640",@"img4_960*640"];

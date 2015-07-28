@@ -56,15 +56,13 @@
     __weak CusMessageViewController *VC = self;
     self.msgTableView.headerRereshingBlock=^()
     {
-        VC.msgPageNum = 1;
-        [VC.msgTableView.dataArr removeAllObjects];
         [VC getMessageList];
     };
-    self.msgTableView.footerRereshingBlock = ^()
-    {
-        VC.msgPageNum++;
-        [VC getMessageList];
-    };
+//    self.msgTableView.footerRereshingBlock = ^()
+//    {
+//        VC.msgPageNum++;
+//        [VC getMessageList];
+//    };
     
     [self initWithNavView];
 }
@@ -72,30 +70,31 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.msgPageNum = 1;
-    [self.msgTableView.dataArr removeAllObjects];
     [self getMessageList];
 }
 -(void)getMessageList
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.msgPageNum] forKey:@"page"];
-    [dic setObject:@"10" forKey:@"pagesize"];
+    [dic setObject:@"1" forKey:@"page"];
+    [dic setObject:@"100000" forKey:@"pagesize"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [HttpTool postWithURL:@"Community/GetMessagesList" params:dic success:^(id json) {
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        [self.msgTableView hiddenFooter:YES];
+        [self.msgTableView.dataArr removeAllObjects];
+
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
-            if (arr.count<10)
-            {
-                [self.msgTableView hiddenFooter:YES];
-            }
-            else
-            {
-                [self.msgTableView hiddenFooter:NO];
-            }
+//            if (arr.count<10)
+//            {
+//                [self.msgTableView hiddenFooter:YES];
+//            }
+//            else
+//            {
+//                [self.msgTableView hiddenFooter:NO];
+//            }
             [self.msgTableView.dataArr addObjectsFromArray:arr];
             [self.msgTableView reloadData];
         }
