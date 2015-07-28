@@ -75,7 +75,7 @@
     nameLab.textAlignment = NSTextAlignmentCenter;
     [self.scrollView addSubview:nameLab];
     
-    self.imageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(5, nameLab.bottom+5, kScreenWidth-10, 290)];
+    self.imageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(5, nameLab.bottom+5, kScreenWidth-10, kScreenWidth-10)];
     self.imageScrollView.contentSize =CGSizeMake(prodata.ProductPic.count*(kScreenWidth-10), 0);
     self.imageScrollView.alwaysBounceVertical = NO;
     self.imageScrollView.alwaysBounceHorizontal = YES;
@@ -88,7 +88,7 @@
     {
         ProductPicture *pic = [prodata.ProductPic objectAtIndex:i];
         
-        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(self.imageScrollView.width*i, 0, self.imageScrollView.width, 300)];
+        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(self.imageScrollView.width*i, 0, self.imageScrollView.width, self.imageScrollView.width)];
         image.contentMode = UIViewContentModeScaleAspectFill;
         image.clipsToBounds = YES;
         [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",pic.Logo ]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
@@ -106,13 +106,13 @@
             tagView.backgroundColor = [UIColor clearColor];
             [image addSubview:tagView];
             
-            UIImageView *pointImage = [[UIImageView alloc] init];
-            pointImage.center = CGPointMake(10, tagView.height/2);
-            pointImage.bounds = CGRectMake(0, 0, 12, 12);
-            pointImage.image = [UIImage imageNamed:@"yuan"];
-            [tagView addSubview:pointImage];
+//            UIImageView *pointImage = [[UIImageView alloc] init];
+//            pointImage.center = CGPointMake(10, tagView.height/2);
+//            pointImage.bounds = CGRectMake(0, 0, 12, 12);
+//            pointImage.image = [UIImage imageNamed:@"yuan"];
+//            [tagView addSubview:pointImage];
             
-            UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(pointImage.right+5, 0, 15, tagView.height)];
+            UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, tagView.height)];
             jiaoImage.image = [UIImage imageNamed:@"bqqian"];
             [tagView addSubview:jiaoImage];
             
@@ -229,7 +229,7 @@
     }
 //-----------------------------------------------------------------------------------
     
-    self.scrollView.contentSize = CGSizeMake(0, tempView.height+568+titleLab.size.height);
+    self.scrollView.contentSize = CGSizeMake(0, tempView.height+kScreenWidth-10+300+titleLab.size.height);
 
     UIButton *collectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     collectBtn.backgroundColor = [UIColor clearColor];

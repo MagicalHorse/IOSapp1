@@ -40,9 +40,6 @@
         [self setNeedsStatusBarAppearanceUpdate];
     }    
     self.view.backgroundColor = [UIColor whiteColor];
-//    [self addNavBarViewAndTitle:@"adasd"];
-//    [self initNoDataView];
-
     
 }
 
@@ -50,17 +47,7 @@
 {
     [super viewWillAppear:animated];
     
-//    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]){
-//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
-//        NSLog(@"第一次启动");
-//        
-//    }else{
-//        NSLog(@"不是第一次启动");
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
-//    }
-    
-
-
 }
 
 -(void)initNoDataView
@@ -92,14 +79,9 @@
     
     self.navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
     self.navView.backgroundColor = [UIColor whiteColor];
-//    self.navView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
-//    self.navView.layer.shadowRadius = 5;
-//    self.navView.layer.shadowOffset = CGSizeMake(1, 1);
-//    self.navView.layer.shadowOpacity = 0.5;
     self.navView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.navView.layer.borderWidth = 0.5;
     [self.view addSubview:self.navView];
-//    }
     //title
     UILabel *titleLab = [[UILabel alloc] init];
     titleLab.center = CGPointMake(self.navView.center.x, self.navView.center.y+10);
@@ -113,7 +95,7 @@
     [self.navView addSubview:titleLab];
     //返回按钮
     self.retBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.retBtn.frame = CGRectMake(13, 25, 50, 40);
+    self.retBtn.frame = CGRectMake(0, 25, 60, 50);
     self.retBtn.backgroundColor = [UIColor clearColor];
     
     [self.retBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
@@ -121,7 +103,7 @@
     [self.retBtn addTarget:self action:@selector(returnBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.navView addSubview:self.retBtn];
     
-    UIImageView *retImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10, 59/7, 110/7)];
+    UIImageView *retImage = [[UIImageView alloc] initWithFrame:CGRectMake(13, 10, 59/7, 110/7)];
     retImage.image = [UIImage imageNamed:@"back.png"];
     [self.retBtn addSubview:retImage];
 }

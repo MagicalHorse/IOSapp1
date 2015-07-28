@@ -75,13 +75,7 @@
         tagView.tag = 100+i;
         [imageView addSubview:tagView];
         
-        UIImageView *pointImage = [[UIImageView alloc] init];
-        pointImage.center = CGPointMake(10, tagView.height/2);
-        pointImage.bounds = CGRectMake(0, 0, 12, 12);
-        pointImage.image = [UIImage imageNamed:@"yuan"];
-        [tagView addSubview:pointImage];
-        
-        UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(pointImage.right+5, 0, 15, tagView.height)];
+        UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, tagView.height)];
         jiaoImage.image = [UIImage imageNamed:@"bqqian"];
         [tagView addSubview:jiaoImage];
         
@@ -106,7 +100,7 @@
     [self.contentView addSubview:descriptionLab];
     
     UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(10, descriptionLab.bottom+14, 100, 20)];
-    priceLab.text = [NSString stringWithFormat:@"￥%@",self.homePro.Price];
+    priceLab.text = [NSString stringWithFormat:@"￥%.2f",[self.homePro.Price floatValue]];
     priceLab.font = [UIFont systemFontOfSize:18];
     priceLab.textColor = [UIColor redColor];
     [self.contentView addSubview:priceLab];

@@ -48,18 +48,6 @@
     YRADScrollView *headerScroll;
     UIView *headerView;
 }
-//-(void)viewWillDisappear:(BOOL)animated
-//{
-//    [super viewWillDisappear:animated];
-//
-//    [self.csView pauseTimer];
-//    self.csView =nil;
-//}
-//-(void)viewWillAppear:(BOOL)animated
-//{
-//    [super viewWillAppear:animated];
-//    [self.csView resumeTimer];
-//}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.pageNum = 1;

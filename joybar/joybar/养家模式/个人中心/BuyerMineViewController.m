@@ -157,7 +157,6 @@
             store.userId=[dict objectForKey:@"id"];
             store.userName =[dict objectForKey:@"nickname"];
             [self.navigationController pushViewController:store animated:YES];
-
         }
     }else if(indexPath.section ==1){
         if (!TOKEN)
