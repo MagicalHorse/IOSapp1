@@ -409,14 +409,14 @@
 
 -(void)customBtnClick{
     
-    if (self.field2.text.length==0) {
+    if(self.field1.text.length==0){
+        [self showHudFailed:@"请选择商场名称"];
+        return;
+    }else if (self.field2.text.length==0) {
         [self showHudFailed:@"请填写专柜名称"];
         return;
     }else if(self.field3.text.length==0){
         [self showHudFailed:@"请填写专柜位置"];
-        return;
-    }else if(self.field1.text.length==0){
-        [self showHudFailed:@"请选择商场名称"];
         return;
     }else if([self.dscText.text isEqualToString:@"详细地址（顾客支付后，到专柜提货的地址，请务必正确填写，否则会影响收款确认）"] ||self.dscText.text.length ==0){
         [self showHudFailed:@"请填写详细地址"];
@@ -431,8 +431,9 @@
         [self showHudFailed:@"请选择区、县"];
         return;
     }
-
+    
     [self hudShow:@"正在提交"];
+    _customButton.userInteractionEnabled=NO;
     NSMutableDictionary * dict =[[NSMutableDictionary alloc]init];
     if ([self.cityKey objectForKey:@"1"]) {
         [dict setObject:[self.cityKey objectForKey:@"1"] forKey:@"ProvinceId"];
@@ -465,8 +466,10 @@
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
         }
+        _customButton.userInteractionEnabled=YES;
         [self textHUDHiddle];
     } failure:^(NSError *error) {
+        _customButton.userInteractionEnabled=YES;
         [self textHUDHiddle];
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
     }];
