@@ -55,7 +55,7 @@
     [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)btnClick{
-
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
