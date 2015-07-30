@@ -161,7 +161,13 @@
     if (self.dataArray.count>0) {
         cell.desPrice.text =[[self.dataArray[indexPath.row]objectForKey:@"income_amount"]stringValue];
         cell.dscNo.text =[self.dataArray[indexPath.row]objectForKey:@"order_no"];
-        cell.desSoure.text =[self.dataArray[indexPath.row]objectForKey:@"status_show"];
+       
+        int orderType=[[self.dataArray[indexPath.row]objectForKey:@"order_type"]intValue];
+        if (orderType ==1) {
+            cell.desSoure.text =@"奖励";
+        }else{
+            cell.desSoure.text =@"订单";
+        }
         cell.dseOrderPrice.text =[[self.dataArray[indexPath.row]objectForKey:@"amount"]stringValue];
         cell.dscTime.text =[self.dataArray[indexPath.row]objectForKey:@"create_date"];
         cell.dscState.text =[self.dataArray[indexPath.row]objectForKey:@"orderstatus_s"];

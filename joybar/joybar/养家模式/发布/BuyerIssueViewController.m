@@ -112,7 +112,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     count=0;
-    [self addNavBarViewAndTitle:@"发布"];
+    if (self.detail) {
+        [self addNavBarViewAndTitle:@"修改"];
+    }else{
+        [self addNavBarViewAndTitle:@"发布"];
+    }
     [self setInitView];
 }
 
@@ -265,7 +269,12 @@
     
     //发布按钮
     _footerBtn =[[UIButton alloc]initWithFrame:CGRectMake(0,kScreenHeight-50, kScreenWidth, 50)];
-    [_footerBtn setTitle:@"发布" forState:UIControlStateNormal];
+    if (self.detail) {
+        [_footerBtn setTitle:@"修改" forState:UIControlStateNormal];
+
+    }else{
+        [_footerBtn setTitle:@"发布" forState:UIControlStateNormal];
+    }
     [_footerBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     [_footerBtn setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:_footerBtn];
@@ -397,11 +406,21 @@
         UIView *v =view.subviews[i];
         if ([v isKindOfClass: [UITextField class]] ) {
             UITextField *ctext =(UITextField *)v;
-            NSLog(@"%@",ctext.text);
             if (i==1) {
+                if (ctext.text.length ==0) {
+                    [self showHudFailed:@"规格不能为空"];
+                    return;
+                }
                 [tempSizes setValue:ctext.text forKey:@"name"];
             }else if(i==3)
             {
+                if (ctext.text.length ==0) {
+                    [self showHudFailed:@"库存不能为空"];
+                    return;
+                }else if([ctext.text isEqualToString:@"0"]){
+                    [self showHudFailed:@"库存不能小于0"];
+                    return;
+                }
                 [tempSizes setValue:ctext.text forKey:@"Inventory"];
             }
         }
@@ -417,10 +436,20 @@
                 UIView *v =view.subviews[i];
                 if ([v isKindOfClass: [UITextField class]] ) {
                     UITextField *ctext =(UITextField *)v;
-                    NSLog(@"%@",ctext.text);
                     if (i==1) {
+                        if (ctext.text.length ==0) {
+                            [self showHudFailed:@"规格不能为空"];
+                            return;
+                        }
                         [tempSizes1 setValue:ctext.text forKey:@"name"];
                     }else if(i==3){
+                        if (ctext.text.length ==0) {
+                            [self showHudFailed:@"库存不能为空"];
+                            return;
+                        }else if([ctext.text isEqualToString:@"0"]){
+                            [self showHudFailed:@"库存不能小于0"];
+                            return;
+                        }
                         [tempSizes1 setValue:ctext.text forKey:@"Inventory"];
                     }
                 }
@@ -430,9 +459,6 @@
         }
     }
     
-    NSString *tempSizegStr=[[self.sizeArray lastObject]objectForKey:@"name"];
-    NSString *tempSizehStr=[[self.sizeArray lastObject]objectForKey:@"Inventory"];
-
     if (self.imagesArray.count==0) {
         [self showHudFailed:@"请至少上传一张图片"];
         return;
@@ -451,14 +477,12 @@
     }else if(self.dscText.text.length>100){
         [self showHudFailed:@"商品描述不能大于100字符"];
         return;
-    }else if(tempSizegStr.length==0){
-        [self showHudFailed:@"请填写规格"];
-        return;
-    }else if(tempSizehStr.length==0){
-        [self showHudFailed:@"请填写库存"];
-        return;
     }
-    [self hudShow:@"正在发布"];
+    if (self.detail) {
+        [self hudShow:@"正在修改"];
+    }else{
+        [self hudShow:@"正在发布"];
+    }
    
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:self.priceText.text forKey:@"Price"];
