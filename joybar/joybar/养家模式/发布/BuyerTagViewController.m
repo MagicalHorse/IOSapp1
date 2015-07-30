@@ -84,14 +84,29 @@
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    NSString *tempType;
+    NSString *tempId;
     if (textField.text.length==0) {
         return NO;
-    }else if(self.cType!=1){
-        return NO;
     }
-    
+    if (self.cType==2) {
+        tempType=@"51";
+    }else{
+        tempType=@"50";
+        
+    }
+    if (self.dataArray.count>0) {
+        if ([textField.text isEqualToString:[self.dataArray[0]objectForKey:@"Name"]]) {
+            tempId =[self.dataArray[0]objectForKey:@"Id"];
+        }else{
+            tempId=@"0";
+        }
+    }else{
+        tempId=@"0";
+    }
+   
     if ([self.delegate respondsToSelector:@selector(didSelectedTag:AndPoint:AndSourceId:AndSourceType:)]) {
-        [self.delegate didSelectedTag:textField.text AndPoint:self.cpoint AndSourceId:@"0" AndSourceType:@"50"];
+        [self.delegate didSelectedTag:textField.text AndPoint:self.cpoint AndSourceId:tempId AndSourceType:tempType];
     }
     [self.navigationController popViewControllerAnimated:YES];
     return YES;
@@ -100,9 +115,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *text =[self.dataArray[indexPath.row]objectForKey:@"Name"];
     NSString *Id =[[self.dataArray[indexPath.row]objectForKey:@"Id"]stringValue];
-
+    NSString *tempType;
+    if (self.cType==2) {
+        tempType=@"51";
+    }else{
+        tempType=@"50";
+    }
     if ([self.delegate respondsToSelector:@selector(didSelectedTag:AndPoint:AndSourceId:AndSourceType:)]) {
-        [self.delegate didSelectedTag:text AndPoint:self.cpoint AndSourceId:Id AndSourceType:@"51"];
+        [self.delegate didSelectedTag:text AndPoint:self.cpoint AndSourceId:Id AndSourceType:tempType];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
