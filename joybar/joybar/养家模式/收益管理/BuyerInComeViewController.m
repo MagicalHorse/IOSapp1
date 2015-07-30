@@ -54,11 +54,13 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
 
-    [self.todayInComeLable dd_setNumber:[NSNumber numberWithFloat:[come.today_income floatValue]]];
+    NSNumber *num1 =[NSNumber numberWithFloat:[come.today_income floatValue]];
+    [self.todayInComeLable dd_setNumber:num1];
     
     NSNumber *num =[NSNumber numberWithFloat:[come.total_income floatValue]];
     [self.totalAmountLable dd_setNumber:num];
-    self.availAmountLable.text = come.avail_amout;
+    self.availAmountLable.text = [NSString stringWithFormat:@"%@",come.avail_amout];
+    NSLog(@"asdasdas");
 }
 
 - (void)viewDidLoad {
