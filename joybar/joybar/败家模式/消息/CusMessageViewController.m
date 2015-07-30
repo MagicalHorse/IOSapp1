@@ -188,9 +188,7 @@
         [lab addGestureRecognizer:tap];
     }
     self.retBtn.hidden = YES;
-
 }
-
 
 #pragma mark ScrollViewDeletegate
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

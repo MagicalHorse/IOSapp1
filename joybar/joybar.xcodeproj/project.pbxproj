@@ -350,6 +350,7 @@
 		9D744DF01B300A3800553648 /* CusAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D744DEE1B300A3800553648 /* CusAboutViewController.m */; };
 		9D744DF11B300A3800553648 /* CusAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DEF1B300A3800553648 /* CusAboutViewController.xib */; };
 		9D8CD7431B677E0800F972EB /* CusHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AEE1B2AE01900782C0C /* CusHomeTableViewCell.m */; };
+		9D8CD7451B68A1EF00F972EB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */; };
 		9D8CDE651B00B90900B8708B /* Public.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8CDE641B00B90900B8708B /* Public.m */; };
 		9D8CDE681B00BEBC00B8708B /* SelectCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8CDE671B00BEBC00B8708B /* SelectCityViewController.m */; };
 		9D9AF73B1B32E365000FB33B /* ApiXml.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D9AF7361B32E365000FB33B /* ApiXml.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -971,6 +972,7 @@
 		9D744DEE1B300A3800553648 /* CusAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusAboutViewController.m; sourceTree = "<group>"; };
 		9D744DEF1B300A3800553648 /* CusAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusAboutViewController.xib; sourceTree = "<group>"; };
 		9D8CD7421B675CC500F972EB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9D8CDE631B00B90900B8708B /* Public.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Public.h; sourceTree = "<group>"; };
 		9D8CDE641B00B90900B8708B /* Public.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Public.m; sourceTree = "<group>"; };
 		9D8CDE661B00BEBC00B8708B /* SelectCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCityViewController.h; sourceTree = "<group>"; };
@@ -1058,6 +1060,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D8CD7451B68A1EF00F972EB /* CoreLocation.framework in Frameworks */,
 				0ACDBDD81B3BE73B0096B531 /* libPushSDK-1.8.2.a in Frameworks */,
 				0AE7E1051B1D9C9000159B02 /* libOSS_IOS_SDK.a in Frameworks */,
 				9DDB175E1AE7A42F0014D8B2 /* JavaScriptCore.framework in Frameworks */,
@@ -1665,6 +1668,7 @@
 		0D60BCA21ACCD74D00BF625A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */,
 				0ACDBDD71B3BE73B0096B531 /* libPushSDK-1.8.2.a */,
 				0AE7E1041B1D9C9000159B02 /* libOSS_IOS_SDK.a */,
 				9DDB175D1AE7A42F0014D8B2 /* JavaScriptCore.framework */,

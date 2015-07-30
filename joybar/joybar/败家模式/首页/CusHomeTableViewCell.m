@@ -230,7 +230,7 @@
         
         [UMSocialSnsService presentSnsIconSheetView:self.viewController
                                              appKey:@"557f8f1c67e58edf32000208"
-                                          shareText:@""
+                                          shareText:[NSString stringWithFormat:@"快看！这里有一件超值的%@商品",self.homePro.ProductName]
                                          shareImage:image
                                     shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                            delegate:self];

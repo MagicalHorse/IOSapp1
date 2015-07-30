@@ -105,9 +105,12 @@
         _positionIndex = self.currentPage;
         [_scrollView setContentOffset:CGPointMake(_positionIndex*_scrollView.frame.size.width, 0) animated:false];
     }
-    pageControl.numberOfPages = _totalPageNumber;
-    pageControl.frame = CGRectMake(self.width-_totalPageNumber*30+10, self.height-25, _totalPageNumber*30, 20);
-
+    if (_totalPageNumber>1)
+    {
+        pageControl.numberOfPages = _totalPageNumber;
+        pageControl.frame = CGRectMake(self.width-_totalPageNumber*30+10, self.height-25, _totalPageNumber*30, 20);
+    }
+    
     if (_totalPageNumber>0) {
         [self setPageToPositionIndex:_positionIndex];
     }
@@ -117,7 +120,6 @@
     [self prepareViewAtPositionIndex:positionIndex];
     [self prepareViewAtPositionIndex:positionIndex-1];
     [self prepareViewAtPositionIndex:positionIndex+1];
-    
     
     NSArray *allKeyArray = _onShowViewDictionary.allKeys;
     for (NSInteger i=allKeyArray.count-1;i>=0;i--) {

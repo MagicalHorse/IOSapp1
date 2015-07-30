@@ -58,13 +58,13 @@
     attentionLab.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:attentionLab];
     
+    
     UILabel *fansLab = [[UILabel alloc] initWithFrame:CGRectMake(attentionLab.right+5, namelab.bottom+5, 70, 20)];
     fansLab.text = [NSString stringWithFormat:@"粉丝 %@",fanModel.FansCount];
     fansLab.textColor = [UIColor lightGrayColor];
     fansLab.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:fansLab];
 
-    
     UIButton *attentionBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     attentionBtn.frame = CGRectMake(kScreenWidth-70, 20, 60, 27);
     attentionBtn.layer.borderWidth= 0.5;
@@ -82,8 +82,9 @@
     attentionBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [attentionBtn addTarget:self action:@selector(didClickAttention:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.contentView addSubview:attentionBtn];
-    
 }
+
+
 
 -(void)didClickAttention:(UIButton *)btn
 {
@@ -104,13 +105,11 @@
             if ([btn.titleLabel.text isEqualToString:@"关注"])
             {
                 [btn setTitle:@"取消关注" forState:(UIControlStateNormal)];
-                
                 fanDataModel.isFavorite =@"1";
             }
             else
             {
                 [btn setTitle:@"关注" forState:(UIControlStateNormal)];
-                
                 fanDataModel.isFavorite =@"0";
             }
         }
@@ -122,7 +121,6 @@
     } failure:^(NSError *error) {
         
     }];
-
 }
 
 @end
