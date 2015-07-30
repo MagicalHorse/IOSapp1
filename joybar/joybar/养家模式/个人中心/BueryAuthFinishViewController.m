@@ -30,8 +30,7 @@
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"发送认证消息"];
     [self settingView];
-    self.retBtn.hidden =NO;
-    
+    self.retBtn.hidden =YES;
     self.view.backgroundColor = kCustomColor(241, 241, 241);
 }
 
@@ -46,7 +45,6 @@
     lable.text =@"发送完成，请等待验证";
     lable.font = [UIFont systemFontOfSize:20];
     [view addSubview:lable];
-
     UIButton * btn=[[UIButton alloc]initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
     btn.backgroundColor =[UIColor whiteColor];
     [btn setTitle:@"回到首页" forState:UIControlStateNormal];
@@ -57,7 +55,7 @@
     [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)btnClick{
-
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
