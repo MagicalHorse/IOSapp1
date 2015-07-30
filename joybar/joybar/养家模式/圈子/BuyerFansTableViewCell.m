@@ -11,7 +11,11 @@
 @implementation BuyerFansTableViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    
+    self.fansIcon.layer.cornerRadius = self.fansIcon.width/2;
+    self.fansIcon.clipsToBounds =YES;
+    self.fansImg.layer.cornerRadius = self.fansImg.width/2;
+    self.fansImg.clipsToBounds =YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
