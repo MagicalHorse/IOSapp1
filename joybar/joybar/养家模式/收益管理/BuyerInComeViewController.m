@@ -60,14 +60,12 @@
     NSNumber *num =[NSNumber numberWithFloat:[come.total_income floatValue]];
     [self.totalAmountLable dd_setNumber:num];
     self.availAmountLable.text = [NSString stringWithFormat:@"%@",come.avail_amout];
-    NSLog(@"asdasdas");
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"收益管理"];
     self.view.backgroundColor = kCustomColor(241, 241, 241);
-    
 }
 
 

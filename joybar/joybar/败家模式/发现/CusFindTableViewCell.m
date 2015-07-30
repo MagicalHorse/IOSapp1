@@ -7,37 +7,49 @@
 //
 
 #import "CusFindTableViewCell.h"
-#import "FindItems.h"
-#import "FindProduct.h"
+#import "CusTagViewController.h"
 @implementation CusFindTableViewCell
-
+{
+    NSArray *dataArr;
+}
 - (void)awakeFromNib {
     // Initialization code
 }
 
--(void)setData:(NSDictionary *)dic
+-(void)setData:(NSArray *)arr
 {
-    //品牌
-    UIImageView *brandImage= [[UIImageView alloc] init];
-    brandImage.center = CGPointMake(kScreenWidth/2, 30);
-    brandImage.bounds = CGRectMake(0, 0, 50, 50);
-    [brandImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.findItems.BrandLogo]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    [self.contentView addSubview:brandImage];
-    
-    for (int i=0; i<self.findItems.Product.count; i++)
+    dataArr = arr;
+    //构建单元格的视图区域
+    for(int index = 0;index < arr.count; index ++ )
     {
-        FindProduct *findPro = [self.findItems.Product objectAtIndex:i];
-        UIImageView *imageView = [[UIImageView alloc] init];
-        imageView.center = CGPointMake(kScreenWidth/8+kScreenWidth/4*i, (kScreenWidth/4-5)/2+brandImage.bottom+10);
-        imageView.bounds = CGRectMake(0, 0, kScreenWidth/4-5, kScreenWidth/4-5);
-        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",findPro.Pic]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        imageView.clipsToBounds = YES;
-        [self.contentView addSubview:imageView];
+        CGRect frame = CGRectMake(5+5*index+(kScreenWidth-15)/2*index, 5, (kScreenWidth-15)/2, (kScreenWidth-15)/2*0.618);
+        UIImageView *proImage = [[UIImageView alloc] initWithFrame:frame];
+        proImage.tag = index + 10;
+        proImage.userInteractionEnabled = YES;
+        proImage.backgroundColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:proImage];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
+        [proImage addGestureRecognizer:tap];
+        
+        UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(0, proImage.bottom-30, proImage.width, 15)];
+        nameLab.textAlignment = NSTextAlignmentCenter;
+        nameLab.text = @"阿里圣诞节阿萨德爱的阿萨德";
+        nameLab.textColor = [UIColor whiteColor];
+        nameLab.font = [UIFont systemFontOfSize:13];
+        [proImage addSubview:nameLab];
     }
 
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth/4+70, kScreenWidth, 0.5)];
-    line.backgroundColor = [UIColor lightGrayColor];
-    [self.contentView addSubview:line];
 }
+
+-(void)didClickImage:(UITapGestureRecognizer *)tap
+{
+    CusTagViewController *VC = [[CusTagViewController alloc] init];
+    //    VC.BrandId = item.BrandId;
+    //    VC.BrandName = item.BrandName;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
+
+}
+
 
 @end

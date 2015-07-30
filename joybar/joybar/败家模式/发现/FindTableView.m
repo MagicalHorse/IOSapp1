@@ -8,7 +8,6 @@
 
 #import "FindTableView.h"
 #import "CusFindTableViewCell.h"
-#import "CusTagViewController.h"
 @implementation FindTableView
 
 -(instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
@@ -26,7 +25,7 @@
 #pragma mark tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArr.count;
+    return self.dataArr.count/2+self.dataArr.count%2;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -43,23 +42,26 @@
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.findItems = [self.dataArr objectAtIndex:indexPath.row];
-    [cell setData:nil];
+    if (self.dataArr.count>0)
+    {
+        NSRange range = NSMakeRange(indexPath.row*2, 2);
+        if (self.dataArr.count%2==1 && (indexPath.row == self.dataArr.count/2 + self.dataArr.count%2 - 1))
+        {
+            range = NSMakeRange(indexPath.row*2, 1);
+        }
+        NSArray *arr  =[self.dataArr subarrayWithRange:range];
+        [cell setData:arr];
+    }
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return kScreenWidth/4+70;
+    return (kScreenWidth-15)/2*0.618+5;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   FindItems *item = [self.dataArr objectAtIndex:indexPath.row];
-    CusTagViewController *VC = [[CusTagViewController alloc] init];
-    VC.BrandId = item.BrandId;
-    VC.BrandName = item.BrandName;
-    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 @end

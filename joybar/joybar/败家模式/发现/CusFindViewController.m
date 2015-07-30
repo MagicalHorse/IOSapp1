@@ -9,7 +9,6 @@
 #import "CusFindViewController.h"
 #import "CusFindSearchViewController.h"
 #import "CusTagViewController.h"
-#import "FindData.h"
 #import "FindTableView.h"
 #import "NearTableView.h"
 #import "NearData.h"
@@ -25,7 +24,6 @@
 @property (nonatomic ,strong) NSMutableArray *findArr;
 @property (nonatomic ,assign) NSInteger pageNum;
 @property (nonatomic ,assign) NSInteger nearPageNum;
-@property (nonatomic ,strong) FindData *findData;
 
 @end
 
@@ -56,6 +54,8 @@
     
 
 }
+
+//品牌
 -(void)initWithFindTableView
 {
     //tableView
@@ -143,7 +143,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
-    [dic setValue:@"6" forKey:@"pagesize"];
+    [dic setValue:@"20" forKey:@"pagesize"];
     if (!isRefresh)
     {
         [self activityDismiss];
@@ -155,19 +155,17 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSDictionary *dic = [json objectForKey:@"data"];
+//            if (self.findData.items.count<6)
+//            {
+//                [self.findTableView hiddenFooter:YES];
+//            }
+//            else
+//            {
+//                [self.findTableView hiddenFooter:NO];
+//            }
+//            
+            [self.findTableView.dataArr addObjectsFromArray:@[@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3"]];
             
-            self.findData = [FindData objectWithKeyValues:dic];
-            
-            if (self.findData.items.count<6)
-            {
-                [self.findTableView hiddenFooter:YES];
-            }
-            else
-            {
-                [self.findTableView hiddenFooter:NO];
-            }
-            
-            [self.findTableView.dataArr addObjectsFromArray:self.findData.items];
             
             [self.findTableView reloadData];
         }

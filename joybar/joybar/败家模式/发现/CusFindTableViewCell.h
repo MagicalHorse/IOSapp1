@@ -7,11 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FindItems.h"
 @interface CusFindTableViewCell : UITableViewCell
 
--(void)setData:(NSDictionary *)dic;
-
-@property (nonatomic ,strong) FindItems *findItems;
+-(void)setData:(NSArray *)arr;
 
 @end
