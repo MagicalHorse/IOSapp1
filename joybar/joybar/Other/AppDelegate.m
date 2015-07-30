@@ -175,7 +175,7 @@
 }
 //引导页结束
 - (void)introDidFinish
-{   
+{
     UIScrollView *sc = (UIScrollView *)[self.window viewWithTag:33333];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [sc removeFromSuperview];

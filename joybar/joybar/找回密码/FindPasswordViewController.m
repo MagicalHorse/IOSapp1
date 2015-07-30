@@ -66,6 +66,8 @@
     authBtn.frame = CGRectMake(kScreenWidth-75, 10, 132/2, 56/1.8);
     [authBtn setTitle:@"验证" forState:(UIControlStateNormal)];
     authBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    authBtn.layer.cornerRadius = authBtn.height/2;
+    authBtn.backgroundColor = [UIColor redColor];
     authBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [authBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [authBtn setBackgroundImage:[UIImage imageNamed:@"yanzheng.png"] forState:(UIControlStateNormal)];
@@ -103,6 +105,11 @@
 -(void)didCilckGetAuthCode
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    if (registerPhoneText.text.length!=11)
+    {
+        [self showHudFailed:@"请输入正确的手机号码"];
+        return;
+    }
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
     [dic setObject:@"1" forKey:@"type"];
     [HttpTool postWithURL:@"user/SendMobileCode" params:dic success:^(id json) {

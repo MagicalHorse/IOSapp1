@@ -262,6 +262,8 @@
     [authBtn setTitle:@"验证" forState:(UIControlStateNormal)];
     authBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     authBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    authBtn.layer.cornerRadius = authBtn.height/2;
+    authBtn.backgroundColor = [UIColor redColor];
     [authBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [authBtn setBackgroundImage:[UIImage imageNamed:@"yanzheng.png"] forState:(UIControlStateNormal)];
     [authBtn addTarget:self action:@selector(didCilckGetAuthCode:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -291,6 +293,12 @@
     [loginAuthText resignFirstResponder];
     [loginPhoneText resignFirstResponder];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    if (loginPhoneText.text.length!=11)
+    {
+        [self showHudFailed:@"请输入正确的手机号码"];
+        return;
+    }
+    
     [dic setObject:loginPhoneText.text forKey:@"mobile"];
     [dic setObject:loginAuthText.text forKey:@"password"];
     [self hudShow:@"正在登录"];
@@ -337,7 +345,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:registerPhoneText.text forKey:@"mobile"];
     [dic setValue:registerAuthText.text forKey:@"code"];
-    [self hudShowWithText:@"正在验证"];
+    [self hudShow:@"正在验证"];
     [HttpTool postWithURL:@"user/VerifyCode" params:dic success:^(id json) {
 
         BOOL isSuccess = [[json objectForKey:@"isSuccessful"]boolValue];
@@ -361,6 +369,11 @@
 -(void)didCilckGetAuthCode:(UIButton *)btn
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    if (registerPhoneText.text.length!=11)
+    {
+        [self showHudFailed:@"请输入正确的手机号码"];
+        return;
+    }
     [dic setValue:registerPhoneText.text forKey:@"mobile"];
     [dic setValue:@"0" forKey:@"type"];
     [self hudShowWithText:@"正在获取验证码"];
