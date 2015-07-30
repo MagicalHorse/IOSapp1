@@ -17,11 +17,12 @@
 #import "Image.h"
 #import "Detail.h"
 
-@interface BuyerStoreViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UMSocialUIDelegate>{
+@interface BuyerStoreViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UMSocialUIDelegate,UIAlertViewDelegate>{
     int type;
     BOOL isRefresh;
     
 }
+
 @property (nonatomic ,strong) BaseTableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic ,strong) UILabel *lineLab;
@@ -246,19 +247,9 @@
 -(void)sbDelClcke:(UIButton *)btn{
     
     Store *st=[self.dataArray objectAtIndex:btn.tag];
-    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-    [dict setObject:st.ProductId forKey:@"id"];
-    [HttpTool postWithURL:@"Product/Delete" params:dict success:^(id json) {
-        BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
-        if (isSuccessful) {
-            [self.dataArray removeObject:st];
-            [self.tableView reloadData];
-        }else{
-            [self showHudFailed:[json objectForKey:@"message"]];
-        }
-    } failure:^(NSError *error) {
-        NSLog(@"%@",error);
-    }];
+    UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"删除商品" message: [NSString stringWithFormat:@"确定要删除%@吗?",st.ProductName] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.tag =btn.tag;
+    [alert show];
     
 }
 -(void)downClcke:(UIButton *)btn{
@@ -339,6 +330,25 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 165;
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if(buttonIndex ==1){
+        Store *st=[self.dataArray objectAtIndex:alertView.tag];
+        NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+        [dict setObject:st.ProductId forKey:@"id"];
+        [HttpTool postWithURL:@"Product/Delete" params:dict success:^(id json) {
+            BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+            if (isSuccessful) {
+                [self.dataArray removeObject:st];
+                [self.tableView reloadData];
+            }else{
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"服务器正在维护,请稍后再试");
+        }];
+    }
 }
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
