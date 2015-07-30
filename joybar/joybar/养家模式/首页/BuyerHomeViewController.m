@@ -320,19 +320,13 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
-        ComeIn *come = [[ComeIn alloc]init];
-        come.today_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"]doubleValue];
-        come.total_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"]doubleValue];
-        come.avail_amout =[[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amout"]doubleValue];
-        
         BuyerPaymentViewController * income= [[BuyerPaymentViewController alloc]init];
         [self.navigationController pushViewController:income animated:YES];
     }else if (indexPath.row == 1) {
         ComeIn *come = [[ComeIn alloc]init];
-        come.today_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"]doubleValue];
-        come.total_income =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"]doubleValue];
-        come.avail_amout =[[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amout"]doubleValue];
-
+        come.today_income =[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"];
+        come.total_income =[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"];
+        come.avail_amout =[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amount"];
         BuyerInComeViewController * income= [[BuyerInComeViewController alloc]initWithComeIn:come];
         [self.navigationController pushViewController:income animated:YES];
     }else if(indexPath.row ==2){

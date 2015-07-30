@@ -54,9 +54,9 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
 
-    [self.todayInComeLable dd_setNumber:@(come.today_income)];
-    [self.totalAmountLable dd_setNumber:@(come.total_income)];
-    self.availAmountLable.text = [@(come.avail_amout) stringValue] ;
+//    [self.todayInComeLable dd_setNumber:come.today_income];
+    [self.totalAmountLable dd_setNumber:@(0.07)];
+    self.availAmountLable.text = [come.avail_amout stringValue] ;
 }
 
 - (void)viewDidLoad {

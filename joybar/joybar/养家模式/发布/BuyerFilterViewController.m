@@ -146,18 +146,18 @@
     [_customScrollView addSubview:titieView];
     
     UIScrollView * tzhiView=[[UIScrollView alloc]initWithFrame:CGRectMake(0, _bgImage.bottom, kScreenWidth, 110)];
-    tzhiView.contentSize =CGSizeMake(kScreenWidth+100, 0);
+    tzhiView.contentSize =CGSizeMake(390, 0);
     tzhiView.backgroundColor =[UIColor whiteColor];
     [_customScrollView addSubview:tzhiView];
     
 
     for (int i=0; i<5; i++) {
-        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4-20)*i+15*(i+1), 15, 60, 60)];
+        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(60*i+15*(i+1), 15, 60, 60)];
         btn.tag =i+1;
         
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [tzhiView addSubview:btn];
-        UILabel *label =[[UILabel alloc]initWithFrame:CGRectMake((kScreenWidth/4-20)*i+15*(i+1), btn.bottom+10, kScreenWidth/4-20, 13)];
+        UILabel *label =[[UILabel alloc]initWithFrame:CGRectMake(60*i+15*(i+1), btn.bottom+10, kScreenWidth/4-20, 13)];
         label.textAlignment=NSTextAlignmentCenter;
         switch (i) {
             case 0:

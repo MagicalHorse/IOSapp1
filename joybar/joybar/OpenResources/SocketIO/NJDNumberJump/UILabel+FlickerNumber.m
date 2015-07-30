@@ -161,7 +161,9 @@ static char flikcerNumberCurrentTimer;
     
     //get multiple if number is float & double type
     int multiple = [self multipleForNumber:number formatString:formatStr];
+  
     endNumber = multiple > 0 ? [number floatValue] * multiple : [number intValue];
+    
     [userInfo setObject:@(multiple) forKey:MultipleKey];
     [userInfo setObject:@(endNumber) forKey:EndNumberKey];
     if((endNumber * Frequency)/duration < 1){

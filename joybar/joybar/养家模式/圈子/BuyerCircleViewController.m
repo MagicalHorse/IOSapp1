@@ -60,9 +60,14 @@
     }else{
         url=@"User/GetUserFavoite";
         [dict setValue:@"1" forKey:@"status"];
+        [dict setObject:[[Public getUserInfo] objectForKey:@"id"] forKey:@"userId"];
+        [dict setObject:[[Public getUserInfo] objectForKey:@"id"]forKey:@"currentUserId"];
 
     }
     [dict setObject:@"1" forKey:@"Page"];
+    
+    
+
     [dict setObject:@"1000000" forKey:@"Pagesize"];
     [HttpTool postWithURL:url params:dict success:^(id json) {
         
