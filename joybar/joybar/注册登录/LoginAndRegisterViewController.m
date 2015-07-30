@@ -381,7 +381,7 @@
         
         NSDictionary *jsonDic = json;
         
-        if ([jsonDic objectForKey:@"isSuccessful"])
+        if ([[jsonDic objectForKey:@"isSuccessful"] boolValue])
         {
             timerInterget = 60;
 
