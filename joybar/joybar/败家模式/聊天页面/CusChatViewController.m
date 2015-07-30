@@ -202,9 +202,10 @@
     [dic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setValue:@"10" forKey:@"pagesize"];
-    
+    [self hudShowWithText:@"正在获取消息中..."];
     [HttpTool postWithURL:@"Community/GetMessages" params:dic success:^(id json) {
         
+        [self textHUDHiddle];
         [self.tableView endRefresh];
 
         if([[json objectForKey:@"isSuccessful"] boolValue])
@@ -246,6 +247,8 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
     } failure:^(NSError *error) {
+        [self textHUDHiddle];
+
     }];
     
 }
@@ -355,7 +358,6 @@
     [buyBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [buyBtn addTarget:self action:@selector(didClickBuyBtn) forControlEvents:(UIControlEventTouchUpInside)];
     [bgView addSubview:buyBtn];
-    
 }
 
 //发送文字

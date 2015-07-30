@@ -13,6 +13,7 @@
 #import "FindTableView.h"
 #import "NearTableView.h"
 #import "NearData.h"
+#import "AppDelegate.h"
 @interface CusFindViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scroll;
@@ -182,8 +183,11 @@
 
 -(void)getNearData:(BOOL)isRefresh
 {
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.nearPageNum] forKey:@"page"];
+    [dic setValue:app.longitude forKey:@"Longitude"];
+    [dic setValue:app.latitude forKey:@"Latitude"];
     [dic setValue:@"6" forKey:@"pagesize"];
     [dic setValue:@"0" forKey:@"CityId"];
     if (!isRefresh)

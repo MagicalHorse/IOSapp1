@@ -132,6 +132,14 @@
     _pageControl.currentPageIndicatorTintColor = [UIColor redColor];
     [_pageControl setBackgroundColor:[UIColor clearColor]];
     _pageControl.currentPage = 0;
+    if (prodata.ProductPic.count==1)
+    {
+        _pageControl.hidden = YES;
+    }
+    else
+    {
+        _pageControl.hidden = NO;
+    }
     _pageControl.numberOfPages = prodata.ProductPic.count;
     [self.scrollView addSubview:_pageControl];
     

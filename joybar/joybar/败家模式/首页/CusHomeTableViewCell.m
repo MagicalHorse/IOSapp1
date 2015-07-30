@@ -162,7 +162,6 @@
     
     for (int i=0; i<self.homePro.LikeUsers.Users.count; i++)
     {
-        
         if (i>7)
         {
             return;
@@ -193,6 +192,8 @@
     nightImage.clipsToBounds = YES;
     nightImage.image = [UIImage imageNamed:@"打烊购框icon"];
     [self.contentView addSubview:nightImage];
+    
+    
     
     UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, kScreenWidth-80, 20)];
     lab.text = self.homePro.Promotion.DescriptionText;
@@ -229,7 +230,7 @@
         
         [UMSocialSnsService presentSnsIconSheetView:self.viewController
                                              appKey:@"557f8f1c67e58edf32000208"
-                                          shareText:@""
+                                          shareText:[NSString stringWithFormat:@"快看！这里有一件超值的%@商品",self.homePro.ProductName]
                                          shareImage:image
                                     shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                            delegate:self];

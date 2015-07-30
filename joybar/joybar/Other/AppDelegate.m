@@ -30,9 +30,8 @@
     //向微信注册
     [WXApi registerApp:APP_ID];
 
-    // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+    self.window.backgroundColor = [UIColor whiteColor];
     [self connectionSoctet];
     
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
@@ -70,21 +69,73 @@
 
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
-        
         [self _initWithScrollViewForSoftHelp];
-
-    }else{
+    }
+    else
+    {
         
     }
     [self aliyunSet];
+    
+    [self startLocation];
     return YES;
+}
+
+//开始定位
+-(void)startLocation
+{
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.distanceFilter = 10.0f;
+    [self.locationManager startUpdatingLocation];
+    //在ios 8.0下要授权
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+    {
+        [_locationManager requestWhenInUseAuthorization];  //调用了这句,就会弹出允许框了.
+    }
+}
+
+//定位代理经纬度回调
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    [_locationManager stopUpdatingLocation];
+    NSLog(@"location ok");
+    
+    NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
+    self.latitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
+    self.longitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
+//    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+//    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+//        for (CLPlacemark * placemark in placemarks) {
+//            
+//            NSDictionary *test = [placemark addressDictionary];
+//            //  Country(国家)  State(城市)  SubLocality(区)
+//            NSLog(@"%@", [test objectForKey:@"State"]);
+//        }
+//    }];
+}
+
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"定位失败" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重新定位", nil];
+    [alert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==1)
+    {
+        [self.locationManager startUpdatingLocation];
+    }
 }
 
 //当软件第一次启动时运行
 - (void)_initWithScrollViewForSoftHelp
 {
     //创建存放引导图片的数组
-    NSArray *helpImageArray ;
+    NSArray *helpImageArray;
     if (kScreenHeight==480)
     {
         helpImageArray= @[@"img1_960*640",@"img2_960*640",@"img3_960*640",@"img4_960*640"];
@@ -124,7 +175,7 @@
 }
 //引导页结束
 - (void)introDidFinish
-{
+{   
     UIScrollView *sc = (UIScrollView *)[self.window viewWithTag:33333];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [sc removeFromSuperview];
