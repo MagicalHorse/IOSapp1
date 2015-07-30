@@ -360,7 +360,7 @@
 }-(void)creatBtn:(UIImageView *)btn
 {
     NSInteger i=btn.tag-1;
-    btn.frame= CGRectMake((kScreenWidth/3-20)*i+15*(i+1), 15, kScreenWidth/3-20, 85);
+    btn.frame= CGRectMake((kScreenWidth/3-20)*i+15*(i+1), 15, 85, 85);
     btn.layer.borderWidth= 1.5;
     btn.layer.borderColor = kCustomColor(169, 200, 234).CGColor;
     

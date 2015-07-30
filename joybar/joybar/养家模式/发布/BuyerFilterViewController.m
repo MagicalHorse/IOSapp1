@@ -152,7 +152,7 @@
     
 
     for (int i=0; i<5; i++) {
-        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4-20)*i+15*(i+1), 15, kScreenWidth/4-20, 60)];
+        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4-20)*i+15*(i+1), 15, 60, 60)];
         btn.tag =i+1;
         
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
