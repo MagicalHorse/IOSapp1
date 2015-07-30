@@ -57,11 +57,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return (kScreenWidth-15)/2*0.618+5;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+    return (kScreenWidth-9)/2*0.75+3;
 }
 
 @end

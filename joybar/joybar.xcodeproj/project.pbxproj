@@ -355,6 +355,9 @@
 		9D9AF73D1B32E365000FB33B /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9D9AF73A1B32E365000FB33B /* WXUtil.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9D9AF73E1B3402D1000FB33B /* CusOrderListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AD81B2AE01900782C0C /* CusOrderListTableViewCell.m */; };
 		9D9AF7BB1B3A4DAB000FB33B /* CusHomeStoreHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9AF7BA1B3A4DAB000FB33B /* CusHomeStoreHeader.m */; };
+		9DCD42821B6A221E00BD5CBE /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DCD42811B6A221E00BD5CBE /* GradientView.m */; };
+		9DCD42841B6A229600BD5CBE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DCD42831B6A229600BD5CBE /* QuartzCore.framework */; };
+		9DCD42861B6A26DA00BD5CBE /* 123.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9DCD42851B6A26DA00BD5CBE /* 123.jpg */; };
 		9DD1B6831B4E495D00E4DA12 /* Promotions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD1B6821B4E495D00E4DA12 /* Promotions.m */; };
 		9DD1B6B81B5368DD00E4DA12 /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD1B6B71B5368DD00E4DA12 /* BannerViewController.m */; };
 		9DDB17141AE7741F0014D8B2 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DDB168B1AE7741F0014D8B2 /* 37x-Checkmark.png */; };
@@ -976,6 +979,10 @@
 		9D9AF73A1B32E365000FB33B /* WXUtil.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WXUtil.mm; sourceTree = "<group>"; };
 		9D9AF7B91B3A4DAB000FB33B /* CusHomeStoreHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusHomeStoreHeader.h; sourceTree = "<group>"; };
 		9D9AF7BA1B3A4DAB000FB33B /* CusHomeStoreHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusHomeStoreHeader.m; sourceTree = "<group>"; };
+		9DCD42801B6A221E00BD5CBE /* GradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientView.h; sourceTree = "<group>"; };
+		9DCD42811B6A221E00BD5CBE /* GradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientView.m; sourceTree = "<group>"; };
+		9DCD42831B6A229600BD5CBE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		9DCD42851B6A26DA00BD5CBE /* 123.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 123.jpg; sourceTree = "<group>"; };
 		9DD1B6811B4E495D00E4DA12 /* Promotions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Promotions.h; sourceTree = "<group>"; };
 		9DD1B6821B4E495D00E4DA12 /* Promotions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Promotions.m; sourceTree = "<group>"; };
 		9DD1B6B61B5368DD00E4DA12 /* BannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerViewController.h; sourceTree = "<group>"; };
@@ -1051,6 +1058,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DCD42841B6A229600BD5CBE /* QuartzCore.framework in Frameworks */,
 				9D8CD7451B68A1EF00F972EB /* CoreLocation.framework in Frameworks */,
 				0ACDBDD81B3BE73B0096B531 /* libPushSDK-1.8.2.a in Frameworks */,
 				0AE7E1051B1D9C9000159B02 /* libOSS_IOS_SDK.a in Frameworks */,
@@ -1252,6 +1260,7 @@
 		0AAB5A061B2AE01800782C0C /* 发现 */ = {
 			isa = PBXGroup;
 			children = (
+				9DCD42851B6A26DA00BD5CBE /* 123.jpg */,
 				0AAB5A071B2AE01800782C0C /* CusFindSearchViewController.h */,
 				0AAB5A081B2AE01800782C0C /* CusFindSearchViewController.m */,
 				0AAB5A0B1B2AE01800782C0C /* CusFindViewController.h */,
@@ -1260,6 +1269,8 @@
 				0AAB5A141B2AE01800782C0C /* FindTableView.m */,
 				0AAB5A091B2AE01800782C0C /* CusFindTableViewCell.h */,
 				0AAB5A0A1B2AE01800782C0C /* CusFindTableViewCell.m */,
+				9DCD42801B6A221E00BD5CBE /* GradientView.h */,
+				9DCD42811B6A221E00BD5CBE /* GradientView.m */,
 				0AAB5A201B2AE01800782C0C /* NearTableView.h */,
 				0AAB5A211B2AE01800782C0C /* NearTableView.m */,
 				0AAB5A0D1B2AE01800782C0C /* CusNearTableViewCell.h */,
@@ -1653,6 +1664,7 @@
 		0D60BCA21ACCD74D00BF625A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9DCD42831B6A229600BD5CBE /* QuartzCore.framework */,
 				9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */,
 				0ACDBDD71B3BE73B0096B531 /* libPushSDK-1.8.2.a */,
 				0AE7E1041B1D9C9000159B02 /* libOSS_IOS_SDK.a */,
@@ -2456,6 +2468,7 @@
 				9D744DDB1B2FCB9B00553648 /* UMSShareListController.xib in Resources */,
 				0AAB5B8A1B2AE01900782C0C /* biaoqing060.png in Resources */,
 				9D5D2E551B60BF7200DBFDC3 /* TGRImageViewController.xib in Resources */,
+				9DCD42861B6A26DA00BD5CBE /* 123.jpg in Resources */,
 				0AAB5B4D1B2AE01900782C0C /* MessageView_smileBg@2x.png in Resources */,
 				9DDB171B1AE7741F0014D8B2 /* TipViewIcon.png in Resources */,
 				9D744DDA1B2FCB9B00553648 /* UMSnsAccountViewController.xib in Resources */,
@@ -2671,6 +2684,7 @@
 				0AAB5BB81B2AE01900782C0C /* HomeUsers.m in Sources */,
 				0D65B00B1ADCE2DD0073EC54 /* MoneyViewController.m in Sources */,
 				0AAB5B201B2AE01900782C0C /* NearTableView.m in Sources */,
+				9DCD42821B6A221E00BD5CBE /* GradientView.m in Sources */,
 				0AAB5B191B2AE01900782C0C /* CusTagViewController.m in Sources */,
 				0DB5AF311ACCDE5A000FE9C8 /* BaseViewController.m in Sources */,
 				9D9AF73C1B32E365000FB33B /* payRequsestHandler.mm in Sources */,
