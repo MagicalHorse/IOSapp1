@@ -10,8 +10,8 @@
 
 @interface ComeIn : NSObject
 
-@property (nonatomic,assign)NSNumber *today_income;
-@property (nonatomic,assign)NSNumber *total_income;
-@property (nonatomic,assign)NSNumber *avail_amout;
+@property (nonatomic,assign)NSString *today_income;
+@property (nonatomic,assign)NSString *total_income;
+@property (nonatomic,assign)NSString *avail_amout;
 
 @end

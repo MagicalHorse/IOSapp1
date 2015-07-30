@@ -54,9 +54,11 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
 
-//    [self.todayInComeLable dd_setNumber:come.today_income];
-    [self.totalAmountLable dd_setNumber:@(0.07)];
-    self.availAmountLable.text = [come.avail_amout stringValue] ;
+    [self.todayInComeLable dd_setNumber:[NSNumber numberWithFloat:[come.today_income floatValue]]];
+    
+    NSNumber *num =[NSNumber numberWithFloat:[come.total_income floatValue]];
+    [self.totalAmountLable dd_setNumber:num];
+    self.availAmountLable.text = come.avail_amout;
 }
 
 - (void)viewDidLoad {
