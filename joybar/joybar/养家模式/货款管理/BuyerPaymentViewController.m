@@ -81,173 +81,259 @@
     
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    return 2;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    if(section==1){
+        return 5;
+    }else{
+        return 2;
+    }
+    
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell =[[UITableViewCell alloc]init];
     cell.selectionStyle =UITableViewCellSelectionStyleNone;
-    if (indexPath.row ==0) {
-        UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(0, 18, kScreenWidth/2-10, 14)];
-        lable.text =@"总货款:";
-        lable.textAlignment =NSTextAlignmentRight;
-        lable.font =[UIFont systemFontOfSize:14];
-        [cell addSubview:lable];
-        
-        UILabel * lablePrice =[[UILabel alloc]initWithFrame:CGRectMake(lable.right, 13, kScreenWidth/2-5, 24)];
-        lablePrice.font =[UIFont systemFontOfSize:24];
-        if ([self.dataArray objectForKey:@"TotalAmount"]) {
-            CGFloat totalAmount= [[self.dataArray objectForKey:@"TotalAmount"] floatValue];
-            lablePrice.text =[NSString stringWithFormat:@"￥%.2f",totalAmount];
-        }else{
-            lablePrice.text =@"￥0.00";
-        }
-        [cell addSubview:lablePrice];
-       
-
-    }else if(indexPath.row ==1){
-        UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
-        lable.font =[UIFont systemFontOfSize:14];
-        [cell addSubview:lable];
-        
-        
-       UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
-        view.backgroundColor =[UIColor orangeColor];
-        [cell addSubview:view];
-        
-       
-        if ([self.dataArray objectForKey:@"PickedPercent"]) {
-            
-            lable.text =[NSString stringWithFormat:@"已提现货款 %@",[self.dataArray objectForKey:@"PickedPercent"]];
-            
-            [UIView animateWithDuration:1.5 animations:^{
-                
-                view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"PickedPercent"] integerValue]*0.01, 5);
-            }];
-        }else{
-            lable.text =@"已提现货款0.00%";
-        }
-
-        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
-        labPrice.textAlignment =NSTextAlignmentRight;
-        if ([self.dataArray objectForKey:@"PickedAmount"]) {
-            CGFloat pickedAmount =[[self.dataArray objectForKey:@"PickedAmount"] floatValue];
-            labPrice.text =[NSString stringWithFormat:@"￥%.2f",pickedAmount];;
-        }else{
-            labPrice.text =@"￥0.00";
-        }
-        labPrice.font =[UIFont systemFontOfSize:14];
-        [cell addSubview:labPrice];
-
     
-    }else if(indexPath.row ==2){
-        
-        
-        UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
-        lable.font =[UIFont systemFontOfSize:14];
-        [cell addSubview:lable];
-        
-        UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
-        view.backgroundColor =[UIColor orangeColor];
-        [cell addSubview:view];
-        
-        if ([self.dataArray objectForKey:@"CanPickPercent"]) {
-            lable.text =[NSString stringWithFormat:@"可提现货款 %@",[self.dataArray objectForKey:@"CanPickPercent"]];
+    if (indexPath.section==0) {
+        if (indexPath.row ==0) {
+            UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(0, 18, kScreenWidth/2-10, 14)];
+            lable.text =@"本周货款额度:";
+            lable.textAlignment =NSTextAlignmentRight;
+            lable.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:lable];
             
-            [UIView animateWithDuration:1.5 animations:^{
-                
-                view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"CanPickPercent"] integerValue]*0.01, 5);
-            }];
-        }else{
-            lable.text =@"可提现货款0.00%";
-        }
-        
-        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
-        labPrice.textAlignment =NSTextAlignmentRight;
-        if ([self.dataArray objectForKey:@"CanPickAmount"]) {
-            CGFloat canPickAmount = [[self.dataArray objectForKey:@"CanPickAmount"] floatValue];
-             labPrice.text =[NSString stringWithFormat:@"￥%.2f",canPickAmount];
-        }else{
-            labPrice.text =@"￥0.00";
-        }
-        labPrice.font =[UIFont systemFontOfSize:14];
-        [cell addSubview:labPrice];
-        
-    }else if(indexPath.row ==3){
-        UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
-        lable.font =[UIFont systemFontOfSize:14];
-        [cell addSubview:lable];
-        
-        UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
-        view.backgroundColor =[UIColor orangeColor];
-        [cell addSubview:view];
-        
-        
-        if ([self.dataArray objectForKey:@"FrozenPercent"]) {
-            lable.text =[NSString stringWithFormat:@"冻结货款 %@",[self.dataArray objectForKey:@"FrozenPercent"]];
+            UILabel * lablePrice =[[UILabel alloc]initWithFrame:CGRectMake(lable.right, 13, kScreenWidth/2-5, 24)];
+            lablePrice.font =[UIFont systemFontOfSize:24];
+            if ([self.dataArray objectForKey:@"TotalAmount"]) {
+                CGFloat totalAmount= [[self.dataArray objectForKey:@"TotalAmount"] floatValue];
+                lablePrice.text =[NSString stringWithFormat:@"￥%.2f",totalAmount];
+            }else{
+                lablePrice.text =@"￥0.00";
+            }
+            [cell addSubview:lablePrice];
             
-            [UIView animateWithDuration:1.5 animations:^{
-                
-                view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"FrozenPercent"] integerValue]*0.01, 5);
-            }];
-        }else{
-            lable.text =@"冻结货款0.00%";
-        }
-        
-        
-        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
-        labPrice.textAlignment =NSTextAlignmentRight;
-        if ([self.dataArray objectForKey:@"FrozenAmount"]) {
-            CGFloat temp =[[self.dataArray objectForKey:@"FrozenAmount"] floatValue];
-            labPrice.text =[NSString stringWithFormat:@"￥%.2f",temp];
-        }else{
-            labPrice.text =@"￥0.00";
-        }
-        labPrice.font =[UIFont systemFontOfSize:14];
-        [cell addSubview:labPrice];
-        
-    }else if(indexPath.row ==4){
-        UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
-        lable.font =[UIFont systemFontOfSize:14];
-        [cell addSubview:lable];
-        
-        UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
-        view.backgroundColor =[UIColor orangeColor];
-        [cell addSubview:view];
-        
-        
-        if ([self.dataArray objectForKey:@"RmaPercent"]) {
-            lable.text =[NSString stringWithFormat:@"退款 %@",[self.dataArray objectForKey:@"RmaPercent"]];
+        }else if(indexPath.row ==1){
+            UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
+            lable.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:lable];
             
-            [UIView animateWithDuration:1.5 animations:^{
+            UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
+            view.backgroundColor =[UIColor orangeColor];
+            [cell addSubview:view];
+            
+            
+            if ([self.dataArray objectForKey:@"FrozenPercent"]) {
+                lable.text =[NSString stringWithFormat:@"已使用的额度 %@",[self.dataArray objectForKey:@"FrozenPercent"]];
                 
-                view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"RmaPercent"] integerValue]*0.01, 5);
-            }];
-        }else{
-            lable.text =@"退款0.00%";
+                [UIView animateWithDuration:1.5 animations:^{
+                    
+                    view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"FrozenPercent"] integerValue]*0.01, 5);
+                }];
+            }else{
+                lable.text =@"已使用的额度 0.00%";
+            }
+            
+            
+            UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
+            labPrice.textAlignment =NSTextAlignmentRight;
+            if ([self.dataArray objectForKey:@"FrozenAmount"]) {
+                CGFloat temp =[[self.dataArray objectForKey:@"FrozenAmount"] floatValue];
+                labPrice.text =[NSString stringWithFormat:@"￥%.2f",temp];
+            }else{
+                labPrice.text =@"￥0.00";
+            }
+            labPrice.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:labPrice];
         }
-        
-        
-        UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
-        labPrice.textAlignment =NSTextAlignmentRight;
-        if ([self.dataArray objectForKey:@"RmaAmount"]) {
-            CGFloat rmaAmount =[[self.dataArray objectForKey:@"RmaAmount"] floatValue];
-            labPrice.text =[NSString stringWithFormat:@"￥%.2f",rmaAmount];
-        }else{
-            labPrice.text =@"￥0.00";
+    }else if (indexPath.section==1) {
+        if (indexPath.row ==0) {
+            UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(0, 18, kScreenWidth/2-10, 14)];
+            lable.text =@"历史总货款:";
+            lable.textAlignment =NSTextAlignmentRight;
+            lable.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:lable];
+            
+            UILabel * lablePrice =[[UILabel alloc]initWithFrame:CGRectMake(lable.right, 13, kScreenWidth/2-5, 24)];
+            lablePrice.font =[UIFont systemFontOfSize:24];
+            if ([self.dataArray objectForKey:@"TotalAmount"]) {
+                CGFloat totalAmount= [[self.dataArray objectForKey:@"TotalAmount"] floatValue];
+                lablePrice.text =[NSString stringWithFormat:@"￥%.2f",totalAmount];
+            }else{
+                lablePrice.text =@"￥0.00";
+            }
+            [cell addSubview:lablePrice];
+            
+            
+        }else if(indexPath.row ==1){
+            UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
+            lable.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:lable];
+            
+            
+            UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
+            view.backgroundColor =[UIColor orangeColor];
+            [cell addSubview:view];
+            
+            
+            if ([self.dataArray objectForKey:@"PickedPercent"]) {
+                
+                lable.text =[NSString stringWithFormat:@"已提现货款 %@",[self.dataArray objectForKey:@"PickedPercent"]];
+                
+                [UIView animateWithDuration:1.5 animations:^{
+                    
+                    view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"PickedPercent"] integerValue]*0.01, 5);
+                }];
+            }else{
+                lable.text =@"已提现货款 0.00%";
+            }
+            
+            UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
+            labPrice.textAlignment =NSTextAlignmentRight;
+            if ([self.dataArray objectForKey:@"PickedAmount"]) {
+                CGFloat pickedAmount =[[self.dataArray objectForKey:@"PickedAmount"] floatValue];
+                labPrice.text =[NSString stringWithFormat:@"￥%.2f",pickedAmount];;
+            }else{
+                labPrice.text =@"￥0.00";
+            }
+            labPrice.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:labPrice];
+            
+            
+        }else if(indexPath.row ==2){
+            
+            
+            UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
+            lable.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:lable];
+            
+            UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
+            view.backgroundColor =[UIColor orangeColor];
+            [cell addSubview:view];
+            
+            if ([self.dataArray objectForKey:@"CanPickPercent"]) {
+                lable.text =[NSString stringWithFormat:@"可提现货款 %@",[self.dataArray objectForKey:@"CanPickPercent"]];
+                
+                [UIView animateWithDuration:1.5 animations:^{
+                    
+                    view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"CanPickPercent"] integerValue]*0.01, 5);
+                }];
+            }else{
+                lable.text =@"可提现货款 0.00%";
+            }
+            
+            UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
+            labPrice.textAlignment =NSTextAlignmentRight;
+            if ([self.dataArray objectForKey:@"CanPickAmount"]) {
+                CGFloat canPickAmount = [[self.dataArray objectForKey:@"CanPickAmount"] floatValue];
+                labPrice.text =[NSString stringWithFormat:@"￥%.2f",canPickAmount];
+            }else{
+                labPrice.text =@"￥0.00";
+            }
+            labPrice.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:labPrice];
+            
+        }else if(indexPath.row ==3){
+            UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
+            lable.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:lable];
+            
+            UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
+            view.backgroundColor =[UIColor orangeColor];
+            [cell addSubview:view];
+            
+            
+            if ([self.dataArray objectForKey:@"FrozenPercent"]) {
+                lable.text =[NSString stringWithFormat:@"冻结货款 %@",[self.dataArray objectForKey:@"FrozenPercent"]];
+                
+                [UIView animateWithDuration:1.5 animations:^{
+                    
+                    view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"FrozenPercent"] integerValue]*0.01, 5);
+                }];
+            }else{
+                lable.text =@"冻结货款 0.00%";
+            }
+            
+            
+            UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
+            labPrice.textAlignment =NSTextAlignmentRight;
+            if ([self.dataArray objectForKey:@"FrozenAmount"]) {
+                CGFloat temp =[[self.dataArray objectForKey:@"FrozenAmount"] floatValue];
+                labPrice.text =[NSString stringWithFormat:@"￥%.2f",temp];
+            }else{
+                labPrice.text =@"￥0.00";
+            }
+            labPrice.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:labPrice];
+            
+        }else if(indexPath.row ==4){
+            UILabel * lable =[[UILabel alloc]initWithFrame:CGRectMake(15, 15, 150, 14)];
+            lable.font =[UIFont systemFontOfSize:14];
+            [cell addSubview:lable];
+            
+            UIView * view= [[UIView alloc]initWithFrame:CGRectMake(15, 35, 0, 5)];
+            view.backgroundColor =[UIColor orangeColor];
+            [cell addSubview:view];
+            
+            
+            if ([self.dataArray objectForKey:@"RmaPercent"]) {
+                lable.text =[NSString stringWithFormat:@"退款 %@",[self.dataArray objectForKey:@"RmaPercent"]];
+                
+                [UIView animateWithDuration:1.5 animations:^{
+                    
+                    view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"RmaPercent"] integerValue]*0.01, 5);
+                }];
+            }else{
+                lable.text =@"退款 0.00%";
+            }
+            
+            
+            UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
+            labPrice.textAlignment =NSTextAlignmentRight;
+            if ([self.dataArray objectForKey:@"RmaAmount"]) {
+                CGFloat rmaAmount =[[self.dataArray objectForKey:@"RmaAmount"] floatValue];
+                labPrice.text =[NSString stringWithFormat:@"￥%.2f",rmaAmount];
+            }else{
+                labPrice.text =@"￥0.00";
+            }
+            labPrice.font =[UIFont systemFontOfSize: 14];
+            [cell addSubview:labPrice];
         }
-        labPrice.font =[UIFont systemFontOfSize: 14];
-        [cell addSubview:labPrice];
     }
-    
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section==1) {
+        return 1;
+    }
     return 10;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (section==0) {
+        return 9;
+    }else{
+        return 100;
+    }
+}
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+
+    if (section==1) {
+        UIView *view=  [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
+        UIImageView *imgView =[[UIImageView alloc]initWithFrame:CGRectMake(20, 10, 13, 13)];
+        imgView.image =[UIImage imageNamed:@"tixing"];
+        [view addSubview:imgView];
+        
+        UILabel *label =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+5, 10, kScreenWidth-58, 70)];
+        label.font =[UIFont systemFontOfSize:14];
+        label.textColor =[UIColor lightGrayColor];
+        label.numberOfLines=0;
+        label.text =@"asdafhahsdfahsdhfahdfkahdfahksdasdfadfasdfasdfsadfffffffffffffffffffffffffffffffffffffffffffffffffffh";
+        [view addSubview:label];
+        return view;
+    }
+    return nil;
 }
 
 @end

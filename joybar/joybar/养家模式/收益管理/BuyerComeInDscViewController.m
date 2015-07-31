@@ -141,7 +141,6 @@
     } failure:^(NSError *error) {
         [self.tableView endRefresh];
         [self activityDismiss];
-        NSLog(@"%@",[error description]);
     }];
 }
 
