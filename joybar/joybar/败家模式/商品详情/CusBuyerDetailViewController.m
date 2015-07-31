@@ -106,12 +106,6 @@
             tagView.backgroundColor = [UIColor clearColor];
             [image addSubview:tagView];
             
-//            UIImageView *pointImage = [[UIImageView alloc] init];
-//            pointImage.center = CGPointMake(10, tagView.height/2);
-//            pointImage.bounds = CGRectMake(0, 0, 12, 12);
-//            pointImage.image = [UIImage imageNamed:@"yuan"];
-//            [tagView addSubview:pointImage];
-            
             UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, tagView.height)];
             jiaoImage.image = [UIImage imageNamed:@"bqqian"];
             [tagView addSubview:jiaoImage];

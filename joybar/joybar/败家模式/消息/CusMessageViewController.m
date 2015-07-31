@@ -96,13 +96,14 @@
 //                [self.msgTableView hiddenFooter:NO];
 //            }
             [self.msgTableView.dataArr addObjectsFromArray:arr];
+            [self.msgTableView endRefresh];
+
             [self.msgTableView reloadData];
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [self.msgTableView endRefresh];
         
     } failure:^(NSError *error) {
         
