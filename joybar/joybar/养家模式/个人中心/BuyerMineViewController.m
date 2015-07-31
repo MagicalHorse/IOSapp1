@@ -164,8 +164,7 @@
             [Public showLoginVC:self];
             return;
         }
-        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"mp.weixin.qq.com/mp/redirect?url=http%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Fid1003672874%23rd"];
-       
+        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://itunes.apple.com/us/app/id399608199"];
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:@"557f8f1c67e58edf32000208"
                                           shareText:@"快来关注shopping平台，24小时售卖实体百货商品，送货上门现场自提随心选!"
