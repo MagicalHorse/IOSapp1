@@ -97,7 +97,7 @@
                 <outlet property="stateBtn" destination="KR7-Cr-yb1" id="EAB-ox-zig"/>
                 <outlet property="stateLabel" destination="pXD-uY-mcb" id="D7D-KE-zjm"/>
             </connections>
-            <point key="canvasLocation" x="369" y="176"/>
+            <point key="canvasLocation" x="327" y="176"/>
         </tableViewCell>
     </objects>
     <resources>
