@@ -147,29 +147,28 @@
     if (!isRefresh)
     {
         [self activityDismiss];
-
         [self showInView:self.scroll WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Product/GetBrandProductList" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            NSDictionary *dic = [json objectForKey:@"data"];
-//            if (self.findData.items.count<6)
-//            {
-//                [self.findTableView hiddenFooter:YES];
-//            }
-//            else
-//            {
-//                [self.findTableView hiddenFooter:NO];
-//            }
-//            
-            [self.findTableView.dataArr addObjectsFromArray:@[@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3",@"1",@"3"]];
-            
-            
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            if (arr.count<20)
+            {
+                [self.findTableView hiddenFooter:YES];
+            }
+            else
+            {
+                [self.findTableView hiddenFooter:NO];
+            }
+            [self.findTableView.dataArr addObjectsFromArray:arr];
             [self.findTableView reloadData];
         }
-        [self.findTableView reloadData];
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
         [self.findTableView endRefresh];
         [self activityDismiss];
         
