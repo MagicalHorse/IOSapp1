@@ -164,6 +164,7 @@
             [Public showLoginVC:self];
             return;
         }
+        //apple ID
         [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://itunes.apple.com/us/app/id399608199"];
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:@"557f8f1c67e58edf32000208"
