@@ -162,11 +162,15 @@
     [dic setObject:registerAuthText.text forKey:@"code"];
 
     [HttpTool postWithURL:@"user/VerifyCode" params:dic success:^(id json) {
-        if ([json objectForKey:@"isSuccessful"])
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             SetPasswordViewController *VC = [[SetPasswordViewController alloc] init];
             VC.mobilePhone = registerPhoneText.text;
             [self.navigationController pushViewController:VC animated:YES];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
         }
     } failure:^(NSError *error) {
         NSLog(@"%@",[error description]);

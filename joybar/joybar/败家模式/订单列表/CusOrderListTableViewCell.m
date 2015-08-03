@@ -48,7 +48,8 @@
     */
     if ([status isEqualToString:@"0"])
     {
-        self.refundBtn.hidden = YES;
+        [self.refundBtn setTitle:@"取消订单" forState:(UIControlStateNormal)];
+        self.refundBtn.hidden = NO;
         self.payBtn.hidden = NO;
     }
     else if ([status isEqualToString:@"1"])
@@ -92,6 +93,28 @@
         VC.orderNum = self.orderListItem.OrderNo;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
+    else if ([btn.titleLabel.text isEqual:@"取消订单"])
+    {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:self.orderListItem.OrderNo forKey:@"OrderNo"];
+        [self hudShow:@"正在取消"];
+        [HttpTool postWithURL:@"Order/Void" params:dic success:^(id json) {
+            
+            if ([[json objectForKey:@"isSuccessful"] boolValue])
+            {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self.delegate orderListDelegate];
+                });
+            }
+            else
+            {
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+            [self textHUDHiddle];
+            
+        } failure:^(NSError *error) {
+        }];
+    }
 }
 
 - (IBAction)didClickPayBtn:(id)sender
@@ -103,7 +126,6 @@
         AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle) name:@"PaySuccessNotification" object:nil];
         [app sendPay_demo:self.orderListItem.OrderNo andName:self.orderListItem.Product.Name andPrice:self.orderListItem.Amount];
-        
     }
     else if ([btn.titleLabel.text isEqual:@"确认提货"])
     {
@@ -145,7 +167,8 @@
 
     }
 }
--(void)dealloc{
+-(void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PaySuccessNotification" object:nil];
 }
 

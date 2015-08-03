@@ -510,9 +510,7 @@
                 if ([[json objectForKey:@"isSuccessful"] boolValue])
                 {
                     [self showHudSuccess:@"提货成功"];
-                    
                     [self getData];
-                    
                     [self.delegate refreshOrderList];
                 }
                 else
@@ -531,7 +529,6 @@
     }
 }
 
-
 //取消订单
 -(void)didClickCancelBtn:(UIButton *)btn
 {
@@ -546,6 +543,29 @@
         VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
          [self.navigationController pushViewController:VC animated:YES];
     }
+    else if ([btn.titleLabel.text isEqual:@"取消订单"])
+    {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:self.detailData.OrderNo forKey:@"OrderNo"];
+        [self hudShow:@"正在取消"];
+        [HttpTool postWithURL:@"Order/Void" params:dic success:^(id json) {
+            
+            if ([[json objectForKey:@"isSuccessful"] boolValue])
+            {
+                [self getData];
+                
+                [self.delegate refreshOrderList];
+            }
+            else
+            {
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+            [self textHUDHiddle];
+            
+        } failure:^(NSError *error) {
+        }];
+    }
+
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

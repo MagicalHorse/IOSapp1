@@ -7,37 +7,55 @@
 //
 
 #import "CusFindTableViewCell.h"
-#import "FindItems.h"
-#import "FindProduct.h"
+#import "CusTagViewController.h"
 @implementation CusFindTableViewCell
-
-- (void)awakeFromNib {
-    // Initialization code
-}
-
--(void)setData:(NSDictionary *)dic
 {
-    //品牌
-    UIImageView *brandImage= [[UIImageView alloc] init];
-    brandImage.center = CGPointMake(kScreenWidth/2, 30);
-    brandImage.bounds = CGRectMake(0, 0, 50, 50);
-    [brandImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.findItems.BrandLogo]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    [self.contentView addSubview:brandImage];
-    
-    for (int i=0; i<self.findItems.Product.count; i++)
-    {
-        FindProduct *findPro = [self.findItems.Product objectAtIndex:i];
-        UIImageView *imageView = [[UIImageView alloc] init];
-        imageView.center = CGPointMake(kScreenWidth/8+kScreenWidth/4*i, (kScreenWidth/4-5)/2+brandImage.bottom+10);
-        imageView.bounds = CGRectMake(0, 0, kScreenWidth/4-5, kScreenWidth/4-5);
-        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",findPro.Pic]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        imageView.clipsToBounds = YES;
-        [self.contentView addSubview:imageView];
-    }
-
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenWidth/4+70, kScreenWidth, 0.5)];
-    line.backgroundColor = [UIColor lightGrayColor];
-    [self.contentView addSubview:line];
+    NSArray *dataArr;
 }
+
+-(void)setData:(NSArray *)arr
+{
+    dataArr = arr;
+    //构建单元格的视图区域
+    for(int index = 0;index < arr.count; index ++ )
+    {
+        CGFloat height =(kScreenWidth-9)/2;
+        CGRect frame = CGRectMake(3+3*index+height*index, 3, height, height*0.75);
+        UIImageView *proImage = [[UIImageView alloc] initWithFrame:frame];
+        proImage.tag = index + 10;
+//        proImage.image = [UIImage imageNamed:@"123.jpg"];
+        [proImage sd_setImageWithURL:[NSURL URLWithString:[[arr objectAtIndex:index] objectForKey:@"Pic"]] placeholderImage:nil];
+        proImage.userInteractionEnabled = YES;
+        proImage.contentMode = UIViewContentModeScaleAspectFill;
+        proImage.clipsToBounds = YES;
+        proImage.backgroundColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:proImage];
+        
+        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, proImage.width, proImage.height)];
+        image.image = [UIImage imageNamed:@"jianbian"];
+        [proImage addSubview:image];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
+        [proImage addGestureRecognizer:tap];
+        
+        UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(0, proImage.bottom-30, proImage.width, 15)];
+        nameLab.textAlignment = NSTextAlignmentCenter;
+        nameLab.text = [[arr objectAtIndex:index] objectForKey:@"BrandName"];
+        nameLab.textColor = [UIColor whiteColor];
+        nameLab.font = [UIFont systemFontOfSize:15];
+        [proImage addSubview:nameLab];
+    }
+}
+
+-(void)didClickImage:(UITapGestureRecognizer *)tap
+{
+    NSDictionary *dic = [dataArr objectAtIndex:tap.view.tag-10];
+    CusTagViewController *VC = [[CusTagViewController alloc] init];
+        VC.BrandId = [dic objectForKey:@"BrandId"];
+        VC.BrandName = [dic objectForKey:@"BrandName"];
+    [self.viewController.navigationController pushViewController:VC animated:YES];
+    
+}
+
 
 @end

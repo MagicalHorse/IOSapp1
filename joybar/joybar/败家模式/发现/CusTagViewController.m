@@ -90,9 +90,9 @@
 -(void)getData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:self.BrandId forKey:@"BrandId"];
-    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
-    [dic setObject:@"24" forKey:@"PageSize"];
+    [dic setValue:self.BrandId forKey:@"BrandId"];
+    [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
+    [dic setValue:@"24" forKey:@"PageSize"];
     [self hudShow];
     [HttpTool postWithURL:@"Product/GetProductListByBrandId" params:dic success:^(id json) {
 

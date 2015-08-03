@@ -9,7 +9,6 @@
 #import "CusFindViewController.h"
 #import "CusFindSearchViewController.h"
 #import "CusTagViewController.h"
-#import "FindData.h"
 #import "FindTableView.h"
 #import "NearTableView.h"
 #import "NearData.h"
@@ -25,7 +24,6 @@
 @property (nonatomic ,strong) NSMutableArray *findArr;
 @property (nonatomic ,assign) NSInteger pageNum;
 @property (nonatomic ,assign) NSInteger nearPageNum;
-@property (nonatomic ,strong) FindData *findData;
 
 @end
 
@@ -56,6 +54,8 @@
     
 
 }
+
+//品牌
 -(void)initWithFindTableView
 {
     //tableView
@@ -143,22 +143,18 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
-    [dic setValue:@"6" forKey:@"pagesize"];
+    [dic setValue:@"20" forKey:@"pagesize"];
     if (!isRefresh)
     {
         [self activityDismiss];
-
         [self showInView:self.scroll WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
     [HttpTool postWithURL:@"Product/GetBrandProductList" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            NSDictionary *dic = [json objectForKey:@"data"];
-            
-            self.findData = [FindData objectWithKeyValues:dic];
-            
-            if (self.findData.items.count<6)
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
+            if (arr.count<20)
             {
                 [self.findTableView hiddenFooter:YES];
             }
@@ -166,12 +162,13 @@
             {
                 [self.findTableView hiddenFooter:NO];
             }
-            
-            [self.findTableView.dataArr addObjectsFromArray:self.findData.items];
-            
+            [self.findTableView.dataArr addObjectsFromArray:arr];
             [self.findTableView reloadData];
         }
-        [self.findTableView reloadData];
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
         [self.findTableView endRefresh];
         [self activityDismiss];
         

@@ -27,7 +27,7 @@
     [headerImg sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:headerImg];
     
-    UILabel *msgCountLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right-25, -5, 20, 20)];
+    UILabel *msgCountLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right-15, 10, 20, 20)];
     NSString *count = [NSString stringWithFormat:@"%@",[dic objectForKey:@"UnReadCount"]];
     if ([count isEqualToString:@"0"])
     {
@@ -44,7 +44,7 @@
     msgCountLab.layer.cornerRadius = msgCountLab.width/2;
     msgCountLab.layer.masksToBounds = YES;
     msgCountLab.textAlignment = NSTextAlignmentCenter;
-    [headerImg addSubview:msgCountLab];
+    [self.contentView addSubview:msgCountLab];
     
     UILabel *levelLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImg.right+10, headerImg.top+3, 0, 15)];
     levelLab.backgroundColor = kCustomColor(228, 229, 230);
