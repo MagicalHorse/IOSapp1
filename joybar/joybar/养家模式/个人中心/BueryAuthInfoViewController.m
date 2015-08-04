@@ -112,7 +112,6 @@
             }
             [self.pickerView reloadAllComponents];
             [self.pickerView selectRow:0 inComponent:0 animated:YES];
-
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
         }

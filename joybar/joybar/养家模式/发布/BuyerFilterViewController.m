@@ -124,11 +124,21 @@
         NSMutableArray *tags =imgDic.Tags;
         if (tags.count>0) {
             for (int i =0; i<tags.count; i++) {
-                Tag *tag =tags[i];
-                CGFloat x = tag.PosX ;
-                CGFloat y = tag.PosY;
-                CGPoint point ={x*kScreenWidth,y*kScreenWidth};
-                [self didSelectedTag:tag.Name AndPoint:point AndSourceId:[tag.SourceId stringValue] AndSourceType:[tag.SourceType stringValue]];
+                if (![[tags objectAtIndex:i] isKindOfClass:[Tag class]]){
+                    CGFloat x = [[tags[i]objectForKey:@"PosX"] floatValue];
+                    CGFloat y = [[tags[i]objectForKey:@"PosY"] floatValue];
+                    CGPoint point ={x*kScreenWidth,y*kScreenWidth};
+                    
+                    [self didSelectedTag:[tags[i]objectForKey:@"Name"] AndPoint:point AndSourceId:[tags[i]objectForKey:@"SourceId"] AndSourceType:[tags[i]objectForKey:@"SourceType"]];
+                    
+                }else{
+                    Tag *tag =tags[i];
+                    CGFloat x = tag.PosX ;
+                    CGFloat y = tag.PosY;
+                    CGPoint point ={x*kScreenWidth,y*kScreenWidth};
+                    [self didSelectedTag:tag.Name AndPoint:point AndSourceId:[tag.SourceId stringValue] AndSourceType:[tag.SourceType stringValue]];
+                }
+                
             }
         }
     }
