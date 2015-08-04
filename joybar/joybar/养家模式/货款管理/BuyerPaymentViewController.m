@@ -107,8 +107,8 @@
             
             UILabel * lablePrice =[[UILabel alloc]initWithFrame:CGRectMake(lable.right, 13, kScreenWidth/2-5, 24)];
             lablePrice.font =[UIFont systemFontOfSize:24];
-            if ([self.dataArray objectForKey:@"TotalAmount"]) {
-                CGFloat totalAmount= [[self.dataArray objectForKey:@"TotalAmount"] floatValue];
+            if ([self.dataArray objectForKey:@"Credit"]) {
+                CGFloat totalAmount= [[self.dataArray objectForKey:@"Credit"] floatValue];
                 lablePrice.text =[NSString stringWithFormat:@"￥%.2f",totalAmount];
             }else{
                 lablePrice.text =@"￥0.00";
@@ -125,12 +125,12 @@
             [cell addSubview:view];
             
             
-            if ([self.dataArray objectForKey:@"FrozenPercent"]) {
-                lable.text =[NSString stringWithFormat:@"已使用的额度 %@",[self.dataArray objectForKey:@"FrozenPercent"]];
+            if ([self.dataArray objectForKey:@"UsedCredit"]) {
+                lable.text =[NSString stringWithFormat:@"已使用的额度 %@",[self.dataArray objectForKey:@"UsedCreditPercent"]];
                 
                 [UIView animateWithDuration:1.5 animations:^{
                     
-                    view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"FrozenPercent"] integerValue]*0.01, 5);
+                    view.frame =CGRectMake(15, 35, (kScreenWidth-30)*[[self.dataArray objectForKey:@"UsedCreditPercent"] integerValue]*0.01, 5);
                 }];
             }else{
                 lable.text =@"已使用的额度 0.00%";
@@ -139,8 +139,8 @@
             
             UILabel * labPrice =[[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth-210, 15, 200, 14)];
             labPrice.textAlignment =NSTextAlignmentRight;
-            if ([self.dataArray objectForKey:@"FrozenAmount"]) {
-                CGFloat temp =[[self.dataArray objectForKey:@"FrozenAmount"] floatValue];
+            if ([self.dataArray objectForKey:@"UsedCredit"]) {
+                CGFloat temp =[[self.dataArray objectForKey:@"UsedCredit"] floatValue];
                 labPrice.text =[NSString stringWithFormat:@"￥%.2f",temp];
             }else{
                 labPrice.text =@"￥0.00";
@@ -321,16 +321,18 @@
 
     if (section==1) {
         UIView *view=  [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 100)];
-        UIImageView *imgView =[[UIImageView alloc]initWithFrame:CGRectMake(20, 10, 13, 13)];
-        imgView.image =[UIImage imageNamed:@"tixing"];
-        [view addSubview:imgView];
         
-        UILabel *label =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+5, 10, kScreenWidth-58, 70)];
+        UILabel *label =[[UILabel alloc]initWithFrame:CGRectMake(38, 10, kScreenWidth-58, 52)];
         label.font =[UIFont systemFontOfSize:14];
         label.textColor =[UIColor lightGrayColor];
         label.numberOfLines=0;
-        label.text =@"asdafhahsdfahsdhfahdfkahdfahksdasdfadfasdfasdfsadfffffffffffffffffffffffffffffffffffffffffffffffffffh";
+        label.text =@"亲爱的买手，您申请的提现货款将在30分钟内到账，以企业红包形式转账至您的微信零钱。请及时查收哦!";
         [view addSubview:label];
+        
+        UIImageView *imgView =[[UIImageView alloc]initWithFrame:CGRectMake(20, 12, 13, 13)];
+        imgView.image =[UIImage imageNamed:@"tixing"];
+        [view addSubview:imgView];
+
         return view;
     }
     return nil;

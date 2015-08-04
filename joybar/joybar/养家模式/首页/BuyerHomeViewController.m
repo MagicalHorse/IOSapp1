@@ -11,7 +11,6 @@
 #import "BuyerSellViewController.h"
 #import "BuyerHomeTableViewCell.h"
 #import "BuyerStoreViewController.h"
-#import "ComeIn.h"
 #import "BuyerCircleViewController.h"
 #import "BuyerPaymentViewController.h"
 #import "UMSocialWechatHandler.h"
@@ -124,7 +123,7 @@
 }
 
 -(void)setData{
-
+    self.homeTableView.userInteractionEnabled =NO;
     if (isRefresh) {
         [self showInView:self.homeTableView WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
@@ -145,9 +144,12 @@
          [self textHUDHiddle];
          [self activityDismiss];
          isRefresh=NO;
+         self.homeTableView.userInteractionEnabled =YES;
      } failure:^(NSError *error) {
          [self textHUDHiddle];
          [self activityDismiss];
+         self.homeTableView.userInteractionEnabled =YES;
+
      }];
 }
 -(UIView *)tableHeaderViwe{
@@ -323,11 +325,11 @@
         BuyerPaymentViewController * income= [[BuyerPaymentViewController alloc]init];
         [self.navigationController pushViewController:income animated:YES];
     }else if (indexPath.row == 1) {
-        ComeIn *come = [[ComeIn alloc]init];
-        come.today_income =[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"];
-        come.total_income =[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"];
-        come.avail_amout =[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amount"];
-        BuyerInComeViewController * income= [[BuyerInComeViewController alloc]initWithComeIn:come];
+        BuyerInComeViewController * income= [[BuyerInComeViewController alloc]init];
+
+        income.today_income =[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"];
+        income.total_income =[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"];
+        income.avail_amout =[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amount"];
         [self.navigationController pushViewController:income animated:YES];
     }else if(indexPath.row ==2){
         BuyerSellViewController * sell=[[BuyerSellViewController alloc]init];
