@@ -42,8 +42,8 @@
     NSNumber *num1 =[NSNumber numberWithFloat:[self.today_income floatValue]];
     [self.todayInComeLable dd_setNumber:num1];
     NSNumber *num =[NSNumber numberWithFloat:[self.total_income floatValue]];
-    [self.totalAmountLable dd_setNumber:num];
-    self.availAmountLable.text = [NSString stringWithFormat:@"%@",self.avail_amout];
+    [self.availAmountLable dd_setNumber:num];
+    self.totalAmountLable.text = [NSString stringWithFormat:@"%@",self.avail_amout];
 }
 
 - (void)viewDidLoad {
@@ -72,7 +72,7 @@
 - (IBAction)comeOutBtnClick:(UIButton *)sender {
     
     BuyerComeOutViewController * comeOut=[[BuyerComeOutViewController alloc]init];
-    comeOut.price = self.availAmountLable.text;
+    comeOut.price = self.totalAmountLable.text;
     [self.navigationController pushViewController:comeOut animated:YES];
 }
 @end

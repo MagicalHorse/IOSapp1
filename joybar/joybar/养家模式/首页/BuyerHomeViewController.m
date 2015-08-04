@@ -218,17 +218,11 @@
         cell.tilteD1View.text =@"今日货款";
         cell.tilteD2View.text =@"累积货款";
         CGFloat tempPirce =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"todaygoodsamount"] floatValue];
-        if (tempPirce >0) {
             cell.pirceD1View.text =[NSString stringWithFormat:@"%.2f",tempPirce];
-        }else{
-            cell.pirceD1View.text=@"0.00";
-        }
+        
         CGFloat  tempPirceD2 =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"totalgoodsamount"] floatValue];
-        if (tempPirceD2 >0) {
             cell.pirceD2View.text =[NSString stringWithFormat:@"%.2f",tempPirceD2];
-        }else{
-            cell.pirceD2View.text=@"0.00";
-        }
+        
         cell.pirceDd1View.hidden =NO;
         cell.pirceDd2View.hidden =NO;
     }
@@ -237,19 +231,14 @@
         cell.tilteView.text =@"收益管理";
         cell.tilteD1View.text =@"今日收益";
         cell.tilteD2View.text =@"累积收益";
-        CGFloat tempPirce = [[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"] floatValue];
-        if (tempPirce >0) {
-            cell.pirceD1View.text =[NSString stringWithFormat:@"%.2f",tempPirce];
-        }else{
-            cell.pirceD1View.text=@"0.00";
-        }
+        CGFloat tempPirce = [[[self.dataArray objectForKey:@"income"]objectForKey:@"today_income"] floatValue];
+        cell.pirceD1View.text =[NSString stringWithFormat:@"%.2f",tempPirce];
+        
         CGFloat  tempPirceD2 =[[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"] floatValue];
         
-        if (tempPirce  >0) {
-            cell.pirceD2View.text =[NSString stringWithFormat:@"%.2f",tempPirceD2];
-        }else{
-            cell.pirceD2View.text=@"0.00";
-        }
+        
+        cell.pirceD2View.text =[NSString stringWithFormat:@"%.2f",tempPirceD2];
+        
         cell.pirceDd1View.hidden =NO;
         cell.pirceDd2View.hidden =NO;
     }

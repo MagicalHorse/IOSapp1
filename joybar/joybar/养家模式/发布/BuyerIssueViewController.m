@@ -517,7 +517,11 @@
         if (isSuccessful) {
             if (self.detail) {
                 [self showHudSuccess:@"修改成功！"];
-                [self.navigationController popViewControllerAnimated:YES];
+
+                dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1*NSEC_PER_SEC);
+                dispatch_after(time, dispatch_get_main_queue(), ^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                });
 
             }else{
                 [self showHudSuccess:@"发布成功！"];
@@ -544,8 +548,6 @@
                 if (![[self.imagesArray objectAtIndex:0] isKindOfClass:[Image class]]){
                     NSDictionary *dict=self.imagesArray[0];
                     image= [Image objectWithKeyValues:dict];
-//                    image.ImageUrl =[[self.imagesArray objectAtIndex:0]objectForKey:@"ImageUrl"];
-//                    image.Tags =[[self.imagesArray objectAtIndex:0]objectForKey:@"Tags"];
                 }else{
                     image =[self.imagesArray objectAtIndex:0];
                 }
@@ -568,7 +570,7 @@
             }
                 break;
         case 2:
-            if (self.detail) {
+            if (self.detail&&self.imagesArray.count>1) {
                 
                 Image *image =[[Image alloc]init];
                 if (![[self.imagesArray objectAtIndex:1] isKindOfClass:[Image class]]){
@@ -606,7 +608,7 @@
           
             break;
         case 3:
-            if (self.detail) {
+            if (self.detail &&self.imagesArray.count>2) {
                 Image *image =[[Image alloc]init];
                 if (![[self.imagesArray objectAtIndex:2] isKindOfClass:[Image class]]){
                     image.ImageUrl =[[self.imagesArray objectAtIndex:2]objectForKey:@"ImageUrl"];

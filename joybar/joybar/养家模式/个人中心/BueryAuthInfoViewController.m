@@ -112,7 +112,6 @@
             }
             [self.pickerView reloadAllComponents];
             [self.pickerView selectRow:0 inComponent:0 animated:YES];
-
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
         }
@@ -368,8 +367,14 @@
     
     if (type ==1) {
         [self setData:@"0"];
+        self.dataArray2 =nil;
+        self.dataArray3 =nil;
+        self.shiLable.text =@"请选择市";
+        self.xianLable.text =@"请选择区、县";
     }else if(type ==2){
         [self setData:[[self.cityKey objectForKey:@"1"] stringValue]];
+        self.dataArray3=nil;
+        self.xianLable.text =@"请选择区、县";
     }else{
         [self setData:[[self.cityKey objectForKey:@"2"] stringValue]];
     }
@@ -385,22 +390,32 @@
 -(void)btnYesCilck:(UIButton *)btn
 {
     if (type==1) {
-        if ([self.cityLable.text isEqualToString:@"请选择省"]) {
-            self.cityLable.text =[self.dataArray1[0]objectForKey:@"Name"];
-            [self.cityText setValue:[self.dataArray1[0] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
-            [self.cityKey setValue:[self.dataArray1[0] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+        if (self.dataArray1.count>0) {
+            if ([self.cityLable.text isEqualToString:@"请选择省"]) {
+                self.cityLable.text =[self.dataArray1[0]objectForKey:@"Name"];
+                [self.cityText setValue:[self.dataArray1[0] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
+                [self.cityKey setValue:[self.dataArray1[0] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+            }else{
+                
+            }
         }
+
     }else if(type ==2){
-        if ([self.shiLable.text isEqualToString:@"请选择市"]) {
-            self.shiLable.text =[self.dataArray2[0]objectForKey:@"Name"];
-            [self.cityText setValue:[self.dataArray2[0] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
-            [self.cityKey setValue:[self.dataArray2[0] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+        if (self.dataArray2.count>0) {
+            if ([self.shiLable.text isEqualToString:@"请选择市"]) {
+                self.shiLable.text =[self.dataArray2[0]objectForKey:@"Name"];
+                [self.cityText setValue:[self.dataArray2[0] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
+                [self.cityKey setValue:[self.dataArray2[0] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+            }
         }
+        
     }else{
-        if ([self.xianLable.text isEqualToString:@"请选择区、县"]) {
-            self.xianLable.text =[self.dataArray3[0]objectForKey:@"Name"];
-            [self.cityText setValue:[self.dataArray3[0] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
-            [self.cityKey setValue:[self.dataArray3[0] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+        if (self.dataArray3.count>0) {
+            if ([self.xianLable.text isEqualToString:@"请选择区、县"]) {
+                self.xianLable.text =[self.dataArray3[0]objectForKey:@"Name"];
+                [self.cityText setValue:[self.dataArray3[0] objectForKey:@"Name"] forKey:[NSString stringWithFormat:@"%d",type]];
+                [self.cityKey setValue:[self.dataArray3[0] objectForKey:@"Id"] forKey:[NSString stringWithFormat:@"%d",type]];
+            }
         }
     }
     self.footView.hidden =YES;
