@@ -94,10 +94,20 @@
     [super viewDidLoad];
 
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
-        NSDictionary *dic = args.firstObject;
-        [self.messageArr addObject:dic];
-        [self.tableView reloadData];
-        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
+        [HttpTool postWithURL:@"User/GetUserLogo" params:dict success:^(id json) {
+            
+            [dic setObject:[json objectForKey:@"logo"] forKey:@"logo"];
+            [self.messageArr addObject:dic];
+            [self.tableView reloadData];
+            [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+            
+        } failure:^(NSError *error) {
+            
+        }];
     }];
 
     self.priceNum = 0;

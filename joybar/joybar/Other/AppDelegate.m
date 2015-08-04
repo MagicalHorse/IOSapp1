@@ -21,10 +21,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     application.statusBarHidden = NO;
-    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                   UIRemoteNotificationTypeSound |
-                                                   UIRemoteNotificationTypeAlert)
-                                       categories:nil];
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        //可以添加自定义categories
+        [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                       UIUserNotificationTypeSound |
+                                                       UIUserNotificationTypeAlert)
+                                           categories:nil];
+    } else {
+        //categories 必须为nil
+        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                       UIRemoteNotificationTypeSound |
+                                                       UIRemoteNotificationTypeAlert)
+                                           categories:nil];
+    }
     [APService setupWithOption:launchOptions];
     [UMSocialData setAppKey:@"557f8f1c67e58edf32000208"];
     //向微信注册
@@ -35,22 +44,6 @@
     [self connectionSoctet];
     
     NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidSetup:)
-                          name:kJPFNetworkDidSetupNotification
-                        object:nil];
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidClose:)
-                          name:kJPFNetworkDidCloseNotification
-                        object:nil];
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidRegister:)
-                          name:kJPFNetworkDidRegisterNotification
-                        object:nil];
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidLogin:)
-                          name:kJPFNetworkDidLoginNotification
-                        object:nil];
     [defaultCenter addObserver:self
                       selector:@selector(networkDidReceiveMessage:)
                           name:kJPFNetworkDidReceiveMessageNotification
@@ -278,55 +271,39 @@ forRemoteNotification:(NSDictionary *)userInfo
 didReceiveLocalNotification:(UILocalNotification *)notification {
     [APService showLocalNotificationAtFront:notification identifierKey:nil];
 }
-
-- (void)networkDidSetup:(NSNotification *)notification {
-    NSLog(@"已连接");
-}
-
-- (void)networkDidClose:(NSNotification *)notification {
-    NSLog(@"未连接");
-}
-
-- (void)networkDidRegister:(NSNotification *)notification {
-    NSLog(@"%@", [notification userInfo]);
-    NSLog(@"已注册");
-}
-
-- (void)networkDidLogin:(NSNotification *)notification {
-    NSLog(@"已登录");
-}
-
+/*
+ 订单相关=1（暂时没用）
+ 买手审核通过 = 2,
+ 买手审核驳回 = 3,
+ 用户支付-推送给买手=4,
+ 用户支付--推送给用户 = 5,
+ 用户申请退款-推送给买手 = 6,
+ 用户申请退款--推送给用户= 7,
+ 用户收货--推送给买手 = 8,
+ 用户收货，推送给用户 = 9,
+ 提现货款  = 10,
+ 提现收益  = 11,
+ 买手同意退货= 12,
+ 买手不同意退货 = 13,
+ */
 - (void)networkDidReceiveMessage:(NSNotification *)notification {
     NSDictionary *userInfo = [notification userInfo];
-    NSString *title = [userInfo valueForKey:@"title"];
-    NSString *content = [userInfo valueForKey:@"content"];
-    NSDictionary *extra = [userInfo valueForKey:@"extras"];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     
-    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    
-    NSString *currentContent = [NSString
-                                stringWithFormat:
-                                @"收到自定义消息:%@\ntitle:%@\ncontent:%@\n,%@",
-                                [NSDateFormatter localizedStringFromDate:[NSDate date]
-                                                               dateStyle:NSDateFormatterNoStyle
-                                                               timeStyle:NSDateFormatterMediumStyle],
-                                title, content,extra];
-    NSLog(@"%@", currentContent);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[userInfo objectForKey:@"title"] message:[userInfo objectForKey:@"content"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+    [alert show];    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    
 }
-
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+
 }
-
-
-
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -354,8 +331,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
         return  [UMSocialSnsService handleOpenURL:url];
     }
     return [WXApi handleOpenURL:url delegate:self];
-
-
 }
 
 //============================================================
@@ -404,7 +379,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
         [WXApi sendReq:req];
     }
 }
-
 
 //客户端提示信息
 - (void)alert:(NSString *)title msg:(NSString *)msg

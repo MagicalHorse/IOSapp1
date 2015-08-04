@@ -89,8 +89,8 @@
         tagLab.text = tag.Name;
         [tagImage addSubview:tagLab];
         
-//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTag:)];
-//        [tagView addGestureRecognizer:tap];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTag:)];
+        [tagView addGestureRecognizer:tap];
         
     }
     
