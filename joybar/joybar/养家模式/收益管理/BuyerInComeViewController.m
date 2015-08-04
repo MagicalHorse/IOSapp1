@@ -7,19 +7,13 @@
 //
 
 #import "BuyerInComeViewController.h"
-#import "ComeIn.h"
 #import "UILabel+FlickerNumber.h"
 #import "BuyerInComeDetailsViewController.h"
 #import "BuyerComeOutViewController.h"
 #import "BuyerComeInDscViewController.h"
 
 
-@interface BuyerInComeViewController (){
-
-    ComeIn * come;
-    
-
-}
+@interface BuyerInComeViewController ()
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UILabel *todayInComeLable;
 @property (weak, nonatomic) IBOutlet UILabel *availAmountLable;
@@ -33,15 +27,6 @@
 
 @implementation BuyerInComeViewController
 
-
--(BuyerInComeViewController *)initWithComeIn:(ComeIn *)comeIn{
-
-    if (self = [super init]) {
-        come=comeIn;
-    }
-    return self;
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -53,13 +38,12 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
-
-    NSNumber *num1 =[NSNumber numberWithFloat:[come.today_income floatValue]];
+  
+    NSNumber *num1 =[NSNumber numberWithFloat:[self.today_income floatValue]];
     [self.todayInComeLable dd_setNumber:num1];
-    
-    NSNumber *num =[NSNumber numberWithFloat:[come.total_income floatValue]];
+    NSNumber *num =[NSNumber numberWithFloat:[self.total_income floatValue]];
     [self.totalAmountLable dd_setNumber:num];
-    self.availAmountLable.text = [NSString stringWithFormat:@"%@",come.avail_amout];
+    self.availAmountLable.text = [NSString stringWithFormat:@"%@",self.avail_amout];
 }
 
 - (void)viewDidLoad {

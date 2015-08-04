@@ -11,7 +11,7 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 
-@interface BuyerPaymentDtsViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>{
+@interface BuyerPaymentDtsViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate,UIActionSheetDelegate>{
     int type;
     BOOL isRefresh;
 }
@@ -22,8 +22,10 @@
 @property (nonatomic ,strong) BaseTableView *tableView1;
 @property (nonatomic ,assign) NSInteger pageNum;
 @property (nonatomic ,strong) NSMutableDictionary *orderNos;
-
-
+@property (nonatomic ,strong)UIView *bgView;
+@property (nonatomic ,strong)UIButton *cancleBtn;
+@property (nonatomic ,strong) UIButton *btn;
+@property (nonatomic ,strong) UIImageView *codeImage;
 @end
 
 @implementation BuyerPaymentDtsViewController
@@ -178,16 +180,107 @@
     };
     
     
-    UIButton *btn=[[UIButton alloc]initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
-    [btn setTitle:@"提现货款" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    btn.backgroundColor =[UIColor whiteColor];
-    [self.view addSubview:btn];
-    [btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
+    _btn=[[UIButton alloc]initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
+    [_btn setTitle:@"提现货款" forState:UIControlStateNormal];
+    [_btn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    _btn.backgroundColor =[UIColor whiteColor];
+    [self.view addSubview:_btn];
+    [_btn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
     [self addNavBarViewAndTitle:@"货款收支"];
     [self setData];
 
 
+}
+
+-(void)addBigView:(UIImage*)img AndNo:(NSString *)no AndPrice :(NSString *)price
+{
+    _tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    _tempView.hidden = NO;
+    _tempView.alpha =0.6 ;
+    _tempView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:_tempView];
+    
+    _bgView = [[UIView alloc] init];
+    _bgView.center = CGPointMake(kScreenWidth/2, kScreenHeight/2);
+    _bgView.bounds = CGRectMake(0, 0, kScreenWidth-50, (kScreenWidth-50)*1.50);
+    _bgView.layer.cornerRadius = 4;
+    _bgView.backgroundColor = kCustomColor(245, 246, 247);
+    _bgView.hidden = NO;
+    _bgView.userInteractionEnabled = YES;
+    [self.view addSubview:_bgView];
+    
+    _cancleBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    _cancleBtn.center = CGPointMake(kScreenWidth-25, _bgView.top);
+    _cancleBtn.bounds = CGRectMake(0, 0, 50, 50);
+    _cancleBtn.hidden = NO;
+    [_cancleBtn setImage:[UIImage imageNamed:@"叉icon"] forState:(UIControlStateNormal)];
+    [_cancleBtn addTarget:self action:@selector(didClickHiddenView:) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.view addSubview:_cancleBtn];
+    
+    
+    UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(35, 20, _bgView.width-70, 60)];
+    titleLab.text = @"请先关注买手公众号，关注后，返回货款收支页面即可提款货款";
+    titleLab.font = [UIFont systemFontOfSize:16];
+    titleLab.numberOfLines =0;
+    [_bgView addSubview:titleLab];
+    
+    UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(titleLab.left, titleLab.bottom+2, titleLab.width, 12)];
+    numLab.text = price;
+    numLab.font = [UIFont systemFontOfSize:12];
+    numLab.textColor = [UIColor lightGrayColor];
+    numLab.textAlignment =NSTextAlignmentCenter;
+    [_bgView addSubview:numLab];
+    
+    _codeImage = [[UIImageView alloc] initWithFrame:CGRectMake(35, numLab.bottom+10, _bgView.width-70, _bgView.width-70)];
+    _codeImage.image =[UIImage imageNamed:@"shareLogo"];
+    _codeImage.userInteractionEnabled =YES;
+     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(codeImageDidSelect:)];
+    [_codeImage addGestureRecognizer:tap];
+    [_bgView addSubview:_codeImage];
+    
+    UILabel *bottomLab = [[UILabel alloc] initWithFrame:CGRectMake(35, _codeImage.bottom+10, _bgView.width-70, 60)];
+    bottomLab.text = @"点击二维码，保存至手机，进入微信扫一扫点击右上角相册选择二维码";
+    bottomLab.font = [UIFont systemFontOfSize:16];
+    bottomLab.numberOfLines =0;
+    [_bgView addSubview:bottomLab];
+
+    
+}
+-(void)codeImageDidSelect:(UITapGestureRecognizer *)tap{
+    UIActionSheet *action= [[UIActionSheet alloc] initWithTitle:@"保存到相册"
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                         destructiveButtonTitle:@"确定"
+                                              otherButtonTitles:nil, nil];
+    
+    [action showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    
+    if (buttonIndex ==0) {
+       UIImageWriteToSavedPhotosAlbum([_codeImage image], nil, nil,nil);
+        [self showHudSuccess:@"保存成功"];
+    }
+}
+
+//点叉
+-(void)didClickHiddenView:(UIButton *)btn
+{
+    btn.hidden = YES;
+    _bgView.transform = CGAffineTransformMakeScale(1, 1);
+    
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         _bgView.transform = CGAffineTransformMakeScale(0.001, 0.001);
+                         _bgView.alpha = 0.6;
+                     }completion:^(BOOL finish){
+                         _tempView.hidden = YES;
+                         _bgView.hidden = YES;
+                         self.btn.userInteractionEnabled =YES;
+                         
+                     }];
+    
 }
 -(void)btnClick{
     
@@ -199,6 +292,12 @@
     if (self.dataArray.count>0) {
         BOOL bing= [[dict objectForKey:@"IsBindWeiXin"]boolValue];
         if (bing) {
+            //先判断有没有关注
+            if (1==1) {
+                _btn.userInteractionEnabled =NO;
+                [self addBigView:[UIImage imageNamed:@""] AndNo:@"111" AndPrice:@"222"];
+            }
+            
             if (self.orderNos.count>0) {
                 UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提取现款" message: [NSString stringWithFormat:@"%.2f",tempPrice] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                 [alert show];

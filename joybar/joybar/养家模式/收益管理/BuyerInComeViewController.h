@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
-@class ComeIn;
-
 @interface BuyerInComeViewController :BaseViewController
--(BuyerInComeViewController *)initWithComeIn:(ComeIn *)comeIn;
-
-
+@property (nonatomic,strong)NSString *today_income;
+@property (nonatomic,strong)NSString *total_income;
+@property (nonatomic,strong)NSString *avail_amout;
 @end
