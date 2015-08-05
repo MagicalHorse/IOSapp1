@@ -264,6 +264,33 @@ forRemoteNotification:(NSDictionary *)userInfo
     [APService handleRemoteNotification:userInfo];
     NSLog(@"收到通知1111");
     
+    NSString *type = [NSString stringWithFormat:@"%@",[[userInfo objectForKey:@"extra"] objectForKey:@"type"]];
+    
+    switch ([type integerValue])
+    {
+        case 2:
+        {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
+            [dic setObject:@"1" forKey:@"AuditStatus"];
+            [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+            break;
+            
+        case 3:
+        {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
+            [dic setObject:@"0" forKey:@"AuditStatus"];
+            [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+            
+            break;
+
+        default:
+            break;
+    }
+    
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
