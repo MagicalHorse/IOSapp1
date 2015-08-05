@@ -220,7 +220,7 @@
     if (indexPath.row==2)
     {
         NSString *AuditStatus = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"AuditStatus"]];
-        if ([AuditStatus isEqualToString:@"1"])
+        if ([AuditStatus isEqualToString:@"1"]) //==1 通过
         {
             [UIApplication sharedApplication].keyWindow.rootViewController = [[BuyerTabBarViewController alloc]init];
         }

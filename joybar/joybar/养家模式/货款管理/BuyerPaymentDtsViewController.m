@@ -192,7 +192,7 @@
 
 }
 
--(void)addBigView:(UIImage*)img AndNo:(NSString *)no AndPrice :(NSString *)price
+-(void)addBigView:(UIImage*)img AndTile :(NSString *)title
 {
     _tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     _tempView.hidden = NO;
@@ -224,15 +224,15 @@
     titleLab.numberOfLines =0;
     [_bgView addSubview:titleLab];
     
-    UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(titleLab.left, titleLab.bottom+2, titleLab.width, 12)];
-    numLab.text = price;
+    UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(titleLab.left, titleLab.bottom+2, titleLab.width, 14)];
+    numLab.text = title;
     numLab.font = [UIFont systemFontOfSize:12];
     numLab.textColor = [UIColor lightGrayColor];
     numLab.textAlignment =NSTextAlignmentCenter;
     [_bgView addSubview:numLab];
     
     _codeImage = [[UIImageView alloc] initWithFrame:CGRectMake(35, numLab.bottom+10, _bgView.width-70, _bgView.width-70)];
-    _codeImage.image =[UIImage imageNamed:@"shareLogo"];
+    _codeImage.image =img;
     _codeImage.userInteractionEnabled =YES;
      UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(codeImageDidSelect:)];
     [_codeImage addGestureRecognizer:tap];
@@ -293,18 +293,35 @@
         BOOL bing= [[dict objectForKey:@"IsBindWeiXin"]boolValue];
         if (bing) {
             //先判断有没有关注
-            if (1==1) {
-                _btn.userInteractionEnabled =NO;
-                [self addBigView:[UIImage imageNamed:@""] AndNo:@"111" AndPrice:@"222"];
-            }
-            
-            if (self.orderNos.count>0) {
-                UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提取现款" message: [NSString stringWithFormat:@"%.2f",tempPrice] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                [alert show];
-            }else{
-                [self showHudFailed:@"请选择要提现的订单"];
-            }
-            
+            [self hudShow:@"正在处理"];
+            [HttpTool postWithURL:@"User/GetUserFlowStatus" params:nil success:^(id json) {
+                BOOL isSuccessful = [[json objectForKey:@"isSuccessful"]boolValue];
+                if (isSuccessful) {
+                    BOOL isFlow =[[[json objectForKey:@"data"]objectForKey:@"IsFlow"]boolValue];
+                    
+                    if (isFlow) {
+                        if (self.orderNos.count>0) {
+                            UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提取现款" message: [NSString stringWithFormat:@"%.2f",tempPrice] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                            [alert show];
+                        }else{
+                            [self showHudFailed:@"请选择要提现的订单"];
+                        }
+                        
+                    }else{
+                        _btn.userInteractionEnabled =NO;
+                        NSData *data =[NSData dataWithContentsOfURL:[NSURL URLWithString:[[json objectForKey:@"data"] objectForKey:@"QRCode"]]]
+                         ;
+                        [self addBigView:[UIImage imageWithData:data] AndTile:[[json objectForKey:@"data"] objectForKey:@"Name"]];
+                    }
+                    
+                }else{
+                    [self showHudFailed:[json objectForKey:@"message"]];
+                }
+                [self textHUDHiddle];
+            } failure:^(NSError *error) {
+                [self showHudFailed:@"服务器正在维护,请稍后再试"];
+                [self textHUDHiddle];
+            }];
         }else{
             [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:nil];
             
@@ -336,6 +353,7 @@
     }
     
 }
+
 -(void)WXLogin:(NSString *)str
 {
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
