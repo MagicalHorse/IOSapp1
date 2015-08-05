@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BuyerComeOutViewController">
             <connections>
+                <outlet property="btn" destination="xxZ-fE-hDD" id="ZSH-9q-46h"/>
                 <outlet property="priceField" destination="anO-JQ-dYi" id="irn-OS-xFN"/>
                 <outlet property="priceLable" destination="ZE9-EG-KIP" id="jpi-94-wrb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

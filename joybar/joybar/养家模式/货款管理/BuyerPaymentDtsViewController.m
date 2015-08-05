@@ -353,6 +353,7 @@
     }
     
 }
+
 -(void)WXLogin:(NSString *)str
 {
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
