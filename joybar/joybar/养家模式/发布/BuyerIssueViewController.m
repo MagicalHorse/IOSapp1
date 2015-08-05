@@ -113,9 +113,9 @@
     [super viewDidLoad];
     count=0;
     if (self.detail) {
-        [self addNavBarViewAndTitle:@"修改"];
+        [self addNavBarViewAndTitle:@"修改商品"];
     }else{
-        [self addNavBarViewAndTitle:@"发布"];
+        [self addNavBarViewAndTitle:@"发布商品"];
     }
     [self setInitView];
 }
