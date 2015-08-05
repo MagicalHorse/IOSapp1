@@ -13,6 +13,7 @@
 #import "HomeUsers.h"
 #import "ProductPicture.h"
 #import "HomePicTag.h"
+#import "CusTagViewController.h"
 @interface CusBuyerDetailViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
@@ -91,6 +92,7 @@
         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(self.imageScrollView.width*i, 0, self.imageScrollView.width, self.imageScrollView.width)];
         image.contentMode = UIViewContentModeScaleAspectFill;
         image.clipsToBounds = YES;
+        image.userInteractionEnabled = YES;
         [image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",pic.Logo ]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         [self.imageScrollView addSubview:image];
         
@@ -104,6 +106,7 @@
             CGFloat y = [proTags.PosY floatValue]*kScreenWidth;
             UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
             tagView.backgroundColor = [UIColor clearColor];
+            tagView.tag = 100+i+j;
             [image addSubview:tagView];
             
             UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, tagView.height)];
@@ -119,6 +122,10 @@
             tagLab.font = [UIFont systemFontOfSize:13];
             tagLab.text = proTags.Name;
             [tagImage addSubview:tagLab];
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTag:)];
+            [tagView addGestureRecognizer:tap];
+
         }
     }
     _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.imageScrollView.bottom-30, kScreenWidth, 20)];
@@ -541,5 +548,20 @@
     
 }
 
+
+//点击标签
+-(void)didClickTag:(UITapGestureRecognizer *)tap
+{
+    
+    NSLog(@"%f",self.imageScrollView.contentOffset.x/(kScreenWidth-10));
+
+    ProductPicture *proPic = [prodata.ProductPic objectAtIndex:self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
+    
+    HomePicTag *proTags = [proPic.Tags objectAtIndex:tap.view.tag-100-self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
+    CusTagViewController *VC = [[CusTagViewController alloc] init];
+    VC.BrandId = proTags.Id;
+    VC.BrandName = proTags.Name;
+    [self.navigationController pushViewController:VC animated:YES];
+}
 
 @end

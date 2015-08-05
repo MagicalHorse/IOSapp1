@@ -11,6 +11,7 @@
 #import "FindPasswordViewController.h"
 #import "UMSocialWechatHandler.h"
 #include "CusTabBarViewController.h"
+#include "APService.h"
 @interface LoginAndRegisterViewController ()
 
 @property (nonatomic ,strong) UIImageView *markImg;
@@ -319,6 +320,10 @@
             }
             [[NSUserDefaults standardUserDefaults] setObject:userInfoDic forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
+
+            [APService setAlias:userId callbackSelector:nil object:self];
 
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         }
