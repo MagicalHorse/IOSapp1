@@ -344,7 +344,7 @@
 {
     HomePicTag *tag = [self.homePro.ProductPic.Tags objectAtIndex:tap.view.tag-100];
     CusTagViewController *VC = [[CusTagViewController alloc] init];
-    VC.BrandId = tag.Id;
+    VC.BrandId = tag.SourceId;
     VC.BrandName = tag.Name;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }

@@ -317,7 +317,6 @@
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
-
         }
         [self activityDismiss];
         
@@ -519,7 +518,6 @@
     {
         [dic setValue:@"0" forKey:@"Status"];
     }
-    
     [HttpTool postWithURL:@"Product/Favorite" params:dic success:^(id json) {
         
         if ([json objectForKey:@"isSuccessful"])
@@ -528,13 +526,11 @@
             {
                 lab.text=@"取消收藏";
                 img.image = [UIImage imageNamed:@"xingxing"];
-
             }
             else
             {
                 lab.text=@"收藏";
                 img.image = [UIImage imageNamed:@"xing"];
-
             }
         }
         else
@@ -545,21 +541,15 @@
     } failure:^(NSError *error) {
         
     }];
-    
 }
-
 
 //点击标签
 -(void)didClickTag:(UITapGestureRecognizer *)tap
 {
-    
-    NSLog(@"%f",self.imageScrollView.contentOffset.x/(kScreenWidth-10));
-
     ProductPicture *proPic = [prodata.ProductPic objectAtIndex:self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
-    
     HomePicTag *proTags = [proPic.Tags objectAtIndex:tap.view.tag-100-self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
     CusTagViewController *VC = [[CusTagViewController alloc] init];
-    VC.BrandId = proTags.Id;
+    VC.BrandId = proTags.SourceId;
     VC.BrandName = proTags.Name;
     [self.navigationController pushViewController:VC animated:YES];
 }
