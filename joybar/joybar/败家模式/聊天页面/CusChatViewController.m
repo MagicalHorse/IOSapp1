@@ -347,7 +347,7 @@
     [productImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [bgView addSubview:productImage];
     
-    UILabel *proNameLab = [[UILabel alloc] initWithFrame:CGRectMake(productImage.right+5, productImage.top, 200, 20)];
+    UILabel *proNameLab = [[UILabel alloc] initWithFrame:CGRectMake(productImage.right+5, productImage.top, kScreenWidth-150, 20)];
     proNameLab.text = self.detailData.ProductName;
     proNameLab.font = [UIFont systemFontOfSize:14];
     proNameLab.textColor = [UIColor darkGrayColor];

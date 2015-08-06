@@ -176,10 +176,14 @@
     titleLab.frame = CGRectMake(10, priceLab.bottom+5, kScreenWidth-15, titleSize.height);
     [self.scrollView addSubview:titleLab];
     
-    UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(10, titleLab.bottom+5, kScreenWidth-20, 20)];
+    UILabel *locationLab = [[UILabel alloc] init];
     locationLab.text = [NSString stringWithFormat:@"自提地点: %@",proData.PickAddress];
     locationLab.font = [UIFont systemFontOfSize:13];
     locationLab.textColor = [UIColor grayColor];
+    locationLab.numberOfLines = 0;
+    CGSize locationSize = [Public getContentSizeWith:locationLab.text andFontSize:13 andWidth:kScreenWidth-20];
+    locationLab.frame =CGRectMake(10, titleLab.bottom+5, kScreenWidth-20, locationSize.height);
+
     [self.scrollView addSubview:locationLab];
     
 //打烊购
@@ -238,7 +242,7 @@
     }
 //-----------------------------------------------------------------------------------
     
-    self.scrollView.contentSize = CGSizeMake(0, tempView.height+kScreenWidth-10+300+titleLab.size.height);
+    self.scrollView.contentSize = CGSizeMake(0, tempView.height+kScreenWidth-10+280+titleLab.size.height+locationSize.height);
 
     UIButton *collectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     collectBtn.backgroundColor = [UIColor clearColor];
@@ -273,6 +277,11 @@
     
     for (int i=0; i<proData.LikeUsers.Users.count; i++)
     {
+        
+        if (i>6)
+        {
+            return;
+        }
         HomeUsers *user = [proData.LikeUsers.Users objectAtIndex:i];
         UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(35*i, 0, 30, 30)];
         img.layer.cornerRadius = img.width/2;

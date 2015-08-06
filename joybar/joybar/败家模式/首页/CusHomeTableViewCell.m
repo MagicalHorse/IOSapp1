@@ -99,7 +99,7 @@
     descriptionLab.font = [UIFont systemFontOfSize:16];
     [self.contentView addSubview:descriptionLab];
     
-    UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(10, descriptionLab.bottom+14, 100, 20)];
+    UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(10, descriptionLab.bottom+16, 100, 20)];
     priceLab.text = [NSString stringWithFormat:@"￥%.2f",[self.homePro.Price floatValue]];
     priceLab.font = [UIFont systemFontOfSize:18];
     priceLab.textColor = [UIColor redColor];
@@ -120,7 +120,7 @@
     UIButton *chatBtn = [[UIButton alloc] initWithFrame:CGRectMake(shareBtn.left-100, descriptionLab.bottom+10, 80, 33)];
     chatBtn.backgroundColor = kCustomColor(248, 248, 248);
     chatBtn.layer.borderColor = kCustomColor(236, 236, 236).CGColor;
-    [chatBtn setTitle:@"私聊" forState:(UIControlStateNormal)];
+    [chatBtn setTitle:@" 私聊" forState:(UIControlStateNormal)];
     [chatBtn setImage:[UIImage imageNamed:@"评论"] forState:(UIControlStateNormal)];
     [chatBtn setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
     chatBtn.titleLabel.font =[UIFont systemFontOfSize:14];
@@ -162,7 +162,7 @@
     
     for (int i=0; i<self.homePro.LikeUsers.Users.count; i++)
     {
-        if (i>7)
+        if (i>6)
         {
             return;
         }

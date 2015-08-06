@@ -49,12 +49,12 @@
     priceLab.textColor = [UIColor redColor];
     priceLab.font = [UIFont systemFontOfSize:14];
     [bgView addSubview:priceLab];
-
+  
     UIButton *clickZan = [UIButton buttonWithType:(UIButtonTypeCustom)];
     clickZan.frame = CGRectMake((kScreenWidth-15)/2-60, nameLab.bottom+5, 60, 20);
     clickZan.backgroundColor = [UIColor clearColor];
     [clickZan setImage:[UIImage imageNamed:@"xingxing"] forState:(UIControlStateNormal)];
-    NSString *count =[NSString stringWithFormat:@"%@",[[dic objectForKey:@"LikeUser"] objectForKey:@"Count"]];
+    NSString *count =[NSString stringWithFormat:@" %@",[[dic objectForKey:@"LikeUser"] objectForKey:@"Count"]];
     [clickZan setTitle:count forState:(UIControlStateNormal)];
     clickZan.titleLabel.font = [UIFont systemFontOfSize:11];
     [clickZan setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
