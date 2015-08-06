@@ -154,7 +154,7 @@
         {
             msgLab.numberOfLines = 0;
             CGSize size = [Public getContentSizeWith:[msgArr objectAtIndex:indexPath.row] andFontSize:15 andWidth:kScreenWidth-110];
-            msgLab.frame = CGRectMake(lab.right+10, 15, kScreenWidth-110, size.height);
+            msgLab.frame = CGRectMake(lab.right+10, 16, kScreenWidth-110, size.height);
         }
         
         if (indexPath.row==0)
@@ -271,7 +271,7 @@
         {
             CGSize size = [Public getContentSizeWith:self.detailData.ProductName andFontSize:15 andWidth:kScreenWidth-110];
             
-            return size.height+30;
+            return size.height+35;
         }
         return 50;
     }
