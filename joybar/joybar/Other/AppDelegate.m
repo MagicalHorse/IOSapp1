@@ -43,14 +43,10 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self connectionSoctet];
     
-    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-    [defaultCenter addObserver:self
-                      selector:@selector(networkDidReceiveMessage:)
-                          name:kJPFNetworkDidReceiveMessageNotification
-                        object:nil];
     
     NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
-    if (![userId isEqualToString:@""])
+    
+    if (![userId isEqualToString:@"(null)"])
     {
         [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
     }
@@ -262,9 +258,10 @@ forRemoteNotification:(NSDictionary *)userInfo
 (void (^)(UIBackgroundFetchResult))completionHandler
 {
     [APService handleRemoteNotification:userInfo];
-    NSLog(@"收到通知1111");
-    
-    NSString *type = [NSString stringWithFormat:@"%@",[[userInfo objectForKey:@"extra"] objectForKey:@"type"]];
+    NSString *type = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"type"]];
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[userInfo objectForKey:@"title"] message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+    [alert show];
     
     switch ([type integerValue])
     {
@@ -280,7 +277,7 @@ forRemoteNotification:(NSDictionary *)userInfo
         case 3:
         {
             NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
-            [dic setObject:@"0" forKey:@"AuditStatus"];
+            [dic setObject:@"-2" forKey:@"AuditStatus"];
             [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
@@ -313,12 +310,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
  买手同意退货= 12,
  买手不同意退货 = 13,
  */
-- (void)networkDidReceiveMessage:(NSNotification *)notification {
-    NSDictionary *userInfo = [notification userInfo];
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[userInfo objectForKey:@"title"] message:[userInfo objectForKey:@"content"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-    [alert show];    
-}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

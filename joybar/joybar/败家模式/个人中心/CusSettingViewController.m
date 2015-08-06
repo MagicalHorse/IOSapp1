@@ -477,13 +477,21 @@
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [APService setAlias:@"" callbackSelector:nil object:self];
+            [APService setAlias:@"" callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
             
             AppDelegate *ad= (AppDelegate *)[UIApplication sharedApplication].delegate;
             CusTabBarViewController *tab = [[CusTabBarViewController alloc] init];
             ad.window.rootViewController =tab;
         }
     }
+}
+
+- (void)tagsAliasCallback:(int)iResCode
+                     tags:(NSSet *)tags
+                    alias:(NSString *)alias {
+    NSString *callbackString =
+    [NSString stringWithFormat:@"%d, \ntags: %@, \nalias: %@\n", iResCode,tags,alias];
+    NSLog(@"TagsAlias回调:%@", callbackString);
 }
 
 //微信登陆

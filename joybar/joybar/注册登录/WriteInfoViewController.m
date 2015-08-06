@@ -8,7 +8,7 @@
 
 #import "WriteInfoViewController.h"
 #import "SelectCityViewController.h"
-
+#import "APService.h"
 @interface WriteInfoViewController ()
 
 @property (nonatomic ,strong)NSString *cityID;
@@ -173,7 +173,8 @@
             }
             [[NSUserDefaults standardUserDefaults] setObject:userInfoDic forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
+            NSString *userId =[NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
+            [APService setAlias:userId callbackSelector:nil object:self];
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         }
         else
@@ -185,6 +186,5 @@
         [self hiddleHud];
     }];
 }
-
 
 @end
