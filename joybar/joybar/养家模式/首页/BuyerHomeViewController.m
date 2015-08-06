@@ -216,7 +216,7 @@
         cell.iconView.image =[UIImage imageNamed:@"pic3"] ;
         cell.tilteView.text =@"货款管理";
         cell.tilteD1View.text =@"今日货款";
-        cell.tilteD2View.text =@"累积货款";
+        cell.tilteD2View.text =@"累计货款";
         CGFloat tempPirce =[[[self.dataArray objectForKey:@"goodsamount"] objectForKey:@"todaygoodsamount"] floatValue];
             cell.pirceD1View.text =[NSString stringWithFormat:@"%.2f",tempPirce];
         
@@ -230,7 +230,7 @@
         cell.iconView.image =[UIImage imageNamed:@"shouyi3"] ;
         cell.tilteView.text =@"收益管理";
         cell.tilteD1View.text =@"今日收益";
-        cell.tilteD2View.text =@"累积收益";
+        cell.tilteD2View.text =@"累计收益";
         CGFloat tempPirce = [[[self.dataArray objectForKey:@"income"]objectForKey:@"today_income"] floatValue];
         cell.pirceD1View.text =[NSString stringWithFormat:@"%.2f",tempPirce];
         
@@ -247,7 +247,7 @@
         cell.iconView.image =[UIImage imageNamed:@"pic4"] ;
         cell.tilteView.text =@"销售管理";
         cell.tilteD1View.text =@"今日订单";
-        cell.tilteD2View.text =@"累积订单";
+        cell.tilteD2View.text =@"累计订单";
         
         NSString *tempPirceD1 =[[[self.dataArray objectForKey:@"order"] objectForKey:@"todayorder"] stringValue];
         if (tempPirceD1.length >0) {
