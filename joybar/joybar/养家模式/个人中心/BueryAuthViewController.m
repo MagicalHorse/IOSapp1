@@ -44,7 +44,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addNavBarViewAndTitle:@"身份认证材料"];
+    [self addNavBarViewAndTitle:@"提交身份认证"];
     [self settingView];
     [Common saveUserDefault:@"2" keyName:@"backPhone"];
 

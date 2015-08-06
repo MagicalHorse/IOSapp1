@@ -60,7 +60,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addNavBarViewAndTitle:@"身份材料认证"];
+    [self addNavBarViewAndTitle:@"提交身份认证"];
     [self settingView];
     type=1;
 }
