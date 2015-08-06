@@ -120,7 +120,7 @@
     UIButton *chatBtn = [[UIButton alloc] initWithFrame:CGRectMake(shareBtn.left-100, descriptionLab.bottom+10, 80, 33)];
     chatBtn.backgroundColor = kCustomColor(248, 248, 248);
     chatBtn.layer.borderColor = kCustomColor(236, 236, 236).CGColor;
-    [chatBtn setTitle:@" 私聊" forState:(UIControlStateNormal)];
+    [chatBtn setTitle:@"私聊" forState:(UIControlStateNormal)];
     [chatBtn setImage:[UIImage imageNamed:@"评论"] forState:(UIControlStateNormal)];
     [chatBtn setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
     chatBtn.titleLabel.font =[UIFont systemFontOfSize:14];

@@ -320,11 +320,8 @@
             }
             [[NSUserDefaults standardUserDefaults] setObject:userInfoDic forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
-
-            [APService setAlias:userId callbackSelector:nil object:self];
-
+            NSString *userId =[NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
+            [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         }
         else
@@ -336,6 +333,14 @@
         
     }];
 }
+- (void)tagsAliasCallback:(int)iResCode
+                     tags:(NSSet *)tags
+                    alias:(NSString *)alias {
+    NSString *callbackString =
+    [NSString stringWithFormat:@"%d, \ntags: %@, \nalias: %@\n", iResCode,tags,alias];
+    NSLog(@"TagsAlias回调:%@", callbackString);
+}
+
 
 //点击忘记密码
 -(void)didClickForgetPassword
@@ -479,7 +484,9 @@
             }
             [[NSUserDefaults standardUserDefaults] setObject:userInfoDic forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
+            NSString *userId =[NSString stringWithFormat:@"%@",[userInfoDic objectForKey:@"id"]];
+            [APService setAlias:userId callbackSelector:nil object:self];
+
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 
         }
