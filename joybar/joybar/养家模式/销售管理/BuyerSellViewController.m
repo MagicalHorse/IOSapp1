@@ -383,10 +383,11 @@
     
     Order *o =self.dataArray[btn.tag];
     Product * product =[o.Products firstObject];
+    
     if (o) {
         AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle:) name:@"PaySuccessNotification" object:o];
-        [app sendPay_demo:o.OrderNo andName:product.Name andPrice:[o.GoodsAmount stringValue] andExtend:@"payment/PayAndDoRmaResult"];
+        [app sendPay_demo:o.RmaNo andName:product.Name andPrice:[o.GoodsAmount stringValue] andExtend:@"payment/PayAndDoRmaResult"];
         
     }else{
         [self showHudFailed:@"订单编号不存在"];
@@ -396,36 +397,7 @@
 -(void)paySuccessHandle:(NSNotification *)notification
 {
     [self showHudSuccess:@"支付成功"];
-    
-    NSLog(@"%@",[notification description]);
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        [self hudShow:@"正在处理"];
-        Order *o =nil;
-        if (o.OrderNo) {
-            NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-            [dict setObject:o.OrderNo forKey:@"OrderNo"];
-            [HttpTool postWithURL:@"Order/RMAConfirm" params:dict success:^(id json) {
-                BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
-                if (isSuccessful) {
-                    [self.dataArray removeObject:o];
-                    [self.tableView reloadData];
-                }else{
-                    [self showHudFailed:[json objectForKey:@"message"]];
-                }
-                [self textHUDHiddle];
-            } failure:^(NSError *error) {
-                [self showHudFailed:@"处理失败"];
-                [self textHUDHiddle];
-            }];
-        }else{
-            [self showHudFailed:@"订单编号不存在"];
-        }
 
-        
-        [self.navigationController popViewControllerAnimated:YES];
-    });
 }
 
 -(void)dealloc{

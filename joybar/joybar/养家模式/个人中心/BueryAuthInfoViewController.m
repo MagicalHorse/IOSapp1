@@ -60,7 +60,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addNavBarViewAndTitle:@"身份材料认证"];
+    [self addNavBarViewAndTitle:@"提交身份认证"];
     [self settingView];
     type=1;
 }
@@ -195,7 +195,7 @@
     addressView.backgroundColor =[UIColor whiteColor];
     [self.customScrollView addSubview:addressView];
     UILabel * lable1=[[UILabel alloc]initWithFrame:CGRectMake(20, 10, 200, 20)];
-    lable1.text =@"商场自提点";
+    lable1.text =@"商品自提点";
     lable1.font = [UIFont systemFontOfSize:16];
     [addressView addSubview:lable1];
 

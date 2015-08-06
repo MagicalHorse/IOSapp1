@@ -123,9 +123,8 @@
 }
 
 -(void)setData{
-    self.homeTableView.userInteractionEnabled =NO;
     if (isRefresh) {
-        [self showInView:self.homeTableView WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
+        [self showInView:self.homeTableView WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight];
     }
      [HttpTool postWithURL:@"Buyer/Index" params:nil success:^(id json) {
          BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
@@ -144,11 +143,9 @@
          [self textHUDHiddle];
          [self activityDismiss];
          isRefresh=NO;
-         self.homeTableView.userInteractionEnabled =YES;
      } failure:^(NSError *error) {
          [self textHUDHiddle];
          [self activityDismiss];
-         self.homeTableView.userInteractionEnabled =YES;
 
      }];
 }
@@ -310,26 +307,30 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        BuyerPaymentViewController * income= [[BuyerPaymentViewController alloc]init];
-        [self.navigationController pushViewController:income animated:YES];
-    }else if (indexPath.row == 1) {
-        BuyerInComeViewController * income= [[BuyerInComeViewController alloc]init];
-
-        income.today_income =[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"];
-        income.total_income =[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"];
-        income.avail_amout =[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amount"];
-        [self.navigationController pushViewController:income animated:YES];
-    }else if(indexPath.row ==2){
-        BuyerSellViewController * sell=[[BuyerSellViewController alloc]init];
-        [self.navigationController pushViewController:sell animated:YES];
-
-    }else if(indexPath.row ==3){
-        BuyerStoreViewController * store = [[BuyerStoreViewController alloc]init];
-        [self.navigationController pushViewController:store animated:YES];
-    }else if(indexPath.row ==4){
-        BuyerCircleViewController *circle = [[BuyerCircleViewController alloc]init];
-        [self.navigationController pushViewController:circle animated:YES];
+    
+    if (self.dataArray.count>0)
+    {
+        if (indexPath.row == 0) {
+            BuyerPaymentViewController * income= [[BuyerPaymentViewController alloc]init];
+            [self.navigationController pushViewController:income animated:YES];
+        }else if (indexPath.row == 1) {
+            BuyerInComeViewController * income= [[BuyerInComeViewController alloc]init];
+            
+            income.today_income =[[self.dataArray objectForKey:@"income"] objectForKey:@"today_income"];
+            income.total_income =[[self.dataArray objectForKey:@"income"] objectForKey:@"total_income"];
+            income.avail_amout =[[self.dataArray objectForKey:@"income"] objectForKey:@"avail_amount"];
+            [self.navigationController pushViewController:income animated:YES];
+        }else if(indexPath.row ==2){
+            BuyerSellViewController * sell=[[BuyerSellViewController alloc]init];
+            [self.navigationController pushViewController:sell animated:YES];
+            
+        }else if(indexPath.row ==3){
+            BuyerStoreViewController * store = [[BuyerStoreViewController alloc]init];
+            [self.navigationController pushViewController:store animated:YES];
+        }else if(indexPath.row ==4){
+            BuyerCircleViewController *circle = [[BuyerCircleViewController alloc]init];
+            [self.navigationController pushViewController:circle animated:YES];
+        }
     }
     
     

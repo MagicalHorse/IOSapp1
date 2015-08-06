@@ -20,5 +20,4 @@
 @property (nonatomic,copy)NSString* SizeName;
 @property (nonatomic,copy)NSString* ColorName;
 @property (nonatomic,copy)NSString* Picture;
-
 @end

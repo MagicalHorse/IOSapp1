@@ -19,4 +19,6 @@
 @property (nonatomic,copy)NSString* StatusName;
 @property (nonatomic,strong)NSNumber *GoodsAmount;
 @property (nonatomic,assign)BOOL IsGoodsPick;
+@property (nonatomic,copy)NSString *RmaNo;
+
 @end

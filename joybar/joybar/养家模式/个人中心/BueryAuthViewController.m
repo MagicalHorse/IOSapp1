@@ -44,7 +44,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addNavBarViewAndTitle:@"身份材料认证"];
+    [self addNavBarViewAndTitle:@"提交身份认证"];
     [self settingView];
     [Common saveUserDefault:@"2" keyName:@"backPhone"];
 
@@ -84,7 +84,7 @@
     
     
     UILabel * lable=[[UILabel alloc]initWithFrame:CGRectMake(20, nameView.bottom+20, 200, 20)];
-    lable.text =@"身份证/护照";
+    lable.text =@"上传身份证/护照";
     lable.font = [UIFont systemFontOfSize:18];
     [_customScrollView addSubview:lable];
     
@@ -116,7 +116,7 @@
     [_customScrollView addSubview:bgView];
 
     UILabel * lableStore=[[UILabel alloc]initWithFrame:CGRectMake(20, 521+64, 200, 20)];
-    lableStore.text =@"工牌照片";
+    lableStore.text =@"手持工牌照片";
     
     lableStore.font = [UIFont systemFontOfSize:18];
     [_customScrollView addSubview:lableStore];
