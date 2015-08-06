@@ -330,7 +330,7 @@
         }
         [self textHUDHiddle];
     } failure:^(NSError *error) {
-        
+        [self textHUDHiddle];
     }];
 }
 - (void)tagsAliasCallback:(int)iResCode

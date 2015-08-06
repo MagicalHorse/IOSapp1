@@ -195,7 +195,7 @@
     addressView.backgroundColor =[UIColor whiteColor];
     [self.customScrollView addSubview:addressView];
     UILabel * lable1=[[UILabel alloc]initWithFrame:CGRectMake(20, 10, 200, 20)];
-    lable1.text =@"商场自提点";
+    lable1.text =@"商品自提点";
     lable1.font = [UIFont systemFontOfSize:16];
     [addressView addSubview:lable1];
 
