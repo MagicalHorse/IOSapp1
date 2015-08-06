@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addNavBarViewAndTitle:@"提交审核"];
+    [self addNavBarViewAndTitle:@"结果详情"];
     [self settingView];
     self.retBtn.hidden =YES;
     self.view.backgroundColor = kCustomColor(241, 241, 241);
@@ -42,7 +42,7 @@
     
     UILabel* lable=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 150)];
     lable.textAlignment = NSTextAlignmentCenter;
-    lable.text =@"申请已提交，请等待处理";
+    lable.text =@"申请已提交,请等待处理";
     lable.font = [UIFont systemFontOfSize:20];
     [view addSubview:lable];
     UIButton * btn=[[UIButton alloc]initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
