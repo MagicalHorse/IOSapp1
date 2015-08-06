@@ -406,6 +406,50 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
         [WXApi sendReq:req];
     }
 }
+- (void)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price andExtend:(NSString *)callBackUrl
+{
+    //创建支付签名对象
+    payRequsestHandler *req = [payRequsestHandler alloc];
+    //初始化支付签名对象
+    [req init:APP_ID mch_id:MCH_ID];
+    //设置密钥
+    [req setKey:PARTNER_ID];
+    
+    //}}}
+    
+    //获取到实际调起微信支付的参数后，在app端调起支付
+    NSMutableDictionary *dict = [req sendPay_demo:orderNum andName:name andPrice:price andExtend:callBackUrl];
+    
+    if(dict == nil)
+    {
+        //错误提示
+        NSString *debug = [req getDebugifo];
+        
+        [self alert:@"提示信息" msg:debug];
+        
+        NSLog(@"%@\n\n",debug);
+    }
+    else
+    {
+        NSLog(@"%@\n\n",[req getDebugifo]);
+        NSString *deg =[req getDebugifo];
+        [self alert:@"" msg:[req getDebugifo]];
+//        [self alert:@"确认" msg:@"下单成功，点击OK后调起支付！"];
+        
+        NSMutableString *stamp  = [dict objectForKey:@"timestamp"];
+        
+        //调起微信支付
+        PayReq* req             = [[PayReq alloc] init];
+        req.openID              = [dict objectForKey:@"appid"];
+        req.partnerId           = [dict objectForKey:@"partnerid"];
+        req.prepayId            = [dict objectForKey:@"prepayid"];
+        req.nonceStr            = [dict objectForKey:@"noncestr"];
+        req.timeStamp           = stamp.intValue;
+        req.package             = [dict objectForKey:@"package"];
+        req.sign                = [dict objectForKey:@"sign"];
+        [WXApi sendReq:req];
+    }
+}
 
 //客户端提示信息
 - (void)alert:(NSString *)title msg:(NSString *)msg
@@ -445,6 +489,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
             default:
                 strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
                 NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                [self alert:@"" msg:strMsg];
                 break;
         }
     }

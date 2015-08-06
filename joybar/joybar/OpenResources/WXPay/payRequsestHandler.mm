@@ -227,4 +227,83 @@
     }
     return nil;
 }
+- ( NSMutableDictionary *)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price andExtend:(NSString *)callBackUrl
+{
+    //订单标题，展示给用户
+    NSString *order_name;
+    if (name.length>13)
+    {
+        NSString *str= [name substringWithRange:NSMakeRange(0, 13)];
+        NSString *str1 = [NSString stringWithFormat:@"%@...",str];
+        order_name = str1;
+    }
+    else
+    {
+        order_name = name;
+    }
+    
+    //订单金额,单位（分）
+    NSString *order_price   = [NSString stringWithFormat:@"%.0f",[price doubleValue]*100];
+    
+    //================================
+    //预付单参数订单设置
+    //================================
+    srand( (unsigned)time(0) );
+    NSString *noncestr  = [NSString stringWithFormat:@"%d", rand()];
+    NSString *orderno   = orderNum;
+    NSMutableDictionary *packageParams = [NSMutableDictionary dictionary];
+    NSString *notifyURL = [NSString stringWithFormat:@"%@%@",HomeURL,callBackUrl];
+    
+    [packageParams setObject: appid             forKey:@"appid"];       //开放平台appid
+    [packageParams setObject: mchid             forKey:@"mch_id"];      //商户号
+    [packageParams setObject: @"APP-001"        forKey:@"device_info"]; //支付设备号或门店号
+    [packageParams setObject: noncestr          forKey:@"nonce_str"];   //随机串
+    [packageParams setObject: @"APP"            forKey:@"trade_type"];  //支付类型，固定为APP
+    [packageParams setObject: order_name        forKey:@"body"];        //订单描述，展示给用户
+    [packageParams setObject: notifyURL        forKey:@"notify_url"];  //支付结果异步通知
+    [packageParams setObject: orderno           forKey:@"out_trade_no"];//商户订单号
+    [packageParams setObject: @"196.168.1.1"    forKey:@"spbill_create_ip"];//发器支付的机器ip
+    [packageParams setObject: order_price       forKey:@"total_fee"];       //订单金额，单位为分
+    
+    //获取prepayId（预支付交易会话标识）
+    NSString *prePayid;
+    prePayid = [self sendPrepay:packageParams];
+    
+    if ( prePayid != nil) {
+        //获取到prepayid后进行第二次签名
+        
+        NSString    *package, *time_stamp, *nonce_str;
+        //设置支付参数
+        time_t now;
+        time(&now);
+        time_stamp  = [NSString stringWithFormat:@"%ld", now];
+        nonce_str	= [WXUtil md5:time_stamp];
+        //重新按提交格式组包，微信客户端暂只支持package=Sign=WXPay格式，须考虑升级后支持携带package具体参数的情况
+        //package       = [NSString stringWithFormat:@"Sign=%@",package];
+        package         = @"Sign=WXPay";
+        //第二次签名参数列表
+        NSMutableDictionary *signParams = [NSMutableDictionary dictionary];
+        [signParams setObject: appid        forKey:@"appid"];
+        [signParams setObject: nonce_str    forKey:@"noncestr"];
+        [signParams setObject: package      forKey:@"package"];
+        [signParams setObject: mchid        forKey:@"partnerid"];
+        [signParams setObject: time_stamp   forKey:@"timestamp"];
+        [signParams setObject: prePayid     forKey:@"prepayid"];
+        //[signParams setObject: @"MD5"       forKey:@"signType"];
+        //生成签名
+        NSString *sign  = [self createMd5Sign:signParams];
+        
+        //添加签名
+        [signParams setObject: sign forKey:@"sign"];
+        
+        [debugInfo appendFormat:@"第二步签名成功，sign＝%@\n",sign];
+        
+        //返回参数列表
+        return signParams;
+        
+    }else{
+        [debugInfo appendFormat:@"获取prepayid失败！\n"];
+    }
+    return nil;
+}
 @end

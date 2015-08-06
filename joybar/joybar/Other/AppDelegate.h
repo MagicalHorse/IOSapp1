@@ -24,6 +24,7 @@
 @property (strong, nonatomic) CLLocationManager* locationManager;
 
 - (void)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price;
+- (void)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price andExtend:(NSString *)callBackUrl;
 
 @property (nonatomic ,strong) NSString *longitude;
 @property (nonatomic ,strong) NSString *latitude;

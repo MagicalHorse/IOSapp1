@@ -67,4 +67,6 @@
 -(NSString *)sendPrepay:(NSMutableDictionary *)prePayParams;
 //签名实例测试
 - ( NSMutableDictionary *)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price;
+//签名实例测试
+- ( NSMutableDictionary *)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price andExtend:(NSString *)callBackUrl;
 @end

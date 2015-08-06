@@ -16,6 +16,7 @@
 #import "Orders.h"
 #import "BueryStoreDetailsController.h"
 #import "AppDelegate.h"
+#import "payRequsestHandler.h"
 
 @interface BuyerSellViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     BOOL isRefresh;
@@ -385,7 +386,8 @@
     if (o) {
         AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle:) name:@"PaySuccessNotification" object:o];
-        [app sendPay_demo:o.OrderNo andName:product.Name andPrice:[o.GoodsAmount stringValue]];
+        [app sendPay_demo:o.OrderNo andName:product.Name andPrice:[o.GoodsAmount stringValue] andExtend:@"payment/PayAndDoRmaResult"];
+        
     }else{
         [self showHudFailed:@"订单编号不存在"];
     }
