@@ -66,7 +66,6 @@
     authBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     authBtn.layer.cornerRadius = authBtn.height/2;
     authBtn.backgroundColor = [UIColor redColor];
-
     [authBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     [authBtn addTarget:self action:@selector(didCilckGetAuthCode) forControlEvents:(UIControlEventTouchUpInside)];
     authBtn.hidden = YES;
@@ -129,7 +128,7 @@
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
     
     [HttpTool postWithURL:@"User/BindMobile" params:dic success:^(id json) {
-        if ([json objectForKey:@"isSuccessful"])
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             [self showHudSuccess:@"绑定成功"];
             NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
@@ -147,6 +146,7 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
     } failure:^(NSError *error) {
+        
     }];
 }
 
