@@ -111,7 +111,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addNavBarViewAndTitle:@"销售管理"];
+    if (self.customTitle.length>0) {
+        [self addNavBarViewAndTitle:@"订单管理"];
+    }else{
+        [self addNavBarViewAndTitle:@"销售管理"];
+    }
     _tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
     _tempView.backgroundColor = kCustomColor(251, 250, 250);
     [self.view addSubview:_tempView] ;
@@ -266,7 +270,7 @@
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, viewY)];
     view.backgroundColor = [UIColor whiteColor];
     
-    UILabel *cooutLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 20, 65, 13)];
+    UILabel *cooutLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 22, 65, 13)];
     
     CGFloat fuhaoX;
     if ([o.Status isEqualToNumber:@(3)]) {
@@ -312,7 +316,7 @@
         orderPLabel.textColor =[UIColor blackColor];
         
     }else{
-//        viewY= 55;
+
         cooutLabel.text = @"佣金:";
         orderPTLabel.text = @"实付:";
         orderPLabel.textColor =[UIColor redColor];
@@ -332,7 +336,7 @@
     orderPLabel1.frame =CGRectMake(kScreenWidth-s.width-10, 18, s.width, s.height);
     [view addSubview:orderPLabel1];
 
-    orderPTLabel.frame=CGRectMake(orderPLabel1.left-40, 20, 40, 13);
+    orderPTLabel.frame=CGRectMake(orderPLabel1.left-40, 22, 40, 13);
     orderPTLabel.font = [UIFont systemFontOfSize:13];
     [view addSubview:orderPTLabel];
     
