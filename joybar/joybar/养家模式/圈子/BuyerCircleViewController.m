@@ -207,7 +207,7 @@
         }
         if (self.dataArray.count>0) {
             [cell.fansImg sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-            [cell.fansIcon sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+//            [cell.fansIcon sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row] objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.fansTitle.text =[self.dataArray[indexPath.row] objectForKey:@"UserName"];
             cell.guanzhuLable.text =[[self.dataArray[indexPath.row] objectForKey:@"FavoiteCount"] stringValue];
              cell.fansiLable.text =[[self.dataArray[indexPath.row] objectForKey:@"FansCount"] stringValue];
