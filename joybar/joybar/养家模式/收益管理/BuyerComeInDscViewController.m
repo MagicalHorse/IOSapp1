@@ -32,6 +32,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.pageNum=1;
     type=1;
     [self addNavBarViewAndTitle:@"收益明细"];
     _tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
@@ -102,7 +103,7 @@
         [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
     }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
-    [dict setObject:@"1" forKey:@"Page"];
+    [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dict setObject:@"6" forKey:@"Pagesize"];
     if (type ==1) {
         [dict setObject:@"3" forKey:@"IncomeStatus"];
@@ -116,7 +117,7 @@
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             NSArray *arr =[[json objectForKey:@"data"]objectForKey:@"items"];
-            if(arr.count<10)
+            if(arr.count<6)
             {
                 [self.tableView hiddenFooter:YES];
             }
@@ -187,7 +188,7 @@
     if (tap.view.tag==1000)
     {
         [self activityDismiss];
-
+        self.pageNum=1;
         type=1;
         isRefresh=YES;
         [self scrollToBuyerStreet];
@@ -196,12 +197,14 @@
     {
         [self activityDismiss];
         isRefresh=YES;
+        self.pageNum=1;
         type=2;
         [self scrollToSaid];
     }
     else
     {
         [self activityDismiss];
+        self.pageNum=1;
         isRefresh=YES;
         type=3;
         [self scrollToMyBuyer];

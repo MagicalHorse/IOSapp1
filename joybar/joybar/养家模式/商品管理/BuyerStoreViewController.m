@@ -303,7 +303,8 @@
     BuyerIssueViewController *issue =[[BuyerIssueViewController alloc]init];
     issue.detail =st.Detail;
     issue.productId =[st.ProductId stringValue];
-    [self.navigationController pushViewController:issue animated:YES];
+    [self.navigationController pushViewController:
+     issue animated:YES];
     
 }
 //复制

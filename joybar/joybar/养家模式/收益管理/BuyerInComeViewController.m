@@ -40,10 +40,14 @@
     [super viewDidAppear:YES];
   
     NSNumber *num1 =[NSNumber numberWithFloat:[self.today_income floatValue]];
+    
     [self.todayInComeLable dd_setNumber:num1];
     NSNumber *num =[NSNumber numberWithFloat:[self.total_income floatValue]];
     [self.availAmountLable dd_setNumber:num];
-    self.totalAmountLable.text = [NSString stringWithFormat:@"%@",self.avail_amout];
+    NSNumber *num2 =[NSNumber numberWithFloat:[self.avail_amout floatValue]];
+    [self.totalAmountLable dd_setNumber:num2];
+//    CGFloat amout = [self.avail_amout floatValue];
+//    self.totalAmountLable.text = [NSString stringWithFormat:@"%.2f",amout];
 }
 
 - (void)viewDidLoad {
