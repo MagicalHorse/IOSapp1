@@ -22,7 +22,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="货号：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GVu-HR-Fxp">
-                        <rect key="frame" x="103" y="61" width="51" height="21"/>
+                        <rect key="frame" x="103" y="62" width="51" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -46,7 +46,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="规格:180/92A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEc-Ft-fIs">
-                        <rect key="frame" x="227" y="63" width="80.5" height="16"/>
+                        <rect key="frame" x="227" y="65" width="80.5" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -68,11 +68,11 @@
                     <constraint firstAttribute="bottom" secondItem="9IN-xb-cjd" secondAttribute="bottom" constant="12.5" id="EtW-Om-2U9"/>
                     <constraint firstItem="uWB-IY-UjA" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="IQ6-sD-sb8"/>
                     <constraint firstAttribute="centerY" secondItem="Adg-95-eK2" secondAttribute="centerY" constant="10" id="UMu-76-KJ4"/>
+                    <constraint firstAttribute="trailing" secondItem="cEc-Ft-fIs" secondAttribute="trailing" constant="12.5" id="XpS-Cq-ze5"/>
                     <constraint firstItem="0r5-q1-hJR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="YPQ-vT-1lM"/>
                     <constraint firstAttribute="trailing" secondItem="0r5-q1-hJR" secondAttribute="trailing" constant="12" id="a6G-Sj-7VH"/>
-                    <constraint firstAttribute="centerY" secondItem="cEc-Ft-fIs" secondAttribute="centerY" constant="-21.5" id="jbj-As-6ZY"/>
+                    <constraint firstAttribute="bottom" secondItem="cEc-Ft-fIs" secondAttribute="bottom" constant="19.5" id="eL4-Pm-5Gq"/>
                     <constraint firstAttribute="trailing" secondItem="Adg-95-eK2" secondAttribute="trailing" constant="12" id="rpm-Q7-aFL"/>
-                    <constraint firstAttribute="trailing" secondItem="cEc-Ft-fIs" secondAttribute="trailing" constant="12" id="uLi-5q-Zws"/>
                     <constraint firstItem="uWB-IY-UjA" firstAttribute="leading" secondItem="9IN-xb-cjd" secondAttribute="trailing" constant="8" id="wHu-a9-eXR"/>
                 </constraints>
             </tableViewCellContentView>

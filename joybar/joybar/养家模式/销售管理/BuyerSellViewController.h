@@ -11,4 +11,5 @@
 
 @interface BuyerSellViewController : BaseViewController
 @property (nonatomic,strong)NSNumber *customerId;
+@property (nonatomic,strong)NSString *customTitle;
 @end

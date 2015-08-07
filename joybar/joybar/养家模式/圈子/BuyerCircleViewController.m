@@ -221,6 +221,7 @@
 -(void)hosClick:(UIButton *)btn{
     BuyerSellViewController *sell =[[BuyerSellViewController alloc]init];
     sell.customerId=@(btn.tag);
+    sell.customTitle =@"......";
     [self.navigationController pushViewController:sell animated:YES];
 }
 
