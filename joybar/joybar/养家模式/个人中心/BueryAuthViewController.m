@@ -127,7 +127,7 @@
 
     
     _btn3=[[UIButton alloc]initWithFrame:CGRectMake(20, 562+64, kScreenWidth-40, 200)];
-    [_btn3 setTitle:@"＋工牌照片" forState:UIControlStateNormal];
+    [_btn3 setTitle:@"＋手持工牌照片" forState:UIControlStateNormal];
     _btn3.titleLabel.font =[UIFont systemFontOfSize:18];
     [_btn3 setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     _btn3.layer.borderWidth= 2;

@@ -107,11 +107,13 @@
     //    }];
 }
 
--(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"定位失败" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重新定位", nil];
-    [alert show];
-}
+
+
+//-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+//{
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"定位失败" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重新定位", nil];
+//    [alert show];
+//}
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
