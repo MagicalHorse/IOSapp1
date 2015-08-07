@@ -156,7 +156,7 @@
     [collectBtn addTarget:self action:@selector(didClickCollect:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.contentView addSubview:collectBtn];
     
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth-260, chatBtn.bottom+10, 240, 30)];
+    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(collectBtn.right, chatBtn.bottom+10, 240, 30)];
     bgView.backgroundColor = [UIColor clearColor];
     [self.contentView addSubview:bgView];
     

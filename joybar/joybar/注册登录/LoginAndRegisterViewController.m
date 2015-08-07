@@ -266,7 +266,6 @@
     authBtn.layer.cornerRadius = authBtn.height/2;
     authBtn.backgroundColor = [UIColor redColor];
     [authBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    [authBtn setBackgroundImage:[UIImage imageNamed:@"yanzheng.png"] forState:(UIControlStateNormal)];
     [authBtn addTarget:self action:@selector(didCilckGetAuthCode:) forControlEvents:(UIControlEventTouchUpInside)];
     authBtn.hidden = YES;
     [scroll addSubview:authBtn];

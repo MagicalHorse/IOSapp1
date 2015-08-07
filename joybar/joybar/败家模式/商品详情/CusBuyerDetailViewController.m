@@ -269,15 +269,13 @@
     collectBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [collectBtn addTarget:self action:@selector(didClickCollect:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.scrollView addSubview:collectBtn];
-    
 
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(kScreenWidth-260, tempView.bottom+10, 240, 30)];
+    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(collectBtn.right, tempView.bottom+10, 240, 30)];
     bgView.backgroundColor = [UIColor clearColor];
     [self.scrollView addSubview:bgView];
     
     for (int i=0; i<proData.LikeUsers.Users.count; i++)
     {
-        
         if (i>6)
         {
             return;
@@ -454,7 +452,7 @@
     if (self.imageScrollView == scrollView)
     {
         NSInteger index = fabs(scrollView.contentOffset.x) / scrollView.frame.size.width;
-        //NSLog(@"%d",index);
+        
         [_pageControl setCurrentPage:index];
     }
 }

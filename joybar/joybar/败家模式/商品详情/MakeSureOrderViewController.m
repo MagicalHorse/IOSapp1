@@ -85,7 +85,8 @@
     priceLab.textAlignment = NSTextAlignmentRight;
 //    CGFloat price = [self.detailData.Price floatValue]*[self.buyNum floatValue];
 //    NSLog(@"%f",price);
-    priceLab.text = [NSString stringWithFormat:@"合计: ￥%@",[self.priceDic objectForKey:@"saletotalamount"]];
+    
+    priceLab.text = [NSString stringWithFormat:@"合计: ￥%.2f",[[self.priceDic objectForKey:@"saletotalamount"] floatValue]];
     priceLab.textColor = [UIColor redColor];
     priceLab.font = [UIFont systemFontOfSize:16];
     [bottomView addSubview:priceLab];
