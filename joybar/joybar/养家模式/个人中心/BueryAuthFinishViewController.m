@@ -47,7 +47,7 @@
     [view addSubview:lable];
     UIButton * btn=[[UIButton alloc]initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
     btn.backgroundColor =[UIColor whiteColor];
-    [btn setTitle:@"回到首页" forState:UIControlStateNormal];
+    [btn setTitle:@"确定" forState:UIControlStateNormal];
     [btn setTitleColor:kCustomColor(56,155, 234) forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:17];
     [self.view addSubview:btn];

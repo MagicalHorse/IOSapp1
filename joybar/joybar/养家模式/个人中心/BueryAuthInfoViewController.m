@@ -97,7 +97,7 @@
 }
 
 -(void)setData:(NSString *)parentId{
-
+    [self hudShow:@"正在加载"];
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:parentId forKey:@"parentId"];
     [HttpTool postWithURL:@"Common/GetCityListByParentId" params:dict success:^(id json) {
@@ -115,7 +115,9 @@
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self hiddleHud];
     } failure:^(NSError *error) {
+        [self hiddleHud];
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
     }];
 }
