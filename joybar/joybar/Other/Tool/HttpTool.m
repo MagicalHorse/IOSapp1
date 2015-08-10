@@ -36,6 +36,10 @@
     // 1.创建请求管理对象
     AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
     mgr.requestSerializer.timeoutInterval = 5.f;
+    // 0.验证网络
+    [Common IsReachability:^{
+        [[[UIApplication sharedApplication] keyWindow] showHudFailed:@"网络连接异常,请稍后再试"];
+    }];
 
     // 2.发送请求
     [mgr POST:tempUrl parameters:signDic
@@ -56,10 +60,7 @@
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           if (failure) {
               failure(error);
-              // 0.验证网络
-              [Common IsReachability:^{
-                  [[[UIApplication sharedApplication] keyWindow] showHudFailed:@"网络连接异常,请稍后再试"];
-              }];
+              [[[UIApplication sharedApplication] keyWindow] showHudFailed:@"网络连接异常,请稍后再试"];
               NSLog(@"%@",[error description]);
           }
       }];

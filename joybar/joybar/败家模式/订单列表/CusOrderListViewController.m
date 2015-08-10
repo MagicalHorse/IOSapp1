@@ -19,7 +19,7 @@
 
 @property (nonatomic ,strong) NSMutableArray *btnArr;
 
-@property (nonatomic ,strong) UITableView *tableView;
+@property (nonatomic ,strong) BaseTableView *tableView;
 
 @property (nonatomic ,strong) OrderListData *orderListData;
 @property (nonatomic ,strong) NSString *orderStatus;
@@ -72,13 +72,18 @@
         [self.btnArr addObject:button];
     }
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40)];
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 64+40, kScreenWidth, kScreenHeight-64-40)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = kCustomColor(242, 244, 245);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     
+    __weak CusOrderListViewController *VC = self;
+    self.tableView.headerRereshingBlock = ^()
+    {
+        [VC getData:VC.orderStatus];
+    };
     [self addNavBarViewAndTitle:@"我的订单"];
 
     self.orderStatus = [NSString stringWithFormat:@"%ld",(long)self.btnIndex];
@@ -102,6 +107,8 @@
     [HttpTool postWithURL:@"Order/GetOrderListByState" params:dic success:^(id json) {
         
         [self hiddleHud];
+        
+        [self.tableView hiddenFooter:YES];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.orderListData = [OrderListData objectWithKeyValues:[json objectForKey:@"data"]];
@@ -113,8 +120,11 @@
             [self showHudFailed:[json objectForKey:@"messsage"]];
         }
         
+        [self.tableView endRefresh];
+        
     } failure:^(NSError *error) {
         
+        [self.tableView endRefresh];
     }];
 }
 

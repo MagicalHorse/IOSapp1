@@ -17,10 +17,17 @@
 #import "OSSTool.h"
 @implementation AppDelegate
 
++(UIImage *)scale:(UIImage *)image toSize:(CGSize)size
+{
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return scaledImage;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
     application.statusBarHidden = NO;
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
         //可以添加自定义categories
@@ -262,7 +269,6 @@ forRemoteNotification:(NSDictionary *)userInfo
 {
     [APService handleRemoteNotification:userInfo];
     NSString *type = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"type"]];
-    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[userInfo objectForKey:@"title"] message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
     [alert show];
     

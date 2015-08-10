@@ -40,38 +40,38 @@
     self.proNumLab.text = [NSString stringWithFormat:@"x%@",self.proNumStr];
     self.proSizeLab.text = self.proSizeStr;
     self.proPriceLab.text = [NSString stringWithFormat:@"￥%@",self.proPriceStr];
+    self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",[self.proPriceStr floatValue]*[self.proNumStr floatValue]];
     
+//    UIView *numView = [[UIView alloc] initWithFrame:CGRectMake(self.proStatusLab.left, self.refundPriceLab.bottom+25, 120, 30)];
+//    numView.backgroundColor = kCustomColor(240, 240, 240);
+//    numView.layer.cornerRadius = 4;
+//    numView.layer.borderWidth = 0.5f;
+//    numView.layer.borderColor = kCustomColor(223, 223, 223).CGColor;
+//    [self.bgView addSubview:numView];
     
-    UIView *numView = [[UIView alloc] initWithFrame:CGRectMake(self.proStatusLab.left, self.refundPriceLab.bottom+25, 120, 30)];
-    numView.backgroundColor = kCustomColor(240, 240, 240);
-    numView.layer.cornerRadius = 4;
-    numView.layer.borderWidth = 0.5f;
-    numView.layer.borderColor = kCustomColor(223, 223, 223).CGColor;
-    [self.bgView addSubview:numView];
+//    UIButton *addBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    addBtn.frame = CGRectMake(numView.width-44, 0, 44, numView.height);
+//    [addBtn setImage:[UIImage imageNamed:@"加号icon"] forState:(UIControlStateNormal)];
+//    [addBtn setTitleColor:[UIColor grayColor] forState:(UIControlStateNormal)];
+//    addBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+//    addBtn.backgroundColor = [UIColor clearColor];
+//    [addBtn addTarget:self action:@selector(didCLickAddNum) forControlEvents:(UIControlEventTouchUpInside)];
+//    [numView addSubview:addBtn];
+//    
+//    UIButton *minusBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    minusBtn.frame = CGRectMake(0, 0, 44, numView.height);
+//    [minusBtn setImage:[UIImage imageNamed:@"减号可点击icon"] forState:(UIControlStateNormal)];
+//    [minusBtn setTitleColor:[UIColor grayColor] forState:(UIControlStateNormal)];
+//    minusBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+//    minusBtn.backgroundColor = [UIColor clearColor];
+//    [minusBtn addTarget:self action:@selector(didClickDecrease) forControlEvents:(UIControlEventTouchUpInside)];
+//    [numView addSubview:minusBtn];
     
-    UIButton *addBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    addBtn.frame = CGRectMake(numView.width-44, 0, 44, numView.height);
-    [addBtn setImage:[UIImage imageNamed:@"加号icon"] forState:(UIControlStateNormal)];
-    [addBtn setTitleColor:[UIColor grayColor] forState:(UIControlStateNormal)];
-    addBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-    addBtn.backgroundColor = [UIColor clearColor];
-    [addBtn addTarget:self action:@selector(didCLickAddNum) forControlEvents:(UIControlEventTouchUpInside)];
-    [numView addSubview:addBtn];
-    
-    UIButton *minusBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    minusBtn.frame = CGRectMake(0, 0, 44, numView.height);
-    [minusBtn setImage:[UIImage imageNamed:@"减号可点击icon"] forState:(UIControlStateNormal)];
-    [minusBtn setTitleColor:[UIColor grayColor] forState:(UIControlStateNormal)];
-    minusBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-    minusBtn.backgroundColor = [UIColor clearColor];
-    [minusBtn addTarget:self action:@selector(didClickDecrease) forControlEvents:(UIControlEventTouchUpInside)];
-    [numView addSubview:minusBtn];
-    
-    buyNumLab = [[UILabel alloc] initWithFrame:CGRectMake(44, 0, numView.width-88, numView.height)];
-    buyNumLab.backgroundColor = [UIColor whiteColor];
-    buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
-    buyNumLab.textAlignment = NSTextAlignmentCenter;
-    [numView addSubview:buyNumLab];
+//    buyNumLab = [[UILabel alloc] initWithFrame:CGRectMake(44, 0, numView.width-88, numView.height)];
+//    buyNumLab.backgroundColor = [UIColor whiteColor];
+//    buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
+//    buyNumLab.textAlignment = NSTextAlignmentCenter;
+//    [numView addSubview:buyNumLab];
     
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
     bottomView.backgroundColor = [UIColor whiteColor];
@@ -90,37 +90,37 @@
     [bottomView addSubview:btn];
 }
 
-//增加
--(void)didCLickAddNum
-{
-    if (self.priceNum>=[self.proNumStr integerValue])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"超过购买数量" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-        [alert show];
-        return;
-    }
-    
-    self.priceNum+=1;
-    buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
-    CGFloat price = self.priceNum*[self.proPriceStr doubleValue];
-    self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",price];
-}
-
-//减少
--(void)didClickDecrease
-{
-    if (self.priceNum<1)
-    {
-        return;
-    }
-    else
-    {
-        self.priceNum-=1;
-        buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
-        CGFloat price = self.priceNum*[self.proPriceStr doubleValue];
-        self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",price];
-    }
-}
+////增加
+//-(void)didCLickAddNum
+//{
+//    if (self.priceNum>=[self.proNumStr integerValue])
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"超过购买数量" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+//        [alert show];
+//        return;
+//    }
+//    
+//    self.priceNum+=1;
+//    buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
+//    CGFloat price = self.priceNum*[self.proPriceStr doubleValue];
+//    self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",price];
+//}
+//
+////减少
+//-(void)didClickDecrease
+//{
+//    if (self.priceNum<1)
+//    {
+//        return;
+//    }
+//    else
+//    {
+//        self.priceNum-=1;
+//        buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
+//        CGFloat price = self.priceNum*[self.proPriceStr doubleValue];
+//        self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",price];
+//    }
+//}
 
 //提交申请
 -(void)didClickRefundBtn
@@ -133,7 +133,7 @@
         [self showHudFailed:@"退款金额不能为0"];
         return;
     }
-    [dic setObject:buyNumLab.text forKey:@"Count"];
+    [dic setObject:self.proNumStr forKey:@"Count"];
     if ([self.refundText.text isEqualToString:@""])
     {
         [self showHudFailed:@"请填写退款理由"];

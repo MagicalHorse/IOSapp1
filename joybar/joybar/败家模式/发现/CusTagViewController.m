@@ -90,7 +90,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:self.BrandId forKey:@"BrandId"];
-//    [dic setValue:self.BrandName forKey:@"Name"];
+    [dic setValue:self.BrandName forKey:@"Name"];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dic setValue:@"24" forKey:@"PageSize"];
     [self hudShow];

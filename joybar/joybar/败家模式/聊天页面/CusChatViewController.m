@@ -711,19 +711,8 @@
         VC.productId = [msgDic objectForKey:@"productId"];
         [self.navigationController pushViewController: VC animated:YES];
     }
-    if ([[msgDic objectForKey:@"type"] isEqualToString:@"img"])
-    {
-        [self setBigImageView];
-    }
 
 }
-
--(void)setBigImageView
-{
-    UIImageView *bigImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-    
-}
-
 
 //-(void)didClickTableView
 //{
