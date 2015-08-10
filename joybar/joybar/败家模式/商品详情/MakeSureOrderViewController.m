@@ -95,7 +95,12 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    BOOL isShow = [self.detailData.Promotion.IsShow boolValue];
+    if (isShow)
+    {
+        return 4;
+    }
+    return 3;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -111,12 +116,37 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==0)
-    {
-        return 3;
-    }
+    BOOL isShow = [self.detailData.Promotion.IsShow boolValue];
     
-    return 1;
+    if (isShow)
+    {
+        if (section==0)
+        {
+            return 3;
+        }
+        else
+        {
+            return 1;
+        }
+
+    }
+    else
+    {
+        if (section==0)
+        {
+            return 3;
+        }
+        else if (section==3)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+        
+  
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -190,7 +220,10 @@
         cell.buyNum=self.buyNum;
         cell.sizeName = self.sizeName;
         cell.priceDic = self.priceDic;
-        [cell setData:self.detailData];
+        if (self.priceDic)
+        {
+            [cell setData:self.detailData];
+        }
         return cell;
         
     }

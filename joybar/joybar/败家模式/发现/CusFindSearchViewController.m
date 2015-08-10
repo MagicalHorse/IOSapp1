@@ -267,8 +267,10 @@
     [self hudShow];
     [HttpTool postWithURL:@"Search/Search" params:dic success:^(id json) {
         
+        [self.searchArr removeAllObjects];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
+            
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
             [self.searchArr addObjectsFromArray:arr];
             [self.tableView reloadData];

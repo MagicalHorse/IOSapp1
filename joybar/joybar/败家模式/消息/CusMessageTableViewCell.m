@@ -68,7 +68,7 @@
     [self.contentView addSubview:lastMsg];
     
     UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-40, namelab.top, 40, 20)];
-    timeLab.text = [dic objectForKey:@"UpdateTime"];
+    timeLab.text = [dic objectForKey:@"UnReadLastTime"];
     timeLab.font = [UIFont systemFontOfSize:13];
     timeLab.textColor = [UIColor lightGrayColor];
     [self.contentView addSubview:timeLab];
