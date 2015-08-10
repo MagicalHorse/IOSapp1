@@ -413,7 +413,7 @@
 
 - (CGRect)contentBounds
 {
-    return CGRectMake(0.0f, 0.0f, self.boundsWidth, self.boundsHeight);
+    return CGRectMake(0.0f, 0, self.boundsWidth, self.boundsHeight-60);
 }
 
 - (CGPoint)contentCenter
