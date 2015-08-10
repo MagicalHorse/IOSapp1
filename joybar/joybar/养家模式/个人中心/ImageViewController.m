@@ -56,12 +56,12 @@
     
     CGFloat hideViewH =kScreenHeight-64-70-kScreenWidth;
     _hideView=[[UIView alloc]initWithFrame:CGRectMake(0, kScreenWidth+64, kScreenWidth, hideViewH)];
-    _hideView.backgroundColor =[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1];
+    _hideView.backgroundColor =[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.7];
     [self.view addSubview:_hideView];
     
     UIView *hview =[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
     
-    hview.backgroundColor =[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.6];
+    hview.backgroundColor =[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:1];
     [self.view addSubview:hview];
     
     CGFloat btnY =  (kScreenHeight-70);
