@@ -60,12 +60,13 @@
     [bgView addSubview:registerAuthText];
     
     authBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    authBtn.frame = CGRectMake(kScreenWidth-75, 10, 132/2, 56/2);
+    authBtn.frame = CGRectMake(kScreenWidth-75, 10, 132/2, 56/1.8);
     [authBtn setTitle:@"验证" forState:(UIControlStateNormal)];
     authBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
     authBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    authBtn.layer.cornerRadius = authBtn.height/2;
+    authBtn.backgroundColor = [UIColor redColor];
     [authBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    [authBtn setBackgroundImage:[UIImage imageNamed:@"yanzheng.png"] forState:(UIControlStateNormal)];
     [authBtn addTarget:self action:@selector(didCilckGetAuthCode) forControlEvents:(UIControlEventTouchUpInside)];
     authBtn.hidden = YES;
     [bgView addSubview:authBtn];
@@ -76,6 +77,7 @@
     submitBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [submitBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     submitBtn.layer.cornerRadius = 3;
+    
     submitBtn.backgroundColor = kCustomColor(253, 137, 83);
     [submitBtn addTarget:self action:@selector(didClickSubmit) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:submitBtn];
@@ -126,7 +128,7 @@
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
     
     [HttpTool postWithURL:@"User/BindMobile" params:dic success:^(id json) {
-        if ([json objectForKey:@"isSuccessful"])
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             [self showHudSuccess:@"绑定成功"];
             NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
@@ -144,6 +146,7 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
     } failure:^(NSError *error) {
+        
     }];
 }
 

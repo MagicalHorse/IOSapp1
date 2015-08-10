@@ -85,7 +85,8 @@
     priceLab.textAlignment = NSTextAlignmentRight;
 //    CGFloat price = [self.detailData.Price floatValue]*[self.buyNum floatValue];
 //    NSLog(@"%f",price);
-    priceLab.text = [NSString stringWithFormat:@"合计: ￥%@",[self.priceDic objectForKey:@"saletotalamount"]];
+    
+    priceLab.text = [NSString stringWithFormat:@"合计: ￥%.2f",[[self.priceDic objectForKey:@"saletotalamount"] floatValue]];
     priceLab.textColor = [UIColor redColor];
     priceLab.font = [UIFont systemFontOfSize:16];
     [bottomView addSubview:priceLab];
@@ -94,7 +95,12 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    BOOL isShow = [self.detailData.Promotion.IsShow boolValue];
+    if (isShow)
+    {
+        return 4;
+    }
+    return 3;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -110,12 +116,37 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section==0)
-    {
-        return 3;
-    }
+    BOOL isShow = [self.detailData.Promotion.IsShow boolValue];
     
-    return 1;
+    if (isShow)
+    {
+        if (section==0)
+        {
+            return 3;
+        }
+        else
+        {
+            return 1;
+        }
+
+    }
+    else
+    {
+        if (section==0)
+        {
+            return 3;
+        }
+        else if (section==3)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+        
+  
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -154,7 +185,7 @@
         {
             msgLab.numberOfLines = 0;
             CGSize size = [Public getContentSizeWith:[msgArr objectAtIndex:indexPath.row] andFontSize:15 andWidth:kScreenWidth-110];
-            msgLab.frame = CGRectMake(lab.right+10, 15, kScreenWidth-110, size.height);
+            msgLab.frame = CGRectMake(lab.right+10, 16, kScreenWidth-110, size.height);
         }
         
         if (indexPath.row==0)
@@ -189,7 +220,10 @@
         cell.buyNum=self.buyNum;
         cell.sizeName = self.sizeName;
         cell.priceDic = self.priceDic;
-        [cell setData:self.detailData];
+        if (self.priceDic)
+        {
+            [cell setData:self.detailData];
+        }
         return cell;
         
     }
@@ -271,7 +305,7 @@
         {
             CGSize size = [Public getContentSizeWith:self.detailData.ProductName andFontSize:15 andWidth:kScreenWidth-110];
             
-            return size.height+30;
+            return size.height+35;
         }
         return 50;
     }

@@ -194,7 +194,7 @@
         desLab.textColor = [UIColor lightGrayColor];
         [cell.contentView addSubview:desLab];
         
-        UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-220, 50, 200, 40)];
+        UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-220, 20, 200, 40)];
         priceLab.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"Price"]];
         priceLab.font = [UIFont systemFontOfSize:15];
         priceLab.textAlignment = NSTextAlignmentRight;

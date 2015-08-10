@@ -20,6 +20,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     application.statusBarHidden = NO;
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
         //可以添加自定义categories
@@ -38,7 +39,7 @@
     [UMSocialData setAppKey:@"557f8f1c67e58edf32000208"];
     //向微信注册
     [WXApi registerApp:APP_ID];
-
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self connectionSoctet];
@@ -50,12 +51,12 @@
     {
         [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
     }
-
+    
     _cusTabbar = [[CusTabBarViewController alloc] init];
     BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:_cusTabbar];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
-
+    
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
         [self _initWithScrollViewForSoftHelp];
@@ -95,22 +96,24 @@
     NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
     self.latitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
     self.longitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
-//    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-//    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-//        for (CLPlacemark * placemark in placemarks) {
-//            
-//            NSDictionary *test = [placemark addressDictionary];
-//            //  Country(国家)  State(城市)  SubLocality(区)
-//            NSLog(@"%@", [test objectForKey:@"State"]);
-//        }
-//    }];
+    //    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    //    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+    //        for (CLPlacemark * placemark in placemarks) {
+    //
+    //            NSDictionary *test = [placemark addressDictionary];
+    //            //  Country(国家)  State(城市)  SubLocality(区)
+    //            NSLog(@"%@", [test objectForKey:@"State"]);
+    //        }
+    //    }];
 }
 
--(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"定位失败" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重新定位", nil];
-    [alert show];
-}
+
+
+//-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+//{
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"定位失败" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"重新定位", nil];
+//    [alert show];
+//}
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -133,7 +136,7 @@
     {
         helpImageArray= @[@"img1",@"img2",@"img3",@"img4"];
     }
-
+    
     UIScrollView *helpScrollView = [[UIScrollView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     helpScrollView.backgroundColor = [UIColor clearColor];
     helpScrollView.pagingEnabled = YES;
@@ -144,7 +147,7 @@
     helpScrollView.bounces = NO;
     helpScrollView.contentSize = CGSizeMake(kScreenWidth*[helpImageArray count], kScreenHeight);
     [self.window addSubview:helpScrollView];
-
+    
     for (int i = 0; i < [helpImageArray count]; i++)
     {
         UIImageView *helpImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth*i, 0, helpScrollView.width, helpScrollView.height)];
@@ -259,7 +262,7 @@ forRemoteNotification:(NSDictionary *)userInfo
 {
     [APService handleRemoteNotification:userInfo];
     NSString *type = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"type"]];
-
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[userInfo objectForKey:@"title"] message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
     [alert show];
     
@@ -283,7 +286,7 @@ forRemoteNotification:(NSDictionary *)userInfo
         }
             
             break;
-
+            
         default:
             break;
     }
@@ -317,7 +320,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-
+    
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
@@ -331,7 +334,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-//    return [WXApi handleOpenURL:url delegate:self];
+    //    return [WXApi handleOpenURL:url delegate:self];
     
     return  [UMSocialSnsService handleOpenURL:url];
 }
@@ -339,7 +342,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
          annotation:(id)annotation
 {
     NSString *urlStr = [NSString stringWithFormat:@"%@",url];
-
+    
     if ([urlStr isEqualToString:@"wx281aa8c2686c0e7c://platformId=wechat"])
     {
         return  [UMSocialSnsService handleOpenURL:url];
@@ -356,7 +359,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 //============================================================
 
 - (void)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price
-{    
+{
     //创建支付签名对象
     payRequsestHandler *req = [payRequsestHandler alloc];
     //初始化支付签名对象
@@ -416,27 +419,37 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
         //错误提示
         NSString *debug = [req getDebugifo];
         
-        [self alert:@"提示信息" msg:debug];
+//        [self alert:@"提示信息" msg:debug];
         
         NSLog(@"%@\n\n",debug);
     }
     else
     {
         NSLog(@"%@\n\n",[req getDebugifo]);
-        //[self alert:@"确认" msg:@"下单成功，点击OK后调起支付！"];
+        //        [self alert:@"确认" msg:@"下单成功，点击OK后调起支付！"];
         
         NSMutableString *stamp  = [dict objectForKey:@"timestamp"];
-        
-        //调起微信支付
-        PayReq* req             = [[PayReq alloc] init];
-        req.openID              = [dict objectForKey:@"appid"];
-        req.partnerId           = [dict objectForKey:@"partnerid"];
-        req.prepayId            = [dict objectForKey:@"prepayid"];
-        req.nonceStr            = [dict objectForKey:@"noncestr"];
-        req.timeStamp           = stamp.intValue;
-        req.package             = [dict objectForKey:@"package"];
-        req.sign                = [dict objectForKey:@"sign"];
-        [WXApi sendReq:req];
+        NSMutableString *retcode = [dict objectForKey:@"retcode"];
+
+        if (retcode.intValue == 0)
+        {
+            
+            //调起微信支付
+            PayReq* req             = [[PayReq alloc] init];
+            req.openID              = [dict objectForKey:@"appid"];
+            req.partnerId           = [dict objectForKey:@"partnerid"];
+            req.prepayId            = [dict objectForKey:@"prepayid"];
+            req.nonceStr            = [dict objectForKey:@"noncestr"];
+            req.timeStamp           = stamp.intValue;
+            req.package             = [dict objectForKey:@"package"];
+            req.sign                = [dict objectForKey:@"sign"];
+            [WXApi sendReq:req];
+        }
+        else
+        {
+            [self alert:@"提示信息" msg:[dict objectForKey:@"retmsg"]];
+        }
+
     }
 }
 
@@ -482,6 +495,12 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
                 break;
         }
     }
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PaySuccessNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PayCancleNotification" object:nil];
 }
 
 @end
