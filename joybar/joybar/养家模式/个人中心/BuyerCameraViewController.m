@@ -52,7 +52,7 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.camera = [[LLSimpleCamera alloc] initWithQuality:CameraQualityPhoto];
     [self.camera attachToViewController:self withDelegate:self];
-    CGFloat camreaH =kScreenHeight-64-120;
+    CGFloat camreaH =kScreenHeight-64-100;
     self.camera.view.frame = CGRectMake(0, 64, kScreenWidth,camreaH );
     self.camera.fixOrientationAfterCapture = NO;
     
@@ -63,13 +63,13 @@
     // snap button to capture image
     
     CGFloat btnY =  (kScreenHeight-70);
-    UIButton * btn=[[UIButton alloc]initWithFrame:CGRectMake(0,btnY-25, 70, 70)];
+    UIButton * btn=[[UIButton alloc]initWithFrame:CGRectMake(0,btnY-5, 70, 70)];
     [btn setImage:[UIImage imageNamed:@"shanchu1"] forState:UIControlStateNormal];
 
     [btn addTarget:self action:@selector(closeBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
-    _chooseBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-80,btnY-25, 70, 70)];
+    _chooseBtn=[[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-80,btnY-5, 70, 70)];
     [_chooseBtn setTitle:@"相册" forState:UIControlStateNormal];
     _chooseBtn.titleLabel.font = [UIFont systemFontOfSize:18];
     [_chooseBtn addTarget:self action:@selector(chooseClick) forControlEvents:UIControlEventTouchUpInside];
@@ -78,7 +78,7 @@
 
     
     self.snapButton = [[UIButton alloc]init];
-    self.snapButton.frame = CGRectMake((kScreenWidth-70)*0.5,btnY-20, 70.0f, 70.0f);
+    self.snapButton.frame = CGRectMake((kScreenWidth-70)*0.5,btnY-5, 70.0f, 70.0f);
     [self.snapButton setImage:[UIImage imageNamed:@"paizhao"] forState:UIControlStateNormal];
     [self.snapButton addTarget:self action:@selector(snapButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.snapButton];
