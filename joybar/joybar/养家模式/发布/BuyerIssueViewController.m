@@ -802,7 +802,6 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     [self.priceText1 resignFirstResponder];
     [self.priceText resignFirstResponder];
-    [self.dscText resignFirstResponder];
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView{
