@@ -199,7 +199,7 @@
 -(void)connectionSoctet{
     
     NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
-    if (tempName.length>0) {
+    if (tempName) {
         [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
             [SocketManager socketManager].socket = socket;
             [socket on: @"connect" callback: ^(SIOParameterArray *args) {
@@ -338,7 +338,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     NSString *tempName= [[Public getUserInfo] objectForKey:@"id"];
-    if (tempName.length>0) {
+    if (tempName) {
         [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
             [SocketManager socketManager].socket = socket;
             [socket on: @"connect" callback: ^(SIOParameterArray *args) {
