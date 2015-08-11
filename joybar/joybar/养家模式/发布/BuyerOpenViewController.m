@@ -90,9 +90,11 @@
             [self addBigView:decodedImage AndNo:no AndPrice:priceText];
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
+            self.btn.userInteractionEnabled=YES;
         }
         [self textHUDHiddle];
     } failure:^(NSError *error) {
+        self.btn.userInteractionEnabled=YES;
         [self textHUDHiddle];
     }];
     
