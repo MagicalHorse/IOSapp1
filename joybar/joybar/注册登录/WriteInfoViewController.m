@@ -160,8 +160,8 @@
         [self hiddleHud];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
+            [self cconnectSocket];
             NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
-            
             NSArray *allKeys = [userInfoDic allKeys];
             for (NSString *key in allKeys)
             {
@@ -184,6 +184,19 @@
         
     } failure:^(NSError *error) {
         [self hiddleHud];
+    }];
+}
+
+-(void)cconnectSocket
+{
+    
+    NSString *userId = [[Public getUserInfo] objectForKey:@"id"];
+    [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
+        [SocketManager socketManager].socket = socket;
+        [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+            [socket emit:@"onLine" args:@[userId]];
+            NSLog(@"connnection is success:%@",[args description]);
+        }];
     }];
 }
 

@@ -33,25 +33,22 @@
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"支付成功" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
     [alert show];
-
 }
 
 -(void)payCancelHandle
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:2] animated:YES];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:2] animated:YES];
 }
-
 
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PaySuccessNotification" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PayCancleNotification" object:nil];
-
 }
 
 @end
