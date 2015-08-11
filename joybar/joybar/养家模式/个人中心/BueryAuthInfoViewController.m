@@ -115,9 +115,9 @@
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [self hiddleHud];
+        [self textHUDHiddle];
     } failure:^(NSError *error) {
-        [self hiddleHud];
+        [self textHUDHiddle];
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
     }];
 }
