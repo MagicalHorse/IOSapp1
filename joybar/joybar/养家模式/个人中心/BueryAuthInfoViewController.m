@@ -429,16 +429,30 @@
     if(self.field1.text.length==0){
         [self showHudFailed:@"请选择商场名称"];
         return;
-    }else if (self.field2.text.length==0) {
+    }else if(self.field1.text.length >50){
+        [self showHudFailed:@"商场名称不能大于50字"];
+        return;
+    }
+    else if (self.field2.text.length==0) {
         [self showHudFailed:@"请填写专柜名称"];
+        return;
+    }else if (self.field2.text.length>50) {
+        [self showHudFailed:@"专柜名称不能大于50字"];
         return;
     }else if(self.field3.text.length==0){
         [self showHudFailed:@"请填写专柜位置"];
         return;
+    }else if(self.field3.text.length>50){
+        [self showHudFailed:@"专柜位置不能大于50字"];
+        return;
     }else if([self.dscText.text isEqualToString:@"详细地址（顾客支付后，到专柜提货的地址，请务必正确填写，否则会影响收款确认）"] ||self.dscText.text.length ==0){
         [self showHudFailed:@"请填写详细地址"];
         return;
-    }else if([self.cityLable.text isEqualToString:@"请选择省"]){
+    }else if(self.dscText.text.length >500){
+        [self showHudFailed:@"详细地址不能大于500字"];
+        return;
+    }
+    else if([self.cityLable.text isEqualToString:@"请选择省"]){
         [self showHudFailed:@"请选择省"];
         return;
     }else if([self.shiLable.text isEqualToString:@"请选择市"]){
