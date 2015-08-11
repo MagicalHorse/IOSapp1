@@ -203,8 +203,13 @@
         [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
             [SocketManager socketManager].socket = socket;
             [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-                [socket emit:@"onLine" args:@[tempName]];
                 NSLog(@"connnection is success:%@",[args description]);
+            }];
+            [socket emit:@"online" args:@[tempName]];
+
+            
+            [socket on:@"room message" callback:^(NSArray *args) {
+                NSLog(@"%@",[args description]);
             }];
         }];
     }
@@ -337,16 +342,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    NSString *tempName= [[Public getUserInfo] objectForKey:@"id"];
-    if (tempName) {
-        [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
-            [SocketManager socketManager].socket = socket;
-            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-                [socket emit:@"onLine" args:@[tempName]];
-                NSLog(@"connnection is success:%@",[args description]);
-            }];
-        }];
-    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
