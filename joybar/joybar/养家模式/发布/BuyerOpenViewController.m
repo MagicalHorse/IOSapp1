@@ -85,8 +85,9 @@
             }
             
             NSString *no =[[json objectForKey:@"data"]objectForKey:@"ProductName"];
-            NSString *price =[[[json objectForKey:@"data"] objectForKey:@"Amount"]stringValue];
-            [self addBigView:decodedImage AndNo:no AndPrice:price];
+            float price =[[[json objectForKey:@"data"] objectForKey:@"Amount"] floatValue];
+            NSString *priceText =[NSString stringWithFormat:@"%.2f",price];
+            [self addBigView:decodedImage AndNo:no AndPrice:priceText];
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
         }
