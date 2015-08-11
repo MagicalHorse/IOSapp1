@@ -277,7 +277,7 @@
     
     NSArray *nameArr = @[@[@"头像",@"昵称"],@[@"账户密码",@"消息免打扰",@"手机号绑定",@"微信绑定"],@[@"关于我们"]];
     cell.textLabel.text = [[nameArr objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize:18];
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
 
     if (indexPath.section==0)
     {

@@ -14,6 +14,7 @@
 #import "ProductPicture.h"
 #import "HomePicTag.h"
 #import "CusTagViewController.h"
+#import "CusHomeStoreViewController.h"
 @interface CusBuyerDetailViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
@@ -68,7 +69,11 @@
     [headerImage sd_setImageWithURL:[NSURL URLWithString:proData.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     headerImage.layer.cornerRadius = headerImage.width/2;
     headerImage.clipsToBounds = YES;
+    headerImage.userInteractionEnabled = YES;
     [self.scrollView addSubview:headerImage];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCLickToStore)];
+    [headerImage addGestureRecognizer:tap];
     
     UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(0, headerImage.bottom+5, kScreenWidth, 20)];
     nameLab.text = proData.BuyerName;
@@ -558,6 +563,15 @@
     CusTagViewController *VC = [[CusTagViewController alloc] init];
     VC.BrandId = proTags.SourceId;
     VC.BrandName = proTags.Name;
+    [self.navigationController pushViewController:VC animated:YES];
+}
+
+//点击头像
+-(void)didCLickToStore
+{
+    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    VC.userId = prodata.BuyerId;
+    VC.userName = prodata.BuyerName;
     [self.navigationController pushViewController:VC animated:YES];
 }
 

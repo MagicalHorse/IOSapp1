@@ -232,7 +232,7 @@
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
     [dict setObject:st.ProductId forKey:@"Id"];
     [dict setObject:@"1" forKey:@"Status"];
-    [HttpTool postWithURL:@"Product/OnLine" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"Product/onLine" params:dict success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             [self.dataArray removeObject:st];

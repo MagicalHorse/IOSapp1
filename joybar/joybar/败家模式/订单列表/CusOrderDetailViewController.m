@@ -29,6 +29,8 @@
 {
     UIButton *payBtn;
     UIButton *cancelBtn;
+    UIButton *shareBtn;
+    UILabel *shareLab;
 }
 - (void)viewDidLoad
 {
@@ -56,6 +58,17 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.detailData = [OrderDetailData objectWithKeyValues:[json objectForKey:@"data"]];
+            
+            if ([self.detailData.IsShareable boolValue])
+            {
+                shareBtn.hidden = NO;
+                shareLab.hidden = NO;
+            }
+            else
+            {
+                shareBtn.hidden = YES;
+                shareLab.hidden = YES;
+            }
             [self.tableView reloadData];
             /*
              待付款"  0,
@@ -134,17 +147,19 @@
     lab.font = [UIFont systemFontOfSize:11];
     [bottomView addSubview:lab];
     
-    UIButton *shareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    shareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     shareBtn.frame = CGRectMake(70, -5, 60, 49);
     [shareBtn setImage:[UIImage imageNamed:@"现金分享icon"] forState:(UIControlStateNormal)];
+    shareBtn.hidden = YES;
     [shareBtn addTarget:self action:@selector(didCLickShareBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:shareBtn];
     
-    UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(70, 28, 60, 20)];
-    lab1.textAlignment = NSTextAlignmentCenter;
-    lab1.text = @"现金分享";
-    lab1.font = [UIFont systemFontOfSize:11];
-    [bottomView addSubview:lab1];
+    shareLab = [[UILabel alloc] initWithFrame:CGRectMake(70, 28, 60, 20)];
+    shareLab.textAlignment = NSTextAlignmentCenter;
+    shareLab.text = @"现金分享";
+    shareLab.hidden = YES;
+    shareLab.font = [UIFont systemFontOfSize:11];
+    [bottomView addSubview:shareLab];
 
     payBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     payBtn.frame = CGRectMake(kScreenWidth-90, 10, 70, 30);
@@ -425,13 +440,12 @@
             
             [UMSocialSnsService presentSnsIconSheetView:self
                                                  appKey:@"557f8f1c67e58edf32000208"
-                                              shareText:[NSString stringWithFormat:@"快看！这里有一件超值的%@商品",self.detailData.ProductName]
+                                              shareText:self.detailData.ShareDesc
                                              shareImage:image
                                         shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                                delegate:self];
         }];
     }else{
-        
         
         [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:nil];
         
@@ -509,8 +523,8 @@
         NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
         
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        [dic setObject:self.detailData.ProductId forKey:@"productid"];
-        [HttpTool postWithURL:@"Product/CreateShare" params:dic success:^(id json) {
+        [dic setObject:self.detailData.OrderNo forKey:@"OrderNo"];
+        [HttpTool postWithURL:@"Order/CreateShare" params:dic success:^(id json) {
             
         } failure:^(NSError *error) {
             

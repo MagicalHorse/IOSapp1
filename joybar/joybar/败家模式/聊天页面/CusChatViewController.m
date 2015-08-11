@@ -817,6 +817,8 @@
         self.sizeNum = size.Inventory;
         self.sizeName = size.Size;
         kuCunLab.text = [NSString stringWithFormat:@"库存%@件",size.Inventory];
+        self.priceNum = 0;
+        buyNumLab.text = @"0";
     };
 
     UIView *line1 = [[UIView alloc] init];

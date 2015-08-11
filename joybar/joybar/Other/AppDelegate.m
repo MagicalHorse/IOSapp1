@@ -49,14 +49,14 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    [self connectionSoctet];
-    
     
     NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     
     if (![userId isEqualToString:@"(null)"])
     {
         [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
+        [self connectionSoctet];
+
     }
     
     _cusTabbar = [[CusTabBarViewController alloc] init];
@@ -113,8 +113,6 @@
     //        }
     //    }];
 }
-
-
 
 //-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 //{
@@ -193,23 +191,29 @@
     [application cancelAllLocalNotifications];
 }
 
-
-
 //socket
 -(void)connectionSoctet{
     
     NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
-    if (tempName.length>0) {
+    if (tempName)
+    {
         [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
             [SocketManager socketManager].socket = socket;
             [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-                [socket emit:@"onLine" args:@[tempName]];
                 NSLog(@"connnection is success:%@",[args description]);
+                
+                [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
+                    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
+                    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+                    [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
+                }];
+
             }];
+            
+            [socket emit:@"online" args:@[tempName]];
+
         }];
     }
-    
-   
 }
 //阿里云
 -(void)aliyunSet{
@@ -342,7 +346,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
         [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
             [SocketManager socketManager].socket = socket;
             [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-                [socket emit:@"onLine" args:@[tempName]];
+                [socket emit:@"online" args:@[tempName]];
                 NSLog(@"connnection is success:%@",[args description]);
             }];
         }];
