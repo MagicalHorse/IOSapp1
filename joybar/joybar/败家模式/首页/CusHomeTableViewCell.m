@@ -65,7 +65,6 @@
     for (int i=0; i<self.homePro.ProductPic.Tags.count; i++)
     {
         HomePicTag *tag = [self.homePro.ProductPic.Tags objectAtIndex:i];
-        NSLog(@"%@",tag.Name);
 
         CGSize size = [Public getContentSizeWith:tag.Name andFontSize:13 andHigth:20];
         CGFloat x = [tag.PosX floatValue]*kScreenWidth;

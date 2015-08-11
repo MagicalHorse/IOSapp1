@@ -92,8 +92,25 @@
         [btn.layer setMasksToBounds:YES];
         [btn.layer setCornerRadius:CORNER_RADIUS];
         btn.tag = 1000+i;
+//        if (i==0)
+//        {
+//            btn.backgroundColor = [UIColor orangeColor];
+//            [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+//            if (self.clickBtnBlock)
+//            {
+//                self.clickBtnBlock(btn,btn.tag-1000);
+//            }
+//        }
+//        else
+//        {
+//            btn.backgroundColor = BACKGROUND_COLOR;
+//            [btn setTitleColor:TEXT_COLOR forState:(UIControlStateNormal)];
+//            btn.selected = NO;
+//        }
+
         [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
         [self addSubview:btn];
+        
         [self.buttonArr addObject:btn];
     }
     sizeFit = CGSizeMake(self.frame.size.width, totalHeight + 1.0f);

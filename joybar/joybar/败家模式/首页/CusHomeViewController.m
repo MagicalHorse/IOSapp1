@@ -173,7 +173,6 @@
             VC.myBuyerPageNum++;
             [VC getMyBuyerData:YES];
         };
-
     }
 }
 
