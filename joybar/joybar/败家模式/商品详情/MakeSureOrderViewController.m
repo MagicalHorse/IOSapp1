@@ -288,7 +288,9 @@
         
         UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
         lab1.textAlignment = NSTextAlignmentRight;
-        lab1.text = [NSString stringWithFormat:@"立减 %@",[self.priceDic objectForKey:@"discountamount"]];
+        if (self.priceDic) {
+            lab1.text = [NSString stringWithFormat:@"立减 %.2f",[[self.priceDic objectForKey:@"discountamount"] floatValue]];
+        }
         lab1.font = [UIFont systemFontOfSize:14];
         [cell.contentView addSubview:lab1];
 

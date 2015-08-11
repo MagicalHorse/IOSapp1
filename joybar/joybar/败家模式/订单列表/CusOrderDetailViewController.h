@@ -17,6 +17,7 @@
 @interface CusOrderDetailViewController : BaseViewController
 
 @property (nonatomic ,strong) NSString *orderId;
+@property (nonatomic ,strong) NSString *fromType;
 
 @property (nonatomic ,assign) id<orderDelegate> delegate;
 @end

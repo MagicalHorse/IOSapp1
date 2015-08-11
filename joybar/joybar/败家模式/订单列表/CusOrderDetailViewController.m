@@ -681,4 +681,18 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+
+-(void)returnBtnClicked:(UIButton *)button
+{
+    if ([self.fromType isEqualToString:@"orderList"])
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else
+    {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
+
+
 @end

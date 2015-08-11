@@ -898,11 +898,8 @@
     [buyBgView addSubview:finishBtn];
     
     [UIView animateWithDuration:0.25 animations:^{
-        
         buyBgView.frame = CGRectMake(0, kScreenHeight-240-height-20, kScreenWidth, 240+height+20);
-        
     }];
-    
 }
 
 //增加
@@ -944,7 +941,7 @@
 -(void)didClickCancelBtn
 {
     [tempView removeFromSuperview];
-    self.sizeId = @"";
+    self.sizeId = nil;
     self.priceNum = 0;
     
     [UIView animateWithDuration:0.25 animations:^{

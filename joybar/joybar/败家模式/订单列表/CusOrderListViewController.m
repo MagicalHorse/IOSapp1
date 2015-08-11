@@ -160,6 +160,7 @@
     OrderListItem *item = [self.orderListData.items objectAtIndex:indexPath.row];
     VC.delegate = self;
     VC.orderId = item.OrderNo;
+    VC.fromType = @"orderList";
     [self.navigationController pushViewController:VC animated:YES];
     
 //    CusRefundPriceViewController *VC = [[CusRefundPriceViewController alloc] init];
