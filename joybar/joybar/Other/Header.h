@@ -29,8 +29,8 @@
 #define AlySecretKey  @"IfGB5txNXBv0vv7Z5qERPH1Bp4DLtn"
 #define AlyBucket @"apprss"
 #define AlyBucketHostId @"oss-cn-beijing.aliyuncs.com"
-//#define SocketUrl @"http://182.92.7.70:8000/chat"
-#define SocketUrl @"http://182.92.7.70:8001/chat"
+//#define SocketUrl @"http://182.92.7.70:8000/chat" //测试
+#define SocketUrl @"http://182.92.7.70:8001/chat"//开发
 
 #define APP_ID          @"wx281aa8c2686c0e7c"               //APPID
 #define APP_SECRET      @"1a8fd52d8cb2b6099b1c4c669e5e2717" //appsecret
