@@ -347,6 +347,7 @@
                 lab1.text = [NSString stringWithFormat:@"立减 %@元",promotion.Amount];
                 lab1.font = [UIFont systemFontOfSize:14];
                 [cell.contentView addSubview:lab1];
+                
             }
         }
         return cell;

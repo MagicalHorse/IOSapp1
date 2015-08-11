@@ -305,12 +305,12 @@
     [HttpTool postWithURL:@"user/Login" params:dic success:^(id json) {
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
             
+            [self cconnectSocket];
+            NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
             NSArray *allKeys = [userInfoDic allKeys];
             for (NSString *key in allKeys)
             {
-                
                 NSString *value = [userInfoDic objectForKey:key];
                 if ([value isEqual:[NSNull null]])
                 {
@@ -469,6 +469,7 @@
         [self textHUDHiddle];
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
+            [self cconnectSocket];
             NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
             
             NSArray *allKeys = [userInfoDic allKeys];
@@ -509,6 +510,20 @@
     [scroll endEditing:YES];
 }
 
+
+
+-(void)cconnectSocket
+{
+    
+    NSString *userId = [[Public getUserInfo] objectForKey:@"id"];
+    [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
+        [SocketManager socketManager].socket = socket;
+        [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+            [socket emit:@"onLine" args:@[userId]];
+            NSLog(@"connnection is success:%@",[args description]);
+        }];
+    }];
+}
 
 
 
