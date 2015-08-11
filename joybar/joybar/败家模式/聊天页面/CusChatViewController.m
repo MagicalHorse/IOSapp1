@@ -87,15 +87,12 @@
     [[SocketManager  socketManager].socket emit:@"leaveRoom"];
 }
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-        
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
         [HttpTool postWithURL:@"User/GetUserLogo" params:dict success:^(id json) {
@@ -103,7 +100,7 @@
             [dic setObject:[json objectForKey:@"logo"] forKey:@"logo"];
             [self.messageArr addObject:dic];
             [self.tableView reloadData];
-            [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
             
         } failure:^(NSError *error) {
             
@@ -238,19 +235,13 @@
             
             if (isRefresh)
             {
-                [self.tableView setContentOffset:CGPointMake(0, arr.count*170) animated:NO];
+                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:arr.count inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
             }
             else
             {
-                if (self.tableView.contentSize.height>kScreenHeight-64-49)
-                {
-                    [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
-                }
-                else
-                {
-                    [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
-                }
+                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
             }
+
         }
         else
         {
@@ -520,7 +511,9 @@
     listView.messageTF.text = @"";
     [self.tableView reloadData];
 
-     [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
+    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+
+//     [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
 }
 
 
@@ -831,7 +824,6 @@
     else
     {
         line1.frame =CGRectMake(10, sizeBtn.bottom+23, kScreenWidth-10, 0.5);
-
     }
     line1.backgroundColor = [UIColor lightGrayColor];
     [buyBgView addSubview:line1];

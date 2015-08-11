@@ -200,7 +200,11 @@
         [socket on: @"connect" callback: ^(SIOParameterArray *args) {
             
             NSLog(@"connnection is success:%@",[args description]);
-            
+            [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
+                
+            }];
+
         }];
     }];
 }
