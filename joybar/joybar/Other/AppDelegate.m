@@ -192,13 +192,16 @@
 -(void)connectionSoctet{
     
     NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
-    [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
-        [SocketManager socketManager].socket = socket;
-        [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-            [socket emit:@"onLine" args:@[tempName]];
-            NSLog(@"connnection is success:%@",[args description]);
+    if (tempName.length>0) {
+        [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
+            [SocketManager socketManager].socket = socket;
+            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+                [socket emit:@"onLine" args:@[tempName]];
+                NSLog(@"connnection is success:%@",[args description]);
+            }];
         }];
-    }];
+    }
+    
    
 }
 //阿里云
@@ -329,13 +332,15 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     NSString *tempName= [[Public getUserInfo] objectForKey:@"id"];
-    [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
-        [SocketManager socketManager].socket = socket;
-        [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-            [socket emit:@"onLine" args:@[tempName]];
-            NSLog(@"connnection is success:%@",[args description]);
+    if (tempName.length>0) {
+        [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
+            [SocketManager socketManager].socket = socket;
+            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+                [socket emit:@"onLine" args:@[tempName]];
+                NSLog(@"connnection is success:%@",[args description]);
+            }];
         }];
-    }];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
