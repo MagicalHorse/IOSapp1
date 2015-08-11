@@ -412,19 +412,90 @@
         return;
     }
     
-    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:self.detailData.ShareLink];
+    NSDictionary *userInfo= [Public getUserInfo];
+    BOOL bing= [[userInfo objectForKey:@"IsBindWeiXin"]boolValue];
+    if (bing) {
+        
+        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:self.detailData.ShareLink];
+        
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.detailData.ProductPic]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            
+            [UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:@"557f8f1c67e58edf32000208"
+                                              shareText:[NSString stringWithFormat:@"快看！这里有一件超值的%@商品",self.detailData.ProductName]
+                                             shareImage:image
+                                        shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
+                                               delegate:self];
+        }];
+    }else{
+        
+        
+        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:nil];
+        
+        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+        
+        snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
+            
+            if (response.responseCode == UMSResponseCodeSuccess) {
+                
+                UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary]valueForKey:UMShareToWechatSession];
+                
+                NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
+                [self hudShow:@"正在登录..."];
+                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",snsAccount.accessToken,snsAccount.openId]];
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                    
+                    NSString *str1 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                    [self WXLogin:str1];
+                }];
+                
+                
+            }
+        });
+        
+    }
     
-    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.detailData.ProductPic]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    
+}
+-(void)WXLogin:(NSString *)str
+{
+    NSMutableDictionary *dic =[NSMutableDictionary dictionary];
+    [dic setObject:str forKey:@"json"];
+    [dic setObject:APP_ID forKey:@"appid"];
+    [HttpTool postWithURL:@"User/BindOutSideUser" params:dic success:^(id json) {
         
-    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        [self textHUDHiddle];
+        if([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
+            
+            NSArray *allKeys = [userInfoDic allKeys];
+            for (NSString *key in allKeys)
+            {
+                
+                NSString *value = [userInfoDic objectForKey:key];
+                if ([value isEqual:[NSNull null]])
+                {
+                    [userInfoDic setObject:@"" forKey:key];
+                }
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:userInfoDic forKey:@"userInfo"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
         
-        [UMSocialSnsService presentSnsIconSheetView:self
-                                             appKey:@"557f8f1c67e58edf32000208"
-                                          shareText:[NSString stringWithFormat:@"快看！这里有一件超值的%@商品",self.detailData.ProductName]
-                                         shareImage:image
-                                    shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
-                                           delegate:self];
+    } failure:^(NSError *error) {
     }];
+    
 }
 
 //实现回调方法（可选）：
