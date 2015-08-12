@@ -321,13 +321,12 @@
 
     if (!self.pickerView) {
         //添加_pickerView
-        CGFloat w = [UIScreen mainScreen].bounds.size.width;
         CGFloat h = 250;
         CGFloat y =[UIScreen mainScreen].bounds.size.height-h;
         CGFloat x =0;
-        self.footView=  [[UIView alloc]initWithFrame:CGRectMake(x, y, w, h)];
+        self.footView=  [[UIView alloc]initWithFrame:CGRectMake(x, y, kScreenWidth, h)];
         self.footView.backgroundColor=kCustomColor(241, 241, 241);
-        self.topView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, w, [UIScreen mainScreen].bounds.size.height-h)];
+        self.topView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, [UIScreen mainScreen].bounds.size.height-h)];
         
         self.topView.backgroundColor = [UIColor colorWithRed:0  green:0 blue:0 alpha:0.2];
         [self.view addSubview: self.topView];
@@ -347,7 +346,7 @@
         [self.footView addSubview:btnNO];
         
         
-        UIButton *btnYes=   [[UIButton alloc]initWithFrame:CGRectMake(w-btnNOW-5, btnNOY, btnNOW, btnNOH)];
+        UIButton *btnYes=   [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth-btnNOW-5, btnNOY, btnNOW, btnNOH)];
         [btnYes setTitle:@"完成" forState:UIControlStateNormal];
         btnYes.titleLabel.font =[UIFont systemFontOfSize:16];
         [btnYes setTitleColor:kCustomColor(56,155,234) forState:UIControlStateNormal];
@@ -355,7 +354,7 @@
         [btnYes addTarget:self action:@selector(btnYesCilck:) forControlEvents:UIControlEventTouchDown];
         
         [self.footView addSubview:btnYes];
-        self.pickerView=  [[UIPickerView alloc]initWithFrame:CGRectMake(0, btnNOY+btnNOH, w, h-btnNOY-btnNOH)];
+        self.pickerView=  [[UIPickerView alloc]initWithFrame:CGRectMake(0, btnNOY+btnNOH, kScreenWidth, h-btnNOY-btnNOH)];
         self.pickerView.delegate=self;
         self.pickerView.dataSource = self;
         self.pickerView.tag =tag.view.tag;
