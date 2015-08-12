@@ -201,19 +201,20 @@
             [SocketManager socketManager].socket = socket;
             [socket on: @"connect" callback: ^(SIOParameterArray *args) {
                 NSLog(@"connnection is success:%@",[args description]);
-                
-                [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
-                    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-                    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-                    [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
-                }];
-
             }];
-            
             [socket emit:@"online" args:@[tempName]];
 
         }];
     }
+    [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
+        NSLog(@"disconnect");
+    }];
+    
+    [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
+    }];
 }
 //阿里云
 -(void)aliyunSet{
@@ -341,16 +342,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    NSString *tempName= [[Public getUserInfo] objectForKey:@"id"];
-    if (tempName) {
-        [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
-            [SocketManager socketManager].socket = socket;
-            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-                [socket emit:@"online" args:@[tempName]];
-                NSLog(@"connnection is success:%@",[args description]);
-            }];
-        }];
-    }
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
