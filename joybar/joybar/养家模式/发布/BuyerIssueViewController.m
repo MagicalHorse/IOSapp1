@@ -43,11 +43,17 @@
 @property (nonatomic,strong)UIImageView *btn2;
 @property (nonatomic,strong)UIImageView *btn3;
 @property (nonatomic,strong)UILabel *titLable;
+@property (nonatomic,strong)UILabel *titLable1;
 @property (nonatomic,strong)UILabel *titLable2;
 
 
 @property (nonatomic,strong)NSMutableArray *sizeArray;
-@property (nonatomic,strong)NSMutableArray *imagesArray;
+@property (nonatomic,strong)NSMutableDictionary *imagesArray;
+
+@property (nonatomic,strong)UIButton *clBtn1;
+@property (nonatomic,strong)UIButton *clBtn2;
+@property (nonatomic,strong)UIButton *clBtn3;
+
 
 @end
 
@@ -59,9 +65,9 @@
     }
     return _sizeArray;
 }
--(NSMutableArray *)imagesArray{
+-(NSMutableDictionary *)imagesArray{
     if (_imagesArray ==nil) {
-        _imagesArray =[[NSMutableArray alloc]init];
+        _imagesArray =[[NSMutableDictionary alloc]init];
     }
     return _imagesArray;
 }
@@ -99,14 +105,26 @@
     
     [super viewWillAppear:animated];
     if (self.btn2.image==nil) {
-        _titLable.hidden=NO;
+        _titLable1.hidden=NO;
+         _clBtn2.hidden=YES;
     }else{
-        _titLable.hidden=YES;
+        _titLable1.hidden=YES;
+         _clBtn2.hidden=NO;
     }
     if(self.btn3.image ==nil){
         _titLable2.hidden=NO;
+         _clBtn3.hidden=YES;
     }else{
         _titLable2.hidden=YES;
+         _clBtn3.hidden=NO;
+    }
+    
+    if(self.btn1.image ==nil){
+        _titLable.hidden=NO;
+        _clBtn1.hidden=YES;
+    }else{
+        _titLable.hidden=YES;
+        _clBtn1.hidden=NO;
     }
 }
 - (void)viewDidLoad {
@@ -118,6 +136,7 @@
         [self addNavBarViewAndTitle:@"发布商品"];
     }
     [self setInitView];
+    self.retBtn.hidden =YES;
 }
 
 -(void) setInitView{
@@ -133,15 +152,7 @@
     [self.view addSubview:self.customScrollView];
     
     
-    //取消发布
-    UIButton *finishBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    finishBtn.frame = CGRectMake(kScreenWidth-80, 35, 64, 15);
-    finishBtn.backgroundColor = [UIColor clearColor];
-    [finishBtn setTitle:@"取消发布" forState:(UIControlStateNormal)];
-    [finishBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-    finishBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-    [finishBtn addTarget:self action:@selector(didClickFinishBtn) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.navView addSubview:finishBtn];
+  
     
     //photoView
     self.photoView=  [[UIView alloc]initWithFrame:CGRectMake(0,12, customScrollViewW, 115)];
@@ -154,12 +165,21 @@
     [self creatBtn:self.btn1];
     [self creatBtn:self.btn2];
     [self creatBtn:self.btn3];
+    [self creatBtnTitle:self.btn1];
     [self creatBtnTitle:self.btn2];
     [self creatBtnTitle:self.btn3];
-
+    
+    self.clBtn1= [self addCancel:self.btn1];
+    [self.clBtn1 addTarget:self action:@selector(clBtn1Click) forControlEvents:UIControlEventTouchUpInside];
+    self.clBtn2= [self addCancel:self.btn2];
+    [self.clBtn2 addTarget:self action:@selector(clBtn2Click) forControlEvents:UIControlEventTouchUpInside];
+    self.clBtn3= [self addCancel:self.btn3];
+    [self.clBtn3 addTarget:self action:@selector(clBtn3Click) forControlEvents:UIControlEventTouchUpInside];
+    
     if (self.images) {
         if (self.btnType ==2) {
             self.btn2.image =self.image;
+           
         }else if(self.btnType ==3){
             self.btn3.image =self.image;
         }else{
@@ -168,12 +188,12 @@
     }
     if (self.detail) {
         NSMutableArray *images =self.detail.Images;
-        for (Image *img in images) {
-            [self.imagesArray addObject:img];
+        for (int i=0; i<images.count;i++) {
+            [self.imagesArray setObject:images[i] forKey:@(i)];
         }
     }
     if (self.images) {
-        [self.imagesArray addObject:self.images];
+        [self.imagesArray setObject:self.images forKey:@(0)];
     }
 
     //priceView
@@ -285,6 +305,15 @@
 
     }else{
         [_footerBtn setTitle:@"发布" forState:UIControlStateNormal];
+        //取消发布
+        UIButton *finishBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        finishBtn.frame = CGRectMake(kScreenWidth-80, 35, 64, 15);
+        finishBtn.backgroundColor = [UIColor clearColor];
+        [finishBtn setTitle:@"取消发布" forState:(UIControlStateNormal)];
+        [finishBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+        finishBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+        [finishBtn addTarget:self action:@selector(didClickFinishBtn) forControlEvents:(UIControlEventTouchUpInside)];
+        [self.navView addSubview:finishBtn];
     }
     [_footerBtn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
     [_footerBtn setBackgroundColor:[UIColor whiteColor]];
@@ -302,6 +331,30 @@
     }
     
 }
+
+//第一张图片点击取消
+-(void)clBtn1Click{
+    self.btn1.image=nil;
+    self.titLable.hidden=NO;
+    self.clBtn1.hidden=YES;
+
+    [self.imagesArray removeObjectForKey:@(0)];
+}
+-(void)clBtn2Click{
+    self.btn2.image=nil;
+    self.titLable1.hidden=NO;
+    self.clBtn2.hidden=YES;
+    [self.imagesArray removeObjectForKey:@(1)];
+
+}
+-(void)clBtn3Click{
+    self.btn3.image=nil;
+    self.titLable2.hidden=NO;
+    self.clBtn3.hidden=YES;
+    [self.imagesArray removeObjectForKey:@(2)];
+
+}
+
 -(void)didClickFinishBtn{
    
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -381,7 +434,8 @@
     [Common saveUserDefault:@"1" keyName:@"backPhone"];
     [self.navigationController popViewControllerAnimated:YES];
     
-}-(void)creatBtn:(UIImageView *)btn
+}
+-(void)creatBtn:(UIImageView *)btn
 {
     NSInteger i=btn.tag-1;
     btn.frame= CGRectMake((kScreenWidth/3-20)*i+15*(i+1), 15, 85, 85);
@@ -390,18 +444,26 @@
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(btnClick:)];
     [btn addGestureRecognizer:tap];
-    
- 
     [self.photoView addSubview:btn];
+
+    
+    
+}
+-(UIButton *)addCancel :(UIImageView *)btn{
+    UIButton *clbtn = [[UIButton alloc]init];
+    clbtn.frame =CGRectMake(btn.right-25, btn.top-15, 40, 40);
+    [clbtn setImage:[UIImage imageNamed:@"ggshanchu"] forState:UIControlStateNormal];
+    [self.photoView addSubview:clbtn];
+    return clbtn;
 }
 -(void)creatBtnTitle :(UIImageView *)btn{
     if (btn.tag==2) {
-        _titLable =[[UILabel alloc]initWithFrame:CGRectMake(btn.frame.origin.x, btn.frame.origin.y, btn.frame.size.width, btn.frame.size.height)];
-        _titLable.text =@"+图片";
-        _titLable.textColor =[UIColor grayColor];
-        _titLable.textAlignment =NSTextAlignmentCenter;
-        _titLable.font =[UIFont fontWithName:@"youyuan" size:16];
-        [self.photoView addSubview:_titLable];
+        _titLable1 =[[UILabel alloc]initWithFrame:CGRectMake(btn.frame.origin.x, btn.frame.origin.y, btn.frame.size.width, btn.frame.size.height)];
+        _titLable1.text =@"+图片";
+        _titLable1.textColor =[UIColor grayColor];
+        _titLable1.textAlignment =NSTextAlignmentCenter;
+        _titLable1.font =[UIFont fontWithName:@"youyuan" size:16];
+        [self.photoView addSubview:_titLable1];
     }else if(btn.tag ==3){
         _titLable2 =[[UILabel alloc]initWithFrame:CGRectMake(btn.frame.origin.x, btn.frame.origin.y, btn.frame.size.width, btn.frame.size.height)];
         _titLable2.text =@"+图片";
@@ -409,11 +471,37 @@
         _titLable2.textAlignment =NSTextAlignmentCenter;
         _titLable2.font =[UIFont fontWithName:@"youyuan" size:16];
         [self.photoView addSubview:_titLable2];
+    }else{
+        _titLable =[[UILabel alloc]initWithFrame:CGRectMake(btn.frame.origin.x, btn.frame.origin.y, btn.frame.size.width, btn.frame.size.height)];
+        _titLable.text =@"+图片";
+        _titLable.textColor =[UIColor grayColor];
+        _titLable.textAlignment =NSTextAlignmentCenter;
+        _titLable.font =[UIFont fontWithName:@"youyuan" size:16];
+        [self.photoView addSubview:_titLable];
     }
    
 }
 //发布
 -(void)publicsh{
+       if (self.imagesArray.count==0) {
+        [self showHudFailed:@"请至少上传一张图片"];
+        return;
+    }else if(self.priceText1.text.length==0){
+        [self showHudFailed:@"请填写货号"];
+        return;
+    }else if(self.priceText.text.length==0){
+        [self showHudFailed:@"请填写价格"];
+        return;
+    }else if(!isPrice){
+        [self showHudFailed:@"价格只能为两位小数点"];
+        return;
+    }else if(self.dscText.text.length==0||[self.dscText.text isEqualToString:@"给力商品描述点"]){
+        [self showHudFailed:@"请填写商品描述"];
+        return;
+    }else if(self.dscText.text.length>100){
+        [self showHudFailed:@"商品描述不能大于100字符"];
+        return;
+    }
     self.sizeArray=nil;
     NSMutableDictionary *tempSizes =[NSMutableDictionary dictionary];
     UIView *view =[self.view viewWithTag:10];
@@ -474,25 +562,7 @@
         }
     }
     
-    if (self.imagesArray.count==0) {
-        [self showHudFailed:@"请至少上传一张图片"];
-        return;
-    }else if(self.priceText1.text.length==0){
-        [self showHudFailed:@"请填写货号"];
-        return;
-    }else if(self.priceText.text.length==0){
-        [self showHudFailed:@"请填写价格"];
-        return;
-    }else if(!isPrice){
-        [self showHudFailed:@"价格只能为两位小数点"];
-        return;
-    }else if(self.dscText.text.length==0||[self.dscText.text isEqualToString:@"给力商品描述点"]){
-        [self showHudFailed:@"请填写商品描述"];
-        return;
-    }else if(self.dscText.text.length>100){
-        [self showHudFailed:@"商品描述不能大于100字符"];
-        return;
-    }
+
     if (self.detail) {
         [self hudShow:@"正在修改"];
     }else{
@@ -504,16 +574,21 @@
     [dict setObject:self.sizeArray forKey:@"Sizes"];
     
     //修改Image为字典对象
-    for (int i=0; i<self.imagesArray.count; i++) {
-        if ([self.imagesArray[i] isKindOfClass :NSClassFromString(@"Image")]) {
-            Image *image =self.imagesArray[i];
-            [self.imagesArray removeObjectAtIndex:i];
-            [self.imagesArray insertObject:[image keyValues] atIndex:i];
-            
+   
+    NSMutableArray *tempImagesArray =[NSMutableArray array];
+    for (NSNumber *i in [self.imagesArray allKeys]) {
+        
+        if ([[self.imagesArray objectForKey:i] isKindOfClass :NSClassFromString(@"Image")]) {
+            Image *image =[self.imagesArray objectForKey:i];
+            [self.imagesArray setObject:[image keyValues] forKey:i];
         }
+        
+        NSDictionary *dict =[self.imagesArray objectForKey:i];
+        [tempImagesArray addObject:dict];
     }
     
-    [dict setObject:self.imagesArray forKey:@"Images"];
+    
+    [dict setObject:tempImagesArray forKey:@"Images"];
     [dict setObject:self.dscText.text forKey:@"Desc"];
     [dict setObject:self.priceText1.text forKey:@"Sku_Code"];
     
@@ -531,7 +606,7 @@
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             if (self.detail) {
-                [self showHudSuccess:@"修改成功！"];
+                [self showHudSuccess:@"修改成功"];
 
                 dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1*NSEC_PER_SEC);
                 dispatch_after(time, dispatch_get_main_queue(), ^{
@@ -539,7 +614,7 @@
                 });
 
             }else{
-                [self showHudSuccess:@"发布成功！"];
+                [self showHudSuccess:@"发布成功"];
                 dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1*NSEC_PER_SEC);
                 dispatch_after(time, dispatch_get_main_queue(), ^{
                     [self dismissViewControllerAnimated:YES completion:nil];
@@ -558,13 +633,13 @@
     NSInteger i =btn.view.tag;
     switch (i) {
         case 1:
-            if (self.detail){
+            if (self.detail &&[self.imagesArray objectForKey:@(0)]){
                 Image *image;
-                if (![[self.imagesArray objectAtIndex:0] isKindOfClass:[Image class]]){
-                    NSDictionary *dict=self.imagesArray[0];
+                if (![[self.imagesArray objectForKey:@(0)] isKindOfClass:[Image class]]){
+                    NSDictionary *dict=[self.imagesArray objectForKey:@(0)];
                     image= [Image objectWithKeyValues:dict];
                 }else{
-                    image =[self.imagesArray objectAtIndex:0];
+                    image =[self.imagesArray objectForKey:@(0)];
                 }
 
                 BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn1.image andImage:image];
@@ -574,35 +649,42 @@
                 
             }
             else if(self.btn1.image) {
-                if ([self.imagesArray objectAtIndex:0]) {
-                    NSDictionary *imageurl =[self.imagesArray objectAtIndex:0];
+                if ([self.imagesArray objectForKey:@(0)]) {
+                    NSDictionary *imageurl =[self.imagesArray objectForKey:@(0)];
                     BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn1.image];
                     filter.delegate=self;
                     filter.btnType =(int)self.btn1.tag;
                     filter.imageDic =imageurl;
                     [self.navigationController pushViewController:filter animated:YES];
                 }
+            }else {
+                self.btnType =1;
+                [Common saveUserDefault:@"3" keyName:@"backPhone"];
+                self.customCamera =[[BuyerCameraViewController alloc]initWithType:(int)i];
+                self.customCamera.delegate =self;
+                BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:self.customCamera];
+                [self presentViewController:nav animated:YES completion:nil];
             }
                 break;
         case 2:
-            if (self.detail&&self.imagesArray.count>1) {
+            if (self.detail&&[self.imagesArray objectForKey:@(1)]) {
                 
                 Image *image =[[Image alloc]init];
-                if (![[self.imagesArray objectAtIndex:1] isKindOfClass:[Image class]]){
-                    image.ImageUrl =[[self.imagesArray objectAtIndex:1]objectForKey:@"ImageUrl"];
-                    image.Tags =[[self.imagesArray objectAtIndex:1]objectForKey:@"Tags"];
+                if (![[self.imagesArray objectForKey:@(1)] isKindOfClass:[Image class]]){
+                    image.ImageUrl =[[self.imagesArray objectForKey:@(1)]objectForKey:@"ImageUrl"];
+                    image.Tags =[[self.imagesArray objectForKey:@(1)]objectForKey:@"Tags"];
                 }else{
-                    image =[self.imagesArray objectAtIndex:1];
+                    image =[self.imagesArray objectForKey:@(1)];
                 }
                 BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn2.image andImage:image];
                 filter.delegate=self;
                 filter.btnType =(int)self.btn2.tag;
                 [self.navigationController pushViewController:filter animated:YES];
                 
-            }else if (self.btn2.image) {//点击图片顺序会导致bug
+            }else if (self.btn2.image) {
                 
-                if ([self.imagesArray objectAtIndex:1]) {
-                    NSDictionary *imageurl =[self.imagesArray objectAtIndex:1];
+                if ([self.imagesArray objectForKey:@(1)]) {
+                    NSDictionary *imageurl =[self.imagesArray objectForKey:@(1)];
                     BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn2.image];
                     filter.imageDic =imageurl;
                     filter.delegate =self;
@@ -612,7 +694,7 @@
                 }
                 
             }else {
-                self.btnType =(int)self.btn2.tag;
+                self.btnType =2;
                 [Common saveUserDefault:@"3" keyName:@"backPhone"];
                 self.customCamera =[[BuyerCameraViewController alloc]initWithType:(int)i];
                 self.customCamera.delegate =self;
@@ -623,33 +705,33 @@
           
             break;
         case 3:
-            if (self.detail &&self.imagesArray.count>2) {
+            if (self.detail &&[self.imagesArray objectForKey:@(2)]) {
                 Image *image =[[Image alloc]init];
-                if (![[self.imagesArray objectAtIndex:2] isKindOfClass:[Image class]]){
-                    image.ImageUrl =[[self.imagesArray objectAtIndex:2]objectForKey:@"ImageUrl"];
-                    image.Tags =[[self.imagesArray objectAtIndex:2]objectForKey:@"Tags"];
+                if (![[self.imagesArray objectForKey:@(2)] isKindOfClass:[Image class]]){
+                    image.ImageUrl =[[self.imagesArray objectForKey:@(2)]objectForKey:@"ImageUrl"];
+                    image.Tags =[[self.imagesArray objectForKey:@(2)]objectForKey:@"Tags"];
                 }else{
-                    image =[self.imagesArray objectAtIndex:2];
+                    image =[self.imagesArray objectForKey:@(2)];
                 }
                 BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn3.image andImage:image];
                 filter.delegate=self;
-                filter.btnType =(int)self.btn3.tag;
+                filter.btnType =(int)i;
                 [self.navigationController pushViewController:filter animated:YES];
                 
             }else if (self.btn3.image) {
                 
-                if ([self.imagesArray objectAtIndex:2]) {
-                    NSDictionary *imageurl =[self.imagesArray objectAtIndex:2];
+                if ([self.imagesArray objectForKey:@(2)]) {
+                    NSDictionary *imageurl =[self.imagesArray objectForKey:@(2)];
                     BuyerFilterViewController *filter =[[BuyerFilterViewController alloc]initWithImg:self.btn3.image];
                     filter.imageDic =imageurl;
                     filter.delegate =self;
-                    filter.btnType =(int)self.btn3.tag;
+                    filter.btnType =(int)i;
 
                     [self.navigationController pushViewController:filter animated:YES];
                 }
                 
             }else {
-                
+                self.btnType =3;
                 [Common saveUserDefault:@"3" keyName:@"backPhone"];
                 self.customCamera =[[BuyerCameraViewController alloc]initWithType:(int)i];
                 self.customCamera.delegate =self;
@@ -702,11 +784,11 @@
     [view addSubview:_textField2];
     
     if (count==0) {
-        UIImageView * textImg =[[UIImageView alloc]initWithFrame:CGRectMake(_textField2.right+15, 25, 19, 19)];
+        UIImageView * textImg =[[UIImageView alloc]initWithFrame:CGRectMake(_textField2.right+10, 25, 19, 19)];
         textImg.image =[UIImage imageNamed:@"重点"];
         [view addSubview:textImg];
     }else{
-        UIButton *addBtn=[[UIButton alloc]initWithFrame:CGRectMake(_textField2.right+15, 25, 21, 21)];
+        UIButton *addBtn=[[UIButton alloc]initWithFrame:CGRectMake(_textField2.right, 17, 40, 40)];
         [addBtn setImage:[UIImage imageNamed:@"ggshanchu"] forState:UIControlStateNormal];
         [addBtn addTarget:self action:@selector(delInfoView:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:addBtn];
@@ -834,30 +916,32 @@
     
     switch (type) {
         case 1:
-            if (self.imagesArray.count>0) {
-                if (self.imagesArray[0]) {
-                    [self.imagesArray removeObjectAtIndex:0];
-                }
-                [self.imagesArray insertObject:array atIndex:0];
-            }else{
-                [self.imagesArray addObject:array];
-            }
-            self.btn1.image =image;
-            break;
-        case 2:
             self.titLable.hidden=YES;
             if (array) {
-                [self.imagesArray addObject:array];
+               
+                [self.imagesArray setObject:array forKey:@(0)];
+            }
+            self.btn1.image =image;
+            self.clBtn1.hidden=NO;
+
+            break;
+        case 2:
+            self.titLable1.hidden=YES;
+            if (array) {
+                [self.imagesArray setObject:array forKey:@(1)];
             }
             self.btn2.image =image;
+            self.clBtn2.hidden=NO;
+            
             break;
         case 3:
             self.titLable2.hidden=YES;
 
             if (array) {
-                [self.imagesArray addObject:array];
+                [self.imagesArray setObject:array forKey:@(2)];
             }
             self.btn3.image =image;
+            self.clBtn3.hidden=NO;
             break;
         default:
             break;
@@ -869,24 +953,22 @@
 {
     switch (type) {
         case 1:
-            if (self.imagesArray.count >0) {
-                [self.imagesArray removeObjectAtIndex:0];
-                [self.imagesArray insertObject:dic atIndex:0];
+            if (dic) {
+                [self.imagesArray setObject:dic forKey:@(0)];
             }
             self.btn1.image =image;
             break;
         case 2:
-            if (self.imagesArray.count >0) {
-                [self.imagesArray removeObjectAtIndex:1];
-                [self.imagesArray insertObject:dic atIndex:1];
+            if (dic) {
+                [self.imagesArray setObject:dic forKey:@(1)];
             }
             self.btn2.image =image;
             break;
         case 3:
            
-            if (self.imagesArray.count >0) {
-                [self.imagesArray removeObjectAtIndex:2];
-                [self.imagesArray insertObject:dic atIndex:2];
+            if (dic) {
+                [self.imagesArray setObject:dic forKey:@(2)];
+
             }
             self.btn3.image =image;
             break;

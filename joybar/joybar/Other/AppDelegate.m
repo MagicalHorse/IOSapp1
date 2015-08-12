@@ -201,16 +201,19 @@
             [SocketManager socketManager].socket = socket;
             [socket on: @"connect" callback: ^(SIOParameterArray *args) {
                 NSLog(@"connnection is success:%@",[args description]);
-                
-                [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
-                    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-                    
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"messageNot" object:self userInfo:dic];
-                }];
             }];
             [socket emit:@"online" args:@[tempName]];
         }];
     }
+    [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
+        NSLog(@"disconnect");
+    }];
+    
+    [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
+    }];
 }
 //阿里云
 -(void)aliyunSet{
