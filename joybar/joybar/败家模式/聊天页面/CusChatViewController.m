@@ -107,7 +107,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMessageNot:) name:@"messageNot" object:self];
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -466,7 +465,7 @@
         [msgDic setValue:@"" forKey:@"productId"];
 
         [msgDic setValue:@"img" forKey:@"type"];
-        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"img"};
+        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"img",@"roomId":[chatRoomData objectForKey:@"id"]};
         [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
         [self.messageArr addObject:msgDic];
     }
@@ -498,7 +497,7 @@
             
             NSString *imageURL = [NSString stringWithFormat:@"%@",[[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"pic"] objectForKey:@"pic"]];
 
-            NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":proId,@"body":imageURL,@"fromUserType":@"",@"type":@"product_img"};
+            NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":proId,@"body":imageURL,@"fromUserType":@"",@"type":@"product_img",@"roomId":[chatRoomData objectForKey:@"id"]};
             [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
             [self.messageArr addObject:msgDic];
         }
@@ -521,7 +520,7 @@
         [msgDic setValue:toUserName forKey:@"userName"];
         [msgDic setValue:@"" forKey:@"productId"];
 
-        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@""};
+        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"",@"roomId":[chatRoomData objectForKey:@"id"]};
         [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
         
         [self.messageArr addObject:msgDic];
@@ -530,8 +529,6 @@
     [self.tableView reloadData];
 
     [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
-
-//     [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height -self.tableView.bounds.size.height) animated:YES];
 }
 
 
