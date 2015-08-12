@@ -204,8 +204,8 @@
                 
                 [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
                     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-                    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-                    [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"messageNot" object:self userInfo:dic];
                 }];
 
             }];
@@ -329,7 +329,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
  提现收益  = 11,
  买手同意退货= 12,
  买手不同意退货 = 13,
- */
+*/
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

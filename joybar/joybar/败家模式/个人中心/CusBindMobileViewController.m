@@ -17,6 +17,10 @@
     UIButton*authBtn;
     UITextField *registerPhoneText;
     UITextField *registerAuthText;
+    
+    NSTimer *timer;
+    NSInteger timerInterget;
+
 }
 - (void)viewDidLoad
 {
@@ -108,7 +112,14 @@
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            [self showHudSuccess:@"验证成功"];
+            timerInterget = 60;
+            
+            timer = [NSTimer scheduledTimerWithTimeInterval:1.0f
+                                                     target:self
+                                                   selector:@selector(checkButtonAction:)
+                                                   userInfo:nil
+                                                    repeats:YES];
+            [timer fire];
         }
         else
         {
@@ -120,6 +131,25 @@
         
     }];
 }
+
+- (void)checkButtonAction:(NSTimer *)time
+{
+    if (timerInterget >0 && timerInterget <= 60)
+    {
+        timerInterget--;
+        NSString *str = [NSString stringWithFormat:@" %ld″",(long)timerInterget];
+        [authBtn setTitle:str forState:UIControlStateNormal];
+        [authBtn setUserInteractionEnabled:NO];
+    }
+    else
+    {
+        [authBtn setTitle:@"重新获取" forState:UIControlStateNormal];
+        timerInterget = 60;
+        [authBtn setUserInteractionEnabled:YES];
+        [time invalidate];
+    }
+}
+
 
 //确定
 -(void)didClickSubmit

@@ -87,10 +87,27 @@
     [[SocketManager  socketManager].socket emit:@"leaveRoom"];
 }
 
+//-(void)receiveMessageNot:(NSNotification *)not
+//{
+//    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:not.object];
+//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+//    [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
+//    [HttpTool postWithURL:@"User/GetUserLogo" params:dict success:^(id json) {
+//        
+//        [dic setObject:[json objectForKey:@"logo"] forKey:@"logo"];
+//        [self.messageArr addObject:dic];
+//        [self.tableView reloadData];
+//        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+//        
+//    } failure:^(NSError *error) {
+//        
+//    }];
+//}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMessageNot:) name:@"messageNot" object:self];
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -125,8 +142,6 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTableView)];
-//    [self.tableView addGestureRecognizer:tap];
     
     __weak CusChatViewController *VC = self;
     self.tableView.headerRereshingBlock = ^{
