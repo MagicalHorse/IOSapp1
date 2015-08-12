@@ -132,6 +132,17 @@
     self.customScrollView.delegate=self;
     [self.view addSubview:self.customScrollView];
     
+    
+    //取消发布
+    UIButton *finishBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    finishBtn.frame = CGRectMake(kScreenWidth-80, 35, 64, 15);
+    finishBtn.backgroundColor = [UIColor clearColor];
+    [finishBtn setTitle:@"取消发布" forState:(UIControlStateNormal)];
+    [finishBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+    finishBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [finishBtn addTarget:self action:@selector(didClickFinishBtn) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.navView addSubview:finishBtn];
+    
     //photoView
     self.photoView=  [[UIView alloc]initWithFrame:CGRectMake(0,12, customScrollViewW, 115)];
     self.photoView.backgroundColor =[UIColor whiteColor];
@@ -290,6 +301,10 @@
         isPrice=NO;
     }
     
+}
+-(void)didClickFinishBtn{
+   
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)priceTextChanged:(UITextField *)textField{
     if (![self isKindOfNumer:textField.text]) {
