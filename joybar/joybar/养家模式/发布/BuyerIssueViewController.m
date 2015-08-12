@@ -471,7 +471,7 @@
     }else if(!isPrice){
         [self showHudFailed:@"价格只能为两位小数点"];
         return;
-    }else if(self.dscText.text.length==0){
+    }else if(self.dscText.text.length==0||[self.dscText.text isEqualToString:@"给力商品描述点"]){
         [self showHudFailed:@"请填写商品描述"];
         return;
     }else if(self.dscText.text.length>100){
