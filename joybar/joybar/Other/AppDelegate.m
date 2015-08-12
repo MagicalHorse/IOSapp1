@@ -207,11 +207,8 @@
                     
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"messageNot" object:self userInfo:dic];
                 }];
-
             }];
-            
             [socket emit:@"online" args:@[tempName]];
-
         }];
     }
 }
@@ -341,16 +338,16 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    NSString *tempName= [[Public getUserInfo] objectForKey:@"id"];
-    if (tempName) {
-        [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
-            [SocketManager socketManager].socket = socket;
-            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-                [socket emit:@"online" args:@[tempName]];
-                NSLog(@"connnection is success:%@",[args description]);
-            }];
-        }];
-    }
+//    NSString *tempName= [[Public getUserInfo] objectForKey:@"id"];
+//    if (tempName) {
+//        [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
+//            [SocketManager socketManager].socket = socket;
+//            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+//                [socket emit:@"online" args:@[tempName]];
+//                NSLog(@"connnection is success:%@",[args description]);
+//            }];
+//        }];
+//    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
