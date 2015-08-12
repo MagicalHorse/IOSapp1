@@ -8,6 +8,7 @@
 
 #import "PayOrderViewController.h"
 #import "AppDelegate.h"
+#import "CusOrderDetailViewController.h"
 @interface PayOrderViewController ()<UIAlertViewDelegate>
 
 @end
@@ -31,18 +32,29 @@
 
 -(void)paySuccessHandle
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"支付成功" delegate:self cancelButtonTitle:@"好" otherButtonTitles:nil, nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"支付成功" delegate:self cancelButtonTitle:@"返回首页" otherButtonTitles:@"查看订单", nil];
     [alert show];
 }
 
 -(void)payCancelHandle
 {
-    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:2] animated:YES];
+//    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:2] animated:YES];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:2] animated:YES];
+//    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:2] animated:YES];
+    if (buttonIndex==0)
+    {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    else
+    {
+        CusOrderDetailViewController *VC = [[CusOrderDetailViewController alloc] init];
+        VC.orderId = self.orderNum;
+        VC.fromType = @"payOrder";
+        [self.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 -(void)dealloc

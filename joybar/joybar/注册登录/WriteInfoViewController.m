@@ -190,11 +190,11 @@
 -(void)cconnectSocket
 {
     
-    NSString *userId = [[Public getUserInfo] objectForKey:@"id"];
+    NSString *userId = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
         [SocketManager socketManager].socket = socket;
         [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-            [socket emit:@"onLine" args:@[userId]];
+            [socket emit:@"online" args:@[userId]];
             NSLog(@"connnection is success:%@",[args description]);
         }];
     }];

@@ -27,6 +27,7 @@
 @property (nonatomic ,copy) NSString *SizeName;
 @property (nonatomic ,copy) NSString *SizeValue;
 @property (nonatomic ,copy) NSString *BuyerLogo;
+@property (nonatomic ,copy) NSString *ShareDesc;
 @property (nonatomic ,strong) NSArray *Promotions;
 
 @property (nonatomic ,copy) NSString *ShareLink;

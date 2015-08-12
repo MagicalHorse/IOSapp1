@@ -817,6 +817,8 @@
         self.sizeNum = size.Inventory;
         self.sizeName = size.Size;
         kuCunLab.text = [NSString stringWithFormat:@"库存%@件",size.Inventory];
+        self.priceNum = 0;
+        buyNumLab.text = @"0";
     };
 
     UIView *line1 = [[UIView alloc] init];
@@ -896,11 +898,8 @@
     [buyBgView addSubview:finishBtn];
     
     [UIView animateWithDuration:0.25 animations:^{
-        
         buyBgView.frame = CGRectMake(0, kScreenHeight-240-height-20, kScreenWidth, 240+height+20);
-        
     }];
-    
 }
 
 //增加
@@ -942,7 +941,7 @@
 -(void)didClickCancelBtn
 {
     [tempView removeFromSuperview];
-    self.sizeId = @"";
+    self.sizeId = nil;
     self.priceNum = 0;
     
     [UIView animateWithDuration:0.25 animations:^{
