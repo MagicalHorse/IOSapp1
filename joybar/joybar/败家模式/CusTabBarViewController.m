@@ -19,6 +19,10 @@
 @end
 
 @implementation CusTabBarViewController
+{
+    UILabel *circleMarkLab;
+    UILabel *msgMarkLab;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,6 +38,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMessageNot:) name:@"messageNot" object:self];
     //初始化子视图
     [self _initWithControllers];
     //创建自定义TabBar
@@ -118,6 +124,23 @@
         //将btn添加到数组
         [self.btnArray addObject:tabBtn];
         [bgImgView addSubview:tabBtn];
+        
+        if (i==1) {
+            circleMarkLab = [[UILabel alloc] initWithFrame:CGRectMake(tabBtn.width/2+10, 5, 8, 8)];
+            circleMarkLab.backgroundColor = [UIColor redColor];
+            circleMarkLab.layer.cornerRadius = circleMarkLab.width/2;
+            circleMarkLab.clipsToBounds  = YES;
+            circleMarkLab.hidden = YES;
+            [tabBtn addSubview:circleMarkLab];
+        }
+        if (i==2) {
+            msgMarkLab = [[UILabel alloc] initWithFrame:CGRectMake(tabBtn.width/2+10, 5, 8, 8)];
+            msgMarkLab.backgroundColor = [UIColor redColor];
+            msgMarkLab.layer.cornerRadius = msgMarkLab.width/2;
+            msgMarkLab.clipsToBounds  = YES;
+            msgMarkLab.hidden = YES;
+            [tabBtn addSubview:msgMarkLab];
+        }
     }
     UIButton *homeBtn = (self.btnArray)[0];
     
@@ -174,6 +197,11 @@
 -(void)dealloc
 {
     NSLog(@"aa");
+}
+
+-(void)receiveMessageNot:(NSNotification *)not
+{
+    
 }
 
 @end

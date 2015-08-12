@@ -203,7 +203,6 @@
                 NSLog(@"connnection is success:%@",[args description]);
             }];
             [socket emit:@"online" args:@[tempName]];
-
         }];
     }
     [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
@@ -330,7 +329,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
  提现收益  = 11,
  买手同意退货= 12,
  买手不同意退货 = 13,
- */
+*/
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
