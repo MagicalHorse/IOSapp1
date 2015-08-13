@@ -202,6 +202,17 @@
 -(void)receiveMessageNot:(NSNotification *)not
 {
     
+    NSDictionary *dic = not.object;
+    NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
+    if ([toUserId isEqualToString:@"0"])
+    {
+        msgMarkLab.hidden = NO;
+    }
+    else
+    {
+        circleMarkLab.hidden = NO;
+    }
+    
 }
 
 @end
