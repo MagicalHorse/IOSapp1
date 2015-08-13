@@ -219,27 +219,38 @@
     }
     if (indexPath.row==2)
     {
-        NSString *AuditStatus = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"AuditStatus"]];
-        if ([AuditStatus isEqualToString:@"1"]) //==1 通过
-        {
-            [UIApplication sharedApplication].keyWindow.rootViewController = [[BuyerTabBarViewController alloc]init];
-        }
-        else if ([AuditStatus isEqualToString:@"-1"])
-        {
-            [self showHudFailed:@"亲您提交的信息有误,请您重新提交"];
+        [self hudShow:@"加载中"];
+        [HttpTool postWithURL:@"User/CheckBuyerStatus" params:nil success:^(id json) {
+            
+            BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+            if (isSuccessful) {
+                NSString *AuditStatus = [NSString stringWithFormat:@"%@",[[json objectForKey:@"data"] objectForKey:@"Status"]];
+                if ([AuditStatus isEqualToString:@"1"]) //==1 通过
+                {
+                    [UIApplication sharedApplication].keyWindow.rootViewController = [[BuyerTabBarViewController alloc]init];
+                }
+                else if ([AuditStatus isEqualToString:@"-1"])
+                {
+                    [self showHudFailed: [[json objectForKey:@"data"] objectForKey:@"Message"]];//被拒绝
+                }
+                
+                else if ([AuditStatus isEqualToString:@"0"])
+                {
+                    BueryAuthViewController *auth =[[BueryAuthViewController alloc]init];
+                    [self.navigationController pushViewController:auth animated:YES];
+                }
+            }else{
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+            [self textHUDHiddle];
+        } failure:^(NSError *error) {
+            [self textHUDHiddle];
+            [self showHudFailed:@"服务器异常,请稍后再试"];
 
-            //被拒绝
-        }
-        else if ([AuditStatus isEqualToString:@"-2"])
-        {
-            BueryAuthViewController * b =[[BueryAuthViewController alloc]init];
-            [self.navigationController pushViewController:b animated:YES];
-        }
-        else if ([AuditStatus isEqualToString:@"0"])
-        {
-            [self showHudFailed:@"亲不用急,正在审核中"];
-            //正在申请中
-        }
+        }];
+        
+        
+        
     }
 }
 

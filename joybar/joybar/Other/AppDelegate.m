@@ -279,35 +279,9 @@ forRemoteNotification:(NSDictionary *)userInfo
 (void (^)(UIBackgroundFetchResult))completionHandler
 {
     [APService handleRemoteNotification:userInfo];
-    NSString *type = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"type"]];
+//    NSString *type = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"type"]];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[userInfo objectForKey:@"title"] message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
     [alert show];
-    
-    switch ([type integerValue])
-    {
-        case 2:
-        {
-            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
-            [dic setObject:@"1" forKey:@"AuditStatus"];
-            [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-            break;
-            
-        case 3:
-        {
-            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];
-            [dic setObject:@"-2" forKey:@"AuditStatus"];
-            [[NSUserDefaults standardUserDefaults] setObject:dic forKey:@"userInfo"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-            
-            break;
-            
-        default:
-            break;
-    }
-    
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
