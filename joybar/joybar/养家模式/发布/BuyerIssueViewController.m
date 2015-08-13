@@ -134,9 +134,9 @@
         [self addNavBarViewAndTitle:@"修改商品"];
     }else{
         [self addNavBarViewAndTitle:@"发布商品"];
+        self.retBtn.hidden =YES;
     }
     [self setInitView];
-    self.retBtn.hidden =YES;
 }
 
 -(void) setInitView{

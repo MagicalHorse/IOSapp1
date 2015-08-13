@@ -120,6 +120,8 @@
     if (isRefresh) {
         [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
 
+    }else{
+        [self hudShow:@"正在加载"];
     }
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
@@ -157,13 +159,15 @@
             self.dataArray=nil;
             [self showHudFailed:@"加载失败"];
         }
+        [self textHUDHiddle];
         [self.tableView reloadData];
         [self activityDismiss];
         [self.tableView endRefresh];
         isRefresh =NO;
     } failure:^(NSError *error) {
         [self.tableView endRefresh];
-      [self activityDismiss];
+        [self activityDismiss];
+        [self textHUDHiddle];
     }];
 
 }
