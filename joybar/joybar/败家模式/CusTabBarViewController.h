@@ -9,6 +9,9 @@
 #import "BaseTabBarController.h"
 #import "BaseNavigationController.h"
 @interface CusTabBarViewController : BaseTabBarController
+@property (nonatomic ,strong) UILabel *circleMarkLab;
+@property (nonatomic ,strong) UILabel *msgMarkLab;
+
 //切换按钮
 @property (strong, nonatomic) NSMutableArray *btnArray;
 @property (strong, nonatomic) BaseNavigationController *homeNav;

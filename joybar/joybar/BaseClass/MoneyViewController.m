@@ -74,7 +74,7 @@
 -(void)didClick
 {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    app.window.rootViewController = app.cusTab;
+    app.window.rootViewController = app.cusTabbar;
     [app.window makeKeyAndVisible];
 }
 

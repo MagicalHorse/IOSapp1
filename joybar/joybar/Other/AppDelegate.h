@@ -17,7 +17,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate,UIAlertViewDelegate,CLLocationManagerDelegate>
 @property (strong, nonatomic) UIWindow *window;
 
-@property (nonatomic ,strong) CusTabBarViewController *cusTab;
+//@property (nonatomic ,strong) CusTabBarViewController *cusTab;
 @property (nonatomic ,strong) BuyerTabBarViewController *buyerTab;
 @property (nonatomic ,strong) BaseNavigationController *baseNav;
 @property (nonatomic ,strong) CusTabBarViewController *cusTabbar;

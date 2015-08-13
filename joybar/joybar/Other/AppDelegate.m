@@ -17,14 +17,6 @@
 #import "OSSTool.h"
 @implementation AppDelegate
 
-+(UIImage *)scale:(UIImage *)image toSize:(CGSize)size
-{
-    UIGraphicsBeginImageContext(size);
-    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return scaledImage;
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -55,7 +47,7 @@
     if (![userId isEqualToString:@"(null)"])
     {
         [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
-        [self connectionSoctet];
+//        [self connectionSoctet];
 
     }
     
@@ -198,34 +190,48 @@
     if (tempName)
     {
         [SIOSocket socketWithHost:SocketUrl response:^(SIOSocket *socket) {
+            [SocketManager socketManager].socket = socket;
             [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-                [SocketManager socketManager].socket = socket;
                 NSLog(@"connnection is success:%@",[args description]);
             }];
- 
+            
+            [self online];
+            [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
+            
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
+                NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
+                
+                if (_cusTabbar.selectedIndex==1||_cusTabbar.selectedIndex ==2)
+                {
+                   _cusTabbar.circleMarkLab.hidden = YES;
+                    _cusTabbar.msgMarkLab.hidden = YES;
+                }
+                else
+                {
+                    if ([toUserId isEqualToString:@"0"])
+                    {
+                        _cusTabbar.circleMarkLab.hidden = NO;
+                    }
+                    else
+                    {
+                        _cusTabbar.msgMarkLab.hidden = NO;
+                    }
+                }
+            }];
         }];
         
-        [self online];
+        [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
+            NSLog(@"disconnect");
+        }];
 
-//        [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
-//        }];
     }
-    [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
-        NSLog(@"disconnect");
-    }];
     
-    [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
-        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"messageNot" object:dic];
-    }];
 }
 
 -(void)online
 {
     NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
-
     [[SocketManager socketManager].socket emit:@"online" args:@[tempName]];
-
 }
 
 //阿里云
@@ -292,9 +298,16 @@ forRemoteNotification:(NSDictionary *)userInfo
 (void (^)(UIBackgroundFetchResult))completionHandler
 {
     [APService handleRemoteNotification:userInfo];
-//    NSString *type = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"type"]];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[userInfo objectForKey:@"title"] message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-    [alert show];
+    NSString *type = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"type"]];
+    if ([type isEqual:@"14"])
+    {
+        
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[userInfo objectForKey:@"title"] message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+        [alert show];
+    }
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
@@ -328,7 +341,12 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-
+    NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
+    
+    if (![userId isEqualToString:@"(null)"])
+    {
+        [self connectionSoctet];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

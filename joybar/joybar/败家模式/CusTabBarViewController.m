@@ -14,15 +14,12 @@
 #import "CusMineViewController.h"
 #import "LoginAndRegisterViewController.h"
 #import "CusMessageViewController.h"
+#import "AppDelegate.h"
 @interface CusTabBarViewController ()
 
 @end
 
 @implementation CusTabBarViewController
-{
-    UILabel *circleMarkLab;
-    UILabel *msgMarkLab;
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,7 +34,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMessageNot:) name:@"messageNot" object:self];
     //初始化子视图
@@ -126,20 +122,20 @@
         [bgImgView addSubview:tabBtn];
         
         if (i==1) {
-            circleMarkLab = [[UILabel alloc] initWithFrame:CGRectMake(tabBtn.width/2+10, 5, 8, 8)];
-            circleMarkLab.backgroundColor = [UIColor redColor];
-            circleMarkLab.layer.cornerRadius = circleMarkLab.width/2;
-            circleMarkLab.clipsToBounds  = YES;
-            circleMarkLab.hidden = YES;
-            [tabBtn addSubview:circleMarkLab];
+            _circleMarkLab = [[UILabel alloc] initWithFrame:CGRectMake(tabBtn.width/2+10, 5, 8, 8)];
+            _circleMarkLab.backgroundColor = [UIColor redColor];
+            _circleMarkLab.layer.cornerRadius = _circleMarkLab.width/2;
+            _circleMarkLab.clipsToBounds  = YES;
+            _circleMarkLab.hidden = YES;
+            [tabBtn addSubview:_circleMarkLab];
         }
         if (i==2) {
-            msgMarkLab = [[UILabel alloc] initWithFrame:CGRectMake(tabBtn.width/2+10, 5, 8, 8)];
-            msgMarkLab.backgroundColor = [UIColor redColor];
-            msgMarkLab.layer.cornerRadius = msgMarkLab.width/2;
-            msgMarkLab.clipsToBounds  = YES;
-            msgMarkLab.hidden = YES;
-            [tabBtn addSubview:msgMarkLab];
+            _msgMarkLab = [[UILabel alloc] initWithFrame:CGRectMake(tabBtn.width/2+10, 5, 8, 8)];
+            _msgMarkLab.backgroundColor = [UIColor redColor];
+            _msgMarkLab.layer.cornerRadius = _msgMarkLab.width/2;
+            _msgMarkLab.clipsToBounds  = YES;
+            _msgMarkLab.hidden = YES;
+            [tabBtn addSubview:_msgMarkLab];
         }
     }
     UIButton *homeBtn = (self.btnArray)[0];
@@ -178,6 +174,15 @@
              btn.userInteractionEnabled = YES;
          }
      }];
+    
+    if (button.tag-100==1)
+    {
+        self.circleMarkLab.hidden = YES;
+    }
+    else if (button.tag-100==2)
+    {
+        self.msgMarkLab.hidden = YES;
+    }
 }
 
 -(void)SelectedIndex:(NSUInteger)selectedIndex
@@ -197,22 +202,6 @@
 -(void)dealloc
 {
     NSLog(@"aa");
-}
-
--(void)receiveMessageNot:(NSNotification *)not
-{
-    
-    NSDictionary *dic = not.object;
-    NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
-    if ([toUserId isEqualToString:@"0"])
-    {
-        msgMarkLab.hidden = NO;
-    }
-    else
-    {
-        circleMarkLab.hidden = NO;
-    }
-    
 }
 
 @end
