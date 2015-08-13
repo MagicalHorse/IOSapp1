@@ -137,6 +137,7 @@
         self.retBtn.hidden =YES;
     }
     [self setInitView];
+     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 -(void) setInitView{
@@ -897,6 +898,7 @@
 
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    NSLog(@"%f",scrollView.origin.x);
     [self.priceText1 resignFirstResponder];
     [self.priceText resignFirstResponder];
 }
@@ -977,5 +979,7 @@
     }
 
 }
+
+
 
 @end
