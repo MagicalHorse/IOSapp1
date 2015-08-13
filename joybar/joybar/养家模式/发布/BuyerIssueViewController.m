@@ -135,9 +135,9 @@
     }else{
         [self addNavBarViewAndTitle:@"发布商品"];
         self.retBtn.hidden =YES;
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
     [self setInitView];
-     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
 -(void) setInitView{

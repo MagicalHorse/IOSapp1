@@ -51,7 +51,7 @@
     [self setData];
 }
 -(void)setData{
-    [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64-49];
+    [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64];
 
     NSMutableDictionary *dict= [[NSMutableDictionary alloc]init];
     [dict setObject:self.Id forKey:@"promotionId"];
@@ -87,29 +87,29 @@
 {
     UITableViewCell *cell =[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
     
-    cell.textLabel.font =[UIFont systemFontOfSize:15];
+    cell.textLabel.font =[UIFont systemFontOfSize:16];
     if (indexPath.section==0 &&indexPath.row ==0) {
         cell.textLabel.text =@"奖励说明";
     }else if(indexPath.section == 0&&indexPath.row ==1){
         NSLog(@"%@",[self.dataArray objectForKey:@"desc"]);
         cell.textLabel.text=[self.dataArray objectForKey:@"desc"];
         cell.textLabel.numberOfLines =0;
-        cell.textLabel.font =[UIFont systemFontOfSize:12];
+        cell.textLabel.font =[UIFont systemFontOfSize:14];
         
 
     }else if(indexPath.section == 1&&indexPath.row ==0){
         cell.textLabel.text=@"当前进度";
     }else if(indexPath.section == 1&&indexPath.row ==1){
         cell.textLabel.text=[self.dataArray objectForKey:@"tip"];
-        cell.textLabel.font =[UIFont systemFontOfSize:12];
+        cell.textLabel.font =[UIFont systemFontOfSize:14];
 
     }else if(indexPath.section ==2&&indexPath.row ==0){
           cell.textLabel.text=@"历史记录";
     }else if(indexPath.section ==2 &&indexPath.row >0){
         cell.textLabel.text = [self.historyArray[indexPath.row-1] objectForKey:@"endtime"];
         cell.detailTextLabel.text =  [self.historyArray[indexPath.row-1] objectForKey:@"status_str"];
-        cell.textLabel.font =[UIFont systemFontOfSize:12];
-        cell.detailTextLabel.font =[UIFont systemFontOfSize:12];
+        cell.textLabel.font =[UIFont systemFontOfSize:14];
+        cell.detailTextLabel.font =[UIFont systemFontOfSize:14];
 
     }
     
