@@ -219,27 +219,36 @@
     }
     if (indexPath.row==2)
     {
-        NSString *AuditStatus = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"AuditStatus"]];
-        if ([AuditStatus isEqualToString:@"1"]) //==1 通过
-        {
-            [UIApplication sharedApplication].keyWindow.rootViewController = [[BuyerTabBarViewController alloc]init];
-        }
-        else if ([AuditStatus isEqualToString:@"-1"])
-        {
-            [self showHudFailed:@"亲您提交的信息有误,请您重新提交"];
-
-            //被拒绝
-        }
-        else if ([AuditStatus isEqualToString:@"-2"])
-        {
-            BueryAuthViewController * b =[[BueryAuthViewController alloc]init];
-            [self.navigationController pushViewController:b animated:YES];
-        }
-        else if ([AuditStatus isEqualToString:@"0"])
-        {
-            [self showHudFailed:@"亲不用急,正在审核中"];
-            //正在申请中
-        }
+        [self hudShow];
+        [HttpTool postWithURL:@"User/CheckBuyerStatus" params:nil success:^(id json) {
+            [self hiddleHud];
+            if ([[json objectForKey:@"isSuccessful"] boolValue])
+            {
+                NSString *type = [NSString stringWithFormat:@"%@",[[json objectForKey:@"data"] objectForKey:@"Status"]];
+                if ([type isEqualToString:@"-1"])
+                {
+                    //被拒绝
+                    [self showHudFailed:@"亲您提交的信息有误,请您重新提交"];
+                }
+                else if ([type isEqualToString:@"0"])
+                {
+                    BueryAuthViewController * b =[[BueryAuthViewController alloc]init];
+                    [self.navigationController pushViewController:b animated:YES];
+                }
+                else if ([type isEqualToString:@"1"])//==1 通过
+                {
+                    [UIApplication sharedApplication].keyWindow.rootViewController = [[BuyerTabBarViewController alloc]init];
+                }
+            }
+            else
+            {
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+            
+        } failure:^(NSError *error) {
+            [self hiddleHud];
+            
+        }];
     }
 }
 

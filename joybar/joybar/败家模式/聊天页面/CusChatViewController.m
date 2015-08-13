@@ -629,18 +629,19 @@
                 [cell.contentView addSubview:photo];
                 
                 //图片
-                if ([[msgDic objectForKey:@"type"] isEqualToString:@"img"])
+                NSString *type= [msgDic objectForKey:@"type"];
+                if ([type isEqualToString:@"img"])
                 {
                     [cell.contentView addSubview:[cell imageBubbleView:[msgDic objectForKey:@"body"] from:YES withPosition:60]];
                 }
                 //链接
-                else if ([[msgDic objectForKey:@"type"] isEqualToString:@"product_img"])
+                else if ([type isEqualToString:@"product_img"])
                 {
                     NSString *imageURL = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"body"]];
                     //发送链接
                     [cell.contentView addSubview:[cell productLinkBubbleView:imageURL AndProcuctLink:[msgDic objectForKey:@"sharelink"] from:YES withPosition:60]];
                 }
-                else if ([[msgDic objectForKey:@"type"] isEqualToString:@""])
+                else if ([type isEqualToString:@""]||!type)
                 {
                     //发送文字
                     [cell.contentView addSubview:[cell bubbleView:[msgDic objectForKey:@"body"] from:YES withPosition:60]];
@@ -689,18 +690,20 @@
     
     if (self.messageArr.count>0)
     {
+        
         NSMutableDictionary *msgDic = [self.messageArr objectAtIndex:indexPath.row];
         
-        if ([[msgDic objectForKey:@"type"] isEqualToString:@"img"])
+        NSString *type = [msgDic objectForKey:@"type"];
+        if ([type isEqualToString:@"img"])
         {
             return 170;
         }
         //链接
-        else if ([[msgDic objectForKey:@"type"] isEqualToString:@"product_img"])
+        else if ([type isEqualToString:@"product_img"])
         {
             return 170;
         }
-        if ([[msgDic objectForKey:@"type"] isEqualToString:@""])
+        if ([type isEqualToString:@""]||!type)
         {
             UIFont *font = [UIFont systemFontOfSize:15];
             CGSize size = [[msgDic objectForKey:@"body"] sizeWithFont:font constrainedToSize:CGSizeMake(180.0f, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
@@ -721,18 +724,6 @@
     }
 
 }
-
-//-(void)didClickTableView
-//{
-//    [listView.messageTF resignFirstResponder];
-////    [listView moreBtnAction:nil];
-//    [UIView animateWithDuration:0.25 animations:^{
-//        listView.moreView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 164);
-//        listView.frame = CGRectMake(0, self.view.frame.size.height-49, kScreenWidth, 49);
-//        listView.faceView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 216-49);
-//        [self changeTableViewFrameWhileHidden];
-//    }];
-//}
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {

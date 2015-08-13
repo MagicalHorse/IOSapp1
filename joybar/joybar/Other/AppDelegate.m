@@ -197,13 +197,18 @@
     NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
     if (tempName)
     {
-        [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
-            [SocketManager socketManager].socket = socket;
+        [SIOSocket socketWithHost:SocketUrl response:^(SIOSocket *socket) {
             [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+                [SocketManager socketManager].socket = socket;
                 NSLog(@"connnection is success:%@",[args description]);
             }];
-            [socket emit:@"online" args:@[tempName]];
+ 
         }];
+        
+        [self online];
+
+//        [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
+//        }];
     }
     [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
         NSLog(@"disconnect");
@@ -211,10 +216,18 @@
     
     [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"messageNot" object:dic];
     }];
 }
+
+-(void)online
+{
+    NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
+
+    [[SocketManager socketManager].socket emit:@"online" args:@[tempName]];
+
+}
+
 //阿里云
 -(void)aliyunSet{
     OSSClient *ossclient = [OSSClient sharedInstanceManage];
