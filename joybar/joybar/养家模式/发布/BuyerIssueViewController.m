@@ -134,9 +134,10 @@
         [self addNavBarViewAndTitle:@"修改商品"];
     }else{
         [self addNavBarViewAndTitle:@"发布商品"];
+        self.retBtn.hidden =YES;
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
     [self setInitView];
-    self.retBtn.hidden =YES;
 }
 
 -(void) setInitView{
@@ -897,6 +898,7 @@
 
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    NSLog(@"%f",scrollView.origin.x);
     [self.priceText1 resignFirstResponder];
     [self.priceText resignFirstResponder];
 }
@@ -977,5 +979,7 @@
     }
 
 }
+
+
 
 @end

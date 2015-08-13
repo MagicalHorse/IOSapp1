@@ -219,7 +219,7 @@
     }
     if (indexPath.row==2)
     {
-        [self hudShow:@"加载中"];
+        [self hudShow:@"正在加载"];
         [HttpTool postWithURL:@"User/CheckBuyerStatus" params:nil success:^(id json) {
             
             BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
