@@ -10,6 +10,7 @@
 
 @interface BuyerShopShowViewController ()<UITextViewDelegate>
 @property (nonatomic ,strong)UITextView *textView;
+@property (nonatomic, strong)UILabel *countLable;
 @end
 
 @implementation BuyerShopShowViewController
@@ -30,10 +31,13 @@
 
 - (void)setInitView {
     
+    UIView *view= [[UIView alloc]initWithFrame:CGRectMake(10, 74, kScreenWidth-20, 200)];
+    view.layer.borderWidth= 1.5;
+    view.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
+    [self.view addSubview:view];
+    
     _textView =[[UITextView alloc]init];
-    _textView.frame =CGRectMake(10, 74, kScreenWidth-20, 200);
-    _textView.layer.borderWidth= 1.5;
-    _textView.layer.borderColor = kCustomColor(196, 194, 190).CGColor;
+    _textView.frame =CGRectMake(0, 0, kScreenWidth-20, 180);
     _textView.delegate =self;
     _textView.font =[UIFont systemFontOfSize:15];
     NSDictionary * temp =[Public getUserInfo];
@@ -42,7 +46,15 @@
     NSDictionary *dict=[Public getUserInfo];
     self.textView.text =[dict objectForKey:@"Description"];
     [_textView becomeFirstResponder];
-    [self.view addSubview:_textView];
+    [view addSubview:_textView];
+    
+   _countLable=[[UILabel alloc]initWithFrame:CGRectMake(0, 175, view.width-10, 20)];
+    _countLable.textAlignment =NSTextAlignmentRight;
+    _countLable.textColor =[UIColor lightGrayColor];
+    _countLable.font =[UIFont systemFontOfSize:14];
+    NSUInteger count =self.textView.text.length;
+    _countLable.text =[NSString stringWithFormat:@"%ld字",200-count];
+    [view addSubview:_countLable];
     
 }
 -(void)setData{
@@ -80,6 +92,14 @@
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
+}
+-(void)textViewDidChange:(UITextView *)textView{
+    NSInteger number = [textView.text length];
+    if (number > 200) {
+               textView.text = [textView.text substringToIndex:200];
+        number = 200;
+    }
+    _countLable.text =[NSString stringWithFormat:@"%ld字",200-number];
 }
 
 @end
