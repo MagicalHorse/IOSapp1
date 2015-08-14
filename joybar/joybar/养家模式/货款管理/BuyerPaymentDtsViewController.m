@@ -26,6 +26,7 @@
 @property (nonatomic ,strong)UIButton *cancleBtn;
 @property (nonatomic ,strong) UIButton *btn;
 @property (nonatomic ,strong) UIImageView *codeImage;
+@property (nonatomic,strong) NSMutableArray *stateArray;
 @end
 
 @implementation BuyerPaymentDtsViewController
@@ -53,6 +54,13 @@
     }
     return _dataArray;
 }
+-(NSMutableArray *)stateArray{
+    
+    if (_stateArray ==nil) {
+        _stateArray =[[NSMutableArray alloc]init];
+    }
+    return _stateArray;
+}
 -(void)setData
 {
     if (isRefresh) {
@@ -62,7 +70,7 @@
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
-    [dict setValue:@"6" forKey:@"Pagesize"];
+    [dict setValue:@"10" forKey:@"Pagesize"];
 
     if (type ==1) {
         [dict setObject:@"1" forKey:@"status"];
@@ -95,10 +103,15 @@
             }else{
                 [self.dataArray addObjectsFromArray:arr];
             }
+            
+            for (int i=0; i<self.dataArray.count; i++) {
+                [self.stateArray addObject:@"0"];
+            }
         }else{
             self.dataArray=nil;
             [self showHudFailed:@"加载失败"];
         }
+        
         [self.tableView1 reloadData];
         [self.tableView reloadData];
         [self.tableView1 endRefresh];
@@ -464,6 +477,11 @@
         cell.stateLabel.hidden=YES;
         cell.stateBtn.hidden =NO;
         cell.stateBtn.tag =indexPath.row;
+        if ([self.stateArray[indexPath.row] isEqualToString:@"0"]) {
+            cell.stateBtn.selected =NO;
+        }else{
+            cell.stateBtn.selected =YES;
+        }
         [cell.stateBtn addTarget:self action:@selector(changeImg:) forControlEvents:UIControlEventTouchUpInside];
         
     }
@@ -487,11 +505,12 @@
     if(btn.selected){
         btn.selected =NO;
         [self.orderNos removeObjectForKey:[d objectForKey:@"OrderNo"]];
+        [self.stateArray replaceObjectAtIndex:btn.tag withObject:@"0"];
     }else{
         btn.selected =YES;
         [self.orderNos setObject:[d objectForKey:@"Amount"]forKey:[d objectForKey:@"OrderNo"]];
+        [self.stateArray replaceObjectAtIndex:btn.tag withObject:@"1"];
     }
-    
 }
 
 
