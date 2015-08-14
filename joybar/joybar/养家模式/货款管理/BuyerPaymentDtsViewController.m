@@ -70,7 +70,7 @@
     NSMutableDictionary * dict=[[NSMutableDictionary alloc]init];
     
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
-    [dict setValue:@"6" forKey:@"Pagesize"];
+    [dict setValue:@"10" forKey:@"Pagesize"];
 
     if (type ==1) {
         [dict setObject:@"1" forKey:@"status"];
