@@ -8,7 +8,19 @@
 
 #import "BaseTabBarController.h"
 #import "BaseNavigationController.h"
+#import "CusHomeViewController.h"
+#import "CusCircleViewController.h"
+#import "CusCartViewController.h"
+#import "CusFindViewController.h"
+#import "CusMineViewController.h"
+#import "LoginAndRegisterViewController.h"
+#import "CusMessageViewController.h"
+#import "AppDelegate.h"
+
 @interface CusTabBarViewController : BaseTabBarController
+@property (nonatomic ,strong) UILabel *circleMarkLab;
+@property (nonatomic ,strong) UILabel *msgMarkLab;
+
 //切换按钮
 @property (strong, nonatomic) NSMutableArray *btnArray;
 @property (strong, nonatomic) BaseNavigationController *homeNav;
@@ -16,6 +28,14 @@
 @property (strong, nonatomic) BaseNavigationController *cartNav;
 @property (strong, nonatomic) BaseNavigationController *findNav;
 @property (strong, nonatomic) BaseNavigationController *myAccountNav;
+
+
+@property (strong, nonatomic) CusHomeViewController *homeView;
+@property (strong, nonatomic) CusCircleViewController *fastView;
+@property (strong, nonatomic) CusMessageViewController *messageView;
+@property (strong, nonatomic) CusFindViewController *fineView;
+@property (strong, nonatomic) CusMineViewController *myAccountView;
+
 
 -(void)SelectedIndex:(NSUInteger)selectedIndex;
 

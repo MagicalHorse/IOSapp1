@@ -10,4 +10,6 @@
 
 @interface CusMessageViewController : BaseViewController
 
+-(void)receiveMessage;
+
 @end

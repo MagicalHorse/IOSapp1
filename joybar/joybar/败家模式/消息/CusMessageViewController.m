@@ -34,9 +34,14 @@
 {
     UIView *tempView;
 }
+-(void)receiveMessage
+{
+    [self getMessageList];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
     self.pageNum = 1;
     self.msgPageNum = 1;
     self.messageScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64)];
