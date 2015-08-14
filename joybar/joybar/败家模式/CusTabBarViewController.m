@@ -7,14 +7,6 @@
 //
 
 #import "CusTabBarViewController.h"
-#import "CusHomeViewController.h"
-#import "CusCircleViewController.h"
-#import "CusCartViewController.h"
-#import "CusFindViewController.h"
-#import "CusMineViewController.h"
-#import "LoginAndRegisterViewController.h"
-#import "CusMessageViewController.h"
-#import "AppDelegate.h"
 @interface CusTabBarViewController ()
 
 @end
@@ -45,16 +37,16 @@
 
 -(void)_initWithControllers
 {
-    CusHomeViewController *homeView = [[CusHomeViewController alloc]init];
-    CusCircleViewController *fastView = [[CusCircleViewController alloc]init];
-    CusMessageViewController *messageView = [[CusMessageViewController alloc]init];
-    CusFindViewController *fineView = [[CusFindViewController alloc]init];
-    CusMineViewController *myAccountView = [[CusMineViewController alloc] init];
-    self.homeNav = [[BaseNavigationController alloc]initWithRootViewController:homeView];
-    self.fastNav = [[BaseNavigationController alloc]initWithRootViewController:fastView];
-    self.cartNav = [[BaseNavigationController alloc]initWithRootViewController:messageView];
-    self.findNav = [[BaseNavigationController alloc]initWithRootViewController:fineView];
-    self.myAccountNav = [[BaseNavigationController alloc]initWithRootViewController:myAccountView];
+    _homeView = [[CusHomeViewController alloc]init];
+    _fastView = [[CusCircleViewController alloc]init];
+    _messageView = [[CusMessageViewController alloc]init];
+    _fineView = [[CusFindViewController alloc]init];
+    _myAccountView = [[CusMineViewController alloc] init];
+    self.homeNav = [[BaseNavigationController alloc]initWithRootViewController:_homeView];
+    self.fastNav = [[BaseNavigationController alloc]initWithRootViewController:_fastView];
+    self.cartNav = [[BaseNavigationController alloc]initWithRootViewController:_messageView];
+    self.findNav = [[BaseNavigationController alloc]initWithRootViewController:_fineView];
+    self.myAccountNav = [[BaseNavigationController alloc]initWithRootViewController:_myAccountView];
     
     NSArray *navs = [NSArray arrayWithObjects:self.homeNav,self.fastNav,self.cartNav,self.findNav,self.myAccountNav, nil];
     

@@ -76,11 +76,6 @@
     return self;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-}
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
@@ -107,6 +102,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -446,6 +442,14 @@
     NSString *myId=[[Public getUserInfo]objectForKey:@"id"];
     toUserName = [[Public getUserInfo] objectForKey:@"nickname"];
     
+    if (self.isFrom==isFromBuyPro||self.isFrom==isFromPrivateChat)
+    {
+        toUserId=@"0";
+    }
+    else
+    {
+        
+    }
     //发送图片
     if ([type isEqualToString:@"发送图片"])
     {

@@ -35,10 +35,16 @@
     UIView *tempView;
 }
 
+-(void)receiveMessage
+{
+    [self.myCircleTableView.dataArr removeAllObjects];
+    self.myCirclePageNum=1;
+    [self getMyCircleData:YES];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     self.circleScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64)];
     self.circleScroll.contentSize = CGSizeMake(kScreenWidth*2, 0);
     self.circleScroll.alwaysBounceVertical = NO;
@@ -82,6 +88,7 @@
 {
     [super viewWillAppear:animated];
     [self.myCircleTableView.dataArr removeAllObjects];
+    self.myCirclePageNum=1;
     [self getMyCircleData:YES];
 }
 

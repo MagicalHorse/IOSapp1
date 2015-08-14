@@ -15,6 +15,8 @@
 #import "APService.h"
 #import "OSSClient.h"
 #import "OSSTool.h"
+#import "CusTabBarViewController.h"
+
 @implementation AppDelegate
 
 
@@ -201,10 +203,20 @@
                 NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
                 NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
                 
+                
                 if (_cusTabbar.selectedIndex==1||_cusTabbar.selectedIndex ==2)
                 {
                    _cusTabbar.circleMarkLab.hidden = YES;
                     _cusTabbar.msgMarkLab.hidden = YES;
+                    
+                    if ([toUserId isEqualToString:@"0"])
+                    {
+                        [_cusTabbar.fastView receiveMessage];
+                    }
+                    else
+                    {
+                        [_cusTabbar.messageView receiveMessage];
+                    }
                 }
                 else
                 {
@@ -341,6 +353,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    [APService setBadge:0];
     NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     
     if (![userId isEqualToString:@"(null)"])
@@ -523,6 +536,9 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PaySuccessNotification" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PayCancleNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receivePrivateMessageNot" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receiveCircleMessageNot" object:nil];
+
 }
 
 @end

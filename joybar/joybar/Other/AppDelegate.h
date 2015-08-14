@@ -7,17 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CusTabBarViewController.h"
 #import "BaseNavigationController.h"
 #import "BuyerTabBarViewController.h"
 #import "SIOSocket.h"
 #import "WXApi.h"
 #import <CoreLocation/CoreLocation.h>
+@class CusTabBarViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate,UIAlertViewDelegate,CLLocationManagerDelegate>
 @property (strong, nonatomic) UIWindow *window;
 
-//@property (nonatomic ,strong) CusTabBarViewController *cusTab;
 @property (nonatomic ,strong) BuyerTabBarViewController *buyerTab;
 @property (nonatomic ,strong) BaseNavigationController *baseNav;
 @property (nonatomic ,strong) CusTabBarViewController *cusTabbar;

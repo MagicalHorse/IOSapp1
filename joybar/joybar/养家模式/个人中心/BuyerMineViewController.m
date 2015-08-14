@@ -15,6 +15,7 @@
 #import "CusHomeStoreViewController.h"
 #import "UMSocialWechatHandler.h"
 #import "UMSocial.h"
+#import "CusTabBarViewController.h"
 
 
 @interface BuyerMineViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UMSocialUIDelegate>

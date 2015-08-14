@@ -10,4 +10,5 @@
 
 @interface CusCircleViewController : BaseViewController<UIScrollViewDelegate>
 
+-(void)receiveMessage;
 @end

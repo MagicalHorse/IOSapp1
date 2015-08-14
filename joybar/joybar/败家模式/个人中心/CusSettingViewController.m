@@ -19,6 +19,7 @@
 #import "OSSData.h"
 #import "OSSLog.h"
 #import "APService.h"
+#import "CusTabBarViewController.h"
 @interface CusSettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIAlertViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     OSSData *osData;
 }
