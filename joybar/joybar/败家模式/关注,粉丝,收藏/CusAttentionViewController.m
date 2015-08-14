@@ -10,6 +10,7 @@
 #import "CusFansTableViewCell.h"
 #import "BaseTableView.h"
 #import "FansItems.h"
+#import "CusHomeStoreViewController.h"
 #define MJRandomData [NSString stringWithFormat:@"随机数据---%d", arc4random_uniform(1000000)]
 
 @interface CusAttentionViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
@@ -49,7 +50,7 @@
     
     self.btnArr = [NSMutableArray array];
     self.labArr = [NSMutableArray array];
-    
+    self.pageNum= 1;
     [self addNavBarViewAndTitle:@"关注"];
     
 //    UIButton *titleBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -218,7 +219,7 @@
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    FansModel *fan = [fansItems.items objectAtIndex:indexPath.row];
+    FansModel *fan = [self.attentionArr objectAtIndex:indexPath.row];
     [cell setData:fan];
     
     return cell;
@@ -227,6 +228,16 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 70;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    FansModel *fan = [self.attentionArr objectAtIndex:indexPath.row];
+
+    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    VC.userId =fan.UserId;
+    VC.userName = fan.UserName;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 -(void)didClickTitleBtn:(UIButton *)btn

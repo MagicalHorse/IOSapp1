@@ -19,6 +19,17 @@
 {
     CGFloat cellHeight;
 }
+
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self)
+    {
+        
+    }
+    return self;
+}
+
 -(void)setData:(NSDictionary *)dic
 {
     UIImageView *headImg = [[UIImageView alloc] initWithFrame:CGRectMake(7, 7, 55, 55)];
@@ -55,17 +66,24 @@
     
     //展示图片
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, locationLab.bottom+17, kScreenWidth, kScreenWidth)];
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
     imageView.userInteractionEnabled = YES;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    });
+
     [self.contentView addSubview:imageView];
-    
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    });
+
     //标签View
     for (int i=0; i<self.homePro.ProductPic.Tags.count; i++)
     {
         HomePicTag *tag = [self.homePro.ProductPic.Tags objectAtIndex:i];
-
+        
         CGSize size = [Public getContentSizeWith:tag.Name andFontSize:13 andHigth:20];
         CGFloat x = [tag.PosX floatValue]*kScreenWidth;
         CGFloat y = [tag.PosY floatValue]*kScreenWidth;
@@ -90,9 +108,8 @@
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTag:)];
         [tagView addGestureRecognizer:tap];
-        
     }
-    
+
     UILabel *descriptionLab = [[UILabel alloc] initWithFrame:CGRectMake(10, imageView.bottom+10, kScreenWidth-20, 20)];
     descriptionLab.text = self.homePro.ProductName;
     descriptionLab.font = [UIFont systemFontOfSize:16];
@@ -191,8 +208,6 @@
     nightImage.clipsToBounds = YES;
     nightImage.image = [UIImage imageNamed:@"打烊购框icon"];
     [self.contentView addSubview:nightImage];
-    
-    
     
     UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, kScreenWidth-80, 20)];
     lab.text = self.homePro.Promotion.DescriptionText;

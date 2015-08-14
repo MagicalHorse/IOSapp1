@@ -19,7 +19,7 @@
 #import "OSSLog.h"
 #import "CusBuyerDetailViewController.h"
 #import "ProductPicture.h"
-
+#import "CusHomeStoreViewController.h"
 @interface CusChatViewController ()<UITableViewDataSource,UITableViewDelegate,SendMessageTextDelegate,UIScrollViewDelegate,MessageMoreViewDelegate>
 
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -81,23 +81,6 @@
     [super viewDidDisappear:animated];
     [[SocketManager  socketManager].socket emit:@"leaveRoom"];
 }
-
-//-(void)receiveMessageNot:(NSNotification *)not
-//{
-//    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:not.object];
-//    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-//    [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
-//    [HttpTool postWithURL:@"User/GetUserLogo" params:dict success:^(id json) {
-//        
-//        [dic setObject:[json objectForKey:@"logo"] forKey:@"logo"];
-//        [self.messageArr addObject:dic];
-//        [self.tableView reloadData];
-//        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
-//}
 
 - (void)viewDidLoad
 {
@@ -243,7 +226,10 @@
             
             if (isRefresh)
             {
-                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:arr.count inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+                if (arr.count>0)
+                {
+                    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:arr.count inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+                }
             }
             else
             {
@@ -252,7 +238,6 @@
                     [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
                 }
             }
-
         }
         else
         {
@@ -414,7 +399,6 @@
             } failure:^(NSError *error) {
                 
             }];
-            
         }
         else
         {
@@ -424,7 +408,6 @@
     } withProgressCallback:^(float progress) {
         NSLog(@"%f",progress);
     }];
-
 }
 
 //选择商品回调
@@ -434,6 +417,7 @@
     [self.selectProLinkArr addObjectsFromArray:arr];
     [self sendMessageWithType:@"发送商品" andText:@""];
 }
+
 
 -(void)sendMessageWithType:(NSString *)type andText:(NSString *)text
 {
@@ -473,10 +457,8 @@
     }
     else if ([type isEqualToString:@"发送商品"])
     {
-        NSLog(@"%lu",(unsigned long)self.selectProLinkArr.count);
         for (int i=0; i<self.selectProLinkArr.count; i++)
         {
-            
             NSMutableDictionary *msgDic = [NSMutableDictionary dictionary];
             [msgDic setValue:@"" forKey:@"Id"];
             [msgDic setValue:@"0" forKey:@"__v"];
@@ -503,7 +485,6 @@
             [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
             [self.messageArr addObject:msgDic];
         }
-        NSLog(@"asdasdasdasda");
     }
     else
     {
@@ -624,11 +605,16 @@
                 nameLab.textColor = [UIColor grayColor];
                 [cell.contentView addSubview:nameLab];
                 
-                UIImageView *photo = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-10-40, 15, 40, 40)];
-                photo.layer.cornerRadius = photo.width/2;
-                photo.clipsToBounds = YES;
-                [photo sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                [cell.contentView addSubview:photo];
+                UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-10-40, 15, 40, 40)];
+                headerImage.layer.cornerRadius = headerImage.width/2;
+                headerImage.clipsToBounds = YES;
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                headerImage.tag = 1000+indexPath.row;
+                headerImage.userInteractionEnabled = YES;
+                [cell.contentView addSubview:headerImage];
+                
+                UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
+                [headerImage addGestureRecognizer:tap];
                 
                 //图片
                 NSString *type= [msgDic objectForKey:@"type"];
@@ -659,11 +645,17 @@
                 nameLab.textColor = [UIColor grayColor];
                 [cell.contentView addSubview:nameLab];
                 
-                UIImageView *photo = [[UIImageView alloc]initWithFrame:CGRectMake(10, 15, 40, 40)];
-                photo.layer.cornerRadius = photo.width/2;
-                photo.clipsToBounds = YES;
-                [photo sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                [cell.contentView addSubview:photo];
+                UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 15, 40, 40)];
+                headerImage.layer.cornerRadius = headerImage.width/2;
+                headerImage.clipsToBounds = YES;
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                headerImage.tag = 1000+indexPath.row;
+                headerImage.userInteractionEnabled = YES;
+                [cell.contentView addSubview:headerImage];
+                
+                UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
+                [headerImage addGestureRecognizer:tap];
+
                 
                 //图片
                 if ([[msgDic objectForKey:@"type"] isEqualToString:@"img"])
@@ -725,17 +717,6 @@
         [self.navigationController pushViewController: VC animated:YES];
     }
 
-}
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    
-}
-
-
--(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -982,7 +963,18 @@
 }
 
 
+//点击头像
+-(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
+{
+    NSDictionary *msgDic = [self.messageArr objectAtIndex:tap.view.tag-1000];
+    //自己
+    NSString *fromUserId = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"fromUserId"]];
 
+    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    VC.userName = [msgDic objectForKey:@"userName"];
+    VC.userId = fromUserId;
+    [self.navigationController pushViewController:VC animated:YES];
+}
 
 
 @end

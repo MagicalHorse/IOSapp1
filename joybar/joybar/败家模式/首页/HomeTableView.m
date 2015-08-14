@@ -32,19 +32,19 @@
 {
     static NSString *iden = @"cell";
     CusHomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-    if (cell==nil)
+    if (self.dataArr.count>0)
     {
-        cell = [[CusHomeTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+        if (cell==nil)
+        {
+            cell = [[CusHomeTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+        }
     }
-    
      cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     for (UIView *view in cell.contentView.subviews)
     {
         [view removeFromSuperview];
     }
-    
-
     if (self.dataArr.count>0)
     {
         HomeProduct *homePro = [self.dataArr objectAtIndex:indexPath.row];
@@ -78,6 +78,5 @@
     VC.productId = pro.ProductId;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
-
 
 @end

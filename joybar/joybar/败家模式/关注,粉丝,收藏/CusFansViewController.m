@@ -10,6 +10,7 @@
 #import "CusFansTableViewCell.h"
 #import "FansItems.h"
 #import "CusChatViewController.h"
+#import "CusHomeStoreViewController.h"
 @interface CusFansViewController ()<UITableViewDelegate,UITableViewDataSource>{
     int isY;
     FansItems *fansItems;
@@ -142,8 +143,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FansModel *fan = [fansItems.items objectAtIndex:indexPath.row];
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:fan.UserId AndTpye:2 andUserName:fan.UserName];
-    VC.isFrom = isFromPrivateChat;
+    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    VC.userId =fan.UserId;
+    VC.userName = fan.UserName;
     [self.navigationController pushViewController:VC animated:YES];
 }
 
