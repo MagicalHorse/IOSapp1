@@ -172,8 +172,6 @@
     }
     [[NSUserDefaults standardUserDefaults] setObject:faceDict forKey:@"faceInfo"];
     
-    //    if ([chatRoomId isEqualToString:@""])
-    //    {
     [self getRoomId];
     [self addTitleView];
     
@@ -442,7 +440,7 @@
     NSString *myId=[[Public getUserInfo]objectForKey:@"id"];
     toUserName = [[Public getUserInfo] objectForKey:@"nickname"];
     
-    if (self.isFrom==isFromBuyPro||self.isFrom==isFromPrivateChat)
+    if (self.isFrom==isFromGroupChat)
     {
         toUserId=@"0";
     }
