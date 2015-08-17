@@ -78,7 +78,7 @@
             [self showHudFailed:@"创建失败"];
         }
     } withProgressCallback:^(float progress) {
-        NSLog(@"%f",progress);
+//        NSLog(@"%f",progress);
     }];
     
   
@@ -207,7 +207,7 @@
     newImage = UIGraphicsGetImageFromCurrentImageContext();
     
     if(newImage == nil){
-        NSLog(@"scale image fail");
+//        NSLog(@"scale image fail");
     }
     
     UIGraphicsEndImageContext();

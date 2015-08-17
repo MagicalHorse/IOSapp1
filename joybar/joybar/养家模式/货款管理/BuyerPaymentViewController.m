@@ -72,7 +72,7 @@
         }
 
     } failure:^(NSError *error) {
-        NSLog(@"%@",[error description]);
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
     }];
 }
 -(void)btnclick{

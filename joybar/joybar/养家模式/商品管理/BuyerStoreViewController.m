@@ -244,7 +244,7 @@
         }
         NSLog(@"%@",[json objectForKey:@"message"]);
     } failure:^(NSError *error) {
-        NSLog(@"%@",error);
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
     }];
 
 }
@@ -271,7 +271,7 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
     } failure:^(NSError *error) {
-        NSLog(@"%@",error);
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
     }];
     
 }
@@ -327,7 +327,7 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
     } failure:^(NSError *error) {
-        NSLog(@"%@",error);
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
     }];
     
 }
@@ -351,7 +351,7 @@
                 [self showHudFailed:[json objectForKey:@"message"]];
             }
         } failure:^(NSError *error) {
-            NSLog(@"服务器正在维护,请稍后再试");
+            [self showHudFailed:@"服务器正在维护,请稍后再试"];
         }];
     }
 }
