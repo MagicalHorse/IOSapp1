@@ -10,10 +10,7 @@
 
 @implementation BuyerHomeTableViewCell
 
-- (void)awakeFromNib {
-
-    NSLog(@"%f",kScreenWidth);
-    
+- (void)awakeFromNib {    
     if (kScreenWidth == 375) {
         _lableXConstraint.constant +=20;
         _lableLConstraint.constant +=20;

@@ -626,7 +626,7 @@
         }
         [self textHUDHiddle];
     } failure:^(NSError *error) {
-        NSLog(@"%@",[error description]);
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
     }];
 }
 //选择图片
@@ -898,7 +898,6 @@
 
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"%f",scrollView.origin.x);
     [self.priceText1 resignFirstResponder];
     [self.priceText resignFirstResponder];
 }
