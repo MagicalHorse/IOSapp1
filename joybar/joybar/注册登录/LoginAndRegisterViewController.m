@@ -306,7 +306,7 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             
-            [self cconnectSocket];
+            [self connectSocket];
             NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
             NSArray *allKeys = [userInfoDic allKeys];
             for (NSString *key in allKeys)
@@ -469,7 +469,7 @@
         [self textHUDHiddle];
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            [self cconnectSocket];
+            [self connectSocket];
             NSMutableDictionary *userInfoDic = [NSMutableDictionary dictionaryWithDictionary:[json objectForKey:@"data"]];
             
             NSArray *allKeys = [userInfoDic allKeys];
@@ -510,18 +510,27 @@
     [scroll endEditing:YES];
 }
 
--(void)cconnectSocket
+-(void)connectSocket
 {
-    NSString *userId = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
-    [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
+    NSString *userid = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
+    NSString *urlStr;
+    if (userid)
+    {
+        urlStr = [NSString stringWithFormat:@"%@?userid=%@",SocketUrl,userid];
+    }
+    else
+    {
+        urlStr = [NSString stringWithFormat:@"%@?userid=%@",SocketUrl,@"0"];
+    }
+
+    [SIOSocket socketWithHost:urlStr response:^(SIOSocket *socket) {
         [SocketManager socketManager].socket = socket;
         [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-            [socket emit:@"online" args:@[userId]];
+            [socket emit:@"online" args:@[userid]];
             NSLog(@"connnection is success:%@",[args description]);
         }];
     }];
 }
-
 
 
 @end

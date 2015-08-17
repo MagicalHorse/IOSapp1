@@ -27,13 +27,82 @@
 {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveMessageNot:) name:@"messageNot" object:self];
     //初始化子视图
     [self _initWithControllers];
     //创建自定义TabBar
     [self _initTabBarViewController];
     self.tabBar.backgroundColor = [UIColor colorWithRed:244.0f/255.0f green:244.0f/255.0f blue:244.0f/255.0f alpha:1.0f];
+    
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self connectionSoctet];
+}
+
+//socket
+-(void)connectionSoctet{
+    
+    NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
+    NSString *urlStr;
+    if (tempName)
+    {
+        urlStr = [NSString stringWithFormat:@"%@?userid=%@",SocketUrl,[[Public getUserInfo] objectForKey:@"id"]];
+    }
+    else
+    {
+        urlStr = [NSString stringWithFormat:@"%@?userid=%@",SocketUrl,@"0"];
+    }
+    if (tempName)
+    {
+        [SIOSocket socketWithHost:urlStr response:^(SIOSocket *socket) {
+            [SocketManager socketManager].socket = socket;
+            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+                NSLog(@"connnection is success:%@",[args description]);
+            }];
+            
+            [[SocketManager socketManager].socket emit:@"online" args:@[tempName]];
+            [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
+                
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
+                NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
+                
+                
+                if (self.selectedIndex==1||self.selectedIndex ==2)
+                {
+                    self.circleMarkLab.hidden = YES;
+                    self.msgMarkLab.hidden = YES;
+                    
+                    if ([toUserId isEqualToString:@"0"])
+                    {
+                        [self.fastView receiveMessage];
+                    }
+                    else
+                    {
+                        [self.messageView receiveMessage];
+                    }
+                }
+                else
+                {
+                    if ([toUserId isEqualToString:@"0"])
+                    {
+                        self.circleMarkLab.hidden = NO;
+                    }
+                    else
+                    {
+                        self.msgMarkLab.hidden = NO;
+                    }
+                }
+            }];
+        }];
+        
+        [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
+            NSLog(@"disconnect");
+        }];
+    }
+}
+
 
 -(void)_initWithControllers
 {
@@ -81,7 +150,7 @@
         rect.size.width = kScreenWidth/[title count];
         rect.size.height = self.tabBar.frame.size.height;
         tabBtn.frame = rect;
-    
+        
         tabBtn.center = CGPointMake(32+(rect.size.width)*i, self.tabBar.frame.size.height/2);        tabBtn.tag = i+100;
         
         tabBtn.frame = rect;
@@ -90,19 +159,19 @@
         //        tabBtn.userInteractionEnabled = YES;
         
         //设置图片
-                [tabBtn setImage:[UIImage imageNamed:tabBarImage[i]]
-                        forState:UIControlStateNormal];
-                [tabBtn setImage:[UIImage imageNamed:tabBarPress[i]] forState:UIControlStateHighlighted];
-                [tabBtn setImage:[UIImage imageNamed:tabBarPress[i]]
-                        forState:UIControlStateSelected];
+        [tabBtn setImage:[UIImage imageNamed:tabBarImage[i]]
+                forState:UIControlStateNormal];
+        [tabBtn setImage:[UIImage imageNamed:tabBarPress[i]] forState:UIControlStateHighlighted];
+        [tabBtn setImage:[UIImage imageNamed:tabBarPress[i]]
+                forState:UIControlStateSelected];
         //设置标题
-                [tabBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+        [tabBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         
-                NSString *titleStr = title[i];
-                [tabBtn setTitle:titleStr
-                        forState:UIControlStateNormal];
-                [tabBtn setTitle:titleStr
-                        forState:UIControlStateSelected];
+        NSString *titleStr = title[i];
+        [tabBtn setTitle:titleStr
+                forState:UIControlStateNormal];
+        [tabBtn setTitle:titleStr
+                forState:UIControlStateSelected];
         [tabBtn setAdjustsImageWhenDisabled:NO];
         [tabBtn setAdjustsImageWhenHighlighted:NO];
         //设置触发事件

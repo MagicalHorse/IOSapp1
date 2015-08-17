@@ -17,8 +17,11 @@
 #import "OSSTool.h"
 #import "CusTabBarViewController.h"
 
-@implementation AppDelegate
 
+@implementation AppDelegate
+{
+//    CusTabBarViewController *cusTabbar;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -49,13 +52,10 @@
     if (![userId isEqualToString:@"(null)"])
     {
         [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
-//        [self connectionSoctet];
-
     }
-    
-    _cusTabbar = [[CusTabBarViewController alloc] init];
-    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:_cusTabbar];
-    self.window.rootViewController = nav;
+    CusTabBarViewController *cusTabbar = [[CusTabBarViewController alloc] init];
+//    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:cusTabbar];
+    self.window.rootViewController = cusTabbar;
     [self.window makeKeyAndVisible];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
@@ -185,66 +185,62 @@
     [application cancelAllLocalNotifications];
 }
 
-//socket
--(void)connectionSoctet{
-    
-    NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
-    if (tempName)
-    {
-        [SIOSocket socketWithHost:SocketUrl response:^(SIOSocket *socket) {
-            [SocketManager socketManager].socket = socket;
-            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-                NSLog(@"connnection is success:%@",[args description]);
-            }];
-            
-            [self online];
-            [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
-            
-                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-                NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
-                
-                
-                if (_cusTabbar.selectedIndex==1||_cusTabbar.selectedIndex ==2)
-                {
-                   _cusTabbar.circleMarkLab.hidden = YES;
-                    _cusTabbar.msgMarkLab.hidden = YES;
-                    
-                    if ([toUserId isEqualToString:@"0"])
-                    {
-                        [_cusTabbar.fastView receiveMessage];
-                    }
-                    else
-                    {
-                        [_cusTabbar.messageView receiveMessage];
-                    }
-                }
-                else
-                {
-                    if ([toUserId isEqualToString:@"0"])
-                    {
-                        _cusTabbar.circleMarkLab.hidden = NO;
-                    }
-                    else
-                    {
-                        _cusTabbar.msgMarkLab.hidden = NO;
-                    }
-                }
-            }];
-        }];
-        
-        [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
-            NSLog(@"disconnect");
-        }];
-
-    }
-    
-}
-
--(void)online
-{
-    NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
-    [[SocketManager socketManager].socket emit:@"online" args:@[tempName]];
-}
+////socket
+//-(void)connectionSoctet{
+//    
+//    NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
+//    if (tempName)
+//    {
+//        [SIOSocket socketWithHost:SocketUrl response:^(SIOSocket *socket) {
+//            [SocketManager socketManager].socket = socket;
+//            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+//                NSLog(@"connnection is success:%@",[args description]);
+//            }];
+//            
+//            [[SocketManager socketManager].socket emit:@"online" args:@[tempName]];
+//            [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
+//            
+//                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
+//                NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
+//                
+//                if (_cusTabbar.selectedIndex==1||_cusTabbar.selectedIndex ==2)
+//                {
+//                   _cusTabbar.circleMarkLab.hidden = YES;
+//                    _cusTabbar.msgMarkLab.hidden = YES;
+//                    _buyerTab.buyerMsgMark.hidden = YES;
+//                    
+//                    if ([toUserId isEqualToString:@"0"])
+//                    {
+//                        [_cusTabbar.fastView receiveMessage];
+//                    }
+//                    else
+//                    {
+//                        [_cusTabbar.messageView receiveMessage];
+//                    }
+//                }
+//                else
+//                {
+//                    if ([toUserId isEqualToString:@"0"])
+//                    {
+//                        _cusTabbar.circleMarkLab.hidden = NO;
+//                    }
+//                    else
+//                    {
+//                        _cusTabbar.msgMarkLab.hidden = NO;
+//                        _buyerTab.buyerMsgMark.hidden = NO;
+//
+//                    }
+//                }
+//            }];
+//        }];
+//        
+//        [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
+//            NSLog(@"disconnect");
+//        }];
+//
+//    }
+//    
+//}
 
 //阿里云
 -(void)aliyunSet{
@@ -305,7 +301,6 @@ forRemoteNotification:(NSDictionary *)userInfo
 {
     [APService handleRemoteNotification:userInfo];
 }
-
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:
 (void (^)(UIBackgroundFetchResult))completionHandler
 {
@@ -313,7 +308,9 @@ forRemoteNotification:(NSDictionary *)userInfo
     NSString *type = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"type"]];
     if ([type isEqual:@"14"])
     {
-        
+//        cusTabbar.msgMarkLab.hidden = YES;
+//        
+//        [cusTabbar.messageView receiveMessage];
     }
     else
     {
@@ -358,7 +355,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     
     if (![userId isEqualToString:@"(null)"])
     {
-        [self connectionSoctet];
+//        [self connectionSoctet];
     }
 }
 

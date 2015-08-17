@@ -11,6 +11,5 @@
 @interface CusDynTableViewCell : UITableViewCell
 
 
--(void)setData:(NSDictionary *)dic;
-
+-(void)setData:(NSArray *)arr andIndexPath:(NSIndexPath *)indexPath;
 @end

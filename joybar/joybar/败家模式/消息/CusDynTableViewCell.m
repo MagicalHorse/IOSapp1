@@ -7,9 +7,13 @@
 //
 
 #import "CusDynTableViewCell.h"
-
+#import "CusHomeStoreViewController.h"
+#import "CusCircleDetailViewController.h"
+#import "CusBuyerDetailViewController.h"
 @implementation CusDynTableViewCell
-
+{
+    NSArray *dataArr;
+}
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -20,8 +24,10 @@
     // Configure the view for the selected state
 }
 
--(void)setData:(NSDictionary *)dic
+-(void)setData:(NSArray *)arr andIndexPath:(NSIndexPath *)indexPath;
 {
+    dataArr = arr;
+    NSDictionary *dic = [arr objectAtIndex:indexPath.row];
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 79, kScreenWidth, 0.5)];
     line.backgroundColor = [UIColor lightGrayColor];
     [self.contentView addSubview:line];
@@ -51,7 +57,38 @@
     
     UIImageView *typeImage =[[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-70 ,headerImg.top , 55, 55)];
     [typeImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"DataLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+    typeImage.userInteractionEnabled = YES;
+    typeImage.tag = 1000+indexPath.row;
     [self.contentView addSubview:typeImage];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
+    [typeImage addGestureRecognizer:tap];
+}
+
+-(void)didClickImage:(UITapGestureRecognizer *)tap
+{
+    NSDictionary *dic = [dataArr objectAtIndex:tap.view.tag-1000];
+    NSString *type = [NSString stringWithFormat:@"%@",[dic objectForKey:@"Type"]];
+    NSString *tempId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"DataId"]];
+    if ([type isEqualToString:@"0"])
+    {
+        CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+        VC.userId = tempId;
+        VC.userName = [dic objectForKey:@"UserName"];
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
+    else if ([type isEqualToString:@"1"])
+    {
+        CusCircleDetailViewController *VC= [[CusCircleDetailViewController alloc] init];
+        VC.circleId = tempId;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
+    else
+    {
+        CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+        VC.productId = tempId;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 @end

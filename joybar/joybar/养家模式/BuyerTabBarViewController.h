@@ -17,6 +17,8 @@
 @property (strong, nonatomic) BaseNavigationController *buyerMesNav;
 @property (strong, nonatomic) BaseNavigationController *buyerStoreNav;
 
+@property (nonatomic ,strong) UILabel *buyerMsgMark;
+
 -(void)SelectedIndex:(NSUInteger)selectedIndex;
 
 @end

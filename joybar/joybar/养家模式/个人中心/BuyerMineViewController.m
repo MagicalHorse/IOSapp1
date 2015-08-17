@@ -177,11 +177,13 @@
                                            delegate:self];
     
     }else if (indexPath.section == 2) {
-        [UIApplication sharedApplication].keyWindow.rootViewController =[[CusTabBarViewController alloc]init];
         
+        CusTabBarViewController *tabbar =[[CusTabBarViewController alloc]init];
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        app.window.rootViewController= tabbar;
+//        [UIApplication sharedApplication].keyWindow.rootViewController = tabbar;
     }
 }
-
 
 //实现回调方法（可选）：
 -(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response

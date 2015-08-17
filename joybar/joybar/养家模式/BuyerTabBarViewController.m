@@ -51,6 +51,21 @@
     //创建自定义TabBar
     [self _initTabBarViewController];
     self.tabBar.backgroundColor = [UIColor colorWithRed:244.0f/255.0f green:244.0f/255.0f blue:244.0f/255.0f alpha:1.0f];
+    [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
+        
+//        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
+//        NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
+        if (self.selectedIndex==3)
+        {
+            self.buyerMsgMark.hidden = YES;
+        }
+        else
+        {
+            self.buyerMsgMark.hidden = NO;
+        }
+        
+    }];
+
 }
 
 -(void)_initWithControllers
@@ -65,7 +80,6 @@
     self.buyerCircleNav = [[BaseNavigationController alloc]initWithRootViewController:messageView];
     self.buyerMesNav = [[BaseNavigationController alloc]initWithRootViewController:fineView];
     self.buyerStoreNav = [[BaseNavigationController alloc]initWithRootViewController:myAccountView];
-    
     NSArray *navs = [NSArray arrayWithObjects:self.buyerHomeNav,self.buyerTicketNav,self.buyerCircleNav,self.buyerMesNav,self.buyerStoreNav, nil];
     
     self.viewControllers = navs;
@@ -130,6 +144,16 @@
         //将btn添加到数组
         [self.btnArray addObject:tabBtn];
         [bgImgView addSubview:tabBtn];
+        if (i==3)
+        {
+            _buyerMsgMark = [[UILabel alloc] initWithFrame:CGRectMake(tabBtn.width/2+10, 5, 8, 8)];
+            _buyerMsgMark.backgroundColor = [UIColor redColor];
+            _buyerMsgMark.layer.cornerRadius = _buyerMsgMark.width/2;
+            _buyerMsgMark.clipsToBounds  = YES;
+            _buyerMsgMark.hidden = YES;
+            [tabBtn addSubview:_buyerMsgMark];
+
+        }
     }
     UIButton *homeBtn = (self.btnArray)[0];
     
@@ -154,6 +178,10 @@
             return;
             
         }
+    else if (button.tag-100==3)
+    {
+         self.buyerMsgMark.hidden = YES;
+    }
     
     self.selectedIndex = button.tag-100;
     [self.btnArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop)
@@ -197,5 +225,8 @@
     }
 }
 
-
+-(void)dealloc
+{
+    NSLog(@"aaa");
+}
 @end

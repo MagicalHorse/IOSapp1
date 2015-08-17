@@ -45,7 +45,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (self.dataArr.count>0)
     {
-        [cell setData:[self.dataArr objectAtIndex:indexPath.row]];
+        [cell setData:self.dataArr andIndexPath:indexPath];
     }
     return cell;
 }

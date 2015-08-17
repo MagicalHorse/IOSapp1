@@ -14,6 +14,7 @@
 #import "OSSTool.h"
 #import "OSSData.h"
 #import "OSSLog.h"
+#import "CusHomeStoreViewController.h"
 @interface CusCircleDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     OSSData *osData;
 }
@@ -254,7 +255,6 @@
         }
         for (int i=0; i<count; i++)
         {
-            
             CGFloat width = (kScreenWidth-20)/4;
             CGFloat height = width+20;
             UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -279,9 +279,15 @@
             
             if (i<self.circleData.Users.count)
             {
+                img.userInteractionEnabled = YES;
+
                 CircleDetailUser *circleUser = [self.circleData.Users objectAtIndex:i];
                 [img sd_setImageWithURL:[NSURL URLWithString:circleUser.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 lab.text = circleUser.NickName;
+                img.tag = 1000+i;
+                
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickUserHeaderImage:)];
+                [img addGestureRecognizer:tap];
                 
                 if (i>0)
                 {
@@ -308,6 +314,8 @@
             }
             else
             {
+                img.userInteractionEnabled = NO;
+
                 if (i==self.circleData.Users.count+1)
                 {
                     img.backgroundColor = [UIColor clearColor];
@@ -678,12 +686,12 @@
         if (self.selectJianBtn ==NO)
         {
             self.hiddenDeleteBtn = NO;
-            self.selectJianBtn =YES;
+            self.selectJianBtn = YES;
         }
         else
         {
             self.hiddenDeleteBtn = YES;
-            self.selectJianBtn =NO;
+            self.selectJianBtn = NO;
         }
         
         [self.tableView reloadData];
@@ -802,4 +810,14 @@
 
     }
 }
+
+-(void)didClickUserHeaderImage:(UITapGestureRecognizer *)tap
+{
+    CircleDetailUser *user = [self.circleData.Users objectAtIndex:tap.view.tag-1000];
+    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    VC.userId = user.UserId;
+    VC.userName = user.NickName;
+    [self.navigationController pushViewController:VC animated:YES];
+}
+
 @end

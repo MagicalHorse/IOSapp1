@@ -12,14 +12,12 @@
 #import "SIOSocket.h"
 #import "WXApi.h"
 #import <CoreLocation/CoreLocation.h>
-@class CusTabBarViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate,UIAlertViewDelegate,CLLocationManagerDelegate>
+
 @property (strong, nonatomic) UIWindow *window;
 
-@property (nonatomic ,strong) BuyerTabBarViewController *buyerTab;
 @property (nonatomic ,strong) BaseNavigationController *baseNav;
-@property (nonatomic ,strong) CusTabBarViewController *cusTabbar;
 @property (strong, nonatomic) CLLocationManager* locationManager;
 
 - (void)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price;

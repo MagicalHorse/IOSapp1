@@ -227,7 +227,8 @@
                 NSString *AuditStatus = [NSString stringWithFormat:@"%@",[[json objectForKey:@"data"] objectForKey:@"Status"]];
                 if ([AuditStatus isEqualToString:@"1"]) //==1 通过
                 {
-                    [UIApplication sharedApplication].keyWindow.rootViewController = [[BuyerTabBarViewController alloc]init];
+                    [UIApplication sharedApplication].keyWindow.rootViewController =
+                    [[BuyerTabBarViewController alloc]init];
                 }
                 else if ([AuditStatus isEqualToString:@"-1"])
                 {
