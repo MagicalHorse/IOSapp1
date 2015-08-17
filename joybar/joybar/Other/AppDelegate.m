@@ -20,7 +20,7 @@
 
 @implementation AppDelegate
 {
-//    CusTabBarViewController *cusTabbar;
+    CusTabBarViewController *cusTabbar;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -53,7 +53,7 @@
     {
         [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
     }
-    CusTabBarViewController *cusTabbar = [[CusTabBarViewController alloc] init];
+    cusTabbar = [[CusTabBarViewController alloc] init];
 //    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:cusTabbar];
     self.window.rootViewController = cusTabbar;
     [self.window makeKeyAndVisible];
@@ -185,62 +185,59 @@
     [application cancelAllLocalNotifications];
 }
 
-////socket
-//-(void)connectionSoctet{
-//    
-//    NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
-//    if (tempName)
-//    {
-//        [SIOSocket socketWithHost:SocketUrl response:^(SIOSocket *socket) {
-//            [SocketManager socketManager].socket = socket;
-//            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
-//                NSLog(@"connnection is success:%@",[args description]);
-//            }];
-//            
-//            [[SocketManager socketManager].socket emit:@"online" args:@[tempName]];
-//            [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
-//            
-//                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-//                NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
-//                
-//                if (_cusTabbar.selectedIndex==1||_cusTabbar.selectedIndex ==2)
-//                {
-//                   _cusTabbar.circleMarkLab.hidden = YES;
-//                    _cusTabbar.msgMarkLab.hidden = YES;
-//                    _buyerTab.buyerMsgMark.hidden = YES;
-//                    
-//                    if ([toUserId isEqualToString:@"0"])
-//                    {
-//                        [_cusTabbar.fastView receiveMessage];
-//                    }
-//                    else
-//                    {
-//                        [_cusTabbar.messageView receiveMessage];
-//                    }
-//                }
-//                else
-//                {
-//                    if ([toUserId isEqualToString:@"0"])
-//                    {
-//                        _cusTabbar.circleMarkLab.hidden = NO;
-//                    }
-//                    else
-//                    {
-//                        _cusTabbar.msgMarkLab.hidden = NO;
-//                        _buyerTab.buyerMsgMark.hidden = NO;
-//
-//                    }
-//                }
-//            }];
-//        }];
-//        
-//        [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
-//            NSLog(@"disconnect");
-//        }];
-//
-//    }
-//    
-//}
+//socket
+-(void)connectionSoctet{
+    
+    NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
+    if (tempName)
+    {
+        [SIOSocket socketWithHost:SocketUrl response:^(SIOSocket *socket) {
+            [SocketManager socketManager].socket = socket;
+            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+                NSLog(@"connnection is success:%@",[args description]);
+            }];
+            
+            [[SocketManager socketManager].socket emit:@"online" args:@[tempName]];
+            [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
+            
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
+                NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
+                
+                if (cusTabbar.selectedIndex==1||cusTabbar.selectedIndex ==2)
+                {
+                   cusTabbar.circleMarkLab.hidden = YES;
+                    cusTabbar.msgMarkLab.hidden = YES;
+                    
+                    if ([toUserId isEqualToString:@"0"])
+                    {
+                        [cusTabbar.fastView receiveMessage];
+                    }
+                    else
+                    {
+                        [cusTabbar.messageView receiveMessage];
+                    }
+                }
+                else
+                {
+                    if ([toUserId isEqualToString:@"0"])
+                    {
+                        cusTabbar.circleMarkLab.hidden = NO;
+                    }
+                    else
+                    {
+                        cusTabbar.msgMarkLab.hidden = NO;
+                    }
+                }
+            }];
+        }];
+        
+        [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
+            NSLog(@"disconnect");
+        }];
+
+    }
+    
+}
 
 //阿里云
 -(void)aliyunSet{
