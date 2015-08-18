@@ -311,7 +311,6 @@
             [phoneBtn setImage:[UIImage imageNamed:@"电话icon"] forState:(UIControlStateNormal)];
             [phoneBtn addTarget:self action:@selector(didCLickMakephoneBtn:) forControlEvents:(UIControlEventTouchUpInside)];
             [cell.contentView addSubview:phoneBtn];
-            
         }
         return cell;
     }
@@ -329,9 +328,7 @@
         {
             [cell setData:self.detailData];
         }
-        
         return cell;
-        
     }
     else if (indexPath.section==3)
     {

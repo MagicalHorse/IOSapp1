@@ -182,6 +182,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     [application setApplicationIconBadgeNumber:0];
+    [APService setBadge:0];
     [application cancelAllLocalNotifications];
 }
 

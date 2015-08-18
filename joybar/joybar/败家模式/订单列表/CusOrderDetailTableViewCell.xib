@@ -44,7 +44,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LW0-HU-2sj">
-                        <rect key="frame" x="95" y="13" width="0.0" height="0.0"/>
+                        <rect key="frame" x="95" y="10" width="215" height="0.0"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -53,6 +53,7 @@
                 <constraints>
                     <constraint firstItem="T8x-yu-QFd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="1Ua-Yg-3gg"/>
                     <constraint firstItem="LW0-HU-2sj" firstAttribute="leading" secondItem="T8x-yu-QFd" secondAttribute="trailing" constant="10" id="5uq-lS-i2v"/>
+                    <constraint firstAttribute="trailing" secondItem="LW0-HU-2sj" secondAttribute="trailing" constant="10" id="BPq-bZ-lzb"/>
                     <constraint firstItem="wP3-QE-IaZ" firstAttribute="leading" secondItem="T8x-yu-QFd" secondAttribute="trailing" constant="10" id="Br9-gN-t4H"/>
                     <constraint firstAttribute="bottom" secondItem="fcr-sm-jdt" secondAttribute="bottom" constant="4" id="C1Z-xj-7Zl"/>
                     <constraint firstItem="sXb-qW-VOd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="DPl-Hv-dcy"/>
@@ -60,7 +61,8 @@
                     <constraint firstItem="T8x-yu-QFd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="UCC-qR-dRq"/>
                     <constraint firstAttribute="bottom" secondItem="wP3-QE-IaZ" secondAttribute="bottom" constant="4" id="aZd-ol-00Z"/>
                     <constraint firstAttribute="trailing" secondItem="fcr-sm-jdt" secondAttribute="trailing" constant="15" id="bAv-0C-62M"/>
-                    <constraint firstItem="LW0-HU-2sj" firstAttribute="top" secondItem="sXb-qW-VOd" secondAttribute="bottom" constant="5" id="mRp-so-f4o"/>
+                    <constraint firstItem="LW0-HU-2sj" firstAttribute="top" secondItem="sXb-qW-VOd" secondAttribute="bottom" constant="2" id="mRp-so-f4o"/>
+                    <constraint firstAttribute="trailing" secondItem="sXb-qW-VOd" secondAttribute="trailing" constant="10" id="wgl-sx-40x"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

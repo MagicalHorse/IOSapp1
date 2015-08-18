@@ -62,21 +62,27 @@
         textSize.width += HORIZONTAL_PADDING*2;
         textSize.height += VERTICAL_PADDING*2;
         UIButton *btn = nil;
-        if (!gotPreviousFrame) {
+        if (!gotPreviousFrame)
+        {
             btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-            btn.frame = CGRectMake(0, 0, textSize.width, textSize.height);
+            btn.frame = CGRectMake(0, 0, textSize.width, 27.895);
             totalHeight = textSize.height;
-        } else {
+        }
+        else
+        {
             CGRect newRect = CGRectZero;
-            if (previousFrame.origin.x + previousFrame.size.width + textSize.width + LABEL_MARGIN > self.frame.size.width) {
-                newRect.origin = CGPointMake(0, previousFrame.origin.y + textSize.height + BOTTOM_MARGIN);
+            if (previousFrame.origin.x + previousFrame.size.width + textSize.width + LABEL_MARGIN > self.frame.size.width)
+            {
+                newRect.origin = CGPointMake(0, previousFrame.origin.y + 27.895 + BOTTOM_MARGIN);
                 totalHeight += textSize.height + BOTTOM_MARGIN;
-            } else {
+            }
+            else
+            {
                 newRect.origin = CGPointMake(previousFrame.origin.x + previousFrame.size.width + LABEL_MARGIN, previousFrame.origin.y);
             }
             newRect.size = textSize;
             btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-            btn.frame = newRect;
+            btn.frame = CGRectMake(newRect.origin.x, newRect.origin.y, newRect.size.width, 27.895);
         }
         previousFrame = btn.frame;
         gotPreviousFrame = YES;
