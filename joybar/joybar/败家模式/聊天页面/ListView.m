@@ -272,8 +272,7 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if ([text isEqualToString:@"\n"])
-    {
+    if ([text isEqualToString:@"\n"]) {
 //        将消息内容前后去行
         if ([textView.text js_stringByTrimingWhitespace].length>0) {
             if ([self.sendMessageDelegate respondsToSelector:@selector(sendMessageText:withData:)]) {
