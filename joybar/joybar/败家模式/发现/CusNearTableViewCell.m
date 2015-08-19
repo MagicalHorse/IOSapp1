@@ -8,6 +8,8 @@
 
 #import "CusNearTableViewCell.h"
 #import "CusHomeStoreViewController.h"
+#import "LoginAndRegisterViewController.h"
+#import "BaseNavigationController.h"
 @implementation CusNearTableViewCell
 
 - (void)awakeFromNib {
@@ -76,6 +78,14 @@
 
 -(void)didClickAttentionBtn:(UIButton *)btn
 {
+    NSDictionary *dict = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfo"];
+    if (!dict)
+    {
+        LoginAndRegisterViewController *VC = [[LoginAndRegisterViewController alloc] init];
+        BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
+        [self.viewController presentViewController:nav animated:YES completion:nil];
+        return;
+    }
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.nearItems.UserId forKey:@"FavoriteId"];
     if ([btn.titleLabel.text isEqualToString:@"关注"])

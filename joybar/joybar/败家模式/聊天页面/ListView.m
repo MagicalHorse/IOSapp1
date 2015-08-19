@@ -269,16 +269,19 @@
 
 #pragma mark - 
 #pragma mark - UITextViewDelegate
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if ([text isEqualToString:@"\n"]) {
+    if ([text isEqualToString:@"\n"])
+    {
 //        将消息内容前后去行
         if ([textView.text js_stringByTrimingWhitespace].length>0) {
             if ([self.sendMessageDelegate respondsToSelector:@selector(sendMessageText:withData:)]) {
                 [self.sendMessageDelegate sendMessageText:textView withData:[NSDate date]];
             }
             return NO;
-        }else
+        }
+        else
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"不能发送空白消息" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [alert show];

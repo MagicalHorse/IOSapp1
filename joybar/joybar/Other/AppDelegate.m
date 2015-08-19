@@ -353,7 +353,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     
     if (![userId isEqualToString:@"(null)"])
     {
-//        [self connectionSoctet];
+        [self connectionSoctet];
     }
 }
 

@@ -187,6 +187,7 @@
     [dic setValue:app.latitude forKey:@"Latitude"];
     [dic setValue:@"6" forKey:@"pagesize"];
     [dic setValue:@"0" forKey:@"CityId"];
+    [dic setValue:[[Public getUserInfo] objectForKey:@"id"] forKey:@"userid"];
     if (!isRefresh)
     {
         [self activityDismiss];
