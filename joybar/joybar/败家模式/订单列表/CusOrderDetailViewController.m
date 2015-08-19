@@ -436,7 +436,7 @@
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             
             [UMSocialSnsService presentSnsIconSheetView:self
-                                                 appKey:@"557f8f1c67e58edf32000208"
+                                                 appKey:@"55d43bf367e58eac01002b7f"
                                               shareText:self.detailData.ShareDesc
                                              shareImage:image
                                         shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]

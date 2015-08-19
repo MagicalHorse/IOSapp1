@@ -40,7 +40,8 @@
                                            categories:nil];
     }
     [APService setupWithOption:launchOptions];
-    [UMSocialData setAppKey:@"557f8f1c67e58edf32000208"];
+    [UMSocialData setAppKey:@"55d43bf367e58eac01002b7f"];
+    
     //向微信注册
     [WXApi registerApp:APP_ID];
     

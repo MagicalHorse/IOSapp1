@@ -89,7 +89,7 @@
             [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:[dict objectForKey:@"share_link"]];
             
             [UMSocialSnsService presentSnsIconSheetView:self
-                                        appKey:@"557f8f1c67e58edf32000208"
+                                        appKey:@"55d43bf367e58eac01002b7f"
                                         shareText:[dict objectForKey:@"desc"]
                                         shareImage:image
                                         shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
