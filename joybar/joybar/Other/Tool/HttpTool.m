@@ -20,7 +20,7 @@
 {
     NSString  *tempUrl;
     if (write) {
-        tempUrl= [HomeURL stringByAppendingFormat:@"%@",url];
+        tempUrl= [HomeURLW stringByAppendingFormat:@"%@",url];
 
     }else{
         tempUrl= [HomeURL stringByAppendingFormat:@"%@",url];
