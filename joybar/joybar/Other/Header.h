@@ -58,10 +58,10 @@
 
 
 //#define HomeURL  @"http://123.57.52.187:8080/app/" //开发
-#define HomeURL  @"http://123.57.77.86:8080/app/" //测试
+//#define HomeURL  @"http://123.57.77.86:8080/app/" //测试
 
-//#define HomeURL  @"http://appr.joybar.com.cn/app/" //上线读
-#define HomeURLW  @"http://pa.joybar.com.cn/app/" //上线写
+#define HomeURL  @"http://appr.joybar.com.cn/app/" //生产读
+#define HomeURLW  @"http://appw.joybar.com.cn/app/" //生产写
 
 
 
