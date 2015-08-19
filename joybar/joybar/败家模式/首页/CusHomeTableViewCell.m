@@ -243,7 +243,7 @@
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
         
         [UMSocialSnsService presentSnsIconSheetView:self.viewController
-                                             appKey:@"557f8f1c67e58edf32000208"
+                                             appKey:@"55d43bf367e58eac01002b7f"
                                           shareText:[NSString stringWithFormat:@"快看！这里有一件超值的%@商品",self.homePro.ProductName]
                                          shareImage:image
                                     shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
