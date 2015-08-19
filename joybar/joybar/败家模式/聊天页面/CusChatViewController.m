@@ -176,7 +176,7 @@
         [dic setValue:@"0" forKey:@"toUser"];
     }
     
-    [HttpTool postWithURL:@"Community/GetRoom" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Community/GetRoom" params:dic isWrite:YES success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
@@ -384,7 +384,7 @@
             
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];
             [dic setValue:temp forKey:@"imageurl"];
-            [HttpTool postWithURL:@"Community/UploadChatImage" params:dic success:^(id json) {
+            [HttpTool postWithURL:@"Community/UploadChatImage" params:dic  isWrite:YES success:^(id json) {
                 
                 [self textHUDHiddle];
                 if ([json objectForKey:@"isSuccessful"])

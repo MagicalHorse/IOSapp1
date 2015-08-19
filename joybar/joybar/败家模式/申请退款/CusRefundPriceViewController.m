@@ -143,7 +143,7 @@
     [dic setObject:self.refundText.text forKey:@"Reason"];
     
     [self hudShow:@"正在申请退款..."];
-    [HttpTool postWithURL:@"Order/Apply_Rma" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Order/Apply_Rma" params:dic isWrite:YES success:^(id json) {
        
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {

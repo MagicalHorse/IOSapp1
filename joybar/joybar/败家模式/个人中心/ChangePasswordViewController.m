@@ -36,7 +36,7 @@
     [dict setObject:self.oldPassword.text forKey:@"oldpassword"];
     [dict setObject:self.repeatPassword.text forKey:@"password"];
 
-    [HttpTool postWithURL:@"User/ChangePassword" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"User/ChangePassword" params:dict isWrite:YES success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             [self showHudSuccess:@"修改成功"];

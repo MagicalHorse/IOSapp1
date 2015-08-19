@@ -69,7 +69,7 @@
     [dic setValue:[dataDic objectForKey:@"Id"] forKey:@"Id"];
     [dic setValue:@"0" forKey:@"Status"];
 //    [self hudShow:@"正在取消收藏"];
-    [HttpTool postWithURL:@"Product/Favorite" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Product/Favorite" params:dic isWrite:YES  success:^(id json) {
         
 //        [self textHUDHiddle];
         if ([json objectForKey:@"isSuccessful"])

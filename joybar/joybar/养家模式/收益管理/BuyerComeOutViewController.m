@@ -60,7 +60,7 @@
                     NSMutableDictionary *dict=[NSMutableDictionary dictionary];
                     
                     [dict setObject:self.priceField.text forKey:@"Amount"];
-                    [HttpTool postWithURL:@"Assistant/Income_Request_RedPack" params:dict success:^(id json) {
+                    [HttpTool postWithURL:@"Assistant/Income_Request_RedPack" params:dict isWrite:YES success:^(id json) {
                         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
                         if (isSuccessful) {
                             

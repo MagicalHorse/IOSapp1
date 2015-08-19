@@ -482,7 +482,7 @@
         [dict setObject:self.circleId forKey:@"groupid"];//圈子编号
         [dict setObject:nameField.text forKey:@"name"];//圈子名称
 
-        [HttpTool postWithURL:@"Community/RenameGroup" params:dict success:^(id json) {
+        [HttpTool postWithURL:@"Community/RenameGroup" params:dict isWrite:YES success:^(id json) {
             
             BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
             if (isSuccessful) {
@@ -570,7 +570,7 @@
                 NSMutableDictionary *dict= [NSMutableDictionary dictionary];
                 [dict setObject:self.circleId forKey:@"groupid"];
                 [dict setObject:temp forKey:@"logo"];
-                [HttpTool postWithURL:@"Community/ChangeGroupLogo" params:dict success:^(id json) {
+                [HttpTool postWithURL:@"Community/ChangeGroupLogo" params:dict isWrite:YES success:^(id json) {
                     BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
                     if (isSuccessful) {
                         
@@ -716,7 +716,7 @@
     CircleDetailUser *user = [self.circleData.Users objectAtIndex:btn.tag-100];
     [dic setObject:user.UserId forKey:@"userid"];
     [self hudShow:@"正在删除"];
-    [HttpTool postWithURL:@"Community/RemoveGroupMember" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Community/RemoveGroupMember" params:dic isWrite:YES success:^(id json) {
         
         [self textHUDHiddle];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
@@ -756,7 +756,7 @@
     {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setObject:self.circleId forKey:@"groupid"];
-        [HttpTool postWithURL:@"Community/JoinGroup" params:dic success:^(id json) {
+        [HttpTool postWithURL:@"Community/JoinGroup" params:dic isWrite:YES success:^(id json) {
             if([[json objectForKey:@"isSuccessful"] boolValue])
             {
                 [self getCircleDetailData];
@@ -772,7 +772,7 @@
         
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setObject:self.circleId forKey:@"groupid"];
-        [HttpTool postWithURL:@"Community/DeleteGroup" params:dic success:^(id json) {
+        [HttpTool postWithURL:@"Community/DeleteGroup" params:dic isWrite:YES success:^(id json) {
             
             if ([[json objectForKey:@"isSuccessful"] boolValue])
             {
@@ -796,7 +796,7 @@
     {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setObject:self.circleId forKey:@"groupid"];
-        [HttpTool postWithURL:@"Community/ExitGroup" params:dic success:^(id json) {
+        [HttpTool postWithURL:@"Community/ExitGroup" params:dic isWrite:YES success:^(id json) {
             if([[json objectForKey:@"isSuccessful"] boolValue])
             {
                 [self getCircleDetailData];

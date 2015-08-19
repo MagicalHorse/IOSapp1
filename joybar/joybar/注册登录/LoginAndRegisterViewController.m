@@ -386,7 +386,7 @@
     [dic setValue:registerPhoneText.text forKey:@"mobile"];
     [dic setValue:@"0" forKey:@"type"];
     [self hudShowWithText:@"正在获取验证码"];
-    [HttpTool postWithURL:@"user/SendMobileCode" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"user/SendMobileCode" params:dic isWrite:YES success:^(id json) {
         
         NSDictionary *jsonDic = json;
         

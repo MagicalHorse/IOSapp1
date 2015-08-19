@@ -123,7 +123,7 @@
                 
                 NSMutableDictionary *dict= [NSMutableDictionary dictionary];
                 [dict setObject:temp forKey:@"logo"];
-                [HttpTool postWithURL:@"User/ChangeUserLogo" params:dict success:^(id json) {
+                [HttpTool postWithURL:@"User/ChangeUserLogo" params:dict isWrite:YES success:^(id json) {
                     BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
                     if (isSuccessful) {
                         NSString *logo= [[json objectForKey:@"data"]objectForKey:@"logo"];
@@ -363,7 +363,7 @@
     BOOL isButtonOn = [cusSwitch isOn];
     NSMutableDictionary *dict =[NSMutableDictionary dictionary];
     [dict setObject:@(isButtonOn) forKey:@"state"];
-    [HttpTool postWithURL:@"User/ChangePushState" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"User/ChangePushState" params:dict isWrite:YES success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         NSString *mssage= [json objectForKey:@"message"];
         if (isSuccessful) {
@@ -526,8 +526,7 @@
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
     [dic setObject:str forKey:@"json"];
     [dic setObject:APP_ID forKey:@"appid"];
-    [HttpTool postWithURL:@"User/BindOutSideUser" params:dic success:^(id json) {
-        
+    [HttpTool postWithURL:@"User/BindOutSideUser" params:dic isWrite:YES success:^(id json) {
         [self textHUDHiddle];
         if([[json objectForKey:@"isSuccessful"] boolValue])
         {
@@ -565,7 +564,7 @@
         }
         NSMutableDictionary *dict =[NSMutableDictionary dictionary];
         [dict setObject:nameField.text forKey:@"nickname"];
-        [HttpTool postWithURL:@"User/ChangeNickname" params:dict success:^(id json) {
+        [HttpTool postWithURL:@"User/ChangeNickname" params:dict isWrite:YES success:^(id json) {
             
             BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
             if (isSuccessful) {

@@ -112,7 +112,7 @@
     }
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
     [dic setObject:@"1" forKey:@"type"];
-    [HttpTool postWithURL:@"user/SendMobileCode" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"user/SendMobileCode" params:dic isWrite:YES success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {

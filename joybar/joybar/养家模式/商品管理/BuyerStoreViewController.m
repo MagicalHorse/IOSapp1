@@ -236,7 +236,7 @@
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
     [dict setObject:st.ProductId forKey:@"Id"];
     [dict setObject:@"1" forKey:@"Status"];
-    [HttpTool postWithURL:@"Product/onLine" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"Product/onLine" params:dict isWrite:YES success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             [self.dataArray removeObject:st];
@@ -262,7 +262,7 @@
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
     [dict setObject:st.ProductId forKey:@"Id"];
     [dict setObject:@"0" forKey:@"Status"];
-    [HttpTool postWithURL:@"Product/OnLine" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"Product/OnLine" params:dict isWrite:YES success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             [self.dataArray removeObject:st];
@@ -318,7 +318,7 @@
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
     [dict setObject:st.ProductId forKey:@"productId"];
     [dict setObject:@"0" forKey:@"Status"];
-    [HttpTool postWithURL:@"Product/Copy" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"Product/Copy" params:dict isWrite:YES success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             [self.dataArray insertObject:st atIndex:0];
@@ -342,7 +342,7 @@
         Store *st=[self.dataArray objectAtIndex:alertView.tag];
         NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
         [dict setObject:st.ProductId forKey:@"id"];
-        [HttpTool postWithURL:@"Product/Delete" params:dict success:^(id json) {
+        [HttpTool postWithURL:@"Product/Delete" params:dict  isWrite:YES success:^(id json) {
             BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
             if (isSuccessful) {
                 [self.dataArray removeObject:st];

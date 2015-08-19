@@ -108,7 +108,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
     [dic setObject:@"2" forKey:@"type"];
-    [HttpTool postWithURL:@"user/SendMobileCode" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"user/SendMobileCode" params:dic isWrite:YES success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
@@ -156,7 +156,8 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
-    [HttpTool postWithURL:@"User/BindMobile" params:dic success:^(id json) {
+    
+    [HttpTool postWithURL:@"User/BindMobile" params:dic isWrite:YES success:^(id json) {
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             [self showHudSuccess:@"绑定成功"];
