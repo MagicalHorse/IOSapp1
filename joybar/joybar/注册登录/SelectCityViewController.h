@@ -11,7 +11,6 @@
 typedef void(^SelectCityBlock)(NSString *cityID,NSString *cityName);
 
 @interface SelectCityViewController : BaseViewController
-
 @property (nonatomic ,strong) SelectCityBlock cityBlock;
 
 @end

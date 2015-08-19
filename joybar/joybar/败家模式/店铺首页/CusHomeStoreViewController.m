@@ -67,7 +67,6 @@
     [self initializeUserInterface];
 //    [self initializeDataSource];
     [self getData];
-    [self getProListData];
     // 2.集成刷新控件
 //    [self addHeader];
     [self addFooter];
@@ -224,7 +223,6 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.userId forKey:@"userid"];
-//    [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight];
 
     [HttpTool postWithURL:@"User/GetUserInfo" params:dic success:^(id json) {
         
@@ -234,6 +232,15 @@
             CGSize size = [Public getContentSizeWith:self.storeData.Description andFontSize:14 andWidth:kScreenWidth-20];
             CGFloat height = size.height+320;
             layout.headerHeight = height;
+            if ([self.storeData.IsFollowing boolValue])
+            {
+                [self getProListData];
+            }
+            else
+            {
+                [self getCollectListData];
+            }
+
 
             [self.collectionView reloadData];
         }
@@ -283,10 +290,8 @@
     }];
 }
 
-
 -(void)addHeaderView:(UIView *)contentView
 {
-    
     UIImageView *headerImage = [[UIImageView alloc] init];
     headerImage.center = CGPointMake(kScreenWidth/2, 45);
     headerImage.bounds = CGRectMake(0, 0, 60, 60);
@@ -436,7 +441,7 @@
         UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
         btn.frame = CGRectMake(kScreenWidth/3, contentView.height-40, kScreenWidth/3-1, 40);
         btn.backgroundColor = [UIColor clearColor];
-        [btn setTitle:[NSString stringWithFormat:@"收藏 %@",self.storeData.ProductCount] forState:(UIControlStateNormal)];
+        [btn setTitle:[NSString stringWithFormat:@"收藏 %@",self.storeData.FavoriteCount] forState:(UIControlStateNormal)];
         [btn setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
         [btn addTarget:self action:@selector(didClickCollectBtn) forControlEvents:(UIControlEventTouchUpInside)];
         btn.titleLabel.font = [UIFont systemFontOfSize:14];

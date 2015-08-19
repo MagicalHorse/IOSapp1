@@ -314,7 +314,7 @@
                     
                     if (isFlow) {
                         if (self.orderNos.count>0) {
-                            UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"提取现款" message: [NSString stringWithFormat:@"%.2f",tempPrice] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                            UIAlertView * alert=[[UIAlertView alloc]initWithTitle: [NSString stringWithFormat:@"￥%.2f",tempPrice] message:@"将被提至你的微信零钱中" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                             [alert show];
                         }else{
                             [self showHudFailed:@"请选择要提现的订单"];
@@ -322,11 +322,10 @@
                         
                     }else{
                         _btn.userInteractionEnabled =NO;
-                        NSData *data =[NSData dataWithContentsOfURL:[NSURL URLWithString:[[json objectForKey:@"data"] objectForKey:@"QRCode"]]]
-                         ;
+                        NSData *data =[NSData dataWithContentsOfURL:[NSURL URLWithString:[[json objectForKey:@"data"] objectForKey:@"QRCode"]]];
                         [self addBigView:[UIImage imageWithData:data] AndTile:[[json objectForKey:@"data"] objectForKey:@"Name"]];
                     }
-                    
+ 
                 }else{
                     [self showHudFailed:[json objectForKey:@"message"]];
                 }

@@ -30,7 +30,13 @@
 @end
 
 @implementation BuyerTabBarViewController
-
+{
+    BuyerHomeViewController *homeView;
+    BuyerTicketViewController *fastView;
+    UIViewController *messageView;
+    CusMessageViewController *fineView;
+    BuyerMineViewController *myAccountView;
+}
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -58,6 +64,7 @@
         if (self.selectedIndex==3)
         {
             self.buyerMsgMark.hidden = YES;
+            [fineView receiveMessage];
         }
         else
         {
@@ -70,11 +77,11 @@
 
 -(void)_initWithControllers
 {
-    BuyerHomeViewController *homeView = [[BuyerHomeViewController alloc]init];
-    BuyerTicketViewController *fastView = [[BuyerTicketViewController alloc]init];
-    UIViewController *messageView = [[UIViewController alloc]init];
-    CusMessageViewController *fineView = [[CusMessageViewController alloc]init];
-    BuyerMineViewController *myAccountView = [[BuyerMineViewController alloc] init];
+    homeView = [[BuyerHomeViewController alloc]init];
+    fastView = [[BuyerTicketViewController alloc]init];
+    messageView = [[UIViewController alloc]init];
+    fineView = [[CusMessageViewController alloc]init];
+    myAccountView = [[BuyerMineViewController alloc] init];
     self.buyerHomeNav = [[BaseNavigationController alloc]initWithRootViewController:homeView];
     self.buyerTicketNav = [[BaseNavigationController alloc]initWithRootViewController:fastView];
     self.buyerCircleNav = [[BaseNavigationController alloc]initWithRootViewController:messageView];

@@ -12,7 +12,7 @@
 
 -(void)setData:(ProDetailData *)proDetailData
 {
-    self.sizeLab.text = [NSString stringWithFormat:@"颜色:默认  规格:%@",self.sizeName];
+    self.sizeLab.text = [NSString stringWithFormat:@"规格:%@",self.sizeName];
     self.buyNameLab.text = proDetailData.BuyerName;
     self.addressLab.text = proDetailData.StoreName;
     ProductPicture *pic = proDetailData.ProductPic.firstObject;

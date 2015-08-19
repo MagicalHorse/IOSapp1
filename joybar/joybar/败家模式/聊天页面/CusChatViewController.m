@@ -776,7 +776,7 @@
     colorLab.font = [UIFont systemFontOfSize:14];
     [buyBgView addSubview:colorLab];
     
-    UILabel *sizeLab = [[UILabel alloc] initWithFrame:CGRectMake(10, colorLab.bottom+10, 40, 20)];
+    UILabel *sizeLab = [[UILabel alloc] initWithFrame:CGRectMake(10, colorLab.bottom+15, 40, 20)];
     sizeLab.text = @"尺码:";
     sizeLab.font = [UIFont systemFontOfSize:15];
     [buyBgView addSubview:sizeLab];

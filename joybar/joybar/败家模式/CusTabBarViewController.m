@@ -32,13 +32,13 @@
     //创建自定义TabBar
     [self _initTabBarViewController];
     self.tabBar.backgroundColor = [UIColor colorWithRed:244.0f/255.0f green:244.0f/255.0f blue:244.0f/255.0f alpha:1.0f];
+    [self connectionSoctet];
     
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self connectionSoctet];
 }
 
 //socket
