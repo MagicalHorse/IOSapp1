@@ -173,7 +173,7 @@
     NSString *noncestr  = [NSString stringWithFormat:@"%d", rand()];
     NSString *orderno   = orderNum;
     NSMutableDictionary *packageParams = [NSMutableDictionary dictionary];
-    NSString *notifyURL = [NSString stringWithFormat:@"%@Payment/WeiXinPayResult",HomeURL];
+    NSString *notifyURL = [NSString stringWithFormat:@"%@Payment/WeiXinPayResult",HomeURLW];
     
     [packageParams setObject: appid             forKey:@"appid"];       //开放平台appid
     [packageParams setObject: mchid             forKey:@"mch_id"];      //商户号
