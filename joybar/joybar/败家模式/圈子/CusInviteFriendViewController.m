@@ -247,7 +247,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.circleId forKey:@"groupId"];
     [dic setObject:selectStr forKey:@"useridstr"];
-    [HttpTool postWithURL:@"Community/AddFansToGroup" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Community/AddFansToGroup" params:dic isWrite:YES success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {

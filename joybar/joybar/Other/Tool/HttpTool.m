@@ -16,11 +16,15 @@
 @end
 
 @implementation HttpTool
-+ (void)postWithURL:(NSString *)url params:(NSDictionary *)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
++ (void)postWithURL:(NSString *)url params:(NSDictionary *)params isWrite :(BOOL)write success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
+    NSString  *tempUrl;
+    if (write) {
+        tempUrl= [HomeURL stringByAppendingFormat:@"%@",url];
 
- 
-    NSString  *tempUrl = [HomeURL stringByAppendingFormat:@"%@",url];
+    }else{
+        tempUrl= [HomeURL stringByAppendingFormat:@"%@",url];
+    }
     
     NSString *md5Str = [HttpTool signatureStr:params];
     
@@ -53,6 +57,51 @@
               [rootViewController presentViewController:nav animated:YES completion:nil];
           }
 
+          if (success) {
+              success(responseObject);
+          }
+          
+      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          if (failure) {
+              failure(error);
+              [[[UIApplication sharedApplication] keyWindow] showHudFailed:@"网络连接异常,请稍后再试"];
+              NSLog(@"%@",[error description]);
+          }
+      }];
+}
++ (void)postWithURL:(NSString *)url params:(NSDictionary *)params success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSString  *tempUrl =[HomeURL stringByAppendingFormat:@"%@",url];
+    NSString *md5Str = [HttpTool signatureStr:params];
+    NSMutableDictionary *signDic = [NSMutableDictionary dictionaryWithDictionary:params];
+    [signDic setObject:md5Str forKey:@"sign"];
+    [signDic setObject:[HttpTool getDeviceUUIDString] forKey:@"uid"];
+    [signDic setObject:@"2.3" forKey:@"client_version"];
+    [signDic setObject:@"IOS" forKey:@"channel"];
+    if (TOKEN)
+    {
+        [signDic setObject:TOKEN forKey:@"token"];
+    }
+    // 1.创建请求管理对象
+    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    mgr.requestSerializer.timeoutInterval = 15.f;
+    // 0.验证网络
+    [Common IsReachability:^{
+        [[[UIApplication sharedApplication] keyWindow] showHudFailed:@"网络连接异常,请稍后再试"];
+    }];
+    
+    // 2.发送请求
+    [mgr POST:tempUrl parameters:signDic
+      success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          
+          if ([[NSString stringWithFormat:@"%@",[responseObject objectForKey:@"statusCode"]] isEqualToString:@"401"])
+          {
+              LoginAndRegisterViewController *VC = [[LoginAndRegisterViewController alloc] init];
+              BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
+              UIViewController* rootViewController = [[[UIApplication sharedApplication] keyWindow] rootViewController];
+              [rootViewController presentViewController:nav animated:YES completion:nil];
+          }
+          
           if (success) {
               success(responseObject);
           }

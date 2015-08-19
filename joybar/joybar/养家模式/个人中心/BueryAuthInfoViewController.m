@@ -100,7 +100,7 @@
     [self hudShow:@"正在加载"];
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:parentId forKey:@"parentId"];
-    [HttpTool postWithURL:@"Common/GetCityListByParentId" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"Common/GetCityListByParentId" params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             if (type==1) {
@@ -484,7 +484,7 @@
     [dict setObject:[imageNames objectForKey:@"WorkCard"] forKey:@"WorkCard"];//工牌
     [dict setObject:self.textName forKey:@"Name"];
 
-    [HttpTool postWithURL:@"Buyer/CreateAuthBuyer" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"Buyer/CreateAuthBuyer" params:dict isWrite:YES success:^(id json) {
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             BueryAuthFinishViewController * finish =[[BueryAuthFinishViewController alloc]init];

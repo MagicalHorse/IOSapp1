@@ -67,7 +67,7 @@
     
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setObject:self.textView.text forKey:@"description"];
-    [HttpTool postWithURL:@"Buyer/SetStoreDescription" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"Buyer/SetStoreDescription" params:dict isWrite:YES success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[Public getUserInfo]];

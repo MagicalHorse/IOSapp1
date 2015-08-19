@@ -155,7 +155,7 @@
     
     [self hudShow];
     
-    [HttpTool postWithURL:@"user/Register" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"user/Register" params:dic isWrite:YES success:^(id json) {
 
         [self hiddleHud];
         if ([[json objectForKey:@"isSuccessful"] boolValue])

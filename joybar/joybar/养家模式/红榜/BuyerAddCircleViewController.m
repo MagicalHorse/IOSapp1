@@ -59,7 +59,7 @@
             NSMutableDictionary *dict= [NSMutableDictionary dictionary];
             [dict setObject:self.circleField.text forKey:@"name"];
             [dict setObject:temp forKey:@"logo"];
-            [HttpTool postWithURL:@"Community/CreateGroup" params:dict success:^(id json) {
+            [HttpTool postWithURL:@"Community/CreateGroup" params:dict isWrite:YES success:^(id json) {
                 BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
                 if (isSuccessful) {
                     [self.navigationController popViewControllerAnimated:YES];

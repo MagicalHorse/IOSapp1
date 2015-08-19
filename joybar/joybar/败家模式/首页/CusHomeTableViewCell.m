@@ -264,7 +264,7 @@
         
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setObject:self.homePro.ProductId forKey:@"productid"];
-        [HttpTool postWithURL:@"Product/CreateShare" params:dic success:^(id json) {
+        [HttpTool postWithURL:@"Product/CreateShare" params:dic isWrite:YES success:^(id json) {
             
             
             
@@ -322,7 +322,7 @@
     {
         [dic setObject:@"0" forKey:@"Status"];
     }
-    [HttpTool postWithURL:@"Product/Like" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Product/Like" params:dic isWrite:YES success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {

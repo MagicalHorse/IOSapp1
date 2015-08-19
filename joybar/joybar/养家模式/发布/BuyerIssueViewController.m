@@ -603,7 +603,7 @@
     }
      NSDictionary * parameters = [ NSDictionary dictionaryWithObjectsAndKeys:[ dict JSONString], @"json" , nil ];
     
-    [HttpTool postWithURL:tempUrl params:parameters success:^(id json) {
+    [HttpTool postWithURL:tempUrl params:parameters isWrite:YES success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             if (self.detail) {

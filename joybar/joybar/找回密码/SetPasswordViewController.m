@@ -68,7 +68,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.mobilePhone forKey:@"mobile"];
     [dic setObject:password.text forKey:@"password"];
-    [HttpTool postWithURL:@"user/ResetPassword" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"user/ResetPassword" params:dic isWrite:YES success:^(id json) {
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];

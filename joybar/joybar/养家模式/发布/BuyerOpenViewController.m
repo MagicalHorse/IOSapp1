@@ -75,7 +75,7 @@
     [dic setObject:self.noText.text forKey:@"price"];
     [dic setObject:self.priceText.text forKey:@"saleCode"];
 
-    [HttpTool postWithURL:@"Order/CreateGeneralOrder" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Order/CreateGeneralOrder" params:dic isWrite:YES success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             UIImage *decodedImage;

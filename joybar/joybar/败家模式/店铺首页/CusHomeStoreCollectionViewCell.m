@@ -88,7 +88,7 @@
         [dic setValue:@"1" forKey:@"Status"];
 
     }
-    [HttpTool postWithURL:@"Product/Favorite" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Product/Favorite" params:dic isWrite:YES  success:^(id json) {
         
         if ([json objectForKey:@"isSuccessful"])
         {

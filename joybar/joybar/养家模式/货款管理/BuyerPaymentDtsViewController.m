@@ -372,7 +372,7 @@
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
     [dic setObject:str forKey:@"json"];
     [dic setObject:APP_ID forKey:@"appid"];
-    [HttpTool postWithURL:@"User/BindOutSideUser" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"User/BindOutSideUser" params:dic isWrite:YES  success:^(id json) {
         
         [self textHUDHiddle];
         if([[json objectForKey:@"isSuccessful"] boolValue])
@@ -421,7 +421,7 @@
             }
         }
         [params setObject:tempString forKey:@"orderNos"];
-        [HttpTool postWithURL:@"Buyer/WithdrawGoods" params:params success:^(id json) {
+        [HttpTool postWithURL:@"Buyer/WithdrawGoods" params:params isWrite:YES success:^(id json) {
             BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
             if (isSuccessful) {
                 self.pageNum=1;

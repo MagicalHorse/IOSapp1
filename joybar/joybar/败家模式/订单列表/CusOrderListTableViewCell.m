@@ -98,7 +98,7 @@
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setObject:self.orderListItem.OrderNo forKey:@"OrderNo"];
         [self hudShow:@"正在取消"];
-        [HttpTool postWithURL:@"Order/Void" params:dic success:^(id json) {
+        [HttpTool postWithURL:@"Order/Void" params:dic isWrite:YES success:^(id json) {
             
             if ([[json objectForKey:@"isSuccessful"] boolValue])
             {
@@ -148,7 +148,7 @@
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setObject:self.orderListItem.OrderNo forKey:@"OrderNo"];
         [self hudShow:@"正在取消"];
-        [HttpTool postWithURL:@"Order/CancelRma" params:dic success:^(id json) {
+        [HttpTool postWithURL:@"Order/CancelRma" params:dic isWrite:YES success:^(id json) {
             
             if ([[json objectForKey:@"isSuccessful"] boolValue])
             {
@@ -181,7 +181,7 @@
             NSMutableDictionary *dic = [NSMutableDictionary dictionary];
             [dic setObject:self.orderListItem.OrderNo forKey:@"OrderNo"];
             [self hudShow:@"正在确认提货"];
-            [HttpTool postWithURL:@"Order/ConfirmGoods" params:dic success:^(id json) {
+            [HttpTool postWithURL:@"Order/ConfirmGoods" params:dic isWrite:YES success:^(id json) {
                 
                 if ([[json objectForKey:@"isSuccessful"] boolValue])
                 {

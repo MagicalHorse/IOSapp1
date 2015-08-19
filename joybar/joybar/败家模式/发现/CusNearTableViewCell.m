@@ -86,7 +86,7 @@
     {
         [dic setObject:@"0" forKey:@"Status"];
     }
-    [HttpTool postWithURL:@"User/Favoite" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"User/Favoite" params:dic isWrite:YES success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"]boolValue])
         {

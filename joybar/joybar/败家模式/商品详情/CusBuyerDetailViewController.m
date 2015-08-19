@@ -479,7 +479,7 @@
     {
         [dic setObject:@"0" forKey:@"Status"];
     }
-    [HttpTool postWithURL:@"Product/Like" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Product/Like" params:dic isWrite:YES success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
@@ -530,7 +530,7 @@
     {
         [dic setValue:@"0" forKey:@"Status"];
     }
-    [HttpTool postWithURL:@"Product/Favorite" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Product/Favorite" params:dic isWrite:YES  success:^(id json) {
         
         if ([json objectForKey:@"isSuccessful"])
         {

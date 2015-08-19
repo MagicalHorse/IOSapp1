@@ -336,7 +336,7 @@
     }
     [dic setValue:phoneText.text forKey:@"mobile"];
     [self hudShow:@"正在提交订单"];
-    [HttpTool postWithURL:@"Order/CreateOrder" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Order/CreateOrder" params:dic  isWrite:YES success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
