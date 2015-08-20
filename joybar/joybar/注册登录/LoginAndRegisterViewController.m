@@ -464,7 +464,7 @@
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
     [dic setValue:str forKey:@"json"];
     [dic setValue:APP_ID forKey:@"appid"];
-    [HttpTool postWithURL:@"User/OutSiteLogin" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"User/OutSiteLogin" params:dic isWrite:YES success:^(id json) {
         
         [self textHUDHiddle];
         if([[json objectForKey:@"isSuccessful"] boolValue])
