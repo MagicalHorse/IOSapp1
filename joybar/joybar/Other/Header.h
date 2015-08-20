@@ -27,28 +27,30 @@
 #endif
 #define AlyAccessKey  @"9mtpdwiywiF5yYwV"
 #define AlySecretKey  @"IfGB5txNXBv0vv7Z5qERPH1Bp4DLtn"
-#define AlyBucket @"apprss" //开发
-//#define AlyBucket @"app-prod-rss" //上线
 #define AlyBucketHostId @"oss-cn-beijing.aliyuncs.com"
 
+//#define AlyBucket @"apprss" //开发
+#define AlyBucket @"app-prod-rss" //生产
 
-#define SocketUrl @"http://182.92.7.70:8000/chat" //测试
+
+
+//#define SocketUrl @"http://182.92.7.70:8000/chat" //测试
 //#define SocketUrl @"http://182.92.7.70:8001/chat"//开发
-//#define SocketUrl @"http://chat.joybar.com.cn" //上线
+#define SocketUrl @"http://chat.joybar.com.cn" //生产
 
 
-#define APP_ID          @"wx281aa8c2686c0e7c"               //APPID
-//#define APP_ID          @"wx0bd15e11e7c3090f"               //APPID上线
+//#define APP_ID          @"wx281aa8c2686c0e7c"               //APPID
+#define APP_ID          @"wx0bd15e11e7c3090f"               //APPID生产
 
-#define APP_SECRET      @"1a8fd52d8cb2b6099b1c4c669e5e2717" //appsecret
-//#define APP_SECRET      @"e3ff58518855345970755d08a3540c26" //appsecret上线
+//#define APP_SECRET      @"1a8fd52d8cb2b6099b1c4c669e5e2717" //appsecret
+#define APP_SECRET      @"e3ff58518855345970755d08a3540c26" //appsecret生产
 
 //商户号，填写商户对应参数
-#define MCH_ID          @"1247257401"
-//#define MCH_ID          @"1249135301" //上线
+//#define MCH_ID          @"1247257401"
+#define MCH_ID          @"1249135301" //生产
 //商户API密钥，填写相应参数
-#define PARTNER_ID      @"9b1c4c669e5e27171a8fd52d8cb2b609"
-//#define PARTNER_ID      @"shoppingappc4f62a8bc2b571351b577" //上线
+//#define PARTNER_ID      @"9b1c4c669e5e27171a8fd52d8cb2b609"
+#define PARTNER_ID      @"shoppingappc4f62a8bc2b571351b577" //生产
 
 //支付结果回调页面
 //#define NOTIFY_URL      @"http://wxpay.weixin.qq.com/pub_v2/pay/notify.v2.php"
@@ -58,10 +60,10 @@
 
 
 //#define HomeURL  @"http://123.57.52.187:8080/app/" //开发
-#define HomeURL  @"http://123.57.77.86:8080/app/" //测试
+//#define HomeURL  @"http://123.57.77.86:8080/app/" //测试
 
-//#define HomeURL  @"http://appr.joybar.com.cn/app/" //上线读
-#define HomeURLW  @"http://pa.joybar.com.cn/app/" //上线写
+#define HomeURL  @"http://appr.joybar.com.cn/app/" //生产读
+#define HomeURLW  @"http://appw.joybar.com.cn/app/" //生产写
 
 
 
