@@ -38,15 +38,16 @@
 
 
 #define APP_ID          @"wx281aa8c2686c0e7c"               //APPID
-#define APP_SECRET      @"1a8fd52d8cb2b6099b1c4c669e5e2717" //appsecret
-#define MCH_ID          @"1247257401"
-#define PARTNER_ID      @"9b1c4c669e5e27171a8fd52d8cb2b609"
-
 //#define APP_ID          @"wx0bd15e11e7c3090f"               //APPID上线
+
+#define APP_SECRET      @"1a8fd52d8cb2b6099b1c4c669e5e2717" //appsecret
 //#define APP_SECRET      @"e3ff58518855345970755d08a3540c26" //appsecret上线
+
 //商户号，填写商户对应参数
+#define MCH_ID          @"1247257401"
 //#define MCH_ID          @"1249135301" //上线
 //商户API密钥，填写相应参数
+#define PARTNER_ID      @"9b1c4c669e5e27171a8fd52d8cb2b609"
 //#define PARTNER_ID      @"shoppingappc4f62a8bc2b571351b577" //上线
 
 //支付结果回调页面
