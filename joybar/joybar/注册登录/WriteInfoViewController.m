@@ -13,8 +13,6 @@
 
 @property (nonatomic ,strong)NSString *cityID;
 
-
-
 @end
 
 @implementation WriteInfoViewController
@@ -23,14 +21,9 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     self.view.backgroundColor = kCustomColor(235, 238, 240);
-    
     [self addInfoView];
     [self addSelectCityView];
-    
-    
     [self addNavBarViewAndTitle:@"完善个人资料"];
 }
 

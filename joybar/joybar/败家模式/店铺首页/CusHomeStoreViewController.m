@@ -232,7 +232,7 @@
             CGSize size = [Public getContentSizeWith:self.storeData.Description andFontSize:14 andWidth:kScreenWidth-20];
             CGFloat height = size.height+320;
             layout.headerHeight = height;
-            if ([self.storeData.IsFollowing boolValue])
+            if ([self.storeData.IsBuyer boolValue])
             {
                 [self getProListData];
             }
@@ -240,7 +240,6 @@
             {
                 [self getCollectListData];
             }
-
 
             [self.collectionView reloadData];
         }

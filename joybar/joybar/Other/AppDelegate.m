@@ -307,9 +307,9 @@ forRemoteNotification:(NSDictionary *)userInfo
     NSString *type = [NSString stringWithFormat:@"%@",[userInfo objectForKey:@"type"]];
     if ([type isEqual:@"14"])
     {
-//        cusTabbar.msgMarkLab.hidden = YES;
-//        
-//        [cusTabbar.messageView receiveMessage];
+        cusTabbar.msgMarkLab.hidden = YES;
+        
+        [cusTabbar.messageView receiveMessage];
     }
     else
     {
