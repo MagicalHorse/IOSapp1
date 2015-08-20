@@ -508,8 +508,6 @@
                 NSString *str1 = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 [self WXLogin:str1];
             }];
-            
-            
         }
     });
 }

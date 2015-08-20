@@ -35,7 +35,6 @@
     {
         cell = [[CusNearTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
-    
     for (UIView *view in cell.contentView.subviews)
     {
         [view removeFromSuperview];

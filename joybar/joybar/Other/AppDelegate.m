@@ -41,6 +41,7 @@
     }
     [APService setupWithOption:launchOptions];
     [UMSocialData setAppKey:@"55d43bf367e58eac01002b7f"];
+    //557f8f1c67e58edf32000208
     
     //向微信注册
     [WXApi registerApp:APP_ID];
@@ -373,12 +374,11 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
          annotation:(id)annotation
 {
     NSString *urlStr = [NSString stringWithFormat:@"%@",url];
-    
-    if ([urlStr isEqualToString:@"wx281aa8c2686c0e7c://platformId=wechat"])
+    if ([urlStr isEqualToString:[NSString stringWithFormat:@"%@://platformId=wechat",APP_ID]])
     {
         return  [UMSocialSnsService handleOpenURL:url];
     }
-    else if ([urlStr rangeOfString:@"wx281aa8c2686c0e7c://oauth?code="].location !=NSNotFound)
+    else if ([urlStr rangeOfString:[NSString stringWithFormat:@"%@://oauth?code=",APP_ID]].location !=NSNotFound)
     {
         return  [UMSocialSnsService handleOpenURL:url];
     }
