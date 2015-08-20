@@ -12,6 +12,7 @@
 #import "UMSocialWechatHandler.h"
 #include "CusTabBarViewController.h"
 #include "APService.h"
+#import "AgreementViewController.h"
 @interface LoginAndRegisterViewController ()
 
 @property (nonatomic ,strong) UIImageView *markImg;
@@ -31,6 +32,8 @@
     UITextField *loginAuthText;
     NSTimer *timer;
     NSInteger timerInterget;
+    
+    UIButton *selectBtn;
 
 }
 - (void)viewDidLoad {
@@ -269,6 +272,48 @@
     [authBtn addTarget:self action:@selector(didCilckGetAuthCode:) forControlEvents:(UIControlEventTouchUpInside)];
     authBtn.hidden = YES;
     [scroll addSubview:authBtn];
+    
+    selectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    selectBtn.frame = CGRectMake(kScreenWidth+20, authCodeLab.bottom+20, 20, 20);
+    [selectBtn addTarget:self action:@selector(didCilckSelect:) forControlEvents:(UIControlEventTouchUpInside)];
+    selectBtn.selected = YES;
+    [selectBtn setBackgroundImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+    [scroll addSubview:selectBtn];
+    
+    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(selectBtn.right+10, selectBtn.top, 91, 20)];
+    lab.text = @"我已阅读并同意";
+    lab.font = [UIFont systemFontOfSize:13];
+    [scroll addSubview:lab];
+    
+    UILabel *lable = [[UILabel alloc] initWithFrame:CGRectMake(lab.right, lab.top, 120, 20)];
+    lable.textColor = [UIColor blueColor];
+    lable.text = @"Shopping用户协议";
+    lable.font = [UIFont systemFontOfSize:13];
+    lable.userInteractionEnabled = YES;
+    [scroll addSubview:lable];
+    
+    UITapGestureRecognizer *tapLab = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClick)];
+    [lable addGestureRecognizer:tapLab];
+    
+}
+-(void)didClick
+{
+    AgreementViewController *VC = [[AgreementViewController alloc] init];
+    [self.navigationController pushViewController:VC animated:YES];
+}
+
+-(void)didCilckSelect:(UIButton *)btn
+{
+    if (btn.selected==YES)
+    {
+        [btn setBackgroundImage:[UIImage imageNamed:@"选择"] forState:(UIControlStateNormal)];
+        btn.selected = NO;
+    }
+    else
+    {
+        [btn setBackgroundImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+        btn.selected = YES;
+    }
 }
 
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -353,6 +398,11 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:registerPhoneText.text forKey:@"mobile"];
+    if (registerAuthText.text.length==0)
+    {
+        [self showHudFailed:@"请输入验证码"];
+        return;
+    }
     [dic setValue:registerAuthText.text forKey:@"code"];
     [self hudShow:@"正在验证"];
     [HttpTool postWithURL:@"user/VerifyCode" params:dic success:^(id json) {
@@ -377,6 +427,11 @@
 //获取验证码
 -(void)didCilckGetAuthCode:(UIButton *)btn
 {
+    if (selectBtn.selected==NO)
+    {
+        [self showHudFailed:@"请同意Shopping用户协议"];
+        return;
+    }
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     if (registerPhoneText.text.length!=11)
     {

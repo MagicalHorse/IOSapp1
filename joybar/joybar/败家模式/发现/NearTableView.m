@@ -5,7 +5,6 @@
 //  Created by 123 on 15/6/10.
 //  Copyright (c) 2015年 卢兴. All rights reserved.
 //
-
 #import "NearTableView.h"
 #import "CusNearTableViewCell.h"
 #import "CusBuyerDetailViewController.h"
@@ -46,10 +45,8 @@
     if (self.dataArr.count>0)
     {
         cell.nearItems = [self.dataArr objectAtIndex:indexPath.row];
-        
         [cell setData:nil];
     }
-    
     return cell;
 }
 
@@ -60,11 +57,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NearItems *items = [self.dataArr objectAtIndex:indexPath.row];
-    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
-    VC.productId = items.ProductId;
-    [self.viewController.navigationController pushViewController:VC animated:YES];
+    if (self.dataArr.count>0)
+    {
+        NearItems *items = [self.dataArr objectAtIndex:indexPath.row];
+        CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+        VC.productId = items.ProductId;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
 }
-
-
 @end
