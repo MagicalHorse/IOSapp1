@@ -69,21 +69,14 @@
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
     imageView.userInteractionEnabled = YES;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    });
-
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:imageView];
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    });
 
     //标签View
     for (int i=0; i<self.homePro.ProductPic.Tags.count; i++)
     {
         HomePicTag *tag = [self.homePro.ProductPic.Tags objectAtIndex:i];
-        
+
         CGSize size = [Public getContentSizeWith:tag.Name andFontSize:13 andHigth:20];
         CGFloat x = [tag.PosX floatValue]*kScreenWidth;
         CGFloat y = [tag.PosY floatValue]*kScreenWidth;
@@ -192,7 +185,7 @@
         img.tag = 1000+i;
         img.userInteractionEnabled = YES;
         [bgView addSubview:img];
-        //        if (i==6)
+//                if (i==6)
         //        {
         //            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, img.width, img.height-10)];
         //            lab.text = @"...";

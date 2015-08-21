@@ -68,6 +68,7 @@
     self.hiddenDeleteBtn=YES;
     self.selectJianBtn = NO;
     [self addTitleView];
+    [self getCircleDetailData];
 
 //    [self addBigView];
 }
@@ -75,7 +76,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self getCircleDetailData];
 }
 
 -(void)getCircleDetailData
@@ -240,8 +240,6 @@
     {
         [view removeFromSuperview];
     }
-    
-    
     if (indexPath.section==0)
     {
         NSInteger count;

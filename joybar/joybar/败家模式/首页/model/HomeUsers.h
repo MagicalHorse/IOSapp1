@@ -11,9 +11,7 @@
 @interface HomeUsers : NSObject
 
 @property (nonatomic ,copy)NSString *UserId;
-
 @property (nonatomic ,copy)NSString *Logo;
 @property (nonatomic ,copy)NSString *likeTime;
-
 
 @end

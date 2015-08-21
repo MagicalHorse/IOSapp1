@@ -203,9 +203,7 @@
                          _tempView.hidden = YES;
                          _bgView.hidden = YES;
                          self.btn.userInteractionEnabled =YES;
-                         
                      }];
-    
 }
 
 -(void)WXLogin:(NSString *)str
@@ -213,7 +211,7 @@
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
     [dic setObject:str forKey:@"json"];
     [dic setObject:APP_ID forKey:@"appid"];
-    [HttpTool postWithURL:@"User/OutSiteLogin" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"User/OutSiteLogin" params:dic isWrite:YES success:^(id json) {
         
         [self textHUDHiddle];
         if([[json objectForKey:@"isSuccessful"] boolValue])
@@ -223,7 +221,6 @@
             NSArray *allKeys = [userInfoDic allKeys];
             for (NSString *key in allKeys)
             {
-                
                 NSString *value = [userInfoDic objectForKey:key];
                 if ([value isEqual:[NSNull null]])
                 {
