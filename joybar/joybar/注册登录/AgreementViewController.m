@@ -18,7 +18,7 @@
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"用户协议"];
     
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight)];
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64)];
     NSURL *url =[NSURL URLWithString:@"http://r.joybar.com.cn/agreement.html"];
     NSURLRequest *request =[NSURLRequest requestWithURL:url];
     [webView loadRequest:request];

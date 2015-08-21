@@ -16,8 +16,6 @@
 #import "OSSClient.h"
 #import "OSSTool.h"
 #import "CusTabBarViewController.h"
-
-
 @implementation AppDelegate
 {
     CusTabBarViewController *cusTabbar;
@@ -397,8 +395,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     //设置密钥
     [req setKey:PARTNER_ID];
     
-    //}}}
-    
     //获取到实际调起微信支付的参数后，在app端调起支付
     NSMutableDictionary *dict = [req sendPay_demo:orderNum andName:name andPrice:price];
     
@@ -533,7 +529,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PayCancleNotification" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receivePrivateMessageNot" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receiveCircleMessageNot" object:nil];
-
 }
 
 @end
