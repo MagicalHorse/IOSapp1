@@ -203,9 +203,7 @@
                          _tempView.hidden = YES;
                          _bgView.hidden = YES;
                          self.btn.userInteractionEnabled =YES;
-                         
                      }];
-    
 }
 
 -(void)WXLogin:(NSString *)str
@@ -223,7 +221,6 @@
             NSArray *allKeys = [userInfoDic allKeys];
             for (NSString *key in allKeys)
             {
-                
                 NSString *value = [userInfoDic objectForKey:key];
                 if ([value isEqual:[NSNull null]])
                 {

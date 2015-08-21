@@ -75,6 +75,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.msgTableView.dataArr removeAllObjects];
+
     [self getMessageList];
 }
 -(void)getMessageList

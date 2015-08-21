@@ -388,7 +388,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 //============================================================
 // 微信支付流程实现
 //============================================================
-
 - (void)sendPay_demo:(NSString *)orderNum andName:(NSString *)name andPrice:(NSString *)price
 {
     //创建支付签名对象

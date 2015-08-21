@@ -32,11 +32,9 @@
 //#define AlyBucket @"apprss" //开发
 #define AlyBucket @"app-prod-rss" //生产
 
-
-
 //#define SocketUrl @"http://182.92.7.70:8000/chat" //测试
 //#define SocketUrl @"http://182.92.7.70:8001/chat"//开发
-#define SocketUrl @"http://chat.joybar.com.cn" //生产
+#define SocketUrl @"http://chat.joybar.com.cn/chat" //生产
 
 
 //#define APP_ID          @"wx281aa8c2686c0e7c"               //APPID

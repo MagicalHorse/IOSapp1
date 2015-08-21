@@ -67,10 +67,11 @@
     lastMsg.font =[UIFont systemFontOfSize:14];
     [self.contentView addSubview:lastMsg];
     
-    UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-40, namelab.top, 40, 20)];
+    UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-90, namelab.top, 80, 20)];
     timeLab.text = [dic objectForKey:@"UnReadLastTime"];
     timeLab.font = [UIFont systemFontOfSize:13];
     timeLab.textColor = [UIColor lightGrayColor];
+    timeLab.textAlignment = NSTextAlignmentRight;
     [self.contentView addSubview:timeLab];
 
 }
