@@ -32,6 +32,10 @@
 
 -(void)setData:(NSDictionary *)dic
 {
+    if (!self.homePro)
+    {
+        return;
+    }
     UIImageView *headImg = [[UIImageView alloc] initWithFrame:CGRectMake(7, 7, 55, 55)];
     [headImg sd_setImageWithURL:[NSURL URLWithString:self.homePro.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     headImg.layer.cornerRadius = headImg.width/2;

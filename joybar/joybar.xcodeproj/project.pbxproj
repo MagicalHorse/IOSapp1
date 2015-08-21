@@ -2870,7 +2870,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Xie (M69JRM3X94)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Shenma Software Co., Ltd (45KBCQGM2G)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "joybar/joybar-Prefix.pch";
@@ -2889,7 +2889,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "af96dee7-ba3a-412b-914a-8309d29d8b3f";
+				PROVISIONING_PROFILE = "87626951-a318-404c-bd60-2b29c609deb3";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
@@ -2901,7 +2901,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Xie (M69JRM3X94)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing Shenma Software Co., Ltd (45KBCQGM2G)";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "joybar/joybar-Prefix.pch";
@@ -2920,7 +2920,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "af96dee7-ba3a-412b-914a-8309d29d8b3f";
+				PROVISIONING_PROFILE = "87626951-a318-404c-bd60-2b29c609deb3";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
