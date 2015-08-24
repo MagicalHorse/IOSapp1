@@ -219,6 +219,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_searchArr.count==0)
+    {
+        return;
+    }
     NSDictionary *dic = [self.searchArr objectAtIndex:indexPath.row];
     if (self.selectBtnIndex==0)
     {

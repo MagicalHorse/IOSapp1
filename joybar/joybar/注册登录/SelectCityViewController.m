@@ -49,7 +49,6 @@
 
 -(void)getCityData
 {
-    
     [self hudShow];
     [HttpTool postWithURL:@"Common/GetCityList" params:nil success:^(id json) {
         
@@ -63,14 +62,12 @@
                 NSString *key = [[self.dataBase objectAtIndex:i] objectForKey:@"key"];
                 [self.dataSource addObject:key];
             }
-            
             [self.tableView reloadData];
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        
     } failure:^(NSError *error) {
         [self hiddleHud];
     }];
@@ -148,8 +145,6 @@
     return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert;
 }
 
-
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -162,24 +157,11 @@
         
         [self.navigationController popViewControllerAnimated:YES];
     }
-    
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -232,6 +232,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.attentionArr.count==0)
+    {
+        return;
+    }
     FansModel *fan = [self.attentionArr objectAtIndex:indexPath.row];
 
     CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
