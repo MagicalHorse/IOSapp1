@@ -142,6 +142,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (fansItems.items.count==0)
+    {
+        return;
+    }
     FansModel *fan = [fansItems.items objectAtIndex:indexPath.row];
     CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
     VC.userId =fan.UserId;

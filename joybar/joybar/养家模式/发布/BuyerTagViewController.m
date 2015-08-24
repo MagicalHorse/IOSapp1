@@ -113,6 +113,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
     NSString *text =[self.dataArray[indexPath.row]objectForKey:@"Name"];
     NSString *Id =[[self.dataArray[indexPath.row]objectForKey:@"Id"]stringValue];
     NSString *tempType;

@@ -51,13 +51,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *circleId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
-    NSString *circleName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:circleId AndTpye:2 andUserName:circleName];
-    VC.circleId = circleId;
-    VC.isFrom = isFromGroupChat;
-    [self.viewController.navigationController pushViewController:VC animated:YES];
-
+    if (self.dataArr.count>0)
+    {
+        NSString *circleId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
+        NSString *circleName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
+        CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:circleId AndTpye:2 andUserName:circleName];
+        VC.circleId = circleId;
+        VC.isFrom = isFromGroupChat;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 @end

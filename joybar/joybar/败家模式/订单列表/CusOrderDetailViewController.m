@@ -391,6 +391,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (!self.detailData)
+    {
+        return;
+    }
     if (indexPath.section==2)
     {
         CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];

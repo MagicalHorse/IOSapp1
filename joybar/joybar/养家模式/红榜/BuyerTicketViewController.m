@@ -89,6 +89,8 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    
+    
     NSString *Id=[[self.dataArray[indexPath.section]objectForKey:@"id"] stringValue];
     NSString *name=[self.dataArray[indexPath.section]objectForKey:@"name"];
     BuyerTicketDetailsViewController *ticket=[[BuyerTicketDetailsViewController alloc]init];

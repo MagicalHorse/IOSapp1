@@ -156,6 +156,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.orderListData.items.count==0)
+    {
+        return;
+    }
     CusOrderDetailViewController *VC = [[CusOrderDetailViewController alloc] init];
     OrderListItem *item = [self.orderListData.items objectAtIndex:indexPath.row];
     VC.delegate = self;

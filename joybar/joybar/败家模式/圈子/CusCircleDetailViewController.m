@@ -439,6 +439,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if ([self.circleData.IsOwer boolValue]) {
         if (indexPath.section==1&&indexPath.row==0) //修改圈子名称
         {

@@ -709,6 +709,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.messageArr.count==0)
+    {
+        return;
+    }
     NSMutableDictionary *msgDic = [self.messageArr objectAtIndex:indexPath.row];
     if ([[msgDic objectForKey:@"type"] isEqualToString:@"product_img"])
     {
