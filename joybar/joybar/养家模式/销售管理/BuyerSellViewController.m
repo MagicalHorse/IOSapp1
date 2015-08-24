@@ -217,6 +217,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(self.dataArray.count==0&&!self.dataArray){
+        return;
+    }
     Order *order = self.dataArray[indexPath.section];
     BueryStoreDetailsController *details=[[BueryStoreDetailsController alloc]initWithCode:order.OrderNo];
     [self.navigationController pushViewController:details animated:YES];

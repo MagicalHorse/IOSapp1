@@ -231,6 +231,9 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(self.dataArray.count==0&&!self.dataArray){
+        return;
+    }
     NSString *userid;
     NSString *name;
     CusChatViewController * chat;
