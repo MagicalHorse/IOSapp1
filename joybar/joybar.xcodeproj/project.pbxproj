@@ -916,12 +916,12 @@
 		9D5D2E531B60BF7200DBFDC3 /* UIImage+AspectFit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AspectFit.m"; sourceTree = "<group>"; };
 		9D5FD0CE1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginAndRegisterViewController.h; sourceTree = "<group>"; };
 		9D5FD0CF1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginAndRegisterViewController.m; sourceTree = "<group>"; };
-		9D6B1C121BAAB63A002775F1 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		9D6B1C131BAAB6C5002775F1 /* CusBuyerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusBuyerDetailViewController.h; sourceTree = "<group>"; };
 		9D6B1C141BAAB6C5002775F1 /* CusBuyerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusBuyerDetailViewController.m; sourceTree = "<group>"; };
 		9D6B1C161BAAB6E9002775F1 /* BuyerTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerTabBarViewController.m; sourceTree = "<group>"; };
 		9D6B1C181BAAB70B002775F1 /* BuyerMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerMineViewController.m; sourceTree = "<group>"; };
 		9D6B1C1A1BAAB751002775F1 /* BuyerStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerStoreViewController.m; sourceTree = "<group>"; };
+		9D6B1C1C1BAAB88F002775F1 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		9D6C94741AE0AA200066F794 /* WriteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteInfoViewController.h; sourceTree = "<group>"; };
 		9D6C94751AE0AA200066F794 /* WriteInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteInfoViewController.m; sourceTree = "<group>"; };
 		9D6C94881AE0F0A30066F794 /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
@@ -1807,7 +1807,7 @@
 				60121A551AF22A25002C1428 /* main.m */,
 				60121A4D1AF22928002C1428 /* AppDelegate.h */,
 				60121A4E1AF22928002C1428 /* AppDelegate.m */,
-				9D6B1C121BAAB63A002775F1 /* Header.h */,
+				9D6B1C1C1BAAB88F002775F1 /* Header.h */,
 				0A720ECA1B253EC800C2D0E1 /* SocketManager.h */,
 				0A720ECB1B253EC800C2D0E1 /* SocketManager.m */,
 			);
