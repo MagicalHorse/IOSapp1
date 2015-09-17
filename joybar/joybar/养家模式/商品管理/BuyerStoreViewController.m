@@ -20,6 +20,7 @@
 @interface BuyerStoreViewController ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,UMSocialUIDelegate,UIAlertViewDelegate>{
     int type;
     BOOL isRefresh;
+    int cusType;
     
 }
 
@@ -46,6 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     type=1;
+    cusType=-1;
     [self addNavBarViewAndTitle:@"商品管理"];
     _tempView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, 40)];
     _tempView.backgroundColor = kCustomColor(251, 250, 250);
@@ -232,24 +234,18 @@
 }
 
 -(void)downOnClcke:(UIButton *)btn{
+    cusType=1; //上架
     Store *st=[self.dataArray objectAtIndex:btn.tag];
-    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-    [dict setObject:st.ProductId forKey:@"Id"];
-    [dict setObject:@"1" forKey:@"Status"];
-    [HttpTool postWithURL:@"Product/onLine" params:dict isWrite:YES success:^(id json) {
-        BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
-        if (isSuccessful) {
-            [self.dataArray removeObject:st];
-            [self.tableView reloadData];
-        }
-        NSLog(@"%@",[json objectForKey:@"message"]);
-    } failure:^(NSError *error) {
-        [self showHudFailed:@"服务器正在维护,请稍后再试"];
-    }];
+    
+    UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"上架商品" message: [NSString stringWithFormat:@"确定要上架%@吗?",st.ProductName] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.tag =btn.tag;
+    [alert show];
+    
+ 
 
 }
 -(void)sbDelClcke:(UIButton *)btn{
-    
+    cusType=4;
     Store *st=[self.dataArray objectAtIndex:btn.tag];
     UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"删除商品" message: [NSString stringWithFormat:@"确定要删除%@吗?",st.ProductName] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alert.tag =btn.tag;
@@ -257,26 +253,16 @@
     
 }
 -(void)downClcke:(UIButton *)btn{
-
+    cusType=2; //下架
     Store *st=[self.dataArray objectAtIndex:btn.tag];
-    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-    [dict setObject:st.ProductId forKey:@"Id"];
-    [dict setObject:@"0" forKey:@"Status"];
-    [HttpTool postWithURL:@"Product/OnLine" params:dict isWrite:YES success:^(id json) {
-        BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
-        if (isSuccessful) {
-            [self.dataArray removeObject:st];
-            [self.tableView reloadData];
-        }else{
-            [self showHudFailed:[json objectForKey:@"message"]];
-        }
-    } failure:^(NSError *error) {
-        [self showHudFailed:@"服务器正在维护,请稍后再试"];
-    }];
+    UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"下架商品" message: [NSString stringWithFormat:@"确定要下架%@吗?",st.ProductName] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.tag =btn.tag;
+    [alert show];
     
 }
 //分享
 -(void)shareClcke:(UIButton *)btn{
+    cusType=0;
     if (!TOKEN)
     {
         [Public showLoginVC:self];
@@ -303,6 +289,7 @@
 }
 //修改
 -(void)sbClcke:(UIButton *)btn{
+    cusType=0;
     Store *st=[self.dataArray objectAtIndex:btn.tag];
     BuyerIssueViewController *issue =[[BuyerIssueViewController alloc]init];
     issue.detail =st.Detail;
@@ -313,22 +300,11 @@
 }
 //复制
 -(void)cyClcke:(UIButton *)btn{
-    
+    cusType=3;
     Store *st=[self.dataArray objectAtIndex:btn.tag];
-    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-    [dict setObject:st.ProductId forKey:@"productId"];
-    [dict setObject:@"0" forKey:@"Status"];
-    [HttpTool postWithURL:@"Product/Copy" params:dict isWrite:YES success:^(id json) {
-        BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
-        if (isSuccessful) {
-            [self.dataArray insertObject:st atIndex:0];
-            [self.tableView reloadData];
-        }else{
-            [self showHudFailed:[json objectForKey:@"message"]];
-        }
-    } failure:^(NSError *error) {
-        [self showHudFailed:@"服务器正在维护,请稍后再试"];
-    }];
+    UIAlertView * alert=[[UIAlertView alloc]initWithTitle:@"复制商品" message: [NSString stringWithFormat:@"确定要复制%@吗?",st.ProductName] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.tag =btn.tag;
+    [alert show];
     
 }
 
@@ -338,24 +314,63 @@
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    Store *st=[self.dataArray objectAtIndex:alertView.tag];
+    NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+    [dict setObject:st.ProductId forKey:@"Id"];
     if(buttonIndex ==1){
-        Store *st=[self.dataArray objectAtIndex:alertView.tag];
-        NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-        [dict setObject:st.ProductId forKey:@"id"];
-        [HttpTool postWithURL:@"Product/Delete" params:dict  isWrite:YES success:^(id json) {
-            BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
-            if (isSuccessful) {
-                [self.dataArray removeObject:st];
-                [self.tableView reloadData];
-            }else{
-                [self showHudFailed:[json objectForKey:@"message"]];
-            }
-        } failure:^(NSError *error) {
-            [self showHudFailed:@"服务器正在维护,请稍后再试"];
-        }];
+        if (cusType==1) {
+            [dict setObject:@"1" forKey:@"Status"];
+            [HttpTool postWithURL:@"Product/onLine" params:dict isWrite:YES success:^(id json) {
+                BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+                if (isSuccessful) {
+                    [self.dataArray removeObject:st];
+                    [self.tableView reloadData];
+                }
+                NSLog(@"%@",[json objectForKey:@"message"]);
+            } failure:^(NSError *error) {
+                [self showHudFailed:@"服务器正在维护,请稍后再试"];
+            }];
+        }else if(cusType ==2){
+            [dict setObject:@"0" forKey:@"Status"];
+            [HttpTool postWithURL:@"Product/OnLine" params:dict isWrite:YES success:^(id json) {
+                BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+                if (isSuccessful) {
+                    [self.dataArray removeObject:st];
+                    [self.tableView reloadData];
+                }else{
+                    [self showHudFailed:[json objectForKey:@"message"]];
+                }
+            } failure:^(NSError *error) {
+                [self showHudFailed:@"服务器正在维护,请稍后再试"];
+            }];
+        }else if(cusType ==3){
+            [dict setObject:st.ProductId forKey:@"productId"];
+            [HttpTool postWithURL:@"Product/Copy" params:dict isWrite:YES success:^(id json) {
+                BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+                if (isSuccessful) {
+                    [self.dataArray insertObject:st atIndex:0];
+                    [self.tableView reloadData];
+                }else{
+                    [self showHudFailed:[json objectForKey:@"message"]];
+                }
+            } failure:^(NSError *error) {
+                [self showHudFailed:@"服务器正在维护,请稍后再试"];
+            }];
+        }else if(cusType ==4){
+            [HttpTool postWithURL:@"Product/Delete" params:dict  isWrite:YES success:^(id json) {
+                BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
+                if (isSuccessful) {
+                    [self.dataArray removeObject:st];
+                    [self.tableView reloadData];
+                }else{
+                    [self showHudFailed:[json objectForKey:@"message"]];
+                }
+            } failure:^(NSError *error) {
+                [self showHudFailed:@"服务器正在维护,请稍后再试"];
+            }];
+        }
     }
 }
-
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
     if (tap.view.tag==1000)

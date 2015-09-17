@@ -168,7 +168,7 @@
             return;
         }
         //apple ID
-        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://itunes.apple.com/us/app/id399608199"];
+        [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:@"http://itunes.apple.com/us/app/id1003672874"];
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:@"55d43bf367e58eac01002b7f"
                                           shareText:@"快来关注shopping平台，24小时售卖实体百货商品，送货上门现场自提随心选!"

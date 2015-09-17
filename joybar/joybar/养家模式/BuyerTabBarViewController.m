@@ -25,6 +25,7 @@
 #import "BuyerCameraViewController.h"
 #import "BuyerOpenViewController.h"
 #import "CusMessageViewController.h"
+
 @interface BuyerTabBarViewController ()<UIActionSheetDelegate>
 
 @end
@@ -216,13 +217,42 @@
     }
     [self SelectedTabBarIndex:[self.btnArray objectAtIndex:selectedIndex]];
 }
+- (void)showHudFailed:(NSString *)tip
+{
+    [self showHud:tip andImg:@"TipViewErrorIcon.png"];
+}
+
+- (void)showHud:(NSString *)tip andImg:(NSString *)img
+{
+    MBProgressHUD *t_HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:t_HUD];
+    t_HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:img]];
+    t_HUD.mode = MBProgressHUDModeCustomView;
+    t_HUD.labelText = tip;
+    t_HUD.removeFromSuperViewOnHide = YES;
+    [t_HUD show:YES];
+    [t_HUD hide:YES afterDelay:1.0];
+}
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex ==0) {
-        BuyerOpenViewController * open =[[BuyerOpenViewController alloc]init];
-         BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:open];
-        [self presentViewController:nav animated:YES completion:nil];
+        
+        [HttpTool postWithURL:@"Order/CheckIsCanCreateGeneralOrder" params:nil success:^(id json) {
+            BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+            if (!isSuccessful) {
+                BuyerOpenViewController * open =[[BuyerOpenViewController alloc]init];
+                BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:open];
+                [self presentViewController:nav animated:YES completion:nil];
+            }else{
+                [self showHudFailed:[json objectForKey:@"message"]];
+            }
+        } failure:^(NSError *error) {
+            [self showHudFailed:@"服务器异常,请稍后再试"];
+
+        }];
+        
+        
         
     }else if(buttonIndex ==1){
         [Common saveUserDefault:@"1" keyName:@"backPhone"];

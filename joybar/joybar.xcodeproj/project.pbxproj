@@ -70,7 +70,6 @@
 		0AAB5B1E1B2AE01900782C0C /* NearData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A1D1B2AE01800782C0C /* NearData.m */; };
 		0AAB5B1F1B2AE01900782C0C /* NearItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A1F1B2AE01800782C0C /* NearItems.m */; };
 		0AAB5B201B2AE01900782C0C /* NearTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A211B2AE01800782C0C /* NearTableView.m */; };
-		0AAB5B211B2AE01900782C0C /* CusBuyerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A241B2AE01800782C0C /* CusBuyerDetailViewController.m */; };
 		0AAB5B221B2AE01900782C0C /* CusOrderProTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A261B2AE01800782C0C /* CusOrderProTableViewCell.m */; };
 		0AAB5B231B2AE01900782C0C /* CusOrderProTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB5A271B2AE01800782C0C /* CusOrderProTableViewCell.xib */; };
 		0AAB5B241B2AE01900782C0C /* CusProDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A291B2AE01800782C0C /* CusProDetailViewController.m */; };
@@ -256,12 +255,10 @@
 		60121A561AF22A25002C1428 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 60121A551AF22A25002C1428 /* main.m */; };
 		9D1E12F31B43C3B700435531 /* YRADScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1E12F21B43C3B700435531 /* YRADScrollView.m */; };
 		9D1E12F61B44034D00435531 /* CusBindMobileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D1E12F51B44034D00435531 /* CusBindMobileViewController.m */; };
-		9D42E93F1B27DAF200C85400 /* BuyerTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8D71B27DAF200C85400 /* BuyerTabBarViewController.m */; };
 		9D42E9401B27DAF200C85400 /* BueryAuthFinishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8DA1B27DAF200C85400 /* BueryAuthFinishViewController.m */; };
 		9D42E9411B27DAF200C85400 /* BueryAuthInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8DC1B27DAF200C85400 /* BueryAuthInfoViewController.m */; };
 		9D42E9421B27DAF200C85400 /* BueryAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8DE1B27DAF200C85400 /* BueryAuthViewController.m */; };
 		9D42E9431B27DAF200C85400 /* BuyerCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8E01B27DAF200C85400 /* BuyerCameraViewController.m */; };
-		9D42E9441B27DAF200C85400 /* BuyerMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8E21B27DAF200C85400 /* BuyerMineViewController.m */; };
 		9D42E9451B27DAF200C85400 /* BuyerOpenMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8E41B27DAF200C85400 /* BuyerOpenMessageViewController.m */; };
 		9D42E9471B27DAF200C85400 /* BuyerShopShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8E81B27DAF200C85400 /* BuyerShopShowViewController.m */; };
 		9D42E9481B27DAF200C85400 /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8EA1B27DAF200C85400 /* ImageViewController.m */; };
@@ -270,7 +267,6 @@
 		9D42E94B1B27DAF200C85400 /* BuyerOpenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D42E8F01B27DAF200C85400 /* BuyerOpenViewController.xib */; };
 		9D42E94C1B27DAF200C85400 /* BuyerSellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8F31B27DAF200C85400 /* BuyerSellTableViewCell.m */; };
 		9D42E94D1B27DAF200C85400 /* BuyerSellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D42E8F41B27DAF200C85400 /* BuyerSellTableViewCell.xib */; };
-		9D42E94E1B27DAF200C85400 /* BuyerStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8F61B27DAF200C85400 /* BuyerStoreViewController.m */; };
 		9D42E94F1B27DAF200C85400 /* BuerySotres.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8F91B27DAF200C85400 /* BuerySotres.m */; };
 		9D42E9501B27DAF200C85400 /* Store.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8FB1B27DAF200C85400 /* Store.m */; };
 		9D42E9511B27DAF200C85400 /* BuyerCircleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D42E8FE1B27DAF200C85400 /* BuyerCircleTableViewCell.m */; };
@@ -319,6 +315,10 @@
 		9D5D2E561B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E511B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m */; };
 		9D5D2E571B60BF7200DBFDC3 /* UIImage+AspectFit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E531B60BF7200DBFDC3 /* UIImage+AspectFit.m */; };
 		9D5FD0D01ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5FD0CF1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m */; };
+		9D6B1C151BAAB6C5002775F1 /* CusBuyerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C141BAAB6C5002775F1 /* CusBuyerDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9D6B1C171BAAB6E9002775F1 /* BuyerTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C161BAAB6E9002775F1 /* BuyerTabBarViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9D6B1C191BAAB70B002775F1 /* BuyerMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C181BAAB70B002775F1 /* BuyerMineViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9D6B1C1B1BAAB751002775F1 /* BuyerStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C1A1BAAB751002775F1 /* BuyerStoreViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9D6C94761AE0AA200066F794 /* WriteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94751AE0AA200066F794 /* WriteInfoViewController.m */; };
 		9D6C948A1AE0F0A30066F794 /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94891AE0F0A30066F794 /* FindPasswordViewController.m */; };
 		9D6C948D1AE0F0D40066F794 /* SetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C948C1AE0F0D40066F794 /* SetPasswordViewController.m */; };
@@ -531,8 +531,6 @@
 		0AAB5A1F1B2AE01800782C0C /* NearItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearItems.m; sourceTree = "<group>"; };
 		0AAB5A201B2AE01800782C0C /* NearTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearTableView.h; sourceTree = "<group>"; };
 		0AAB5A211B2AE01800782C0C /* NearTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearTableView.m; sourceTree = "<group>"; usesTabs = 0; };
-		0AAB5A231B2AE01800782C0C /* CusBuyerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusBuyerDetailViewController.h; sourceTree = "<group>"; };
-		0AAB5A241B2AE01800782C0C /* CusBuyerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusBuyerDetailViewController.m; sourceTree = "<group>"; };
 		0AAB5A251B2AE01800782C0C /* CusOrderProTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusOrderProTableViewCell.h; sourceTree = "<group>"; };
 		0AAB5A261B2AE01800782C0C /* CusOrderProTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusOrderProTableViewCell.m; sourceTree = "<group>"; };
 		0AAB5A271B2AE01800782C0C /* CusOrderProTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusOrderProTableViewCell.xib; sourceTree = "<group>"; };
@@ -808,7 +806,6 @@
 		9D1E12F41B44034D00435531 /* CusBindMobileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusBindMobileViewController.h; sourceTree = "<group>"; };
 		9D1E12F51B44034D00435531 /* CusBindMobileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusBindMobileViewController.m; sourceTree = "<group>"; };
 		9D42E8D61B27DAF200C85400 /* BuyerTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerTabBarViewController.h; sourceTree = "<group>"; };
-		9D42E8D71B27DAF200C85400 /* BuyerTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerTabBarViewController.m; sourceTree = "<group>"; };
 		9D42E8D91B27DAF200C85400 /* BueryAuthFinishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BueryAuthFinishViewController.h; sourceTree = "<group>"; };
 		9D42E8DA1B27DAF200C85400 /* BueryAuthFinishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BueryAuthFinishViewController.m; sourceTree = "<group>"; };
 		9D42E8DB1B27DAF200C85400 /* BueryAuthInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BueryAuthInfoViewController.h; sourceTree = "<group>"; };
@@ -818,7 +815,6 @@
 		9D42E8DF1B27DAF200C85400 /* BuyerCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerCameraViewController.h; sourceTree = "<group>"; };
 		9D42E8E01B27DAF200C85400 /* BuyerCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerCameraViewController.m; sourceTree = "<group>"; };
 		9D42E8E11B27DAF200C85400 /* BuyerMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerMineViewController.h; sourceTree = "<group>"; };
-		9D42E8E21B27DAF200C85400 /* BuyerMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerMineViewController.m; sourceTree = "<group>"; };
 		9D42E8E31B27DAF200C85400 /* BuyerOpenMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerOpenMessageViewController.h; sourceTree = "<group>"; };
 		9D42E8E41B27DAF200C85400 /* BuyerOpenMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerOpenMessageViewController.m; sourceTree = "<group>"; };
 		9D42E8E71B27DAF200C85400 /* BuyerShopShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerShopShowViewController.h; sourceTree = "<group>"; };
@@ -834,7 +830,6 @@
 		9D42E8F31B27DAF200C85400 /* BuyerSellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerSellTableViewCell.m; sourceTree = "<group>"; };
 		9D42E8F41B27DAF200C85400 /* BuyerSellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuyerSellTableViewCell.xib; sourceTree = "<group>"; };
 		9D42E8F51B27DAF200C85400 /* BuyerStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerStoreViewController.h; sourceTree = "<group>"; };
-		9D42E8F61B27DAF200C85400 /* BuyerStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerStoreViewController.m; sourceTree = "<group>"; };
 		9D42E8F81B27DAF200C85400 /* BuerySotres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuerySotres.h; sourceTree = "<group>"; };
 		9D42E8F91B27DAF200C85400 /* BuerySotres.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuerySotres.m; sourceTree = "<group>"; };
 		9D42E8FA1B27DAF200C85400 /* Store.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Store.h; sourceTree = "<group>"; };
@@ -922,6 +917,11 @@
 		9D5FD0CE1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginAndRegisterViewController.h; sourceTree = "<group>"; };
 		9D5FD0CF1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginAndRegisterViewController.m; sourceTree = "<group>"; };
 		9D6B1C121BAAB63A002775F1 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		9D6B1C131BAAB6C5002775F1 /* CusBuyerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusBuyerDetailViewController.h; sourceTree = "<group>"; };
+		9D6B1C141BAAB6C5002775F1 /* CusBuyerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusBuyerDetailViewController.m; sourceTree = "<group>"; };
+		9D6B1C161BAAB6E9002775F1 /* BuyerTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerTabBarViewController.m; sourceTree = "<group>"; };
+		9D6B1C181BAAB70B002775F1 /* BuyerMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerMineViewController.m; sourceTree = "<group>"; };
+		9D6B1C1A1BAAB751002775F1 /* BuyerStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerStoreViewController.m; sourceTree = "<group>"; };
 		9D6C94741AE0AA200066F794 /* WriteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteInfoViewController.h; sourceTree = "<group>"; };
 		9D6C94751AE0AA200066F794 /* WriteInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteInfoViewController.m; sourceTree = "<group>"; };
 		9D6C94881AE0F0A30066F794 /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
@@ -1306,8 +1306,8 @@
 		0AAB5A221B2AE01800782C0C /* 商品详情 */ = {
 			isa = PBXGroup;
 			children = (
-				0AAB5A231B2AE01800782C0C /* CusBuyerDetailViewController.h */,
-				0AAB5A241B2AE01800782C0C /* CusBuyerDetailViewController.m */,
+				9D6B1C131BAAB6C5002775F1 /* CusBuyerDetailViewController.h */,
+				9D6B1C141BAAB6C5002775F1 /* CusBuyerDetailViewController.m */,
 				0AAB5A251B2AE01800782C0C /* CusOrderProTableViewCell.h */,
 				0AAB5A261B2AE01800782C0C /* CusOrderProTableViewCell.m */,
 				0AAB5A271B2AE01800782C0C /* CusOrderProTableViewCell.xib */,
@@ -1818,7 +1818,7 @@
 			isa = PBXGroup;
 			children = (
 				9D42E8D61B27DAF200C85400 /* BuyerTabBarViewController.h */,
-				9D42E8D71B27DAF200C85400 /* BuyerTabBarViewController.m */,
+				9D6B1C161BAAB6E9002775F1 /* BuyerTabBarViewController.m */,
 				0AAB59D61B2818FA00782C0C /* 货款管理 */,
 				9D42E8D81B27DAF200C85400 /* 个人中心 */,
 				9D42E8EB1B27DAF200C85400 /* 发布 */,
@@ -1845,7 +1845,7 @@
 				9D42E8DF1B27DAF200C85400 /* BuyerCameraViewController.h */,
 				9D42E8E01B27DAF200C85400 /* BuyerCameraViewController.m */,
 				9D42E8E11B27DAF200C85400 /* BuyerMineViewController.h */,
-				9D42E8E21B27DAF200C85400 /* BuyerMineViewController.m */,
+				9D6B1C181BAAB70B002775F1 /* BuyerMineViewController.m */,
 				9D42E8E31B27DAF200C85400 /* BuyerOpenMessageViewController.h */,
 				9D42E8E41B27DAF200C85400 /* BuyerOpenMessageViewController.m */,
 				9D42E8E71B27DAF200C85400 /* BuyerShopShowViewController.h */,
@@ -1880,7 +1880,7 @@
 				9D42E8F31B27DAF200C85400 /* BuyerSellTableViewCell.m */,
 				9D42E8F41B27DAF200C85400 /* BuyerSellTableViewCell.xib */,
 				9D42E8F51B27DAF200C85400 /* BuyerStoreViewController.h */,
-				9D42E8F61B27DAF200C85400 /* BuyerStoreViewController.m */,
+				9D6B1C1A1BAAB751002775F1 /* BuyerStoreViewController.m */,
 				9D42E8F71B27DAF200C85400 /* Model */,
 			);
 			path = "商品管理";
@@ -2541,9 +2541,7 @@
 			files = (
 				9DF36CD51B0039A700637206 /* AFHTTPRequestOperation.m in Sources */,
 				9DDB175C1AE7A1990014D8B2 /* socket.io.js.h in Sources */,
-				9D42E93F1B27DAF200C85400 /* BuyerTabBarViewController.m in Sources */,
 				9D6C948D1AE0F0D40066F794 /* SetPasswordViewController.m in Sources */,
-				9D42E94E1B27DAF200C85400 /* BuyerStoreViewController.m in Sources */,
 				9D1E12F31B43C3B700435531 /* YRADScrollView.m in Sources */,
 				0A5305191B12C05300997BF4 /* UIImage+MultiFormat.m in Sources */,
 				0DB5B0201ACCDEE6000FE9C8 /* UIColor+Hex.m in Sources */,
@@ -2583,6 +2581,7 @@
 				9D9AF73B1B32E365000FB33B /* ApiXml.mm in Sources */,
 				9DDB17261AE7741F0014D8B2 /* UIScrollView+MJRefresh.m in Sources */,
 				9D42E9421B27DAF200C85400 /* BueryAuthViewController.m in Sources */,
+				9D6B1C151BAAB6C5002775F1 /* CusBuyerDetailViewController.m in Sources */,
 				9D42E9611B27DAF200C85400 /* BuyerTicketTableViewCell.m in Sources */,
 				0A4ADAF01B4CBD8E00B5AC00 /* Image.m in Sources */,
 				9D7301F91AE5DF3E0046F97C /* UIView+Shadow.m in Sources */,
@@ -2635,7 +2634,6 @@
 				0AAB5B2D1B2AE01900782C0C /* CircleTableViewCell.m in Sources */,
 				0A5305111B12C05300997BF4 /* SDWebImageCompat.m in Sources */,
 				0AAB5B281B2AE01900782C0C /* ProDetailPromotion.m in Sources */,
-				0AAB5B211B2AE01900782C0C /* CusBuyerDetailViewController.m in Sources */,
 				0AAB5BAC1B2AE01900782C0C /* OrderListItem.m in Sources */,
 				9D467EFC1B05C4FA005CAA36 /* NSString+MJExtension.m in Sources */,
 				9DF36CD61B0039A700637206 /* AFHTTPRequestOperationManager.m in Sources */,
@@ -2693,6 +2691,7 @@
 				9D467EF51B05C4FA005CAA36 /* MJConst.m in Sources */,
 				0DB5B01F1ACCDEE6000FE9C8 /* NSString+MD5.m in Sources */,
 				0AAB5BB61B2AE01900782C0C /* HomePicTag.m in Sources */,
+				9D6B1C171BAAB6E9002775F1 /* BuyerTabBarViewController.m in Sources */,
 				9D42E96F1B27DAF200C85400 /* BuyerHomeTableViewCell.m in Sources */,
 				9DDB17181AE7741F0014D8B2 /* MBProgressHUD.m in Sources */,
 				9DF36CDC1B0039A700637206 /* AFURLResponseSerialization.m in Sources */,
@@ -2706,18 +2705,19 @@
 				9D42E9511B27DAF200C85400 /* BuyerCircleTableViewCell.m in Sources */,
 				9DF36CE71B003A3B00637206 /* Common.m in Sources */,
 				9D42E9481B27DAF200C85400 /* ImageViewController.m in Sources */,
+				9D6B1C191BAAB70B002775F1 /* BuyerMineViewController.m in Sources */,
 				9DDB17241AE7741F0014D8B2 /* MJRefreshHeaderView.m in Sources */,
 				0A53051C1B12C05300997BF4 /* UIImageView+WebCache.m in Sources */,
 				0AAB5B471B2AE01900782C0C /* MessageMoreView.m in Sources */,
 				0AAB5B441B2AE01900782C0C /* ListView.m in Sources */,
 				9D42E94C1B27DAF200C85400 /* BuyerSellTableViewCell.m in Sources */,
+				9D6B1C1B1BAAB751002775F1 /* BuyerStoreViewController.m in Sources */,
 				9D6C948A1AE0F0A30066F794 /* FindPasswordViewController.m in Sources */,
 				9D5D2E571B60BF7200DBFDC3 /* UIImage+AspectFit.m in Sources */,
 				0AAB5BAB1B2AE01900782C0C /* OrderListData.m in Sources */,
 				0A53051D1B12C05300997BF4 /* UIView+WebCacheOperation.m in Sources */,
 				0AAB5BB31B2AE01900782C0C /* HomeTableView.m in Sources */,
 				0AAB5B3F1B2AE01900782C0C /* CusChatViewController.m in Sources */,
-				9D42E9441B27DAF200C85400 /* BuyerMineViewController.m in Sources */,
 				0AAB5B261B2AE01900782C0C /* MakeSureOrderViewController.m in Sources */,
 				0AAB5B2C1B2AE01900782C0C /* CircleTableView.m in Sources */,
 				9D42E96E1B27DAF200C85400 /* Product.m in Sources */,
@@ -2871,6 +2871,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Xie (M69JRM3X94)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "joybar/joybar-Prefix.pch";
@@ -2902,6 +2903,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Xie (M69JRM3X94)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "joybar/joybar-Prefix.pch";
