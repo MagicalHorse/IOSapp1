@@ -19,13 +19,14 @@
 #import "Image.h"
 
 
-@interface BuyerFilterViewController ()<BuyerTagDelegate,UIActionSheetDelegate>
+@interface BuyerFilterViewController ()<BuyerTagDelegate,UIActionSheetDelegate,UIAlertViewDelegate>
 {
     UIImage *cImage;
     CGPoint tagPoint;
     OSSData *osData;
     Image *imgDic;
     int viweTag;
+    UIView *tagView;
 }
 @property (nonatomic,strong)UIView *customInfoView;
 @property (nonatomic,strong)UIView *dscView;
@@ -33,7 +34,7 @@
 @property (nonatomic,strong)UIButton *footerBtn;
 @property (nonatomic,strong)UIImageView *bgImage;
 @property (nonatomic,strong)NSMutableDictionary *tagArray;
-@property (nonatomic,strong)NSMutableArray *tagsArray;
+@property (nonatomic,strong)NSMutableDictionary *tagsArray;
 @property (nonatomic,strong)NSString *tempImageName;
 @property (nonatomic,strong)BuyerIssueViewController *issue;
 @property (nonatomic ,strong)UIScrollView *customScrollView;
@@ -47,9 +48,9 @@
 @implementation BuyerFilterViewController
 
 
--(NSMutableArray *)tagsArray{
+-(NSMutableDictionary *)tagsArray{
     if (_tagsArray ==nil) {
-        _tagsArray =[[NSMutableArray alloc]init];
+        _tagsArray =[[NSMutableDictionary alloc]init];
     }
     return _tagsArray;
 }
@@ -85,7 +86,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    viweTag=0;
+    viweTag=1;
     [self addNavBarViewAndTitle:@"编辑图片"];
     [self setInitView];
 }
@@ -101,10 +102,10 @@
     
     UIView *titieView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     titieView.backgroundColor =[UIColor colorWithRed:0/255 green:0/255 blue:0/255 alpha:0.3];
-   
+    
     _bgImage=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth)];
     _bgImage.image =cImage;
-
+    
     if(self.imageDic){
         
         NSArray *tags =[self.imageDic objectForKey:@"Tags"];
@@ -117,7 +118,7 @@
                 
                 [self didSelectedTag:[tags[i]objectForKey:@"Name"] AndPoint:point AndSourceId:[tags[i]objectForKey:@"SourceId"] AndSourceType:[tags[i]objectForKey:@"SourceType"]];
             }
-          
+            
         }
     }
     if(imgDic){
@@ -160,7 +161,7 @@
     tzhiView.backgroundColor =[UIColor whiteColor];
     [_customScrollView addSubview:tzhiView];
     
-
+    
     for (int i=0; i<5; i++) {
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(60*i+15*(i+1), 15, 60, 60)];
         btn.tag =i+1;
@@ -194,14 +195,14 @@
                 [self getNewImg:cImage AndType:4];
                 [btn setImage:self.getNewImg4 forState:UIControlStateNormal];
                 break;
-
+                
             default:
                 break;
         }
         label.font =[UIFont systemFontOfSize:13];
         [tzhiView addSubview:label];
         
-
+        
     }
     
     //下一步按钮
@@ -261,8 +262,13 @@
                 NSMutableDictionary *dict= [NSMutableDictionary dictionary];
                 self.tempImageName =temp;
                 [dict setObject:self.tempImageName forKey:@"ImageUrl"];
-                [dict setObject:self.tagsArray forKey:@"Tags"];
                 
+                
+                NSMutableArray *tagsArrays =[NSMutableArray array];
+                for (NSDictionary *dict in [self.tagsArray allValues]) {
+                    [tagsArrays addObject:dict];
+                }
+                [dict setObject:tagsArrays forKey:@"Tags"];
                 [self.navigationController popViewControllerAnimated:YES];
                 if ([self.delegate respondsToSelector:@selector(pop:AndDic:AndType:)])
                 {
@@ -285,7 +291,14 @@
                 NSMutableDictionary *dict= [NSMutableDictionary dictionary];
                 self.tempImageName =temp;
                 [dict setObject:self.tempImageName forKey:@"ImageUrl"];
-                [dict setObject:self.tagsArray forKey:@"Tags"];
+                NSMutableArray *tagsArrays =[NSMutableArray array];
+                
+                for (NSDictionary *dict in [self.tagsArray allValues]) {
+                    [tagsArrays addObject:dict];
+                }
+                
+                
+                [dict setObject:tagsArrays forKey:@"Tags"];
                 [self.navigationController popViewControllerAnimated:YES];
                 if ([self.delegate respondsToSelector:@selector(pop:AndDic:AndType:)])
                 {
@@ -298,8 +311,8 @@
         } withProgressCallback:^(float progress) {
             NSLog(@"%f",progress);
         }];
-       
-
+        
+        
     }
     else{ //需要上传图片
         
@@ -322,7 +335,16 @@
     
     NSMutableDictionary *dict= [NSMutableDictionary dictionary];
     [dict setObject:self.tempImageName forKey:@"ImageUrl"]; //取到上传图片的名称
-    [dict setObject:self.tagsArray forKey:@"Tags"];//取到该图片对应的tags
+    
+    
+    NSMutableArray *tagsArrays =[NSMutableArray array];
+    
+    for (NSDictionary *dict in [self.tagsArray allValues]) {
+        [tagsArrays addObject:dict];
+    }
+    
+    
+    [dict setObject:tagsArrays forKey:@"Tags"];//取到该图片对应的tags
     
     issue.images =dict;
     [self.navigationController pushViewController:issue animated:YES];
@@ -349,8 +371,17 @@
     [action showInView:self.view];
     
     
-
+    
 }
+
+-(void)tapTagImageView:(UITapGestureRecognizer *)pan
+{
+    UIAlertView *alert= [[UIAlertView alloc]initWithTitle:@"删除标签" message:@"确定要删除标签吗?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    alert.tag = pan.view.tag;
+    [alert show];
+    NSLog(@"%ld", pan.view.tag);
+}
+
 
 -(void)panTagImageView:(UIPanGestureRecognizer *)pan
 {
@@ -367,6 +398,9 @@
         
         CGFloat x = pan.view.center.x + translatedPoint.x;
         CGFloat y = pan.view.center.y + translatedPoint.y;
+        if(y<50){
+            return;
+        };
         
         CGPoint newcenter = CGPointMake(x, y);
         [pan setTranslation:CGPointMake(0, 0) inView:pan.view];
@@ -388,13 +422,17 @@
     {
         if (self.tagsArray) { //移动更变tag的位置
             //得获取到哪一个tag移动，并更改其值
-            int i=(int)pan.view.tag;
+            int i=((int)pan.view.tag)/100;
             CGFloat tempX =pan.view.frame.origin.x/kScreenWidth;
             CGFloat tempY =pan.view.frame.origin.y/kScreenWidth;
-
-            [self.tagsArray[i]setObject:@(tempX) forKey:@"PosX"];
-            [self.tagsArray[i]setObject:@(tempY) forKey:@"PosY"];
-        
+            
+            NSMutableDictionary *dict= [self.tagsArray objectForKey:[NSString stringWithFormat:@"%d",i]];
+            [dict setValue:@(tempX) forKey:@"PosX"];
+            [dict setValue:@(tempY) forKey:@"PosY"];
+            
+            //            [self.tagsArray[i]setObject:@(tempX) forKey:@"PosX"];
+            //            [self.tagsArray[i]setObject:@(tempY) forKey:@"PosY"];
+            
         }
     }
 }
@@ -406,22 +444,19 @@
     CGSize size = [Public getContentSizeWith:tag andFontSize:13 andHigth:20];
     CGFloat x = point.x ;
     CGFloat y = point.y;
-    UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
+    tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
     tagView.backgroundColor = [UIColor clearColor];
     [_bgImage addSubview:tagView];
     
-    UIImageView *pointImage = [[UIImageView alloc] init];
-    pointImage.center = CGPointMake(10, tagView.height/2);
-    pointImage.bounds = CGRectMake(0, 0, 12, 12);
-    pointImage.image = [UIImage imageNamed:@"yuan"];
-    [tagView addSubview:pointImage];
     
-    UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(pointImage.right+5, 0, 15, tagView.height)];
+    
+    UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, tagView.height)];
     jiaoImage.image = [UIImage imageNamed:@"bqqian"];
     [tagView addSubview:jiaoImage];
     
     UIImageView *tagImage = [[UIImageView alloc] initWithFrame:CGRectMake(jiaoImage.right, 0, size.width+10, tagView.height)];
     tagImage.image = [UIImage imageNamed:@"bqhou"];
+    tagImage.userInteractionEnabled=YES;
     [tagView addSubview:tagImage];
     
     UILabel *tagLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tagImage.width, tagView.height)];
@@ -429,6 +464,7 @@
     tagLab.font = [UIFont systemFontOfSize:13];
     tagLab.text = tag;
     [tagImage addSubview:tagLab];
+    
     
     NSMutableDictionary *tagArray =[NSMutableDictionary dictionary];
     CGFloat tempX =point.x/kScreenWidth;
@@ -438,12 +474,16 @@
     [tagArray setObject:@(tempY) forKey:@"PosY"];
     [tagArray setObject:sourceId forKey:@"SourceId"];
     [tagArray setObject:sourceType forKey:@"SourceType"];
-    [self.tagsArray addObject:tagArray];
+    [self.tagsArray setObject:tagArray forKey:[NSString stringWithFormat:@"%d",viweTag]];
     
-
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTagImageView:)];
+    
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panTagImageView:)];
-    tagView.tag=viweTag;
+    tagView.tag=viweTag*100;
     [tagView addGestureRecognizer:panGestureRecognizer];
+    [tagView addGestureRecognizer:tapGestureRecognizer];
+    
     viweTag++;
 }
 
@@ -478,7 +518,7 @@
     CGImageRef ref =[context createCGImage:outputImage fromRect:outputImage.extent];
     switch (type) {
         case 1:
-           self.getNewImg1= [UIImage imageWithCGImage:ref];
+            self.getNewImg1= [UIImage imageWithCGImage:ref];
             break;
         case 2:
             self.getNewImg2= [UIImage imageWithCGImage:ref];
@@ -493,25 +533,35 @@
             break;
     }
     CGImageRelease(ref);
-
+    
 }
 //actionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex ==0) {
         CGPoint point = tagPoint;
-        BuyerTagViewController *tagView= [[BuyerTagViewController alloc]init];
-        tagView.delegate =self;
-        tagView.cpoint =point;
-        tagView.cType =1;
-        [self.navigationController pushViewController:tagView animated:YES];
+        BuyerTagViewController *tagVC= [[BuyerTagViewController alloc]init];
+        tagVC.delegate =self;
+        tagVC.cpoint =point;
+        tagVC.cType =1;
+        [self.navigationController pushViewController:tagVC animated:YES];
     }else if(buttonIndex ==1){
         CGPoint point = tagPoint;
-        BuyerTagViewController *tagView= [[BuyerTagViewController alloc]init];
-        tagView.delegate =self;
-        tagView.cpoint =point;
-        tagView.cType =2;
-        [self.navigationController pushViewController:tagView animated:YES];
+        BuyerTagViewController *tagVC= [[BuyerTagViewController alloc]init];
+        tagVC.delegate =self;
+        tagVC.cpoint =point;
+        tagVC.cType =2;
+        [self.navigationController pushViewController:tagVC animated:YES];
+    }
+}
+
+//alertDeleate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex ==1) {
+        UIView *view =[self.view viewWithTag:alertView.tag];
+        [view removeFromSuperview];
+        
+        [self.tagsArray removeObjectForKey:[NSString stringWithFormat:@"%ld",alertView.tag/100]];
     }
 }
 
