@@ -315,10 +315,10 @@
 		9D5D2E561B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E511B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m */; };
 		9D5D2E571B60BF7200DBFDC3 /* UIImage+AspectFit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E531B60BF7200DBFDC3 /* UIImage+AspectFit.m */; };
 		9D5FD0D01ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5FD0CF1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m */; };
-		9D6B1C151BAAB6C5002775F1 /* CusBuyerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C141BAAB6C5002775F1 /* CusBuyerDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9D6B1C171BAAB6E9002775F1 /* BuyerTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C161BAAB6E9002775F1 /* BuyerTabBarViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9D6B1C191BAAB70B002775F1 /* BuyerMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C181BAAB70B002775F1 /* BuyerMineViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9D6B1C1B1BAAB751002775F1 /* BuyerStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C1A1BAAB751002775F1 /* BuyerStoreViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9D6B1C1F1BAAB8FF002775F1 /* CusBuyerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C1E1BAAB8FF002775F1 /* CusBuyerDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9D6C94761AE0AA200066F794 /* WriteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94751AE0AA200066F794 /* WriteInfoViewController.m */; };
 		9D6C948A1AE0F0A30066F794 /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94891AE0F0A30066F794 /* FindPasswordViewController.m */; };
 		9D6C948D1AE0F0D40066F794 /* SetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C948C1AE0F0D40066F794 /* SetPasswordViewController.m */; };
@@ -916,12 +916,12 @@
 		9D5D2E531B60BF7200DBFDC3 /* UIImage+AspectFit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AspectFit.m"; sourceTree = "<group>"; };
 		9D5FD0CE1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginAndRegisterViewController.h; sourceTree = "<group>"; };
 		9D5FD0CF1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginAndRegisterViewController.m; sourceTree = "<group>"; };
-		9D6B1C131BAAB6C5002775F1 /* CusBuyerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusBuyerDetailViewController.h; sourceTree = "<group>"; };
-		9D6B1C141BAAB6C5002775F1 /* CusBuyerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusBuyerDetailViewController.m; sourceTree = "<group>"; };
 		9D6B1C161BAAB6E9002775F1 /* BuyerTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerTabBarViewController.m; sourceTree = "<group>"; };
 		9D6B1C181BAAB70B002775F1 /* BuyerMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerMineViewController.m; sourceTree = "<group>"; };
 		9D6B1C1A1BAAB751002775F1 /* BuyerStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerStoreViewController.m; sourceTree = "<group>"; };
 		9D6B1C1C1BAAB88F002775F1 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		9D6B1C1D1BAAB8FF002775F1 /* CusBuyerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusBuyerDetailViewController.h; sourceTree = "<group>"; };
+		9D6B1C1E1BAAB8FF002775F1 /* CusBuyerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusBuyerDetailViewController.m; sourceTree = "<group>"; };
 		9D6C94741AE0AA200066F794 /* WriteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteInfoViewController.h; sourceTree = "<group>"; };
 		9D6C94751AE0AA200066F794 /* WriteInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteInfoViewController.m; sourceTree = "<group>"; };
 		9D6C94881AE0F0A30066F794 /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
@@ -1306,8 +1306,8 @@
 		0AAB5A221B2AE01800782C0C /* 商品详情 */ = {
 			isa = PBXGroup;
 			children = (
-				9D6B1C131BAAB6C5002775F1 /* CusBuyerDetailViewController.h */,
-				9D6B1C141BAAB6C5002775F1 /* CusBuyerDetailViewController.m */,
+				9D6B1C1D1BAAB8FF002775F1 /* CusBuyerDetailViewController.h */,
+				9D6B1C1E1BAAB8FF002775F1 /* CusBuyerDetailViewController.m */,
 				0AAB5A251B2AE01800782C0C /* CusOrderProTableViewCell.h */,
 				0AAB5A261B2AE01800782C0C /* CusOrderProTableViewCell.m */,
 				0AAB5A271B2AE01800782C0C /* CusOrderProTableViewCell.xib */,
@@ -2581,9 +2581,9 @@
 				9D9AF73B1B32E365000FB33B /* ApiXml.mm in Sources */,
 				9DDB17261AE7741F0014D8B2 /* UIScrollView+MJRefresh.m in Sources */,
 				9D42E9421B27DAF200C85400 /* BueryAuthViewController.m in Sources */,
-				9D6B1C151BAAB6C5002775F1 /* CusBuyerDetailViewController.m in Sources */,
 				9D42E9611B27DAF200C85400 /* BuyerTicketTableViewCell.m in Sources */,
 				0A4ADAF01B4CBD8E00B5AC00 /* Image.m in Sources */,
+				9D6B1C1F1BAAB8FF002775F1 /* CusBuyerDetailViewController.m in Sources */,
 				9D7301F91AE5DF3E0046F97C /* UIView+Shadow.m in Sources */,
 				0AAB5B0C1B2AE01900782C0C /* CusAttentionViewController.m in Sources */,
 				9D42E9431B27DAF200C85400 /* BuyerCameraViewController.m in Sources */,
