@@ -13,6 +13,7 @@
 #import "BaseNavigationController.h"
 #import "LoginAndRegisterViewController.h"
 @interface HttpTool()
+
 @end
 
 @implementation HttpTool
