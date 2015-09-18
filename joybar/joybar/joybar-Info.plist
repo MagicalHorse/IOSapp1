@@ -4,11 +4,9 @@
 <dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>wechat</string>
 		<string>weixin</string>
+		<string>wechat</string>
 	</array>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
