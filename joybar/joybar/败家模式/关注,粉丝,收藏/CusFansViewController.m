@@ -146,7 +146,7 @@
     {
         return;
     }
-    FansModel *fan = [fansItems.items objectAtIndex:indexPath.row];
+    FansModel *fan = [self.fanArr objectAtIndex:indexPath.row];
     CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
     VC.userId =fan.UserId;
     VC.userName = fan.UserName;
