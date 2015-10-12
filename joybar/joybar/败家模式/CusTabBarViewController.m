@@ -68,7 +68,6 @@
                 NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
                 NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
                 
-                
                 if (self.selectedIndex==1||self.selectedIndex ==2)
                 {
                     self.circleMarkLab.hidden = YES;
@@ -102,7 +101,6 @@
         }];
     }
 }
-
 
 -(void)_initWithControllers
 {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -11,7 +11,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="165"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="164.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9IN-xb-cjd">
@@ -22,7 +22,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="耐克男鞋2015新款AIR FORCE AF1 空军1号板鞋" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="154" translatesAutoresizingMaskIntoConstraints="NO" id="uWB-IY-UjA">
-                        <rect key="frame" x="102" y="22" width="129" height="32"/>
+                        <rect key="frame" x="102" y="22" width="125.5" height="32"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="32" id="2jX-vU-Gss"/>
                         </constraints>
@@ -43,13 +43,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥567.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0r5-q1-hJR">
-                        <rect key="frame" x="247" y="72" width="58" height="17"/>
+                        <rect key="frame" x="246" y="72" width="58.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="05-06上架" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cyO-B6-g2M">
-                        <rect key="frame" x="239" y="22" width="66" height="17"/>
+                        <rect key="frame" x="235" y="22" width="69.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -177,12 +177,7 @@
                 <outlet property="shareBtn" destination="Z4T-RG-X6n" id="9mk-3N-L3s"/>
                 <outlet property="threeConstraint" destination="vKf-j8-Ijk" id="iLA-eD-kq9"/>
             </connections>
-            <point key="canvasLocation" x="-425" y="139.5"/>
+            <point key="canvasLocation" x="-328" y="131.5"/>
         </tableViewCell>
     </objects>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

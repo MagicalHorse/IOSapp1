@@ -21,14 +21,13 @@
     int type;
     BOOL isRefresh;
     int cusType;
-    
 }
 
 @property (nonatomic ,strong) BaseTableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIScrollView *tempView;
-@property (nonatomic ,assign)NSInteger pageNum;
+@property (nonatomic ,assign) NSInteger pageNum;
 @end
 
 @implementation BuyerStoreViewController
@@ -55,7 +54,7 @@
     NSArray *nameArr = @[@"在线商品",@"即将下线",@"下线商品"];
     for (int i=0; i<3; i++)
     {
-       UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(_tempView.width/3*i, 0, _tempView.width/3, 32)];
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(_tempView.width/3*i, 0, _tempView.width/3, 32)];
         lab.userInteractionEnabled = YES;
         lab.font = [UIFont systemFontOfSize:13];
         lab.backgroundColor = [UIColor clearColor];
@@ -89,7 +88,7 @@
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     self.pageNum=1;
-    isRefresh =YES;
+    isRefresh = YES;
     self.tableView.tableFooterView =[[UIView alloc]init];
     __weak BuyerStoreViewController *VC = self;
     self.tableView.headerRereshingBlock = ^()
@@ -118,10 +117,9 @@
 
 -(void)setData
 {
-
     if (isRefresh) {
         [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
-
+        
     }else{
         [self hudShow:@"正在加载"];
     }
@@ -171,7 +169,7 @@
         [self activityDismiss];
         [self textHUDHiddle];
     }];
-
+    
 }
 
 #pragma mark tableViewDelegate
@@ -180,7 +178,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-        return 1;
+    return 1;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -208,14 +206,14 @@
             [cell.sbBtn setTitle:@"删除" forState:UIControlStateNormal];
             [cell.sbBtn addTarget:self action:@selector(sbDelClcke:) forControlEvents:UIControlEventTouchUpInside];
             cell.sbBtn.tag =indexPath.section;
-
+            
             [cell.downBtn setTitle:@"上架" forState:UIControlStateNormal];
             [cell.downBtn addTarget:self action:@selector(downOnClcke:) forControlEvents:UIControlEventTouchUpInside];
             
         }else{
             [cell.sbBtn addTarget:self action:@selector(sbClcke:) forControlEvents:UIControlEventTouchUpInside];
             cell.sbBtn.tag =indexPath.section;
-
+            
             [cell.downBtn addTarget:self action:@selector(downClcke:) forControlEvents:UIControlEventTouchUpInside];
         }
         
@@ -241,8 +239,8 @@
     alert.tag =btn.tag;
     [alert show];
     
- 
-
+    
+    
 }
 -(void)sbDelClcke:(UIButton *)btn{
     cusType=4;
@@ -269,7 +267,7 @@
         return;
     }
     Store *st=[self.dataArray objectAtIndex:btn.tag];
-
+    
     [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",st.Pic]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
@@ -285,7 +283,7 @@
         
         
     }];
-
+    
 }
 //修改
 -(void)sbClcke:(UIButton *)btn{
@@ -387,7 +385,7 @@
         type=2;
         isRefresh=YES;
         [self activityDismiss];
-
+        
         [self scrollToSaid];
     }
     else
@@ -396,7 +394,7 @@
         type=0;
         isRefresh=YES;
         [self activityDismiss];
-
+        
         [self scrollToMyBuyer];
     }
 }
@@ -417,9 +415,9 @@
     lab2.font = [UIFont systemFontOfSize:13];
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont systemFontOfSize:13];
-
+    
     [self setData];
-
+    
 }
 
 //即将下线
@@ -440,7 +438,7 @@
     lab3.textColor = [UIColor grayColor];
     lab3.font = [UIFont systemFontOfSize:13];
     [self setData];
-
+    
 }
 
 
@@ -449,7 +447,7 @@
     UILabel *lab1 = (UILabel *)[_tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[_tempView viewWithTag:1001];
     UILabel *lab3 = (UILabel *)[_tempView viewWithTag:1002];
-
+    
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab3.center.x, 38);
     }];
@@ -460,7 +458,7 @@
     lab2.textColor = [UIColor grayColor];
     lab2.font = [UIFont systemFontOfSize:13];
     [self setData];
-
+    
 }
 
 @end
