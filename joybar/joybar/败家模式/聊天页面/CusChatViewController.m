@@ -802,7 +802,6 @@
     sizeBtn.clickBtnBlock = ^(UIButton *btn,NSInteger index)
     {
         ProDetailSize *size = [self.detailData.Sizes objectAtIndex:index];
-        
         self.sizeId = size.SizeId;
         self.sizeNum = size.Inventory;
         self.sizeName = size.Size;

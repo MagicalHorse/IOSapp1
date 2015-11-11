@@ -149,7 +149,8 @@
         rect.size.height = self.tabBar.frame.size.height;
         tabBtn.frame = rect;
         
-        tabBtn.center = CGPointMake(32+(rect.size.width)*i, self.tabBar.frame.size.height/2);        tabBtn.tag = i+100;
+        tabBtn.center = CGPointMake(32+(rect.size.width)*i, self.tabBar.frame.size.height/2);
+        tabBtn.tag = i+100;
         
         tabBtn.frame = rect;
         tabBtn.titleLabel.font = [UIFont systemFontOfSize:10.0f];

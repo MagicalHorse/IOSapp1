@@ -47,8 +47,6 @@
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
-            
-            
         }
 
     } failure:^(NSError *error) {

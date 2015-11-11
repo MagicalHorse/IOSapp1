@@ -10,6 +10,7 @@
 #import "CusHomeTableViewCell.h"
 #import "CusBuyerDetailViewController.h"
 #import "HomeProduct.h"
+#import "CusZProDetailViewController.h"
 @implementation HomeTableView
 
 -(instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
@@ -73,10 +74,15 @@
     {
         return;
     }
-    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+    CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
     HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
     VC.productId = pro.ProductId;
     [self.viewController.navigationController pushViewController:VC animated:YES];
+    
+//    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+//    HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
+//    VC.productId = pro.ProductId;
+//    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 @end

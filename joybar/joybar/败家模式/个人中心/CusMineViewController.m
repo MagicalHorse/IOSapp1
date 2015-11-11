@@ -449,7 +449,6 @@
     {
         self.bgImageView.frame = CGRectMake(scrollView.contentOffset.y, scrollView.contentOffset.y, kScreenWidth-2*scrollView.contentOffset.y, 200-scrollView.contentOffset.y);
     }
-
 }
 
 //点击设置

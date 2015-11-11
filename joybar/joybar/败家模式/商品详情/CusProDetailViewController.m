@@ -169,7 +169,6 @@
     colorLab.text = @"颜色:";
     colorLab.font = [UIFont systemFontOfSize:15];
     [self.scrollView addSubview:colorLab];
-
     
 //选择颜色
     UIView *colorTempView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 250, 60)];
@@ -234,7 +233,7 @@
     
     UIButton *minusBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     minusBtn.frame = CGRectMake(0, 0, 44, 35);
-    minusBtn.backgroundColor = [UIColor clearColor  ];
+    minusBtn.backgroundColor = [UIColor clearColor];
     [minusBtn addTarget:self action:@selector(didClickDecrease) forControlEvents:(UIControlEventTouchUpInside)];
     [numView addSubview:minusBtn];
     
@@ -263,7 +262,6 @@
         if (i<2)
         {
             btn.backgroundColor = kCustomColor(252, 251, 251);
-            
             UIImageView *img =[[UIImageView alloc] init];
             img.center = CGPointMake(btn.width/2, btn.height/2-10);
             img.bounds = CGRectMake(0, 0, 15, 15);

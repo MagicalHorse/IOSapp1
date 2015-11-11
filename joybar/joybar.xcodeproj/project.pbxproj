@@ -329,6 +329,7 @@
 		9D744DB61B2ED29100553648 /* CusAppealViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DB41B2ED29100553648 /* CusAppealViewController.xib */; };
 		9D744DF01B300A3800553648 /* CusAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D744DEE1B300A3800553648 /* CusAboutViewController.m */; };
 		9D744DF11B300A3800553648 /* CusAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DEF1B300A3800553648 /* CusAboutViewController.xib */; };
+		9D7F5D381BCE3863006A7441 /* CusZProDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F5D371BCE3863006A7441 /* CusZProDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
 		9D8CD7431B677E0800F972EB /* CusHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AEE1B2AE01900782C0C /* CusHomeTableViewCell.m */; };
 		9D8CD7451B68A1EF00F972EB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */; };
 		9D8CDE651B00B90900B8708B /* Public.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8CDE641B00B90900B8708B /* Public.m */; };
@@ -939,6 +940,8 @@
 		9D744DED1B300A3800553648 /* CusAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusAboutViewController.h; sourceTree = "<group>"; };
 		9D744DEE1B300A3800553648 /* CusAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusAboutViewController.m; sourceTree = "<group>"; };
 		9D744DEF1B300A3800553648 /* CusAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusAboutViewController.xib; sourceTree = "<group>"; };
+		9D7F5D361BCE3863006A7441 /* CusZProDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusZProDetailViewController.h; sourceTree = "<group>"; };
+		9D7F5D371BCE3863006A7441 /* CusZProDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusZProDetailViewController.m; sourceTree = "<group>"; };
 		9D8CD7421B675CC500F972EB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9D8CDE631B00B90900B8708B /* Public.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Public.h; sourceTree = "<group>"; };
@@ -1306,6 +1309,8 @@
 		0AAB5A221B2AE01800782C0C /* 商品详情 */ = {
 			isa = PBXGroup;
 			children = (
+				9D7F5D361BCE3863006A7441 /* CusZProDetailViewController.h */,
+				9D7F5D371BCE3863006A7441 /* CusZProDetailViewController.m */,
 				9D6B1C1D1BAAB8FF002775F1 /* CusBuyerDetailViewController.h */,
 				9D6B1C1E1BAAB8FF002775F1 /* CusBuyerDetailViewController.m */,
 				0AAB5A251B2AE01800782C0C /* CusOrderProTableViewCell.h */,
@@ -2635,6 +2640,7 @@
 				0A5305111B12C05300997BF4 /* SDWebImageCompat.m in Sources */,
 				0AAB5B281B2AE01900782C0C /* ProDetailPromotion.m in Sources */,
 				0AAB5BAC1B2AE01900782C0C /* OrderListItem.m in Sources */,
+				9D7F5D381BCE3863006A7441 /* CusZProDetailViewController.m in Sources */,
 				9D467EFC1B05C4FA005CAA36 /* NSString+MJExtension.m in Sources */,
 				9DF36CD61B0039A700637206 /* AFHTTPRequestOperationManager.m in Sources */,
 				9D6C94761AE0AA200066F794 /* WriteInfoViewController.m in Sources */,

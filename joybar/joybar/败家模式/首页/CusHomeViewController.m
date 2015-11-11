@@ -261,7 +261,6 @@
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-
 //        [self hiddleHud];
         [self.homeTableView reloadData];
         [self.homeTableView endRefresh];
@@ -269,14 +268,12 @@
     } failure:^(NSError *error) {
         [self activityDismiss];
         [self.homeTableView endRefresh];
-
     }];
 }
 
--(NSUInteger)numberOfViewsForYRADScrollView:(YRADScrollView *)adScrollView{
+-(NSUInteger)numberOfViewsForYRADScrollView:(YRADScrollView *)adScrollView
+{
     return self.data.Banners.count;
-    
-    
 }
 #pragma mark adViewDelegate
 -(void)adScrollView:(YRADScrollView *)adScrollView didClickedAtPage:(NSInteger)pageIndex{
@@ -286,8 +283,8 @@
     BannerViewController *VC = [[BannerViewController alloc] init];
     VC.link = banner.Link;
     [self.navigationController pushViewController:VC animated:YES];
-    
 }
+
 //-(void)adScrollView:(YRADScrollView *)adScrollView didScrollToPage:(NSInteger)pageIndex
 //{
 //        UIImageView * imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
@@ -319,8 +316,6 @@
     
     return imgView;
 }
-
-
 
 #pragma mark ScrollViewDeletegate
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -383,17 +378,15 @@
     lab3.font = [UIFont systemFontOfSize:15];
 }
 
-
 -(void)scrollToMyBuyer
 {
-
     if (![Public getUserInfo])
     {
         [Public showLoginVC:self];
         self.homeScroll.contentOffset = CGPointMake(0, 0);
         return;
     }
-
+    
     [self initWithSecondTableView];
     self.homeScroll.contentOffset = CGPointMake(kScreenWidth, 0);
     if (self.myBuyerTableView.dataArr.count==0)

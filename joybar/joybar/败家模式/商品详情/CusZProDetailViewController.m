@@ -1,12 +1,12 @@
 //
-//  CusBuyerDetailViewController.m
+//  CusZProDetailViewController.m
 //  joybar
 //
-//  Created by 123 on 15/5/13.
-//  Copyright (c) 2015年 卢兴. All rights reserved.
+//  Created by 123 on 15/10/14.
+//  Copyright © 2015年 卢兴. All rights reserved.
 //
 
-#import "CusBuyerDetailViewController.h"
+#import "CusZProDetailViewController.h"
 #import "CusCartViewController.h"
 #import "CusChatViewController.h"
 #import "ProDetailData.h"
@@ -17,14 +17,17 @@
 #import "CusHomeStoreViewController.h"
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
-@interface CusBuyerDetailViewController ()<UIScrollViewDelegate>
+
+@interface CusZProDetailViewController ()<UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
 @property (nonatomic ,strong) UIScrollView *imageScrollView;
 @property (nonatomic ,strong) UIPageControl *pageControl;
+
 @end
 
-@implementation CusBuyerDetailViewController
+@implementation CusZProDetailViewController
+
 {
     ProDetailData *prodata;
 }
@@ -73,6 +76,8 @@
     self.imageScrollView.delegate = self;
     [self.scrollView addSubview:self.imageScrollView];
     
+    
+    
     for (int i=0; i<prodata.ProductPic.count; i++)
     {
         ProductPicture *pic = [prodata.ProductPic objectAtIndex:i];
@@ -113,7 +118,6 @@
             
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTag:)];
             [tagView addGestureRecognizer:tap];
-            
         }
     }
     _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.imageScrollView.bottom-30, kScreenWidth, 20)];
@@ -133,17 +137,35 @@
     [self.scrollView addSubview:_pageControl];
     
     UILabel *priceLab = [[UILabel alloc] init];
-    priceLab.frame = CGRectMake(10, self.imageScrollView.bottom+5, 150, 20);
-    priceLab.text = [NSString stringWithFormat:@"￥%@",proData.Price];
-    priceLab.textColor = [UIColor redColor];
     priceLab.font = [UIFont systemFontOfSize:20];
+    priceLab.text = [NSString stringWithFormat:@"￥%@",proData.Price];
+    CGSize priceSize = [Public getContentSizeWith:priceLab.text andFontSize:20 andHigth:20];
+    priceLab.frame = CGRectMake(10, self.imageScrollView.bottom+5, priceSize.width, 20);
+    priceLab.textColor = [UIColor redColor];
     [self.scrollView addSubview:priceLab];
     
-    UILabel *markLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-140, self.imageScrollView.bottom+5, 130, 20)];
-    markLab.text = @"*商品只支持商城自提";
-    markLab.font = [UIFont systemFontOfSize:12];
-    markLab.textColor = [UIColor redColor];
-    [self.scrollView addSubview:markLab];
+    UILabel *originalPriceLab = [[UILabel alloc] init];
+    CGSize originalPriceSize = [Public getContentSizeWith:priceLab.text andFontSize:14 andHigth:20];
+    originalPriceLab.text = [NSString stringWithFormat:@"￥%@",proData.Price];
+    originalPriceLab.textColor = [UIColor grayColor];
+    originalPriceLab.font = [UIFont systemFontOfSize:14];
+    originalPriceLab.frame = CGRectMake(priceLab.right+10, self.imageScrollView.bottom+5, originalPriceSize.width, 20);
+    [self.scrollView addSubview:originalPriceLab];
+    
+    UILabel *grayLine = [[UILabel alloc] initWithFrame:CGRectMake(originalPriceLab.left, self.imageScrollView.bottom+16, originalPriceLab.width, 1)];
+    grayLine.backgroundColor = [UIColor grayColor];
+    [self.scrollView addSubview:grayLine];
+    
+    UILabel *discountLab = [[UILabel alloc] init];
+    discountLab.backgroundColor = [UIColor redColor];
+    discountLab.text  = @"1.1折";
+    discountLab.textColor = [UIColor whiteColor];
+    discountLab.font = [UIFont systemFontOfSize:11];
+    discountLab.textAlignment = NSTextAlignmentCenter;
+    CGSize discountSize = [Public getContentSizeWith:discountLab.text andFontSize:11 andHigth:20];
+    discountLab.frame = CGRectMake(originalPriceLab.right+10, self.imageScrollView.bottom+7, discountSize.width+6, 16);
+    [self.scrollView addSubview:discountLab];
+    
     
     UILabel *titleLab = [[UILabel alloc] init];
     titleLab.text = proData.ProductName;
@@ -153,65 +175,6 @@
     titleLab.frame = CGRectMake(10, priceLab.bottom+5, kScreenWidth-15, titleSize.height);
     [self.scrollView addSubview:titleLab];
     
-    UILabel *locationLab = [[UILabel alloc] init];
-    locationLab.text = [NSString stringWithFormat:@"自提地点: %@",proData.PickAddress];
-    locationLab.font = [UIFont systemFontOfSize:13];
-    locationLab.textColor = [UIColor grayColor];
-    locationLab.numberOfLines = 0;
-    CGSize locationSize = [Public getContentSizeWith:locationLab.text andFontSize:13 andWidth:kScreenWidth-20];
-    locationLab.frame =CGRectMake(10, titleLab.bottom+5, kScreenWidth-20, locationSize.height);
-    [self.scrollView addSubview:locationLab];
-    
-    UIButton *collectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    collectBtn.backgroundColor = [UIColor clearColor];
-    collectBtn.frame = CGRectMake(0, locationLab.bottom+5, 60, 30);
-    if ([proData.LikeUsers.IsLike boolValue])
-    {
-        [collectBtn setImage:[UIImage imageNamed:@"点赞h"] forState:(UIControlStateNormal)];
-        collectBtn.selected = YES;
-    }
-    else
-    {
-        [collectBtn setImage:[UIImage imageNamed:@"点赞"] forState:(UIControlStateNormal)];
-        collectBtn.selected = NO;
-    }
-    if (!proData.LikeUsers.Count)
-    {
-        [collectBtn setTitle:@"0" forState:(UIControlStateNormal)];
-    }
-    else
-    {
-        [collectBtn setTitle:proData.LikeUsers.Count forState:(UIControlStateNormal)];
-    }
-    [collectBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-    collectBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [collectBtn addTarget:self action:@selector(didClickCollect:) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.scrollView addSubview:collectBtn];
-    
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(collectBtn.right, locationLab.bottom+5, 240, 30)];
-    bgView.backgroundColor = [UIColor clearColor];
-    [self.scrollView addSubview:bgView];
-    
-    for (int i=0; i<proData.LikeUsers.Users.count; i++)
-    {
-        if (i>6)
-        {
-            return;
-        }
-        HomeUsers *user = [proData.LikeUsers.Users objectAtIndex:i];
-        UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(35*i, 0, 30, 30)];
-        img.layer.cornerRadius = img.width/2;
-        [img sd_setImageWithURL:[NSURL URLWithString:user.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        img.clipsToBounds = YES;
-        img.tag = 1000+i;
-        img.userInteractionEnabled = YES;
-        [bgView addSubview:img];
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
-        [img addGestureRecognizer:tap];
-    }
-
-    
     //打烊购
     //-----------------------------------------------------------------------------------
     UIView *tempView = [[UIView alloc] init];
@@ -220,8 +183,8 @@
     
     UIView *nightView = [[UIView alloc] init];
     nightView.backgroundColor = [UIColor whiteColor];
-//    nightView.layer.shadowOpacity = 0.1;
-//    nightView.layer.shadowOffset = CGSizeMake(0, 1);
+    //    nightView.layer.shadowOpacity = 0.1;
+    //    nightView.layer.shadowOffset = CGSizeMake(0, 1);
     [tempView addSubview:nightView];
     
     UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 15, 15)];
@@ -247,12 +210,12 @@
     nightLab1.textColor = [UIColor grayColor];
     [nightView addSubview:nightLab1];
     
-    if ([proData.Promotion.IsShow boolValue])
+    if (![proData.Promotion.IsShow boolValue])
     {
         imageView1.hidden = NO;
         imageView2.hidden = NO;
         nightView.frame = CGRectMake(0, 13, kScreenWidth, size.height+40);
-        tempView.frame = CGRectMake(0, collectBtn.bottom+10, kScreenWidth, nightView.height+13);
+        tempView.frame = CGRectMake(0, titleLab.bottom+10, kScreenWidth, nightView.height+13);
         nightView.hidden = NO;
         tempView.hidden = NO;
     }
@@ -261,7 +224,7 @@
         imageView1.hidden = YES;
         imageView2.hidden = YES;
         nightView.frame = CGRectMake(0, 10, kScreenWidth, 0);
-        tempView.frame = CGRectMake(0, collectBtn.bottom+10, kScreenWidth, 0);
+        tempView.frame = CGRectMake(0, titleLab.bottom+10, kScreenWidth, 0);
         nightView.hidden = YES;
         tempView.hidden = YES;
     }
@@ -291,7 +254,7 @@
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(10, location.bottom, kScreenWidth-10, 1)];
     line.backgroundColor = kCustomColor(241, 241, 241);
     [infoWhiteView addSubview:line];
-
+    
     UIImageView *headerImage = [[UIImageView alloc] init];
     headerImage.frame = CGRectMake(10, line.bottom+10, 50, 50);
     [headerImage sd_setImageWithURL:[NSURL URLWithString:proData.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
@@ -299,15 +262,15 @@
     headerImage.clipsToBounds = YES;
     headerImage.userInteractionEnabled = YES;
     [infoWhiteView addSubview:headerImage];
-
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCLickToStore)];
     [headerImage addGestureRecognizer:tap];
-
+    
     UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImage.right+10, headerImage.top+5, kScreenWidth, 20)];
     nameLab.text = proData.BuyerName;
-//    NSString *htmlString = @"div class="">本帖属于CocoaChina</a>会员发表，转帖请写明来源和帖子地址</div>    as肯定不行。。。建议去看一下官方文档的Type Casting章节。。。要不后续会很坑自己    <br>    </div>    </div>    </td>";
-//    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-//    nameLab.attributedText = attributedString;
+    //    NSString *htmlString = @"div class="">本帖属于CocoaChina</a>会员发表，转帖请写明来源和帖子地址</div>    as肯定不行。。。建议去看一下官方文档的Type Casting章节。。。要不后续会很坑自己    <br>    </div>    </div>    </td>";
+    //    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+    //    nameLab.attributedText = attributedString;
     nameLab.font = [UIFont systemFontOfSize:15];
     [infoWhiteView addSubview:nameLab];
     
@@ -320,7 +283,7 @@
     locationNameLab.font = [UIFont systemFontOfSize:13];
     locationNameLab.textColor = [UIColor darkGrayColor];
     [infoWhiteView addSubview:locationNameLab];
-
+    
     UIButton *circleBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     circleBtn.frame = CGRectMake(kScreenWidth-80, line.bottom+20, 60, 25);
     circleBtn.backgroundColor = [UIColor orangeColor];
@@ -336,7 +299,7 @@
     helpImageView.image = [UIImage imageNamed:@"jianjie.png"];
     [self.scrollView addSubview:helpImageView];
     
-    self.scrollView.contentSize = CGSizeMake(0, tempView.height+kScreenWidth-10+280+titleLab.size.height+locationSize.height+helpImageView.height+infoView.height);
+    self.scrollView.contentSize = CGSizeMake(0, tempView.height+kScreenWidth-10+280+titleLab.size.height+titleSize.height+helpImageView.height+infoView.height);
 }
 
 -(void)getDetailData
@@ -384,36 +347,56 @@
     footerView.backgroundColor = kCustomColor(252, 251, 251);
     [self.view addSubview:footerView];
     
-    UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    btn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
-    [btn setTitle:@"我要买" forState:(UIControlStateNormal)];
-    btn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    btn.backgroundColor = kCustomColor(253, 137, 83);
-    [btn addTarget:self action:@selector(didClickBuyBtn:) forControlEvents:(UIControlEventTouchUpInside)];
-    [footerView addSubview:btn];
+    NSArray *arr = @[@"立即购买"];
+    NSArray *titleArr;
+    NSArray *imageArr;
     
-    UIButton *collectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    collectBtn.frame = CGRectMake(kScreenWidth/4/2, 10, kScreenWidth/4/1.1, kScreenWidth/4/1.1*82/310);
-    [collectBtn addTarget:self action:@selector(didClickCollectProBtn:) forControlEvents:(UIControlEventTouchUpInside)];
-    collectBtn.backgroundColor = kCustomColor(252, 251, 251);
-    collectBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     if ([prodata.IsFavorite boolValue])
     {
-        [collectBtn setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
-        [collectBtn setTitle:@" 已收藏" forState:(UIControlStateNormal)];
-        [collectBtn setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
-        collectBtn.selected = YES;
+        titleArr = @[@"私聊",@"取消收藏"];
+        imageArr= @[@"liaotian",@"xingxing"];
     }
     else
     {
-        [collectBtn setImage:[UIImage imageNamed:@"weishoucang"] forState:(UIControlStateNormal)];
-        [collectBtn setTitle:@" 收藏" forState:(UIControlStateNormal)];
-        [collectBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-        collectBtn.selected = NO;
-
+        titleArr = @[@"私聊",@"收藏"];
+        imageArr= @[@"liaotian",@"xing"];
     }
-    [footerView addSubview:collectBtn];
+    for (int i=0; i<3; i++)
+    {
+        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        btn.tag = 1000+i;
+        btn.frame = CGRectMake(kScreenWidth/4*i, 0, kScreenWidth/4, 44);
+        
+        [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+        if (i<2)
+        {
+            btn.backgroundColor = kCustomColor(252, 251, 251);
+            UIImageView *img =[[UIImageView alloc] init];
+            img.center = CGPointMake(btn.width/2, btn.height/2-10);
+            img.bounds = CGRectMake(0, 0, 15, 15);
+            img.tag = 100+i;
+            img.image = [UIImage imageNamed:[imageArr objectAtIndex:i]];
+            [btn addSubview:img];
+            
+            UILabel *lab = [[UILabel alloc] init];
+            lab.center = CGPointMake(btn.width/2, btn.height/2+10);
+            lab.bounds = CGRectMake(0, 0, btn.width, 20);
+            lab.textAlignment = NSTextAlignmentCenter;
+            lab.text = [titleArr objectAtIndex:i];
+            lab.tag = 10000+i;
+            lab.font = [UIFont systemFontOfSize:12];
+            [btn addSubview:lab];
+        }
+        else
+        {
+            btn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
+            [btn setTitle:[arr objectAtIndex:i-2] forState:(UIControlStateNormal)];
+            btn.titleLabel.font = [UIFont systemFontOfSize:14];
+            [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+            btn.backgroundColor = kCustomColor(253, 137, 83);
+        }
+        [footerView addSubview:btn];
+    }
 }
 
 -(void)didClickReturnBtn
@@ -421,43 +404,43 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-//-(void)didClickBtn:(UIButton *)btn
-//{
-//    if (!TOKEN)
-//    {
-//        [Public showLoginVC:self];
-//        return;
-//    }
-//
-//    switch (btn.tag) {
-//        case 1000:
-//        {
-//            //私聊
-//            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
-//            VC.detailData = prodata;
-//            VC.isFrom = isFromPrivateChat;
-//            [self.navigationController pushViewController:VC animated:YES];
-//        }
-//            break;
-//        case 1001:
-//        {
-//            //收藏
-//            [self collect:btn];
-//        }
-//            break;
-//        case 1002:
-//        {
-//            //我要买
-//            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
-//            VC.detailData = prodata;
-//            VC.isFrom = isFromBuyPro;
-//            [self.navigationController pushViewController:VC animated:YES];
-//        }
-//            break;
-//        default:
-//            break;
-//    }
-//}
+-(void)didClickBtn:(UIButton *)btn
+{
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self];
+        return;
+    }
+
+    switch (btn.tag) {
+        case 1000:
+        {
+            //私聊
+            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
+            VC.detailData = prodata;
+            VC.isFrom = isFromPrivateChat;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+            break;
+        case 1001:
+        {
+            //收藏
+            [self collect:btn];
+        }
+            break;
+        case 1002:
+        {
+            //我要买
+            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
+            VC.detailData = prodata;
+            VC.isFrom = isFromBuyPro;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+            break;
+        default:
+            break;
+    }
+}
 
 //分享
 -(void)didClickShare:(UIButton *)button
@@ -491,22 +474,19 @@
         [Public showLoginVC:self];
         return;
     }
-    //我要买
+    //立即购买
     CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
     VC.detailData = prodata;
     VC.isFrom = isFromBuyPro;
     [self.navigationController pushViewController:VC animated:YES];
 }
--(void)didClickCollectProBtn:(UIButton *)button
+-(void)collect:(UIButton *)btn
 {
-    if (!TOKEN)
-    {
-        [Public showLoginVC:self];
-        return;
-    }
+    UILabel *lab = (UILabel *)[btn viewWithTag:10001];
+    UIImageView *img = (UIImageView *)[btn viewWithTag:101];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:prodata.ProductId forKey:@"Id"];
-    if (!button.selected)
+    if ([lab.text isEqualToString:@"收藏"])
     {
         [dic setValue:@"1" forKey:@"Status"];
     }
@@ -518,19 +498,15 @@
         
         if ([json objectForKey:@"isSuccessful"])
         {
-            if (button.selected)
+            if ([lab.text isEqualToString:@"收藏"])
             {
-                [button setImage:[UIImage imageNamed:@"weishoucang"] forState:(UIControlStateNormal)];
-                [button setTitle:@" 收藏" forState:(UIControlStateNormal)];
-                [button setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-                button.selected = NO;
+                lab.text=@"取消收藏";
+                img.image = [UIImage imageNamed:@"xingxing"];
             }
             else
             {
-                [button setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
-                [button setTitle:@" 已收藏" forState:(UIControlStateNormal)];
-                [button setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
-                button.selected = YES;
+                lab.text=@"收藏";
+                img.image = [UIImage imageNamed:@"xing"];
             }
         }
         else
@@ -540,8 +516,6 @@
     } failure:^(NSError *error) {
         
     }];
-    
-    
 }
 //UIScrollViewDelegate方法
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
