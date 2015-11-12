@@ -27,6 +27,7 @@
     finishBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [finishBtn addTarget:self action:@selector(didClickFinishBtn) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:finishBtn];
+
 }
 
 -(void)didClickFinishBtn

@@ -315,10 +315,10 @@
 		9D5D2E561B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E511B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m */; };
 		9D5D2E571B60BF7200DBFDC3 /* UIImage+AspectFit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E531B60BF7200DBFDC3 /* UIImage+AspectFit.m */; };
 		9D5FD0D01ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5FD0CF1ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m */; };
-		9D6B1C171BAAB6E9002775F1 /* BuyerTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C161BAAB6E9002775F1 /* BuyerTabBarViewController.m */; settings = {ASSET_TAGS = (); }; };
-		9D6B1C191BAAB70B002775F1 /* BuyerMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C181BAAB70B002775F1 /* BuyerMineViewController.m */; settings = {ASSET_TAGS = (); }; };
-		9D6B1C1B1BAAB751002775F1 /* BuyerStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C1A1BAAB751002775F1 /* BuyerStoreViewController.m */; settings = {ASSET_TAGS = (); }; };
-		9D6B1C1F1BAAB8FF002775F1 /* CusBuyerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C1E1BAAB8FF002775F1 /* CusBuyerDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9D6B1C171BAAB6E9002775F1 /* BuyerTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C161BAAB6E9002775F1 /* BuyerTabBarViewController.m */; };
+		9D6B1C191BAAB70B002775F1 /* BuyerMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C181BAAB70B002775F1 /* BuyerMineViewController.m */; };
+		9D6B1C1B1BAAB751002775F1 /* BuyerStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C1A1BAAB751002775F1 /* BuyerStoreViewController.m */; };
+		9D6B1C1F1BAAB8FF002775F1 /* CusBuyerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C1E1BAAB8FF002775F1 /* CusBuyerDetailViewController.m */; };
 		9D6C94761AE0AA200066F794 /* WriteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94751AE0AA200066F794 /* WriteInfoViewController.m */; };
 		9D6C948A1AE0F0A30066F794 /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94891AE0F0A30066F794 /* FindPasswordViewController.m */; };
 		9D6C948D1AE0F0D40066F794 /* SetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C948C1AE0F0D40066F794 /* SetPasswordViewController.m */; };
@@ -329,7 +329,7 @@
 		9D744DB61B2ED29100553648 /* CusAppealViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DB41B2ED29100553648 /* CusAppealViewController.xib */; };
 		9D744DF01B300A3800553648 /* CusAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D744DEE1B300A3800553648 /* CusAboutViewController.m */; };
 		9D744DF11B300A3800553648 /* CusAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DEF1B300A3800553648 /* CusAboutViewController.xib */; };
-		9D7F5D381BCE3863006A7441 /* CusZProDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F5D371BCE3863006A7441 /* CusZProDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
+		9D7F5D381BCE3863006A7441 /* CusZProDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F5D371BCE3863006A7441 /* CusZProDetailViewController.m */; };
 		9D8CD7431B677E0800F972EB /* CusHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AEE1B2AE01900782C0C /* CusHomeTableViewCell.m */; };
 		9D8CD7451B68A1EF00F972EB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */; };
 		9D8CDE651B00B90900B8708B /* Public.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8CDE641B00B90900B8708B /* Public.m */; };
@@ -2359,6 +2359,11 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "卢兴";
+				TargetAttributes = {
+					0D60BC9F1ACCD74D00BF625A = {
+						DevelopmentTeam = 45KBCQGM2G;
+					};
+				};
 			};
 			buildConfigurationList = 0D60BC9B1ACCD74D00BF625A /* Build configuration list for PBXProject "joybar" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2876,7 +2881,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Xie (M69JRM3X94)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2908,7 +2913,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Xie (M69JRM3X94)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
