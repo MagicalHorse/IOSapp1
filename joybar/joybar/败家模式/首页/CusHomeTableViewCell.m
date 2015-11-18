@@ -8,13 +8,9 @@
 
 #import "CusHomeTableViewCell.h"
 #import "CusHomeStoreViewController.h"
-#import "HomeUsers.h"
-#import "HomePicTag.h"
-#import "CusChatViewController.h"
-#import "UMSocial.h"
-#import "UMSocialWechatHandler.h"
 #import "SDWebImageManager.h"
 #import "CusBrandDetailViewController.h"
+#import "CusMoreBrandViewController.h"
 @implementation CusHomeTableViewCell
 {
     CGFloat cellHeight;
@@ -83,7 +79,6 @@
         nameLab.font = [UIFont systemFontOfSize:16];
         [tempView addSubview:nameLab];
         
-        
         //商场
 //        UIImageView *localImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageView.right+5, nameLab.bottom+18, 12, 12)];
 //        localImage.image = [UIImage imageNamed:@"location"];
@@ -99,7 +94,6 @@
 //        distanceLab.font = [UIFont systemFontOfSize:11];
 //        [tempView addSubview:distanceLab];
         
-        
         //认证买手
         UILabel *describeLab = [[UILabel alloc] init];
         describeLab.text = @"北京,中关村南北京北京,中关村南北京,北京,中关村南北京,北京,中关村南北京,北京,中关村南北京,北京,中关村南北京,,";
@@ -109,8 +103,6 @@
         CGSize size = [Public getContentSizeWith:describeLab.text andFontSize:11 andWidth:tempView.width-90];
         describeLab.frame = CGRectMake(imageView.right+5, nameLab.bottom+8, tempView.width-90, size.height-13);
         [tempView addSubview:describeLab];
-
-        
         
         //品牌
         UIButton *brandBtn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -230,13 +222,15 @@
 //点击更多品牌
 -(void)didClickMoreBrand
 {
-    
+    CusMoreBrandViewController *VC = [[CusMoreBrandViewController alloc] init];
+    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 //点击品牌
 -(void)didClickBrand:(UIButton *)btn
 {
-    
+    CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
+    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 @end

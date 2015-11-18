@@ -10,7 +10,6 @@
 #import "CusFindSearchViewController.h"
 #import "CusBrandDetailViewController.h"
 #import "MoreBrandTableView.h"
-#import "NearTableView.h"
 #import "NearData.h"
 #import "AppDelegate.h"
 @interface CusMoreBrandViewController ()<UIScrollViewDelegate>
@@ -28,12 +27,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self addNavBarViewAndTitle:@"品牌名称"];
+    [self addNavBarViewAndTitle:@""];
+    UITextField *search = [[UITextField alloc] init];
+    search.center = CGPointMake(kScreenWidth/2, 64/2+10);
+    search.bounds = CGRectMake(0, 0, kScreenWidth-100, 30);
+    search.placeholder = @"  搜索品牌";
+    search.borderStyle = UITextBorderStyleNone;
+    search.layer.cornerRadius = 3;
+    search.layer.masksToBounds = YES;
+    search.font = [UIFont systemFontOfSize:14];
+    search.backgroundColor = kCustomColor(238, 238, 238);
+    [self.navView addSubview:search];
     self.pageNum = 1;
     [self initWithFindTableView];
     [self getFindData:NO];
     
-
 }
 
 //品牌
@@ -75,13 +83,10 @@
             if (arr.count<20)
             {
                 [self.findTableView hiddenFooter:YES];
-//                self.findTableView.hiddenFooter = YES;
             }
             else
             {
                 [self.findTableView hiddenFooter:NO];
-//                self.findTableView.hiddenFooter = NO;
-
             }
             [self.findTableView.dataArr addObjectsFromArray:arr];
             [self.findTableView reloadData];

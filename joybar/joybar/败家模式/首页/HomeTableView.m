@@ -11,6 +11,7 @@
 #import "CusBuyerDetailViewController.h"
 #import "HomeProduct.h"
 #import "CusZProDetailViewController.h"
+#import "CusMarketViewController.h"
 @implementation HomeTableView
 
 -(instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
@@ -67,14 +68,16 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.dataArr.count==0)
-    {
-        return;
-    }
-    CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-    HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
-    VC.productId = pro.ProductId;
+    CusMarketViewController *VC = [[CusMarketViewController alloc] init];
     [self.viewController.navigationController pushViewController:VC animated:YES];
+//    if (self.dataArr.count==0)
+//    {
+//        return;
+//    }
+//    CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+//    HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
+//    VC.productId = pro.ProductId;
+//    [self.viewController.navigationController pushViewController:VC animated:YES];
     
 //    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
 //    HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];

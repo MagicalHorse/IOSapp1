@@ -51,6 +51,7 @@
     layout.headerHeight = kScreenWidth*0.618;
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.alwaysBounceVertical = YES; //垂直方向遇到边框是否总是反弹
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     [_collectionView registerClass:[CusHomeStoreCollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
