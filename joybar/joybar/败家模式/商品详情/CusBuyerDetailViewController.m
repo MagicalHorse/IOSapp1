@@ -13,7 +13,7 @@
 #import "HomeUsers.h"
 #import "ProductPicture.h"
 #import "HomePicTag.h"
-#import "CusTagViewController.h"
+//#import "CusBrandDetailViewController.h"
 #import "CusHomeStoreViewController.h"
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
@@ -608,16 +608,16 @@
     
 }
 
-//点击标签
--(void)didClickTag:(UITapGestureRecognizer *)tap
-{
-    ProductPicture *proPic = [prodata.ProductPic objectAtIndex:self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
-    HomePicTag *proTags = [proPic.Tags objectAtIndex:tap.view.tag-100-self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
-    CusTagViewController *VC = [[CusTagViewController alloc] init];
-    VC.BrandId = proTags.SourceId;
-    VC.BrandName = proTags.Name;
-    [self.navigationController pushViewController:VC animated:YES];
-}
+////点击标签
+//-(void)didClickTag:(UITapGestureRecognizer *)tap
+//{
+//    ProductPicture *proPic = [prodata.ProductPic objectAtIndex:self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
+//    HomePicTag *proTags = [proPic.Tags objectAtIndex:tap.view.tag-100-self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
+//    CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
+//    VC.BrandId = proTags.SourceId;
+//    VC.BrandName = proTags.Name;
+//    [self.navigationController pushViewController:VC animated:YES];
+//}
 
 //点击头像
 -(void)didCLickToStore

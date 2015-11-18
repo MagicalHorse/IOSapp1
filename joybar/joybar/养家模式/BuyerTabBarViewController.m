@@ -16,7 +16,7 @@
 #import "CusHomeViewController.h"
 #import "CusCircleViewController.h"
 #import "CusCartViewController.h"
-#import "CusFindViewController.h"
+#import "CusMoreBrandViewController.h"
 #import "BuyerMineViewController.h"
 #import "LoginAndRegisterViewController.h"
 #import "CusMessageViewController.h"

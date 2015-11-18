@@ -14,10 +14,12 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "SDWebImageManager.h"
-#import "CusTagViewController.h"
+#import "CusBrandDetailViewController.h"
 @implementation CusHomeTableViewCell
 {
     CGFloat cellHeight;
+    MZTimerLabel *timer3;
+    UILabel *showLab;
 }
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -30,334 +32,211 @@
     return self;
 }
 
--(void)setData:(NSDictionary *)dic
+-(void)setData:(NSDictionary *)dic andIndexPath:(NSIndexPath *)indexPath
 {
-    if (!self.homePro)
+    if (indexPath.row==0)
     {
-        return;
-    }
-    UIImageView *headImg = [[UIImageView alloc] initWithFrame:CGRectMake(7, 7, 55, 55)];
-    [headImg sd_setImageWithURL:[NSURL URLWithString:self.homePro.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    headImg.layer.cornerRadius = headImg.width/2;
-    headImg.clipsToBounds = YES;
-    headImg.userInteractionEnabled = YES;
-    [self.contentView addSubview:headImg];
-    
-    UITapGestureRecognizer *headImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCLickHeaderImage)];
-    [headImg addGestureRecognizer:headImageTap];
-    
-    UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(headImg.width+20, 7, kScreenWidth-100, 30)];
-    titleLab.text = self.homePro.BuyerName;
-    titleLab.font = [UIFont systemFontOfSize:18];
-    [self.contentView addSubview:titleLab];
-    
-    UIImageView *locationImg = [[UIImageView alloc] initWithFrame:CGRectMake(headImg.width+20, titleLab.bottom+3, 13, 13)];
-    locationImg.image = [UIImage imageNamed:@"location.png"];
-    [self.contentView addSubview:locationImg];
-    
-    UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(locationImg.right, titleLab.bottom, kScreenWidth-170, 20)];
-    locationLab.text = self.homePro.BuyerAddress;
-    locationLab.font = [UIFont systemFontOfSize:13];
-    locationLab.textColor = [UIColor lightGrayColor];
-    [self.contentView addSubview:locationLab];
-    
-    UILabel *timeLab =[[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-90, titleLab.bottom, 80, 20)];
-    timeLab.text = self.homePro.CreateTime;
-    timeLab.textAlignment = NSTextAlignmentRight;
-    timeLab.textColor = [UIColor lightGrayColor];
-    timeLab.font = [UIFont systemFontOfSize:13];
-    [self.contentView addSubview:timeLab];
-    
-    //展示图片
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, locationLab.bottom+17, kScreenWidth, kScreenWidth)];
-    imageView.contentMode = UIViewContentModeScaleAspectFill;
-    imageView.clipsToBounds = YES;
-    imageView.userInteractionEnabled = YES;
-    [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.homePro.ProductPic.Name]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    [self.contentView addSubview:imageView];
-
-    //标签View
-    for (int i=0; i<self.homePro.ProductPic.Tags.count; i++)
-    {
-        HomePicTag *tag = [self.homePro.ProductPic.Tags objectAtIndex:i];
-
-        CGSize size = [Public getContentSizeWith:tag.Name andFontSize:13 andHigth:20];
-        CGFloat x = [tag.PosX floatValue]*kScreenWidth;
-        CGFloat y = [tag.PosY floatValue]*kScreenWidth;
-        UIView *tagView = [[UIView alloc] initWithFrame:CGRectMake(x, y, size.width+30, 25)];
-        tagView.backgroundColor = [UIColor clearColor];
-        tagView.tag = 100+i;
-        [imageView addSubview:tagView];
+        self.backgroundColor = [UIColor whiteColor];
         
-        UIImageView *jiaoImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, tagView.height)];
-        jiaoImage.image = [UIImage imageNamed:@"bqqian"];
-        [tagView addSubview:jiaoImage];
-        
-        UIImageView *tagImage = [[UIImageView alloc] initWithFrame:CGRectMake(jiaoImage.right, 0, size.width+10, tagView.height)];
-        tagImage.image = [UIImage imageNamed:@"bqhou"];
-        [tagView addSubview:tagImage];
-        
-        UILabel *tagLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tagImage.width, tagView.height)];
-        tagLab.textColor = [UIColor whiteColor];
-        tagLab.font = [UIFont systemFontOfSize:13];
-        tagLab.text = tag.Name;
-        [tagImage addSubview:tagLab];
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickTag:)];
-        [tagView addGestureRecognizer:tap];
-    }
-
-    UILabel *descriptionLab = [[UILabel alloc] initWithFrame:CGRectMake(10, imageView.bottom+10, kScreenWidth-20, 20)];
-    descriptionLab.text = self.homePro.ProductName;
-    descriptionLab.font = [UIFont systemFontOfSize:16];
-    [self.contentView addSubview:descriptionLab];
-    
-    UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(10, descriptionLab.bottom+16, 100, 20)];
-    priceLab.text = [NSString stringWithFormat:@"￥%.2f",[self.homePro.Price floatValue]];
-    priceLab.font = [UIFont systemFontOfSize:18];
-    priceLab.textColor = [UIColor redColor];
-    [self.contentView addSubview:priceLab];
-    
-    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreenWidth-100, descriptionLab.bottom+10, 80, 33)];
-    shareBtn.backgroundColor = kCustomColor(248, 248, 248);
-    shareBtn.layer.borderColor = kCustomColor(236, 236, 236).CGColor;
-    [shareBtn setTitle:@" 分享" forState:(UIControlStateNormal)];
-    [shareBtn setImage:[UIImage imageNamed:@"fenxiang"] forState:(UIControlStateNormal)];
-    [shareBtn setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
-    shareBtn.titleLabel.font =[UIFont systemFontOfSize:14];
-    shareBtn.layer.borderWidth = 0.5;
-    shareBtn.layer.cornerRadius = 3;
-    [shareBtn addTarget:self action:@selector(didClickShare:) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.contentView addSubview:shareBtn];
-    
-    UIButton *chatBtn = [[UIButton alloc] initWithFrame:CGRectMake(shareBtn.left-100, descriptionLab.bottom+10, 80, 33)];
-    chatBtn.backgroundColor = kCustomColor(248, 248, 248);
-    chatBtn.layer.borderColor = kCustomColor(236, 236, 236).CGColor;
-    [chatBtn setTitle:@" 私聊" forState:(UIControlStateNormal)];
-    [chatBtn setImage:[UIImage imageNamed:@"评论"] forState:(UIControlStateNormal)];
-    [chatBtn setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
-    chatBtn.titleLabel.font =[UIFont systemFontOfSize:14];
-    chatBtn.layer.borderWidth = 0.5;
-    chatBtn.layer.cornerRadius = 3;
-    [chatBtn addTarget:self action:@selector(didClickChat) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.contentView addSubview:chatBtn];
-    
-    UIButton *collectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    collectBtn.backgroundColor = [UIColor clearColor];
-    collectBtn.frame = CGRectMake(0, chatBtn.bottom+10, 60, 30);
-    if ([self.homePro.LikeUsers.IsLike boolValue])
-    {
-        [collectBtn setImage:[UIImage imageNamed:@"点赞h"] forState:(UIControlStateNormal)];
-        collectBtn.selected = YES;
+        NSArray *arr  = @[@"",@"",@"",@"",@""];
     }
     else
     {
-        [collectBtn setImage:[UIImage imageNamed:@"点赞"] forState:(UIControlStateNormal)];
-        collectBtn.selected = NO;
-    }
-    
-    if (!self.homePro.LikeUsers.Count)
-    {
-        [collectBtn setTitle:@"0" forState:(UIControlStateNormal)];
-    }
-    else
-    {
-        [collectBtn setTitle:self.homePro.LikeUsers.Count forState:(UIControlStateNormal)];
-    }
-    [collectBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-    collectBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [collectBtn addTarget:self action:@selector(didClickCollect:) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.contentView addSubview:collectBtn];
-    
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(collectBtn.right, chatBtn.bottom+10, 240, 30)];
-    bgView.backgroundColor = [UIColor clearColor];
-    [self.contentView addSubview:bgView];
-    
-    for (int i=0; i<self.homePro.LikeUsers.Users.count; i++)
-    {
-        if (i>6)
+        
+        //商场
+//        CGFloat tempViewHeight = (kScreenWidth-20)/3-10+140;
+        //认证买手
+        CGFloat tempViewHeight = (kScreenWidth-20)/3-10+180;
+
+        UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, kScreenWidth-10, tempViewHeight)];
+        tempView.backgroundColor = [UIColor whiteColor];
+        [self.contentView addSubview:tempView];
+        
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 60, 60)];
+        imageView.backgroundColor = [UIColor orangeColor];
+        [tempView addSubview:imageView];
+        
+        //倒计时
+        
+        showLab = [[UILabel alloc] initWithFrame:CGRectMake(tempView.width-120, 0, 60, 20)];
+        showLab.backgroundColor = kCustomColor(251, 163, 41);
+        showLab.textColor = [UIColor whiteColor];
+        showLab.font = [UIFont systemFontOfSize:11];
+        showLab.text = @" 距离开始 :";
+        [tempView addSubview:showLab];
+        
+        UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(showLab.right, 0, 60, 20)];
+        timeLab.backgroundColor = kCustomColor(251, 163, 41);
+        timeLab.textColor = [UIColor whiteColor];
+        timeLab.font = [UIFont systemFontOfSize:11];
+//        timeLab.textAlignment = NSTextAlignmentCenter;
+        [tempView addSubview:timeLab];
+        
+        timer3 = [[MZTimerLabel alloc] initWithLabel:timeLab andTimerType:MZTimerLabelTypeTimer];
+        timer3.delegate = self;
+        [timer3 setCountDownTime:10];
+        [timer3 start];
+
+        
+        UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(imageView.right+5, imageView.top+5, tempView.width-90-120, 20)];
+        nameLab.text = @"金鹰商场";
+        nameLab.font = [UIFont systemFontOfSize:16];
+        [tempView addSubview:nameLab];
+        
+        
+        //商场
+//        UIImageView *localImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageView.right+5, nameLab.bottom+18, 12, 12)];
+//        localImage.image = [UIImage imageNamed:@"location"];
+//        [tempView addSubview:localImage];
+//        
+//        UILabel *localLab = [[UILabel alloc] initWithFrame:CGRectMake(localImage.right+3, nameLab.bottom+15, tempView.width-140, 20)];
+//        localLab.text = @"北京,中关村南大街";
+//        localLab.font = [UIFont systemFontOfSize:11];
+//        [tempView addSubview:localLab];
+//        
+//        UILabel *distanceLab = [[UILabel alloc] initWithFrame:CGRectMake(tempView.width-45, nameLab.bottom+15, 40, 20)];
+//        distanceLab.text = @"100KM";
+//        distanceLab.font = [UIFont systemFontOfSize:11];
+//        [tempView addSubview:distanceLab];
+        
+        
+        //认证买手
+        UILabel *describeLab = [[UILabel alloc] init];
+        describeLab.text = @"北京,中关村南北京北京,中关村南北京,北京,中关村南北京,北京,中关村南北京,北京,中关村南北京,北京,中关村南北京,,";
+        describeLab.font = [UIFont systemFontOfSize:11];
+//        describeLab.backgroundColor = [UIColor orangeColor];
+        describeLab.numberOfLines = 2;
+        CGSize size = [Public getContentSizeWith:describeLab.text andFontSize:11 andWidth:tempView.width-90];
+        describeLab.frame = CGRectMake(imageView.right+5, nameLab.bottom+8, tempView.width-90, size.height-13);
+        [tempView addSubview:describeLab];
+
+        
+        
+        //品牌
+        UIButton *brandBtn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
+        brandBtn.frame = CGRectMake(tempView.width-52-15, imageView.bottom+15, 56, 20);
+        brandBtn.backgroundColor = kCustomColor(220, 221, 221);
+        [brandBtn setTitle:@"更多品牌" forState:(UIControlStateNormal)];
+        [brandBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+        brandBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        brandBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [brandBtn addTarget:self action:@selector(didClickMoreBrand) forControlEvents:(UIControlEventTouchUpInside)];
+        [tempView addSubview:brandBtn];
+        
+        NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@"only",@"asd",@"asdasda",@"阿打算打算",@"asdaasda",@"asdasda",@"asdasdasd"]];
+        CGFloat beforeBtnWith=0;
+        CGFloat totalWidth=0;
+        for (int i=0; i<arr.count; i++)
         {
-            return;
-        }
-        HomeUsers *user = [self.homePro.LikeUsers.Users objectAtIndex:i];
-        UIImageView *img = [[UIImageView alloc] initWithFrame:CGRectMake(35*i, 0, 30, 30)];
-        img.layer.cornerRadius = img.width/2;
-        img.clipsToBounds = YES;
-        [img sd_setImageWithURL:[NSURL URLWithString:user.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        img.backgroundColor = kCustomColor(245, 246, 247);
-        
-        img.tag = 1000+i;
-        img.userInteractionEnabled = YES;
-        [bgView addSubview:img];
-//                if (i==6)
-        //        {
-        //            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, img.width, img.height-10)];
-        //            lab.text = @"...";
-        //            lab.textAlignment =NSTextAlignmentCenter;
-        //            lab.textColor = [UIColor blackColor];
-        //            [img addSubview:lab];
-        //        }
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickImage:)];
-        [img addGestureRecognizer:tap];
-    }
-    UIImageView *nightImage = [[UIImageView alloc] initWithFrame:CGRectMake(20, bgView.bottom+5, kScreenWidth-40, 50)];
-    nightImage.clipsToBounds = YES;
-    nightImage.image = [UIImage imageNamed:@"打烊购框icon"];
-    [self.contentView addSubview:nightImage];
-    
-    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, kScreenWidth-80, 20)];
-    lab.text = self.homePro.Promotion.DescriptionText;
-    lab.textColor = [UIColor redColor];
-    lab.textAlignment = NSTextAlignmentCenter;
-    lab.font = [UIFont systemFontOfSize:14];
-    [nightImage addSubview:lab];
-    
-    if (![self.homePro.Promotion.IsShow boolValue])
-    {
-        nightImage.hidden = YES;
-    }
-    else
-    {
-        nightImage.hidden = NO;
-    }
-}
-
-//分享
--(void)didClickShare:(UIButton *)btn
-{
-    if (!TOKEN)
-    {
-        [Public showLoginVC:self.viewController];
-        return;
-    }
-    
-    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:self.homePro.ShareLink];
-    
-    
-    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.homePro.ProductPic.Name]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-        
-    } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-        
-        [UMSocialSnsService presentSnsIconSheetView:self.viewController
-                                             appKey:@"55d43bf367e58eac01002b7f"
-                                          shareText:[NSString stringWithFormat:@"快看！这里有一件超值的%@商品",self.homePro.ProductName]
-                                         shareImage:image
-                                    shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
-                                           delegate:self];
-    }];
-    
-    
-    
-}
-//实现回调方法（可选）：
--(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
-{
-    //根据`responseCode`得到发送结果,如果分享成功
-    if(response.responseCode == UMSResponseCodeSuccess)
-    {
-        //得到分享到的微博平台名
-        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
-        
-        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        [dic setObject:self.homePro.ProductId forKey:@"productid"];
-        [HttpTool postWithURL:@"Product/CreateShare" params:dic isWrite:YES success:^(id json) {
+            CGSize btnSize = [Public getContentSizeWith:arr[i] andFontSize:13 andHigth:20];
+            
+            totalWidth = btnSize.width+10+totalWidth;
             
             
-            
-        } failure:^(NSError *error) {
-            
-        }];
-    }
-}
-
-//私聊
--(void)didClickChat
-{
-    if (!TOKEN)
-    {
-        [Public showLoginVC:self.viewController];
-        return;
-    }
-    
-    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:self.homePro.Buyerid AndTpye:2 andUserName:self.homePro.BuyerName];
-    VC.isFrom = isFromPrivateChat;
-    [self.viewController.navigationController pushViewController:VC animated:YES];
-}
-
-
-//点击头像
--(void)didCLickHeaderImage
-{
-    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
-    VC.userId = self.homePro.Buyerid;
-    VC.userName = self.homePro.BuyerName;
-    [self.viewController.navigationController pushViewController:VC animated:YES];
-    
-}
-
--(void)didClickImage:(UITapGestureRecognizer *)tap
-{
-    
-}
-//收藏
--(void)didClickCollect:(UIButton *)btn
-{
-    if (!TOKEN)
-    {
-        [Public showLoginVC:self.viewController];
-        return;
-    }
-    
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:self.homePro.ProductId forKey:@"Id"];
-    if (btn.selected==NO)
-    {
-        [dic setObject:@"1" forKey:@"Status"];
-    }
-    else
-    {
-        [dic setObject:@"0" forKey:@"Status"];
-    }
-    [HttpTool postWithURL:@"Product/Like" params:dic isWrite:YES success:^(id json) {
-        
-        if ([[json objectForKey:@"isSuccessful"] boolValue])
-        {
-            if (btn.selected==NO)
+            if (totalWidth>tempView.width-62)
             {
-                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%ld",(long)[self.homePro.LikeUsers.Count integerValue]+1];
-                self.homePro.LikeUsers.IsLike = @"1";
-                [btn setImage:[UIImage imageNamed:@"点赞h"] forState:(UIControlStateNormal)];
-                [btn setTitle:self.homePro.LikeUsers.Count forState:(UIControlStateNormal)];
-                btn.selected = YES;
+                [arr removeLastObject];
             }
             else
             {
-                self.homePro.LikeUsers.Count = [NSString stringWithFormat:@"%ld",(long)[self.homePro.LikeUsers.Count integerValue]-1];
-                self.homePro.LikeUsers.IsLike = @"0";
+                UIButton *btn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
+                btn.backgroundColor = kCustomColor(220, 221, 221);
+                [btn setTitle:arr[i] forState:(UIControlStateNormal)];
+                [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+                btn.titleLabel.font = [UIFont systemFontOfSize:13];
+                btn.titleLabel.textAlignment = NSTextAlignmentCenter;
+                btn.tag = i+100;
+                [btn addTarget:self action:@selector(didClickBrand:) forControlEvents:(UIControlEventTouchUpInside)];
                 
-                [btn setImage:[UIImage imageNamed:@"点赞"] forState:(UIControlStateNormal)];
-                [btn setTitle:self.homePro.LikeUsers.Count forState:(UIControlStateNormal)];
-                btn.selected = NO;
+                btn.frame = CGRectMake(10*(i+1)+beforeBtnWith+2, imageView.bottom+15, btnSize.width+4, 20);
+                [tempView addSubview:btn];
+                beforeBtnWith = btnSize.width+beforeBtnWith;
+                
             }
         }
-        else
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, brandBtn.bottom+8, tempView.width-20, 1)];
+        lineView.backgroundColor = kCustomColor(220, 221, 221);
+        [tempView addSubview:lineView];
+        
+        CGFloat imageWidth = tempView.width/3-10;
+        
+        //商品
+        for (int i=0; i<3; i++)
         {
-            [self showHudFailed:[json objectForKey:@"message"]];
+            UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageWidth*i+5*i+10, lineView.bottom+10, imageWidth, imageWidth)];
+            proImage.backgroundColor = [UIColor orangeColor];
+            [tempView addSubview:proImage];
+            
+            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, proImage.height/4*3, proImage.width, proImage.height/4)];
+            bgView.backgroundColor = [UIColor blackColor];
+            bgView.alpha =0.3;
+            [proImage addSubview:bgView];
+            
+            UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, proImage.width/2, proImage.height/4)];
+            price.textColor = [UIColor whiteColor];
+            price.text = @"100.00";
+            price.font = [UIFont systemFontOfSize:14];
+            [bgView addSubview:price];
+            
+            UILabel *discountPrice = [[UILabel alloc] initWithFrame:CGRectMake(price.right, 2, proImage.width/2, proImage.height/4-2)];
+            discountPrice.textColor = [UIColor whiteColor];
+            discountPrice.text = @"100.00";
+            discountPrice.font = [UIFont systemFontOfSize:11];
+            [bgView addSubview:discountPrice];
+            
+            CGSize size = [Public getContentSizeWith:discountPrice.text andFontSize:11 andHigth:proImage.height/4-2];
+            
+            UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, bgView.height/2, size.width, 1)];
+            line.backgroundColor = [UIColor whiteColor];
+            [discountPrice addSubview:line];
+            
+            UIImageView *buyerHeaderImage = [[UIImageView alloc] initWithFrame:CGRectMake(proImage.left, proImage.bottom+5, 40, 40)];
+            buyerHeaderImage.clipsToBounds = YES;
+            buyerHeaderImage.layer.cornerRadius = buyerHeaderImage.width/2;
+            buyerHeaderImage.backgroundColor = [UIColor redColor];
+            [tempView addSubview:buyerHeaderImage];
+            
+            UILabel *buyerName = [[UILabel alloc] initWithFrame:CGRectMake(buyerHeaderImage.right+5, proImage.bottom+8, proImage.width-50, 15)];
+            buyerName.text = @"大神的阿萨德";
+            buyerName.font = [UIFont systemFontOfSize:12];
+            [tempView addSubview:buyerName];
+            
+            UILabel *buyerBrandName = [[UILabel alloc] initWithFrame:CGRectMake(buyerHeaderImage.right+5, buyerName.bottom, proImage.width-50, 20)];
+            buyerBrandName.text = @"kkkk";
+            buyerBrandName.font = [UIFont systemFontOfSize:11];
+            [tempView addSubview:buyerBrandName];
+
         }
-        
-    } failure:^(NSError *error) {
-        
-    }];
+    }
 }
 
--(void)didClickTag:(UITapGestureRecognizer *)tap
+-(void)addBrandView
 {
-    HomePicTag *tag = [self.homePro.ProductPic.Tags objectAtIndex:tap.view.tag-100];
-    CusTagViewController *VC = [[CusTagViewController alloc] init];
-    VC.BrandId = tag.SourceId;
-    VC.BrandName = tag.Name;
-    [self.viewController.navigationController pushViewController:VC animated:YES];
+    
+}
+
+
+-(void)timerLabel:(MZTimerLabel*)timerLabel finshedCountDownTimerWithTime:(NSTimeInterval)countTime
+{
+    [timer3 setCountDownTime:3];
+    [timer3 start];
+
+//    NSString *msg = [NSString stringWithFormat:@"Countdown of Example 6 finished!\nTime counted: %i seconds",(int)countTime];
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:msg delegate:nil cancelButtonTitle:@"Awesome!" otherButtonTitles:nil];
+//    [alertView show];
+}
+
+//点击更多品牌
+-(void)didClickMoreBrand
+{
+    
+}
+
+//点击品牌
+-(void)didClickBrand:(UIButton *)btn
+{
+    
 }
 
 @end

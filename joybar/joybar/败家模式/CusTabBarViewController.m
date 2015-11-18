@@ -107,7 +107,7 @@
     _homeView = [[CusHomeViewController alloc]init];
     _fastView = [[CusCircleViewController alloc]init];
     _messageView = [[CusMessageViewController alloc]init];
-    _fineView = [[CusFindViewController alloc]init];
+    _fineView = [[CusMoreBrandViewController alloc]init];
     _myAccountView = [[CusMineViewController alloc] init];
     self.homeNav = [[BaseNavigationController alloc]initWithRootViewController:_homeView];
     self.fastNav = [[BaseNavigationController alloc]initWithRootViewController:_fastView];

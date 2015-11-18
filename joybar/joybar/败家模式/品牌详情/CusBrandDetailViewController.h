@@ -1,5 +1,5 @@
 //
-//  CusTagViewController.h
+//  CusBrandDetailViewController.h
 //  joybar
 //
 //  Created by 123 on 15/4/28.
@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface CusTagViewController : BaseViewController
+@interface CusBrandDetailViewController : BaseViewController
 
 @property (nonatomic ,strong) NSString *BrandId;
 @property (nonatomic ,strong) NSString *BrandName;

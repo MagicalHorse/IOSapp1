@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 卢兴. All rights reserved.
 //
 
-#import "FindTableView.h"
-#import "CusFindTableViewCell.h"
-@implementation FindTableView
+#import "MoreBrandTableView.h"
+#import "MoreBrandTableViewCell.h"
+@implementation MoreBrandTableView
 
 -(instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
 {
@@ -30,10 +30,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *iden = @"cell";
-    CusFindTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+    MoreBrandTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
     if (cell==nil)
     {
-        cell = [[CusFindTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+        cell = [[MoreBrandTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
     
     for (UIView *view in cell.contentView.subviews)

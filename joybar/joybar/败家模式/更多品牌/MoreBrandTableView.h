@@ -8,6 +8,6 @@
 
 #import "BaseTableView.h"
 
-@interface FindTableView : BaseTableView<UITableViewDelegate,UITableViewDataSource>
+@interface MoreBrandTableView : BaseTableView<UITableViewDelegate,UITableViewDataSource>
 
 @end

@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 卢兴. All rights reserved.
 //
 
-#import "CusFindTableViewCell.h"
-#import "CusTagViewController.h"
-@implementation CusFindTableViewCell
+#import "MoreBrandTableViewCell.h"
+#import "CusBrandDetailViewController.h"
+@implementation MoreBrandTableViewCell
 {
     NSArray *dataArr;
 }
@@ -50,7 +50,7 @@
 -(void)didClickImage:(UITapGestureRecognizer *)tap
 {
     NSDictionary *dic = [dataArr objectAtIndex:tap.view.tag-10];
-    CusTagViewController *VC = [[CusTagViewController alloc] init];
+    CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
         VC.BrandId = [dic objectForKey:@"BrandId"];
         VC.BrandName = [dic objectForKey:@"BrandName"];
     [self.viewController.navigationController pushViewController:VC animated:YES];

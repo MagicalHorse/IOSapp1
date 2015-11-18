@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@interface CusFindTableViewCell : UITableViewCell
+@interface MoreBrandTableViewCell : UITableViewCell
 
 -(void)setData:(NSArray *)arr;
 

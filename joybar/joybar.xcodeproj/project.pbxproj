@@ -62,11 +62,7 @@
 		0AAB5B121B2AE01900782C0C /* FansItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A031B2AE01800782C0C /* FansItems.m */; };
 		0AAB5B131B2AE01900782C0C /* FansModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A051B2AE01800782C0C /* FansModel.m */; };
 		0AAB5B141B2AE01900782C0C /* CusFindSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A081B2AE01800782C0C /* CusFindSearchViewController.m */; };
-		0AAB5B151B2AE01900782C0C /* CusFindTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A0A1B2AE01800782C0C /* CusFindTableViewCell.m */; };
-		0AAB5B161B2AE01900782C0C /* CusFindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A0C1B2AE01800782C0C /* CusFindViewController.m */; };
 		0AAB5B171B2AE01900782C0C /* CusNearTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A0E1B2AE01800782C0C /* CusNearTableViewCell.m */; };
-		0AAB5B191B2AE01900782C0C /* CusTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A121B2AE01800782C0C /* CusTagViewController.m */; };
-		0AAB5B1A1B2AE01900782C0C /* FindTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A141B2AE01800782C0C /* FindTableView.m */; };
 		0AAB5B1E1B2AE01900782C0C /* NearData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A1D1B2AE01800782C0C /* NearData.m */; };
 		0AAB5B1F1B2AE01900782C0C /* NearItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A1F1B2AE01800782C0C /* NearItems.m */; };
 		0AAB5B201B2AE01900782C0C /* NearTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5A211B2AE01800782C0C /* NearTableView.m */; };
@@ -207,8 +203,6 @@
 		0AAB5BAC1B2AE01900782C0C /* OrderListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AE21B2AE01900782C0C /* OrderListItem.m */; };
 		0AAB5BAD1B2AE01900782C0C /* OrderListPro.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AE41B2AE01900782C0C /* OrderListPro.m */; };
 		0AAB5BAE1B2AE01900782C0C /* CusCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AE71B2AE01900782C0C /* CusCartViewController.m */; };
-		0AAB5BAF1B2AE01900782C0C /* CusCenterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AEA1B2AE01900782C0C /* CusCenterTableViewCell.m */; };
-		0AAB5BB01B2AE01900782C0C /* CusCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AEC1B2AE01900782C0C /* CusCenterViewController.m */; };
 		0AAB5BB21B2AE01900782C0C /* CusHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AF01B2AE01900782C0C /* CusHomeViewController.m */; };
 		0AAB5BB31B2AE01900782C0C /* HomeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AF21B2AE01900782C0C /* HomeTableView.m */; };
 		0AAB5BB41B2AE01900782C0C /* Banner.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AF51B2AE01900782C0C /* Banner.m */; };
@@ -218,7 +212,6 @@
 		0AAB5BB81B2AE01900782C0C /* HomeUsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AFD1B2AE01900782C0C /* HomeUsers.m */; };
 		0AAB5BB91B2AE01900782C0C /* LikeUsers.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AFF1B2AE01900782C0C /* LikeUsers.m */; };
 		0AAB5BBA1B2AE01900782C0C /* ProductPic.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5B011B2AE01900782C0C /* ProductPic.m */; };
-		0AAB5BBB1B2AE01900782C0C /* MyBuyerTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5B031B2AE01900782C0C /* MyBuyerTableView.m */; };
 		0AAB5BBE1B2AE0BD00782C0C /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5BBD1B2AE0BD00782C0C /* SVProgressHUD.m */; };
 		0AB583F21B316A2100DB907A /* BuyerFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB583F11B316A2100DB907A /* BuyerFilterViewController.m */; };
 		0ACDBDD61B3BE70E0096B531 /* libPushSDK-1.8.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACDBDD51B3BE70E0096B531 /* libPushSDK-1.8.2.a */; };
@@ -306,6 +299,7 @@
 		9D467EFA1B05C4FA005CAA36 /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D467EF01B05C4FA005CAA36 /* NSObject+MJKeyValue.m */; };
 		9D467EFB1B05C4FA005CAA36 /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D467EF21B05C4FA005CAA36 /* NSObject+MJProperty.m */; };
 		9D467EFC1B05C4FA005CAA36 /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D467EF41B05C4FA005CAA36 /* NSString+MJExtension.m */; };
+		9D550FB81BF9760B00D916CB /* CusMarketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D550FB71BF9760B00D916CB /* CusMarketViewController.m */; };
 		9D5D2E431B5F42D200DBFDC3 /* CusHomeStoreCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E421B5F42D200DBFDC3 /* CusHomeStoreCollectionViewCell.m */; };
 		9D5D2E491B5F9E3C00DBFDC3 /* CHANGELOG.md in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E451B5F9E3C00DBFDC3 /* CHANGELOG.md */; };
 		9D5D2E4A1B5F9E3C00DBFDC3 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D2E471B5F9E3C00DBFDC3 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -319,6 +313,10 @@
 		9D6B1C191BAAB70B002775F1 /* BuyerMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C181BAAB70B002775F1 /* BuyerMineViewController.m */; };
 		9D6B1C1B1BAAB751002775F1 /* BuyerStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C1A1BAAB751002775F1 /* BuyerStoreViewController.m */; };
 		9D6B1C1F1BAAB8FF002775F1 /* CusBuyerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B1C1E1BAAB8FF002775F1 /* CusBuyerDetailViewController.m */; };
+		9D6B22771BF9B37E00AC32BF /* MoreBrandTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B22721BF9B37E00AC32BF /* MoreBrandTableViewCell.m */; };
+		9D6B22781BF9B37E00AC32BF /* CusMoreBrandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B22741BF9B37E00AC32BF /* CusMoreBrandViewController.m */; };
+		9D6B22791BF9B37E00AC32BF /* MoreBrandTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B22761BF9B37E00AC32BF /* MoreBrandTableView.m */; };
+		9D6B227D1BF9B44200AC32BF /* CusBrandDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B227C1BF9B44200AC32BF /* CusBrandDetailViewController.m */; };
 		9D6C94761AE0AA200066F794 /* WriteInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94751AE0AA200066F794 /* WriteInfoViewController.m */; };
 		9D6C948A1AE0F0A30066F794 /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C94891AE0F0A30066F794 /* FindPasswordViewController.m */; };
 		9D6C948D1AE0F0D40066F794 /* SetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6C948C1AE0F0D40066F794 /* SetPasswordViewController.m */; };
@@ -330,6 +328,7 @@
 		9D744DF01B300A3800553648 /* CusAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D744DEE1B300A3800553648 /* CusAboutViewController.m */; };
 		9D744DF11B300A3800553648 /* CusAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DEF1B300A3800553648 /* CusAboutViewController.xib */; };
 		9D7F5D381BCE3863006A7441 /* CusZProDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F5D371BCE3863006A7441 /* CusZProDetailViewController.m */; };
+		9D8A4A4D1BFADB850074ED50 /* MZTimerLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A4A4C1BFADB850074ED50 /* MZTimerLabel.m */; };
 		9D8CD7431B677E0800F972EB /* CusHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AEE1B2AE01900782C0C /* CusHomeTableViewCell.m */; };
 		9D8CD7451B68A1EF00F972EB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */; };
 		9D8CDE651B00B90900B8708B /* Public.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8CDE641B00B90900B8708B /* Public.m */; };
@@ -516,16 +515,8 @@
 		0AAB5A051B2AE01800782C0C /* FansModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FansModel.m; sourceTree = "<group>"; };
 		0AAB5A071B2AE01800782C0C /* CusFindSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusFindSearchViewController.h; sourceTree = "<group>"; };
 		0AAB5A081B2AE01800782C0C /* CusFindSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusFindSearchViewController.m; sourceTree = "<group>"; };
-		0AAB5A091B2AE01800782C0C /* CusFindTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusFindTableViewCell.h; sourceTree = "<group>"; };
-		0AAB5A0A1B2AE01800782C0C /* CusFindTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusFindTableViewCell.m; sourceTree = "<group>"; };
-		0AAB5A0B1B2AE01800782C0C /* CusFindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusFindViewController.h; sourceTree = "<group>"; };
-		0AAB5A0C1B2AE01800782C0C /* CusFindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusFindViewController.m; sourceTree = "<group>"; };
 		0AAB5A0D1B2AE01800782C0C /* CusNearTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusNearTableViewCell.h; sourceTree = "<group>"; };
 		0AAB5A0E1B2AE01800782C0C /* CusNearTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusNearTableViewCell.m; sourceTree = "<group>"; };
-		0AAB5A111B2AE01800782C0C /* CusTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusTagViewController.h; sourceTree = "<group>"; };
-		0AAB5A121B2AE01800782C0C /* CusTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusTagViewController.m; sourceTree = "<group>"; };
-		0AAB5A131B2AE01800782C0C /* FindTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindTableView.h; sourceTree = "<group>"; };
-		0AAB5A141B2AE01800782C0C /* FindTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindTableView.m; sourceTree = "<group>"; };
 		0AAB5A1C1B2AE01800782C0C /* NearData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearData.h; sourceTree = "<group>"; };
 		0AAB5A1D1B2AE01800782C0C /* NearData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearData.m; sourceTree = "<group>"; };
 		0AAB5A1E1B2AE01800782C0C /* NearItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearItems.h; sourceTree = "<group>"; };
@@ -713,10 +704,6 @@
 		0AAB5AE41B2AE01900782C0C /* OrderListPro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderListPro.m; sourceTree = "<group>"; };
 		0AAB5AE61B2AE01900782C0C /* CusCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusCartViewController.h; sourceTree = "<group>"; };
 		0AAB5AE71B2AE01900782C0C /* CusCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusCartViewController.m; sourceTree = "<group>"; };
-		0AAB5AE91B2AE01900782C0C /* CusCenterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusCenterTableViewCell.h; sourceTree = "<group>"; };
-		0AAB5AEA1B2AE01900782C0C /* CusCenterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusCenterTableViewCell.m; sourceTree = "<group>"; };
-		0AAB5AEB1B2AE01900782C0C /* CusCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusCenterViewController.h; sourceTree = "<group>"; };
-		0AAB5AEC1B2AE01900782C0C /* CusCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusCenterViewController.m; sourceTree = "<group>"; };
 		0AAB5AED1B2AE01900782C0C /* CusHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusHomeTableViewCell.h; sourceTree = "<group>"; };
 		0AAB5AEE1B2AE01900782C0C /* CusHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusHomeTableViewCell.m; sourceTree = "<group>"; };
 		0AAB5AEF1B2AE01900782C0C /* CusHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusHomeViewController.h; sourceTree = "<group>"; };
@@ -737,8 +724,6 @@
 		0AAB5AFF1B2AE01900782C0C /* LikeUsers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LikeUsers.m; sourceTree = "<group>"; };
 		0AAB5B001B2AE01900782C0C /* ProductPic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPic.h; sourceTree = "<group>"; };
 		0AAB5B011B2AE01900782C0C /* ProductPic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPic.m; sourceTree = "<group>"; };
-		0AAB5B021B2AE01900782C0C /* MyBuyerTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyBuyerTableView.h; sourceTree = "<group>"; };
-		0AAB5B031B2AE01900782C0C /* MyBuyerTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyBuyerTableView.m; sourceTree = "<group>"; };
 		0AAB5BBC1B2AE0BD00782C0C /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
 		0AAB5BBD1B2AE0BD00782C0C /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		0AB583F01B316A2100DB907A /* BuyerFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerFilterViewController.h; sourceTree = "<group>"; };
@@ -902,6 +887,8 @@
 		9D467EF21B05C4FA005CAA36 /* NSObject+MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJProperty.m"; sourceTree = "<group>"; };
 		9D467EF31B05C4FA005CAA36 /* NSString+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MJExtension.h"; sourceTree = "<group>"; };
 		9D467EF41B05C4FA005CAA36 /* NSString+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MJExtension.m"; sourceTree = "<group>"; };
+		9D550FB61BF9760B00D916CB /* CusMarketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusMarketViewController.h; sourceTree = "<group>"; };
+		9D550FB71BF9760B00D916CB /* CusMarketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusMarketViewController.m; sourceTree = "<group>"; };
 		9D5D2E411B5F42D200DBFDC3 /* CusHomeStoreCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusHomeStoreCollectionViewCell.h; sourceTree = "<group>"; };
 		9D5D2E421B5F42D200DBFDC3 /* CusHomeStoreCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusHomeStoreCollectionViewCell.m; sourceTree = "<group>"; };
 		9D5D2E451B5F9E3C00DBFDC3 /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
@@ -923,6 +910,14 @@
 		9D6B1C1C1BAAB88F002775F1 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 		9D6B1C1D1BAAB8FF002775F1 /* CusBuyerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusBuyerDetailViewController.h; sourceTree = "<group>"; };
 		9D6B1C1E1BAAB8FF002775F1 /* CusBuyerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusBuyerDetailViewController.m; sourceTree = "<group>"; };
+		9D6B22711BF9B37E00AC32BF /* MoreBrandTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreBrandTableViewCell.h; sourceTree = "<group>"; };
+		9D6B22721BF9B37E00AC32BF /* MoreBrandTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreBrandTableViewCell.m; sourceTree = "<group>"; };
+		9D6B22731BF9B37E00AC32BF /* CusMoreBrandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusMoreBrandViewController.h; sourceTree = "<group>"; };
+		9D6B22741BF9B37E00AC32BF /* CusMoreBrandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusMoreBrandViewController.m; sourceTree = "<group>"; };
+		9D6B22751BF9B37E00AC32BF /* MoreBrandTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreBrandTableView.h; sourceTree = "<group>"; };
+		9D6B22761BF9B37E00AC32BF /* MoreBrandTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreBrandTableView.m; sourceTree = "<group>"; };
+		9D6B227B1BF9B44200AC32BF /* CusBrandDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusBrandDetailViewController.h; sourceTree = "<group>"; };
+		9D6B227C1BF9B44200AC32BF /* CusBrandDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusBrandDetailViewController.m; sourceTree = "<group>"; };
 		9D6C94741AE0AA200066F794 /* WriteInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteInfoViewController.h; sourceTree = "<group>"; };
 		9D6C94751AE0AA200066F794 /* WriteInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteInfoViewController.m; sourceTree = "<group>"; };
 		9D6C94881AE0F0A30066F794 /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
@@ -942,6 +937,8 @@
 		9D744DEF1B300A3800553648 /* CusAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusAboutViewController.xib; sourceTree = "<group>"; };
 		9D7F5D361BCE3863006A7441 /* CusZProDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusZProDetailViewController.h; sourceTree = "<group>"; };
 		9D7F5D371BCE3863006A7441 /* CusZProDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusZProDetailViewController.m; sourceTree = "<group>"; };
+		9D8A4A4B1BFADB850074ED50 /* MZTimerLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZTimerLabel.h; sourceTree = "<group>"; };
+		9D8A4A4C1BFADB850074ED50 /* MZTimerLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZTimerLabel.m; sourceTree = "<group>"; };
 		9D8CD7421B675CC500F972EB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9D8CDE631B00B90900B8708B /* Public.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Public.h; sourceTree = "<group>"; };
@@ -1192,6 +1189,9 @@
 		0AAB59E21B2AE01800782C0C /* 败家模式 */ = {
 			isa = PBXGroup;
 			children = (
+				9D6B227A1BF9B3F500AC32BF /* 品牌详情 */,
+				9D6B22701BF9B31300AC32BF /* 更多品牌 */,
+				9D550FB51BF9756300D916CB /* 认证买手/商场主页 */,
 				0AAB59E31B2AE01800782C0C /* CusTabBarViewController.h */,
 				0AAB59E41B2AE01800782C0C /* CusTabBarViewController.m */,
 				0AAB59E51B2AE01800782C0C /* 个人中心 */,
@@ -1278,18 +1278,10 @@
 			children = (
 				0AAB5A071B2AE01800782C0C /* CusFindSearchViewController.h */,
 				0AAB5A081B2AE01800782C0C /* CusFindSearchViewController.m */,
-				0AAB5A0B1B2AE01800782C0C /* CusFindViewController.h */,
-				0AAB5A0C1B2AE01800782C0C /* CusFindViewController.m */,
-				0AAB5A131B2AE01800782C0C /* FindTableView.h */,
-				0AAB5A141B2AE01800782C0C /* FindTableView.m */,
-				0AAB5A091B2AE01800782C0C /* CusFindTableViewCell.h */,
-				0AAB5A0A1B2AE01800782C0C /* CusFindTableViewCell.m */,
 				0AAB5A201B2AE01800782C0C /* NearTableView.h */,
 				0AAB5A211B2AE01800782C0C /* NearTableView.m */,
 				0AAB5A0D1B2AE01800782C0C /* CusNearTableViewCell.h */,
 				0AAB5A0E1B2AE01800782C0C /* CusNearTableViewCell.m */,
-				0AAB5A111B2AE01800782C0C /* CusTagViewController.h */,
-				0AAB5A121B2AE01800782C0C /* CusTagViewController.m */,
 				0AAB5A151B2AE01800782C0C /* model */,
 			);
 			path = "发现";
@@ -1591,20 +1583,16 @@
 		0AAB5AE81B2AE01900782C0C /* 首页 */ = {
 			isa = PBXGroup;
 			children = (
-				0AAB5AE91B2AE01900782C0C /* CusCenterTableViewCell.h */,
-				0AAB5AEA1B2AE01900782C0C /* CusCenterTableViewCell.m */,
-				0AAB5AEB1B2AE01900782C0C /* CusCenterViewController.h */,
-				0AAB5AEC1B2AE01900782C0C /* CusCenterViewController.m */,
-				0AAB5AED1B2AE01900782C0C /* CusHomeTableViewCell.h */,
-				0AAB5AEE1B2AE01900782C0C /* CusHomeTableViewCell.m */,
 				0AAB5AEF1B2AE01900782C0C /* CusHomeViewController.h */,
 				0AAB5AF01B2AE01900782C0C /* CusHomeViewController.m */,
 				0AAB5AF11B2AE01900782C0C /* HomeTableView.h */,
 				0AAB5AF21B2AE01900782C0C /* HomeTableView.m */,
-				0AAB5B021B2AE01900782C0C /* MyBuyerTableView.h */,
-				0AAB5B031B2AE01900782C0C /* MyBuyerTableView.m */,
+				0AAB5AED1B2AE01900782C0C /* CusHomeTableViewCell.h */,
+				0AAB5AEE1B2AE01900782C0C /* CusHomeTableViewCell.m */,
 				9DD1B6B61B5368DD00E4DA12 /* BannerViewController.h */,
 				9DD1B6B71B5368DD00E4DA12 /* BannerViewController.m */,
+				9D8A4A4B1BFADB850074ED50 /* MZTimerLabel.h */,
+				9D8A4A4C1BFADB850074ED50 /* MZTimerLabel.m */,
 				0AAB5AF31B2AE01900782C0C /* model */,
 			);
 			path = "首页";
@@ -2048,6 +2036,16 @@
 			path = MJExtension;
 			sourceTree = "<group>";
 		};
+		9D550FB51BF9756300D916CB /* 认证买手/商场主页 */ = {
+			isa = PBXGroup;
+			children = (
+				9D550FB61BF9760B00D916CB /* CusMarketViewController.h */,
+				9D550FB71BF9760B00D916CB /* CusMarketViewController.m */,
+			);
+			name = "认证买手/商场主页";
+			path = "认证买手:商场主页";
+			sourceTree = "<group>";
+		};
 		9D5B00101B2EA9B700FF8165 /* 申请退款 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2096,6 +2094,28 @@
 				9DADD0901B857669004475C2 /* AgreementViewController.m */,
 			);
 			path = "注册登录";
+			sourceTree = "<group>";
+		};
+		9D6B22701BF9B31300AC32BF /* 更多品牌 */ = {
+			isa = PBXGroup;
+			children = (
+				9D6B22731BF9B37E00AC32BF /* CusMoreBrandViewController.h */,
+				9D6B22741BF9B37E00AC32BF /* CusMoreBrandViewController.m */,
+				9D6B22751BF9B37E00AC32BF /* MoreBrandTableView.h */,
+				9D6B22761BF9B37E00AC32BF /* MoreBrandTableView.m */,
+				9D6B22711BF9B37E00AC32BF /* MoreBrandTableViewCell.h */,
+				9D6B22721BF9B37E00AC32BF /* MoreBrandTableViewCell.m */,
+			);
+			path = "更多品牌";
+			sourceTree = "<group>";
+		};
+		9D6B227A1BF9B3F500AC32BF /* 品牌详情 */ = {
+			isa = PBXGroup;
+			children = (
+				9D6B227B1BF9B44200AC32BF /* CusBrandDetailViewController.h */,
+				9D6B227C1BF9B44200AC32BF /* CusBrandDetailViewController.m */,
+			);
+			path = "品牌详情";
 			sourceTree = "<group>";
 		};
 		9D6C94871AE0F05D0066F794 /* 找回密码 */ = {
@@ -2581,10 +2601,8 @@
 				0AEF3D1D1B2186540064A1E1 /* NSString+JSMessagesView.m in Sources */,
 				9D42E9411B27DAF200C85400 /* BueryAuthInfoViewController.m in Sources */,
 				0AAB5B3C1B2AE01900782C0C /* CusMessageViewController.m in Sources */,
-				0AAB5B161B2AE01900782C0C /* CusFindViewController.m in Sources */,
 				0AAB5B4B1B2AE01900782C0C /* MessageTextView.m in Sources */,
 				0A53051B1B12C05300997BF4 /* UIImageView+HighlightedWebCache.m in Sources */,
-				0AAB5BB01B2AE01900782C0C /* CusCenterViewController.m in Sources */,
 				9D467EFA1B05C4FA005CAA36 /* NSObject+MJKeyValue.m in Sources */,
 				9D42E94A1B27DAF200C85400 /* BuyerOpenViewController.m in Sources */,
 				0A5305141B12C05300997BF4 /* SDWebImageDownloaderOperation.m in Sources */,
@@ -2600,6 +2618,7 @@
 				0AAB5BAA1B2AE01900782C0C /* OrderDetailData.m in Sources */,
 				0AAB59D91B28193500782C0C /* BuyerPaymentViewController.m in Sources */,
 				0AAB5BAE1B2AE01900782C0C /* CusCartViewController.m in Sources */,
+				9D550FB81BF9760B00D916CB /* CusMarketViewController.m in Sources */,
 				0AAB5B2F1B2AE01900782C0C /* CusCircleViewController.m in Sources */,
 				0AA2B9671B0B5A5600CE70EF /* UILabel+FlickerNumber.m in Sources */,
 				0A53050E1B12C05300997BF4 /* MKAnnotationView+WebCache.m in Sources */,
@@ -2651,7 +2670,6 @@
 				9D6C94761AE0AA200066F794 /* WriteInfoViewController.m in Sources */,
 				0AAB5BBE1B2AE0BD00782C0C /* SVProgressHUD.m in Sources */,
 				0A90EADA1B1D408000F789E2 /* UIImage+FixOrientation.m in Sources */,
-				0AAB5B1A1B2AE01900782C0C /* FindTableView.m in Sources */,
 				0AAB5BB91B2AE01900782C0C /* LikeUsers.m in Sources */,
 				9DF36CE31B0039BC00637206 /* HttpTool.m in Sources */,
 				9D42E9451B27DAF200C85400 /* BuyerOpenMessageViewController.m in Sources */,
@@ -2659,6 +2677,7 @@
 				0AAB5BB71B2AE01900782C0C /* HomeProduct.m in Sources */,
 				0A5305181B12C05300997BF4 /* UIImage+GIF.m in Sources */,
 				9D42E9711B27DAF200C85400 /* BuyerHomeViewController.m in Sources */,
+				9D6B22781BF9B37E00AC32BF /* CusMoreBrandViewController.m in Sources */,
 				0DB5AF2D1ACCDE5A000FE9C8 /* BaseModel.m in Sources */,
 				0AAB5B131B2AE01900782C0C /* FansModel.m in Sources */,
 				9D42E96C1B27DAF200C85400 /* Orders.m in Sources */,
@@ -2693,7 +2712,6 @@
 				0A5305161B12C05300997BF4 /* SDWebImagePrefetcher.m in Sources */,
 				9D42E95C1B27DAF200C85400 /* BuyerInComeDetailsViewController.m in Sources */,
 				9D5FD0D01ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m in Sources */,
-				0AAB5BAF1B2AE01900782C0C /* CusCenterTableViewCell.m in Sources */,
 				0AAB5B051B2AE01900782C0C /* ChangePasswordViewController.m in Sources */,
 				9D5D2E431B5F42D200DBFDC3 /* CusHomeStoreCollectionViewCell.m in Sources */,
 				0AAB5B101B2AE01900782C0C /* CusFansViewController.m in Sources */,
@@ -2721,6 +2739,7 @@
 				0A53051C1B12C05300997BF4 /* UIImageView+WebCache.m in Sources */,
 				0AAB5B471B2AE01900782C0C /* MessageMoreView.m in Sources */,
 				0AAB5B441B2AE01900782C0C /* ListView.m in Sources */,
+				9D8A4A4D1BFADB850074ED50 /* MZTimerLabel.m in Sources */,
 				9D42E94C1B27DAF200C85400 /* BuyerSellTableViewCell.m in Sources */,
 				9D6B1C1B1BAAB751002775F1 /* BuyerStoreViewController.m in Sources */,
 				9D6C948A1AE0F0A30066F794 /* FindPasswordViewController.m in Sources */,
@@ -2735,18 +2754,18 @@
 				0AAB5B171B2AE01900782C0C /* CusNearTableViewCell.m in Sources */,
 				9DDB17231AE7741F0014D8B2 /* MJRefreshFooterView.m in Sources */,
 				0A53051A1B12C05300997BF4 /* UIImage+WebP.m in Sources */,
+				9D6B22791BF9B37E00AC32BF /* MoreBrandTableView.m in Sources */,
 				0AAB5B2E1B2AE01900782C0C /* CusCircleDetailViewController.m in Sources */,
 				0A90EAE91B1D485C00F789E2 /* ViewUtils.m in Sources */,
-				0AAB5B151B2AE01900782C0C /* CusFindTableViewCell.m in Sources */,
 				9D42E9531B27DAF200C85400 /* BuyerCircleViewController.m in Sources */,
 				9DDB17161AE7741F0014D8B2 /* MBProgressHUD+Add.m in Sources */,
-				0AAB5BBB1B2AE01900782C0C /* MyBuyerTableView.m in Sources */,
 				9D8CDE681B00BEBC00B8708B /* SelectCityViewController.m in Sources */,
 				0AAB5B301B2AE01900782C0C /* CusInviteFriendViewController.m in Sources */,
+				9D6B227D1BF9B44200AC32BF /* CusBrandDetailViewController.m in Sources */,
 				0AAB5BB81B2AE01900782C0C /* HomeUsers.m in Sources */,
 				0AAB5B201B2AE01900782C0C /* NearTableView.m in Sources */,
 				9DADD0911B857669004475C2 /* AgreementViewController.m in Sources */,
-				0AAB5B191B2AE01900782C0C /* CusTagViewController.m in Sources */,
+				9D6B22771BF9B37E00AC32BF /* MoreBrandTableViewCell.m in Sources */,
 				0DB5AF311ACCDE5A000FE9C8 /* BaseViewController.m in Sources */,
 				9D9AF73C1B32E365000FB33B /* payRequsestHandler.mm in Sources */,
 				0AAB5B1F1B2AE01900782C0C /* NearItems.m in Sources */,
