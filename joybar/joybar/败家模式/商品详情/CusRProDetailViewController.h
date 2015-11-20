@@ -9,7 +9,7 @@
 #import "BaseViewController.h"
 
 
-@interface CusBuyerDetailViewController : BaseViewController
+@interface CusRProDetailViewController : BaseViewController
 
 @property (nonatomic ,strong) NSString *productId;
 

@@ -16,7 +16,7 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "SDWebImageManager.h"
-#import "CusBuyerDetailViewController.h"
+#import "CusRProDetailViewController.h"
 @interface CusOrderDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UMSocialUIDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
@@ -397,7 +397,7 @@
     }
     if (indexPath.section==2)
     {
-        CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
         VC.productId = self.detailData.ProductId;
         [self.navigationController pushViewController:VC animated:YES];
     }

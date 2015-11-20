@@ -8,7 +8,7 @@
 
 #import "HomeTableView.h"
 #import "CusHomeTableViewCell.h"
-#import "CusBuyerDetailViewController.h"
+#import "CusRProDetailViewController.h"
 #import "HomeProduct.h"
 #import "CusZProDetailViewController.h"
 #import "CusMarketViewController.h"

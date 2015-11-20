@@ -9,7 +9,7 @@
 #import "CusHomeViewController.h"
 #import "CusHomeTableViewCell.h"
 //#import "NSTimer+Addition.h"
-#import "CusBuyerDetailViewController.h"
+#import "CusRProDetailViewController.h"
 #import "BaseTableView.h"
 #import "Banner.h"
 #import "HomeProduct.h"
@@ -18,9 +18,9 @@
 #import "YRADScrollView.h"
 #import "BannerViewController.h"
 #import "CusZProDetailViewController.h"
-
+#import "CusProDetailViewController.h"
 #warning 测试------------------------------------------
-#import "CusMarketViewController.h"
+#import "CusRProDetailViewController.h"
 @interface CusHomeViewController ()<UIScrollViewDelegate,YRADScrollViewDataSource,YRADScrollViewDelegate>
 
 @property (nonatomic ,strong) HomeTableView *homeTableView;
@@ -127,11 +127,11 @@
 -(void)didClickSearchBtn
 {
 //    CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-    //    VC.productId = @"12947";
+    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = @"12985";
 
-    CusMarketViewController *VC = [[CusMarketViewController alloc] init];
+//    CusMarketViewController *VC = [[CusMarketViewController alloc] init];
     [self.navigationController pushViewController:VC animated:YES];
-    
     
 }
 

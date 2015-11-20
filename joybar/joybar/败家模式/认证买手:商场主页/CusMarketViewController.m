@@ -8,7 +8,7 @@
 
 #import "CusMarketViewController.h"
 #import "MJRefresh.h"
-#import "CusBuyerDetailViewController.h"
+#import "CusRProDetailViewController.h"
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "CusHomeStoreCollectionViewCell.h"
 #import "CusHomeStoreHeader.h"
@@ -61,7 +61,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *proId = @"";
-    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
     VC.productId = proId;
     [self.navigationController pushViewController:VC animated:YES];
     

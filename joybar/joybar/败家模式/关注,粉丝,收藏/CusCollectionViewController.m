@@ -11,7 +11,7 @@
 #import "CusCollectionViewCell.h"
 #import "MJRefresh.h"
 #import "CHTCollectionViewWaterfallLayout.h"
-#import "CusBuyerDetailViewController.h"
+#import "CusRProDetailViewController.h"
 @interface CusCollectionViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,CHTCollectionViewDelegateWaterfallLayout>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -148,7 +148,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
     VC.productId = [[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"Id"];
     [self.navigationController pushViewController: VC animated:YES];
 }

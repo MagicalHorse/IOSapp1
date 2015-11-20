@@ -17,7 +17,7 @@
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "CusHomeStoreHeader.h"
 #import "CusChatViewController.h"
-#import "CusBuyerDetailViewController.h"
+#import "CusRProDetailViewController.h"
 #import "CusAttentionViewController.h"
 #define CELL_COUNT 30
 #define HEADER_IDENTIFIER @"WaterfallHeader"
@@ -454,9 +454,7 @@
         line1.backgroundColor = kCustomColor(239, 239, 239);
         [contentView addSubview:line1];
 
-    }
-    
-    
+    }    
 }
 
 - (void)initializeUserInterface
@@ -508,7 +506,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
     VC.productId = [[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"Id"];
     [self.navigationController pushViewController: VC animated:YES];
 }

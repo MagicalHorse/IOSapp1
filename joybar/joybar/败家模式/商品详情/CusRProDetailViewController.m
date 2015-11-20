@@ -1,24 +1,24 @@
 //
-//  CusZProDetailViewController.m
+//  CusBuyerDetailViewController.m
 //  joybar
 //
-//  Created by 123 on 15/10/14.
-//  Copyright © 2015年 卢兴. All rights reserved.
+//  Created by 123 on 15/5/13.
+//  Copyright (c) 2015年 卢兴. All rights reserved.
 //
 
-#import "CusZProDetailViewController.h"
+#import "CusRProDetailViewController.h"
 #import "CusCartViewController.h"
 #import "CusChatViewController.h"
 #import "ProDetailData.h"
 #import "HomeUsers.h"
 #import "ProductPicture.h"
 #import "HomePicTag.h"
-#import "CusBrandDetailViewController.h"
+//#import "CusBrandDetailViewController.h"
 #import "CusHomeStoreViewController.h"
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
-#import "CusZProDetailCell.h"
-@interface CusZProDetailViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate>
+#import "CusRProDetailCell.h"
+@interface CusRProDetailViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
 @property (nonatomic ,strong) UIScrollView *imageScrollView;
@@ -28,8 +28,7 @@
 
 @end
 
-@implementation CusZProDetailViewController
-
+@implementation CusRProDetailViewController
 {
     ProDetailData *prodata;
 }
@@ -46,11 +45,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     [self initWithFooterView];
     self.proDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49)];
     self.proDetailTableView.delegate = self;
     self.proDetailTableView.dataSource = self;
     [self.view addSubview:self.proDetailTableView];
+
     
     [self addNavBarViewAndTitle:@"商品详情"];
     
@@ -66,7 +67,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -101,25 +102,21 @@
     }
     else if (indexPath.section==2)
     {
-        return 300;
-    }
-    else if (indexPath.section==3)
-    {
         return 110;
     }
     else
     {
-        return 250;
+        return (kScreenWidth*2.3)/1.1;
     }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *iden = @"cell";
-    CusZProDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+    CusRProDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
     if (cell==nil)
     {
-        cell = [[CusZProDetailCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+        cell = [[CusRProDetailCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
     for (UIView *view in cell.contentView.subviews)
     {
@@ -149,12 +146,10 @@
     
     [HttpTool postWithURL:@"Product/GetProductDetail" params:dic success:^(id json) {
         
-        NSLog(@"%@",json);
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSDictionary *dic = [json objectForKey:@"data"];
             prodata = [ProDetailData objectWithKeyValues:dic];
-            
             [self.proDetailTableView reloadData];
 //            [self initView:prodata];
 //            
@@ -171,6 +166,44 @@
         [self activityDismiss];
     }];
 }
+
+//-(void)initWithFooterView
+//{
+//    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-44, kScreenWidth, 44)];
+//    footerView.backgroundColor = kCustomColor(252, 251, 251);
+//    [self.view addSubview:footerView];
+//    
+//    UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    btn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
+//    [btn setTitle:@"我要买" forState:(UIControlStateNormal)];
+//    btn.titleLabel.font = [UIFont systemFontOfSize:14];
+//    [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+//    btn.backgroundColor = kCustomColor(253, 137, 83);
+//    [btn addTarget:self action:@selector(didClickBuyBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+//    [footerView addSubview:btn];
+//    
+//    UIButton *collectBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//    collectBtn.frame = CGRectMake(kScreenWidth/4/2, 10, kScreenWidth/4/1.1, kScreenWidth/4/1.1*82/310);
+//    [collectBtn addTarget:self action:@selector(didClickCollectProBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+//    collectBtn.backgroundColor = kCustomColor(252, 251, 251);
+//    collectBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+//    if ([prodata.IsFavorite boolValue])
+//    {
+//        [collectBtn setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
+//        [collectBtn setTitle:@" 已收藏" forState:(UIControlStateNormal)];
+//        [collectBtn setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
+//        collectBtn.selected = YES;
+//    }
+//    else
+//    {
+//        [collectBtn setImage:[UIImage imageNamed:@"weishoucang"] forState:(UIControlStateNormal)];
+//        [collectBtn setTitle:@" 收藏" forState:(UIControlStateNormal)];
+//        [collectBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+//        collectBtn.selected = NO;
+//
+//    }
+//    [footerView addSubview:collectBtn];
+//}
 
 -(void)initWithFooterView
 {
@@ -230,6 +263,7 @@
     }
 }
 
+
 -(void)didClickReturnBtn
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -256,7 +290,7 @@
         case 1001:
         {
             //收藏
-            [self collect:btn];
+            [self didClickCollectProBtn:btn];
         }
             break;
         case 1002:
@@ -305,19 +339,22 @@
         [Public showLoginVC:self];
         return;
     }
-    //立即购买
+    //我要买
     CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
     VC.detailData = prodata;
     VC.isFrom = isFromBuyPro;
     [self.navigationController pushViewController:VC animated:YES];
 }
--(void)collect:(UIButton *)btn
+-(void)didClickCollectProBtn:(UIButton *)button
 {
-    UILabel *lab = (UILabel *)[btn viewWithTag:10001];
-    UIImageView *img = (UIImageView *)[btn viewWithTag:101];
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self];
+        return;
+    }
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:prodata.ProductId forKey:@"Id"];
-    if ([lab.text isEqualToString:@"收藏"])
+    if (!button.selected)
     {
         [dic setValue:@"1" forKey:@"Status"];
     }
@@ -329,15 +366,19 @@
         
         if ([json objectForKey:@"isSuccessful"])
         {
-            if ([lab.text isEqualToString:@"收藏"])
+            if (button.selected)
             {
-                lab.text=@"取消收藏";
-                img.image = [UIImage imageNamed:@"xingxing"];
+                [button setImage:[UIImage imageNamed:@"weishoucang"] forState:(UIControlStateNormal)];
+                [button setTitle:@" 收藏" forState:(UIControlStateNormal)];
+                [button setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+                button.selected = NO;
             }
             else
             {
-                lab.text=@"收藏";
-                img.image = [UIImage imageNamed:@"xing"];
+                [button setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
+                [button setTitle:@" 已收藏" forState:(UIControlStateNormal)];
+                [button setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
+                button.selected = YES;
             }
         }
         else
@@ -347,6 +388,8 @@
     } failure:^(NSError *error) {
         
     }];
+    
+    
 }
 //UIScrollViewDelegate方法
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -413,16 +456,16 @@
     
 }
 
-//点击标签
--(void)didClickTag:(UITapGestureRecognizer *)tap
-{
-    ProductPicture *proPic = [prodata.ProductPic objectAtIndex:self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
-    HomePicTag *proTags = [proPic.Tags objectAtIndex:tap.view.tag-100-self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
-    CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
-    VC.BrandId = proTags.SourceId;
-    VC.BrandName = proTags.Name;
-    [self.navigationController pushViewController:VC animated:YES];
-}
+////点击标签
+//-(void)didClickTag:(UITapGestureRecognizer *)tap
+//{
+//    ProductPicture *proPic = [prodata.ProductPic objectAtIndex:self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
+//    HomePicTag *proTags = [proPic.Tags objectAtIndex:tap.view.tag-100-self.imageScrollView.contentOffset.x/(kScreenWidth-10)];
+//    CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
+//    VC.BrandId = proTags.SourceId;
+//    VC.BrandName = proTags.Name;
+//    [self.navigationController pushViewController:VC animated:YES];
+//}
 
 //点击头像
 -(void)didCLickToStore

@@ -17,7 +17,7 @@
 #import "OSSTool.h"
 #import "OSSData.h"
 #import "OSSLog.h"
-#import "CusBuyerDetailViewController.h"
+#import "CusRProDetailViewController.h"
 #import "ProductPicture.h"
 #import "CusHomeStoreViewController.h"
 @interface CusChatViewController ()<UITableViewDataSource,UITableViewDelegate,SendMessageTextDelegate,UIScrollViewDelegate,MessageMoreViewDelegate>
@@ -716,7 +716,7 @@
     NSMutableDictionary *msgDic = [self.messageArr objectAtIndex:indexPath.row];
     if ([[msgDic objectForKey:@"type"] isEqualToString:@"product_img"])
     {
-        CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
         VC.productId = [msgDic objectForKey:@"productId"];
         [self.navigationController pushViewController: VC animated:YES];
     }
