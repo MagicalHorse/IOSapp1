@@ -16,6 +16,16 @@
 
 @implementation LocationViewController
 
+-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self)
+    {
+        self.hidesBottomBarWhenPushed = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -25,6 +35,8 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
 }
 
@@ -70,10 +82,22 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+    cell.textLabel.text = @"北京";
+    cell.textLabel.font = [UIFont systemFontOfSize:15];
     
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(self.handleCityName)
+    {
+        self.handleCityName(@"啊大大");
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

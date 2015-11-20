@@ -22,6 +22,8 @@
 #import "LocationViewController.h"
 #warning 测试------------------------------------------
 #import "CusRProDetailViewController.h"
+#import "CusHomeStoreViewController.h"
+#import "CusMainStoreViewController.h"
 @interface CusHomeViewController ()<UIScrollViewDelegate,YRADScrollViewDataSource,YRADScrollViewDelegate>
 
 @property (nonatomic ,strong) HomeTableView *homeTableView;
@@ -34,6 +36,7 @@
 {
     YRADScrollView *headerScroll;
     UIView *headerView;
+    UIButton *locationBtn;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,7 +52,7 @@
     [headerView addSubview:headerScroll];
     
     
-    UIButton *locationBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    locationBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     locationBtn.frame = CGRectMake(0, 15, 60, 50);
     [locationBtn setTitle:@"全国" forState:(UIControlStateNormal)];
     [locationBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
@@ -142,9 +145,13 @@
 -(void)didClickSearchBtn
 {
 //    CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = @"12985";
+//    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+//        VC.productId = @"12985";
+    
+//    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+//    VC.userId =@"840";
 
+    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
 //    CusMarketViewController *VC = [[CusMarketViewController alloc] init];
     [self.navigationController pushViewController:VC animated:YES];
     
@@ -155,6 +162,10 @@
 {
     LocationViewController *VC = [[LocationViewController alloc] init];
     [self.navigationController pushViewController: VC animated:YES];
+    VC.handleCityName = ^(NSString *cityName)
+    {
+        [locationBtn setTitle:cityName forState:(UIControlStateNormal)];
+    };
 }
 
 @end

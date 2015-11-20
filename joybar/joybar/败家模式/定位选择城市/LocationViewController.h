@@ -8,6 +8,10 @@
 
 #import "BaseViewController.h"
 
+typedef void(^cityBlock)(NSString *cityName);
+
 @interface LocationViewController : BaseViewController
+
+@property (nonatomic ,strong) cityBlock handleCityName;
 
 @end

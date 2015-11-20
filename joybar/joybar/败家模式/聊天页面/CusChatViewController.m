@@ -269,7 +269,7 @@
     NSDictionary *dic = @{@"room_id":[chatRoomData objectForKey:@"id"],@"title":@"私聊",@"owner":[chatRoomData objectForKey:@"owner"],@"users":arr,@"type":type,@"sessionId":@"",@"signValue":@"",@"token":@"",@"userName":toUserName};
     
     [[SocketManager socketManager].socket emit:@"join room" args:@[myId,dic]];
-}
+}   
 
 #pragma mark - UI
 - (void)_initWithBar
