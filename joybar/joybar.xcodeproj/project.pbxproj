@@ -222,6 +222,15 @@
 		0ACDBDD61B3BE70E0096B531 /* libPushSDK-1.8.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACDBDD51B3BE70E0096B531 /* libPushSDK-1.8.2.a */; };
 		0ACDBDD81B3BE73B0096B531 /* libPushSDK-1.8.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ACDBDD71B3BE73B0096B531 /* libPushSDK-1.8.2.a */; };
 		0ACDBDDA1B3BEA890096B531 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0ACDBDD91B3BEA890096B531 /* PushConfig.plist */; };
+		0AD940D61BFEFCFE0096D6E8 /* SearchDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD940D51BFEFCFE0096D6E8 /* SearchDetailsViewController.m */; };
+		0AD940DA1BFF0A0F0096D6E8 /* CusBueryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD940D81BFF0A0F0096D6E8 /* CusBueryTableViewCell.m */; };
+		0AD940DB1BFF0A0F0096D6E8 /* CusBueryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AD940D91BFF0A0F0096D6E8 /* CusBueryTableViewCell.xib */; };
+		0AD940DF1BFF17480096D6E8 /* CusBrandTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD940DD1BFF17480096D6E8 /* CusBrandTableViewCell.m */; };
+		0AD940E01BFF17480096D6E8 /* CusBrandTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AD940DE1BFF17480096D6E8 /* CusBrandTableViewCell.xib */; };
+		0AD940E41BFF187D0096D6E8 /* CusShopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD940E21BFF187D0096D6E8 /* CusShopTableViewCell.m */; };
+		0AD940E51BFF187D0096D6E8 /* CusShopTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AD940E31BFF187D0096D6E8 /* CusShopTableViewCell.xib */; };
+		0AD940E91BFF1A3C0096D6E8 /* CusShoppingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD940E71BFF1A3C0096D6E8 /* CusShoppingTableViewCell.m */; };
+		0AD940EA1BFF1A3C0096D6E8 /* CusShoppingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AD940E81BFF1A3C0096D6E8 /* CusShoppingTableViewCell.xib */; };
 		0AE7E1051B1D9C9000159B02 /* libOSS_IOS_SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE7E1041B1D9C9000159B02 /* libOSS_IOS_SDK.a */; };
 		0AE7E1171B2027CE00159B02 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE7E1161B2027CE00159B02 /* Images.xcassets */; };
 		0AEF3D191B21859B0064A1E1 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEF3D181B21859B0064A1E1 /* BaseTableView.m */; };
@@ -749,6 +758,20 @@
 		0ACDBDD51B3BE70E0096B531 /* libPushSDK-1.8.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPushSDK-1.8.2.a"; sourceTree = "<group>"; };
 		0ACDBDD71B3BE73B0096B531 /* libPushSDK-1.8.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPushSDK-1.8.2.a"; path = "joybar/OpenResources/JPush/libPushSDK-1.8.2.a"; sourceTree = "<group>"; };
 		0ACDBDD91B3BEA890096B531 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
+		0AD940D41BFEFCFE0096D6E8 /* SearchDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchDetailsViewController.h; sourceTree = "<group>"; };
+		0AD940D51BFEFCFE0096D6E8 /* SearchDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchDetailsViewController.m; sourceTree = "<group>"; };
+		0AD940D71BFF0A0F0096D6E8 /* CusBueryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CusBueryTableViewCell.h; path = "../发现/CusBueryTableViewCell.h"; sourceTree = "<group>"; };
+		0AD940D81BFF0A0F0096D6E8 /* CusBueryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CusBueryTableViewCell.m; path = "../发现/CusBueryTableViewCell.m"; sourceTree = "<group>"; };
+		0AD940D91BFF0A0F0096D6E8 /* CusBueryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CusBueryTableViewCell.xib; path = "../发现/CusBueryTableViewCell.xib"; sourceTree = "<group>"; };
+		0AD940DC1BFF17480096D6E8 /* CusBrandTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusBrandTableViewCell.h; sourceTree = "<group>"; };
+		0AD940DD1BFF17480096D6E8 /* CusBrandTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusBrandTableViewCell.m; sourceTree = "<group>"; };
+		0AD940DE1BFF17480096D6E8 /* CusBrandTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusBrandTableViewCell.xib; sourceTree = "<group>"; };
+		0AD940E11BFF187D0096D6E8 /* CusShopTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusShopTableViewCell.h; sourceTree = "<group>"; };
+		0AD940E21BFF187D0096D6E8 /* CusShopTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusShopTableViewCell.m; sourceTree = "<group>"; };
+		0AD940E31BFF187D0096D6E8 /* CusShopTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusShopTableViewCell.xib; sourceTree = "<group>"; };
+		0AD940E61BFF1A3C0096D6E8 /* CusShoppingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusShoppingTableViewCell.h; sourceTree = "<group>"; };
+		0AD940E71BFF1A3C0096D6E8 /* CusShoppingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusShoppingTableViewCell.m; sourceTree = "<group>"; };
+		0AD940E81BFF1A3C0096D6E8 /* CusShoppingTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusShoppingTableViewCell.xib; sourceTree = "<group>"; };
 		0AE7E0F71B1D9C3C00159B02 /* libOSS_IOS_SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOSS_IOS_SDK.a; sourceTree = "<group>"; };
 		0AE7E0F81B1D9C3C00159B02 /* OSSArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSArgs.h; sourceTree = "<group>"; };
 		0AE7E0F91B1D9C3C00159B02 /* OSSBucket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSBucket.h; sourceTree = "<group>"; };
@@ -1135,6 +1158,20 @@
 			children = (
 				0A11ABBE1BFDC71F00E46FCD /* HistorySearchViewController.h */,
 				0A11ABBF1BFDC71F00E46FCD /* HistorySearchViewController.m */,
+				0AD940D41BFEFCFE0096D6E8 /* SearchDetailsViewController.h */,
+				0AD940D51BFEFCFE0096D6E8 /* SearchDetailsViewController.m */,
+				0AD940D71BFF0A0F0096D6E8 /* CusBueryTableViewCell.h */,
+				0AD940D81BFF0A0F0096D6E8 /* CusBueryTableViewCell.m */,
+				0AD940D91BFF0A0F0096D6E8 /* CusBueryTableViewCell.xib */,
+				0AD940DC1BFF17480096D6E8 /* CusBrandTableViewCell.h */,
+				0AD940DD1BFF17480096D6E8 /* CusBrandTableViewCell.m */,
+				0AD940DE1BFF17480096D6E8 /* CusBrandTableViewCell.xib */,
+				0AD940E11BFF187D0096D6E8 /* CusShopTableViewCell.h */,
+				0AD940E21BFF187D0096D6E8 /* CusShopTableViewCell.m */,
+				0AD940E31BFF187D0096D6E8 /* CusShopTableViewCell.xib */,
+				0AD940E61BFF1A3C0096D6E8 /* CusShoppingTableViewCell.h */,
+				0AD940E71BFF1A3C0096D6E8 /* CusShoppingTableViewCell.m */,
+				0AD940E81BFF1A3C0096D6E8 /* CusShoppingTableViewCell.xib */,
 			);
 			path = "搜索";
 			sourceTree = "<group>";
@@ -2487,6 +2524,7 @@
 				0AAB5B791B2AE01900782C0C /* biaoqing043.png in Resources */,
 				0AAB5B231B2AE01900782C0C /* CusOrderProTableViewCell.xib in Resources */,
 				0AAB5B5C1B2AE01900782C0C /* biaoqing014.png in Resources */,
+				0AD940EA1BFF1A3C0096D6E8 /* CusShoppingTableViewCell.xib in Resources */,
 				0AAB5B991B2AE01900782C0C /* biaoqing075.png in Resources */,
 				0AAB5B5E1B2AE01900782C0C /* biaoqing016.png in Resources */,
 				9DADD0D41B8598C1004475C2 /* ios-social-sdk-login-detail.html in Resources */,
@@ -2515,6 +2553,7 @@
 				0AAB5B971B2AE01900782C0C /* biaoqing073.png in Resources */,
 				0AAB5B831B2AE01900782C0C /* biaoqing053.png in Resources */,
 				0AAB5B501B2AE01900782C0C /* biaoqing002.png in Resources */,
+				0AD940E01BFF17480096D6E8 /* CusBrandTableViewCell.xib in Resources */,
 				0AAB5B7A1B2AE01900782C0C /* biaoqing044.png in Resources */,
 				0AE7E1171B2027CE00159B02 /* Images.xcassets in Resources */,
 				9DADD0D21B8598C1004475C2 /* ios-social-sdk-comment-quick.html in Resources */,
@@ -2544,6 +2583,7 @@
 				0AAB5B9C1B2AE01900782C0C /* biaoqing078.png in Resources */,
 				0A3232981B6A14FD005F434B /* BuyerInComeViewController.xib in Resources */,
 				0AAB5B521B2AE01900782C0C /* biaoqing004.png in Resources */,
+				0AD940DB1BFF0A0F0096D6E8 /* CusBueryTableViewCell.xib in Resources */,
 				0AAB5BA01B2AE01900782C0C /* biaoqing082.png in Resources */,
 				0AAB5B961B2AE01900782C0C /* biaoqing072.png in Resources */,
 				0AAB5B581B2AE01900782C0C /* biaoqing010.png in Resources */,
@@ -2580,6 +2620,7 @@
 				0AAB5B691B2AE01900782C0C /* biaoqing027.png in Resources */,
 				0AAB5B8F1B2AE01900782C0C /* biaoqing065.png in Resources */,
 				0AAB5B651B2AE01900782C0C /* biaoqing023.png in Resources */,
+				0AD940E51BFF187D0096D6E8 /* CusShopTableViewCell.xib in Resources */,
 				9D42E9551B27DAF200C85400 /* BuyerFansTableViewCell.xib in Resources */,
 				0AAB5B7B1B2AE01900782C0C /* biaoqing045.png in Resources */,
 				0AAB5B9B1B2AE01900782C0C /* biaoqing077.png in Resources */,
@@ -2687,6 +2728,7 @@
 				0AAB5B0C1B2AE01900782C0C /* CusAttentionViewController.m in Sources */,
 				9D42E9431B27DAF200C85400 /* BuyerCameraViewController.m in Sources */,
 				0AAB5BAA1B2AE01900782C0C /* OrderDetailData.m in Sources */,
+				0AD940D61BFEFCFE0096D6E8 /* SearchDetailsViewController.m in Sources */,
 				0AAB59D91B28193500782C0C /* BuyerPaymentViewController.m in Sources */,
 				0AAB5BAE1B2AE01900782C0C /* CusCartViewController.m in Sources */,
 				9D550FB81BF9760B00D916CB /* CusMarketViewController.m in Sources */,
@@ -2756,6 +2798,7 @@
 				0A5305181B12C05300997BF4 /* UIImage+GIF.m in Sources */,
 				9D42E9711B27DAF200C85400 /* BuyerHomeViewController.m in Sources */,
 				9D6B22781BF9B37E00AC32BF /* CusMoreBrandViewController.m in Sources */,
+				0AD940E91BFF1A3C0096D6E8 /* CusShoppingTableViewCell.m in Sources */,
 				0DB5AF2D1ACCDE5A000FE9C8 /* BaseModel.m in Sources */,
 				0AAB5B131B2AE01900782C0C /* FansModel.m in Sources */,
 				9D42E96C1B27DAF200C85400 /* Orders.m in Sources */,
@@ -2789,6 +2832,7 @@
 				9DF36CD91B0039A700637206 /* AFSecurityPolicy.m in Sources */,
 				0AAB5BB51B2AE01900782C0C /* HomeData.m in Sources */,
 				0A5305161B12C05300997BF4 /* SDWebImagePrefetcher.m in Sources */,
+				0AD940DA1BFF0A0F0096D6E8 /* CusBueryTableViewCell.m in Sources */,
 				9D42E95C1B27DAF200C85400 /* BuyerInComeDetailsViewController.m in Sources */,
 				9D5FD0D01ADFA0BF00FE9A78 /* LoginAndRegisterViewController.m in Sources */,
 				0AAB5B051B2AE01900782C0C /* ChangePasswordViewController.m in Sources */,
@@ -2831,6 +2875,7 @@
 				0AAB5B2C1B2AE01900782C0C /* CircleTableView.m in Sources */,
 				9D42E96E1B27DAF200C85400 /* Product.m in Sources */,
 				9DDB17231AE7741F0014D8B2 /* MJRefreshFooterView.m in Sources */,
+				0AD940DF1BFF17480096D6E8 /* CusBrandTableViewCell.m in Sources */,
 				0A53051A1B12C05300997BF4 /* UIImage+WebP.m in Sources */,
 				9D6B22791BF9B37E00AC32BF /* MoreBrandTableView.m in Sources */,
 				0AAB5B2E1B2AE01900782C0C /* CusCircleDetailViewController.m in Sources */,
@@ -2849,6 +2894,7 @@
 				0AAB5B1F1B2AE01900782C0C /* NearItems.m in Sources */,
 				9D42E9671B27DAF200C85400 /* BuyerSellViewController.m in Sources */,
 				9D42E9661B27DAF200C85400 /* BueryStoreDetailsController.m in Sources */,
+				0AD940E41BFF187D0096D6E8 /* CusShopTableViewCell.m in Sources */,
 				0AAB5B341B2AE01900782C0C /* CircleDetailUser.m in Sources */,
 				0AAB5B291B2AE01900782C0C /* ProDetailSize.m in Sources */,
 				0AAB5B241B2AE01900782C0C /* CusProDetailViewController.m in Sources */,
