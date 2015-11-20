@@ -10,6 +10,7 @@
 #import "ListView.h"
 #import "MessageTableViewCell.h"
 #import "MakeSureOrderViewController.h"
+#import "MakeSureVipOrderViewController.h"
 #import "DWTagList.h"
 #import "ProDetailSize.h"
 #import "CusCircleDetailViewController.h"
@@ -949,7 +950,9 @@
         [alert show];
         return;
     }
-    MakeSureOrderViewController *VC = [[MakeSureOrderViewController alloc] init];
+//    MakeSureOrderViewController *VC = [[MakeSureOrderViewController alloc] init];
+    MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
+
     VC.detailData = self.detailData;
     VC.buyNum = buyNumLab.text;
     VC.sizeId = self.sizeId;

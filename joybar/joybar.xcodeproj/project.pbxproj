@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A11ABB21BFD65A700E46FCD /* MakeSureVipOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A11ABB11BFD65A700E46FCD /* MakeSureVipOrderViewController.m */; };
+		0A11ABB61BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A11ABB41BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.m */; };
+		0A11ABB71BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A11ABB51BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.xib */; };
+		0A11ABBB1BFDB31B00E46FCD /* ChooesVipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A11ABB91BFDB31B00E46FCD /* ChooesVipViewController.m */; };
+		0A11ABBC1BFDB31B00E46FCD /* ChooesVipViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A11ABBA1BFDB31B00E46FCD /* ChooesVipViewController.xib */; };
+		0A11ABC01BFDC71F00E46FCD /* HistorySearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A11ABBF1BFDC71F00E46FCD /* HistorySearchViewController.m */; };
+		0A11ABC51BFEECA300E46FCD /* CusTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A11ABC41BFEECA300E46FCD /* CusTabBarViewController.m */; };
 		0A207E871B32CCD7000C79C5 /* FeSlideFilterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A207E861B32CCD7000C79C5 /* FeSlideFilterView.m */; };
 		0A207E8A1B33B7B4000C79C5 /* CIFilter+LUT.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A207E891B33B7B4000C79C5 /* CIFilter+LUT.m */; };
 		0A207E921B33EA22000C79C5 /* BuyerTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A207E901B33EA22000C79C5 /* BuyerTagViewController.m */; };
@@ -34,6 +41,8 @@
 		0A53051D1B12C05300997BF4 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A53050D1B12C05300997BF4 /* UIView+WebCacheOperation.m */; };
 		0A720ECC1B253EC800C2D0E1 /* SocketManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A720ECB1B253EC800C2D0E1 /* SocketManager.m */; };
 		0A79B9251B16C1D1003362DD /* NSData+AES256.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A79B9241B16C1D1003362DD /* NSData+AES256.m */; };
+		0A86666C1BF57C700070CBDB /* BindVipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A86666A1BF57C700070CBDB /* BindVipViewController.m */; };
+		0A86666D1BF57C700070CBDB /* BindVipViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A86666B1BF57C700070CBDB /* BindVipViewController.xib */; };
 		0A8975391B462D7000F3A3F6 /* BuyerAddCircleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A8975371B462D7000F3A3F6 /* BuyerAddCircleViewController.m */; };
 		0A89753A1B462D7000F3A3F6 /* BuyerAddCircleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8975381B462D7000F3A3F6 /* BuyerAddCircleViewController.xib */; };
 		0A90EAD91B1D408000F789E2 /* LLSimpleCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A90EAD61B1D408000F789E2 /* LLSimpleCamera.m */; };
@@ -47,7 +56,6 @@
 		0AAB59DC1B283B9A00782C0C /* BuyerPaymentDtsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59DB1B283B9A00782C0C /* BuyerPaymentDtsViewController.m */; };
 		0AAB59E01B2850D800782C0C /* BuyerPaymentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59DE1B2850D800782C0C /* BuyerPaymentTableViewCell.m */; };
 		0AAB59E11B2850D800782C0C /* BuyerPaymentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB59DF1B2850D800782C0C /* BuyerPaymentTableViewCell.xib */; };
-		0AAB5B041B2AE01900782C0C /* CusTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59E41B2AE01800782C0C /* CusTabBarViewController.m */; };
 		0AAB5B051B2AE01900782C0C /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59E71B2AE01800782C0C /* ChangePasswordViewController.m */; };
 		0AAB5B061B2AE01900782C0C /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AAB59E81B2AE01800782C0C /* ChangePasswordViewController.xib */; };
 		0AAB5B071B2AE01900782C0C /* CusMineFirstTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB59EA1B2AE01800782C0C /* CusMineFirstTableViewCell.m */; };
@@ -410,6 +418,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A11ABB01BFD65A700E46FCD /* MakeSureVipOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MakeSureVipOrderViewController.h; sourceTree = "<group>"; };
+		0A11ABB11BFD65A700E46FCD /* MakeSureVipOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MakeSureVipOrderViewController.m; sourceTree = "<group>"; };
+		0A11ABB31BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusVipOrderProTableViewCell.h; sourceTree = "<group>"; };
+		0A11ABB41BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusVipOrderProTableViewCell.m; sourceTree = "<group>"; };
+		0A11ABB51BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusVipOrderProTableViewCell.xib; sourceTree = "<group>"; };
+		0A11ABB81BFDB31B00E46FCD /* ChooesVipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooesVipViewController.h; sourceTree = "<group>"; };
+		0A11ABB91BFDB31B00E46FCD /* ChooesVipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooesVipViewController.m; sourceTree = "<group>"; };
+		0A11ABBA1BFDB31B00E46FCD /* ChooesVipViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChooesVipViewController.xib; sourceTree = "<group>"; };
+		0A11ABBE1BFDC71F00E46FCD /* HistorySearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistorySearchViewController.h; sourceTree = "<group>"; };
+		0A11ABBF1BFDC71F00E46FCD /* HistorySearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistorySearchViewController.m; sourceTree = "<group>"; };
+		0A11ABC41BFEECA300E46FCD /* CusTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusTabBarViewController.m; sourceTree = "<group>"; };
+		0A11ABC61BFEECCE00E46FCD /* CusTabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CusTabBarViewController.h; sourceTree = "<group>"; };
 		0A207E851B32CCD7000C79C5 /* FeSlideFilterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeSlideFilterView.h; sourceTree = "<group>"; };
 		0A207E861B32CCD7000C79C5 /* FeSlideFilterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeSlideFilterView.m; sourceTree = "<group>"; };
 		0A207E881B33B7B4000C79C5 /* CIFilter+LUT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CIFilter+LUT.h"; sourceTree = "<group>"; };
@@ -463,6 +483,9 @@
 		0A720ECB1B253EC800C2D0E1 /* SocketManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocketManager.m; sourceTree = "<group>"; };
 		0A79B9231B16C1D1003362DD /* NSData+AES256.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES256.h"; sourceTree = "<group>"; };
 		0A79B9241B16C1D1003362DD /* NSData+AES256.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES256.m"; sourceTree = "<group>"; };
+		0A8666691BF57C700070CBDB /* BindVipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindVipViewController.h; sourceTree = "<group>"; };
+		0A86666A1BF57C700070CBDB /* BindVipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindVipViewController.m; sourceTree = "<group>"; };
+		0A86666B1BF57C700070CBDB /* BindVipViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BindVipViewController.xib; sourceTree = "<group>"; };
 		0A8975361B462D7000F3A3F6 /* BuyerAddCircleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerAddCircleViewController.h; sourceTree = "<group>"; };
 		0A8975371B462D7000F3A3F6 /* BuyerAddCircleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerAddCircleViewController.m; sourceTree = "<group>"; };
 		0A8975381B462D7000F3A3F6 /* BuyerAddCircleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuyerAddCircleViewController.xib; sourceTree = "<group>"; };
@@ -487,8 +510,6 @@
 		0AAB59DD1B2850D800782C0C /* BuyerPaymentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyerPaymentTableViewCell.h; sourceTree = "<group>"; };
 		0AAB59DE1B2850D800782C0C /* BuyerPaymentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyerPaymentTableViewCell.m; sourceTree = "<group>"; };
 		0AAB59DF1B2850D800782C0C /* BuyerPaymentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BuyerPaymentTableViewCell.xib; sourceTree = "<group>"; };
-		0AAB59E31B2AE01800782C0C /* CusTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusTabBarViewController.h; sourceTree = "<group>"; };
-		0AAB59E41B2AE01800782C0C /* CusTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusTabBarViewController.m; sourceTree = "<group>"; };
 		0AAB59E61B2AE01800782C0C /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
 		0AAB59E71B2AE01800782C0C /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
 		0AAB59E81B2AE01800782C0C /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
@@ -1106,6 +1127,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A11ABBD1BFDC6AE00E46FCD /* 搜索 */ = {
+			isa = PBXGroup;
+			children = (
+				0A11ABBE1BFDC71F00E46FCD /* HistorySearchViewController.h */,
+				0A11ABBF1BFDC71F00E46FCD /* HistorySearchViewController.m */,
+			);
+			path = "搜索";
+			sourceTree = "<group>";
+		};
 		0A207E841B32CCD7000C79C5 /* FeSlideFilter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1155,6 +1185,19 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
+		0A8666681BF57C230070CBDB /* 会员卡 */ = {
+			isa = PBXGroup;
+			children = (
+				0A8666691BF57C700070CBDB /* BindVipViewController.h */,
+				0A86666A1BF57C700070CBDB /* BindVipViewController.m */,
+				0A86666B1BF57C700070CBDB /* BindVipViewController.xib */,
+				0A11ABB81BFDB31B00E46FCD /* ChooesVipViewController.h */,
+				0A11ABB91BFDB31B00E46FCD /* ChooesVipViewController.m */,
+				0A11ABBA1BFDB31B00E46FCD /* ChooesVipViewController.xib */,
+			);
+			path = "会员卡";
+			sourceTree = "<group>";
+		};
 		0A90EAD41B1D408000F789E2 /* LLSimpleCamera */ = {
 			isa = PBXGroup;
 			children = (
@@ -1196,8 +1239,8 @@
 				9D6B227A1BF9B3F500AC32BF /* 品牌详情 */,
 				9D6B22701BF9B31300AC32BF /* 更多品牌 */,
 				9D550FB51BF9756300D916CB /* 认证买手/商场主页 */,
-				0AAB59E31B2AE01800782C0C /* CusTabBarViewController.h */,
-				0AAB59E41B2AE01800782C0C /* CusTabBarViewController.m */,
+				0A11ABBD1BFDC6AE00E46FCD /* 搜索 */,
+				0A8666681BF57C230070CBDB /* 会员卡 */,
 				0AAB59E51B2AE01800782C0C /* 个人中心 */,
 				0AAB59F41B2AE01800782C0C /* 关注,粉丝,收藏 */,
 				0AAB5A061B2AE01800782C0C /* 发现 */,
@@ -1314,10 +1357,15 @@
 				0AAB5A271B2AE01800782C0C /* CusOrderProTableViewCell.xib */,
 				0AAB5A281B2AE01800782C0C /* CusProDetailViewController.h */,
 				0AAB5A291B2AE01800782C0C /* CusProDetailViewController.m */,
+				0A11ABB31BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.h */,
+				0A11ABB41BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.m */,
+				0A11ABB51BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.xib */,
 				0AAB5A2A1B2AE01800782C0C /* DWTagList.h */,
 				0AAB5A2B1B2AE01800782C0C /* DWTagList.m */,
 				0AAB5A2C1B2AE01800782C0C /* MakeSureOrderViewController.h */,
 				0AAB5A2D1B2AE01800782C0C /* MakeSureOrderViewController.m */,
+				0A11ABB01BFD65A700E46FCD /* MakeSureVipOrderViewController.h */,
+				0A11ABB11BFD65A700E46FCD /* MakeSureVipOrderViewController.m */,
 				0AAB5A351B2AE01800782C0C /* PayOrderViewController.h */,
 				0AAB5A361B2AE01800782C0C /* PayOrderViewController.m */,
 				0AAB5A371B2AE01800782C0C /* PayOrderViewController.xib */,
@@ -2441,6 +2489,7 @@
 				9DADD0C81B8598C1004475C2 /* UMShareEditViewControlleriPad.xib in Resources */,
 				0AAB5B891B2AE01900782C0C /* biaoqing059.png in Resources */,
 				9DADD0CB1B8598C1004475C2 /* UMSShareListController.xib in Resources */,
+				0A86666D1BF57C700070CBDB /* BindVipViewController.xib in Resources */,
 				9DADD0CC1B8598C1004475C2 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				0AAB5B5A1B2AE01900782C0C /* biaoqing012.png in Resources */,
 				0AAB5B491B2AE01900782C0C /* MessageSelfBg@2x.png in Resources */,
@@ -2495,6 +2544,7 @@
 				0AAB5B851B2AE01900782C0C /* biaoqing055.png in Resources */,
 				0AAB5BA81B2AE01900782C0C /* CusOrderListTableViewCell.xib in Resources */,
 				0AAB5BA11B2AE01900782C0C /* biaoqing083.png in Resources */,
+				0A11ABB71BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.xib in Resources */,
 				9D42E9521B27DAF200C85400 /* BuyerCircleTableViewCell.xib in Resources */,
 				0AAB5B761B2AE01900782C0C /* biaoqing040.png in Resources */,
 				9D42E9701B27DAF200C85400 /* BuyerHomeTableViewCell.xib in Resources */,
@@ -2554,6 +2604,7 @@
 				0AAB5B681B2AE01900782C0C /* biaoqing026.png in Resources */,
 				0AAB5B6B1B2AE01900782C0C /* biaoqing029.png in Resources */,
 				0AAB5B511B2AE01900782C0C /* biaoqing003.png in Resources */,
+				0A11ABBC1BFDB31B00E46FCD /* ChooesVipViewController.xib in Resources */,
 				0AAB5B6F1B2AE01900782C0C /* biaoqing033.png in Resources */,
 				0AAB5B2B1B2AE01900782C0C /* PayOrderViewController.xib in Resources */,
 				0AAB5B8C1B2AE01900782C0C /* biaoqing062.png in Resources */,
@@ -2636,6 +2687,7 @@
 				0AA2B9671B0B5A5600CE70EF /* UILabel+FlickerNumber.m in Sources */,
 				0A53050E1B12C05300997BF4 /* MKAnnotationView+WebCache.m in Sources */,
 				0A207E871B32CCD7000C79C5 /* FeSlideFilterView.m in Sources */,
+				0A11ABC01BFDC71F00E46FCD /* HistorySearchViewController.m in Sources */,
 				9DDD46471B2E7E31000E0FD3 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				60121A511AF22928002C1428 /* AppDelegate.m in Sources */,
 				0DB5AF2F1ACCDE5A000FE9C8 /* BaseTabBarController.m in Sources */,
@@ -2651,6 +2703,7 @@
 				0DB5B0211ACCDEE6000FE9C8 /* UIView+Additions.m in Sources */,
 				9D42E95A1B27DAF200C85400 /* BuyerComeOutViewController.m in Sources */,
 				0AAB5B311B2AE01900782C0C /* CusMyCircleTableViewCell.m in Sources */,
+				0A11ABB21BFD65A700E46FCD /* MakeSureVipOrderViewController.m in Sources */,
 				9D5D2E4A1B5F9E3C00DBFDC3 /* JSONKit.m in Sources */,
 				0AAB5B0F1B2AE01900782C0C /* CusFansTableViewCell.m in Sources */,
 				0A4ADAF31B4CBE6A00B5AC00 /* Tag.m in Sources */,
@@ -2662,7 +2715,6 @@
 				9D42E9631B27DAF200C85400 /* BuyerTicketViewController.m in Sources */,
 				9D467EF81B05C4FA005CAA36 /* MJType.m in Sources */,
 				0A90EAE71B1D485C00F789E2 /* UIImage+Crop.m in Sources */,
-				0AAB5B041B2AE01900782C0C /* CusTabBarViewController.m in Sources */,
 				0AAB5B141B2AE01900782C0C /* CusFindSearchViewController.m in Sources */,
 				0DB5AF2E1ACCDE5A000FE9C8 /* BaseNavigationController.m in Sources */,
 				9D42E9691B27DAF200C85400 /* BuyerStoreTableViewCell.m in Sources */,
@@ -2674,6 +2726,7 @@
 				0AAB59E01B2850D800782C0C /* BuyerPaymentTableViewCell.m in Sources */,
 				9D9AF7BB1B3A4DAB000FB33B /* CusHomeStoreHeader.m in Sources */,
 				0AAB5B2D1B2AE01900782C0C /* CircleTableViewCell.m in Sources */,
+				0A86666C1BF57C700070CBDB /* BindVipViewController.m in Sources */,
 				0A5305111B12C05300997BF4 /* SDWebImageCompat.m in Sources */,
 				0AAB5B281B2AE01900782C0C /* ProDetailPromotion.m in Sources */,
 				0AAB5BAC1B2AE01900782C0C /* OrderListItem.m in Sources */,
@@ -2688,6 +2741,7 @@
 				9DF36CE31B0039BC00637206 /* HttpTool.m in Sources */,
 				9D42E9451B27DAF200C85400 /* BuyerOpenMessageViewController.m in Sources */,
 				0A720ECC1B253EC800C2D0E1 /* SocketManager.m in Sources */,
+				0A11ABB61BFD6ECB00E46FCD /* CusVipOrderProTableViewCell.m in Sources */,
 				0AAB5BB71B2AE01900782C0C /* HomeProduct.m in Sources */,
 				9D2731EC1BFEF158005B6FCD /* LocationViewController.m in Sources */,
 				0A5305181B12C05300997BF4 /* UIImage+GIF.m in Sources */,
@@ -2781,6 +2835,7 @@
 				9DADD0911B857669004475C2 /* AgreementViewController.m in Sources */,
 				9D6B22771BF9B37E00AC32BF /* MoreBrandTableViewCell.m in Sources */,
 				0DB5AF311ACCDE5A000FE9C8 /* BaseViewController.m in Sources */,
+				0A11ABBB1BFDB31B00E46FCD /* ChooesVipViewController.m in Sources */,
 				9D9AF73C1B32E365000FB33B /* payRequsestHandler.mm in Sources */,
 				0AAB5B1F1B2AE01900782C0C /* NearItems.m in Sources */,
 				9D42E9671B27DAF200C85400 /* BuyerSellViewController.m in Sources */,
@@ -2795,6 +2850,7 @@
 				0A79B9251B16C1D1003362DD /* NSData+AES256.m in Sources */,
 				9D42E9581B27DAF200C85400 /* BuyerComeInDscViewController.m in Sources */,
 				0AAB5B3A1B2AE01900782C0C /* CusDynTableViewCell.m in Sources */,
+				0A11ABC51BFEECA300E46FCD /* CusTabBarViewController.m in Sources */,
 				9DF36CDA1B0039A700637206 /* AFURLConnectionOperation.m in Sources */,
 				9DF36CD71B0039A700637206 /* AFHTTPSessionManager.m in Sources */,
 				0AAB5BB21B2AE01900782C0C /* CusHomeViewController.m in Sources */,
@@ -2915,7 +2971,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Xie (M69JRM3X94)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2936,7 +2992,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joybar.popo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "af96dee7-ba3a-412b-914a-8309d29d8b3f";
+				PROVISIONING_PROFILE = "ef3ad771-ac3a-4f84-9ce9-1d44e86f2fa3";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
@@ -2948,7 +3004,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Xie (M69JRM3X94)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2969,7 +3025,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joybar.popo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "af96dee7-ba3a-412b-914a-8309d29d8b3f";
+				PROVISIONING_PROFILE = "ef3ad771-ac3a-4f84-9ce9-1d44e86f2fa3";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				WRAPPER_EXTENSION = app;
