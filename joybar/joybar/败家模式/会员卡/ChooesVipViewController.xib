@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChooesVipViewController">
+            <connections>
+                <outlet property="cusTableView" destination="KTf-ob-7Aa" id="2ak-Hu-UNH"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y7Y-Dz-gip">
+                    <rect key="frame" x="0.0" y="519" width="320" height="49"/>
+                    <animations/>
+                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="49" id="tJ4-RV-v8F"/>
+                    </constraints>
+                    <state key="normal" title="确定">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="KTf-ob-7Aa">
+                    <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                    <animations/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="QJn-dD-2wb"/>
+                        <outlet property="delegate" destination="-1" id="exv-TU-ARG"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="y7Y-Dz-gip" secondAttribute="trailing" id="Bi8-BS-mXy"/>
+                <constraint firstItem="KTf-ob-7Aa" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="KB8-a8-jso"/>
+                <constraint firstItem="KTf-ob-7Aa" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="V4O-q5-Pic"/>
+                <constraint firstAttribute="bottom" secondItem="y7Y-Dz-gip" secondAttribute="bottom" id="c7r-Hb-egv"/>
+                <constraint firstItem="y7Y-Dz-gip" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="cu3-c5-A7v"/>
+                <constraint firstAttribute="trailing" secondItem="KTf-ob-7Aa" secondAttribute="trailing" id="iZU-DT-cpf"/>
+                <constraint firstItem="y7Y-Dz-gip" firstAttribute="top" secondItem="KTf-ob-7Aa" secondAttribute="bottom" id="shA-4X-x5B"/>
+            </constraints>
+            <point key="canvasLocation" x="410" y="162"/>
+        </view>
+    </objects>
+</document>

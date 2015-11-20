@@ -95,12 +95,12 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    BOOL isShow = [self.detailData.Promotion.IsShow boolValue];
-    if (isShow)
-    {
+//    BOOL isShow = [self.detailData.Promotion.IsShow boolValue];
+//    if (isShow)
+//    {
         return 4;
-    }
-    return 3;
+//    }
+//    return 3;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -116,10 +116,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    BOOL isShow = [self.detailData.Promotion.IsShow boolValue];
-    
-    if (isShow)
-    {
+//    BOOL isShow = [self.detailData.Promotion.IsShow boolValue];
+//    
+//    if (isShow)
+//    {
         if (section==0)
         {
             return 3;
@@ -129,24 +129,24 @@
             return 1;
         }
 
-    }
-    else
-    {
-        if (section==0)
-        {
-            return 3;
-        }
-        else if (section==3)
-        {
-            return 0;
-        }
-        else
-        {
-            return 1;
-        }
-        
-  
-    }
+//    }
+//    else
+//    {
+//        if (section==0)
+//        {
+//            return 3;
+//        }
+//        else if (section==3)
+//        {
+//            return 0;
+//        }
+//        else
+//        {
+//            return 1;
+//        }
+//        
+//  
+//    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

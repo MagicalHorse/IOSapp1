@@ -110,6 +110,7 @@
         [self showHudFailed:@"请输入正确的手机号码"];
         return;
     }
+    
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
     [dic setObject:@"1" forKey:@"type"];
     [self hudShow:@"正在获取验证码..."];
