@@ -19,6 +19,7 @@
 #import "BannerViewController.h"
 #import "CusZProDetailViewController.h"
 #import "CusProDetailViewController.h"
+#import "LocationViewController.h"
 #warning 测试------------------------------------------
 #import "CusRProDetailViewController.h"
 @interface CusHomeViewController ()<UIScrollViewDelegate,YRADScrollViewDataSource,YRADScrollViewDelegate>
@@ -38,7 +39,7 @@
     [super viewDidLoad];
     _pageNum = 1;
     [self addNavBarViewAndTitle:@"打烊购"];
-    
+    self.retBtn.hidden = YES;
     [self initWithTableView];
     
     headerScroll = [[YRADScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
@@ -46,6 +47,20 @@
     headerScroll.delegate = self;
     //    adScrollView.cycleEnabled = NO;//如果设置为NO，则关闭循环滚动功能。
     [headerView addSubview:headerScroll];
+    
+    
+    UIButton *locationBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    locationBtn.frame = CGRectMake(0, 15, 60, 50);
+    [locationBtn setTitle:@"全国" forState:(UIControlStateNormal)];
+    [locationBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+    locationBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [locationBtn addTarget:self action:@selector(didSelectCity) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.navView addSubview:locationBtn];
+    
+    UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(locationBtn.right, 15, 15, 15)];
+    locationImageView.image = [UIImage imageNamed:@""];
+    [self.navView addSubview:locationImageView];
+    
 
     // 搜索按钮
     UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
@@ -133,6 +148,13 @@
 //    CusMarketViewController *VC = [[CusMarketViewController alloc] init];
     [self.navigationController pushViewController:VC animated:YES];
     
+}
+
+//定位城市
+-(void)didSelectCity
+{
+    LocationViewController *VC = [[LocationViewController alloc] init];
+    [self.navigationController pushViewController: VC animated:YES];
 }
 
 @end
