@@ -7,7 +7,7 @@
 //
 
 #import "CusFindSearchViewController.h"
-#import "CusTagViewController.h"
+#import "CusBrandDetailViewController.h"
 #import "CusHomeStoreViewController.h"
 @interface CusFindSearchViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate>
 
@@ -226,7 +226,7 @@
     NSDictionary *dic = [self.searchArr objectAtIndex:indexPath.row];
     if (self.selectBtnIndex==0)
     {
-        CusTagViewController *VC = [[CusTagViewController alloc] init];
+        CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
         VC.BrandId = [dic objectForKey:@"Id"];
         VC.BrandName = [dic objectForKey:@"Name"];
         [self.navigationController pushViewController:VC animated:YES];

@@ -8,8 +8,10 @@
 
 #import "HomeTableView.h"
 #import "CusHomeTableViewCell.h"
-#import "CusBuyerDetailViewController.h"
+#import "CusRProDetailViewController.h"
 #import "HomeProduct.h"
+#import "CusZProDetailViewController.h"
+#import "CusMarketViewController.h"
 @implementation HomeTableView
 
 -(instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
@@ -19,6 +21,8 @@
     {
         self.delegate = self;
         self.dataSource = self;
+        self.separatorStyle = UITableViewCellSelectionStyleNone;
+
     }
     return self;
 }
@@ -26,57 +30,59 @@
 #pragma mark tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArr.count;
+    return 3;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *iden = @"cell";
     CusHomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-    if (self.dataArr.count>0)
+    if (cell==nil)
     {
-        if (cell==nil)
-        {
-            cell = [[CusHomeTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-        }
+        cell = [[CusHomeTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
-     cell.backgroundColor = [UIColor clearColor];
+    cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     for (UIView *view in cell.contentView.subviews)
     {
         [view removeFromSuperview];
     }
-    if (self.dataArr.count>0)
-    {
-        HomeProduct *homePro = [self.dataArr objectAtIndex:indexPath.row];
-        cell.homePro = homePro;
-        [cell setData:nil];
-    }
+    
+    [cell setData:nil andIndexPath:indexPath];
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.dataArr.count>0)
+    
+    if (indexPath.row==0)
     {
-        HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
-        if ([pro.Promotion.IsShow boolValue])
-        {
-            return kScreenWidth+250;
-        }
+        return 100;
     }
-    return kScreenWidth+190;
+    
+    //商场
+//    return (kScreenWidth-20)/3-10+150;
+    //认证买手
+    return (kScreenWidth-20)/3-10+190;
+
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.dataArr.count==0)
-    {
-        return;
-    }
-    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
-    HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
-    VC.productId = pro.ProductId;
+    CusMarketViewController *VC = [[CusMarketViewController alloc] init];
     [self.viewController.navigationController pushViewController:VC animated:YES];
+//    if (self.dataArr.count==0)
+//    {
+//        return;
+//    }
+//    CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+//    HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
+//    VC.productId = pro.ProductId;
+//    [self.viewController.navigationController pushViewController:VC animated:YES];
+    
+//    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+//    HomeProduct *pro = [self.dataArr objectAtIndex:indexPath.row];
+//    VC.productId = pro.ProductId;
+//    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 @end

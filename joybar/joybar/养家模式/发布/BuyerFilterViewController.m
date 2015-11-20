@@ -379,9 +379,7 @@
     UIAlertView *alert= [[UIAlertView alloc]initWithTitle:@"删除标签" message:@"确定要删除标签吗?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alert.tag = pan.view.tag;
     [alert show];
-    NSLog(@"%ld", pan.view.tag);
 }
-
 
 -(void)panTagImageView:(UIPanGestureRecognizer *)pan
 {

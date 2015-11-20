@@ -8,6 +8,6 @@
 
 #import "BaseViewController.h"
 
-@interface CusFindViewController : BaseViewController
+@interface CusMoreBrandViewController : BaseViewController
 
 @end

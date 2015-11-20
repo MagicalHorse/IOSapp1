@@ -11,7 +11,7 @@
 #import "CusHomeViewController.h"
 #import "CusCircleViewController.h"
 #import "CusCartViewController.h"
-#import "CusFindViewController.h"
+#import "CusMoreBrandViewController.h"
 #import "CusMineViewController.h"
 #import "LoginAndRegisterViewController.h"
 #import "CusMessageViewController.h"
@@ -33,7 +33,7 @@
 @property (strong, nonatomic) CusHomeViewController *homeView;
 @property (strong, nonatomic) CusCircleViewController *fastView;
 @property (strong, nonatomic) CusMessageViewController *messageView;
-@property (strong, nonatomic) CusFindViewController *fineView;
+@property (strong, nonatomic) CusMoreBrandViewController *fineView;
 @property (strong, nonatomic) CusMineViewController *myAccountView;
 
 

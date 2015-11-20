@@ -203,6 +203,7 @@ static char MJRefreshFooterViewKey;
 - (void)setFooterHidden:(BOOL)hidden
 {
     self.footer.hidden = hidden;
+    
 }
 
 - (BOOL)isFooterHidden

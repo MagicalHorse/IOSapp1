@@ -17,7 +17,7 @@
 {
     self = [super initWithFrame:frame style:style];
     if (self) {
-       
+        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             //        //调用初始化下拉刷新子视图
             [self setupRefresh];
@@ -36,14 +36,14 @@
  */
 - (void)setupRefresh
 {
-    
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
     [self addHeaderWithTarget:self action:@selector(headerRereshing)];
-    
+
+    [self addFooterWithTarget:self action:@selector(footerRereshing)];
     // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
-    if (self.isShowFooterView) {
-        [self addFooterWithTarget:self action:@selector(footerRereshing)];
-    }
+//    if (self.isShowFooterView) {
+//        [self addFooterWithTarget:self action:@selector(footerRereshing)];
+//    }
     //    [self headerBeginRefreshing];
     
     // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
@@ -78,26 +78,12 @@
 
 -(void)hiddenFooter:(BOOL)hidden
 {
-    if (hidden)
-    {
-        self.footerHidden = YES;
-    }
-    else
-    {
-        self.footerHidden = NO;
-    }
+    self.footerHidden = hidden;
 }
 
 -(void)hiddenHeader:(BOOL)hidden
 {
-    if (hidden)
-    {
-        self.headerHidden = YES;
-    }
-    else
-    {
-        self.headerHidden = NO;
-    }
+    self.headerHidden = hidden;
 }
 
 // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
@@ -110,6 +96,7 @@
 // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
 -(void)footerEndRefresh
 {
+    
 }
 
 #pragma mark - UITableView Delegate

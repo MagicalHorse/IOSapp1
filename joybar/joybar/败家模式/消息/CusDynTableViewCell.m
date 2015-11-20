@@ -9,7 +9,7 @@
 #import "CusDynTableViewCell.h"
 #import "CusHomeStoreViewController.h"
 #import "CusCircleDetailViewController.h"
-#import "CusBuyerDetailViewController.h"
+#import "CusRProDetailViewController.h"
 @implementation CusDynTableViewCell
 {
     NSArray *dataArr;
@@ -85,7 +85,7 @@
     }
     else
     {
-        CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
         VC.productId = tempId;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }

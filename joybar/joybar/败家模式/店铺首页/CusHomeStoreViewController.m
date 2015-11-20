@@ -17,7 +17,7 @@
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "CusHomeStoreHeader.h"
 #import "CusChatViewController.h"
-#import "CusBuyerDetailViewController.h"
+#import "CusRProDetailViewController.h"
 #import "CusAttentionViewController.h"
 #define CELL_COUNT 30
 #define HEADER_IDENTIFIER @"WaterfallHeader"
@@ -454,9 +454,7 @@
         line1.backgroundColor = kCustomColor(239, 239, 239);
         [contentView addSubview:line1];
 
-    }
-    
-    
+    }    
 }
 
 - (void)initializeUserInterface
@@ -467,6 +465,7 @@
     layout.minimumInteritemSpacing = 5;
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.alwaysBounceVertical = YES; //垂直方向遇到边框是否总是反弹
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     [_collectionView registerClass:[CusHomeStoreCollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
@@ -507,7 +506,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CusBuyerDetailViewController *VC = [[CusBuyerDetailViewController alloc] init];
+    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
     VC.productId = [[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"Id"];
     [self.navigationController pushViewController: VC animated:YES];
 }

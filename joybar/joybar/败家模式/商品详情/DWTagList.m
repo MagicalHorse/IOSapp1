@@ -128,7 +128,7 @@
     {
         if (button==btn)
         {
-            button.backgroundColor = [UIColor orangeColor];
+            button.backgroundColor = [UIColor redColor];
             [button setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
             if (self.clickBtnBlock)
             {

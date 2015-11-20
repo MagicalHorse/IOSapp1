@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "HomeProduct.h"
 #import "UMSocial.h"
+#import "MZTimerLabel.h"
 
-@interface CusHomeTableViewCell : UITableViewCell<UMSocialUIDelegate>
+@interface CusHomeTableViewCell : UITableViewCell<UMSocialUIDelegate,MZTimerLabelDelegate>
 
--(void)setData:(NSDictionary *)dic;
+-(void)setData:(NSDictionary *)dic andIndexPath:(NSIndexPath *)indexPath;
 
 @property (nonatomic ,strong) HomeProduct *homePro;
 

@@ -27,6 +27,7 @@
     finishBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [finishBtn addTarget:self action:@selector(didClickFinishBtn) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:finishBtn];
+
 }
 
 -(void)didClickFinishBtn
@@ -47,8 +48,6 @@
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
-            
-            
         }
 
     } failure:^(NSError *error) {
