@@ -46,6 +46,16 @@
     }
     return self;
 }
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    NSLog(@"%@",self.userId);
+    
+    [self getData];
+
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -54,7 +64,6 @@
     self.view.backgroundColor = kCustomColor(245, 246, 247);
 //    [self addNavBarViewAndTitle:self.userName];
     [self initializeUserInterface];
-    [self getData];
     // 2.集成刷新控件
     [self addHeader];
     [self addFooter];
@@ -276,7 +285,7 @@
     layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
     layout.minimumColumnSpacing = 5;
     layout.minimumInteritemSpacing = 5;
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-40) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-40) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.alwaysBounceVertical = YES; //垂直方向遇到边框是否总是反弹
     _collectionView.delegate = self;

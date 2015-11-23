@@ -27,11 +27,15 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.pageNum = 1;
-    [self addNavBarViewAndTitle:@"圈子"];
     self.myCircleTableView = [[MyCircleTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) style:(UITableViewStylePlain)];
     [self.view addSubview:self.myCircleTableView];
     

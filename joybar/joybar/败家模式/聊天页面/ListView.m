@@ -210,7 +210,7 @@
     {
         [self.sendMessageDelegate changeTableViewFrameWhileShow:NO];
     }
-    self.top = kScreenHeight-kbSize.height-49;
+    self.top = self.superview.height-kbSize.height-49;
 //    键盘将要显示，判断功能列表和表情列表是否展开
     [UIView animateWithDuration:0.25 animations:^{
         if (self.openFace && self.faceView != nil) {
@@ -242,6 +242,7 @@
         NSValue *keyboardValue = [not.userInfo valueForKey:@"UIKeyboardFrameEndUserInfoKey"];
         CGRect frame = [keyboardValue CGRectValue];
         float keyBoardHeight = frame.size.height;
+        
         self.top = kScreenHeight-keyBoardHeight-49;
         self.openKeyBoard = YES;
     }];
