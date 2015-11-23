@@ -109,8 +109,11 @@
     _messageView = [[CusMessageViewController alloc]init];
     _fineView = [[CusMoreBrandViewController alloc]init];
     _myAccountView = [[CusMineViewController alloc] init];
+    
+    _findView = [[FindShopGuideViewController alloc] init];
+    
     self.homeNav = [[BaseNavigationController alloc]initWithRootViewController:_homeView];
-    self.fastNav = [[BaseNavigationController alloc]initWithRootViewController:_fastView];
+    self.fastNav = [[BaseNavigationController alloc]initWithRootViewController:_findView];
     self.cartNav = [[BaseNavigationController alloc]initWithRootViewController:_messageView];
     self.findNav = [[BaseNavigationController alloc]initWithRootViewController:_fineView];
     self.myAccountNav = [[BaseNavigationController alloc]initWithRootViewController:_myAccountView];
