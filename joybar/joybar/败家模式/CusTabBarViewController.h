@@ -16,6 +16,8 @@
 #import "LoginAndRegisterViewController.h"
 #import "CusMessageViewController.h"
 #import "AppDelegate.h"
+#import "FindShopGuideViewController.h"
+
 
 @interface CusTabBarViewController : BaseTabBarController
 @property (nonatomic ,strong) UILabel *circleMarkLab;
@@ -35,6 +37,7 @@
 @property (strong, nonatomic) CusMessageViewController *messageView;
 @property (strong, nonatomic) CusMoreBrandViewController *fineView;
 @property (strong, nonatomic) CusMineViewController *myAccountView;
+@property (strong ,nonatomic) FindShopGuideViewController * findView;
 
 
 -(void)SelectedIndex:(NSUInteger)selectedIndex;
