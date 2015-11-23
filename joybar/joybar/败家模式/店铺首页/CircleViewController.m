@@ -123,7 +123,7 @@
     [bgView addSubview:notice];
     
     UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    btn.frame = CGRectMake(kScreenWidth-50, 20, 40, 40);
+    btn.frame = CGRectMake(kScreenWidth-50, 5, 40, 40);
     [btn setImage:[UIImage imageNamed:@"设置icon"] forState:(UIControlStateNormal)];
     [btn addTarget:self action:@selector(didClickToDetail) forControlEvents:(UIControlEventTouchUpInside)];
     [bgView addSubview:btn];

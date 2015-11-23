@@ -55,11 +55,8 @@ static NSString * const reuseIdentifier = @"Cell";
         [lab addGestureRecognizer:tap];
     }
     
-    
-    
-    
     HJCarouselViewLayout *layout  = [[HJCarouselViewLayout alloc] initWithAnim:HJCarouselAnimLinear];
-    layout.itemSize = CGSizeMake(250, 400);
+    layout.itemSize = CGSizeMake(kScreenWidth-70, kScreenHeight-168);
     layout.scrollDirection =UICollectionViewScrollDirectionHorizontal;
     
     _cusCollectView =[[UICollectionView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) collectionViewLayout:layout];

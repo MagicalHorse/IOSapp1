@@ -1298,9 +1298,9 @@
 		0AAB59E21B2AE01800782C0C /* 败家模式 */ = {
 			isa = PBXGroup;
 			children = (
-				9D2731FF1C02FF60005B6FCD /* 定位选择城市 */,
 				9D2731FC1C02FF1E005B6FCD /* CusTabBarViewController.m */,
 				9D2731FD1C02FF1E005B6FCD /* CusTabBarViewController.h */,
+				9D2731FF1C02FF60005B6FCD /* 定位选择城市 */,
 				0AF67B201C02AB3D00721B52 /* 找导购 */,
 				9D6B227A1BF9B3F500AC32BF /* 品牌详情 */,
 				9D6B22701BF9B31300AC32BF /* 更多品牌 */,
