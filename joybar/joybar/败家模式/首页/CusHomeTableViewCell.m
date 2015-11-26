@@ -163,9 +163,11 @@
         distanceLab.hidden = NO;
         describeLab.hidden = YES;
         
+        NSString *lat = [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
+        NSString *lon = [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
+        NSString *distance = [Public getDistanceWithLocation:[lat doubleValue] and:[lon doubleValue] and:[[dic objectForKey:@"Lat"] doubleValue] and:[[dic objectForKey:@"Lon"] doubleValue]];
+        distanceLab.text = [NSString stringWithFormat:@"%.1fKM",[distance floatValue]];
         localLab.text = [dic objectForKey:@"Location"];
-        
-        distanceLab.text = @"100KM";
     }
     
     

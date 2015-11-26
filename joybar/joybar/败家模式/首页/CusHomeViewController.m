@@ -158,8 +158,8 @@
     [dic setObject:[self.localtionDic objectForKey:@"Id"] forKey:@"CityId"];
     [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dic setObject:@"6" forKey:@"PageSize"];
-    [dic setObject:self.longitude forKey:@"longitude"];
-    [dic setObject:self.latitude forKey:@"latitude"];
+    [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"] forKey:@"longitude"];
+    [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"] forKey:@"latitude"];
     [HttpTool postWithURL:@"v3/index" params:dic success:^(id json) {
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
@@ -278,8 +278,14 @@
     
     NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
     
-    self.latitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
-    self.longitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
+
+    NSString *latitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
+    NSString *longitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:longitude forKey:@"longitude"];
+    [[NSUserDefaults standardUserDefaults] setObject:latitude forKey:@"latitude"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     
     MKReverseGeocoder *geocoder = [[MKReverseGeocoder alloc]initWithCoordinate:newLocation.coordinate];
     geocoder.delegate = self;
@@ -297,12 +303,12 @@
 
 }
 
-
 -(void)getCityInfo
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:self.longitude forKey:@"longitude"];
-    [dic setObject:self.latitude forKey:@"latitude"];
+    
+    [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"] forKey:@"longitude"];
+    [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"] forKey:@"latitude"];
     
     [HttpTool postWithURL:@"Common/GetCityByCoord" params:dic success:^(id json) {
         if ([[json objectForKey:@"isSuccessful"] boolValue])
