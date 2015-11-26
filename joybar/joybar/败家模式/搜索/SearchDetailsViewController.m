@@ -31,15 +31,7 @@
     int type;
 }
 
-//-(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-//{
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self)
-//    {
-//        self.hidesBottomBarWhenPushed = YES;
-//    }
-//    return self;
-//}
+
 -(NSMutableArray*)searchArr{
     if (_searchArr ==nil) {
         _searchArr =[[NSMutableArray alloc]init];
@@ -70,7 +62,6 @@
         [HUD showHudFailed:@"请输入搜索关键字"];
         return;
     }
-   [self hudShow:@"正在加载"];
     NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     NSString *url;
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
@@ -97,6 +88,7 @@
         url =@"v3/searchstore";
         [dict setObject:self.longitude forKey:@"longitude"];
         [dict setObject:self.latitude forKey:@"latitude"];
+       
     }
     
     [HttpTool postWithURL:url params:dict  success:^(id json) {
@@ -177,11 +169,10 @@
             }
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [self textHUDHiddle];
         [self.tableView endRefresh];
-
+        [self.tableView reloadData];
+        
     } failure:^(NSError *error) {
-        [self textHUDHiddle];
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
         [self.tableView endRefresh];
 
@@ -346,7 +337,6 @@
     lab4.font = [UIFont systemFontOfSize:13];
     self.pageNum=1;
     type=1;
-    [self.tableView reloadData];
     [self setData];
 //
 }
@@ -372,7 +362,6 @@
     lab4.font = [UIFont systemFontOfSize:13];
     self.pageNum=1;
     type=2;
-    [self.tableView reloadData];
 
     [self setData];
     
@@ -399,7 +388,6 @@
     lab1.font = [UIFont systemFontOfSize:13];
     self.pageNum=1;
     type=3;
-    [self.tableView reloadData];
 
     [self setData];
     
@@ -427,7 +415,6 @@
     self.pageNum=1;
     type=4;
     [self setData];
-    [self.tableView reloadData];
     
     
 }
@@ -439,7 +426,18 @@
 #pragma mark tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    if (type ==1) {
+       return self.searchArr.count;
+    }else if(type ==2){
+        return self.searchArr1.count;
+    }
+    else if(type ==3){
+        return self.searchArr2.count;
+    }
+    else if(type ==4){
+        return self.searchArr3.count;
+    }
+    return 0;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -480,8 +478,13 @@
             cell =[[[NSBundle mainBundle] loadNibNamed:@"CusShopTableViewCell" owner:self options:nil] lastObject];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-       
-        
+        if (self.searchArr3.count>0) {
+            [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr3[indexPath.row]objectForKey:@"StoreLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            cell.shopName.text =[self.searchArr3[indexPath.row]objectForKey:@"StoreName"];
+            cell.addressLab.text =[self.searchArr3[indexPath.row]objectForKey:@"StoreLocation"];
+            cell.juliView.text = @"17m";
+        }
+
         
         return cell;
     }

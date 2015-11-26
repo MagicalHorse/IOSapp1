@@ -17,16 +17,6 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wIp-eC-G42">
                         <rect key="frame" x="8" y="8" width="304" height="70.5"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3t-Cc-OsR">
-                                <rect key="frame" x="10" y="10" width="50" height="50"/>
-                                <animations/>
-                                <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="9t0-AY-pof"/>
-                                    <constraint firstAttribute="width" constant="50" id="VA8-Uk-Xcb"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="金鹰商场" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RXd-Bq-58F">
                                 <rect key="frame" x="68" y="15" width="68" height="21"/>
                                 <animations/>
@@ -56,15 +46,23 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FTE-XN-f94">
+                                <rect key="frame" x="8" y="10" width="50" height="50"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="qZK-HJ-BYE"/>
+                                    <constraint firstAttribute="height" constant="50" id="shY-CV-Aqh"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="g3t-Cc-OsR" firstAttribute="top" secondItem="wIp-eC-G42" secondAttribute="top" constant="10" id="C2z-M8-gfE"/>
                             <constraint firstAttribute="bottom" secondItem="TeD-qG-Gyd" secondAttribute="bottom" constant="15" id="N1H-1B-l0e"/>
                             <constraint firstAttribute="trailing" secondItem="9qt-eM-XgB" secondAttribute="trailing" constant="8" id="ap5-4g-JCh"/>
-                            <constraint firstItem="TeD-qG-Gyd" firstAttribute="leading" secondItem="g3t-Cc-OsR" secondAttribute="trailing" constant="8" id="bXf-r1-ivu"/>
-                            <constraint firstItem="g3t-Cc-OsR" firstAttribute="leading" secondItem="wIp-eC-G42" secondAttribute="leading" constant="10" id="uJH-Zs-7FZ"/>
+                            <constraint firstItem="TeD-qG-Gyd" firstAttribute="leading" secondItem="FTE-XN-f94" secondAttribute="trailing" constant="10" id="cCS-gl-o7R"/>
+                            <constraint firstItem="FTE-XN-f94" firstAttribute="top" secondItem="wIp-eC-G42" secondAttribute="top" constant="10" id="o1S-va-jB2"/>
+                            <constraint firstItem="FTE-XN-f94" firstAttribute="leading" secondItem="wIp-eC-G42" secondAttribute="leading" constant="8" id="tZb-wd-OLS"/>
                             <constraint firstAttribute="bottom" secondItem="9qt-eM-XgB" secondAttribute="bottom" constant="14" id="uhq-uq-jIM"/>
                         </constraints>
                     </view>
@@ -81,7 +79,7 @@
             <color key="backgroundColor" red="0.89411764705882357" green="0.91764705882352937" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
             <connections>
                 <outlet property="addressLab" destination="ETg-W4-cIi" id="zhN-9I-ue4"/>
-                <outlet property="btnIconView" destination="g3t-Cc-OsR" id="cNe-T4-l9U"/>
+                <outlet property="iconView" destination="FTE-XN-f94" id="qlE-kw-Snz"/>
                 <outlet property="juliView" destination="9qt-eM-XgB" id="3Si-vP-81c"/>
                 <outlet property="shopName" destination="RXd-Bq-58F" id="zWg-T9-HY3"/>
             </connections>

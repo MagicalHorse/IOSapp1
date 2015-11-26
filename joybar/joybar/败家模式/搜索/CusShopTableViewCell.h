@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CusShopTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIButton *btnIconView;
+@property (weak, nonatomic) IBOutlet UIImageView *iconView;
 @property (weak, nonatomic) IBOutlet UILabel *shopName;
 @property (weak, nonatomic) IBOutlet UILabel *addressLab;
 @property (weak, nonatomic) IBOutlet UILabel *juliView;
