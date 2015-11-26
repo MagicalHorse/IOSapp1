@@ -41,10 +41,9 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TeD-qG-Gyd">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="location" translatesAutoresizingMaskIntoConstraints="NO" id="TeD-qG-Gyd">
                                 <rect key="frame" x="68" y="43" width="12" height="12"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="12" id="sdt-aT-bN8"/>
                                     <constraint firstAttribute="width" constant="12" id="vya-te-6Dt"/>
@@ -89,4 +88,7 @@
             <point key="canvasLocation" x="362" y="248"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="location" width="12" height="12"/>
+    </resources>
 </document>
