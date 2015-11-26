@@ -35,14 +35,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="北京，中关村南大街" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ETg-W4-cIi">
-                                <rect key="frame" x="88" y="43" width="181" height="12"/>
+                                <rect key="frame" x="88" y="43" width="147" height="12"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TeD-qG-Gyd">
-                                <rect key="frame" x="68" y="43.5" width="12" height="12"/>
+                                <rect key="frame" x="68" y="43" width="12" height="12"/>
                                 <animations/>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -50,8 +50,8 @@
                                     <constraint firstAttribute="width" constant="12" id="vya-te-6Dt"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="17m" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qt-eM-XgB">
-                                <rect key="frame" x="243" y="41" width="53" height="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="17m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qt-eM-XgB">
+                                <rect key="frame" x="273" y="42" width="23" height="14.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -63,8 +63,10 @@
                         <constraints>
                             <constraint firstItem="g3t-Cc-OsR" firstAttribute="top" secondItem="wIp-eC-G42" secondAttribute="top" constant="10" id="C2z-M8-gfE"/>
                             <constraint firstAttribute="bottom" secondItem="TeD-qG-Gyd" secondAttribute="bottom" constant="15" id="N1H-1B-l0e"/>
+                            <constraint firstAttribute="trailing" secondItem="9qt-eM-XgB" secondAttribute="trailing" constant="8" id="ap5-4g-JCh"/>
                             <constraint firstItem="TeD-qG-Gyd" firstAttribute="leading" secondItem="g3t-Cc-OsR" secondAttribute="trailing" constant="8" id="bXf-r1-ivu"/>
                             <constraint firstItem="g3t-Cc-OsR" firstAttribute="leading" secondItem="wIp-eC-G42" secondAttribute="leading" constant="10" id="uJH-Zs-7FZ"/>
+                            <constraint firstAttribute="bottom" secondItem="9qt-eM-XgB" secondAttribute="bottom" constant="14" id="uhq-uq-jIM"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -78,6 +80,13 @@
             </tableViewCellContentView>
             <animations/>
             <color key="backgroundColor" red="0.89411764705882357" green="0.91764705882352937" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="addressLab" destination="ETg-W4-cIi" id="zhN-9I-ue4"/>
+                <outlet property="btnIconView" destination="g3t-Cc-OsR" id="cNe-T4-l9U"/>
+                <outlet property="juliView" destination="9qt-eM-XgB" id="3Si-vP-81c"/>
+                <outlet property="shopName" destination="RXd-Bq-58F" id="zWg-T9-HY3"/>
+            </connections>
+            <point key="canvasLocation" x="362" y="248"/>
         </tableViewCell>
     </objects>
 </document>

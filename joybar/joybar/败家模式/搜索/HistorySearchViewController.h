@@ -9,5 +9,7 @@
 #import "BaseViewController.h"
 
 @interface HistorySearchViewController : BaseViewController
-
+@property (nonatomic ,copy)NSString *latitude;
+@property (nonatomic ,copy)NSString *longitude;
+@property (nonatomic ,copy)NSString *cityId;
 @end

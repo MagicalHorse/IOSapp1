@@ -66,40 +66,43 @@
 }
 
 -(void)setData{
-    if (searchText.text.length) {
+    if (searchText.text.length==0) {
         [HUD showHudFailed:@"请输入搜索关键字"];
         return;
     }
    [self hudShow:@"正在加载"];
+    NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     NSString *url;
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
-    [dict setObject:searchText.text forKey:@"key"];
-    [dict setObject:@"" forKey:@"ciryId"];
-    [dict setObject:@"" forKey:@"StoreId"];
+//    [dict setObject:searchText.text forKey:@"key"];
+    [dict setObject:@"" forKey:@"key"];
+
+    [dict setObject:self.cityId forKey:@"ciryId"];
+    [dict setObject:@"0" forKey:@"StoreId"];
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dict setObject:@"6" forKey:@"Pagesize"];
     if (type ==1) {
         url =@"v3/searchproduct";
-        [dict setObject:@"" forKey:@"userId"];
-        [dict setObject:@"" forKey:@"SortType"];
+        [dict setObject:userId forKey:@"userId"];
+        [dict setObject:@"5" forKey:@"SortType"];
 
     }else if(type ==2){
         url =@"v3/searchBrand";
     }else if(type ==3){
         url =@"v3/searchbuyer";
-        [dict setObject:@"" forKey:@"userId"];
-        [dict setObject:@"" forKey:@"longitude"];
-        [dict setObject:@"" forKey:@"latitude"];
+        [dict setObject:userId forKey:@"userId"];
+        [dict setObject:self.longitude forKey:@"longitude"];
+        [dict setObject:self.latitude forKey:@"latitude"];
     }else if(type ==4){
         url =@"v3/searchstore";
-        [dict setObject:searchText.text forKey:@"longitude"];
-        [dict setObject:searchText.text forKey:@"latitude"];
+        [dict setObject:self.longitude forKey:@"longitude"];
+        [dict setObject:self.latitude forKey:@"latitude"];
     }
     
     [HttpTool postWithURL:url params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            NSMutableArray *array =[json objectForKey:@"data"];
+            NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
             
             if (type==1) {
                 if (array.count<6) {
@@ -175,9 +178,13 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
         [self textHUDHiddle];
+        [self.tableView endRefresh];
+
     } failure:^(NSError *error) {
         [self textHUDHiddle];
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
+        [self.tableView endRefresh];
+
     }];
 }
 
@@ -288,6 +295,8 @@
         VC.pageNum++;
         [VC setData];
     };
+    
+    [self setData];
 
     
     
@@ -471,6 +480,9 @@
             cell =[[[NSBundle mainBundle] loadNibNamed:@"CusShopTableViewCell" owner:self options:nil] lastObject];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+       
+        
+        
         return cell;
     }
     

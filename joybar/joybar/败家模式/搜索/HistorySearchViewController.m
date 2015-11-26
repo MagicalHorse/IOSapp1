@@ -128,6 +128,10 @@
     [self initsearchArr: array];
    SearchDetailsViewController *details= [[SearchDetailsViewController alloc]init];
     details.serachText = searchText.text;
+    details.cityId =self.cityId; //城市id
+    //经纬度
+    details.latitude= self.latitude;
+    details.longitude= self.longitude;
     [self.navigationController pushViewController:details animated:YES];
     return YES;
 }

@@ -243,19 +243,16 @@
     
 //    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
 //    VC.userId =@"840";
-
+    NSString *cityId = [self.localtionDic objectForKey:@"Id"];
     HistorySearchViewController *search =[[HistorySearchViewController alloc]init];
+    search.cityId =cityId; //城市id
+    //经纬度
+    search.latitude= self.latitude;
+    search.longitude= self.longitude;
     [self.navigationController pushViewController:search animated:YES];
     
-//    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
-////    CusMarketViewController *VC = [[CusMarketViewController alloc] init];
-//    [self.navigationController pushViewController:VC animated:YES];
     
-    //城市id
-    NSString *cityId = [self.localtionDic objectForKey:@"Id"];
-    //经纬度
-    self.latitude;
-    self.longitude;
+   
     
 }
 
