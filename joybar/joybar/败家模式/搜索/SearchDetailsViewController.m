@@ -13,10 +13,15 @@
 #import "CusShopTableViewCell.h"
 
 @interface SearchDetailsViewController()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
-@property (nonatomic ,strong) UITableView *tableView;
+@property (nonatomic ,strong) BaseTableView *tableView;
 @property (nonatomic ,strong) NSMutableArray *searchArr;
+@property (nonatomic ,strong) NSMutableArray *searchArr1;
+@property (nonatomic ,strong) NSMutableArray *searchArr2;
+@property (nonatomic ,strong) NSMutableArray *searchArr3;
+
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong) UIView *tempView;
+@property (nonatomic ,assign) NSInteger pageNum;
 @end
 
 @implementation SearchDetailsViewController
@@ -41,6 +46,140 @@
     }
     return _searchArr;
 }
+-(NSMutableArray*)searchArr1{
+    if (_searchArr1 ==nil) {
+        _searchArr1 =[[NSMutableArray alloc]init];
+    }
+    return _searchArr1;
+}
+-(NSMutableArray*)searchArr2{
+    if (_searchArr2 ==nil) {
+        _searchArr2 =[[NSMutableArray alloc]init];
+    }
+    return _searchArr2;
+}
+-(NSMutableArray*)searchArr3{
+    if (_searchArr3 ==nil) {
+        _searchArr3 =[[NSMutableArray alloc]init];
+    }
+    return _searchArr3;
+}
+
+-(void)setData{
+    if (searchText.text.length) {
+        [HUD showHudFailed:@"请输入搜索关键字"];
+        return;
+    }
+   [self hudShow:@"正在加载"];
+    NSString *url;
+    NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
+    [dict setObject:searchText.text forKey:@"key"];
+    [dict setObject:@"" forKey:@"ciryId"];
+    [dict setObject:@"" forKey:@"StoreId"];
+    [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
+    [dict setObject:@"6" forKey:@"Pagesize"];
+    if (type ==1) {
+        url =@"v3/searchproduct";
+        [dict setObject:@"" forKey:@"userId"];
+        [dict setObject:@"" forKey:@"SortType"];
+
+    }else if(type ==2){
+        url =@"v3/searchBrand";
+    }else if(type ==3){
+        url =@"v3/searchbuyer";
+        [dict setObject:@"" forKey:@"userId"];
+        [dict setObject:@"" forKey:@"longitude"];
+        [dict setObject:@"" forKey:@"latitude"];
+    }else if(type ==4){
+        url =@"v3/searchstore";
+        [dict setObject:searchText.text forKey:@"longitude"];
+        [dict setObject:searchText.text forKey:@"latitude"];
+    }
+    
+    [HttpTool postWithURL:url params:dict  success:^(id json) {
+        BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+        if (isSuccessful) {
+            NSMutableArray *array =[json objectForKey:@"data"];
+            
+            if (type==1) {
+                if (array.count<6) {
+                    [self.tableView hiddenFooter:YES];
+                }
+                else
+                {
+                    [self.tableView hiddenFooter:NO];
+                }
+                if (self.pageNum==1) {
+                    [self.searchArr removeAllObjects];
+                    [self.searchArr addObjectsFromArray:array];
+                }else{
+                    [self.searchArr addObjectsFromArray:array];
+                }
+                
+            }else if(type ==2){
+                if (array.count<6) {
+                    [self.tableView hiddenFooter:YES];
+                }
+                else
+                {
+                    [self.tableView hiddenFooter:NO];
+                }
+                if (self.pageNum==1) {
+                    [self.searchArr1 removeAllObjects];
+                    [self.searchArr1 addObjectsFromArray:array];
+                }else{
+                    [self.searchArr1 addObjectsFromArray:array];
+                }
+
+            }else if(type ==3){
+                if (array.count<6) {
+                    [self.tableView hiddenFooter:YES];
+                }
+                else
+                {
+                    [self.tableView hiddenFooter:NO];
+                }
+                if (self.pageNum==1) {
+                    [self.searchArr2 removeAllObjects];
+                    [self.searchArr2 addObjectsFromArray:array];
+                }else{
+                    [self.searchArr2 addObjectsFromArray:array];
+                }
+
+            }else if(type ==4){
+                if (array.count<6) {
+                    [self.tableView hiddenFooter:YES];
+                }
+                else
+                {
+                    [self.tableView hiddenFooter:NO];
+                }
+                if (self.pageNum==1) {
+                    [self.searchArr3 removeAllObjects];
+                    [self.searchArr3 addObjectsFromArray:array];
+                }else{
+                    [self.searchArr3 addObjectsFromArray:array];
+                }
+            }
+            
+        }else{
+            if (type==1) {
+                self.searchArr =nil;
+            }else if(type ==2){
+                self.searchArr1 =nil;
+            }else if(type ==3){
+                self.searchArr2 =nil;
+            }else if(type ==4){
+                self.searchArr3 =nil;
+            }
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self textHUDHiddle];
+    } failure:^(NSError *error) {
+        [self textHUDHiddle];
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
+    }];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -62,6 +201,9 @@
     searchText.returnKeyType = UIReturnKeySearch;
     searchText.font = [UIFont systemFontOfSize:14];
     [searchView addSubview:searchText];
+    if (self.serachText.length>0) {
+        searchText.text =self.serachText;
+    }
     
     UIButton *cancelBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     cancelBtn.frame = CGRectMake(kScreenWidth-35, 25, 30, 30);
@@ -115,15 +257,40 @@
 
     
     //tableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, lineView.bottom, kScreenWidth, kScreenHeight-lineView.bottom) style:(UITableViewStylePlain)];
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, lineView.bottom, kScreenWidth, kScreenHeight-lineView.bottom) style:(UITableViewStylePlain)];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView =[[UIView alloc]init];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
     self.tableView.backgroundColor =kCustomColor(228, 234, 238);
+    
+    self.pageNum=1;
+    self.tableView.tableFooterView =[[UIView alloc]init];
+    __weak SearchDetailsViewController *VC = self;
+    self.tableView.headerRereshingBlock = ^()
+    {
+        if (VC.searchArr.count>0) {
+            VC.searchArr =nil;
+        }else if(VC.searchArr1.count>0) {
+            VC.searchArr1 =nil;
+        }else if(VC.searchArr2.count>0) {
+            VC.searchArr2 =nil;
+        }else if(VC.searchArr3.count>0) {
+            VC.searchArr3 =nil;
+        }
+        VC.pageNum=1;
+        [VC setData];
+    };
+    self.tableView.footerRereshingBlock = ^()
+    {
+        VC.pageNum++;
+        [VC setData];
+    };
+
+    
+    
 }
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
@@ -168,13 +335,11 @@
     lab3.font = [UIFont systemFontOfSize:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont systemFontOfSize:13];
-//    self.pageNum=1;
+    self.pageNum=1;
     type=1;
     [self.tableView reloadData];
-
-//    isRefresh =YES;
-//    [self setData];
-//    
+    [self setData];
+//
 }
 
 //待付款
@@ -196,12 +361,11 @@
     lab3.font = [UIFont systemFontOfSize:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont systemFontOfSize:13];
-//    isRefresh =YES;
-//    self.pageNum=1;
+    self.pageNum=1;
     type=2;
     [self.tableView reloadData];
 
-//    [self setData];
+    [self setData];
     
     
 }
@@ -224,12 +388,11 @@
     lab2.font = [UIFont systemFontOfSize:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont systemFontOfSize:13];
-//    isRefresh =YES;
-//    self.pageNum=1;
+    self.pageNum=1;
     type=3;
     [self.tableView reloadData];
 
-//    [self setData];
+    [self setData];
     
     
 }
@@ -252,11 +415,9 @@
     lab2.font = [UIFont systemFontOfSize:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont systemFontOfSize:13];
-    
-//    isRefresh=YES;
-//    self.pageNum=1;
+    self.pageNum=1;
     type=4;
-//    [self setData];
+    [self setData];
     [self.tableView reloadData];
     
     

@@ -7,6 +7,7 @@
 //
 
 #import "HistorySearchViewController.h"
+#import "SearchDetailsViewController.h"
 
 @interface HistorySearchViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,strong) UITableView *tableView;
@@ -114,6 +115,7 @@
     return cell;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
     if (searchText.text.length==0) {
         [self showHudFailed:@"请输入搜索内容"];
         return NO;
@@ -124,6 +126,9 @@
     }
     [array addObject:searchText.text];
     [self initsearchArr: array];
+   SearchDetailsViewController *details= [[SearchDetailsViewController alloc]init];
+    details.serachText = searchText.text;
+    [self.navigationController pushViewController:details animated:YES];
     return YES;
 }
 

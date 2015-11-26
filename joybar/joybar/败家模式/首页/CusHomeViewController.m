@@ -21,6 +21,7 @@
 #import "CusProDetailViewController.h"
 #import "LocationViewController.h"
 #import "AppDelegate.h"
+#import "HistorySearchViewController.h"
 #warning 测试------------------------------------------
 #import "CusRProDetailViewController.h"
 #import "CusHomeStoreViewController.h"
@@ -239,9 +240,12 @@
 //    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
 //    VC.userId =@"840";
 
-    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
-//    CusMarketViewController *VC = [[CusMarketViewController alloc] init];
-    [self.navigationController pushViewController:VC animated:YES];
+    HistorySearchViewController *search =[[HistorySearchViewController alloc]init];
+    [self.navigationController pushViewController:search animated:YES];
+    
+//    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
+////    CusMarketViewController *VC = [[CusMarketViewController alloc] init];
+//    [self.navigationController pushViewController:VC animated:YES];
     
 }
 
