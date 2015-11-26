@@ -21,11 +21,13 @@
 #import "CusProDetailViewController.h"
 #import "LocationViewController.h"
 #import "AppDelegate.h"
+#import <MapKit/MapKit.h>
+
 #warning 测试------------------------------------------
 #import "CusRProDetailViewController.h"
 #import "CusHomeStoreViewController.h"
 #import "CusMainStoreViewController.h"
-@interface CusHomeViewController ()<UIScrollViewDelegate,YRADScrollViewDataSource,YRADScrollViewDelegate,CLLocationManagerDelegate>
+@interface CusHomeViewController ()<UIScrollViewDelegate,YRADScrollViewDataSource,YRADScrollViewDelegate,CLLocationManagerDelegate,MKReverseGeocoderDelegate>
 
 @property (nonatomic ,strong) HomeTableView *homeTableView;
 @property (nonatomic ,strong) NSArray *imageArr;
@@ -154,7 +156,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:[self.localtionDic objectForKey:@"Id"] forKey:@"CityId"];
-    [dic setObject:[NSString stringWithFormat:@"%d",self.pageNum] forKey:@"Page"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dic setObject:@"6" forKey:@"PageSize"];
     [dic setObject:self.longitude forKey:@"longitude"];
     [dic setObject:self.latitude forKey:@"latitude"];
@@ -248,10 +250,10 @@
     [self.navigationController pushViewController:VC animated:YES];
     
     //城市id
-    NSString *cityId = [self.localtionDic objectForKey:@"Id"];
-    //经纬度
-    self.latitude;
-    self.longitude;
+//    NSString *cityId = [self.localtionDic objectForKey:@"Id"];
+//    //经纬度
+//    self.latitude;
+//    self.longitude;
     
 }
 
@@ -270,26 +272,31 @@
 //定位代理经纬度回调
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+
     [_locationManager stopUpdatingLocation];
     NSLog(@"location ok");
     
     NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
-    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-        for (CLPlacemark * placemark in placemarks) {
+    
+    self.latitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
+    self.longitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
+    
+    MKReverseGeocoder *geocoder = [[MKReverseGeocoder alloc]initWithCoordinate:newLocation.coordinate];
+    geocoder.delegate = self;
+    [geocoder start];
 
-            NSDictionary *test = [placemark addressDictionary];
-            //  Country(国家)  State(城市)  SubLocality(区)
-            NSLog(@"%@", [test objectForKey:@"State"]);
-            [locationBtn setTitle:[test objectForKey:@"State"] forState:(UIControlStateNormal)];
-            [self textHUDHiddle];
-            self.latitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
-            self.longitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
-            [self getBannerData];
-            [self getCityInfo];
-        }
-    }];
 }
+
+-(void)reverseGeocoder:(MKReverseGeocoder *)geocoder
+      didFindPlacemark:(MKPlacemark *)placemark
+{
+    [self textHUDHiddle];
+    [locationBtn setTitle:placemark.locality forState:(UIControlStateNormal)];
+    [self getBannerData];
+    [self getCityInfo];
+
+}
+
 
 -(void)getCityInfo
 {
@@ -301,9 +308,7 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.localtionDic = [json objectForKey:@"data"];
-            
             [self getHomeData];
-            
         }
         else
         {
