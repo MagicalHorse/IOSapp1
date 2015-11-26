@@ -7,7 +7,6 @@
 //
 
 #import "FindShopGuideViewController.h"
-#import "CollectionViewController.h"
 #import "HJCarouselViewLayout.h"
 #import "HJCarouselViewCell.h"
 @interface FindShopGuideViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
@@ -112,7 +111,6 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     HJCarouselViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%ld.jpg", indexPath.row % 3]];
     return cell;
 }
 
