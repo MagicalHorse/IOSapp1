@@ -12,6 +12,8 @@
 
 @property (nonatomic ,strong) UITableView *tableView;
 
+@property (nonatomic ,strong) NSArray *cityArr;
+
 @end
 
 @implementation LocationViewController
@@ -37,7 +39,27 @@
     [self.view addSubview:self.tableView];
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self getCityList];
     
+}
+
+-(void)getCityList
+{
+    [HttpTool postWithURL:@"Common/GetAllShoopingCity" params:nil success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            self.cityArr = [json objectForKey:@"data"];
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -46,7 +68,7 @@
     {
         return 1;
     }
-    return 3;
+    return self.cityArr.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -83,8 +105,15 @@
         cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if (indexPath.section==0)
+    {
+        cell.textLabel.text = self.locationCityName;
+    }
     
-    cell.textLabel.text = @"北京";
+    if (indexPath.section==1)
+    {
+        cell.textLabel.text = [[self.cityArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
+    }
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     
     return cell;
@@ -92,9 +121,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *cityName =[[self.cityArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
     if(self.handleCityName)
     {
-        self.handleCityName(@"啊大大");
+        self.handleCityName(cityName);
     }
     
     [self.navigationController popViewControllerAnimated:YES];

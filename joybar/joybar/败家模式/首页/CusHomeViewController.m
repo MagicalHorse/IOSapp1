@@ -38,6 +38,8 @@
 @property (nonatomic ,strong) NSString *longitude;
 @property (nonatomic ,strong) NSString *latitude;
 
+@property (nonatomic ,strong) NSDictionary *localtionDic;
+
 
 @end
 
@@ -70,8 +72,8 @@
     [locationBtn addTarget:self action:@selector(didSelectCity) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:locationBtn];
     
-    UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(locationBtn.right, 15, 15, 15)];
-    locationImageView.image = [UIImage imageNamed:@""];
+    UIImageView *locationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(locationBtn.right-5, 38, 12, 7)];
+    locationImageView.image = [UIImage imageNamed:@"下拉"];
     [self.navView addSubview:locationImageView];
 
     // 搜索按钮
@@ -151,7 +153,7 @@
 -(void)getHomeData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:@"0" forKey:@"CityId"];
+    [dic setObject:[self.localtionDic objectForKey:@"Id"] forKey:@"CityId"];
     [dic setObject:[NSString stringWithFormat:@"%d",self.pageNum] forKey:@"Page"];
     [dic setObject:@"6" forKey:@"PageSize"];
     [dic setObject:self.longitude forKey:@"longitude"];
@@ -232,6 +234,8 @@
 //点击搜索
 -(void)didClickSearchBtn
 {
+    
+    
 //    CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
 //    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
 //        VC.productId = @"12985";
@@ -243,12 +247,19 @@
 //    CusMarketViewController *VC = [[CusMarketViewController alloc] init];
     [self.navigationController pushViewController:VC animated:YES];
     
+    //城市id
+    NSString *cityId = [self.localtionDic objectForKey:@"Id"];
+    //经纬度
+    self.latitude;
+    self.longitude;
+    
 }
 
 //定位城市
 -(void)didSelectCity
 {
     LocationViewController *VC = [[LocationViewController alloc] init];
+    VC.locationCityName = [self.localtionDic objectForKey:@"Name"];
     [self.navigationController pushViewController: VC animated:YES];
     VC.handleCityName = ^(NSString *cityName)
     {
@@ -259,24 +270,48 @@
 //定位代理经纬度回调
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    [self textHUDHiddle];
     [_locationManager stopUpdatingLocation];
     NSLog(@"location ok");
     
     NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
-    self.latitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
-    self.longitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
-    [self getBannerData];
-    [self getHomeData];
-    //    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    //    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-    //        for (CLPlacemark * placemark in placemarks) {
-    //
-    //            NSDictionary *test = [placemark addressDictionary];
-    //            //  Country(国家)  State(城市)  SubLocality(区)
-    //            NSLog(@"%@", [test objectForKey:@"State"]);
-    //        }
-    //    }];
+    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        for (CLPlacemark * placemark in placemarks) {
+
+            NSDictionary *test = [placemark addressDictionary];
+            //  Country(国家)  State(城市)  SubLocality(区)
+            NSLog(@"%@", [test objectForKey:@"State"]);
+            [locationBtn setTitle:[test objectForKey:@"State"] forState:(UIControlStateNormal)];
+            [self textHUDHiddle];
+            self.latitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
+            self.longitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
+            [self getBannerData];
+            [self getCityInfo];
+        }
+    }];
+}
+
+-(void)getCityInfo
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.longitude forKey:@"longitude"];
+    [dic setObject:self.latitude forKey:@"latitude"];
+    
+    [HttpTool postWithURL:@"Common/GetCityByCoord" params:dic success:^(id json) {
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            self.localtionDic = [json objectForKey:@"data"];
+            
+            [self getHomeData];
+            
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
