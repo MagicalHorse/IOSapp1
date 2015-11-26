@@ -10,5 +10,6 @@
 
 @interface HomeTableView : BaseTableView<UITableViewDataSource,UITableViewDelegate>
 
+@property (nonatomic ,strong) NSMutableArray *dataArr;
 
 @end

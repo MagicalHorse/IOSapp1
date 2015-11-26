@@ -19,6 +19,7 @@
     self = [super initWithFrame:frame style:style];
     if (self)
     {
+        self.dataArr = [NSMutableArray array];
         self.delegate = self;
         self.dataSource = self;
         self.separatorStyle = UITableViewCellSelectionStyleNone;
@@ -30,7 +31,7 @@
 #pragma mark tableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return self.dataArr.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -40,24 +41,28 @@
     {
         cell = [[CusHomeTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
     }
+    
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    for (UIView *view in cell.contentView.subviews)
-    {
-        [view removeFromSuperview];
-    }
     
-    [cell setData:nil andIndexPath:indexPath];
+//    for (UIView *view in cell.contentView.subviews)
+//    {
+//        [view removeFromSuperview];
+//    }
+    if (self.dataArr.count>0)
+    {
+        [cell setData:self.dataArr[indexPath.row] andIndexPath:indexPath];
+    }
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.row==0)
-    {
-        return 100;
-    }
+//    if (indexPath.row==0)
+//    {
+//        return 100;
+//    }
     
     //商场
 //    return (kScreenWidth-20)/3-10+150;

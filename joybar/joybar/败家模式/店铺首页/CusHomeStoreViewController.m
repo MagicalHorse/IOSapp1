@@ -114,7 +114,7 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
-            if (arr.count<6)
+            if (arr.count<20)
             {
                 self.collectionView.footerHidden = YES;
             }
