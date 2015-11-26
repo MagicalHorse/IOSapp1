@@ -352,6 +352,7 @@
 		9D744DF01B300A3800553648 /* CusAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D744DEE1B300A3800553648 /* CusAboutViewController.m */; };
 		9D744DF11B300A3800553648 /* CusAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DEF1B300A3800553648 /* CusAboutViewController.xib */; };
 		9D7F5D381BCE3863006A7441 /* CusZProDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F5D371BCE3863006A7441 /* CusZProDetailViewController.m */; };
+		9D876DE51C06DFF9006D30FB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D876DE41C06DFF9006D30FB /* MapKit.framework */; };
 		9D8A4A4D1BFADB850074ED50 /* MZTimerLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A4A4C1BFADB850074ED50 /* MZTimerLabel.m */; };
 		9D8CD7431B677E0800F972EB /* CusHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AEE1B2AE01900782C0C /* CusHomeTableViewCell.m */; };
 		9D8CD7451B68A1EF00F972EB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */; };
@@ -1001,6 +1002,7 @@
 		9D744DEF1B300A3800553648 /* CusAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusAboutViewController.xib; sourceTree = "<group>"; };
 		9D7F5D361BCE3863006A7441 /* CusZProDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusZProDetailViewController.h; sourceTree = "<group>"; };
 		9D7F5D371BCE3863006A7441 /* CusZProDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusZProDetailViewController.m; sourceTree = "<group>"; };
+		9D876DE41C06DFF9006D30FB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		9D8A4A4B1BFADB850074ED50 /* MZTimerLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZTimerLabel.h; sourceTree = "<group>"; };
 		9D8A4A4C1BFADB850074ED50 /* MZTimerLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZTimerLabel.m; sourceTree = "<group>"; };
 		9D8CD7421B675CC500F972EB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -1135,6 +1137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D876DE51C06DFF9006D30FB /* MapKit.framework in Frameworks */,
 				9DCD42841B6A229600BD5CBE /* QuartzCore.framework in Frameworks */,
 				9D8CD7451B68A1EF00F972EB /* CoreLocation.framework in Frameworks */,
 				0ACDBDD81B3BE73B0096B531 /* libPushSDK-1.8.2.a in Frameworks */,
@@ -1801,6 +1804,7 @@
 		0D60BCA21ACCD74D00BF625A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D876DE41C06DFF9006D30FB /* MapKit.framework */,
 				9DCD42831B6A229600BD5CBE /* QuartzCore.framework */,
 				9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */,
 				0ACDBDD71B3BE73B0096B531 /* libPushSDK-1.8.2.a */,

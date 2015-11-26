@@ -125,4 +125,14 @@
     }
 }
 
++(NSString *) getDistanceWithLocation:(double)oldLat and:(double)oldLon and:(double)newLat and:(double)newLon
+{
+    CLLocation *location1 = [[CLLocation alloc] initWithLatitude:oldLat longitude:oldLon];
+    CLLocation *location2 = [[CLLocation alloc] initWithLatitude:newLat longitude:newLon];
+
+    CLLocationDistance distance = [location1 getDistanceFrom:location2];
+    NSString *str = [NSString stringWithFormat:@"%f",distance];
+    return str;
+}
+
 @end
