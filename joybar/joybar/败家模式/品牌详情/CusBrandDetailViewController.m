@@ -48,7 +48,6 @@
     layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
     layout.minimumColumnSpacing = 5;
     layout.minimumInteritemSpacing = 5;
-    layout.headerHeight = kScreenWidth*0.618;
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.alwaysBounceVertical = YES; //垂直方向遇到边框是否总是反弹
@@ -67,24 +66,23 @@
     [self getData:NO];
 
     //    // 2.集成刷新控件
-//        [self addHeader];
+        [self addHeader];
         [self addFooter];
-
 }
 
-//- (void)addHeader
-//{
-//    __weak CusBrandDetailViewController* vc = self;
-//    // 添加下拉刷新头部控件
-//    [self.collectionView addHeaderWithCallback:^{
-//        vc.pageNum = 1;
-//        [vc.tagArr removeAllObjects];
-//        [vc getData:YES];
-//
-//    }];
-//
+- (void)addHeader
+{
+    __weak CusBrandDetailViewController* vc = self;
+    // 添加下拉刷新头部控件
+    [self.collectionView addHeaderWithCallback:^{
+        vc.pageNum = 1;
+        [vc.tagArr removeAllObjects];
+        [vc getData:YES];
+
+    }];
+
 //    [self.collectionView headerBeginRefreshing];
-//}
+}
 
 - (void)addFooter
 {
@@ -96,15 +94,18 @@
     }];
 }
 
+
 -(void)getData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:@"0" forKey:@"StoreId"];
+    [dic setObject:@"0" forKey:@"CityId"];
     [dic setValue:self.BrandId forKey:@"BrandId"];
-    [dic setValue:self.BrandName forKey:@"Name"];
+    [dic setObject:[[Public getUserInfo]objectForKey:@"id"] forKey:@"UserId"];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dic setValue:@"24" forKey:@"PageSize"];
     [self hudShow];
-    [HttpTool postWithURL:@"Product/GetProductListByBrandId" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"v3/brandproduct" params:dic success:^(id json) {
 
         [self.tagArr removeAllObjects];
         [self hiddleHud];
@@ -127,7 +128,7 @@
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-//        [self.collectionView headerEndRefreshing];
+        [self.collectionView headerEndRefreshing];
         [self.collectionView footerEndRefreshing];
 
     } failure:^(NSError *error) {
@@ -147,7 +148,6 @@
     CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
     VC.productId = proId;
     [self.navigationController pushViewController:VC animated:YES];
-
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -166,9 +166,9 @@
 //    [tagImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
 //    [cell.contentView addSubview:tagImage];
     
-//    float height = [[[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
-//    
-//    [cell setCollectionData:[self.tagArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
+    float height = [[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"Ratio"] floatValue];
+    
+    [cell setCollectionData:[self.tagArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
 
     
     return cell;
@@ -176,12 +176,12 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSDictionary *dic = [self.tagArr objectAtIndex:indexPath.row];
-//    NSString *text = [dic objectForKey:@"Name"];
-//    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
-//    CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
-//    
-    CGSize size1 = CGSizeMake((kScreenWidth-10)/2, 200);
+    NSDictionary *dic = [self.tagArr objectAtIndex:indexPath.row];
+    NSString *text = [dic objectForKey:@"Name"];
+    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
+    CGFloat itemH = (kScreenWidth-10)/2*[[dic objectForKey:@"Ratio"] floatValue]+size.height+35;
+
+    CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
     
     return size1;
 }

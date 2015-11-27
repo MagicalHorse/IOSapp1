@@ -199,7 +199,6 @@
         UIImageView *helpImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2-(kScreenWidth)/1.1/2, 0, (kScreenWidth)/1.1, (kScreenWidth*2.3)/1.1)];
         helpImageView.image = [UIImage imageNamed:@"jianjie.png"];
         [self.contentView addSubview:helpImageView];
-
     }
 }
 
