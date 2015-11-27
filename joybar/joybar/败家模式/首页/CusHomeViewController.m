@@ -22,6 +22,7 @@
 #import "LocationViewController.h"
 #import "AppDelegate.h"
 #import "HistorySearchViewController.h"
+#import <MapKit/MapKit.h>
 #warning 测试------------------------------------------
 #import "CusRProDetailViewController.h"
 #import "CusHomeStoreViewController.h"

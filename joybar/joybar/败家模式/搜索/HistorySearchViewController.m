@@ -220,13 +220,13 @@
     }
     
     SearchDetailsViewController *details= [[SearchDetailsViewController alloc]init];
-    //    details.cityId =self.cityId; //城市id
-    //经纬度
-    //    details.latitude= self.latitude;
-    //    details.longitude= self.longitude;
-    details.cityId=@"0";
-    details.latitude= @"116.315811";
-    details.longitude= @"39.961441";
+        details.cityId =self.cityId; //城市id
+//    经纬度
+        details.latitude= self.latitude;
+        details.longitude= self.longitude;
+//    details.cityId=@"0";
+//    details.latitude= @"116.315811";
+//    details.longitude= @"39.961441";
     
     NSMutableDictionary * temp =[NSMutableDictionary dictionary];
     
