@@ -11,7 +11,7 @@
 
 @interface HistorySearchViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,strong) UITableView *tableView;
-@property (nonatomic ,strong) NSMutableArray *searchArr;
+@property (nonatomic ,strong) NSMutableDictionary *searchArr;
 @end
 
 @implementation HistorySearchViewController
@@ -27,17 +27,38 @@
     }
     return self;
 }
--(NSMutableArray*)searchArr{
+-(NSMutableDictionary*)searchArr{
     if (_searchArr ==nil) {
-        _searchArr =[[NSMutableArray alloc]init];
+        _searchArr =[[NSMutableDictionary alloc]init];
     }
     return _searchArr;
 }
 -(void)getSearchArray{
-    NSMutableArray *dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"searchArr"];
+    NSMutableDictionary *dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"searchArr"];
     
-    self.searchArr =  dic;//(NSMutableArray *)[[dic reverseObjectEnumerator] allObjects];
     
+    for (NSString *dict in dic.allKeys) {
+        [self.searchArr setValue:[dic objectForKey:dict] forKey:dict];
+    }
+    
+   
+    
+   //(NSMutableArray *)[[dic reverseObjectEnumerator] allObjects];
+    [self.tableView reloadData];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [self getSearchArray];
+    if (self.searchArr.count ==0) {
+        self.tableView.tableFooterView =[[UIView alloc]init];
+        self.tableView.tableHeaderView =[[UIView alloc]init];
+    }else{
+        self.tableView.tableFooterView =[self tableViewFootView];
+        self.tableView.tableHeaderView =[self tableViewHeadView];
+    }
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,6 +81,7 @@
     searchText.returnKeyType = UIReturnKeySearch;
     searchText.font = [UIFont systemFontOfSize:14];
     [searchView addSubview:searchText];
+//    [searchText addTarget:self action:@selector(textChage:) forControlEvents:UIControlEventEditingChanged];
     
     UIButton *cancelBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     cancelBtn.frame = CGRectMake(kScreenWidth-50, 25, 50, 30);
@@ -76,11 +98,61 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    self.tableView.tableFooterView =[[UIView alloc]init];
-    [self getSearchArray];
+
 }
 
--(void)initsearchArr :(NSMutableArray *)array{
+-(UIView *)tableViewFootView{
+    
+    
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
+    UIView * bgView =[[UIView alloc]initWithFrame:CGRectMake(17, view.top, kScreenWidth-18, 0.5)];
+    [view addSubview:bgView];
+
+    UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth-120)*0.5, bgView.bottom+8, 120, 34)];
+    btn.layer.borderWidth =1;
+    btn.layer.borderColor= [UIColor orangeColor].CGColor;
+    btn.layer.masksToBounds = YES;
+    btn.layer.cornerRadius =2.5;
+
+    [btn setTitle:@"清除搜索历史" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(clearData) forControlEvents:UIControlEventTouchUpInside];
+    btn.titleLabel.font =[UIFont systemFontOfSize:16];
+    bgView.backgroundColor =[UIColor lightGrayColor];
+    [view addSubview:btn];
+    return view;
+
+    
+}
+-(UIView *)tableViewHeadView{
+     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
+    UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(17, 0, kScreenWidth-20, 39)];
+    lable.text =@"搜索历史";
+    lable.textColor =[UIColor lightGrayColor];
+    lable.font =[UIFont systemFontOfSize:15];
+    [view addSubview:lable];
+    
+    UIView * bgView =[[UIView alloc]initWithFrame:CGRectMake(17, lable.bottom, kScreenWidth-18, 0.5)];
+    bgView.backgroundColor =[UIColor lightGrayColor];
+    [view addSubview:bgView];
+    return view;
+}
+-(void)clearData{
+    self.searchArr =nil ;
+    [[NSUserDefaults standardUserDefaults] setObject:self.searchArr forKey:@"searchArr"];
+    [self.tableView reloadData];
+    if (self.searchArr.count ==0) {
+        self.tableView.tableFooterView =[[UIView alloc]init];
+        self.tableView.tableHeaderView =[[UIView alloc]init];
+
+    }else{
+        self.tableView.tableFooterView =[self tableViewFootView];
+        self.tableView.tableHeaderView =[self tableViewHeadView];
+
+    }
+
+}
+-(void)initsearchArr :(NSMutableDictionary *)array{
    
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"searchArr"];
     [[NSUserDefaults standardUserDefaults] setObject:array forKey:@"searchArr"];
@@ -110,40 +182,99 @@
     {
         [view removeFromSuperview];
     }
-    
-    cell.textLabel.text =self.searchArr[indexPath.row];
+    if (self.searchArr.count>0) {
+        cell.textLabel.text =[self.searchArr objectForKey:[NSString stringWithFormat:@"%ld",indexPath.row]];
+
+    }
     return cell;
 }
+
+//-(void)textChage:(UITextField *)textField{
+//    
+//    NSString *text =textField.text;
+//    if (text.length>0) {
+//        NSMutableDictionary *showDict=[NSMutableDictionary dictionary];
+//        int  i =0;
+//        for (NSString *str in self.searchArr.allValues) {
+//            
+//            if([text rangeOfString:str].location !=NSNotFound)
+//            {
+//               
+//                [showDict setValue:str forKey:[NSString stringWithFormat:@"%d",i]];
+//                i++;
+//            }
+//        }
+//        if (showDict.count>0) {
+//            self.searchArr =showDict;
+//        }
+//        [self.tableView reloadData];
+//    }
+//    
+//}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     if (searchText.text.length==0) {
         [self showHudFailed:@"请输入搜索内容"];
         return NO;
     }
-    NSMutableArray *array =[NSMutableArray arrayWithArray:self.searchArr];
-    if (array.count==10) {
-        [array removeObjectAtIndex:0];
-    }
-    [array addObject:searchText.text];
-    [self initsearchArr: array];
-   SearchDetailsViewController *details= [[SearchDetailsViewController alloc]init];
-    details.serachText = searchText.text;
-//    details.cityId =self.cityId; //城市id
+    
+    SearchDetailsViewController *details= [[SearchDetailsViewController alloc]init];
+    //    details.cityId =self.cityId; //城市id
     //经纬度
-//    details.latitude= self.latitude;
-//    details.longitude= self.longitude;
+    //    details.latitude= self.latitude;
+    //    details.longitude= self.longitude;
     details.cityId=@"0";
     details.latitude= @"116.315811";
     details.longitude= @"39.961441";
     
+    NSMutableDictionary * temp =[NSMutableDictionary dictionary];
+    
+    for (NSString * str in self.searchArr.allValues) {
+        if ([textField.text isEqualToString:str]) {
+            details.serachText = searchText.text;
+            [self.navigationController pushViewController:details animated:YES];
+            return YES;
+        }
+    }
+    
+    
+    [temp setValue:textField.text forKey:@"0"];
+   
+    for (int i=0; i<self.searchArr.count; i++) {
+        if (i ==9) {
+            break;
+        }
+
+        [temp setValue:[self.searchArr objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",i+1]];
+    }
+    [self initsearchArr: temp];
+
+
+   
+    details.serachText = searchText.text;
     [self.navigationController pushViewController:details animated:YES];
     return YES;
 }
 
 
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    [searchText resignFirstResponder];
+    
+    SearchDetailsViewController *details= [[SearchDetailsViewController alloc]init];
+    details.serachText = [self.searchArr objectForKey:[NSString stringWithFormat:@"%ld",indexPath.row]];
+    //    details.cityId =self.cityId; //城市id
+    //经纬度
+    //    details.latitude= self.latitude;
+    //    details.longitude= self.longitude;
+    details.cityId=@"0";
+    details.latitude= @"116.315811";
+    details.longitude= @"39.961441";
+    
+    [self.navigationController pushViewController:details animated:YES];
+
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {

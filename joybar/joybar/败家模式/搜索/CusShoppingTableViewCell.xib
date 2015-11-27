@@ -17,16 +17,6 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rPX-y3-1jX">
                         <rect key="frame" x="8" y="8" width="304" height="140.5"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="98Y-vc-bjl">
-                                <rect key="frame" x="10" y="20" width="100" height="100"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.94117647059999998" green="0.56862745100000001" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="Ea1-6c-MBV"/>
-                                    <constraint firstAttribute="width" constant="100" id="izc-Zc-lXU"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="时尚潮流，时尚潮流，时尚潮流，时尚潮流，时尚潮流，时尚潮流，时尚潮流，时尚潮流，" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UFW-fV-bwE">
                                 <rect key="frame" x="118" y="31" width="178" height="60"/>
                                 <animations/>
@@ -44,25 +34,34 @@
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUo-KT-6vX">
-                                <rect key="frame" x="266" y="94" width="30" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RUo-KT-6vX">
+                                <rect key="frame" x="266" y="94.5" width="30" height="30"/>
                                 <animations/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Xvl-bJ-r31"/>
                                     <constraint firstAttribute="width" constant="30" id="wdh-hN-NVR"/>
                                 </constraints>
+                                <state key="normal" image="weishoucang"/>
+                                <state key="selected" image="yishoucang"/>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QV3-9Q-JNm">
+                                <rect key="frame" x="10" y="20" width="100" height="100"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="KXA-oy-IPT"/>
+                                    <constraint firstAttribute="width" constant="100" id="oFZ-BR-h9t"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="UFW-fV-bwE" secondAttribute="trailing" constant="8" id="1Lm-m8-ZSc"/>
-                            <constraint firstItem="UFW-fV-bwE" firstAttribute="leading" secondItem="98Y-vc-bjl" secondAttribute="trailing" constant="8" id="Fed-rU-gEn"/>
                             <constraint firstItem="UFW-fV-bwE" firstAttribute="top" secondItem="rPX-y3-1jX" secondAttribute="top" constant="31" id="HWF-rm-lSD"/>
-                            <constraint firstItem="98Y-vc-bjl" firstAttribute="leading" secondItem="rPX-y3-1jX" secondAttribute="leading" constant="10" id="IK0-4k-onS"/>
-                            <constraint firstItem="98Y-vc-bjl" firstAttribute="top" secondItem="rPX-y3-1jX" secondAttribute="top" constant="20" id="Ikd-bg-poA"/>
+                            <constraint firstItem="QV3-9Q-JNm" firstAttribute="top" secondItem="rPX-y3-1jX" secondAttribute="top" constant="20" id="QaU-rS-nbC"/>
                             <constraint firstAttribute="trailing" secondItem="RUo-KT-6vX" secondAttribute="trailing" constant="8" id="bwF-OI-Rr4"/>
+                            <constraint firstItem="UFW-fV-bwE" firstAttribute="leading" secondItem="QV3-9Q-JNm" secondAttribute="trailing" constant="8" id="npJ-Or-pjk"/>
+                            <constraint firstItem="QV3-9Q-JNm" firstAttribute="leading" secondItem="rPX-y3-1jX" secondAttribute="leading" constant="10" id="ram-uU-leH"/>
                             <constraint firstAttribute="bottom" secondItem="RUo-KT-6vX" secondAttribute="bottom" constant="16" id="uDB-eU-YmZ"/>
                         </constraints>
                     </view>
@@ -77,6 +76,17 @@
             </tableViewCellContentView>
             <animations/>
             <color key="backgroundColor" red="0.89411764705882357" green="0.91764705882352937" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="chCBtn" destination="RUo-KT-6vX" id="ZRh-Ss-Ayu"/>
+                <outlet property="desLab" destination="UFW-fV-bwE" id="cXQ-FP-Ki7"/>
+                <outlet property="priceLab" destination="TkT-hI-hwG" id="qIN-0q-uwZ"/>
+                <outlet property="shopIconView" destination="QV3-9Q-JNm" id="wxW-Lr-CHc"/>
+            </connections>
+            <point key="canvasLocation" x="306" y="177"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="weishoucang" width="16" height="16"/>
+        <image name="yishoucang" width="16" height="16"/>
+    </resources>
 </document>

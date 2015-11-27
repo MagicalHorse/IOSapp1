@@ -95,7 +95,7 @@
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
-            
+            return ;
             if (type==1) {
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
@@ -448,6 +448,20 @@
             cell =[[[NSBundle mainBundle] loadNibNamed:@"CusShoppingTableViewCell" owner:self options:nil] lastObject];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (self.searchArr.count>0) {
+            [cell.shopIconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr[indexPath.row]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            cell.priceLab.text =[[self.searchArr[indexPath.row]objectForKey:@"Price"] stringValue];
+            BOOL isFavite =[[self.searchArr[indexPath.row]objectForKey:@"IsFavite"]boolValue];
+            if (isFavite) {
+                cell.chCBtn.selected =YES;
+            }else{
+                cell.chCBtn.selected =NO;
+            }
+            cell.desLab.text =[self.searchArr[indexPath.row]objectForKey:@"ProductName"];
+        }
+        
+        
+        
         return cell;
 
     }else if(type ==2){
@@ -482,7 +496,7 @@
             [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr3[indexPath.row]objectForKey:@"StoreLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.shopName.text =[self.searchArr3[indexPath.row]objectForKey:@"StoreName"];
             cell.addressLab.text =[self.searchArr3[indexPath.row]objectForKey:@"StoreLocation"];
-            cell.juliView.text = @"17m";
+            cell.juliView.text = [Public getDistanceWithLocation:[self.latitude doubleValue] and:[self.longitude doubleValue] and:[[self.searchArr3[indexPath.row]objectForKey:@"Lat"] doubleValue] and:[[self.searchArr3[indexPath.row]objectForKey:@"Lon"] doubleValue]];
         }
 
         

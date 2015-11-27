@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface CusShoppingTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *shopIconView;
+@property (weak, nonatomic) IBOutlet UILabel *desLab;
+@property (weak, nonatomic) IBOutlet UILabel *priceLab;
+@property (weak, nonatomic) IBOutlet UIButton *chCBtn;
 
 @end
