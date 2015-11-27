@@ -28,14 +28,11 @@
 @property (strong, nonatomic) BaseNavigationController *homeNav;
 @property (strong, nonatomic) BaseNavigationController *fastNav;
 @property (strong, nonatomic) BaseNavigationController *cartNav;
-@property (strong, nonatomic) BaseNavigationController *findNav;
 @property (strong, nonatomic) BaseNavigationController *myAccountNav;
-
 
 @property (strong, nonatomic) CusHomeViewController *homeView;
 @property (strong, nonatomic) CusCircleViewController *fastView;
 @property (strong, nonatomic) CusMessageViewController *messageView;
-@property (strong, nonatomic) CusMoreBrandViewController *fineView;
 @property (strong, nonatomic) CusMineViewController *myAccountView;
 @property (strong ,nonatomic) FindShopGuideViewController * findView;
 

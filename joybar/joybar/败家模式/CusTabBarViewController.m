@@ -107,7 +107,6 @@
     _homeView = [[CusHomeViewController alloc]init];
     _fastView = [[CusCircleViewController alloc]init];
     _messageView = [[CusMessageViewController alloc]init];
-    _fineView = [[CusMoreBrandViewController alloc]init];
     _myAccountView = [[CusMineViewController alloc] init];
     
     _findView = [[FindShopGuideViewController alloc] init];
@@ -115,10 +114,10 @@
     self.homeNav = [[BaseNavigationController alloc]initWithRootViewController:_homeView];
     self.fastNav = [[BaseNavigationController alloc]initWithRootViewController:_findView];
     self.cartNav = [[BaseNavigationController alloc]initWithRootViewController:_messageView];
-    self.findNav = [[BaseNavigationController alloc]initWithRootViewController:_fineView];
+//    self.findNav = [[BaseNavigationController alloc]initWithRootViewController:_fineView];
     self.myAccountNav = [[BaseNavigationController alloc]initWithRootViewController:_myAccountView];
     
-    NSArray *navs = [NSArray arrayWithObjects:self.homeNav,self.fastNav,self.cartNav,self.findNav,self.myAccountNav, nil];
+    NSArray *navs = [NSArray arrayWithObjects:self.homeNav,self.fastNav,self.cartNav,self.myAccountNav, nil];
     
     self.viewControllers = navs;
 }
