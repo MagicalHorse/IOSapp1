@@ -18,7 +18,7 @@
     dataDic = dic;
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-15)/2, height)];
     //    imageView.backgroundColor = [self randomColor];
-    NSString *imgUrl = [NSString stringWithFormat:@"%@",[[dic objectForKey:@"pic"] objectForKey:@"pic"]];
+    NSString *imgUrl = [NSString stringWithFormat:@"%@",[dic objectForKey:@"Pic"]];
     imageView.clipsToBounds = YES;
     [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:imageView];
@@ -28,7 +28,7 @@
     [self.contentView addSubview:bgView];
     
     UILabel *nameLab = [[UILabel alloc] init];
-    nameLab.text = [dic objectForKey:@"Name"];
+    nameLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ProductName"]];
     nameLab.numberOfLines = 0;
     nameLab.font = [UIFont systemFontOfSize:13];
     CGSize size = [Public getContentSizeWith:nameLab.text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
@@ -38,40 +38,39 @@
     //白色背景高度
     bgView.frame =CGRectMake(0, height, (kScreenWidth-15)/2, size.height+35);
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, nameLab.bottom+12, 10, 10)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, nameLab.bottom+12, 11, 11)];
     label.text = @"￥";
     label.textColor = [UIColor grayColor];
-    label.font = [UIFont systemFontOfSize:12];
+    label.font = [UIFont systemFontOfSize:11];
     [bgView addSubview:label];
     
-    UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(label.right+1, nameLab.bottom+5, 70, 20)];
+    UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(label.right+1, nameLab.bottom+7, 80, 20)];
     priceLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"Price"]];
     priceLab.textColor = [UIColor redColor];
     priceLab.font = [UIFont systemFontOfSize:14];
     [bgView addSubview:priceLab];
     
     UIButton *clickZan = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    clickZan.frame = CGRectMake((kScreenWidth-15)/2-60, nameLab.bottom+5, 60, 20);
+    clickZan.frame = CGRectMake((kScreenWidth-15)/2-50, nameLab.bottom+7, 60, 20);
     clickZan.backgroundColor = [UIColor clearColor];
     if (![[dic objectForKey:@"IsFavorite"] boolValue])
     {
-        [clickZan setImage:[UIImage imageNamed:@"xing"] forState:(UIControlStateNormal)];
+        [clickZan setImage:[UIImage imageNamed:@"weishoucang"] forState:(UIControlStateNormal)];
         clickZan.selected = NO;
-
     }
     else
     {
-        [clickZan setImage:[UIImage imageNamed:@"xingxing"] forState:(UIControlStateNormal)];
+        [clickZan setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
         clickZan.selected = YES;
     }
     
-    NSString *count =[NSString stringWithFormat:@" %@",[dic objectForKey:@"FavoriteCount"]];
-    [clickZan setTitle:count forState:(UIControlStateNormal)];
-
-    clickZan.titleLabel.font = [UIFont systemFontOfSize:14];
-    [clickZan setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
-    clickZan.userInteractionEnabled = YES;
-    [clickZan addTarget:self action:@selector(didClickCancelCollect:) forControlEvents:(UIControlEventTouchUpInside)];
+//    NSString *count =[NSString stringWithFormat:@" %@",[dic objectForKey:@"FavoriteCount"]];
+//    [clickZan setTitle:count forState:(UIControlStateNormal)];
+//
+//    clickZan.titleLabel.font = [UIFont systemFontOfSize:14];
+//    [clickZan setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
+//    clickZan.userInteractionEnabled = YES;
+//    [clickZan addTarget:self action:@selector(didClickCancelCollect:) forControlEvents:(UIControlEventTouchUpInside)];
     [bgView addSubview:clickZan];
 }
 
@@ -94,12 +93,12 @@
         {
             if (btn.selected)
             {
-                [btn setImage:[UIImage imageNamed:@"xing"] forState:(UIControlStateNormal)];
+                [btn setImage:[UIImage imageNamed:@"weishoucang"] forState:(UIControlStateNormal)];
                 btn.selected = NO;
             }
             else
             {
-                [btn setImage:[UIImage imageNamed:@"xingxing"] forState:(UIControlStateNormal)];
+                [btn setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
                 btn.selected = YES;
             }
             [self.delegate collectHandle];

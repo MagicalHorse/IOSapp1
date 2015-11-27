@@ -31,7 +31,6 @@
 //@property (strong, nonatomic) BaseNavigationController *findNav;
 @property (strong, nonatomic) BaseNavigationController *myAccountNav;
 
-
 @property (strong, nonatomic) CusHomeViewController *homeView;
 @property (strong, nonatomic) CusCircleViewController *fastView;
 @property (strong, nonatomic) CusMessageViewController *messageView;

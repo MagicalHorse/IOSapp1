@@ -45,10 +45,6 @@
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-//    for (UIView *view in cell.contentView.subviews)
-//    {
-//        [view removeFromSuperview];
-//    }
     if (self.dataArr.count>0)
     {
         [cell setData:self.dataArr[indexPath.row] andIndexPath:indexPath];
@@ -58,22 +54,47 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-//    if (indexPath.row==0)
-//    {
-//        return 100;
-//    }
-    
-    //商场
-//    return (kScreenWidth-20)/3-10+150;
-    //认证买手
-    return (kScreenWidth-20)/3-10+190;
-
+    if (self.dataArr.count>0)
+    {
+        NSString *StoreLeave = [NSString stringWithFormat:@"%@",[self.dataArr[indexPath.row] objectForKey:@"StoreLeave"]];
+        if ([StoreLeave isEqualToString:@"8"])
+        {
+            //认证买手
+            return (kScreenWidth-20)/3-10+190;
+        }
+        else
+        {
+            //商场
+            return (kScreenWidth-20)/3-10+150;
+        }
+    }
+    return 0;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CusMarketViewController *VC = [[CusMarketViewController alloc] init];
+    
+    NSDictionary *dic = self.dataArr[indexPath.row];
+    
+    NSString *StoreLeave = [NSString stringWithFormat:@"%@",[self.dataArr[indexPath.row] objectForKey:@"StoreLeave"]];
+    
+    if ([StoreLeave isEqualToString:@"8"])
+    {
+        //认证买手
+        VC.marketName = @"认证买手";
+        VC.locationStr = [dic objectForKey:@"Location"];
+        
+    }
+    else
+    {
+        //商场
+        VC.storeId = [dic objectForKey:@"StoreId"];
+        VC.marketName = [dic objectForKey:@"StoreName"];
+        [VC.brandArr addObjectsFromArray:[dic objectForKey:@"Brands"]];
+        VC.describeStr = [dic objectForKey:@"Description"];
+    }
+    
     [self.viewController.navigationController pushViewController:VC animated:YES];
 //    if (self.dataArr.count==0)
 //    {

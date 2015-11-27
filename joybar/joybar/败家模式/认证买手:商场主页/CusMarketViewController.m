@@ -14,11 +14,12 @@
 #import "CusHomeStoreHeader.h"
 #import "CusMoreBrandViewController.h"
 #define HEADER_IDENTIFIER @"WaterfallHeader"
-#define HEADER_HEIGHT [UIScreen mainScreen].bounds.size.width*0.618+35
+#define HEADER_HEIGHT [UIScreen mainScreen].bounds.size.width*0.5+35
 @interface CusMarketViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,CHTCollectionViewDelegateWaterfallLayout>
 
 @property (nonatomic ,strong) UICollectionView *collectionView;
-
+@property (nonatomic ,strong) NSMutableArray *proArr;
+@property (nonatomic ,assign) int pageNum;
 
 @end
 
@@ -36,7 +37,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.brandArr = [NSMutableArray array];
     [self addNavBarViewAndTitle:@"品牌名"];
+    self.pageNum = 1;
+    self.proArr = [NSMutableArray array];
     CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
     layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
     layout.minimumColumnSpacing = 5;
@@ -52,10 +56,64 @@
         forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader
                withReuseIdentifier:HEADER_IDENTIFIER];
     [self.view addSubview:_collectionView];
+    [self addHeader];
+    [self addFooter];
+    [self getData];
 }
+- (void)addHeader
+{
+    __weak CusMarketViewController* vc = self;
+    // 添加下拉刷新头部控件
+    [self.collectionView addHeaderWithCallback:^{
+        [vc.proArr removeAllObjects];
+        vc.pageNum = 1;
+        [vc getData];
+    }];
+    
+    //    [self.collectionView headerBeginRefreshing];
+}
+
+- (void)addFooter
+{
+    __weak CusMarketViewController *vc = self;
+    // 添加上拉刷新尾部控件
+    [self.collectionView addFooterWithCallback:^{
+        vc.pageNum++;
+        [vc getData];
+    }];
+}
+
+
+-(void)getData
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:@"121" forKey:@"StoreId"];
+    [dic setObject:[[Public getUserInfo] objectForKey:@"id"] forKey:@"userid"];
+    [dic setObject:[NSString stringWithFormat:@"%d",self.pageNum] forKey:@"Page"];
+    [dic setObject:@"10" forKey:@"PageSize"];
+    [dic setObject:@"7" forKey:@"SortType"];
+    [HttpTool postWithURL:@"v3/storeindex" params:dic success:^(id json) {
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr =[[json objectForKey:@"data"] objectForKey:@"items"];
+            [self.proArr addObjectsFromArray:arr];
+            [self.collectionView reloadData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self.collectionView headerEndRefreshing];
+        [self.collectionView footerEndRefreshing];
+    } failure:^(NSError *error) {
+        
+    }];
+    
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 2;
+    return self.proArr.count;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -79,9 +137,9 @@
         [view removeFromSuperview];
     }
     
-    //    float height = [[[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
-    //
-    //    [cell setCollectionData:[self.tagArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
+        float height = [[[self.proArr objectAtIndex:indexPath.row] objectForKey:@"Ratio"] floatValue];
+    
+        [cell setCollectionData:[self.proArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
     
     
     return cell;
@@ -89,13 +147,11 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSDictionary *dic = [self.tagArr objectAtIndex:indexPath.row];
-    //    NSString *text = [dic objectForKey:@"Name"];
-    //    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
-    //    CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
-    //
-    CGSize size1 = CGSizeMake((kScreenWidth-10)/2, 200);
-    
+    NSDictionary *dic = [self.proArr objectAtIndex:indexPath.row];
+    NSString *text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ProductName"]];
+    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
+    CGFloat itemH = (kScreenWidth-10)/2*[[dic objectForKey:@"Ratio"] floatValue]+size.height+35;
+    CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
     return size1;
 }
 
@@ -103,7 +159,7 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionReusableView *reusableView = nil;
-
+    
     if ([kind isEqualToString:CHTCollectionElementKindSectionHeader])
     {
         reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:HEADER_IDENTIFIER forIndexPath:indexPath];
@@ -126,24 +182,40 @@
     bgView.layer.shadowRadius = 2;//阴影半径，默认3
     [contentView addSubview:bgView];
     
-    UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*0.618)];
+    UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*0.5)];
     tempView.backgroundColor  =[UIColor orangeColor];
     [contentView addSubview:tempView];
     
-    UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(15, HEADER_HEIGHT-100, kScreenWidth, 20)];
-    nameLab.text = @"商场名称";
+    UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(15, HEADER_HEIGHT-90, kScreenWidth, 20)];
+    nameLab.text = self.marketName;
     nameLab.textColor = [UIColor whiteColor];
     nameLab.font = [UIFont systemFontOfSize:16];
     [tempView addSubview:nameLab];
     
-    UILabel *describe = [[UILabel alloc] init];
-    describe.textColor = [UIColor whiteColor];
-    describe.font = [UIFont systemFontOfSize:13];
-    describe.numberOfLines = 2;
-    describe.text = @"啊实打实大师大实打实大大叔大大声地阿萨德asdasdasdasdadasdasda叔大大声地阿萨德asdasdasdasdadasdasdasdasd";
-    CGSize size = [Public getContentSizeWith:describe.text andFontSize:13 andWidth:kScreenWidth-30];
-    describe.frame =CGRectMake(15, nameLab.bottom, kScreenWidth-30, size.height);
-    [tempView addSubview:describe];
+
+    if ([self.marketName isEqualToString:@"认证买手"])
+    {
+        UIImageView *localImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, tempView.height-20, 13, 13)];
+        localImage.image = [UIImage imageNamed:@"location"];
+        [tempView addSubview:localImage];
+        
+        UILabel *localLab = [[UILabel alloc] initWithFrame:CGRectMake(localImage.right+3, localImage.top-5, tempView.width-140, 20)];
+        localLab.text = self.locationStr;
+        localLab.textColor = [UIColor whiteColor];
+        localLab.font = [UIFont systemFontOfSize:13];
+        [tempView addSubview:localLab];
+    }
+    else
+    {
+        UILabel *describe = [[UILabel alloc] init];
+        describe.textColor = [UIColor whiteColor];
+        describe.font = [UIFont systemFontOfSize:13];
+        describe.numberOfLines = 2;
+        describe.text = self.describeStr;
+        describe.frame =CGRectMake(15, nameLab.bottom, kScreenWidth-30, 26);
+        [tempView addSubview:describe];
+    }
+    
     
     UIButton *brandBtn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
     brandBtn.frame = CGRectMake(kScreenWidth-52-10, HEADER_HEIGHT-28, 56, 20);
@@ -156,25 +228,25 @@
     
     [bgView addSubview:brandBtn];
     
-    NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@"only",@"asd",@"asdasda",@"阿打算打算",@"asdaasda",@"asdasda",@"asdasdasd"]];
+//    NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@"only",@"asd",@"asdasda",@"阿打算打算",@"asdaasda",@"asdasda",@"asdasdasd"]];
     CGFloat beforeBtnWith=0;
     CGFloat totalWidth=0;
-    for (int i=0; i<arr.count; i++)
+    for (int i=0; i<self.brandArr.count; i++)
     {
-        CGSize btnSize = [Public getContentSizeWith:arr[i] andFontSize:13 andHigth:20];
-
+        CGSize btnSize = [Public getContentSizeWith:self.brandArr[i] andFontSize:13 andHigth:20];
+        
         totalWidth = btnSize.width+10+totalWidth;
         
         
         if (totalWidth>kScreenWidth-62)
         {
-            [arr removeLastObject];
+            [self.brandArr removeLastObject];
         }
         else
         {
             UIButton *btn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
             btn.backgroundColor = kCustomColor(220, 221, 221);
-            [btn setTitle:arr[i] forState:(UIControlStateNormal)];
+            [btn setTitle:self.brandArr[i] forState:(UIControlStateNormal)];
             [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
             btn.titleLabel.font = [UIFont systemFontOfSize:13];
             btn.titleLabel.textAlignment = NSTextAlignmentCenter;

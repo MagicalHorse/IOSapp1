@@ -110,18 +110,17 @@
     if ([StoreLeave isEqualToString:@"8"])
     {
         //认证买手
-        tempViewHeight = (kScreenWidth-20)/3-10+140;
+        tempViewHeight = (kScreenWidth-20)/3-10+180;
         
     }
     else
     {
         //商场
-        tempViewHeight = (kScreenWidth-20)/3-10+180;
+        tempViewHeight = (kScreenWidth-20)/3-10+140;
     }
     
     tempView.frame = CGRectMake(5, 10, kScreenWidth-10, tempViewHeight);
     [imageView sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    
     
     //如果IsStart=true  则是剩余结束时间，否则是剩余开始时间
     BOOL IsStart = [[dic objectForKey:@"IsStart"] boolValue];
@@ -134,7 +133,6 @@
     {
         [timer3 setCountDownTime:RemainTime];
         showLab.text = @" 距离结束 :";
-        
     }
     else
     {
@@ -157,7 +155,6 @@
     else
     {
         //商场
-        
         localImage.hidden = NO;
         localLab.hidden = NO;
         distanceLab.hidden = NO;
@@ -166,7 +163,7 @@
         NSString *lat = [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
         NSString *lon = [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
         NSString *distance = [Public getDistanceWithLocation:[lat doubleValue] and:[lon doubleValue] and:[[dic objectForKey:@"Lat"] doubleValue] and:[[dic objectForKey:@"Lon"] doubleValue]];
-        distanceLab.text = [NSString stringWithFormat:@"%.1fKM",[distance floatValue]];
+        distanceLab.text = [NSString stringWithFormat:@"%.1fKM",[distance floatValue]/1000];
         localLab.text = [dic objectForKey:@"Location"];
     }
     
@@ -231,45 +228,48 @@
         [proImage sd_setImageWithURL:[NSURL URLWithString:[proDic objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         [proView addSubview:proImage];
         
-        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, proImage.height/4*3, proImage.width, proImage.height/4)];
-        bgView.backgroundColor = [UIColor blackColor];
-        bgView.alpha =0.3;
-        [proImage addSubview:bgView];
-        
-        UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, proImage.width/2, proImage.height/4)];
-        price.textColor = [UIColor whiteColor];
-        price.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"Price"]];
-        price.font = [UIFont systemFontOfSize:14];
-        [bgView addSubview:price];
-        
-        UILabel *discountPrice = [[UILabel alloc] initWithFrame:CGRectMake(price.right, 2, proImage.width/2, proImage.height/4-2)];
-        discountPrice.textColor = [UIColor whiteColor];
-        discountPrice.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"UnitPrice"]];
-        discountPrice.font = [UIFont systemFontOfSize:11];
-        [bgView addSubview:discountPrice];
-        
-        CGSize size = [Public getContentSizeWith:discountPrice.text andFontSize:11 andHigth:proImage.height/4-2];
-        
-        UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, bgView.height/2, size.width, 1)];
-        line.backgroundColor = [UIColor whiteColor];
-        [discountPrice addSubview:line];
-        
-        UIImageView *buyerHeaderImage = [[UIImageView alloc] initWithFrame:CGRectMake(proImage.left, proImage.bottom+5, 40, 40)];
-        buyerHeaderImage.clipsToBounds = YES;
-        buyerHeaderImage.layer.cornerRadius = buyerHeaderImage.width/2;
-        //            buyerHeaderImage.backgroundColor = [UIColor redColor];
-        [buyerHeaderImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        [proView addSubview:buyerHeaderImage];
-        
-        UILabel *buyerName = [[UILabel alloc] initWithFrame:CGRectMake(buyerHeaderImage.right+5, proImage.bottom+8, proImage.width-50, 15)];
-        buyerName.text = [proDic objectForKey:@"NickName"];
-        buyerName.font = [UIFont systemFontOfSize:12];
-        [proView addSubview:buyerName];
-        
-        UILabel *buyerBrandName = [[UILabel alloc] initWithFrame:CGRectMake(buyerHeaderImage.right+5, buyerName.bottom, proImage.width-50, 20)];
-        buyerBrandName.text = [NSString stringWithFormat:@"BrandName"];
-        buyerBrandName.font = [UIFont systemFontOfSize:11];
-        [proView addSubview:buyerBrandName];
+        if ([StoreLeave isEqualToString:@"8"])
+        {
+            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, proImage.height/4*3, proImage.width, proImage.height/4)];
+            bgView.backgroundColor = [UIColor blackColor];
+            bgView.alpha =0.3;
+            [proImage addSubview:bgView];
+            
+            UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, proImage.width/2, proImage.height/4)];
+            price.textColor = [UIColor whiteColor];
+            price.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"Price"]];
+            price.font = [UIFont systemFontOfSize:14];
+            [bgView addSubview:price];
+            
+            UILabel *discountPrice = [[UILabel alloc] initWithFrame:CGRectMake(price.right, 2, proImage.width/2, proImage.height/4-2)];
+            discountPrice.textColor = [UIColor whiteColor];
+            discountPrice.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"UnitPrice"]];
+            discountPrice.font = [UIFont systemFontOfSize:11];
+            [bgView addSubview:discountPrice];
+            
+            CGSize size = [Public getContentSizeWith:discountPrice.text andFontSize:11 andHigth:proImage.height/4-2];
+            
+            UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, bgView.height/2, size.width, 1)];
+            line.backgroundColor = [UIColor whiteColor];
+            [discountPrice addSubview:line];
+            
+            UIImageView *buyerHeaderImage = [[UIImageView alloc] initWithFrame:CGRectMake(proImage.left, proImage.bottom+5, 40, 40)];
+            buyerHeaderImage.clipsToBounds = YES;
+            buyerHeaderImage.layer.cornerRadius = buyerHeaderImage.width/2;
+            //            buyerHeaderImage.backgroundColor = [UIColor redColor];
+            [buyerHeaderImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            [proView addSubview:buyerHeaderImage];
+            
+            UILabel *buyerName = [[UILabel alloc] initWithFrame:CGRectMake(buyerHeaderImage.right+5, proImage.bottom+8, proImage.width-50, 15)];
+            buyerName.text = [proDic objectForKey:@"NickName"];
+            buyerName.font = [UIFont systemFontOfSize:12];
+            [proView addSubview:buyerName];
+            
+            UILabel *buyerBrandName = [[UILabel alloc] initWithFrame:CGRectMake(buyerHeaderImage.right+5, buyerName.bottom, proImage.width-50, 20)];
+            buyerBrandName.text = [NSString stringWithFormat:@"BrandName"];
+            buyerBrandName.font = [UIFont systemFontOfSize:11];
+            [proView addSubview:buyerBrandName];
+        }
     }
 }
 
