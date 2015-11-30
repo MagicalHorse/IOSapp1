@@ -9,9 +9,18 @@
 #import "FindShopGuideViewController.h"
 #import "HJCarouselViewLayout.h"
 #import "HJCarouselViewCell.h"
+#import "HJConcernCell.h"
+#import "HJHeaderViewCell.h"
+
 @interface FindShopGuideViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong)UICollectionView *cusCollectView;
+@property (nonatomic ,strong)UICollectionView *cusCollectView1;
+@property (nonatomic ,strong)UICollectionView *cusCollectView2;
+
+
+@property (nonatomic ,strong) UIScrollView *messageScroll;
+
 @end
 static NSString * const reuseIdentifier = @"Cell";
 
@@ -54,18 +63,79 @@ static NSString * const reuseIdentifier = @"Cell";
         [lab addGestureRecognizer:tap];
     }
     
+    self.messageScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64)];
+    self.messageScroll.alwaysBounceVertical = NO;
+    self.messageScroll.pagingEnabled = YES;
+    self.messageScroll.delegate = self;
+    self.messageScroll.directionalLockEnabled = YES;
+    self.messageScroll.showsHorizontalScrollIndicator = NO;
+    self.messageScroll.bounces = NO;
+    self.messageScroll.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.messageScroll];
+
+    
+    
     HJCarouselViewLayout *layout  = [[HJCarouselViewLayout alloc] initWithAnim:HJCarouselAnimLinear];
     layout.itemSize = CGSizeMake(kScreenWidth-70, kScreenHeight-168);
     layout.scrollDirection =UICollectionViewScrollDirectionHorizontal;
     
-    _cusCollectView =[[UICollectionView alloc]initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) collectionViewLayout:layout];
+    _cusCollectView =[[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-49) collectionViewLayout:layout];
     _cusCollectView.dataSource =self;
     _cusCollectView.delegate =self;
     _cusCollectView.showsHorizontalScrollIndicator = NO;
     _cusCollectView.showsVerticalScrollIndicator = NO;
     _cusCollectView.backgroundColor =[UIColor whiteColor];
-    [self.view addSubview:_cusCollectView];
+    [self.messageScroll addSubview:_cusCollectView];
     [self.cusCollectView registerNib:[UINib nibWithNibName:NSStringFromClass([HJCarouselViewCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
+    
+    //关注
+    UIView *gzView =[[UIView alloc]initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth*2, kScreenHeight)];
+    [self.messageScroll addSubview:gzView];
+    
+ 
+    
+    
+    
+    
+    HJCarouselViewLayout *layout1  = [[HJCarouselViewLayout alloc] initWithAnim:HJCarouselAnimLinear];
+
+    layout1.itemSize = CGSizeMake(kScreenWidth-70, kScreenHeight-298);
+    layout1.scrollDirection =UICollectionViewScrollDirectionHorizontal;
+    
+    _cusCollectView1 =[[UICollectionView alloc]initWithFrame:CGRectMake(0, 115, kScreenWidth, kScreenHeight-298) collectionViewLayout:layout1];
+    _cusCollectView1.dataSource =self;
+    _cusCollectView1.delegate =self;
+    _cusCollectView1.showsHorizontalScrollIndicator = NO;
+    _cusCollectView1.showsVerticalScrollIndicator = NO;
+    _cusCollectView1.backgroundColor =[UIColor whiteColor];
+    [gzView addSubview:_cusCollectView1];
+
+    [self.cusCollectView1 registerNib:[UINib nibWithNibName:NSStringFromClass([HJConcernCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
+    
+    UILabel *adLabel =[[UILabel alloc]initWithFrame:CGRectMake(0, _cusCollectView1.bottom+10, kScreenWidth, 14)];
+    adLabel.text =@"中关村南大街6号";
+    adLabel.textAlignment =NSTextAlignmentCenter;
+    adLabel.font =[UIFont systemFontOfSize:14];
+    [gzView addSubview:adLabel];
+
+
+    
+    //头
+    HJCarouselViewLayout *layout2  = [[HJCarouselViewLayout alloc] initWithAnim:HJCarouselAnimLinear];
+    layout2.itemSize = CGSizeMake(75, 100);
+    layout2.scrollDirection =UICollectionViewScrollDirectionHorizontal;
+    
+    _cusCollectView2 =[[UICollectionView alloc]initWithFrame:CGRectMake(40, 10, kScreenWidth-80, 100) collectionViewLayout:layout2];
+    _cusCollectView2.dataSource =self;
+    _cusCollectView2.delegate =self;
+    _cusCollectView2.showsHorizontalScrollIndicator = NO;
+    _cusCollectView2.showsVerticalScrollIndicator = NO;
+    _cusCollectView2.backgroundColor =[UIColor whiteColor];
+    [gzView addSubview:_cusCollectView2];
+    [self.cusCollectView2 registerNib:[UINib nibWithNibName:NSStringFromClass([HJHeaderViewCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
+
+    [gzView addSubview:_cusCollectView2];
+    
     
 }
 
@@ -103,6 +173,10 @@ static NSString * const reuseIdentifier = @"Cell";
     NSLog(@"click %ld", indexPath.row);
 }
 
+
+
+
+
 #pragma mark <UICollectionViewDataSource>
 //定义展示的UICollectionViewCell的个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -114,18 +188,21 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
-
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
     if (tap.view.tag==1000)
     {
+
+        self.messageScroll.contentOffset = CGPointMake(0, 0);
         [self scrollToMessage];
     }
     else
     {
+        self.messageScroll.contentOffset = CGPointMake(kScreenWidth, 0);
         [self scrollToDynamic];
     }
 }
+
 
 //导购
 -(void)scrollToMessage
@@ -155,6 +232,9 @@ static NSString * const reuseIdentifier = @"Cell";
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont systemFontOfSize:15];
     
+}
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    NSLog(@"1");
 }
 
 
