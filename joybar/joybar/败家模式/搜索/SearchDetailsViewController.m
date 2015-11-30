@@ -29,6 +29,11 @@
     UITextField *searchText;
     int searchTyep;
     int type;
+    BOOL isRefresh;
+    BOOL isRefresh1;
+    BOOL isRefresh2;
+    BOOL isRefresh3;
+
 }
 
 
@@ -62,6 +67,11 @@
         [HUD showHudFailed:@"请输入搜索关键字"];
         return;
     }
+    
+    if (isRefresh ||isRefresh1||isRefresh2||isRefresh3) {
+        [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
+    }
+    
     NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     NSString *url;
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
@@ -79,7 +89,7 @@
 
     }else if(type ==2){
         url =@"v3/searchBrand";
-        return;
+        
     }else if(type ==3){
         url =@"v3/searchbuyer";
         [dict setObject:userId forKey:@"userId"];
@@ -97,6 +107,7 @@
         if (isSuccessful) {
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
             if (type==1) {
+                isRefresh =NO;
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -112,6 +123,7 @@
                 }
                 
             }else if(type ==2){
+                isRefresh1 =NO;
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -127,6 +139,8 @@
                 }
 
             }else if(type ==3){
+                isRefresh2 =NO;
+
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -142,6 +156,7 @@
                 }
 
             }else if(type ==4){
+                isRefresh3 =NO;
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -171,10 +186,14 @@
         }
         [self.tableView endRefresh];
         [self.tableView reloadData];
-        
+        [self activityDismiss];
+
     } failure:^(NSError *error) {
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
         [self.tableView endRefresh];
+        [self activityDismiss];
+
+        
 
     }];
 }
@@ -184,6 +203,11 @@
     [self addNavBarViewAndTitle:@""];
     searchTyep =0;
     type=1;
+    isRefresh=YES;
+    isRefresh1=YES;
+    isRefresh2=YES;
+    isRefresh3=YES;
+
     //搜索
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(40, 25, kScreenWidth-80, 30)];
     searchView.backgroundColor = kCustomColor(232, 233, 234);
@@ -295,23 +319,57 @@
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
+    [self activityDismiss];
     if (tap.view.tag==1000)
     {
-//        [self activityDismiss];
+        type=1;
+        if (isRefresh) {
+            self.pageNum=1;
+            [self setData];
+
+        }else{
+            [self.tableView reloadData];
+
+        }
         [self scrollToBuyerStreet];
+
     }
     else if(tap.view.tag==1001)
     {
-//        [self activityDismiss];
+        type=2;
+
+        if (isRefresh1) {
+            self.pageNum=1;
+            [self setData];
+        }else{
+            [self.tableView reloadData];
+
+        }
         [self scrollToSaid];
+
+
     }
     else if(tap.view.tag==1002)
     {
-//        [self activityDismiss];
+        type=3;
+        if (isRefresh2) {
+            self.pageNum=1;
+            [self setData];
+        }else{
+            [self.tableView reloadData];
+        }
         [self scrollToMyBuyer];
     }
     else
     {
+        type=4;
+        if (isRefresh3) {
+            self.pageNum=1;
+            [self setData];
+        }else{
+            [self.tableView reloadData];
+        }
+
         [self scrollToMyBuyer1];
     }
 }
@@ -335,9 +393,7 @@
     lab3.font = [UIFont systemFontOfSize:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont systemFontOfSize:13];
-    self.pageNum=1;
-    type=1;
-    [self setData];
+   
 //
 }
 
@@ -360,10 +416,6 @@
     lab3.font = [UIFont systemFontOfSize:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont systemFontOfSize:13];
-    self.pageNum=1;
-    type=2;
-
-    [self setData];
     
     
 }
@@ -386,10 +438,7 @@
     lab2.font = [UIFont systemFontOfSize:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont systemFontOfSize:13];
-    self.pageNum=1;
-    type=3;
-
-    [self setData];
+  
     
     
 }
@@ -412,9 +461,7 @@
     lab2.font = [UIFont systemFontOfSize:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont systemFontOfSize:13];
-    self.pageNum=1;
-    type=4;
-    [self setData];
+   
     
     
 }
@@ -472,6 +519,12 @@
             cell =[[[NSBundle mainBundle] loadNibNamed:@"CusBrandTableViewCell" owner:self options:nil] lastObject];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (self.searchArr1.count>0) {
+            [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr1[indexPath.row]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            cell.decLab.text =[self.searchArr1[indexPath.row]objectForKey:@"BrandName"];
+
+        }
+        
         return cell;
     }
     else if(type ==3){

@@ -53,8 +53,8 @@
 //#define HomeURLW  @"http://appw.joybar.com.cn/app/" //生产写
 
 #define SocketUrl @"http://182.92.7.70:8001/chat"//开发
-#define HomeURL  @"http://123.57.52.187:8080/app/" //开发
-#define HomeURLW @"http://123.57.52.187:8080/app/"
+#define HomeURL  @"http://123.57.52.187:8070/app/" //开发
+#define HomeURLW @"http://123.57.52.187:8070/app/"
 
 //支付结果回调页面
 //#define NOTIFY_URL      @"http://wxpay.weixin.qq.com/pub_v2/pay/notify.v2.php"

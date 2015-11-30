@@ -12,17 +12,10 @@
 
 - (void)awakeFromNib {
 
-    [[self.cusBgView layer]setCornerRadius:8];
+    [[self.guanzhuView layer]setCornerRadius:5];    
+    self.ShopView.clipsToBounds =YES;
+    self.ShopView.layer.cornerRadius =self.ShopView.width/2;
     
-
-
-    
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.bgView.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(10, 10)];
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = self.bgView.bounds;
-    maskLayer.path = maskPath.CGPath;
-    self.bgView.layer.mask = maskLayer;
-    [[self.guanzhuView layer]setCornerRadius:5];
 }
 
 @end

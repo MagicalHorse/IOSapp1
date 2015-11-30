@@ -8,22 +8,18 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="HJHeaderViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="75" height="100"/>
+            <rect key="frame" x="0.0" y="0.0" width="85" height="125"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="75" height="100"/>
+                <rect key="frame" x="0.0" y="0.0" width="85" height="125"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VeW-rk-tg9">
-                        <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VeW-rk-tg9">
+                        <rect key="frame" x="0.0" y="8" width="85" height="85"/>
                         <animations/>
                         <color key="backgroundColor" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="75" id="NWP-8T-FVa"/>
-                            <constraint firstAttribute="width" constant="75" id="Ulo-2z-57J"/>
-                        </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="导购" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSB-jp-4x1">
-                        <rect key="frame" x="0.0" y="75" width="75" height="25"/>
+                        <rect key="frame" x="0.0" y="101" width="85" height="16"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -35,26 +31,15 @@
             </view>
             <animations/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="mSB-jp-4x1" secondAttribute="bottom" id="739-fr-lJP"/>
-                <constraint firstItem="mSB-jp-4x1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="9l5-C2-nhc"/>
-                <constraint firstAttribute="bottom" secondItem="VeW-rk-tg9" secondAttribute="bottom" id="D06-zZ-33a"/>
-                <constraint firstAttribute="trailing" secondItem="VeW-rk-tg9" secondAttribute="trailing" id="MRr-T6-Oaw"/>
-                <constraint firstItem="VeW-rk-tg9" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="NkV-y4-VJ1"/>
-                <constraint firstAttribute="trailing" secondItem="mSB-jp-4x1" secondAttribute="trailing" id="Thl-Kb-3uR"/>
-                <constraint firstItem="VeW-rk-tg9" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Y76-Qo-4Pw"/>
-                <constraint firstItem="mSB-jp-4x1" firstAttribute="top" secondItem="VeW-rk-tg9" secondAttribute="bottom" id="w58-r0-HUt"/>
-                <constraint firstItem="mSB-jp-4x1" firstAttribute="top" secondItem="VeW-rk-tg9" secondAttribute="bottom" id="yaw-G2-Cjt"/>
+                <constraint firstItem="mSB-jp-4x1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Onp-UE-l1g"/>
+                <constraint firstAttribute="trailing" secondItem="mSB-jp-4x1" secondAttribute="trailing" id="bgV-2L-8oC"/>
+                <constraint firstAttribute="bottom" secondItem="mSB-jp-4x1" secondAttribute="bottom" constant="8" id="yg8-Gs-6Ha"/>
             </constraints>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="D06-zZ-33a"/>
-                    <exclude reference="yaw-G2-Cjt"/>
-                </mask>
-            </variation>
+            <size key="customSize" width="80" height="109"/>
             <connections>
                 <outlet property="iconView" destination="VeW-rk-tg9" id="5bc-SV-tS4"/>
             </connections>
-            <point key="canvasLocation" x="188.5" y="201"/>
+            <point key="canvasLocation" x="187.5" y="195"/>
         </collectionViewCell>
     </objects>
 </document>
