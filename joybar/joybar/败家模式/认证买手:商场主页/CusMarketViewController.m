@@ -13,17 +13,23 @@
 #import "CusHomeStoreCollectionViewCell.h"
 #import "CusHomeStoreHeader.h"
 #import "CusMoreBrandViewController.h"
+
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 #define HEADER_HEIGHT [UIScreen mainScreen].bounds.size.width*0.5+35
 @interface CusMarketViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,CHTCollectionViewDelegateWaterfallLayout>
 
 @property (nonatomic ,strong) UICollectionView *collectionView;
 @property (nonatomic ,strong) NSMutableArray *proArr;
+@property (nonatomic ,strong) NSDictionary *infoDic;
+@property (nonatomic ,strong) NSMutableArray *brandArr;
 @property (nonatomic ,assign) int pageNum;
 
 @end
 
 @implementation CusMarketViewController
+{
+    CHTCollectionViewWaterfallLayout *layout;
+}
 
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,11 +47,10 @@
     [self addNavBarViewAndTitle:@"品牌名"];
     self.pageNum = 1;
     self.proArr = [NSMutableArray array];
-    CHTCollectionViewWaterfallLayout *layout = [[CHTCollectionViewWaterfallLayout alloc] init];
+    layout = [[CHTCollectionViewWaterfallLayout alloc] init];
     layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
     layout.minimumColumnSpacing = 5;
     layout.minimumInteritemSpacing = 5;
-    layout.headerHeight = HEADER_HEIGHT;
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
     _collectionView.backgroundColor = kCustomColor(238, 233, 240);
     self.collectionView.alwaysBounceVertical = YES; //垂直方向遇到边框是否总是反弹
@@ -83,11 +88,10 @@
     }];
 }
 
-
 -(void)getData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:@"121" forKey:@"StoreId"];
+    [dic setObject:self.storeId forKey:@"StoreId"];
     [dic setObject:[[Public getUserInfo] objectForKey:@"id"] forKey:@"userid"];
     [dic setObject:[NSString stringWithFormat:@"%d",self.pageNum] forKey:@"Page"];
     [dic setObject:@"10" forKey:@"PageSize"];
@@ -96,6 +100,18 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSArray *arr =[[json objectForKey:@"data"] objectForKey:@"items"];
+            self.infoDic = [json objectForKey:@"data"];
+            
+            [self.brandArr removeAllObjects];
+            [self.brandArr addObjectsFromArray: [[json objectForKey:@"data"] objectForKey:@"Brands"]];
+            if (self.brandArr.count>0)
+            {
+                layout.headerHeight = HEADER_HEIGHT;
+            }
+            else
+            {
+                layout.headerHeight = HEADER_HEIGHT-35;
+            }
             [self.proArr addObjectsFromArray:arr];
             [self.collectionView reloadData];
         }
@@ -118,7 +134,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *proId = @"";
+    NSString *proId = [self.proArr [indexPath.row] objectForKey:@"ProductId"];
     CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
     VC.productId = proId;
     [self.navigationController pushViewController:VC animated:YES];
@@ -136,25 +152,27 @@
     {
         [view removeFromSuperview];
     }
-    
+    if (self.proArr.count>0)
+    {
         float height = [[[self.proArr objectAtIndex:indexPath.row] objectForKey:@"Ratio"] floatValue];
-    
         [cell setCollectionData:[self.proArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
-    
-    
+    }
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dic = [self.proArr objectAtIndex:indexPath.row];
-    NSString *text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ProductName"]];
-    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
-    CGFloat itemH = (kScreenWidth-10)/2*[[dic objectForKey:@"Ratio"] floatValue]+size.height+35;
-    CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
-    return size1;
+    if (self.proArr.count>0)
+    {
+        NSDictionary *dic = [self.proArr objectAtIndex:indexPath.row];
+        NSString *text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ProductName"]];
+        CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
+        CGFloat itemH = (kScreenWidth-10)/2*[[dic objectForKey:@"Ratio"] floatValue]+size.height+35;
+        CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
+        return size1;
+    }
+    return CGSizeMake(0, 0);
 }
-
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
@@ -187,20 +205,21 @@
     [contentView addSubview:tempView];
     
     UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(15, HEADER_HEIGHT-90, kScreenWidth, 20)];
-    nameLab.text = self.marketName;
+    nameLab.text = [self.infoDic objectForKey:@"StoreName"];
     nameLab.textColor = [UIColor whiteColor];
     nameLab.font = [UIFont systemFontOfSize:16];
     [tempView addSubview:nameLab];
     
 
-    if ([self.marketName isEqualToString:@"认证买手"])
+    NSString *level = [NSString stringWithFormat:@"%@",[self.infoDic objectForKey:@"StoreLeave"]];
+    if ([level isEqualToString:@"8"])
     {
         UIImageView *localImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, tempView.height-20, 13, 13)];
         localImage.image = [UIImage imageNamed:@"location"];
         [tempView addSubview:localImage];
         
         UILabel *localLab = [[UILabel alloc] initWithFrame:CGRectMake(localImage.right+3, localImage.top-5, tempView.width-140, 20)];
-        localLab.text = self.locationStr;
+        localLab.text = [self.infoDic objectForKey:@"StoreLocal"];
         localLab.textColor = [UIColor whiteColor];
         localLab.font = [UIFont systemFontOfSize:13];
         [tempView addSubview:localLab];
@@ -211,51 +230,54 @@
         describe.textColor = [UIColor whiteColor];
         describe.font = [UIFont systemFontOfSize:13];
         describe.numberOfLines = 2;
-        describe.text = self.describeStr;
+        describe.text = [self.infoDic objectForKey:@"Description"];
         describe.frame =CGRectMake(15, nameLab.bottom, kScreenWidth-30, 26);
         [tempView addSubview:describe];
     }
     
-    
-    UIButton *brandBtn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
-    brandBtn.frame = CGRectMake(kScreenWidth-52-10, HEADER_HEIGHT-28, 56, 20);
-    brandBtn.backgroundColor = kCustomColor(220, 221, 221);
-    [brandBtn setTitle:@"更多品牌" forState:(UIControlStateNormal)];
-    [brandBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-    brandBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    brandBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [brandBtn addTarget:self action:@selector(didClickMoreBrand) forControlEvents:(UIControlEventTouchUpInside)];
-    
-    [bgView addSubview:brandBtn];
-    
-//    NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@"only",@"asd",@"asdasda",@"阿打算打算",@"asdaasda",@"asdasda",@"asdasdasd"]];
-    CGFloat beforeBtnWith=0;
-    CGFloat totalWidth=0;
-    for (int i=0; i<self.brandArr.count; i++)
+    if (self.brandArr.count>0)
     {
-        CGSize btnSize = [Public getContentSizeWith:self.brandArr[i] andFontSize:13 andHigth:20];
         
-        totalWidth = btnSize.width+10+totalWidth;
-        
-        
-        if (totalWidth>kScreenWidth-62)
+        CGFloat beforeBtnWith=0;
+        CGFloat totalWidth=0;
+        for (int i=0; i<self.brandArr.count; i++)
         {
-            [self.brandArr removeLastObject];
-        }
-        else
-        {
-            UIButton *btn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
-            btn.backgroundColor = kCustomColor(220, 221, 221);
-            [btn setTitle:self.brandArr[i] forState:(UIControlStateNormal)];
-            [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-            btn.titleLabel.font = [UIFont systemFontOfSize:13];
-            btn.titleLabel.textAlignment = NSTextAlignmentCenter;
-            btn.tag = i+100;
-            [btn addTarget:self action:@selector(didClickBrand:) forControlEvents:(UIControlEventTouchUpInside)];
+            NSString *brandName = [self.brandArr[i]objectForKey:@"BrandName"];
+
+            CGSize btnSize = [Public getContentSizeWith:brandName andFontSize:13 andHigth:20];
             
-            btn.frame = CGRectMake(10*(i+1)+beforeBtnWith+2, HEADER_HEIGHT-28, btnSize.width+4, 20);
-            [bgView addSubview:btn];
-            beforeBtnWith = btnSize.width+beforeBtnWith;
+            totalWidth = btnSize.width+10+totalWidth;
+            
+            if (totalWidth>kScreenWidth-62)
+            {
+                [self.brandArr removeLastObject];
+                
+                UIButton *brandBtn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
+                brandBtn.frame = CGRectMake(kScreenWidth-52-10, HEADER_HEIGHT-28, 56, 20);
+                brandBtn.backgroundColor = kCustomColor(220, 221, 221);
+                [brandBtn setTitle:@"更多品牌" forState:(UIControlStateNormal)];
+                [brandBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+                brandBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+                brandBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+                [brandBtn addTarget:self action:@selector(didClickMoreBrand) forControlEvents:(UIControlEventTouchUpInside)];
+                [bgView addSubview:brandBtn];
+
+            }
+            else
+            {
+                UIButton *btn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
+                btn.backgroundColor = kCustomColor(220, 221, 221);
+                [btn setTitle:brandName forState:(UIControlStateNormal)];
+                [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+                btn.titleLabel.font = [UIFont systemFontOfSize:13];
+                btn.titleLabel.textAlignment = NSTextAlignmentCenter;
+                btn.tag = i+100;
+                [btn addTarget:self action:@selector(didClickBrand:) forControlEvents:(UIControlEventTouchUpInside)];
+                
+                btn.frame = CGRectMake(10*(i+1)+beforeBtnWith+2, HEADER_HEIGHT-28, btnSize.width+4, 20);
+                [bgView addSubview:btn];
+                beforeBtnWith = btnSize.width+beforeBtnWith;
+            }
         }
     }
     
@@ -265,6 +287,7 @@
 -(void)didClickMoreBrand
 {
     CusMoreBrandViewController *VC = [[CusMoreBrandViewController alloc] init];
+    VC.storeId = [self.infoDic objectForKey:@"StoreId"];
     [self.navigationController pushViewController: VC animated:YES];
 }
 

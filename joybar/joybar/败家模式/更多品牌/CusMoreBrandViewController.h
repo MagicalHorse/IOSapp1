@@ -10,4 +10,6 @@
 
 @interface CusMoreBrandViewController : BaseViewController
 
+@property (nonatomic ,strong) NSString *storeId;
+
 @end

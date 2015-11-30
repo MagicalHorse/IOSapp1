@@ -60,12 +60,19 @@
         if ([StoreLeave isEqualToString:@"8"])
         {
             //认证买手
-            return (kScreenWidth-20)/3-10+190;
+            return (kScreenWidth-20)/3-10+170;
         }
         else
         {
             //商场
-            return (kScreenWidth-20)/3-10+150;
+            if ([[self.dataArr[indexPath.row] objectForKey:@"Brands"] count]>0)
+            {
+                return (kScreenWidth-20)/3-10+150;
+            }
+            else
+            {
+                return (kScreenWidth-20)/3-10+130;
+            }
         }
     }
     return 0;
@@ -77,23 +84,8 @@
     
     NSDictionary *dic = self.dataArr[indexPath.row];
     
-    NSString *StoreLeave = [NSString stringWithFormat:@"%@",[self.dataArr[indexPath.row] objectForKey:@"StoreLeave"]];
-    
-    if ([StoreLeave isEqualToString:@"8"])
-    {
-        //认证买手
-        VC.marketName = @"认证买手";
-        VC.locationStr = [dic objectForKey:@"Location"];
-        
-    }
-    else
-    {
-        //商场
-        VC.storeId = [dic objectForKey:@"StoreId"];
-        VC.marketName = [dic objectForKey:@"StoreName"];
-        [VC.brandArr addObjectsFromArray:[dic objectForKey:@"Brands"]];
-        VC.describeStr = [dic objectForKey:@"Description"];
-    }
+    //商场
+    VC.storeId = [dic objectForKey:@"StoreId"];
     
     [self.viewController.navigationController pushViewController:VC animated:YES];
 //    if (self.dataArr.count==0)

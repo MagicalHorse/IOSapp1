@@ -8,9 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "ProDetailData.h"
+
+@protocol handleSizeHeight <NSObject>
+
+-(void)handleSizeHeight:(CGFloat)height;
+
+@end
 @interface CusZProDetailCell : UITableViewCell<UIScrollViewDelegate>
 
 
 -(void)setDetailData:(ProDetailData *)proData andIndex:(NSIndexPath *)indexPath;
+
+@property (nonatomic ,strong) NSArray *kuCunArr;
+
+@property (nonatomic ,assign) NSInteger sizeHeight;
+
+@property (nonatomic ,assign)id<handleSizeHeight> delegate;
 
 @end

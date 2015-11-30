@@ -57,7 +57,7 @@
     BOOL gotPreviousFrame = NO;
     for (int i=0;i<textArray.count;i++)
     {
-        NSString *text = [textArray objectAtIndex:i];
+        NSString *text = [[textArray objectAtIndex:i] objectForKey:@"SizeName"];
         CGSize textSize = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:CGSizeMake(self.frame.size.width, 1500) lineBreakMode:UILineBreakModeWordWrap];
         textSize.width += HORIZONTAL_PADDING*2;
         textSize.height += VERTICAL_PADDING*2;
@@ -98,21 +98,17 @@
         [btn.layer setMasksToBounds:YES];
         [btn.layer setCornerRadius:CORNER_RADIUS];
         btn.tag = 1000+i;
-//        if (i==0)
-//        {
-//            btn.backgroundColor = [UIColor orangeColor];
-//            [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-//            if (self.clickBtnBlock)
-//            {
-//                self.clickBtnBlock(btn,btn.tag-1000);
-//            }
-//        }
-//        else
-//        {
-//            btn.backgroundColor = BACKGROUND_COLOR;
-//            [btn setTitleColor:TEXT_COLOR forState:(UIControlStateNormal)];
-//            btn.selected = NO;
-//        }
+        if (i==0)
+        {
+            btn.backgroundColor = [UIColor redColor];
+            [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+        }
+        else
+        {
+            btn.backgroundColor = BACKGROUND_COLOR;
+            [btn setTitleColor:TEXT_COLOR forState:(UIControlStateNormal)];
+            btn.selected = NO;
+        }
 
         [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
         [self addSubview:btn];

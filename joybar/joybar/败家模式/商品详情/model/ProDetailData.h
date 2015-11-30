@@ -23,6 +23,11 @@
 @property (nonatomic ,copy) NSString *IsFavorite;
 @property (nonatomic ,copy) NSString *BuyerMobile;
 @property (nonatomic ,copy) NSString *StoreName;
+@property (nonatomic ,copy) NSString *BrandName;
+@property (nonatomic ,copy) NSString *CityName;
+@property (nonatomic ,copy) NSString *UnitPrice;
+@property (nonatomic ,copy) NSString *SizeContrastPic;
+@property (nonatomic ,copy) NSString *StoreService;
 
 @property (nonatomic ,strong)NSMutableArray *ProductPic;
 @property (nonatomic ,strong) ProDetailPromotion *Promotion;
