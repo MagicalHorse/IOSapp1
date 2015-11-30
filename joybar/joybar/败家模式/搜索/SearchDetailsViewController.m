@@ -79,6 +79,7 @@
 
     }else if(type ==2){
         url =@"v3/searchBrand";
+        return;
     }else if(type ==3){
         url =@"v3/searchbuyer";
         [dict setObject:userId forKey:@"userId"];
@@ -95,7 +96,6 @@
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
-            return ;
             if (type==1) {
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
@@ -482,6 +482,40 @@
             cell =[[[NSBundle mainBundle] loadNibNamed:@"CusBueryTableViewCell" owner:self options:nil] lastObject];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (self.searchArr2.count>0) {
+            
+            [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr2[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            cell.shopName.text = [self.searchArr2[indexPath.row]objectForKey:@"Nickname"];
+            cell.addressLab.text =[self.searchArr2[indexPath.row]objectForKey:@"BrandName"];
+            NSArray *array =[self.searchArr2[indexPath.row]objectForKey:@"Products"];
+            if (array.count>0) {
+                if(array.count ==2){
+                    cell.shopBtn1.hidden =NO;
+                    cell.shopBtn2.hidden =YES;
+                    
+                    [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                    [cell.shopBtn1 sd_setImageWithURL:[NSURL URLWithString:[array[1]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                    
+                    
+                }else if(array.count ==3){
+                    cell.shopBtn1.hidden =NO;
+                    cell.shopBtn2.hidden =NO;
+                    [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                    [cell.shopBtn1 sd_setImageWithURL:[NSURL URLWithString:[array[1]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                    [cell.shopBtn2 sd_setImageWithURL:[NSURL URLWithString:[array[2]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                    
+                    
+                }else{
+                    cell.shopBtn1.hidden =YES;
+                    cell.shopBtn2.hidden =YES;
+                    
+                    [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                }
+            }
+            
+
+        }
+        
         return cell;
         
     }else if(type ==4){

@@ -12,14 +12,18 @@
 
 - (void)awakeFromNib {
     //商品
-    for (int i=0; i<3; i++)
-    {
-        CGFloat w= (kScreenWidth -30)/3;
-        CGFloat y =w;
-        UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake( w*i+(i+1)*5, self.lineView.bottom+10, w, y)];
-        proImage.backgroundColor = [UIColor orangeColor];
-        [self.bgView addSubview:proImage];
-    }
+    CGFloat w= (kScreenWidth -30)/3;
+    CGFloat h =w;
+
+    self.shopBtn =[[UIImageView alloc]initWithFrame:CGRectMake(5, self.lineView.bottom+10 , w, h)];
+    self.shopBtn1 =[[UIImageView alloc]initWithFrame:CGRectMake(w +10, self.lineView.bottom+10 , w, h)];
+    self.shopBtn2 =[[UIImageView alloc]initWithFrame:CGRectMake(2*w+15, self.lineView.bottom+10 , w, h)];
+ 
+    
+    [self.bgView addSubview:self.shopBtn];
+    [self.bgView addSubview:self.shopBtn1];
+    [self.bgView addSubview:self.shopBtn2];
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
