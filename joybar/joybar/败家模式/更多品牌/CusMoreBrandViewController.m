@@ -68,6 +68,7 @@
 -(void)getFindData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.storeId forKey:@"StoreId"];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setValue:@"20" forKey:@"pagesize"];
     if (!isRefresh)
@@ -75,7 +76,7 @@
         [self activityDismiss];
         [self showInView:self.view WithPoint:CGPointMake(0, 0) andHeight:kScreenHeight-64-49];
     }
-    [HttpTool postWithURL:@"Product/GetBrandProductList" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"v3/storebrand" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {

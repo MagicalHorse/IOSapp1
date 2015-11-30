@@ -105,7 +105,7 @@
     else if (indexPath.section==1)
     {
         UILabel *location = [[UILabel alloc]init];
-        location.text = @"自提地址:啊实打实大师大师大事大实大师大师大事大实大师大师大事大实大师大师大事大啊";
+        location.text = [NSString stringWithFormat:@"自提地址:%@",proData.PickAddress];
         location.numberOfLines = 2;
         CGSize locationSize = [Public getContentSizeWith:location.text andFontSize:13 andWidth:kScreenWidth-20];
         location.font = [UIFont systemFontOfSize:13];
@@ -139,13 +139,13 @@
     else if (indexPath.section==2)
     {
         UILabel *brandLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 60, 40)];
-        brandLab.text = @"ONLY";
+        brandLab.text = proData.BrandName;
         brandLab.textColor = [UIColor orangeColor];
         brandLab.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:brandLab];
         
         UILabel *location = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-100, 0, 80, 40)];
-        location.text = @"中国北京";
+        location.text = proData.CityName;
         location.textAlignment = NSTextAlignmentRight;
         location.textColor = [UIColor darkGrayColor];
         location.font = [UIFont systemFontOfSize:15];
@@ -178,8 +178,8 @@
         locationImg.image = [UIImage imageNamed:@"location.png"];
         [self.contentView addSubview:locationImg];
         
-        UILabel *locationNameLab = [[UILabel alloc] initWithFrame:CGRectMake(locationImg.right, nameLab.bottom, kScreenWidth-170, 20)];
-        locationNameLab.text = @"啊实打实大师大师的";
+        UILabel *locationNameLab = [[UILabel alloc] initWithFrame:CGRectMake(locationImg.right, nameLab.bottom, kScreenWidth-150, 20)];
+        locationNameLab.text = proData.CityName;
         locationNameLab.font = [UIFont systemFontOfSize:13];
         locationNameLab.textColor = [UIColor darkGrayColor];
         [self.contentView addSubview:locationNameLab];

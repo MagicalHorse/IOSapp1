@@ -11,10 +11,6 @@
 @interface CusMarketViewController : BaseViewController
 
 @property (nonatomic ,strong) NSString *storeId;
-@property (nonatomic ,strong) NSString *marketName;
-@property (nonatomic ,strong) NSString *describeStr;
-@property (nonatomic ,strong) NSMutableArray *brandArr;
-@property (nonatomic ,strong) NSString *locationStr;
 
 
 @end

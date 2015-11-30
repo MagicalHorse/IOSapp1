@@ -11,6 +11,8 @@
 #import "SDWebImageManager.h"
 #import "CusBrandDetailViewController.h"
 #import "CusMoreBrandViewController.h"
+#import "CusRProDetailViewController.h"
+#import "CusZProDetailViewController.h"
 @implementation CusHomeTableViewCell
 {
     CGFloat cellHeight;
@@ -27,8 +29,10 @@
     UILabel *distanceLab;
     
     UIView *brandView;
-    
+    UIView *lineView;
     UIView *proView;
+    NSDictionary *infoDic;
+    NSMutableArray *brandArr;
 }
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -36,6 +40,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
+        brandArr = [NSMutableArray array];
+        
         tempView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, kScreenWidth-10, 100)];
         tempView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:tempView];
@@ -86,15 +92,15 @@
         distanceLab.font = [UIFont systemFontOfSize:11];
         [tempView addSubview:distanceLab];
         
-        brandView = [[UIView alloc] initWithFrame:CGRectMake(0, imageView.bottom+15, tempView.width, 20)];
+        brandView = [[UIView alloc] initWithFrame:CGRectMake(0, imageView.bottom+15, tempView.width, 0)];
         brandView.backgroundColor = [UIColor clearColor];
         [tempView addSubview:brandView];
         
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, brandView.bottom+8, tempView.width-20, 1)];
+        lineView = [[UIView alloc] initWithFrame:CGRectMake(10, brandView.bottom, tempView.width-20, 1)];
         lineView.backgroundColor = kCustomColor(220, 221, 221);
         [tempView addSubview:lineView];
         
-        proView = [[UIView alloc] initWithFrame:CGRectMake(0, lineView.bottom+10, tempView.width, tempView.width/3-10)];
+        proView = [[UIView alloc] initWithFrame:CGRectMake(0, brandView.bottom+15, tempView.width, tempView.width/3-10)];
         proView.backgroundColor = [UIColor clearColor];
         [tempView addSubview:proView];
         
@@ -104,19 +110,27 @@
 
 -(void)setData:(NSDictionary *)dic andIndexPath:(NSIndexPath *)indexPath
 {
-    
+    infoDic = dic;
+    brandArr = [dic objectForKey:@"Brands"];
     NSString *StoreLeave = [NSString stringWithFormat:@"%@",[dic objectForKey:@"StoreLeave"]];
     CGFloat tempViewHeight;
     if ([StoreLeave isEqualToString:@"8"])
     {
         //认证买手
-        tempViewHeight = (kScreenWidth-20)/3-10+180;
+        tempViewHeight = (kScreenWidth-20)/3-10+160;
         
     }
     else
     {
         //商场
-        tempViewHeight = (kScreenWidth-20)/3-10+140;
+        if (brandArr.count>0)
+        {
+            tempViewHeight = (kScreenWidth-20)/3-10+140;
+        }
+        else
+        {
+            tempViewHeight = (kScreenWidth-20)/3-10+120;
+        }
     }
     
     tempView.frame = CGRectMake(5, 10, kScreenWidth-10, tempViewHeight);
@@ -166,50 +180,55 @@
         distanceLab.text = [NSString stringWithFormat:@"%.1fKM",[distance floatValue]/1000];
         localLab.text = [dic objectForKey:@"Location"];
     }
-    
-    
-    for (UIView *view in brandView.subviews)
+    if (brandArr.count>0)
     {
-        [view removeFromSuperview];
-    }
-    
-    //品牌
-    UIButton *brandBtn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
-    brandBtn.frame = CGRectMake(tempView.width-52-15, 0, 56, 20);
-    brandBtn.backgroundColor = kCustomColor(220, 221, 221);
-    [brandBtn setTitle:@"更多品牌" forState:(UIControlStateNormal)];
-    [brandBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-    brandBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    brandBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [brandBtn addTarget:self action:@selector(didClickMoreBrand) forControlEvents:(UIControlEventTouchUpInside)];
-    [brandView addSubview:brandBtn];
-    
-    NSMutableArray *arr = [NSMutableArray arrayWithArray:@[@"only",@"asd",@"asdasda",@"阿打算打算",@"asdaasda",@"asdasda",@"asdasdasd"]];
-    CGFloat beforeBtnWith=0;
-    CGFloat totalWidth=0;
-    for (int i=0; i<arr.count; i++)
-    {
-        CGSize btnSize = [Public getContentSizeWith:arr[i] andFontSize:13 andHigth:20];
-        
-        totalWidth = btnSize.width+10+totalWidth;
-        if (totalWidth>tempView.width-62)
+        brandView.frame = CGRectMake(0, imageView.bottom+15, tempView.width, 20);
+        lineView.frame = CGRectMake(10, brandView.bottom+5, tempView.width-20, 1);
+        proView.frame = CGRectMake(0, brandView.bottom+15, tempView.width, tempView.width/3-10);
+        for (UIView *view in brandView.subviews)
         {
-            [arr removeLastObject];
+            [view removeFromSuperview];
         }
-        else
+
+        //品牌
+        
+        CGFloat beforeBtnWith=0;
+        CGFloat totalWidth=0;
+        for (int i=0; i<brandArr.count; i++)
         {
-            UIButton *btn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
-            btn.backgroundColor = kCustomColor(220, 221, 221);
-            [btn setTitle:arr[i] forState:(UIControlStateNormal)];
-            [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-            btn.titleLabel.font = [UIFont systemFontOfSize:13];
-            btn.titleLabel.textAlignment = NSTextAlignmentCenter;
-            btn.tag = i+100;
-            [btn addTarget:self action:@selector(didClickBrand:) forControlEvents:(UIControlEventTouchUpInside)];
+            NSString *brandName = [brandArr[i] objectForKey:@"BrandName"] ;
+            CGSize btnSize = [Public getContentSizeWith:brandName andFontSize:13 andHigth:20];
             
-            btn.frame = CGRectMake(10*(i+1)+beforeBtnWith+2, 0, btnSize.width+4, 20);
-            [brandView addSubview:btn];
-            beforeBtnWith = btnSize.width+beforeBtnWith;
+            totalWidth = btnSize.width+10+totalWidth;
+            if (totalWidth>tempView.width-62)
+            {
+                [brandArr removeLastObject];
+                
+                UIButton *brandBtn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
+                brandBtn.frame = CGRectMake(tempView.width-52-15, 0, 56, 20);
+                brandBtn.backgroundColor = kCustomColor(220, 221, 221);
+                [brandBtn setTitle:@"更多品牌" forState:(UIControlStateNormal)];
+                [brandBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+                brandBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+                brandBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+                [brandBtn addTarget:self action:@selector(didClickMoreBrand) forControlEvents:(UIControlEventTouchUpInside)];
+                [brandView addSubview:brandBtn];
+            }
+            else
+            {
+                UIButton *btn  =[UIButton buttonWithType:(UIButtonTypeCustom)];
+                btn.backgroundColor = kCustomColor(220, 221, 221);
+                [btn setTitle:brandName forState:(UIControlStateNormal)];
+                [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+                btn.titleLabel.font = [UIFont systemFontOfSize:13];
+                btn.titleLabel.textAlignment = NSTextAlignmentCenter;
+                btn.tag = i+100;
+                [btn addTarget:self action:@selector(didClickBrand:) forControlEvents:(UIControlEventTouchUpInside)];
+                
+                btn.frame = CGRectMake(10*(i+1)+beforeBtnWith+2, 0, btnSize.width+4, 20);
+                [brandView addSubview:btn];
+                beforeBtnWith = btnSize.width+beforeBtnWith;
+            }
         }
     }
     
@@ -226,7 +245,12 @@
         UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageWidth*i+5*i+10, 0, imageWidth, imageWidth)];
         //            proImage.backgroundColor = [UIColor orangeColor];
         [proImage sd_setImageWithURL:[NSURL URLWithString:[proDic objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        proImage.userInteractionEnabled = YES;
+        proImage.tag = 10+i;
         [proView addSubview:proImage];
+        
+        UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickProView:)];
+        [proImage addGestureRecognizer:proTap];
         
         if ([StoreLeave isEqualToString:@"8"])
         {
@@ -258,7 +282,12 @@
             buyerHeaderImage.layer.cornerRadius = buyerHeaderImage.width/2;
             //            buyerHeaderImage.backgroundColor = [UIColor redColor];
             [buyerHeaderImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            buyerHeaderImage.userInteractionEnabled = YES;
+            buyerHeaderImage.tag = 100+i;
             [proView addSubview:buyerHeaderImage];
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
+            [buyerHeaderImage addGestureRecognizer:tap];
             
             UILabel *buyerName = [[UILabel alloc] initWithFrame:CGRectMake(buyerHeaderImage.right+5, proImage.bottom+8, proImage.width-50, 15)];
             buyerName.text = [proDic objectForKey:@"NickName"];
@@ -283,16 +312,13 @@
 {
     [timer3 setCountDownTime:3];
     [timer3 start];
-    
-    //    NSString *msg = [NSString stringWithFormat:@"Countdown of Example 6 finished!\nTime counted: %i seconds",(int)countTime];
-    //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:msg delegate:nil cancelButtonTitle:@"Awesome!" otherButtonTitles:nil];
-    //    [alertView show];
 }
 
 //点击更多品牌
 -(void)didClickMoreBrand
 {
     CusMoreBrandViewController *VC = [[CusMoreBrandViewController alloc] init];
+    VC.storeId = [infoDic objectForKey:@"StoreId"];
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
@@ -300,7 +326,40 @@
 -(void)didClickBrand:(UIButton *)btn
 {
     CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
+    VC.BrandId = [brandArr[btn.tag-100] objectForKey:@"BrandId"];
+    VC.BrandId = [brandArr[btn.tag-100] objectForKey:@"BrandName"];
     [self.viewController.navigationController pushViewController:VC animated:YES];
+}
+
+//点击头像
+-(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
+{
+    NSInteger i = tap.view.tag-100;
+}
+
+//点商品
+-(void)didClickProView:(UITapGestureRecognizer *)tap
+{
+    NSInteger i = tap.view.tag-10;
+    NSArray *products = [infoDic objectForKey:@"Products"];
+    NSString *proId = [products[i] objectForKey:@"ProductId"];
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[products[i]objectForKey:@"Userleave"]];
+    
+
+//    if ([Userleave isEqualToString:@"8"])
+//    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = @"22194";
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+//    }
+//    else
+//    {
+//        //认证买手
+//        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+//        VC.productId = proId;
+//        [self.viewController.navigationController pushViewController:VC animated:YES];
+//    }
+    
 }
 
 @end

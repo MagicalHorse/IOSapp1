@@ -46,7 +46,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self initWithFooterView];
     self.proDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49)];
     self.proDetailTableView.delegate = self;
     self.proDetailTableView.dataSource = self;
@@ -94,7 +93,9 @@
 {
     if (indexPath.section==0)
     {
-        return kScreenWidth+50;
+        CGSize size = [Public getContentSizeWith:prodata.ProductName andFontSize:14 andWidth:kScreenWidth-15];
+        
+        return kScreenWidth+size.height+36;
     }
     else if (indexPath.section==1)
     {
@@ -144,16 +145,15 @@
     
     [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
     
-    [HttpTool postWithURL:@"Product/GetProductDetail" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Product/GetProductDetailV3" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSDictionary *dic = [json objectForKey:@"data"];
             prodata = [ProDetailData objectWithKeyValues:dic];
             [self.proDetailTableView reloadData];
-//            [self initView:prodata];
-//            
-//            [self initWithFooterView];
+            
+            [self initWithFooterView];
         }
         else
         {

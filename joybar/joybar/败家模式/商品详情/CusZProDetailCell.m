@@ -19,6 +19,9 @@
     NSMutableArray *btnArr;
     UIView *orangeLine;
     UIScrollView *scroll;
+    DWTagList*sizeBtn;
+//    NSArray *sizeArr;
+    UILabel *sizeLab;
 }
 - (void)awakeFromNib {
     // Initialization code
@@ -76,10 +79,10 @@
         
         UILabel *originalPriceLab = [[UILabel alloc] init];
         CGSize originalPriceSize = [Public getContentSizeWith:priceLab.text andFontSize:14 andHigth:20];
-        originalPriceLab.text = [NSString stringWithFormat:@"￥%@",proData.Price];
+        originalPriceLab.text = [NSString stringWithFormat:@"￥%@",proData.UnitPrice];
         originalPriceLab.textColor = [UIColor grayColor];
         originalPriceLab.font = [UIFont systemFontOfSize:14];
-        originalPriceLab.frame = CGRectMake(priceLab.right+10, imageScrollView.bottom+5, originalPriceSize.width, 20);
+        originalPriceLab.frame = CGRectMake(priceLab.right+10, imageScrollView.bottom+5, originalPriceSize.width+10, 20);
         [self.contentView addSubview:originalPriceLab];
         
         UILabel *grayLine = [[UILabel alloc] initWithFrame:CGRectMake(originalPriceLab.left, imageScrollView.bottom+16, originalPriceLab.width, 1)];
@@ -88,14 +91,13 @@
         
         UILabel *discountLab = [[UILabel alloc] init];
         discountLab.backgroundColor = [UIColor redColor];
-        discountLab.text  = @"1.1折";
+        discountLab.text  = [NSString stringWithFormat:@"%.2f折",[proData.UnitPrice floatValue]/[proData.Price floatValue]];
         discountLab.textColor = [UIColor whiteColor];
         discountLab.font = [UIFont systemFontOfSize:11];
         discountLab.textAlignment = NSTextAlignmentCenter;
         CGSize discountSize = [Public getContentSizeWith:discountLab.text andFontSize:11 andHigth:20];
         discountLab.frame = CGRectMake(originalPriceLab.right+10, imageScrollView.bottom+7, discountSize.width+6, 16);
         [self.contentView addSubview:discountLab];
-        
         
         UILabel *titleLab = [[UILabel alloc] init];
         titleLab.text = proData.ProductName;
@@ -110,7 +112,7 @@
     else if (indexPath.section==1)
     {
         UILabel *location = [[UILabel alloc]init];
-        location.text = @"自提地址:啊实打实大师大师大事大实大师大师大事大实大师大师大事大实大师大师大事大啊";
+        location.text = [NSString stringWithFormat:@"自提地址:%@",proData.PickAddress];
         location.numberOfLines = 2;
         CGSize locationSize = [Public getContentSizeWith:location.text andFontSize:13 andWidth:kScreenWidth-20];
         location.font = [UIFont systemFontOfSize:13];
@@ -147,9 +149,7 @@
         colorLab.font = [UIFont systemFontOfSize:14];
         [self.contentView addSubview:colorLab];
         
-        NSArray *arr = @[@"",@"",@"",@"",@""];
-        NSArray *arr1 = @[@"黑色",@"白色",@"黄色",@"绿色",@"灰色"];
-        for (int i=0; i<arr.count; i++)
+        for (int i=0; i<self.kuCunArr.count; i++)
         {
             //列
             NSInteger rank = i%4;
@@ -160,48 +160,50 @@
             CGFloat y = 10+row*75;
             
             UIImageView *colorImage = [[UIImageView alloc] initWithFrame:CGRectMake(x, y, 55, 55)];
-            colorImage.backgroundColor = [UIColor grayColor];
             colorImage.tag = i+10;
+            [colorImage sd_setImageWithURL:[NSURL URLWithString:[self.kuCunArr[i] objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
             [self.contentView addSubview:colorImage];
             colorImage.userInteractionEnabled = YES;
             [imageViewArr addObject:colorImage];
             
             UILabel *colorName = [[UILabel alloc] initWithFrame:CGRectMake(colorImage.left, colorImage.bottom, colorImage.width, 20)];
-            colorName.text =[arr1 objectAtIndex:i];
+            colorName.text =[self.kuCunArr[i] objectForKey:@"ColorName"];
             colorName.font = [UIFont systemFontOfSize:13];
             colorName.textAlignment = NSTextAlignmentCenter;
             [self.contentView addSubview:colorName];
             
             [labArr addObject:colorName];
             
+            if (i==0)
+            {
+                colorImage.layer.borderColor = [UIColor redColor].CGColor;
+                colorImage.layer.borderWidth = 1;
+                colorName.textColor = [UIColor redColor];
+            }
+            
             UITapGestureRecognizer *tap  =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectColor:)];
             [colorImage addGestureRecognizer:tap];
         }
         
-        NSInteger sizeY = arr.count/4*75+70;
+        NSInteger sizeY = self.kuCunArr.count/4*75+70;
         
-        UILabel *sizeLab = [[UILabel alloc] initWithFrame:CGRectMake(10, sizeY+30, 35, 20)];
+        sizeLab = [[UILabel alloc] initWithFrame:CGRectMake(10, sizeY+30, 35, 20)];
         sizeLab.text = @"尺码:";
         sizeLab.font = [UIFont systemFontOfSize:14];
         [self.contentView addSubview:sizeLab];
         
-        NSMutableArray *array = [NSMutableArray arrayWithObjects:@"asda",@"sss",@"x",@"s", nil];
-        DWTagList*sizeBtn = [[DWTagList alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth-70, 300.0f)];
-        sizeBtn.backgroundColor = [UIColor clearColor];
-        [sizeBtn setTags:array];
+        sizeBtn = [[DWTagList alloc] init];
+        sizeBtn.backgroundColor = [UIColor redColor];
         [self.contentView addSubview:sizeBtn];
+        NSArray *arr = [[self.kuCunArr objectAtIndex:0] objectForKey:@"Size"];
+        [sizeBtn setTags:arr];
         CGFloat height = [sizeBtn fittedSize].height;
+        self.sizeHeight = height;
         sizeBtn.frame = CGRectMake(sizeLab.right+5, sizeLab.top-3, kScreenWidth-70, height);
         
         sizeBtn.clickBtnBlock = ^(UIButton *btn,NSInteger index)
         {
-            //            ProDetailSize *size = [self.detailData.Sizes objectAtIndex:index];
-            //            self.sizeId = size.SizeId;
-            //            self.sizeNum = size.Inventory;
-            //            self.sizeName = size.Size;
-            //            kuCunLab.text = [NSString stringWithFormat:@"库存%@件",size.Inventory];
-            //            self.priceNum = 0;
-            //            buyNumLab.text = @"0";
+            NSLog(@"%d",index);
         };
         //数量
         UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(10, sizeBtn.bottom+20, 40, 20)];
@@ -241,9 +243,10 @@
         [numView addSubview:buyNumLab];
         
         UILabel *kuCunLab = [[UILabel alloc] initWithFrame:CGRectMake(numView.right+10, numView.top+5, 150, 20)];
-        kuCunLab.textColor = [UIColor redColor];
+        kuCunLab.textColor = [UIColor clearColor];
         kuCunLab.font = [UIFont systemFontOfSize:15];
-        kuCunLab.text = @"库存123123件";
+        NSArray *sizeArr = [self.kuCunArr[0] objectForKey:@"Size"];
+        kuCunLab.text = [NSString stringWithFormat:@"库存%@件",[sizeArr[0]objectForKey:@"Inventory"]];
         [self.contentView addSubview:kuCunLab];
         
         UILabel *service = [[UILabel alloc] initWithFrame:CGRectMake(10, kuCunLab.bottom+10, kScreenWidth-20, 20)];
@@ -261,13 +264,13 @@
     else if (indexPath.section==3)
     {
         UILabel *brandLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 60, 40)];
-        brandLab.text = @"ONLY";
+        brandLab.text = proData.BrandName;
         brandLab.textColor = [UIColor orangeColor];
         brandLab.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:brandLab];
         
         UILabel *location = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-100, 0, 80, 40)];
-        location.text = @"中国北京";
+        location.text = proData.CityName;
         location.textAlignment = NSTextAlignmentRight;
         location.textColor = [UIColor darkGrayColor];
         location.font = [UIFont systemFontOfSize:15];
@@ -301,7 +304,7 @@
         [self.contentView addSubview:locationImg];
         
         UILabel *locationNameLab = [[UILabel alloc] initWithFrame:CGRectMake(locationImg.right, nameLab.bottom, kScreenWidth-170, 20)];
-        locationNameLab.text = @"啊实打实大师大师的";
+        locationNameLab.text = proData.CityName;
         locationNameLab.font = [UIFont systemFontOfSize:13];
         locationNameLab.textColor = [UIColor darkGrayColor];
         [self.contentView addSubview:locationNameLab];
@@ -355,29 +358,44 @@
         scroll.scrollEnabled = NO;
         [self.contentView addSubview:scroll];
         
-        UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 210)];
-        proImage.backgroundColor = [UIColor orangeColor];
-        [scroll addSubview:proImage];
+        for (int i=0; i<proData.ProductPic.count; i++)
+        {
+            ProductPicture *pic = [proData.ProductPic objectAtIndex:i];
+            
+            UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, i*210, kScreenWidth, 210)];
+            [proImage sd_setImageWithURL:[NSURL URLWithString:pic.Logo] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+            [scroll addSubview:proImage];
+        }
         
         UIImageView *sizeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, 210)];
-        sizeImage.backgroundColor = [UIColor cyanColor];
+        [sizeImage sd_setImageWithURL:[NSURL URLWithString:proData.SizeContrastPic] placeholderImage:[UIImage imageNamed:@"placeholder"]];
         [scroll addSubview:sizeImage];
         
         
+        UILabel *storeService = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth*2, 0, kScreenWidth, 210)];
         
-        
+        NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[proData.StoreService dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+        storeService.numberOfLines = 0;
+        storeService.attributedText = attrStr;
+        [scroll addSubview:storeService];
     }
 }
 //UIScrollViewDelegate方法
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     NSInteger index = fabs(scrollView.contentOffset.x) / scrollView.frame.size.width;
-    
     [pageControl setCurrentPage:index];
 }
 
 -(void)selectColor:(UITapGestureRecognizer *)tap
 {
+    NSArray *sizeArr = [[self.kuCunArr objectAtIndex:tap.view.tag-10] objectForKey:@"Size"];
+    [sizeBtn setTags:sizeArr];
+    CGFloat height = [sizeBtn fittedSize].height;
+    sizeBtn.frame = CGRectMake(sizeLab.right+5, sizeLab.top-3, kScreenWidth-70, height);
+
+    [self.delegate handleSizeHeight:height];
+
     UILabel *colorNameLab = [labArr objectAtIndex:tap.view.tag-10];
     UIImageView *colorImage = (UIImageView *)tap.view;
     

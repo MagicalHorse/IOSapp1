@@ -12,6 +12,7 @@
 #import "CHTCollectionViewWaterfallLayout.h"
 #import "CusHomeStoreCollectionViewCell.h"
 #import "CusHomeStoreHeader.h"
+#import "CusZProDetailViewController.h"
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 
 @interface CusBrandDetailViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout>
@@ -145,7 +146,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *proId = [[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"ProductId"];
-    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+//    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+    CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
     VC.productId = proId;
     [self.navigationController pushViewController:VC animated:YES];
 }

@@ -18,13 +18,16 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "CusZProDetailCell.h"
-@interface CusZProDetailViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface CusZProDetailViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,handleSizeHeight>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
 @property (nonatomic ,strong) UIScrollView *imageScrollView;
 @property (nonatomic ,strong) UIPageControl *pageControl;
 
 @property (nonatomic ,strong) UITableView *proDetailTableView;
+@property (nonatomic ,strong) NSArray *kuCunArr;
+
+@property (nonatomic ,assign) CGFloat sizeHeight;
 
 @end
 
@@ -46,7 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self initWithFooterView];
+    self.sizeHeight = 0;
     self.proDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49)];
     self.proDetailTableView.delegate = self;
     self.proDetailTableView.dataSource = self;
@@ -61,7 +64,29 @@
     [shareBtn addTarget:self action:@selector(didClickShare:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:shareBtn];
     
+    [self getKuCunData];
+
     [self getDetailData];
+}
+
+-(void)getKuCunData
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.productId forKey:@"productId"];
+    [HttpTool postWithURL:@"Product/GetProductSku" params:dic success:^(id json) {
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            self.kuCunArr = [json objectForKey:@"data"];
+            NSIndexPath *indexpath = [NSIndexPath indexPathForRow:0 inSection:2];
+            [self.proDetailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexpath, nil] withRowAnimation:UITableViewRowAnimationNone];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -93,7 +118,9 @@
 {
     if (indexPath.section==0)
     {
-        return kScreenWidth+50;
+        CGSize size = [Public getContentSizeWith:prodata.ProductName andFontSize:14 andWidth:kScreenWidth-15];
+
+        return kScreenWidth+size.height+36;
     }
     else if (indexPath.section==1)
     {
@@ -101,7 +128,31 @@
     }
     else if (indexPath.section==2)
     {
-        return 300;
+        if (self.kuCunArr.count>0)
+        {
+            NSInteger rank = self.kuCunArr.count/4;
+            CGFloat x = 50+(55+10)*rank;
+
+            if (self.sizeHeight>0)
+            {
+                return 155+x+self.sizeHeight;
+            }
+            else
+            {
+                NSArray *sizeArr = [self.kuCunArr[0] objectForKey:@"Size"];
+                CGFloat width = 0;
+                for (int i=0; i<sizeArr.count; i++)
+                {
+                    NSString *str = [sizeArr[i] objectForKey:@"SizeName"];
+                    CGSize size = [Public getContentSizeWith:str andFontSize:15 andHigth:27.895];
+                    width = size.width+width+10;
+                }
+               
+                return 155+x+ (((width+50)/kScreenWidth)+1)*25;
+            
+            }
+        }
+        return 0;
     }
     else if (indexPath.section==3)
     {
@@ -125,7 +176,9 @@
     {
         [view removeFromSuperview];
     }
+    cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.kuCunArr = self.kuCunArr;
     [cell setDetailData:prodata andIndex:indexPath];
     
     return cell;
@@ -147,7 +200,7 @@
     
     [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
     
-    [HttpTool postWithURL:@"Product/GetProductDetail" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Product/GetProductDetailV3" params:dic success:^(id json) {
         
         NSLog(@"%@",json);
         if ([[json objectForKey:@"isSuccessful"] boolValue])
@@ -156,9 +209,8 @@
             prodata = [ProDetailData objectWithKeyValues:dic];
             
             [self.proDetailTableView reloadData];
-//            [self initView:prodata];
-//            
-//            [self initWithFooterView];
+          
+            [self initWithFooterView];
         }
         else
         {
@@ -431,6 +483,11 @@
     VC.userId = prodata.BuyerId;
     VC.userName = prodata.BuyerName;
     [self.navigationController pushViewController:VC animated:YES];
+}
+
+-(void)handleSizeHeight:(CGFloat)height
+{
+    self.sizeHeight = height;
 }
 
 @end
