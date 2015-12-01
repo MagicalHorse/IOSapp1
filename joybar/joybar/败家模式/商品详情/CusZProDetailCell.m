@@ -325,7 +325,6 @@
     }
     else
     {
-        
         btnArr = [[NSMutableArray alloc] init];
         NSArray *arr = @[@"图片详情",@"尺码参考",@"售后服务"];
         for (int i=0; i<3; i++)

@@ -18,6 +18,7 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "CusZProDetailCell.h"
+#import "MakeSureVipOrderViewController.h"
 @interface CusZProDetailViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,handleSizeHeight>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
@@ -314,10 +315,13 @@
         case 1002:
         {
             //我要买
-            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
+            MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
             VC.detailData = prodata;
-            VC.isFrom = isFromBuyPro;
             [self.navigationController pushViewController:VC animated:YES];
+//            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
+//            VC.detailData = prodata;
+//            VC.isFrom = isFromBuyPro;
+//            [self.navigationController pushViewController:VC animated:YES];
         }
             break;
         default:
