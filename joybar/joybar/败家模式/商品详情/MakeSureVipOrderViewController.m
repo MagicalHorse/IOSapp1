@@ -276,17 +276,20 @@
                 [view removeFromSuperview];
             }
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
-            lab.text = @"优惠券";
+            lab.text = @"VIP折扣:";
             lab.font = [UIFont systemFontOfSize:14];
             [cell.contentView addSubview:lab];
             UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
             lab1.textAlignment = NSTextAlignmentRight;
-            lab1.text = @"请选择会员卡";
+            lab1.font = [UIFont systemFontOfSize:13];
+            lab1.textColor = [UIColor lightGrayColor];
+            lab1.text = @"请先选择会员卡";
            
             [cell.contentView addSubview:lab1];
             return cell;
             
-        }else if(indexPath.section==4)
+        }
+        else if(indexPath.section==4)
         {
             static NSString *iden = @"cell4";
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];

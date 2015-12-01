@@ -317,6 +317,7 @@
             //我要买
             MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
             VC.detailData = prodata;
+            VC.buyNum = @"2";
             [self.navigationController pushViewController:VC animated:YES];
 //            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
 //            VC.detailData = prodata;

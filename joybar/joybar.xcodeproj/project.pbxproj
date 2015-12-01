@@ -359,6 +359,7 @@
 		9D7F5D381BCE3863006A7441 /* CusZProDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F5D371BCE3863006A7441 /* CusZProDetailViewController.m */; };
 		9D876DE51C06DFF9006D30FB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D876DE41C06DFF9006D30FB /* MapKit.framework */; };
 		9D8A4A4D1BFADB850074ED50 /* MZTimerLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A4A4C1BFADB850074ED50 /* MZTimerLabel.m */; };
+		9D8B53E01C0D999000C61D13 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D8B53DF1C0D999000C61D13 /* Images.xcassets */; };
 		9D8CD7431B677E0800F972EB /* CusHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AEE1B2AE01900782C0C /* CusHomeTableViewCell.m */; };
 		9D8CD7451B68A1EF00F972EB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */; };
 		9D8CDE651B00B90900B8708B /* Public.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8CDE641B00B90900B8708B /* Public.m */; };
@@ -1018,6 +1019,7 @@
 		9D876DE41C06DFF9006D30FB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		9D8A4A4B1BFADB850074ED50 /* MZTimerLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZTimerLabel.h; sourceTree = "<group>"; };
 		9D8A4A4C1BFADB850074ED50 /* MZTimerLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZTimerLabel.m; sourceTree = "<group>"; };
+		9D8B53DF1C0D999000C61D13 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9D8CD7421B675CC500F972EB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		9D8CD7441B68A1EF00F972EB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9D8CDE631B00B90900B8708B /* Public.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Public.h; sourceTree = "<group>"; };
@@ -1872,7 +1874,7 @@
 			isa = PBXGroup;
 			children = (
 				0ACDBDD91B3BEA890096B531 /* PushConfig.plist */,
-				0AE7E1161B2027CE00159B02 /* Images.xcassets */,
+				9D8B53DF1C0D999000C61D13 /* Images.xcassets */,
 				0D60BCAB1ACCD74D00BF625A /* joybar-Info.plist */,
 				0D60BCAC1ACCD74D00BF625A /* InfoPlist.strings */,
 				0D60BCB11ACCD74D00BF625A /* joybar-Prefix.pch */,
@@ -2579,6 +2581,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AAB5B751B2AE01900782C0C /* biaoqing039.png in Resources */,
+				9D8B53E01C0D999000C61D13 /* Images.xcassets in Resources */,
 				0AAB5B731B2AE01900782C0C /* biaoqing037.png in Resources */,
 				0AAB5B941B2AE01900782C0C /* biaoqing070.png in Resources */,
 				9DADD0C21B8598C1004475C2 /* UMSocialLocalizable.strings in Resources */,
@@ -2620,7 +2623,6 @@
 				0AAB5B501B2AE01900782C0C /* biaoqing002.png in Resources */,
 				0AD940E01BFF17480096D6E8 /* CusBrandTableViewCell.xib in Resources */,
 				0AAB5B7A1B2AE01900782C0C /* biaoqing044.png in Resources */,
-				0AE7E1171B2027CE00159B02 /* Images.xcassets in Resources */,
 				9DADD0D21B8598C1004475C2 /* ios-social-sdk-comment-quick.html in Resources */,
 				9DADD0D81B8598C1004475C2 /* ios-social-sdk-share-quick.html in Resources */,
 				0AAB5B541B2AE01900782C0C /* biaoqing006.png in Resources */,
