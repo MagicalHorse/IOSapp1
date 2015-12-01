@@ -10,4 +10,5 @@
 
 @interface HJHeaderViewCell : UICollectionViewCell
 @property (weak ,nonatomic)IBOutlet UIImageView *iconView;
+@property (weak, nonatomic) IBOutlet UILabel *nameLab;
 @end

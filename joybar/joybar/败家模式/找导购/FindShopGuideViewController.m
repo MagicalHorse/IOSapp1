@@ -18,6 +18,9 @@
 @property (nonatomic ,strong)UICollectionView *cusCollectView1;
 @property (nonatomic ,strong)UICollectionView *cusCollectView2;
 @property (nonatomic ,strong)NSMutableArray *dataArray;
+@property (nonatomic ,strong)NSMutableArray *dataArray1;
+@property (nonatomic ,strong)NSMutableArray *dataArray2;
+
 
 
 @property (nonatomic ,strong) UIScrollView *messageScroll;
@@ -28,6 +31,10 @@ static NSString * const reuseIdentifier = @"Cell";
 @implementation FindShopGuideViewController{
     UIView *tempView;
     BOOL isRefresh;
+    BOOL isRefresh1;
+    int type;
+    UILabel *adLabel;
+    UILabel *countLabel;
 
 }
 -(NSMutableArray *)dataArray{
@@ -36,28 +43,58 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     return _dataArray;
 }
+-(NSMutableArray *)dataArray1{
+    if (_dataArray1 ==nil) {
+        _dataArray1 =[NSMutableArray array];
+    }
+    return _dataArray1;
+}
+-(NSMutableArray *)dataArray2{
+    if (_dataArray2 ==nil) {
+        _dataArray2 =[NSMutableArray array];
+    }
+    return _dataArray2;
+}
 
 -(void)setData{
     
-    
-    if (isRefresh) {
+    if (isRefresh||isRefresh1) {
         [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64];
     }
+   
     
+    NSString *url;
+    if (type==1) {
+        url =@"BuyerV3/RecommondBuyerlist";
+    }else{
+        url =@"/BuyerV3/FavBuyers";
+    }
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setValue:[NSString stringWithFormat:@"%d",1] forKey:@"Page"];
     [dict setObject:@"20" forKey:@"Pagesize"];
 
-    [HttpTool postWithURL:@"BuyerV3/RecommondBuyerlist" params:dict  success:^(id json) {
+    [HttpTool postWithURL:url params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"Buyers"];
-            self.dataArray =array;
+            if (type ==1) {
+                self.dataArray =array;
+                isRefresh=NO;
+                [self.cusCollectView reloadData];
+                
+
+            }else if(type ==2){
+                self.dataArray1 =array;
+                isRefresh1=NO;
+                [self.cusCollectView2 reloadData];
+                [self setDataForStore];
+
+            }
             
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [self.cusCollectView reloadData];
+
         [self activityDismiss];
         
     } failure:^(NSError *error) {
@@ -67,11 +104,25 @@ static NSString * const reuseIdentifier = @"Cell";
     }];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    CGFloat x =self.lineLab.frame.origin.x;
+    if (x>50) {
+        self.messageScroll.contentOffset = CGPointMake(kScreenWidth, 0);
+    }else{
+        self.messageScroll.contentOffset = CGPointMake(0, 0);
+    }
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@""];
     self.retBtn.hidden = YES;
+    isRefresh=YES;
+    isRefresh1=YES;
+
+    type=1;
     tempView = [[UIView alloc] initWithFrame:CGRectMake(75, 0, kScreenWidth-150, 64)];
     tempView.backgroundColor = [UIColor clearColor];
     tempView.center = self.navView.center;
@@ -156,16 +207,16 @@ static NSString * const reuseIdentifier = @"Cell";
     [gzView addSubview:image];
 
     
-    UILabel *adLabel =[[UILabel alloc]initWithFrame:CGRectMake(image.right, _cusCollectView1.bottom+20, 200, 14)];
+    adLabel =[[UILabel alloc]initWithFrame:CGRectMake(image.right, _cusCollectView1.bottom+20, 200, 14)];
     adLabel.font =[UIFont systemFontOfSize:12];
     adLabel.textColor = [UIColor grayColor];
-    adLabel.text =@"中关村南大街6号";
+    adLabel.text =@"未知";
     [gzView addSubview:adLabel];
     
-    UILabel *countLabel =[[UILabel alloc]initWithFrame:CGRectMake(adLabel.right, _cusCollectView1.bottom+20, 60, 14)];
+    countLabel =[[UILabel alloc]initWithFrame:CGRectMake(adLabel.right, _cusCollectView1.bottom+20, 60, 14)];
     countLabel.font =[UIFont systemFontOfSize:12];
     countLabel.textColor = [UIColor grayColor];
-    countLabel.text =@"1/211";
+    countLabel.text =@"0/0";
     [gzView addSubview:countLabel];
 
 
@@ -220,9 +271,9 @@ static NSString * const reuseIdentifier = @"Cell";
     if (collectionView.tag ==2001) {
         return self.dataArray.count;
     }else if(collectionView.tag ==2003){
-        return 6;
+        return self.dataArray1.count;;
     }
-    return 10;
+    return self.dataArray2.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -230,10 +281,23 @@ static NSString * const reuseIdentifier = @"Cell";
     if (collectionView.tag ==2002) {
         HJConcernCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
         [[cell layer]setCornerRadius:8];
+        cell.backgroundColor =[UIColor whiteColor];
+        NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray2[indexPath.row] objectForKey:@"Pic"]];
+        [cell.iconView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        
+   
+        cell.priceLab.text =[self.dataArray2[indexPath.row]objectForKey:@"Price"];
+        cell.dscLab.text =[self.dataArray2[indexPath.row]objectForKey:@"ProductName"];
+        BOOL slected =[[self.dataArray2[indexPath.row]objectForKey:@"IsFavorite"]boolValue];
+        if (slected)cell.shCBtn.selected=YES;
+        else cell.shCBtn.selected=NO;
         
         return cell;
     }else if (collectionView.tag ==2003){
         HJHeaderViewCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+        NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray1[indexPath.row] objectForKey:@"Logo"]];
+        [cell.iconView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        cell.nameLab.text =[self.dataArray1[indexPath.row]objectForKey:@"NickName"];
         return cell;
     }else if (collectionView.tag ==2001) {
         HJCarouselViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
@@ -241,6 +305,13 @@ static NSString * const reuseIdentifier = @"Cell";
         [[cell layer]setCornerRadius:8];
         if (self.dataArray.count>0) {
            
+            if (self.dataArray1.count>1) {
+                adLabel.text  =[self.dataArray1[indexPath.row] objectForKey:@"Address"];
+
+            }
+            
+//            countLabel.text =
+
             NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray[indexPath.row] objectForKey:@"Logo"]];
             [cell.ShopView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.addressView.text =[self.dataArray[indexPath.row]objectForKey:@"StoreName"];
@@ -336,12 +407,19 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     if (tap.view.tag==1000)
     {
-
+        if (isRefresh1) {
+            [self setData];
+        }
+        type=1;
         self.messageScroll.contentOffset = CGPointMake(0, 0);
         [self scrollToMessage];
     }
     else
     {
+        if (isRefresh1) {
+            [self setData];
+        }
+        type=2;
         self.messageScroll.contentOffset = CGPointMake(kScreenWidth, 0);
         [self scrollToDynamic];
     }
@@ -353,7 +431,7 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
-    
+
     [UIView animateWithDuration:0.25 animations:^{
         self.lineLab.center = CGPointMake(lab1.center.x, 63);
     }];
@@ -366,6 +444,7 @@ static NSString * const reuseIdentifier = @"Cell";
 //关注
 -(void)scrollToDynamic
 {
+
     UILabel *lab1 = (UILabel *)[tempView viewWithTag:1000];
     UILabel *lab2 = (UILabel *)[tempView viewWithTag:1001];
     [UIView animateWithDuration:0.25 animations:^{
@@ -381,11 +460,39 @@ static NSString * const reuseIdentifier = @"Cell";
 
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    
-//    for (UIView *view in scrollView.subviews) {
-//        
-//        NSLog(@"%@",view);
-//    }
+    NSIndexPath *indexPath= [self curIndexPath];
+    adLabel.text  =[self.dataArray1[indexPath.row] objectForKey:@"Address"];
+
+    for (UIView *view in scrollView.subviews) {
+        
+        if ([view isKindOfClass:[ HJHeaderViewCell class]]) {
+            [self setDataForStore];
+        }
+        
+    }
+}
+-(void)setDataForStore{
+    NSIndexPath *indexPath= [self curIndexPath];
+    NSString *BuyerId= [self.dataArray1[indexPath.row]objectForKey:@"BuyerId"];
+    NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
+    [dict setValue:[NSString stringWithFormat:@"%d",1] forKey:@"Page"];
+    [dict setObject:@"20" forKey:@"Pagesize"];
+    [dict setObject:BuyerId forKey:@"BuyerId"];
+    [HttpTool postWithURL:@"BuyerV3/BuyersProducts" params:dict  success:^(id json) {
+        BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+        if (isSuccessful) {
+            NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"Products"];
+            self.dataArray2 =array;
+            [self.cusCollectView1 reloadData];
+            
+        }else{
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
+        
+    }];
 }
 
 
