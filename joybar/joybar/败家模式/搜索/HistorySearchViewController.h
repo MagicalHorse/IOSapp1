@@ -12,4 +12,6 @@
 @property (nonatomic ,copy)NSString *latitude;
 @property (nonatomic ,copy)NSString *longitude;
 @property (nonatomic ,copy)NSString *cityId;
+@property (nonatomic ,copy)NSString *clickType;
+
 @end

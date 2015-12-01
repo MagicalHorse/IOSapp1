@@ -11,6 +11,7 @@
 #import "HJCarouselViewCell.h"
 #import "HJConcernCell.h"
 #import "HJHeaderViewCell.h"
+#import "HistorySearchViewController.h"
 
 @interface FindShopGuideViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
 @property (nonatomic ,strong) UILabel *lineLab;
@@ -114,7 +115,11 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 }
 
-
+-(void)didClickCancelBtn{
+    HistorySearchViewController *history =[[HistorySearchViewController alloc]init];
+    history.clickType=@"FindShopGuideViewController";
+    [self.navigationController pushViewController:history animated:YES];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@""];
@@ -127,6 +132,15 @@ static NSString * const reuseIdentifier = @"Cell";
     tempView.backgroundColor = [UIColor clearColor];
     tempView.center = self.navView.center;
     [self.navView addSubview:tempView];
+    
+    UIButton *cancelBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    cancelBtn.frame = CGRectMake(kScreenWidth-35, 25, 30, 30);
+    [cancelBtn setImage:[UIImage imageNamed:@"search"] forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [cancelBtn addTarget:self action:@selector(didClickCancelBtn) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.navView addSubview:cancelBtn];
+
+    
     
     NSArray *nameArr = @[@"导购",@"关注"];
     for (int i=0; i<2; i++)

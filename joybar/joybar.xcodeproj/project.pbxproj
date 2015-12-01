@@ -236,6 +236,7 @@
 		0AD940EA1BFF1A3C0096D6E8 /* CusShoppingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0AD940E81BFF1A3C0096D6E8 /* CusShoppingTableViewCell.xib */; };
 		0AE7E1051B1D9C9000159B02 /* libOSS_IOS_SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AE7E1041B1D9C9000159B02 /* libOSS_IOS_SDK.a */; };
 		0AE7E1171B2027CE00159B02 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE7E1161B2027CE00159B02 /* Images.xcassets */; };
+		0AEDFAB01C0D9233003A9757 /* FindBueryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEDFAAF1C0D9233003A9757 /* FindBueryViewController.m */; };
 		0AEF3D191B21859B0064A1E1 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEF3D181B21859B0064A1E1 /* BaseTableView.m */; };
 		0AEF3D1D1B2186540064A1E1 /* NSString+JSMessagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEF3D1C1B2186540064A1E1 /* NSString+JSMessagesView.m */; };
 		0AF67B231C02AD3400721B52 /* FindShopGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AF67B221C02AD3400721B52 /* FindShopGuideViewController.m */; };
@@ -800,6 +801,8 @@
 		0AE7E1021B1D9C3C00159B02 /* OSSTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSSTool.h; sourceTree = "<group>"; };
 		0AE7E1041B1D9C9000159B02 /* libOSS_IOS_SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOSS_IOS_SDK.a; path = joybar/OpenResources/Aliyun/libOSS_IOS_SDK.a; sourceTree = "<group>"; };
 		0AE7E1161B2027CE00159B02 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0AEDFAAE1C0D9233003A9757 /* FindBueryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindBueryViewController.h; sourceTree = "<group>"; };
+		0AEDFAAF1C0D9233003A9757 /* FindBueryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindBueryViewController.m; sourceTree = "<group>"; };
 		0AEF3D171B21859B0064A1E1 /* BaseTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableView.h; sourceTree = "<group>"; };
 		0AEF3D181B21859B0064A1E1 /* BaseTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableView.m; sourceTree = "<group>"; };
 		0AEF3D1B1B2186540064A1E1 /* NSString+JSMessagesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JSMessagesView.h"; sourceTree = "<group>"; };
@@ -1787,6 +1790,8 @@
 				0A12D1371C099990002D95CA /* HJHeaderViewCell.h */,
 				0A12D1381C099990002D95CA /* HJHeaderViewCell.m */,
 				0A12D1391C099990002D95CA /* HJHeaderViewCell.xib */,
+				0AEDFAAE1C0D9233003A9757 /* FindBueryViewController.h */,
+				0AEDFAAF1C0D9233003A9757 /* FindBueryViewController.m */,
 			);
 			path = "找导购";
 			sourceTree = "<group>";
@@ -2934,6 +2939,7 @@
 				9D6C948A1AE0F0A30066F794 /* FindPasswordViewController.m in Sources */,
 				9D5D2E571B60BF7200DBFDC3 /* UIImage+AspectFit.m in Sources */,
 				0AAB5BAB1B2AE01900782C0C /* OrderListData.m in Sources */,
+				0AEDFAB01C0D9233003A9757 /* FindBueryViewController.m in Sources */,
 				0A53051D1B12C05300997BF4 /* UIView+WebCacheOperation.m in Sources */,
 				0AAB5BB31B2AE01900782C0C /* HomeTableView.m in Sources */,
 				0AAB5B3F1B2AE01900782C0C /* CusChatViewController.m in Sources */,
