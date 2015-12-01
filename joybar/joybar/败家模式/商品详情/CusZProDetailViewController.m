@@ -72,7 +72,7 @@
 -(void)getKuCunData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:self.productId forKey:@"productId"];
+    [dic setObject:@"13810" forKey:@"productId"];
     [HttpTool postWithURL:@"Product/GetProductSku" params:dic success:^(id json) {
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
