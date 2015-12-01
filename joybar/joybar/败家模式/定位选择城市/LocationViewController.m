@@ -121,6 +121,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section==0)
+    {
+        return;
+    }
     NSString *cityName =[[self.cityArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
     if(self.handleCityName)
     {
