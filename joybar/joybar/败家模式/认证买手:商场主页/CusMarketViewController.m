@@ -61,6 +61,16 @@
         forSupplementaryViewOfKind:CHTCollectionElementKindSectionHeader
                withReuseIdentifier:HEADER_IDENTIFIER];
     [self.view addSubview:_collectionView];
+    
+    // 搜索按钮
+    UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    searchBtn.frame = CGRectMake(kScreenWidth-54, 10, 64, 64);
+    searchBtn.backgroundColor = [UIColor clearColor];
+    [searchBtn setImage:[UIImage imageNamed:@"search"] forState:(UIControlStateNormal)];
+    [searchBtn addTarget:self action:@selector(didClickSearchBtn) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.navView addSubview:searchBtn];
+
+    
     [self addHeader];
     [self addFooter];
     [self getData];
@@ -292,6 +302,12 @@
 }
 
 -(void)didClickBrand:(UIButton *)btn
+{
+    
+}
+
+//搜索
+-(void)didClickSearchBtn
 {
     
 }
