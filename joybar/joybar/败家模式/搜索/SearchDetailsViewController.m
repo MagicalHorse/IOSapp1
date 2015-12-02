@@ -83,7 +83,9 @@
     [dict setObject:@"" forKey:@"key"];
 
     [dict setObject:self.cityId forKey:@"ciryId"];
-    [dict setObject:@"0" forKey:@"StoreId"];
+    if (self.storeId) {
+        [dict setObject:self.storeId forKey:@"StoreId"];
+    }
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dict setObject:@"6" forKey:@"Pagesize"];
     if (type ==1) {
@@ -97,8 +99,12 @@
     }else if(type ==3){
         url =@"v3/searchbuyer";
         [dict setObject:userId forKey:@"userId"];
-        [dict setObject:self.longitude forKey:@"longitude"];
-        [dict setObject:self.latitude forKey:@"latitude"];
+        if (self.longitude) {
+            [dict setObject:self.longitude forKey:@"longitude"];
+        }
+        if (self.latitude) {
+            [dict setObject:self.latitude forKey:@"latitude"];
+        }
     }else if(type ==4){
         url =@"v3/searchstore";
         [dict setObject:self.longitude forKey:@"longitude"];
@@ -106,7 +112,7 @@
        
     }
     
-    [HttpTool postWithURL:url params:dict  success:^(id json) {
+    [HttpTool postWithURL:url params:dict isWrite:NO  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
@@ -489,6 +495,46 @@
     }
     return 0;
 }
+
+-(void)chBtnClick:(UIButton *)btn{
+    
+    BOOL tempState =[[self.searchArr[btn.tag]objectForKey:@"IsFavite"]boolValue];
+    NSString *stroeId =[self.searchArr[btn.tag]objectForKey:@"ProductId"];
+
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:stroeId forKey:@"Id"];
+    if (tempState)
+    {
+        [dic setValue:@"0" forKey:@"Status"];
+    }
+    else
+    {
+        [dic setValue:@"1" forKey:@"Status"];
+    }
+    [HttpTool postWithURL:@"Product/Favorite" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            
+            if (tempState)
+            {
+                btn.selected = NO;
+            }
+            else
+            {
+                btn.selected = YES;
+            }
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+    }];
+    
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (type ==1) {
@@ -507,6 +553,8 @@
             }else{
                 cell.chCBtn.selected =NO;
             }
+            cell.chCBtn.tag =indexPath.row;
+            [cell.chCBtn addTarget:self action:@selector(chBtnClick:) forControlEvents:UIControlEventTouchUpInside];
             cell.desLab.text =[self.searchArr[indexPath.row]objectForKey:@"ProductName"];
         }
         
@@ -567,9 +615,25 @@
                     
                     [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 }
+            }else{
+                cell.shopBtn.hidden =YES;
+                cell.shopBtn1.hidden =YES;
+                cell.shopBtn2.hidden =YES;
+                UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, cell.shopBtn.top+10, cell.width, 20)];
+                lable.text =@"店铺什么都没有，戳一下，提醒上新~";
+                lable.textAlignment =NSTextAlignmentCenter;
+                lable.font =[UIFont systemFontOfSize:13];
+                lable.textColor =[UIColor grayColor];
+                [cell addSubview:lable];
+                
+              UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+        
+                btn.backgroundColor =[UIColor orangeColor];
+                [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+                btn.titleLabel.font =[UIFont systemFontOfSize:13];
+                [cell addSubview:btn];
             }
-            
-
         }
         
         return cell;

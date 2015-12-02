@@ -249,8 +249,8 @@
     search.cityId =cityId; //城市id
     search.cusSearchType =1; //全局搜索1
     //经纬度
-    search.latitude= self.latitude;
-    search.longitude= self.longitude;
+    search.latitude=  [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
+    search.longitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
     [self.navigationController pushViewController:search animated:YES];
     
     

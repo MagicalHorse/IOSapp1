@@ -313,10 +313,9 @@
     HistorySearchViewController *search =[[HistorySearchViewController alloc]init];
     search.cityId =[[NSUserDefaults standardUserDefaults] objectForKey:@"cityId"]; //城市id
     //经纬度
-   
     search.latitude=  [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
-    search.longitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];;
-
+    search.longitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
+    search.storeId =self.storeId;
     [self.navigationController pushViewController:search animated:YES];
 }
 

@@ -30,7 +30,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [super viewDidLoad];
     [self addNavBarViewAndTitle:@""];
     isRefresh=YES;
 

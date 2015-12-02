@@ -9,22 +9,19 @@
 #import "FindShopGuideViewController.h"
 #import "HJCarouselViewLayout.h"
 #import "HJCarouselViewCell.h"
-#import "HJConcernCell.h"
-#import "HJHeaderViewCell.h"
 #import "HistorySearchViewController.h"
+#import "CusBueryTableViewCell.h"
 
-@interface FindShopGuideViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
+@interface FindShopGuideViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,
+UITableViewDataSource,UITableViewDelegate>
+@property (nonatomic ,strong) BaseTableView *tableView;
 @property (nonatomic ,strong) UILabel *lineLab;
 @property (nonatomic ,strong)UICollectionView *cusCollectView;
-@property (nonatomic ,strong)UICollectionView *cusCollectView1;
-@property (nonatomic ,strong)UICollectionView *cusCollectView2;
-@property (nonatomic ,strong)NSMutableArray *dataArray;
-@property (nonatomic ,strong)NSMutableArray *dataArray1;
-@property (nonatomic ,strong)NSMutableArray *dataArray2;
-
-
-
+@property (nonatomic ,strong)NSMutableArray *dataArray; //推荐
+@property (nonatomic ,strong)NSMutableArray *cusDataArray; //关注
 @property (nonatomic ,strong) UIScrollView *messageScroll;
+@property (nonatomic ,assign) NSInteger pageNum;
+
 
 @end
 static NSString * const reuseIdentifier = @"Cell";
@@ -36,6 +33,7 @@ static NSString * const reuseIdentifier = @"Cell";
     int type;
     UILabel *adLabel;
     UILabel *countLabel;
+    UIView *gzView ;
 
 }
 -(NSMutableArray *)dataArray{
@@ -44,18 +42,13 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     return _dataArray;
 }
--(NSMutableArray *)dataArray1{
-    if (_dataArray1 ==nil) {
-        _dataArray1 =[NSMutableArray array];
+-(NSMutableArray *)cusDataArray{
+    if (_cusDataArray ==nil) {
+        _cusDataArray =[NSMutableArray array];
     }
-    return _dataArray1;
+    return _cusDataArray;
 }
--(NSMutableArray *)dataArray2{
-    if (_dataArray2 ==nil) {
-        _dataArray2 =[NSMutableArray array];
-    }
-    return _dataArray2;
-}
+
 
 -(void)setData{
     
@@ -63,7 +56,6 @@ static NSString * const reuseIdentifier = @"Cell";
         [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64];
     }
    
-    
     NSString *url;
     if (type==1) {
         url =@"BuyerV3/RecommondBuyerlist";
@@ -82,13 +74,9 @@ static NSString * const reuseIdentifier = @"Cell";
                 self.dataArray =array;
                 isRefresh=NO;
                 [self.cusCollectView reloadData];
-                
 
             }else if(type ==2){
-                self.dataArray1 =array;
                 isRefresh1=NO;
-                [self.cusCollectView2 reloadData];
-                [self setDataForStore];
 
             }
             
@@ -195,245 +183,301 @@ static NSString * const reuseIdentifier = @"Cell";
     [self.cusCollectView registerNib:[UINib nibWithNibName:NSStringFromClass([HJCarouselViewCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
     
     //关注
-    UIView *gzView =[[UIView alloc]initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth*2, kScreenHeight)];
+    gzView =[[UIView alloc]initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth*2, kScreenHeight)];
     gzView.backgroundColor =kCustomColor(228, 234, 238);
     [self.messageScroll addSubview:gzView];
     
-    HJCarouselViewLayout *layout1  = [[HJCarouselViewLayout alloc] initWithAnim:HJCarouselAnimLinear];
-    layout1.scrollDirection =UICollectionViewScrollDirectionHorizontal;
-    layout1.itemSize = CGSizeMake(kScreenWidth-70, kScreenHeight-298);
     
-    _cusCollectView1 =[[UICollectionView alloc]initWithFrame:CGRectMake(0, 135, kScreenWidth, kScreenHeight-298) collectionViewLayout:layout1];
-
-    self.cusCollectView1.tag =2002;
-
-    _cusCollectView1.dataSource =self;
-    _cusCollectView1.delegate =self;
-    _cusCollectView1.showsHorizontalScrollIndicator = NO;
-    _cusCollectView1.showsVerticalScrollIndicator = NO;
-    _cusCollectView1.backgroundColor =kCustomColor(228, 234, 238);
-    [gzView addSubview:_cusCollectView1];
-
-    [self.cusCollectView1 registerNib:[UINib nibWithNibName:NSStringFromClass([HJConcernCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
     
     UIImageView *image =[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"location"]];
-    image.frame =CGRectMake(40, _cusCollectView1.bottom+20, 12, 12);
+    image.frame =CGRectMake(40, self.view.bottom+20, 12, 12);
     [gzView addSubview:image];
 
     
-    adLabel =[[UILabel alloc]initWithFrame:CGRectMake(image.right, _cusCollectView1.bottom+20, 200, 14)];
+    adLabel =[[UILabel alloc]initWithFrame:CGRectMake(image.right, image.top, 200, 14)];
     adLabel.font =[UIFont systemFontOfSize:12];
     adLabel.textColor = [UIColor grayColor];
     adLabel.text =@"未知";
     [gzView addSubview:adLabel];
     
-    countLabel =[[UILabel alloc]initWithFrame:CGRectMake(adLabel.right, _cusCollectView1.bottom+20, 60, 14)];
+    countLabel =[[UILabel alloc]initWithFrame:CGRectMake(adLabel.right, image.top, 60, 14)];
     countLabel.font =[UIFont systemFontOfSize:12];
     countLabel.textColor = [UIColor grayColor];
     countLabel.text =@"0/0";
     [gzView addSubview:countLabel];
-
-
     
-    //头
-    HJCarouselViewLayout *layout2  = [[HJCarouselViewLayout alloc] initWithAnim:HJCarouselAnimLinear];
-    layout2.itemSize = CGSizeMake(85, 125);
-    layout2.scrollDirection =UICollectionViewScrollDirectionHorizontal;
-    _cusCollectView2 =[[UICollectionView alloc]initWithFrame:CGRectMake(10, 0, kScreenWidth-20, 125) collectionViewLayout:layout2];
-    self.cusCollectView2.tag =2003;
-    _cusCollectView2.dataSource =self;
-    _cusCollectView2.delegate =self;
-    _cusCollectView2.showsHorizontalScrollIndicator = NO;
-    _cusCollectView2.showsVerticalScrollIndicator = NO;
-    _cusCollectView2.backgroundColor =kCustomColor(228, 234, 238);
-    [gzView addSubview:_cusCollectView2];
-    [self.cusCollectView2 registerNib:[UINib nibWithNibName:NSStringFromClass([HJHeaderViewCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
-
-    [gzView addSubview:_cusCollectView2];
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, gzView.height-30) style:(UITableViewStylePlain)];
     
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [gzView addSubview:self.tableView];
+    self.tableView.tableFooterView =[[UIView alloc]init];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor =kCustomColor(228, 234, 238);
+    
+    self.pageNum=1;
+    self.tableView.tableFooterView =[[UIView alloc]init];
+    __weak FindShopGuideViewController *VC = self;
+    self.tableView.headerRereshingBlock = ^()
+    {
+        if (VC.dataArray.count>0) {
+            VC.dataArray =nil;
+        }
+        VC.pageNum=1;
+        [VC setTableData];
+    };
+    self.tableView.footerRereshingBlock = ^()
+    {
+        VC.pageNum++;
+        [VC setTableData];
+    };
     
     [self setData];
+}
+
+-(void)setTableData{
     
-}
-
-
-
-- (NSIndexPath *)curIndexPath {
-    NSArray *indexPaths = [self.cusCollectView2 indexPathsForVisibleItems];
-    NSIndexPath *curIndexPath = nil;
-    NSInteger curzIndex = 0;
-    for (NSIndexPath *path in indexPaths.objectEnumerator) {
-        UICollectionViewLayoutAttributes *attributes = [self.cusCollectView2 layoutAttributesForItemAtIndexPath:path];
-        if (!curIndexPath) {
-            curIndexPath = path;
-            curzIndex = attributes.zIndex;
-            continue;
-        }
-        if (attributes.zIndex > curzIndex) {
-            curIndexPath = path;
-            curzIndex = attributes.zIndex;
-        }
+    
+    if (isRefresh1) {
+        [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64];
     }
-    return curIndexPath;
+    
+    NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
+    NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
+    //    [dict setObject:searchText.text forKey:@"key"];
+    [dict setObject:@"" forKey:@"key"];
+    
+    [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
+    [dict setObject:@"6" forKey:@"Pagesize"];
+    [dict setObject:userId forKey:@"userId"];
+    [dict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"] forKey:@"longitude"];
+    [dict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"] forKey:@"latitude"];
+    
+    [HttpTool postWithURL:@"v3/searchbuyer" params:dict  success:^(id json) {
+        BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+        if (isSuccessful) {
+            NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
+            
+            isRefresh =NO;
+            if (array.count<6) {
+                [self.tableView hiddenFooter:YES];
+            }
+            else
+            {
+                [self.tableView hiddenFooter:NO];
+            }
+            if (self.pageNum==1) {
+                [self.cusDataArray removeAllObjects];
+                [self.cusDataArray addObjectsFromArray:array];
+            }else{
+                [self.cusDataArray addObjectsFromArray:array];
+            }
+        }else{
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self.tableView endRefresh];
+        [self.tableView reloadData];
+        [self activityDismiss];
+        
+    } failure:^(NSError *error) {
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
+        [self.tableView endRefresh];
+        [self activityDismiss];
+    }];
 }
 
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    return self.cusDataArray.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    static NSString *iden = @"cell";
+    CusBueryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+    
+    if (cell == nil) {
+        cell =[[[NSBundle mainBundle] loadNibNamed:@"CusBueryTableViewCell" owner:self options:nil] lastObject];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (self.cusDataArray.count>0) {
+        
+        [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        cell.shopName.text = [self.cusDataArray[indexPath.row]objectForKey:@"Nickname"];
+        cell.addressLab.text =[self.cusDataArray[indexPath.row]objectForKey:@"BrandName"];
+        NSArray *array =[self.cusDataArray[indexPath.row]objectForKey:@"Products"];
+        if (array.count>0) {
+            if(array.count ==2){
+                cell.shopBtn1.hidden =NO;
+                cell.shopBtn2.hidden =YES;
+                
+                [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.shopBtn1 sd_setImageWithURL:[NSURL URLWithString:[array[1]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                
+                
+            }else if(array.count ==3){
+                cell.shopBtn1.hidden =NO;
+                cell.shopBtn2.hidden =NO;
+                [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.shopBtn1 sd_setImageWithURL:[NSURL URLWithString:[array[1]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.shopBtn2 sd_setImageWithURL:[NSURL URLWithString:[array[2]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                
+            }else{
+                cell.shopBtn1.hidden =YES;
+                cell.shopBtn2.hidden =YES;
+                
+                [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            }
+        }else{
+            cell.shopBtn.hidden =YES;
+            cell.shopBtn1.hidden =YES;
+            cell.shopBtn2.hidden =YES;
+            UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, cell.shopBtn.top+10, cell.width, 20)];
+            lable.text =@"店铺什么都没有，戳一下，提醒上新~";
+            lable.textAlignment =NSTextAlignmentCenter;
+            lable.font =[UIFont systemFontOfSize:13];
+            lable.textColor =[UIColor grayColor];
+            [cell addSubview:lable];
+            
+            UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+            
+            btn.backgroundColor =[UIColor orangeColor];
+            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+            btn.titleLabel.font =[UIFont systemFontOfSize:13];
+            [cell addSubview:btn];
+        }
+        
+    }
+    return cell;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 200;
+}
 
 #pragma mark <UICollectionViewDataSource>
 //定义展示的UICollectionViewCell的个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (collectionView.tag ==2001) {
-        return self.dataArray.count;
-    }else if(collectionView.tag ==2003){
-        return self.dataArray1.count;;
-    }
-    return self.dataArray2.count;
+   
+    return self.dataArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (collectionView.tag ==2002) {
-        HJConcernCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-        [[cell layer]setCornerRadius:8];
-        cell.backgroundColor =[UIColor whiteColor];
-        NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray2[indexPath.row] objectForKey:@"Pic"]];
-        [cell.iconView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        
-   
-        cell.priceLab.text =[self.dataArray2[indexPath.row]objectForKey:@"Price"];
-        cell.dscLab.text =[self.dataArray2[indexPath.row]objectForKey:@"ProductName"];
-        BOOL slected =[[self.dataArray2[indexPath.row]objectForKey:@"IsFavorite"]boolValue];
-        if (slected)cell.shCBtn.selected=YES;
-        else cell.shCBtn.selected=NO;
-        
-        return cell;
-    }else if (collectionView.tag ==2003){
-        HJHeaderViewCell *cell =[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-        NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray1[indexPath.row] objectForKey:@"Logo"]];
-        [cell.iconView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        cell.nameLab.text =[self.dataArray1[indexPath.row]objectForKey:@"NickName"];
-        return cell;
-    }else if (collectionView.tag ==2001) {
-        HJCarouselViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-        cell.backgroundColor =[UIColor whiteColor];
-        [[cell layer]setCornerRadius:8];
-        if (self.dataArray.count>0) {
-           
-            if (self.dataArray1.count>1) {
-                adLabel.text  =[self.dataArray1[indexPath.row] objectForKey:@"Address"];
-
+    HJCarouselViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    cell.backgroundColor =[UIColor whiteColor];
+    [[cell layer]setCornerRadius:8];
+    if (self.dataArray.count>0) {
+        NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray[indexPath.row] objectForKey:@"Logo"]];
+        [cell.ShopView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        cell.addressView.text =[self.dataArray[indexPath.row]objectForKey:@"StoreName"];
+        cell.addreView.text =[self.dataArray[indexPath.row]objectForKey:@"Address"];
+        cell.nameView.text =[self.dataArray[indexPath.row]objectForKey:@"BrandName"];
+        NSArray *shopArray =[self.dataArray[indexPath.row]objectForKey:@"Products"];
+        if (shopArray.count>0) {
+            for (UIView *view in cell.bgView.subviews) {
+                [view removeFromSuperview];
             }
-            
-//            countLabel.text =
-
-            NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray[indexPath.row] objectForKey:@"Logo"]];
-            [cell.ShopView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-            cell.addressView.text =[self.dataArray[indexPath.row]objectForKey:@"StoreName"];
-            cell.addreView.text =[self.dataArray[indexPath.row]objectForKey:@"Address"];
-            cell.nameView.text =[self.dataArray[indexPath.row]objectForKey:@"BrandName"];
-            NSArray *shopArray =[self.dataArray[indexPath.row]objectForKey:@"Products"];
-            if (shopArray.count>0) {
-                for (UIView *view in cell.bgView.subviews) {
-                    [view removeFromSuperview];
-                }
-                if (shopArray.count ==4) {
-                    
-                    UIImageView *image =[[UIImageView alloc]init];
-                    image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.width-5)*0.5);
-                    NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
-                    [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                    [cell.bgView addSubview:image];
-                    
-                    UIImageView *image1 =[[UIImageView alloc]init];
-                    image1.backgroundColor =[UIColor redColor];
-                    image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
-                    NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
-                    [image1 sd_setImageWithURL:[NSURL URLWithString:str1] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                    [cell.bgView addSubview:image1];
-                    
-                    UIImageView *image2 =[[UIImageView alloc]init];
-                    image2.frame =CGRectMake(0, image.bottom+5, image.width,image.height);
-                    NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
-                    [image2 sd_setImageWithURL:[NSURL URLWithString:str2] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                    [cell.bgView addSubview:image2];
-                    
-                    UIImageView *image3 =[[UIImageView alloc]init];
-                    image3.frame =CGRectMake(image2.right+5, image.bottom+5, image.width,image.height);
-                    NSString * str3 =[NSString stringWithFormat:@"%@",[shopArray[3] objectForKey:@"Pic"]];
-                    [image3 sd_setImageWithURL:[NSURL URLWithString:str3] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                    [cell.bgView addSubview:image3];
-                    
-                    
-                }else if(shopArray.count ==3){
-                    UIImageView *image =[[UIImageView alloc]init];
-                    image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.width-5)*0.5);
-                    NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
-                    [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                    [cell.bgView addSubview:image];
-                    
-                    UIImageView *image1 =[[UIImageView alloc]init];
-                    image1.backgroundColor =[UIColor redColor];
-                    image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
-                    NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
-                    [image1 sd_setImageWithURL:[NSURL URLWithString:str1] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                    [cell.bgView addSubview:image1];
-                    
-                    UIImageView *image2 =[[UIImageView alloc]init];
-                    image2.frame =CGRectMake((cell.bgView.width-image.width)*0.5, image.bottom+5, image.width,image.height);
-                    NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
-                    [image2 sd_setImageWithURL:[NSURL URLWithString:str2] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                    [cell.bgView addSubview:image2];
-                    
-                    
-                }else if(shopArray.count ==2){
-                    
-                    UIImageView *image =[[UIImageView alloc]init];
-                    image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.height)*1);
-                    NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
-                    [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                    [cell.bgView addSubview:image];
-                    
-                    UIImageView *image1 =[[UIImageView alloc]init];
-                    image1.backgroundColor =[UIColor redColor];
-                    image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
-                    NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
-                    [image1 sd_setImageWithURL:[NSURL URLWithString:str1] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                    [cell.bgView addSubview:image1];
-                    
-                }else if(shopArray.count ==1){
-                    UIImageView *image =[[UIImageView alloc]init];
-                    image.frame =CGRectMake(0, 0, cell.bgView.width, cell.bgView.width);
-                    NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
-                    [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                    [cell.bgView addSubview:image];
-                }
+            if (shopArray.count ==4) {
+                
+                UIImageView *image =[[UIImageView alloc]init];
+                image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.width-5)*0.5);
+                NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
+                [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.bgView addSubview:image];
+                
+                UIImageView *image1 =[[UIImageView alloc]init];
+                image1.backgroundColor =[UIColor redColor];
+                image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
+                NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
+                [image1 sd_setImageWithURL:[NSURL URLWithString:str1] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.bgView addSubview:image1];
+                
+                UIImageView *image2 =[[UIImageView alloc]init];
+                image2.frame =CGRectMake(0, image.bottom+5, image.width,image.height);
+                NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
+                [image2 sd_setImageWithURL:[NSURL URLWithString:str2] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.bgView addSubview:image2];
+                
+                UIImageView *image3 =[[UIImageView alloc]init];
+                image3.frame =CGRectMake(image2.right+5, image.bottom+5, image.width,image.height);
+                NSString * str3 =[NSString stringWithFormat:@"%@",[shopArray[3] objectForKey:@"Pic"]];
+                [image3 sd_setImageWithURL:[NSURL URLWithString:str3] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.bgView addSubview:image3];
+                
+                
+            }else if(shopArray.count ==3){
+                UIImageView *image =[[UIImageView alloc]init];
+                image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.width-5)*0.5);
+                NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
+                [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.bgView addSubview:image];
+                
+                UIImageView *image1 =[[UIImageView alloc]init];
+                image1.backgroundColor =[UIColor redColor];
+                image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
+                NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
+                [image1 sd_setImageWithURL:[NSURL URLWithString:str1] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.bgView addSubview:image1];
+                
+                UIImageView *image2 =[[UIImageView alloc]init];
+                image2.frame =CGRectMake((cell.bgView.width-image.width)*0.5, image.bottom+5, image.width,image.height);
+                NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
+                [image2 sd_setImageWithURL:[NSURL URLWithString:str2] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.bgView addSubview:image2];
+                
+                
+            }else if(shopArray.count ==2){
+                
+                UIImageView *image =[[UIImageView alloc]init];
+                image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.height)*1);
+                NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
+                [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.bgView addSubview:image];
+                
+                UIImageView *image1 =[[UIImageView alloc]init];
+                image1.backgroundColor =[UIColor redColor];
+                image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
+                NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
+                [image1 sd_setImageWithURL:[NSURL URLWithString:str1] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.bgView addSubview:image1];
+                
+            }else if(shopArray.count ==1){
+                UIImageView *image =[[UIImageView alloc]init];
+                image.frame =CGRectMake(0, 0, cell.bgView.width, cell.bgView.width);
+                NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
+                [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [cell.bgView addSubview:image];
             }
             
         }
-        return cell;
-
     }
-    
-    return nil;
+    return cell;
+
 }
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
     if (tap.view.tag==1000)
     {
-        if (isRefresh1) {
+        [self activityDismiss];
+        type=1;
+        if (isRefresh) {
             [self setData];
         }
-        type=1;
         self.messageScroll.contentOffset = CGPointMake(0, 0);
         [self scrollToMessage];
     }
     else
     {
-        if (isRefresh1) {
-            [self setData];
-        }
+        [self activityDismiss];
         type=2;
+        if (isRefresh1) {
+            [self setTableData];
+        }
         self.messageScroll.contentOffset = CGPointMake(kScreenWidth, 0);
         [self scrollToDynamic];
     }
@@ -470,48 +514,4 @@ static NSString * const reuseIdentifier = @"Cell";
     lab1.font = [UIFont systemFontOfSize:15];
     
 }
-
-
-
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    NSIndexPath *indexPath= [self curIndexPath];
-    if (self.dataArray1.count>0) {
-        adLabel.text  =[self.dataArray1[indexPath.row] objectForKey:@"Address"];
-    }
-
-    for (UIView *view in scrollView.subviews) {
-        
-        if ([view isKindOfClass:[ HJHeaderViewCell class]]) {
-            [self setDataForStore];
-        }
-        
-    }
-}
--(void)setDataForStore{
-    NSIndexPath *indexPath= [self curIndexPath];
-    NSString *BuyerId= [self.dataArray1[indexPath.row]objectForKey:@"BuyerId"];
-    NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
-    [dict setValue:[NSString stringWithFormat:@"%d",1] forKey:@"Page"];
-    [dict setObject:@"20" forKey:@"Pagesize"];
-    [dict setObject:BuyerId forKey:@"BuyerId"];
-    [HttpTool postWithURL:@"BuyerV3/BuyersProducts" params:dict  success:^(id json) {
-        BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
-        if (isSuccessful) {
-            NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"Products"];
-            self.dataArray2 =array;
-            [self.cusCollectView1 reloadData];
-            
-        }else{
-            [self showHudFailed:[json objectForKey:@"message"]];
-        }
-        
-    } failure:^(NSError *error) {
-        [self showHudFailed:@"服务器正在维护,请稍后再试"];
-        
-    }];
-}
-
-
-
-
 @end
