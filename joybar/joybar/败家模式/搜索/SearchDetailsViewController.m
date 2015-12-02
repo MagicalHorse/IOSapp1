@@ -32,7 +32,6 @@
 @implementation SearchDetailsViewController
 {
     UITextField *searchText;
-    int searchTyep;
     int type;
     BOOL isRefresh;
     BOOL isRefresh1;
@@ -206,7 +205,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@""];
-    searchTyep =0;
     type=1;
     isRefresh=YES;
     isRefresh1=YES;
@@ -245,7 +243,7 @@
     [self.view addSubview:_tempView] ;
     NSArray *nameArr;
     int length;
-    if (searchTyep ==0) {
+    if (self.cusSearchType ==1) {
         nameArr= @[@"商品",@"品牌",@"买手",@"商场"];
         length=4;
     }else{

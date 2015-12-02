@@ -13,6 +13,7 @@
 #import "CusHomeStoreCollectionViewCell.h"
 #import "CusHomeStoreHeader.h"
 #import "CusMoreBrandViewController.h"
+#import "HistorySearchViewController.h"
 
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 #define HEADER_HEIGHT [UIScreen mainScreen].bounds.size.width*0.5+35
@@ -309,7 +310,14 @@
 //搜索
 -(void)didClickSearchBtn
 {
-    
+    HistorySearchViewController *search =[[HistorySearchViewController alloc]init];
+    search.cityId =[[NSUserDefaults standardUserDefaults] objectForKey:@"cityId"]; //城市id
+    //经纬度
+   
+    search.latitude=  [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
+    search.longitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];;
+
+    [self.navigationController pushViewController:search animated:YES];
 }
 
 

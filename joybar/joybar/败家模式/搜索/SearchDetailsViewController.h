@@ -13,4 +13,5 @@
 @property (nonatomic ,copy)NSString *latitude;
 @property (nonatomic ,copy)NSString *longitude;
 @property (nonatomic ,copy)NSString *cityId;
+@property (nonatomic ,assign)int cusSearchType;
 @end

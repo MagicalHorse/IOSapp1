@@ -234,9 +234,7 @@
         //    经纬度
         details.latitude= self.latitude;
         details.longitude= self.longitude;
-        //    details.cityId=@"0";
-        //    details.latitude= @"116.315811";
-        //    details.longitude= @"39.961441";
+        details.cusSearchType =1;
         
         NSMutableDictionary * temp =[NSMutableDictionary dictionary];
         
