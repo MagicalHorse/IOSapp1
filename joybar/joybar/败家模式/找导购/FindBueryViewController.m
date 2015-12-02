@@ -108,6 +108,8 @@
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dict setObject:@"6" forKey:@"Pagesize"];
     [dict setObject:userId forKey:@"userId"];
+    [dict setObject:self.longitude forKey:@"longitude"];
+    [dict setObject:self.latitude forKey:@"latitude"];
     
     [HttpTool postWithURL:@"v3/searchbuyer" params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];

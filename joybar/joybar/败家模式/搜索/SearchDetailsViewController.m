@@ -11,6 +11,11 @@
 #import "CusBrandTableViewCell.h"
 #import "CusShoppingTableViewCell.h"
 #import "CusShopTableViewCell.h"
+#import "CusZProDetailViewController.h"
+#import "CusRProDetailViewController.h"
+#import "CusBrandDetailViewController.h"
+#import "CusMarketViewController.h"
+#import "CusMainStoreViewController.h"
 
 @interface SearchDetailsViewController()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -615,6 +620,40 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    
+    if (type ==1) {
+        
+        NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr[indexPath.row]objectForKey:@"Userleave"]];
+        if ([Userleave isEqualToString:@"8"])
+        {
+            CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+            VC.productId = [self.searchArr[indexPath.row]objectForKey:@"ProductId"];
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        else
+        {
+            //认证买手
+            CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+            VC.productId = [self.searchArr[indexPath.row]objectForKey:@"ProductId"];
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+    }else if(type ==2){
+        CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
+        VC.BrandId = [self.searchArr1[indexPath.row] objectForKey:@"BrandId"];
+        VC.BrandName = [self.searchArr1[indexPath.row] objectForKey:@"BrandName"];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }else if(type ==3){
+        CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
+        [self.navigationController pushViewController:mainStore animated:YES];
+    
+    }else if(type ==4){
+        CusMarketViewController *VC = [[CusMarketViewController alloc] init];
+        //商场
+        VC.storeId = [self.searchArr3[indexPath.row] objectForKey:@"StoreId"];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
     
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

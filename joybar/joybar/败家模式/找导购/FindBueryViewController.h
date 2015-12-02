@@ -10,5 +10,6 @@
 
 @interface FindBueryViewController : BaseViewController
 @property (nonatomic ,copy)NSString *serachText;
-
+@property (nonatomic ,copy)NSString *latitude;
+@property (nonatomic ,copy)NSString *longitude;
 @end

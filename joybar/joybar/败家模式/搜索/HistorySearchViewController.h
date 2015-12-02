@@ -13,5 +13,6 @@
 @property (nonatomic ,copy)NSString *longitude;
 @property (nonatomic ,copy)NSString *cityId;
 @property (nonatomic ,copy)NSString *clickType;
+@property (nonatomic ,assign)int cusSearchType;
 
 @end

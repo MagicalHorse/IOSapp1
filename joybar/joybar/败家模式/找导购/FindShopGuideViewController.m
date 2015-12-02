@@ -475,7 +475,9 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     NSIndexPath *indexPath= [self curIndexPath];
-    adLabel.text  =[self.dataArray1[indexPath.row] objectForKey:@"Address"];
+    if (self.dataArray1.count>0) {
+        adLabel.text  =[self.dataArray1[indexPath.row] objectForKey:@"Address"];
+    }
 
     for (UIView *view in scrollView.subviews) {
         
