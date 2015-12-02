@@ -315,6 +315,8 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.localtionDic = [json objectForKey:@"data"];
+            [[NSUserDefaults standardUserDefaults] setObject:[self.localtionDic objectForKey:@"Id"] forKey:@"cityId"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [self getHomeData];
         }
         else

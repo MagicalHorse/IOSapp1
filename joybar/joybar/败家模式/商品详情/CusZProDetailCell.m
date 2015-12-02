@@ -23,6 +23,8 @@
 //    NSArray *sizeArr;
     UILabel *sizeLab;
     NSArray *selectSizeArr;
+    NSString *colorStr;
+    NSString *sizeStr;
 }
 - (void)awakeFromNib {
     // Initialization code
