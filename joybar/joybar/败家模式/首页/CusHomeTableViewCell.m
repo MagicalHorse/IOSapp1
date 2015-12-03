@@ -164,7 +164,7 @@
         //认证买手
         describeLab.text = [dic objectForKey:@"Description"];
         CGSize size = [Public getContentSizeWith:describeLab.text andFontSize:11 andWidth:tempView.width-90];
-        describeLab.frame = CGRectMake(imageView.right+5, nameLab.bottom+8, tempView.width-90, size.height-13);
+        describeLab.frame = CGRectMake(imageView.right+5, nameLab.bottom+8, tempView.width-90, 40-13);
     }
     else
     {

@@ -13,7 +13,9 @@
 
 -(void)handleSizeHeight:(CGFloat)height;
 
--(void)handleSizeNam:(NSString *)sizeName;
+-(void)handleSizeName:(NSString *)sizeName;
+
+-(void)handleBuyCount:(NSString *)count;
 
 @end
 @interface CusZProDetailCell : UITableViewCell<UIScrollViewDelegate>
