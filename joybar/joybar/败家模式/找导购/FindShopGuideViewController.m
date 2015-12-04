@@ -31,10 +31,6 @@ static NSString * const reuseIdentifier = @"Cell";
     BOOL isRefresh;
     BOOL isRefresh1;
     int type;
-    UILabel *adLabel;
-    UILabel *countLabel;
-    UIView *gzView ;
-
 }
 -(NSMutableArray *)dataArray{
     if (_dataArray ==nil) {
@@ -52,38 +48,25 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)setData{
     
-    if (isRefresh||isRefresh1) {
+    if (isRefresh) {
         [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64];
     }
-   
-    NSString *url;
-    if (type==1) {
-        url =@"BuyerV3/RecommondBuyerlist";
-    }else{
-        url =@"/BuyerV3/FavBuyers";
-    }
+ 
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setValue:[NSString stringWithFormat:@"%d",1] forKey:@"Page"];
     [dict setObject:@"20" forKey:@"Pagesize"];
 
-    [HttpTool postWithURL:url params:dict  success:^(id json) {
+    [HttpTool postWithURL:@"BuyerV3/RecommondBuyerlist" params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"Buyers"];
-            if (type ==1) {
-                self.dataArray =array;
-                isRefresh=NO;
-                [self.cusCollectView reloadData];
-
-            }else if(type ==2){
-                isRefresh1=NO;
-
-            }
+            self.dataArray =array;
+            isRefresh=NO;
+            [self.cusCollectView reloadData];
             
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-
         [self activityDismiss];
         
     } failure:^(NSError *error) {
@@ -180,37 +163,17 @@ static NSString * const reuseIdentifier = @"Cell";
     _cusCollectView.showsVerticalScrollIndicator = NO;
     _cusCollectView.backgroundColor = kCustomColor(228, 234, 238);
     [self.messageScroll addSubview:_cusCollectView];
+    
     [self.cusCollectView registerNib:[UINib nibWithNibName:NSStringFromClass([HJCarouselViewCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
     
     //关注
-    gzView =[[UIView alloc]initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth*2, kScreenHeight)];
-    gzView.backgroundColor =kCustomColor(228, 234, 238);
-    [self.messageScroll addSubview:gzView];
-    
-    
-    
-    UIImageView *image =[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"location"]];
-    image.frame =CGRectMake(40, self.view.bottom+20, 12, 12);
-    [gzView addSubview:image];
 
-    
-    adLabel =[[UILabel alloc]initWithFrame:CGRectMake(image.right, image.top, 200, 14)];
-    adLabel.font =[UIFont systemFontOfSize:12];
-    adLabel.textColor = [UIColor grayColor];
-    adLabel.text =@"未知";
-    [gzView addSubview:adLabel];
-    
-    countLabel =[[UILabel alloc]initWithFrame:CGRectMake(adLabel.right, image.top, 60, 14)];
-    countLabel.font =[UIFont systemFontOfSize:12];
-    countLabel.textColor = [UIColor grayColor];
-    countLabel.text =@"0/0";
-    [gzView addSubview:countLabel];
-    
-    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, gzView.height-30) style:(UITableViewStylePlain)];
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, kScreenHeight-49-64) style:(UITableViewStylePlain)];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [gzView addSubview:self.tableView];
+    [self.messageScroll addSubview:self.tableView];
+    
     self.tableView.tableFooterView =[[UIView alloc]init];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor =kCustomColor(228, 234, 238);
@@ -239,7 +202,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     
     if (isRefresh1) {
-        [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64];
+        [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64-49];
     }
     
     NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
@@ -257,8 +220,7 @@ static NSString * const reuseIdentifier = @"Cell";
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
-            
-            isRefresh =NO;
+            isRefresh1 =NO;
             if (array.count<6) {
                 [self.tableView hiddenFooter:YES];
             }
@@ -304,7 +266,7 @@ static NSString * const reuseIdentifier = @"Cell";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (self.cusDataArray.count>0) {
         
-        [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.cusDataArray[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.shopName.text = [self.cusDataArray[indexPath.row]objectForKey:@"Nickname"];
         cell.addressLab.text =[self.cusDataArray[indexPath.row]objectForKey:@"BrandName"];
         NSArray *array =[self.cusDataArray[indexPath.row]objectForKey:@"Products"];
