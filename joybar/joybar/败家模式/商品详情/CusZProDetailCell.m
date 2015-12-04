@@ -25,6 +25,7 @@
     NSArray *selectSizeArr;
     NSString *colorStr;
     NSString *sizeStr;
+    NSString *kuCunCount;
 }
 - (void)awakeFromNib {
     // Initialization code
@@ -203,7 +204,9 @@
         CGFloat height = [sizeBtn fittedSize].height;
         self.sizeHeight = height;
         sizeBtn.frame = CGRectMake(sizeLab.right+5, sizeLab.top-3, kScreenWidth-70, height);
-        
+        colorStr =[[self.kuCunArr objectAtIndex:0] objectForKey:@"ColorName"];
+        NSString *name = [NSString stringWithFormat:@"%@%@",colorStr,[selectSizeArr[0] objectForKey:@"SizeName"]];
+        [self.delegate handleSizeName:name];
         //数量
         UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(10, sizeBtn.bottom+20, 40, 20)];
         numLab.text = @"数量:";
@@ -240,12 +243,14 @@
         buyNumLab.text = [NSString stringWithFormat:@"%d",priceNum];
         buyNumLab.textAlignment = NSTextAlignmentCenter;
         [numView addSubview:buyNumLab];
+        [self.delegate handleBuyCount:@"0"];
         
         UILabel *kuCunLab = [[UILabel alloc] initWithFrame:CGRectMake(numView.right+10, numView.top+5, 150, 20)];
         kuCunLab.textColor = [UIColor redColor];
         kuCunLab.font = [UIFont systemFontOfSize:15];
         NSArray *sizeArr = [self.kuCunArr[0] objectForKey:@"Size"];
-        kuCunLab.text = [NSString stringWithFormat:@"库存%@件",[sizeArr[0]objectForKey:@"Inventory"]];
+        kuCunCount =[sizeArr[0]objectForKey:@"Inventory"];
+        kuCunLab.text = [NSString stringWithFormat:@"库存%@件",kuCunCount];
         [self.contentView addSubview:kuCunLab];
         
         UILabel *service = [[UILabel alloc] initWithFrame:CGRectMake(10, kuCunLab.bottom+10, kScreenWidth-20, 20)];
@@ -260,11 +265,19 @@
         remind.font = [UIFont systemFontOfSize:12];
         [self.contentView addSubview:remind];
         
-        __weak NSArray *selectArr = selectSizeArr;
+        __block NSArray *selectArr = selectSizeArr;
+        __block NSString *color = colorStr;
+        __block NSString *KCCount = kuCunCount;
+        __block CusZProDetailCell *cell = self;
         sizeBtn.clickBtnBlock = ^(UIButton *btn,NSInteger index)
         {
             NSDictionary *dic = [selectArr objectAtIndex:index];
-            kuCunLab.text = [NSString stringWithFormat:@"库存%@件",[dic objectForKey:@"Inventory"]];
+            NSString *count =[dic objectForKey:@"Inventory"];
+            KCCount = count;
+            kuCunLab.text = [NSString stringWithFormat:@"库存%@件",count];
+            NSString *str = [dic objectForKey:@"SizeName"];
+            
+            [cell.delegate handleSizeName:[NSString stringWithFormat:@"%@ %@",color,str]];
         };
     }
     else if (indexPath.section==3)
@@ -399,6 +412,8 @@
     sizeBtn.frame = CGRectMake(sizeLab.right+5, sizeLab.top-3, kScreenWidth-70, height);
 
     [self.delegate handleSizeHeight:height];
+    
+    colorStr =[[self.kuCunArr objectAtIndex:tap.view.tag-10] objectForKey:@"ColorName"];
 
     UILabel *colorNameLab = [labArr objectAtIndex:tap.view.tag-10];
     UIImageView *colorImage = (UIImageView *)tap.view;
@@ -433,9 +448,15 @@
 -(void)didCLickAddNum
 {
     priceNum+=1;
+    if ([kuCunCount integerValue]<priceNum)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"超过库存" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+        [alert show];
+        return;
+    }
     buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)priceNum];
     
-    
+    [self.delegate handleBuyCount:buyNumLab.text];
 }
 
 //减少
@@ -449,6 +470,7 @@
     {
         priceNum-=1;
         buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)priceNum];
+        [self.delegate handleBuyCount:buyNumLab.text];
     }
 }
 

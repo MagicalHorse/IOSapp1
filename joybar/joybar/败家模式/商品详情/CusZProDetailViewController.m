@@ -30,6 +30,10 @@
 
 @property (nonatomic ,assign) CGFloat sizeHeight;
 
+@property (nonatomic ,strong) NSString *sizeName;
+
+@property (nonatomic ,strong) NSString *buyCount;
+
 @end
 
 @implementation CusZProDetailViewController
@@ -314,11 +318,19 @@
             break;
         case 1002:
         {
+            if ([self.buyCount isEqualToString:@"0"])
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请选择数量" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+                [alert show];
+                return;
+            }
             //我要买
             MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
             VC.detailData = prodata;
-            VC.buyNum = @"2";
+            VC.buyNum = self.buyCount;
+            VC.sizeName = self.sizeName;
             [self.navigationController pushViewController:VC animated:YES];
+            
 //            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
 //            VC.detailData = prodata;
 //            VC.isFrom = isFromBuyPro;
@@ -493,6 +505,16 @@
 -(void)handleSizeHeight:(CGFloat)height
 {
     self.sizeHeight = height;
+}
+
+-(void)handleSizeName:(NSString *)sizeName
+{
+    self.sizeName = sizeName;
+}
+
+-(void)handleBuyCount:(NSString *)count
+{
+    self.buyCount = count;
 }
 
 @end
