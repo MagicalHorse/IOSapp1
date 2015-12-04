@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-typedef void(^cityBlock)(NSString *cityName);
+typedef void(^cityBlock)(NSString *cityName,NSString *cityId);
 
 @interface LocationViewController : BaseViewController
 

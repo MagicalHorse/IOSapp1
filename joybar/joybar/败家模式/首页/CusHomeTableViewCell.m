@@ -111,7 +111,7 @@
 -(void)setData:(NSDictionary *)dic andIndexPath:(NSIndexPath *)indexPath
 {
     infoDic = dic;
-    brandArr = [dic objectForKey:@"Brands"];
+    [brandArr addObjectsFromArray: [dic objectForKey:@"Brands"]];
     NSString *StoreLeave = [NSString stringWithFormat:@"%@",[dic objectForKey:@"StoreLeave"]];
     CGFloat tempViewHeight;
     if ([StoreLeave isEqualToString:@"8"])
@@ -231,7 +231,7 @@
             }
         }
     }
-    
+
     for (UIView *view in proView.subviews)
     {
         [view removeFromSuperview];
@@ -280,14 +280,13 @@
             UIImageView *buyerHeaderImage = [[UIImageView alloc] initWithFrame:CGRectMake(proImage.left, proImage.bottom+5, 40, 40)];
             buyerHeaderImage.clipsToBounds = YES;
             buyerHeaderImage.layer.cornerRadius = buyerHeaderImage.width/2;
-            //            buyerHeaderImage.backgroundColor = [UIColor redColor];
             [buyerHeaderImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             buyerHeaderImage.userInteractionEnabled = YES;
             buyerHeaderImage.tag = 100+i;
             [proView addSubview:buyerHeaderImage];
             
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
-            [buyerHeaderImage addGestureRecognizer:tap];
+            UITapGestureRecognizer *headerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
+            [buyerHeaderImage addGestureRecognizer:headerTap];
             
             UILabel *buyerName = [[UILabel alloc] initWithFrame:CGRectMake(buyerHeaderImage.right+5, proImage.bottom+8, proImage.width-50, 15)];
             buyerName.text = [proDic objectForKey:@"NickName"];
@@ -335,6 +334,7 @@
 -(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
 {
     NSInteger i = tap.view.tag-100;
+    NSLog(@"%d",i);
 }
 
 //点商品
@@ -344,21 +344,22 @@
     NSArray *products = [infoDic objectForKey:@"Products"];
     NSString *proId = [products[i] objectForKey:@"ProductId"];
     NSString *Userleave = [NSString stringWithFormat:@"%@",[products[i]objectForKey:@"Userleave"]];
-    
 
-//    if ([Userleave isEqualToString:@"8"])
-//    {
-        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = @"22194";
+    if ([Userleave isEqualToString:@"8"])
+    {
+        
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = proId;
         [self.viewController.navigationController pushViewController:VC animated:YES];
-//    }
-//    else
-//    {
-//        //认证买手
-//        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-//        VC.productId = proId;
-//        [self.viewController.navigationController pushViewController:VC animated:YES];
-//    }
+
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = proId;
+        [self.viewController.navigationController pushViewController:VC animated:YES];
+    }
     
 }
 

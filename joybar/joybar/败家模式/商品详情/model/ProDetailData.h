@@ -10,6 +10,7 @@
 #import "LikeUsers.h"
 #import "ProductPic.h"
 #import "ProDetailPromotion.h"
+#import "DaYangGouDis.h"
 @interface ProDetailData : NSObject
 
 @property (nonatomic ,copy) NSString *BuyerId;
@@ -28,11 +29,15 @@
 @property (nonatomic ,copy) NSString *UnitPrice;
 @property (nonatomic ,copy) NSString *SizeContrastPic;
 @property (nonatomic ,copy) NSString *StoreService;
+@property (nonatomic ,copy) NSString *IsJoinDeiscount;
+@property (nonatomic ,copy) NSString *VipDiscount;
 
 @property (nonatomic ,strong)NSMutableArray *ProductPic;
 @property (nonatomic ,strong) ProDetailPromotion *Promotion;
 
 @property (nonatomic ,strong) LikeUsers *LikeUsers;
+
+@property (nonatomic ,strong) DaYangGouDis *DaYangGouDis;
 
 @property (nonatomic ,strong) NSMutableArray *Sizes;
 

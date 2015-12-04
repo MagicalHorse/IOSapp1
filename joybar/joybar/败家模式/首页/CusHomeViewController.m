@@ -41,6 +41,7 @@
 @property (nonatomic ,strong) NSString *latitude;
 
 @property (nonatomic ,strong) NSDictionary *localtionDic;
+@property (nonatomic ,strong) NSArray *subjectArr;
 
 
 @end
@@ -59,12 +60,6 @@
     [self addNavBarViewAndTitle:@"打烊购"];
     self.retBtn.hidden = YES;
     [self initWithTableView];
-    
-    headerScroll = [[YRADScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
-    headerScroll.dataSource = self;
-    headerScroll.delegate = self;
-    //    adScrollView.cycleEnabled = NO;//如果设置为NO，则关闭循环滚动功能。
-    [headerView addSubview:headerScroll];
     
     locationBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     locationBtn.frame = CGRectMake(0, 15, 60, 50);
@@ -112,9 +107,8 @@
     self.homeTableView = [[HomeTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     self.homeTableView.backgroundColor = kCustomColor(233, 238, 241);
     [self.view addSubview:self.homeTableView];
-    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0)];
     headerView.backgroundColor = [UIColor clearColor];
-    self.homeTableView.tableHeaderView = headerView;
     self.homeTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     __weak CusHomeViewController *VC = self;
     self.homeTableView.headerRereshingBlock = ^()
@@ -138,8 +132,63 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             NSDictionary *dic = [json objectForKey:@"data"];
-            NSArray *arr = [dic objectForKey:@"Banners"];
-            [self.bannerArr addObjectsFromArray:arr];
+            NSArray *bannerList = [dic objectForKey:@"Banners"];
+            self.subjectArr = [dic objectForKey:@"Subjects"];
+            
+            headerScroll = [[YRADScrollView alloc]init];
+            headerScroll.dataSource = self;
+            headerScroll.delegate = self;
+            //    adScrollView.cycleEnabled = NO;//如果设置为NO，则关闭循环滚动功能。
+            [headerView addSubview:headerScroll];
+//            self.subjectArr = @[@"",@"",@"",@"",@""];
+
+            UIScrollView *subjectScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, headerScroll.bottom, kScreenWidth, kScreenWidth/4)];
+            subjectScroll.contentSize = CGSizeMake(self.subjectArr.count*(kScreenWidth/4+10), kScreenWidth/4);
+            subjectScroll.backgroundColor = [UIColor whiteColor];
+            subjectScroll.alwaysBounceVertical = NO;
+            subjectScroll.alwaysBounceHorizontal = YES;
+            subjectScroll.pagingEnabled = YES;
+            subjectScroll.showsHorizontalScrollIndicator = NO;
+            [headerView addSubview:subjectScroll];
+            
+            for (int i=0; i<self.subjectArr.count; i++)
+            {
+                UIImageView *subImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5+(kScreenWidth/4-10+5)*i, subjectScroll.top+5, kScreenWidth/4-10, kScreenWidth/4-10)];
+                subImageView.layer.cornerRadius = subImageView.width/2;
+                subImageView.backgroundColor = [UIColor orangeColor];
+                [subjectScroll addSubview:subImageView];
+            }
+
+            if (bannerList.count>0&&self.subjectArr.count>0)
+            {
+                headerView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2+kScreenWidth/4);
+                headerScroll.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
+                subjectScroll.frame = CGRectMake(0, headerScroll.bottom, kScreenWidth, kScreenWidth/4);
+            }
+            else if (bannerList.count==0&&self.subjectArr.count>0)
+            {
+                headerView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/4);
+                headerScroll.frame = CGRectMake(0, 0, kScreenWidth, 0);
+                subjectScroll.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/4);
+
+            }
+            else if (bannerList.count>0&&self.subjectArr.count==0)
+            {
+                headerView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
+                headerScroll.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
+                subjectScroll.frame = CGRectMake(0, headerScroll.bottom, kScreenWidth, 0);
+
+            }
+            else
+            {
+                headerView.frame = CGRectMake(0, 0, kScreenWidth, 0);
+                headerScroll.frame = CGRectMake(0, 0, kScreenWidth, 0);
+                subjectScroll.frame = CGRectMake(0, headerScroll.bottom, kScreenWidth, 0);
+            }
+            
+            [self.bannerArr addObjectsFromArray:bannerList];
+            self.homeTableView.tableHeaderView = headerView;
+
             [headerScroll reloadData];
         }
         else
@@ -155,7 +204,7 @@
 -(void)getHomeData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:[self.localtionDic objectForKey:@"Id"] forKey:@"CityId"];
+    [dic setObject:@"0" forKey:@"CityId"];
     [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dic setObject:@"6" forKey:@"PageSize"];
     [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"] forKey:@"longitude"];
@@ -263,9 +312,14 @@
     LocationViewController *VC = [[LocationViewController alloc] init];
     VC.locationCityName = [self.localtionDic objectForKey:@"Name"];
     [self.navigationController pushViewController: VC animated:YES];
-    VC.handleCityName = ^(NSString *cityName)
+    VC.handleCityName = ^(NSString *cityName,NSString *cityId)
     {
         [locationBtn setTitle:cityName forState:(UIControlStateNormal)];
+        [[NSUserDefaults standardUserDefaults] setObject:cityId forKey:@"cityId"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self.homeTableView.dataArr removeAllObjects];
+        self.pageNum = 1;
+        [self getHomeData];
     };
 }
 

@@ -17,6 +17,10 @@
 @property (nonatomic ,strong) NSDictionary *priceDic;
 @property (nonatomic ,strong)NSMutableArray *datas;
 
+@property (nonatomic ,strong) NSArray *VIPCardArr;
+@property (nonatomic ,strong) NSString *cardNum;
+
+
 @end
 
 @implementation MakeSureVipOrderViewController
@@ -25,6 +29,13 @@
     UITextField *desText;
     BOOL IsBingVip;
     BOOL IsShowVip;
+    //vip最终优惠价格
+    double vipPrice;
+    //打烊购最终优惠价格
+    double dayanggouPrice;
+    //应付金额
+    double finishPrice;
+    UILabel *priceLable;
 }
 
 -(NSMutableArray *)datas{
@@ -37,6 +48,23 @@
 {
     [super viewDidLoad];
     
+    //打烊购优惠价格
+    double dayanggou = ([self.detailData.Price doubleValue]*[self.buyNum doubleValue])*[self.detailData.DaYangGouDis.discount doubleValue];
+    
+    //打烊购最大折扣金额
+    double maxamount = [self.detailData.DaYangGouDis.maxamount doubleValue];
+    if (maxamount>dayanggou)
+    {
+        dayanggouPrice = dayanggou;
+    }
+    else
+    {
+        dayanggouPrice = maxamount;
+    }
+    
+    //应付金额
+    finishPrice = [self.detailData.Price doubleValue]*[self.buyNum doubleValue]-dayanggouPrice;
+    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -48,6 +76,8 @@
     IsBingVip = YES;
     [self getPrice];
 }
+
+
 
 -(void)getPrice
 {
@@ -90,8 +120,8 @@
     sureBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [sureBtn addTarget:self action:@selector(didCLickMakeSureBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bottomView addSubview:sureBtn];
-
-  
+    
+    
     
     UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, 65, 20)];
     
@@ -99,13 +129,13 @@
     priceLab.font = [UIFont systemFontOfSize:13];
     [bottomView addSubview:priceLab];
     
-    UILabel *priceLable = [[UILabel alloc] initWithFrame:CGRectMake(75, 15, kScreenWidth-sureBtn.width-80, 20)];
+    priceLable = [[UILabel alloc] initWithFrame:CGRectMake(75, 15, kScreenWidth-sureBtn.width-80, 20)];
     
-    priceLable.text =[NSString stringWithFormat:@"￥%.2f",[[self.priceDic objectForKey:@"saletotalamount"] floatValue]];
+    priceLable.text =[NSString stringWithFormat:@"￥%.2f",finishPrice];
     
     priceLable.font = [UIFont systemFontOfSize:15];
     [bottomView addSubview:priceLable];
-
+    
     
 }
 
@@ -119,7 +149,8 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section ==2) {
+    if (section ==2)
+    {
         return self.datas.count+1;
     }
     return 1;
@@ -178,7 +209,7 @@
         lab.text = @"专柜自提：";
         lab.font = [UIFont systemFontOfSize:14];
         [cell.contentView addSubview:lab];
-     
+        
         phoneText = [[UITextField alloc] initWithFrame:CGRectMake(lab.right, 11, kScreenWidth-100, 30)];
         phoneText.borderStyle = UITextBorderStyleNone;
         phoneText.keyboardType = UIKeyboardTypeNumberPad;
@@ -187,7 +218,7 @@
         phoneText.delegate =self;
         [cell.contentView addSubview:phoneText];
         phoneText.tag =1001;
-
+        
         return cell;
     }
     else if(indexPath.section==1)
@@ -219,13 +250,13 @@
             cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
             
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         for (UIView *view in cell.contentView.subviews)
         {
             [view removeFromSuperview];
         }
-       
-        if (self.datas.count>1) {
+        
+        if (self.datas.count>0) {
             if (indexPath.row==0) {
                 UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 130, 20)];
                 lab.text = @"绑定金鹰会员卡";
@@ -239,13 +270,14 @@
                 [cell.contentView addSubview:lab1];
             }else{
                 UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 130, 20)];
-                lab.text = @"绑定金鹰会员卡11";
+                self.cardNum = [[self.datas objectAtIndex:indexPath.row-1] objectForKey:@"cardno"];
+                lab.text = self.cardNum;
                 lab.font = [UIFont systemFontOfSize:14];
                 [cell.contentView addSubview:lab];
             }
             return cell;
-
-
+            
+            
         }else{
             UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 130, 20)];
             lab.text = @"绑定金鹰会员卡";
@@ -259,8 +291,6 @@
             [cell.contentView addSubview:lab1];
             return cell;
         }
-        
-        
     }
     if (IsBingVip) {
         if (indexPath.section ==3) {
@@ -283,8 +313,15 @@
             lab1.textAlignment = NSTextAlignmentRight;
             lab1.font = [UIFont systemFontOfSize:13];
             lab1.textColor = [UIColor lightGrayColor];
-            lab1.text = @"请先选择会员卡";
-           
+            if (vipPrice==0)
+            {
+                lab1.text = @"请先选择会员卡";
+            }
+            else
+            {
+                lab1.text = [NSString stringWithFormat:@"%.2f",vipPrice];
+            }
+            
             [cell.contentView addSubview:lab1];
             return cell;
             
@@ -311,7 +348,7 @@
             UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
             lab1.textAlignment = NSTextAlignmentRight;
             if (self.priceDic) {
-                lab1.text = [NSString stringWithFormat:@"立减 %.2f",[[self.priceDic objectForKey:@"discountamount"] floatValue]];
+                lab1.text = [NSString stringWithFormat:@"立减 %.2f",dayanggouPrice];
             }
             [cell.contentView addSubview:lab1];
             
@@ -415,14 +452,112 @@
     
     return nil;
 }
+
+-(void)getVIPCard
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.buyerId forKey:@"buyerId"];
+    [dic setObject:self.detailData.ProductId forKey:@"productId"];
+    [dic setObject:self.buyNum forKey:@"count"];
+    
+    [HttpTool postWithURL:@"V3/GetProductCanUserVipCards" params:dic success:^(id json) {
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            [self.datas addObjectsFromArray:[json objectForKey:@"data"]];
+            IsShowVip = YES;
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
+    
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section==2) {
-        if (IsShowVip)  IsShowVip =NO;
-        else IsShowVip =YES;
-        [self addRows];
-        
-//        BindVipViewController *vip =[[BindVipViewController alloc]init];
-//        [self.navigationController pushViewController:vip animated:YES];
+        if (indexPath.row==0)
+        {
+            if (IsShowVip)
+            {
+                IsShowVip =NO;
+                [self.datas removeAllObjects];
+                [self.tableView reloadData];
+            }
+            else
+            {
+                [self getVIPCard];
+            }
+        }
+        else
+        {
+            NSString *discrate1 = [[self.datas objectAtIndex:indexPath.row-1] objectForKey:@"discrate1"];
+            NSString *discrate2 = [[self.datas objectAtIndex:indexPath.row-1] objectForKey:@"discrate2"];
+            
+            
+            //vip优惠价格
+            if ([self.detailData.Price doubleValue]<[self.detailData.UnitPrice doubleValue])
+            {
+                double vip;
+                //二次折扣率
+                double vipDiscount = [self.detailData.VipDiscount doubleValue];
+                double dis2 = (1-[discrate2 doubleValue])*100;
+                
+                if (vipDiscount>dis2)
+                {
+                    vip = vipDiscount;
+                }
+                else
+                {
+                    vip = dis2;
+                }
+                
+                //vip优惠价格
+                vipPrice = [self.detailData.Price doubleValue]*[self.buyNum floatValue]*((100-vip)/100);
+            }
+            else
+            {
+                double vip;
+                //一次折扣率
+                double vipDiscount = [self.detailData.VipDiscount doubleValue];
+                double dis1 = (1-[discrate1 doubleValue])*100;
+                
+                if (vipDiscount>dis1)
+                {
+                    vip = vipDiscount;
+                }
+                else
+                {
+                    vip = dis1;
+                }
+                
+                //vip优惠价格
+                vipPrice = [self.detailData.Price doubleValue]*[self.buyNum floatValue]*((100-vip)/100);
+            }
+            
+            //打烊购优惠价格
+            double dayanggou = ([self.detailData.Price doubleValue]*[self.buyNum doubleValue]-vipPrice)*[self.detailData.DaYangGouDis.discount doubleValue];
+            
+            //打烊购最大折扣金额
+            double maxamount = [self.detailData.DaYangGouDis.maxamount doubleValue];
+            if (maxamount>dayanggou)
+            {
+                dayanggouPrice = dayanggou;
+            }
+            else
+            {
+                dayanggouPrice = maxamount;
+            }
+            
+            //应付金额
+            finishPrice = [self.detailData.Price doubleValue]*[self.buyNum doubleValue]-vipPrice-dayanggouPrice;
+            
+            priceLable.text =[NSString stringWithFormat:@"￥%.2f",finishPrice];
+
+            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:3],[NSIndexPath indexPathForRow:0 inSection:4], nil] withRowAnimation:(UITableViewRowAnimationNone)];
+        }
     }
     if (IsBingVip) {
         if (indexPath.section==3) {
@@ -431,38 +566,9 @@
         }
     }
 }
--(void)addRows{
-    
-    if (IsShowVip) {
-        for (int i=0; i<3; i++) {
-            NSString *s = [[NSString alloc] initWithFormat:@"hello %d",i];
-            [_datas addObject:s];
-        }
-    }else{
-        [_datas removeAllObjects];
-    }
-    
-    [self.tableView reloadData];
-}
-
--(void)delRows{
-    
-    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-    
-    [_datas removeObjectAtIndex:0];
-    
-    [indexPaths addObject:[NSIndexPath indexPathForRow:0 inSection:0]];
-    
-    [self.tableView beginUpdates];
-    
-    [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-    
-    [self.tableView endUpdates];
-    
-}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   
+    
     if (indexPath.section==1)
     {
         return 180;
@@ -477,7 +583,7 @@
             return 100;
         }
     }
-
+    
     return 50;
 }
 
@@ -486,42 +592,53 @@
 -(void)didCLickMakeSureBtn:(UIButton *)btn
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setValue:self.detailData.ProductId forKey:@"ProductId"];
-    [dic setValue:self.buyNum forKey:@"Count"];
-    [dic setValue:self.sizeId forKey:@"SizeId"];
-    if ([phoneText.text isEqualToString:@""])
-    {
-        [self showHudFailed:@"请填写提货电话"];
-        return;
-    }
-    [dic setValue:phoneText.text forKey:@"mobile"];
-    [self hudShow:@"正在提交订单"];
-    [HttpTool postWithURL:@"Order/CreateOrder" params:dic  isWrite:YES success:^(id json) {
-        
-        if ([[json objectForKey:@"isSuccessful"] boolValue])
-        {
-            PayOrderViewController *VC = [[PayOrderViewController alloc] init];
-            VC.proName = self.detailData.ProductName;
-            VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"ActualAmount"];
-            VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
-            [self showHudSuccess:@"提交成功"];
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [self.navigationController pushViewController:VC animated:YES];
-                
-            });
-        }
-        else
-        {
-            [self showHudFailed:[json objectForKey:@"message"]];
-        }
-        NSLog(@"%@",[json objectForKey:@"message"]);
-        [self textHUDHiddle];
-        
-    } failure:^(NSError *error) {
-        
-    }];
+    [dic setObject:@"" forKey:@"NeedInvoice"];
+    [dic setObject:@"" forKey:@"InvoiceTitle"];
+    [dic setObject:@"" forKey:@"Memo"];
+    [dic setObject:@"" forKey:@"Mobile"];
+    [dic setObject:self.detailData.ProductId forKey:@"ProductId"];
+    [dic setObject:self.buyNum forKey:@"Quantity"];
+    [dic setValue:self.cardNum forKey:@"VipCardNo"];
+    
+    
+    
+//    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+//    [dic setValue:self.detailData.ProductId forKey:@"ProductId"];
+//    [dic setValue:self.buyNum forKey:@"Count"];
+//    [dic setValue:self.sizeId forKey:@"SizeId"];
+//    if ([phoneText.text isEqualToString:@""])
+//    {
+//        [self showHudFailed:@"请填写提货电话"];
+//        return;
+//    }
+//    [dic setValue:phoneText.text forKey:@"mobile"];
+//    [self hudShow:@"正在提交订单"];
+//    [HttpTool postWithURL:@"Order/CreateOrder" params:dic  isWrite:YES success:^(id json) {
+//        
+//        if ([[json objectForKey:@"isSuccessful"] boolValue])
+//        {
+//            PayOrderViewController *VC = [[PayOrderViewController alloc] init];
+//            VC.proName = self.detailData.ProductName;
+//            VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"ActualAmount"];
+//            VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
+//            [self showHudSuccess:@"提交成功"];
+//            
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                
+//                [self.navigationController pushViewController:VC animated:YES];
+//                
+//            });
+//        }
+//        else
+//        {
+//            [self showHudFailed:[json objectForKey:@"message"]];
+//        }
+//        NSLog(@"%@",[json objectForKey:@"message"]);
+//        [self textHUDHiddle];
+//        
+//    } failure:^(NSError *error) {
+//        
+//    }];
 }
 
 
