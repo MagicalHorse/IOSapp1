@@ -55,6 +55,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.sizeHeight = 0;
+    self.buyCount = @"0";
     self.proDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49)];
     self.proDetailTableView.delegate = self;
     self.proDetailTableView.dataSource = self;
@@ -329,6 +330,7 @@
             VC.detailData = prodata;
             VC.buyNum = self.buyCount;
             VC.sizeName = self.sizeName;
+            VC.buyerId = prodata.BuyerId;
             [self.navigationController pushViewController:VC animated:YES];
             
 //            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];

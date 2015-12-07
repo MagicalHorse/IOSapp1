@@ -419,6 +419,7 @@
 		9DDB175E1AE7A42F0014D8B2 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DDB175D1AE7A42F0014D8B2 /* JavaScriptCore.framework */; };
 		9DDD46471B2E7E31000E0FD3 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDD46461B2E7E31000E0FD3 /* CHTCollectionViewWaterfallLayout.m */; };
 		9DDD6A5F1B268F93002D57EB /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9DDD6A5C1B268F93002D57EB /* SVProgressHUD.bundle */; };
+		9DE5CFD11C1136A900B2C77A /* DaYangGouDis.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE5CFD01C1136A900B2C77A /* DaYangGouDis.m */; };
 		9DF36CD51B0039A700637206 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF36CC31B0039A700637206 /* AFHTTPRequestOperation.m */; };
 		9DF36CD61B0039A700637206 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF36CC51B0039A700637206 /* AFHTTPRequestOperationManager.m */; };
 		9DF36CD71B0039A700637206 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF36CC71B0039A700637206 /* AFHTTPSessionManager.m */; };
@@ -1106,6 +1107,8 @@
 		9DDD46451B2E7E31000E0FD3 /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
 		9DDD46461B2E7E31000E0FD3 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
 		9DDD6A5C1B268F93002D57EB /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		9DE5CFCF1C1136A900B2C77A /* DaYangGouDis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaYangGouDis.h; sourceTree = "<group>"; };
+		9DE5CFD01C1136A900B2C77A /* DaYangGouDis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DaYangGouDis.m; sourceTree = "<group>"; };
 		9DF36CC21B0039A700637206 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		9DF36CC31B0039A700637206 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		9DF36CC41B0039A700637206 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -1448,6 +1451,8 @@
 				0AAB5A341B2AE01800782C0C /* ProDetailSize.m */,
 				9DF6C2C61B58F100005FB71E /* ProductPicture.h */,
 				9DF6C2C71B58F100005FB71E /* ProductPicture.m */,
+				9DE5CFCF1C1136A900B2C77A /* DaYangGouDis.h */,
+				9DE5CFD01C1136A900B2C77A /* DaYangGouDis.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -2864,6 +2869,7 @@
 				9D42E9541B27DAF200C85400 /* BuyerFansTableViewCell.m in Sources */,
 				0A5305121B12C05300997BF4 /* SDWebImageDecoder.m in Sources */,
 				9DCD428A1B6F03EA00BD5CBE /* CusOrderDetailViewController.m in Sources */,
+				9DE5CFD11C1136A900B2C77A /* DaYangGouDis.m in Sources */,
 				9D467EF91B05C4FA005CAA36 /* NSObject+MJCoding.m in Sources */,
 				0AAB5B091B2AE01900782C0C /* CusMineViewController.m in Sources */,
 				9D5D2E541B60BF7200DBFDC3 /* TGRImageViewController.m in Sources */,

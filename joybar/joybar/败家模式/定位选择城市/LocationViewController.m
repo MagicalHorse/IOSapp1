@@ -126,9 +126,10 @@
         return;
     }
     NSString *cityName =[[self.cityArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
+    NSString *cityId = [[self.cityArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
     if(self.handleCityName)
     {
-        self.handleCityName(cityName);
+        self.handleCityName(cityName,cityId);
     }
     
     [self.navigationController popViewControllerAnimated:YES];
