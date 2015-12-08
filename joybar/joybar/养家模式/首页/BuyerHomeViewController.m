@@ -179,23 +179,32 @@
     UIView  *bgView =[[UIView alloc]init];
     bgView.userInteractionEnabled=YES;
     bgView.backgroundColor =[UIColor blackColor];
+    bgView.frame =CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49);
     [self.view addSubview:bgView];
-    bgView.frame =CGRectMake(0, 64, kScreenWidth, kScreenHeight);
+
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClick:)];
     [bgView addGestureRecognizer:tap];
     UIImageView *bgImg=(UIImageView *)tgr.view;
     UIImageView * img=[[UIImageView alloc]init];
     img.image = bgImg.image;
-    
     [bgView addSubview:img];
+
+   
+    
     bgView.alpha=0;
     [UIView animateWithDuration:0.5 animations:^{
 
-        img.center = CGPointMake(kScreenWidth/2, (kScreenHeight-64-49)/2);
+        img.center = CGPointMake(kScreenWidth/2, (kScreenHeight-64-49-20)/2);
         img.bounds = CGRectMake(0, 0, kScreenWidth-40, kScreenWidth-40);
         bgView.alpha=1;
     }];
+    UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, img.bottom+30, kScreenWidth, 20)];
+    lable.text =@"店铺xxxxxxxx";
+    lable.textColor =[UIColor whiteColor];
+    lable.font =[UIFont systemFontOfSize:15];
+    lable.textAlignment =NSTextAlignmentCenter;
+    [bgView addSubview:lable];
     
 }
 -(void)didClick:(UITapGestureRecognizer *)tap
