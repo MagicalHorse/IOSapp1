@@ -17,29 +17,29 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Vs-mY-T7W">
                         <rect key="frame" x="8" y="8" width="304" height="80.5"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V7g-dN-4uz">
-                                <rect key="frame" x="0.0" y="0.0" width="80" height="79"/>
-                                <animations/>
-                                <color key="backgroundColor" red="0.94117647059999998" green="0.56862745100000001" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="79" id="3S6-eq-DAs"/>
-                                    <constraint firstAttribute="width" constant="80" id="yQa-Hm-8rw"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="byb-4f-cTG">
-                                <rect key="frame" x="97" y="30" width="199" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="byb-4f-cTG">
+                                <rect key="frame" x="88" y="30.5" width="42" height="20.5"/>
                                 <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dui-nd-miY">
+                                <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="PdT-hJ-2Fb"/>
+                                    <constraint firstAttribute="width" constant="80" id="zbW-J4-Js0"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="V7g-dN-4uz" firstAttribute="leading" secondItem="3Vs-mY-T7W" secondAttribute="leading" id="QHW-zX-dmi"/>
-                            <constraint firstItem="V7g-dN-4uz" firstAttribute="top" secondItem="3Vs-mY-T7W" secondAttribute="top" id="uCd-eP-93b"/>
+                            <constraint firstAttribute="bottom" secondItem="byb-4f-cTG" secondAttribute="bottom" constant="29.5" id="6lg-oM-Vib"/>
+                            <constraint firstItem="dui-nd-miY" firstAttribute="top" secondItem="3Vs-mY-T7W" secondAttribute="top" id="B1y-b8-If6"/>
+                            <constraint firstItem="dui-nd-miY" firstAttribute="leading" secondItem="3Vs-mY-T7W" secondAttribute="leading" id="Tpo-xY-7Dh"/>
+                            <constraint firstItem="byb-4f-cTG" firstAttribute="leading" secondItem="dui-nd-miY" secondAttribute="trailing" constant="8" id="ix9-7J-0m3"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -53,6 +53,10 @@
             </tableViewCellContentView>
             <animations/>
             <color key="backgroundColor" red="0.89411764705882357" green="0.91764705882352937" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="decLab" destination="byb-4f-cTG" id="Edd-CY-QP1"/>
+                <outlet property="iconView" destination="dui-nd-miY" id="1YJ-tg-qHT"/>
+            </connections>
             <point key="canvasLocation" x="227" y="192"/>
         </tableViewCell>
     </objects>

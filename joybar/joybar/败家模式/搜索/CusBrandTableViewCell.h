@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CusBrandTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *iconView;
+@property (weak, nonatomic) IBOutlet UILabel *decLab;
 
 @end

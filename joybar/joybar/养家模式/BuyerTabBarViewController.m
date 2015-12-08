@@ -240,7 +240,7 @@
         
         [HttpTool postWithURL:@"Order/CheckIsCanCreateGeneralOrder" params:nil success:^(id json) {
             BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
-            if (!isSuccessful) {
+            if (isSuccessful) {
                 BuyerOpenViewController * open =[[BuyerOpenViewController alloc]init];
                 BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:open];
                 [self presentViewController:nav animated:YES completion:nil];

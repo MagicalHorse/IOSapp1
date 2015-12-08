@@ -11,6 +11,11 @@
 #import "CusBrandTableViewCell.h"
 #import "CusShoppingTableViewCell.h"
 #import "CusShopTableViewCell.h"
+#import "CusZProDetailViewController.h"
+#import "CusRProDetailViewController.h"
+#import "CusBrandDetailViewController.h"
+#import "CusMarketViewController.h"
+#import "CusMainStoreViewController.h"
 
 @interface SearchDetailsViewController()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -27,8 +32,12 @@
 @implementation SearchDetailsViewController
 {
     UITextField *searchText;
-    int searchTyep;
     int type;
+    BOOL isRefresh;
+    BOOL isRefresh1;
+    BOOL isRefresh2;
+    BOOL isRefresh3;
+
 }
 
 
@@ -62,6 +71,11 @@
         [HUD showHudFailed:@"请输入搜索关键字"];
         return;
     }
+    
+    if (isRefresh ||isRefresh1||isRefresh2||isRefresh3) {
+        [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
+    }
+    
     NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     NSString *url;
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
@@ -69,7 +83,9 @@
     [dict setObject:@"" forKey:@"key"];
 
     [dict setObject:self.cityId forKey:@"ciryId"];
-    [dict setObject:@"0" forKey:@"StoreId"];
+    if (self.storeId) {
+        [dict setObject:self.storeId forKey:@"StoreId"];
+    }
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dict setObject:@"6" forKey:@"Pagesize"];
     if (type ==1) {
@@ -79,12 +95,16 @@
 
     }else if(type ==2){
         url =@"v3/searchBrand";
-        return;
+        
     }else if(type ==3){
         url =@"v3/searchbuyer";
         [dict setObject:userId forKey:@"userId"];
-        [dict setObject:self.longitude forKey:@"longitude"];
-        [dict setObject:self.latitude forKey:@"latitude"];
+        if (self.longitude) {
+            [dict setObject:self.longitude forKey:@"longitude"];
+        }
+        if (self.latitude) {
+            [dict setObject:self.latitude forKey:@"latitude"];
+        }
     }else if(type ==4){
         url =@"v3/searchstore";
         [dict setObject:self.longitude forKey:@"longitude"];
@@ -92,11 +112,12 @@
        
     }
     
-    [HttpTool postWithURL:url params:dict  success:^(id json) {
+    [HttpTool postWithURL:url params:dict isWrite:NO  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
             if (type==1) {
+                isRefresh =NO;
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -112,6 +133,7 @@
                 }
                 
             }else if(type ==2){
+                isRefresh1 =NO;
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -127,6 +149,8 @@
                 }
 
             }else if(type ==3){
+                isRefresh2 =NO;
+
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -142,6 +166,7 @@
                 }
 
             }else if(type ==4){
+                isRefresh3 =NO;
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -171,10 +196,14 @@
         }
         [self.tableView endRefresh];
         [self.tableView reloadData];
-        
+        [self activityDismiss];
+
     } failure:^(NSError *error) {
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
         [self.tableView endRefresh];
+        [self activityDismiss];
+
+        
 
     }];
 }
@@ -182,8 +211,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@""];
-    searchTyep =0;
     type=1;
+    isRefresh=YES;
+    isRefresh1=YES;
+    isRefresh2=YES;
+    isRefresh3=YES;
+
     //搜索
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(40, 25, kScreenWidth-80, 30)];
     searchView.backgroundColor = kCustomColor(232, 233, 234);
@@ -216,7 +249,7 @@
     [self.view addSubview:_tempView] ;
     NSArray *nameArr;
     int length;
-    if (searchTyep ==0) {
+    if (self.cusSearchType ==1) {
         nameArr= @[@"商品",@"品牌",@"买手",@"商场"];
         length=4;
     }else{
@@ -295,23 +328,57 @@
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
+    [self activityDismiss];
     if (tap.view.tag==1000)
     {
-//        [self activityDismiss];
+        type=1;
+        if (isRefresh) {
+            self.pageNum=1;
+            [self setData];
+
+        }else{
+            [self.tableView reloadData];
+
+        }
         [self scrollToBuyerStreet];
+
     }
     else if(tap.view.tag==1001)
     {
-//        [self activityDismiss];
+        type=2;
+
+        if (isRefresh1) {
+            self.pageNum=1;
+            [self setData];
+        }else{
+            [self.tableView reloadData];
+
+        }
         [self scrollToSaid];
+
+
     }
     else if(tap.view.tag==1002)
     {
-//        [self activityDismiss];
+        type=3;
+        if (isRefresh2) {
+            self.pageNum=1;
+            [self setData];
+        }else{
+            [self.tableView reloadData];
+        }
         [self scrollToMyBuyer];
     }
     else
     {
+        type=4;
+        if (isRefresh3) {
+            self.pageNum=1;
+            [self setData];
+        }else{
+            [self.tableView reloadData];
+        }
+
         [self scrollToMyBuyer1];
     }
 }
@@ -335,9 +402,7 @@
     lab3.font = [UIFont systemFontOfSize:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont systemFontOfSize:13];
-    self.pageNum=1;
-    type=1;
-    [self setData];
+   
 //
 }
 
@@ -360,10 +425,6 @@
     lab3.font = [UIFont systemFontOfSize:13];
     lab4.textColor = [UIColor grayColor];
     lab4.font = [UIFont systemFontOfSize:13];
-    self.pageNum=1;
-    type=2;
-
-    [self setData];
     
     
 }
@@ -386,10 +447,7 @@
     lab2.font = [UIFont systemFontOfSize:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont systemFontOfSize:13];
-    self.pageNum=1;
-    type=3;
-
-    [self setData];
+  
     
     
 }
@@ -412,9 +470,7 @@
     lab2.font = [UIFont systemFontOfSize:13];
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont systemFontOfSize:13];
-    self.pageNum=1;
-    type=4;
-    [self setData];
+   
     
     
 }
@@ -439,6 +495,46 @@
     }
     return 0;
 }
+
+-(void)chBtnClick:(UIButton *)btn{
+    
+    BOOL tempState =[[self.searchArr[btn.tag]objectForKey:@"IsFavite"]boolValue];
+    NSString *stroeId =[self.searchArr[btn.tag]objectForKey:@"ProductId"];
+
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:stroeId forKey:@"Id"];
+    if (tempState)
+    {
+        [dic setValue:@"0" forKey:@"Status"];
+    }
+    else
+    {
+        [dic setValue:@"1" forKey:@"Status"];
+    }
+    [HttpTool postWithURL:@"Product/Favorite" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            
+            if (tempState)
+            {
+                btn.selected = NO;
+            }
+            else
+            {
+                btn.selected = YES;
+            }
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+    }];
+    
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (type ==1) {
@@ -457,6 +553,8 @@
             }else{
                 cell.chCBtn.selected =NO;
             }
+            cell.chCBtn.tag =indexPath.row;
+            [cell.chCBtn addTarget:self action:@selector(chBtnClick:) forControlEvents:UIControlEventTouchUpInside];
             cell.desLab.text =[self.searchArr[indexPath.row]objectForKey:@"ProductName"];
         }
         
@@ -472,6 +570,12 @@
             cell =[[[NSBundle mainBundle] loadNibNamed:@"CusBrandTableViewCell" owner:self options:nil] lastObject];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (self.searchArr1.count>0) {
+            [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr1[indexPath.row]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            cell.decLab.text =[self.searchArr1[indexPath.row]objectForKey:@"BrandName"];
+
+        }
+        
         return cell;
     }
     else if(type ==3){
@@ -488,6 +592,7 @@
             cell.shopName.text = [self.searchArr2[indexPath.row]objectForKey:@"Nickname"];
             cell.addressLab.text =[self.searchArr2[indexPath.row]objectForKey:@"BrandName"];
             NSArray *array =[self.searchArr2[indexPath.row]objectForKey:@"Products"];
+            cell.bgView.tag =indexPath.row +10;
             if (array.count>0) {
                 if(array.count ==2){
                     cell.shopBtn1.hidden =NO;
@@ -496,6 +601,16 @@
                     [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                     [cell.shopBtn1 sd_setImageWithURL:[NSURL URLWithString:[array[1]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                     
+                    UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ClickProView:)];
+                    [cell.shopBtn addGestureRecognizer:proTap];
+                    proTap.view.tag =[[array[0]objectForKey:@"ProductId"] integerValue] ;
+
+                    UITapGestureRecognizer *proTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did2ClickProView:)];
+                    [cell.shopBtn1 addGestureRecognizer:proTap1];
+                    proTap1.view.tag =[[array[1]objectForKey:@"ProductId"] integerValue];
+
+
+                    
                     
                 }else if(array.count ==3){
                     cell.shopBtn1.hidden =NO;
@@ -503,6 +618,18 @@
                     [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                     [cell.shopBtn1 sd_setImageWithURL:[NSURL URLWithString:[array[1]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                     [cell.shopBtn2 sd_setImageWithURL:[NSURL URLWithString:[array[2]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                    UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ClickProView:)];
+                    [cell.shopBtn addGestureRecognizer:proTap];
+                    proTap.view.tag =[[array[0]objectForKey:@"ProductId"] integerValue];
+
+                    UITapGestureRecognizer *proTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did2ClickProView:)];
+                    [cell.shopBtn1 addGestureRecognizer:proTap1];
+                    proTap1.view.tag =[[array[1]objectForKey:@"ProductId"] integerValue];
+
+                    UITapGestureRecognizer *proTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did3ClickProView:)];
+                    [cell.shopBtn2 addGestureRecognizer:proTap2];
+                    proTap2.view.tag =[[array[2]objectForKey:@"ProductId"] integerValue];
+
                     
                     
                 }else{
@@ -510,10 +637,31 @@
                     cell.shopBtn2.hidden =YES;
                     
                     [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                }
-            }
-            
+                    UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ClickProView:)];
+                    [cell.shopBtn addGestureRecognizer:proTap];
+                    proTap.view.tag =[[array[0]objectForKey:@"ProductId"] integerValue];
 
+
+                }
+            }else{
+                cell.shopBtn.hidden =YES;
+                cell.shopBtn1.hidden =YES;
+                cell.shopBtn2.hidden =YES;
+                UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, cell.shopBtn.top+10, cell.width, 20)];
+                lable.text =@"店铺什么都没有，戳一下，提醒上新~";
+                lable.textAlignment =NSTextAlignmentCenter;
+                lable.font =[UIFont systemFontOfSize:13];
+                lable.textColor =[UIColor grayColor];
+                [cell addSubview:lable];
+                
+              UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+        
+                btn.backgroundColor =[UIColor orangeColor];
+                [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+                btn.titleLabel.font =[UIFont systemFontOfSize:13];
+                [cell addSubview:btn];
+            }
         }
         
         return cell;
@@ -563,10 +711,105 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    
+    if (type ==1) {
+        
+        NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr[indexPath.row]objectForKey:@"Userleave"]];
+        if ([Userleave isEqualToString:@"8"])
+        {
+            CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+            VC.productId = [self.searchArr[indexPath.row]objectForKey:@"ProductId"];
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        else
+        {
+            //认证买手
+            CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+            VC.productId = [self.searchArr[indexPath.row]objectForKey:@"ProductId"];
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+    }else if(type ==2){
+        CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
+        VC.BrandId = [self.searchArr1[indexPath.row] objectForKey:@"BrandId"];
+        VC.BrandName = [self.searchArr1[indexPath.row] objectForKey:@"BrandName"];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }else if(type ==3){
+        CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
+        [self.navigationController pushViewController:mainStore animated:YES];
+    
+    }else if(type ==4){
+        CusMarketViewController *VC = [[CusMarketViewController alloc] init];
+        //商场
+        VC.storeId = [self.searchArr3[indexPath.row] objectForKey:@"StoreId"];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [searchText resignFirstResponder];
+}
+
+
+-(void)did1ClickProView:(UITapGestureRecognizer *)tap{
+
+    NSInteger tag= [tap.view superview].tag-10;
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
+    if ([Userleave isEqualToString:@"4"])
+    {
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
+}
+-(void)did2ClickProView:(UITapGestureRecognizer *)tap{
+    
+    NSInteger tag= [tap.view superview].tag-10;
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
+    if ([Userleave isEqualToString:@"4"])
+    {
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
+}
+-(void)did3ClickProView:(UITapGestureRecognizer *)tap{
+    
+    NSInteger tag= [tap.view superview].tag-10;
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
+    if ([Userleave isEqualToString:@"4"])
+    {
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 @end

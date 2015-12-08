@@ -482,6 +482,16 @@
     }
    
 }
+
+- (NSString*)dictionaryToJson:(NSMutableDictionary *)dic
+
+{
+    
+    NSError *parseError = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&parseError];
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+}
 //发布
 -(void)publicsh{
        if (self.imagesArray.count==0) {
@@ -600,8 +610,8 @@
         [dict setObject:self.productId forKey:@"Id"];
     }else{
         tempUrl =@"Product/Create";
-    }
-     NSDictionary * parameters = [ NSDictionary dictionaryWithObjectsAndKeys:[ dict JSONString], @"json" , nil ];
+    }    
+    NSDictionary * parameters = [ NSDictionary dictionaryWithObjectsAndKeys:[self dictionaryToJson:dict], @"json" , nil ];
     
     [HttpTool postWithURL:tempUrl params:parameters isWrite:YES success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];

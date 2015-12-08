@@ -16,8 +16,11 @@
     CGFloat h =w;
 
     self.shopBtn =[[UIImageView alloc]initWithFrame:CGRectMake(5, self.lineView.bottom+10 , w, h)];
+    self.shopBtn.userInteractionEnabled =YES;
     self.shopBtn1 =[[UIImageView alloc]initWithFrame:CGRectMake(w +10, self.lineView.bottom+10 , w, h)];
+    self.shopBtn1.userInteractionEnabled =YES;
     self.shopBtn2 =[[UIImageView alloc]initWithFrame:CGRectMake(2*w+15, self.lineView.bottom+10 , w, h)];
+    self.shopBtn2.userInteractionEnabled=YES;
  
     
     [self.bgView addSubview:self.shopBtn];

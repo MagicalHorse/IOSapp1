@@ -895,20 +895,20 @@
 //增加
 -(void)didCLickAddNum
 {
-    if (!self.sizeId)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择尺码" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-        [alert show];
-        return;
-    }
-    
-    if (self.priceNum>=[self.sizeNum integerValue])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"库存不足" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-        [alert show];
-        return;
-    }
-    
+//    if (!self.sizeId)
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择尺码" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+//        [alert show];
+//        return;
+//    }
+//    
+//    if (self.priceNum>=[self.sizeNum integerValue])
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"库存不足" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+//        [alert show];
+//        return;
+//    }
+//    
     self.priceNum+=1;
     buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
 }
@@ -950,13 +950,13 @@
         [alert show];
         return;
     }
-//    MakeSureOrderViewController *VC = [[MakeSureOrderViewController alloc] init];
-    MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
+    MakeSureOrderViewController *VC = [[MakeSureOrderViewController alloc] init];
+//    MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
 
     VC.detailData = self.detailData;
     VC.buyNum = buyNumLab.text;
-    VC.sizeId = self.sizeId;
-    VC.sizeName = self.sizeName;
+    VC.sizeId = @"53066";
+    VC.sizeName =@"22";
     [self.navigationController pushViewController:VC animated:YES];
 }
 

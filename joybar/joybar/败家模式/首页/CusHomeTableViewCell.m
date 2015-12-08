@@ -346,7 +346,7 @@
     NSString *proId = [products[i] objectForKey:@"ProductId"];
     NSString *Userleave = [NSString stringWithFormat:@"%@",[products[i]objectForKey:@"Userleave"]];
 
-    if ([Userleave isEqualToString:@"8"])
+    if ([Userleave isEqualToString:@"4"])
     {
         
         //认证买手

@@ -8,6 +8,7 @@
 
 #import "HistorySearchViewController.h"
 #import "SearchDetailsViewController.h"
+#import "FindBueryViewController.h"
 
 @interface HistorySearchViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,strong) UITableView *tableView;
@@ -219,41 +220,51 @@
         return NO;
     }
     
-    SearchDetailsViewController *details= [[SearchDetailsViewController alloc]init];
+    if ([self.clickType isEqualToString:@"FindShopGuideViewController"]) {
+        FindBueryViewController *find =[[FindBueryViewController alloc]init];
+        find.serachText =textField.text;
+        find.latitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
+        find.longitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
+        [self.navigationController pushViewController:find animated:YES];
+        
+    }else{
+        
+        SearchDetailsViewController *details= [[SearchDetailsViewController alloc]init];
         details.cityId =self.cityId; //城市id
-//    经纬度
+        //    经纬度
         details.latitude= self.latitude;
         details.longitude= self.longitude;
-//    details.cityId=@"0";
-//    details.latitude= @"116.315811";
-//    details.longitude= @"39.961441";
-    
-    NSMutableDictionary * temp =[NSMutableDictionary dictionary];
-    
-    for (NSString * str in self.searchArr.allValues) {
-        if ([textField.text isEqualToString:str]) {
-            details.serachText = searchText.text;
-            [self.navigationController pushViewController:details animated:YES];
-            return YES;
+        details.cusSearchType =self.cusSearchType;
+        details.storeId =self.storeId ;
+        
+        NSMutableDictionary * temp =[NSMutableDictionary dictionary];
+        
+        for (NSString * str in self.searchArr.allValues) {
+            if ([textField.text isEqualToString:str]) {
+                details.serachText = searchText.text;
+                [self.navigationController pushViewController:details animated:YES];
+                return YES;
+            }
         }
+        
+        
+        [temp setValue:textField.text forKey:@"0"];
+        
+        for (int i=0; i<self.searchArr.count; i++) {
+            if (i ==9) {
+                break;
+            }
+            
+            [temp setValue:[self.searchArr objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",i+1]];
+        }
+        [self initsearchArr: temp];
+        
+        
+        
+        details.serachText = searchText.text;
+        [self.navigationController pushViewController:details animated:YES];
     }
     
-    
-    [temp setValue:textField.text forKey:@"0"];
-   
-    for (int i=0; i<self.searchArr.count; i++) {
-        if (i ==9) {
-            break;
-        }
-
-        [temp setValue:[self.searchArr objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",i+1]];
-    }
-    [self initsearchArr: temp];
-
-
-   
-    details.serachText = searchText.text;
-    [self.navigationController pushViewController:details animated:YES];
     return YES;
 }
 
@@ -261,19 +272,33 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    
     [searchText resignFirstResponder];
     
-    SearchDetailsViewController *details= [[SearchDetailsViewController alloc]init];
-    details.serachText = [self.searchArr objectForKey:[NSString stringWithFormat:@"%ld",indexPath.row]];
-    //    details.cityId =self.cityId; //城市id
-    //经纬度
-    //    details.latitude= self.latitude;
-    //    details.longitude= self.longitude;
-    details.cityId=@"0";
-    details.latitude= @"116.315811";
-    details.longitude= @"39.961441";
+    if ([self.clickType isEqualToString:@"FindShopGuideViewController"]) {
+        FindBueryViewController *find =[[FindBueryViewController alloc]init];
+        find.latitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
+        find.longitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
+        find.serachText =[self.searchArr objectForKey:[NSString stringWithFormat:@"%ld",indexPath.row]];
+        [self.navigationController pushViewController:find animated:YES];
+        
+    }else{
     
-    [self.navigationController pushViewController:details animated:YES];
+        SearchDetailsViewController *details= [[SearchDetailsViewController alloc]init];
+        details.serachText = [self.searchArr objectForKey:[NSString stringWithFormat:@"%ld",indexPath.row]];
+        details.cusSearchType =self.cusSearchType;
+
+        details.cityId =self.cityId; //城市id
+        //经纬度
+        details.latitude= self.latitude;
+        details.longitude= self.longitude;
+        details.storeId =self.storeId ;
+        
+        [self.navigationController pushViewController:details animated:YES];
+    }
+    
+    
+   
 
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
