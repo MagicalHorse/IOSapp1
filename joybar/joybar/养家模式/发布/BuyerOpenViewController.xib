@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BuyerOpenViewController">
             <connections>
-                <outlet property="btn" destination="s6Q-8Q-WIX" id="7wl-mu-q88"/>
                 <outlet property="noText" destination="Mzy-B0-9kE" id="p81-yV-gZp"/>
                 <outlet property="priceText" destination="woJ-CJ-YuL" id="kdA-Lq-zfe"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -89,30 +88,12 @@
                         <constraint firstItem="5Pv-zH-avY" firstAttribute="top" secondItem="vED-sD-Nbg" secondAttribute="top" constant="45" id="Ep7-Ch-BGg"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s6Q-8Q-WIX">
-                    <rect key="frame" x="0.0" y="519" width="320" height="49"/>
-                    <animations/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="49" id="V3b-69-14c"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <state key="normal" title="创建面对面商品">
-                        <color key="titleColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="btnClick" destination="-1" eventType="touchUpInside" id="3iv-hX-aI5"/>
-                    </connections>
-                </button>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="vED-sD-Nbg" secondAttribute="trailing" id="9H9-1G-vue"/>
-                <constraint firstItem="s6Q-8Q-WIX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="el9-0t-N9Y"/>
-                <constraint firstAttribute="bottom" secondItem="s6Q-8Q-WIX" secondAttribute="bottom" id="iZ1-zf-yvu"/>
                 <constraint firstItem="vED-sD-Nbg" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="pac-aB-NLT"/>
-                <constraint firstAttribute="trailing" secondItem="s6Q-8Q-WIX" secondAttribute="trailing" id="tDM-6W-xK2"/>
                 <constraint firstItem="vED-sD-Nbg" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="84" id="u5e-f3-1QR"/>
             </constraints>
             <point key="canvasLocation" x="226" y="87"/>
