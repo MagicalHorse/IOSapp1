@@ -98,9 +98,9 @@
     //TabBarItem的title
     NSArray *title = @[@"",@"",@"",@"",@""];
     //TabBar上Button在Normal状态下的图片
-    NSArray *tabBarPress = @[@"首页",@"jiangli2",@"fabu点击",@"xiaoxi2",@"个人"];
+    NSArray *tabBarImage = @[@"主页",@"jiangli1",@"fabu常态",@"xiaoxi1",@"个人"];
     //TabBar上Button在Selected状态下的图片
-    NSArray * tabBarImage = @[@"首页2",@"jiangli1",@"fabu常态",@"xiaoxi1",@"个人1"];
+    NSArray *tabBarPress  = @[@"主页2",@"jiangli2",@"fabu点击",@"xiaoxi2",@"个人1"];
     self.btnArray = [NSMutableArray array];
     //创建TabBar上的Button和Label
     UIImageView *bgImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, self.tabBar.frame.size.height)];
@@ -122,7 +122,8 @@
         rect.size.height = self.tabBar.frame.size.height;
         tabBtn.frame = rect;
         
-        tabBtn.center = CGPointMake(32+(rect.size.width)*i, self.tabBar.frame.size.height/2);        tabBtn.tag = i+100;
+        tabBtn.center = CGPointMake(32+(rect.size.width)*i, self.tabBar.frame.size.height/2);
+        tabBtn.tag = i+100;
         
         tabBtn.frame = rect;
         tabBtn.titleLabel.font = [UIFont systemFontOfSize:10.0f];

@@ -48,7 +48,7 @@
     [self.view addSubview:self.scrollView];
     
     _homeStoreVC = [[CusHomeStoreViewController alloc] init];
-    _homeStoreVC.userId = @"838";
+    _homeStoreVC.userId = self.userId;
     _homeStoreVC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     [self addChildViewController:_homeStoreVC];
     
