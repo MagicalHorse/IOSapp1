@@ -592,6 +592,7 @@
             cell.shopName.text = [self.searchArr2[indexPath.row]objectForKey:@"Nickname"];
             cell.addressLab.text =[self.searchArr2[indexPath.row]objectForKey:@"BrandName"];
             NSArray *array =[self.searchArr2[indexPath.row]objectForKey:@"Products"];
+            cell.bgView.tag =indexPath.row +10;
             if (array.count>0) {
                 if(array.count ==2){
                     cell.shopBtn1.hidden =NO;
@@ -600,6 +601,16 @@
                     [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                     [cell.shopBtn1 sd_setImageWithURL:[NSURL URLWithString:[array[1]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                     
+                    UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ClickProView:)];
+                    [cell.shopBtn addGestureRecognizer:proTap];
+                    proTap.view.tag =[[array[0]objectForKey:@"ProductId"] integerValue] ;
+
+                    UITapGestureRecognizer *proTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did2ClickProView:)];
+                    [cell.shopBtn1 addGestureRecognizer:proTap1];
+                    proTap1.view.tag =[[array[1]objectForKey:@"ProductId"] integerValue];
+
+
+                    
                     
                 }else if(array.count ==3){
                     cell.shopBtn1.hidden =NO;
@@ -607,6 +618,18 @@
                     [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                     [cell.shopBtn1 sd_setImageWithURL:[NSURL URLWithString:[array[1]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                     [cell.shopBtn2 sd_setImageWithURL:[NSURL URLWithString:[array[2]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                    UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ClickProView:)];
+                    [cell.shopBtn addGestureRecognizer:proTap];
+                    proTap.view.tag =[[array[0]objectForKey:@"ProductId"] integerValue];
+
+                    UITapGestureRecognizer *proTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did2ClickProView:)];
+                    [cell.shopBtn1 addGestureRecognizer:proTap1];
+                    proTap1.view.tag =[[array[1]objectForKey:@"ProductId"] integerValue];
+
+                    UITapGestureRecognizer *proTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did3ClickProView:)];
+                    [cell.shopBtn2 addGestureRecognizer:proTap2];
+                    proTap2.view.tag =[[array[2]objectForKey:@"ProductId"] integerValue];
+
                     
                     
                 }else{
@@ -614,6 +637,11 @@
                     cell.shopBtn2.hidden =YES;
                     
                     [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                    UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ClickProView:)];
+                    [cell.shopBtn addGestureRecognizer:proTap];
+                    proTap.view.tag =[[array[0]objectForKey:@"ProductId"] integerValue];
+
+
                 }
             }else{
                 cell.shopBtn.hidden =YES;
@@ -721,6 +749,67 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [searchText resignFirstResponder];
+}
+
+
+-(void)did1ClickProView:(UITapGestureRecognizer *)tap{
+
+    NSInteger tag= [tap.view superview].tag-10;
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
+    if ([Userleave isEqualToString:@"4"])
+    {
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
+}
+-(void)did2ClickProView:(UITapGestureRecognizer *)tap{
+    
+    NSInteger tag= [tap.view superview].tag-10;
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
+    if ([Userleave isEqualToString:@"4"])
+    {
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
+}
+-(void)did3ClickProView:(UITapGestureRecognizer *)tap{
+    
+    NSInteger tag= [tap.view superview].tag-10;
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
+    if ([Userleave isEqualToString:@"4"])
+    {
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 @end

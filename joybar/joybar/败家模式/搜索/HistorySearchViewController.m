@@ -223,8 +223,8 @@
     if ([self.clickType isEqualToString:@"FindShopGuideViewController"]) {
         FindBueryViewController *find =[[FindBueryViewController alloc]init];
         find.serachText =textField.text;
-        find.latitude= self.latitude;
-        find.longitude= self.longitude;
+        find.latitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
+        find.longitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
         [self.navigationController pushViewController:find animated:YES];
         
     }else{

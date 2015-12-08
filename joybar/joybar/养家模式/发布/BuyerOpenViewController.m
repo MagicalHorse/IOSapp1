@@ -134,8 +134,6 @@
     headerImage.clipsToBounds = YES;
     [_bgView addSubview:headerImage];
     
-    
-
     UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImage.right+5, headerImage.top+10, _bgView.width-100, 20)];
     titleLab.text = [NSString stringWithFormat:@"商品名:%@",no];
     titleLab.font = [UIFont systemFontOfSize:16];
@@ -150,7 +148,15 @@
     UIImageView *codeImage = [[UIImageView alloc] initWithFrame:CGRectMake(35, headerImage.bottom+10, _bgView.width-70, _bgView.width-70)];
     codeImage.image =img;
     [_bgView addSubview:codeImage];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle:) name:@"PaySuccessNotification" object:nil];
 
+
+}
+-(void)paySuccessHandle:(NSNotification *)notification
+{
+    [self showHudSuccess:@"支付成功"];
+    
 }
 //点叉
 -(void)didClickHiddenView:(UIButton *)btn
