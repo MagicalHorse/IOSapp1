@@ -34,6 +34,10 @@
 
 @property (nonatomic ,strong) NSString *buyCount;
 
+@property (nonatomic ,strong) NSString *sizeId;
+@property (nonatomic ,strong) NSString *colorName;
+@property (nonatomic ,strong) NSString *colorId;
+
 @end
 
 @implementation CusZProDetailViewController
@@ -78,7 +82,7 @@
 -(void)getKuCunData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:@"13810" forKey:@"productId"];
+    [dic setObject:self.productId forKey:@"productId"];
     [HttpTool postWithURL:@"Product/GetProductSku" params:dic success:^(id json) {
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
@@ -329,8 +333,10 @@
             MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
             VC.detailData = prodata;
             VC.buyNum = self.buyCount;
-            VC.sizeName = self.sizeName;
+            VC.sizeName = [NSString stringWithFormat:@"%@ %@",self.colorName,self.sizeName];
             VC.buyerId = prodata.BuyerId;
+            VC.colorId = self.colorId;
+            VC.sizeId = self.sizeId;
             [self.navigationController pushViewController:VC animated:YES];
             
 //            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
@@ -509,9 +515,13 @@
     self.sizeHeight = height;
 }
 
--(void)handleSizeName:(NSString *)sizeName
+
+-(void)handleSizeName:(NSString *)sizeName andSizeId:(NSString *)sizeId colorName:(NSString *)color colorId:(NSString *)colorId
 {
     self.sizeName = sizeName;
+    self.sizeId = sizeId;
+    self.colorName = color;
+    self.colorId = colorId;
 }
 
 -(void)handleBuyCount:(NSString *)count

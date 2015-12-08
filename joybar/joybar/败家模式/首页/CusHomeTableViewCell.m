@@ -117,8 +117,7 @@
     if ([StoreLeave isEqualToString:@"8"])
     {
         //认证买手
-        tempViewHeight = (kScreenWidth-20)/3-10+160;
-        
+        tempViewHeight = (kScreenWidth-20)/3-10+180;
     }
     else
     {
@@ -155,6 +154,8 @@
     }
     nameLab.text = [dic objectForKey:@"Name"];
     
+    
+    //认证买手
     if ([StoreLeave isEqualToString:@"8"])
     {
         localImage.hidden = YES;
@@ -163,7 +164,6 @@
         describeLab.hidden = NO;
         //认证买手
         describeLab.text = [dic objectForKey:@"Description"];
-        CGSize size = [Public getContentSizeWith:describeLab.text andFontSize:11 andWidth:tempView.width-90];
         describeLab.frame = CGRectMake(imageView.right+5, nameLab.bottom+8, tempView.width-90, 40-13);
     }
     else
@@ -252,6 +252,7 @@
         UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickProView:)];
         [proImage addGestureRecognizer:proTap];
         
+        //认证买手
         if ([StoreLeave isEqualToString:@"8"])
         {
             UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, proImage.height/4*3, proImage.width, proImage.height/4)];

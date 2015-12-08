@@ -104,7 +104,7 @@
     [dic setValue:@"10000" forKey:@"Pagesize"];
     [dic setValue:status forKey:@"State"];
     [self hudShow];
-    [HttpTool postWithURL:@"Order/GetOrderListByState" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Order/GetOrderListByStateV3" params:dic success:^(id json) {
         
         [self hiddleHud];
         

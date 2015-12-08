@@ -210,8 +210,9 @@
     bgView.layer.shadowRadius = 2;//阴影半径，默认3
     [contentView addSubview:bgView];
     
-    UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*0.5)];
-    tempView.backgroundColor  =[UIColor orangeColor];
+    UIImageView *tempView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*0.5)];
+//    tempView.backgroundColor  =[UIColor orangeColor];
+    [tempView sd_setImageWithURL:[NSURL URLWithString:[self.infoDic objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
     [contentView addSubview:tempView];
     
     UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(15, HEADER_HEIGHT-90, kScreenWidth, 20)];

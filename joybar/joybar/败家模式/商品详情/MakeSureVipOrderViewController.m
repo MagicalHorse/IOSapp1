@@ -11,6 +11,7 @@
 #import "PayOrderViewController.h"
 #import "BindVipViewController.h"
 #import "ChooesVipViewController.h"
+#import "CusVipOrderProTableViewCell.h"
 @interface MakeSureVipOrderViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UITextFieldDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
@@ -20,6 +21,10 @@
 @property (nonatomic ,strong) NSArray *VIPCardArr;
 @property (nonatomic ,strong) NSString *cardNum;
 
+@property (nonatomic ,strong) NSMutableArray *btnArr;
+
+@property (nonatomic ,strong) NSString *needInvoice;
+@property (nonatomic ,strong) NSMutableArray *tempArr;
 
 @end
 
@@ -36,6 +41,7 @@
     //应付金额
     double finishPrice;
     UILabel *priceLable;
+    UIView *btnBgview;
 }
 
 -(NSMutableArray *)datas{
@@ -47,7 +53,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.needInvoice = @"0";
+    self.btnArr = [NSMutableArray array];
+    self.tempArr = [NSMutableArray array];
+    [self.tempArr addObjectsFromArray:@[@"0",@"0",@"0"]];
     //打烊购优惠价格
     double dayanggou = ([self.detailData.Price doubleValue]*[self.buyNum doubleValue])*[self.detailData.DaYangGouDis.discount doubleValue];
     
@@ -196,35 +205,30 @@
         if (cell==nil)
         {
             cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
+            lab.textColor = [UIColor grayColor];
+            lab.text = @"专柜自提：";
+            lab.font = [UIFont systemFontOfSize:14];
+            [cell.contentView addSubview:lab];
+            
+            phoneText = [[UITextField alloc] initWithFrame:CGRectMake(lab.right, 11, kScreenWidth-100, 30)];
+            phoneText.borderStyle = UITextBorderStyleNone;
+            phoneText.keyboardType = UIKeyboardTypeNumberPad;
+            phoneText.placeholder = @"请输入手机号";
+            phoneText.font = [UIFont systemFontOfSize:14];
+            phoneText.delegate =self;
+            [cell.contentView addSubview:phoneText];
+            phoneText.tag =1001;
         }
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        for (UIView *view in cell.contentView.subviews)
-        {
-            [view removeFromSuperview];
-        }
-        
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
-        lab.textColor = [UIColor grayColor];
-        lab.text = @"专柜自提：";
-        lab.font = [UIFont systemFontOfSize:14];
-        [cell.contentView addSubview:lab];
-        
-        phoneText = [[UITextField alloc] initWithFrame:CGRectMake(lab.right, 11, kScreenWidth-100, 30)];
-        phoneText.borderStyle = UITextBorderStyleNone;
-        phoneText.keyboardType = UIKeyboardTypeNumberPad;
-        phoneText.placeholder = @"请输入手机号";
-        phoneText.font = [UIFont systemFontOfSize:14];
-        phoneText.delegate =self;
-        [cell.contentView addSubview:phoneText];
-        phoneText.tag =1001;
         
         return cell;
     }
     else if(indexPath.section==1)
     {
         static NSString *iden = @"cell1";
-        CusOrderProTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+        CusVipOrderProTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
         if (cell==nil)
         {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"CusVipOrderProTableViewCell" owner:self options:nil] lastObject];
@@ -361,30 +365,57 @@
             {
                 cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
                 
+                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
+                lab.text = @"发票抬头：";
+                lab.font = [UIFont systemFontOfSize:14];
+                [cell.contentView addSubview:lab];
+                
+                
+                desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
+                desText.borderStyle = UITextBorderStyleNone;
+                desText.placeholder = @"请输入公司抬头";
+                
+                desText.layer.borderColor = kCustomColor(195, 196, 197).CGColor;
+                desText.layer.borderWidth =1;
+                desText.layer.cornerRadius = 2;
+                desText.font = [UIFont systemFontOfSize:14];
+                desText.delegate =self;
+                [cell.contentView addSubview:desText];
+                
+                btnBgview = [[UIView alloc] initWithFrame:CGRectMake(85, 15, kScreenWidth-85, 20)];
+                btnBgview.backgroundColor = [UIColor clearColor];
+                [cell.contentView addSubview:btnBgview];
+                
+                
+                
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            for (UIView *view in cell.contentView.subviews)
-            {
+            
+            for (UIView *view in btnBgview.subviews) {
                 [view removeFromSuperview];
             }
-            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
-            lab.text = @"发票抬头：";
-            lab.font = [UIFont systemFontOfSize:14];
-            [cell.contentView addSubview:lab];
             
-            desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
-            desText.borderStyle = UITextBorderStyleNone;
-            desText.placeholder = @"请输入公司抬头";
-            
-            desText.layer.borderColor = kCustomColor(195, 196, 197).CGColor;
-            desText.layer.borderWidth =1;
-            desText.layer.cornerRadius = 2;
-            desText.font = [UIFont systemFontOfSize:14];
-            desText.delegate =self;
-            [cell.contentView addSubview:desText];
-            
+            NSArray *arr = @[@" 无",@" 公司",@" 个人"];
+            for (int i=0; i<3; i++)
+            {
+                UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+                btn.frame = CGRectMake(5+65*i, 0, 60, 20);
+                if ([self.tempArr[i] isEqualToString:@"0"]) {
+                    [btn setImage:[UIImage imageNamed:@"选择"] forState:(UIControlStateNormal)];
+                }
+                else
+                {
+                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+                }
+                [btn setTitle:arr[i] forState:(UIControlStateNormal)];
+                btn.titleLabel.font = [UIFont systemFontOfSize:13];
+                [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+                [btn addTarget:self action:@selector(selectFaPiao:) forControlEvents:(UIControlEventTouchUpInside)];
+                [btnBgview addSubview:btn];
+                btn.tag = 100+i;
+                [self.btnArr addObject:btn];
+            }
             return cell;
-            
         }
     }
     else {
@@ -415,7 +446,8 @@
             [cell.contentView addSubview:lab1];
             
             return cell;
-        } else if(indexPath.section==4)
+        }
+        else if(indexPath.section==4)
         {
             static NSString *iden = @"cell4";
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
@@ -446,7 +478,6 @@
             [cell.contentView addSubview:desText];
             
             return cell;
-            
         }
     }
     
@@ -555,7 +586,7 @@
             finishPrice = [self.detailData.Price doubleValue]*[self.buyNum doubleValue]-vipPrice-dayanggouPrice;
             
             priceLable.text =[NSString stringWithFormat:@"￥%.2f",finishPrice];
-
+            
             [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:3],[NSIndexPath indexPathForRow:0 inSection:4], nil] withRowAnimation:(UITableViewRowAnimationNone)];
         }
     }
@@ -591,54 +622,90 @@
 //确认
 -(void)didCLickMakeSureBtn:(UIButton *)btn
 {
+    CusVipOrderProTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
+    
+    
+    if ([phoneText.text isEqualToString:@""])
+    {
+        [self showHudFailed:@"请填写手机号"];
+        return;
+    }
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:@"" forKey:@"NeedInvoice"];
-    [dic setObject:@"" forKey:@"InvoiceTitle"];
-    [dic setObject:@"" forKey:@"Memo"];
-    [dic setObject:@"" forKey:@"Mobile"];
+    [dic setObject:self.needInvoice forKey:@"NeedInvoice"];
+    [dic setValue:desText.text forKey:@"InvoiceTitle"];
+    [dic setValue:cell.desLab.text forKey:@"Memo"];
+    [dic setObject:phoneText.text forKey:@"Mobile"];
     [dic setObject:self.detailData.ProductId forKey:@"ProductId"];
     [dic setObject:self.buyNum forKey:@"Quantity"];
     [dic setValue:self.cardNum forKey:@"VipCardNo"];
+    [dic setObject:self.colorId forKey:@"ColorId"];
+    [dic setObject:self.sizeId forKey:@"SizeId"];
+    [self hudShow:@"正在提交订单"];
     
+    [HttpTool postWithURL:@"v3/CreateOrderV3" params:dic success:^(id json) {
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            
+            PayOrderViewController *VC = [[PayOrderViewController alloc] init];
+            VC.proName = self.detailData.ProductName;
+            VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"ActualAmount"];
+            VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
+            [self showHudSuccess:@"提交成功"];
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [self.navigationController pushViewController:VC animated:YES];
+                
+            });
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        NSLog(@"%@",[json objectForKey:@"message"]);
+        [self textHUDHiddle];
+        
+    } failure:^(NSError *error) {
+        
+    }];
     
-    
-//    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-//    [dic setValue:self.detailData.ProductId forKey:@"ProductId"];
-//    [dic setValue:self.buyNum forKey:@"Count"];
-//    [dic setValue:self.sizeId forKey:@"SizeId"];
-//    if ([phoneText.text isEqualToString:@""])
-//    {
-//        [self showHudFailed:@"请填写提货电话"];
-//        return;
-//    }
-//    [dic setValue:phoneText.text forKey:@"mobile"];
-//    [self hudShow:@"正在提交订单"];
-//    [HttpTool postWithURL:@"Order/CreateOrder" params:dic  isWrite:YES success:^(id json) {
-//        
-//        if ([[json objectForKey:@"isSuccessful"] boolValue])
-//        {
-//            PayOrderViewController *VC = [[PayOrderViewController alloc] init];
-//            VC.proName = self.detailData.ProductName;
-//            VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"ActualAmount"];
-//            VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
-//            [self showHudSuccess:@"提交成功"];
-//            
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                
-//                [self.navigationController pushViewController:VC animated:YES];
-//                
-//            });
-//        }
-//        else
-//        {
-//            [self showHudFailed:[json objectForKey:@"message"]];
-//        }
-//        NSLog(@"%@",[json objectForKey:@"message"]);
-//        [self textHUDHiddle];
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
+    //    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    //    [dic setValue:self.detailData.ProductId forKey:@"ProductId"];
+    //    [dic setValue:self.buyNum forKey:@"Count"];
+    //    [dic setValue:self.sizeId forKey:@"SizeId"];
+    //    if ([phoneText.text isEqualToString:@""])
+    //    {
+    //        [self showHudFailed:@"请填写提货电话"];
+    //        return;
+    //    }
+    //    [dic setValue:phoneText.text forKey:@"mobile"];
+    //    [self hudShow:@"正在提交订单"];
+    //    [HttpTool postWithURL:@"Order/CreateOrder" params:dic  isWrite:YES success:^(id json) {
+    //
+    //        if ([[json objectForKey:@"isSuccessful"] boolValue])
+    //        {
+    //            PayOrderViewController *VC = [[PayOrderViewController alloc] init];
+    //            VC.proName = self.detailData.ProductName;
+    //            VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"ActualAmount"];
+    //            VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
+    //            [self showHudSuccess:@"提交成功"];
+    //
+    //            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //
+    //                [self.navigationController pushViewController:VC animated:YES];
+    //
+    //            });
+    //        }
+    //        else
+    //        {
+    //            [self showHudFailed:[json objectForKey:@"message"]];
+    //        }
+    //        NSLog(@"%@",[json objectForKey:@"message"]);
+    //        [self textHUDHiddle];
+    //
+    //    } failure:^(NSError *error) {
+    //
+    //    }];
 }
 
 
@@ -699,5 +766,39 @@
     
 }
 
+-(void)selectFaPiao:(UIButton *)btn
+{
+    if (btn.tag==101)
+    {
+        self.needInvoice = @"0";
+    }
+    else
+    {
+        self.needInvoice = @"1";
+    }
+    for (int i=0; i<3; i++)
+    {
+        if (i==btn.tag-100)
+        {
+            [self.tempArr replaceObjectAtIndex:btn.tag-100 withObject:@"1"];
+        }
+        else
+        {
+            [self.tempArr replaceObjectAtIndex:i withObject:@"0"];
+        }
+    }
+    
+    for (UIButton *selectBtn in self.btnArr)
+    {
+        if ([btn isEqual:selectBtn])
+        {
+            [selectBtn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+        }
+        else
+        {
+            [selectBtn setImage:[UIImage imageNamed:@"选择"] forState:(UIControlStateNormal)];
+        }
+    }
+}
 
 @end

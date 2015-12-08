@@ -14,4 +14,6 @@
 @property (nonatomic ,strong) NSString *sizeId;
 @property (nonatomic ,strong) NSString *sizeName;
 @property (nonatomic ,strong) NSString *buyerId;
+@property (nonatomic ,strong) NSString *colorId;
+
 @end

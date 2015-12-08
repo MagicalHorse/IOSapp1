@@ -206,7 +206,7 @@
         sizeBtn.frame = CGRectMake(sizeLab.right+5, sizeLab.top-3, kScreenWidth-70, height);
         colorStr =[[self.kuCunArr objectAtIndex:0] objectForKey:@"ColorName"];
         NSString *name = [NSString stringWithFormat:@"%@%@",colorStr,[selectSizeArr[0] objectForKey:@"SizeName"]];
-        [self.delegate handleSizeName:name];
+        [self.delegate handleSizeName:[selectSizeArr[0] objectForKey:@"SizeName"] andSizeId:[selectSizeArr[0] objectForKey:@"SizeId"] colorName:colorStr colorId:[[self.kuCunArr objectAtIndex:0] objectForKey:@"ColorId"]];
         //数量
         UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(10, sizeBtn.bottom+20, 40, 20)];
         numLab.text = @"数量:";
@@ -277,7 +277,7 @@
             kuCunLab.text = [NSString stringWithFormat:@"库存%@件",count];
             NSString *str = [dic objectForKey:@"SizeName"];
             
-            [cell.delegate handleSizeName:[NSString stringWithFormat:@"%@ %@",color,str]];
+            [cell.delegate handleSizeName:str andSizeId:[dic objectForKey:@"SizeId"] colorName:color colorId:[dic objectForKey:@"ColorId"]];
         };
     }
     else if (indexPath.section==3)

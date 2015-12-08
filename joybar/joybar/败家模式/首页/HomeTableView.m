@@ -60,7 +60,7 @@
         if ([StoreLeave isEqualToString:@"8"])
         {
             //认证买手
-            return (kScreenWidth-20)/3-10+170;
+            return (kScreenWidth-20)/3-10+190;
         }
         else
         {

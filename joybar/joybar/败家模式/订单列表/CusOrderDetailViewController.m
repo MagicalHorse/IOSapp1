@@ -52,7 +52,7 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:self.orderId forKey:@"OrderNo"];
     [self hudShow];
-    [HttpTool postWithURL:@"Order/GetUserOrderDetail" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Order/GetUserOrderDetailV3" params:dic success:^(id json) {
         
         [self hiddleHud];
         if ([[json objectForKey:@"isSuccessful"] boolValue])

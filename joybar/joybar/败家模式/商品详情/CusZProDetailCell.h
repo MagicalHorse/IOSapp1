@@ -13,7 +13,7 @@
 
 -(void)handleSizeHeight:(CGFloat)height;
 
--(void)handleSizeName:(NSString *)sizeName;
+-(void)handleSizeName:(NSString *)sizeName andSizeId:(NSString *)sizeId colorName:(NSString *)color colorId:(NSString *)colorId;
 
 -(void)handleBuyCount:(NSString *)count;
 
