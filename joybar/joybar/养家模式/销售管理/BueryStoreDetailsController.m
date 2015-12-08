@@ -7,6 +7,7 @@
 //
 
 #import "BueryStoreDetailsController.h"
+#import "BueryDetails2TableViewCell.h"
 
 #import "BueryDetailsTableViewCell.h"
 @interface BueryStoreDetailsController ()<UITableViewDataSource,UITableViewDelegate>{
@@ -75,7 +76,13 @@
 }
 #pragma mark - Table view data source
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 440;
+    if (self.dataArray.count>0) {
+        NSString *tempPhone=[self.dataArray objectForKey:@"CustomerMobile"];
+        if (tempPhone.length>0) {
+            return 440;
+        }
+    }
+    return 346;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -84,28 +91,53 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"cell";
-    BueryDetailsTableViewCell *  cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell =[[[NSBundle mainBundle] loadNibNamed:@"BueryDetailsTableViewCell" owner:self options:nil] lastObject];
-    }
-    cell.selectionStyle=UITableViewCellSelectionStyleNone;
     if (self.dataArray.count>0) {
-        cell.orderNO.text = [self.dataArray objectForKey:@"OrderNo"];
-        cell.orderState.text = [self.dataArray objectForKey:@"StatusName"];
-        cell.orderPrice.text = [[self.dataArray objectForKey:@"RecAmount"] stringValue];
-        cell.ordertoPrice.text = [[self.dataArray objectForKey:@"InCome"] stringValue];
-        cell.userNO.text = [self.dataArray objectForKey:@"CustomerName"];
-        cell.orderTime.text = [self.dataArray objectForKey:@"CreateTime"];
-        NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray objectForKey:@"CustomerLogo"]];
-        cell.userPic.layer.cornerRadius = cell.userPic.width/2;
-        cell.userPic.clipsToBounds =YES;
-        [cell.userPic sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-        cell.userPhone.text = [self.dataArray objectForKey:@"CustomerMobile"];
-        cell.userAddress.text = [self.dataArray objectForKey:@"CustomerAddress"];
+        
+        NSString *tempPhone=[self.dataArray objectForKey:@"CustomerMobile"];
+        if (tempPhone.length>0) {
+            BueryDetailsTableViewCell *  cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell =[[[NSBundle mainBundle] loadNibNamed:@"BueryDetailsTableViewCell" owner:self options:nil] lastObject];
+            }
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+            cell.orderNO.text = [self.dataArray objectForKey:@"OrderNo"];
+            cell.orderState.text = [self.dataArray objectForKey:@"StatusName"];
+            cell.orderPrice.text = [[self.dataArray objectForKey:@"RecAmount"] stringValue];
+            cell.ordertoPrice.text = [[self.dataArray objectForKey:@"InCome"] stringValue];
+            cell.userNO.text = [self.dataArray objectForKey:@"CustomerName"];
+            cell.orderTime.text = [self.dataArray objectForKey:@"CreateTime"];
+            NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray objectForKey:@"CustomerLogo"]];
+            cell.userPic.layer.cornerRadius = cell.userPic.width/2;
+            cell.userPic.clipsToBounds =YES;
+            [cell.userPic sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            cell.userPhone.text =tempPhone;
+            cell.userAddress.text = [self.dataArray objectForKey:@"CustomerAddress"];
+            return cell;
+            
+        }else{
+            BueryDetails2TableViewCell *  cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) {
+                cell =[[[NSBundle mainBundle] loadNibNamed:@"BueryDetails2TableViewCell" owner:self options:nil] lastObject];
+            }
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+            cell.orderNO.text = [self.dataArray objectForKey:@"OrderNo"];
+            cell.orderState.text = [self.dataArray objectForKey:@"StatusName"];
+            cell.orderPrice.text = [[self.dataArray objectForKey:@"RecAmount"] stringValue];
+            cell.ordertoPrice.text = [[self.dataArray objectForKey:@"InCome"] stringValue];
+            cell.userNO.text = [self.dataArray objectForKey:@"CustomerName"];
+            cell.orderTime.text = [self.dataArray objectForKey:@"CreateTime"];
+            NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray objectForKey:@"CustomerLogo"]];
+            cell.userPic.layer.cornerRadius = cell.userPic.width/2;
+            cell.userPic.clipsToBounds =YES;
+            [cell.userPic sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            cell.userAddress.text = [self.dataArray objectForKey:@"CustomerAddress"];
+            return cell;
+            
+        }
+        
         
     }
-
-    return cell;
+    return [[UITableViewCell alloc]init];
 }
 
 

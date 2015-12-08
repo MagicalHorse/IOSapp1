@@ -713,8 +713,8 @@
     
     
     if (type ==1) {
-        
         NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr[indexPath.row]objectForKey:@"Userleave"]];
+
         if ([Userleave isEqualToString:@"8"])
         {
             CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
@@ -735,7 +735,10 @@
         [self.navigationController pushViewController:VC animated:YES];
         
     }else if(type ==3){
+        
+
         CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
+        mainStore.userId =[self.searchArr2[indexPath.row]objectForKey:@"userId"];
         [self.navigationController pushViewController:mainStore animated:YES];
     
     }else if(type ==4){

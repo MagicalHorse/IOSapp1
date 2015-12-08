@@ -200,7 +200,7 @@
         bgView.alpha=1;
     }];
     UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, img.bottom+30, kScreenWidth, 20)];
-    lable.text =@"店铺xxxxxxxx";
+    lable.text =[NSString stringWithFormat:@"%@的店铺二维码",self.label.text];
     lable.textColor =[UIColor whiteColor];
     lable.font =[UIFont systemFontOfSize:15];
     lable.textAlignment =NSTextAlignmentCenter;

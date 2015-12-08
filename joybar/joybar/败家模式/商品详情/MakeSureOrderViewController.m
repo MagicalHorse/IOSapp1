@@ -328,7 +328,9 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:self.detailData.ProductId forKey:@"ProductId"];
     [dic setValue:self.buyNum forKey:@"Count"];
-    [dic setValue:self.sizeId forKey:@"SizeId"];
+//    [dic setValue:self.sizeId forKey:@"SizeId"];
+    [dic setValue:@"53345" forKey:@"SizeId"];
+
     if ([phoneText.text isEqualToString:@""])
     {
         [self showHudFailed:@"请填写提货电话"];
