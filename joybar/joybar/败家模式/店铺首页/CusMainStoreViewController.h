@@ -10,5 +10,6 @@
 
 @interface CusMainStoreViewController : BaseViewController
 
+@property (nonatomic ,strong) NSString *userId;
 
 @end
