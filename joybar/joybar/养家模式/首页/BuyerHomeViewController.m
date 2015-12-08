@@ -67,6 +67,11 @@
         }
         [VC setData];
     };
+    self.homeTableView.footerRereshingBlock=^(){
+        [VC.homeTableView endRefresh];
+        [VC.homeTableView hiddenFooter:YES];
+
+    };
 }
 
 
@@ -139,13 +144,15 @@
          }else{
              [self showHudFailed:[json objectForKey:@"message"]];
          }
-         
+         [self.homeTableView hiddenFooter:YES];
          [self textHUDHiddle];
          [self activityDismiss];
          isRefresh=NO;
      } failure:^(NSError *error) {
          [self textHUDHiddle];
          [self activityDismiss];
+         [self.homeTableView hiddenFooter:YES];
+
 
      }];
 }

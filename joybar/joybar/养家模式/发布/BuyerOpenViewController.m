@@ -11,14 +11,12 @@
 @interface BuyerOpenViewController ()<UITextFieldDelegate>{
     BOOL isPrice;
 }
-- (IBAction)btnClick;
 @property (nonatomic,strong)UIView *tempView;
 @property (nonatomic,strong)UIView *bgView;
 @property (nonatomic,strong)UIButton *cancleBtn;
 @property (weak, nonatomic) IBOutlet UITextField *priceText;
-
+@property (strong ,nonatomic) UIButton *clcikBtn;
 @property (weak, nonatomic) IBOutlet UITextField *noText;
-@property (weak, nonatomic) IBOutlet UIButton *btn;
 - (IBAction)textChange:(id)sender;
 
 @end
@@ -43,20 +41,28 @@
     self.retBtn.hidden =YES;
     self.view.backgroundColor = kCustomColor(241, 241, 241);
     UIButton *searchBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    searchBtn.frame = CGRectMake(kScreenWidth-64, 10, 64, 64);
+    searchBtn.frame = CGRectMake(0, 10, 64, 64);
     [searchBtn setTitle:@"取消" forState:UIControlStateNormal];
     [searchBtn setTitleColor :[UIColor blackColor] forState:UIControlStateNormal];
     searchBtn.titleLabel.font =[UIFont systemFontOfSize:15];
     [searchBtn addTarget:self action:@selector(calClick) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:searchBtn];
+    
+    _clcikBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    _clcikBtn.frame = CGRectMake(kScreenWidth-64, 10, 64, 64);
+    [_clcikBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [_clcikBtn setTitleColor :[UIColor orangeColor] forState:UIControlStateNormal];
+    _clcikBtn.titleLabel.font =[UIFont systemFontOfSize:15];
+    [_clcikBtn addTarget:self action:@selector(btnClcik) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.navView addSubview:_clcikBtn];
+
 }
 
 -(void)calClick{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-
-- (IBAction)btnClick {
+-(void)btnClcik {
+    
     if (self.priceText.text.length==0) {
         [self showHudFailed:@"请输入货号"];
         return;
@@ -69,8 +75,11 @@
         [self showHudFailed:@"价格只能为两位小数"];
         return;
     }
+    [self.priceText resignFirstResponder];
+    [self.noText resignFirstResponder];
+
     [self hudShow:@"正在创建"];
-    self.btn.userInteractionEnabled =NO;
+    self.clcikBtn.userInteractionEnabled =NO;
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
     [dic setObject:self.noText.text forKey:@"price"];
     [dic setObject:self.priceText.text forKey:@"saleCode"];
@@ -78,6 +87,7 @@
     [HttpTool postWithURL:@"Order/CreateGeneralOrder" params:dic isWrite:YES success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
+            
             UIImage *decodedImage;
             if ([[json objectForKey:@"data"]objectForKey:@"QrCode"]) {
                 NSData *decodedImageData = [[NSData alloc]initWithBase64Encoding:[[json objectForKey:@"data"] objectForKey:@"QrCode"]];
@@ -90,11 +100,11 @@
             [self addBigView:decodedImage AndNo:no AndPrice:priceText];
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
-            self.btn.userInteractionEnabled=YES;
+            self.clcikBtn.userInteractionEnabled=YES;
         }
         [self textHUDHiddle];
     } failure:^(NSError *error) {
-        self.btn.userInteractionEnabled=YES;
+        self.clcikBtn.userInteractionEnabled=YES;
         [self textHUDHiddle];
     }];
     
@@ -103,7 +113,7 @@
 
 -(void)addBigView:(UIImage*)img AndNo:(NSString *)no AndPrice :(NSString *)price
 {
-    _tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49)];
+    _tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64)];
     _tempView.hidden = NO;
     _tempView.alpha =0.6 ;
     _tempView.backgroundColor = [UIColor blackColor];
@@ -172,7 +182,7 @@
                      }completion:^(BOOL finish){
                          _tempView.hidden = YES;
                          _bgView.hidden = YES;
-                         self.btn.userInteractionEnabled =YES;
+                         self.clcikBtn.userInteractionEnabled =YES;
 
                      }];
 
