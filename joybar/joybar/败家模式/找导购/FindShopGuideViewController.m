@@ -371,24 +371,35 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image =[[UIImageView alloc]init];
                 image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.width-5)*0.5);
+                image.contentMode= UIViewContentModeCenter;
+                image.clipsToBounds =YES;
+                image.backgroundColor =[UIColor lightGrayColor];
                 NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
                 [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image];
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
-                image1.backgroundColor =[UIColor redColor];
+                image1.contentMode= UIViewContentModeCenter;
+                image1.clipsToBounds =YES;
+                image1.backgroundColor =[UIColor lightGrayColor];
                 image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
                 NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
                 [image1 sd_setImageWithURL:[NSURL URLWithString:str1] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image1];
                 
                 UIImageView *image2 =[[UIImageView alloc]init];
+                image2.contentMode= UIViewContentModeCenter;
+                image2.clipsToBounds =YES;
+                image2.backgroundColor =[UIColor lightGrayColor];
                 image2.frame =CGRectMake(0, image.bottom+5, image.width,image.height);
                 NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
                 [image2 sd_setImageWithURL:[NSURL URLWithString:str2] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image2];
                 
                 UIImageView *image3 =[[UIImageView alloc]init];
+                image3.contentMode= UIViewContentModeCenter;
+                image3.clipsToBounds =YES;
+                image3.backgroundColor =[UIColor lightGrayColor];
                 image3.frame =CGRectMake(image2.right+5, image.bottom+5, image.width,image.height);
                 NSString * str3 =[NSString stringWithFormat:@"%@",[shopArray[3] objectForKey:@"Pic"]];
                 [image3 sd_setImageWithURL:[NSURL URLWithString:str3] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
@@ -397,19 +408,28 @@ static NSString * const reuseIdentifier = @"Cell";
                 
             }else if(shopArray.count ==3){
                 UIImageView *image =[[UIImageView alloc]init];
+                image.contentMode= UIViewContentModeCenter;
+                image.clipsToBounds =YES;
+                image.backgroundColor =[UIColor lightGrayColor];
+
                 image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.width-5)*0.5);
                 NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
                 [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image];
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
-                image1.backgroundColor =[UIColor redColor];
+                image1.contentMode= UIViewContentModeCenter;
+                image1.clipsToBounds =YES;
+                image1.backgroundColor =[UIColor lightGrayColor];
                 image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
                 NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
                 [image1 sd_setImageWithURL:[NSURL URLWithString:str1] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image1];
                 
                 UIImageView *image2 =[[UIImageView alloc]init];
+                image2.contentMode= UIViewContentModeCenter;
+                image2.clipsToBounds =YES;
+                image2.backgroundColor =[UIColor lightGrayColor];
                 image2.frame =CGRectMake((cell.bgView.width-image.width)*0.5, image.bottom+5, image.width,image.height);
                 NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
                 [image2 sd_setImageWithURL:[NSURL URLWithString:str2] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
@@ -419,13 +439,18 @@ static NSString * const reuseIdentifier = @"Cell";
             }else if(shopArray.count ==2){
                 
                 UIImageView *image =[[UIImageView alloc]init];
+                image.contentMode= UIViewContentModeCenter;
+                image.clipsToBounds =YES;
+                image.backgroundColor =[UIColor lightGrayColor];
                 image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.height)*1);
                 NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
                 [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image];
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
-                image1.backgroundColor =[UIColor redColor];
+                image1.contentMode= UIViewContentModeCenter;
+                image1.clipsToBounds =YES;
+                image1.backgroundColor =[UIColor lightGrayColor];
                 image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
                 NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
                 [image1 sd_setImageWithURL:[NSURL URLWithString:str1] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
@@ -433,6 +458,9 @@ static NSString * const reuseIdentifier = @"Cell";
                 
             }else if(shopArray.count ==1){
                 UIImageView *image =[[UIImageView alloc]init];
+                image.contentMode= UIViewContentModeCenter;
+                image.clipsToBounds =YES;
+                image.backgroundColor =[UIColor lightGrayColor];
                 image.frame =CGRectMake(0, 0, cell.bgView.width, cell.bgView.width);
                 NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
                 [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];

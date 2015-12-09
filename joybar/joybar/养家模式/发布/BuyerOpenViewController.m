@@ -55,6 +55,7 @@
     _clcikBtn.titleLabel.font =[UIFont systemFontOfSize:15];
     [_clcikBtn addTarget:self action:@selector(btnClcik) forControlEvents:(UIControlEventTouchUpInside)];
     [self.navView addSubview:_clcikBtn];
+    [self.priceText becomeFirstResponder];
 
 }
 

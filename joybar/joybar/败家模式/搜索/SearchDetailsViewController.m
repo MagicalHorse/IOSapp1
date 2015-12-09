@@ -591,6 +591,25 @@
             [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr2[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.shopName.text = [self.searchArr2[indexPath.row]objectForKey:@"Nickname"];
             cell.addressLab.text =[self.searchArr2[indexPath.row]objectForKey:@"BrandName"];
+            
+            cell.guanzhuBtn.layer.cornerRadius =3;
+
+            BOOL isFavite =[[self.searchArr2[indexPath.row]objectForKey:@"IsFllowed"]boolValue];
+            if (isFavite) {
+                cell.guanzhuBtn.selected =YES;
+                cell.guanzhuBtn.backgroundColor =[UIColor whiteColor];
+                cell.guanzhuBtn.layer.borderWidth=1;
+                cell.guanzhuBtn.layer.borderColor =[UIColor lightGrayColor].CGColor;
+                [cell.guanzhuBtn setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+            }else{
+                cell.guanzhuBtn.selected =NO;
+                cell.guanzhuBtn.backgroundColor =[UIColor orangeColor];
+                [cell.guanzhuBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+
+            }
+            
+            [cell.guanzhuBtn addTarget:self action:@selector(guanzhuClick:) forControlEvents:UIControlEventTouchUpInside];
+            cell.guanzhuBtn.tag =indexPath.row +100;
             NSArray *array =[self.searchArr2[indexPath.row]objectForKey:@"Products"];
             cell.bgView.tag =indexPath.row +10;
             if (array.count>0) {
@@ -678,10 +697,10 @@
             [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr3[indexPath.row]objectForKey:@"StoreLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.shopName.text =[self.searchArr3[indexPath.row]objectForKey:@"StoreName"];
             cell.addressLab.text =[self.searchArr3[indexPath.row]objectForKey:@"StoreLocation"];
-            cell.juliView.text = [Public getDistanceWithLocation:[self.latitude doubleValue] and:[self.longitude doubleValue] and:[[self.searchArr3[indexPath.row]objectForKey:@"Lat"] doubleValue] and:[[self.searchArr3[indexPath.row]objectForKey:@"Lon"] doubleValue]];
+            NSString *tempJu= [Public getDistanceWithLocation:[self.longitude doubleValue] and:[self.latitude doubleValue] and:[[self.searchArr3[indexPath.row]objectForKey:@"Lat"] doubleValue] and:[[self.searchArr3[indexPath.row]objectForKey:@"Lon"] doubleValue]];
+            double juli =[tempJu doubleValue] *0.001;
+            cell.juliView.text = [NSString stringWithFormat:@"%.2fkm",juli];
         }
-
-        
         return cell;
     }
     
@@ -695,7 +714,45 @@
    
     return YES;
 }
+-(void)guanzhuClick:(UIButton *)btn{
+    BOOL tempState =[[self.searchArr2[btn.tag-100]objectForKey:@"IsFllowed"]boolValue];
+    NSString *buyerId =[self.searchArr2[btn.tag-100]objectForKey:@"UserId"];
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:buyerId forKey:@"FavoriteId"];
+    if (tempState)
+    {
+        [dic setValue:@"0" forKey:@"Status"];
+    }
+    else
+    {
+        [dic setValue:@"1" forKey:@"Status"];
+    }
+    [HttpTool postWithURL:@"User/Favoite" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            
+            if (tempState)
+            {
+                btn.selected = NO;
+            }
+            else
+            {
+                btn.selected = YES;
+            }
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+    }];
 
+    
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     

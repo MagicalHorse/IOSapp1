@@ -9,11 +9,6 @@
 #import "Store.h"
 
 @implementation Store
-+ (NSDictionary *)objectClassInArray
-{
-    return @{
-             @"Detail" : @"Detail",
-             };
-    
-}
+
+
 @end

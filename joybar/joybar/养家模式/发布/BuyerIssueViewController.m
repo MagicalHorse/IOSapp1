@@ -53,6 +53,7 @@
 @property (nonatomic,strong)UIButton *clBtn1;
 @property (nonatomic,strong)UIButton *clBtn2;
 @property (nonatomic,strong)UIButton *clBtn3;
+@property (nonatomic ,strong)Detail *detail;
 
 
 @end
@@ -127,17 +128,38 @@
         _clBtn1.hidden=NO;
     }
 }
+
+-(void)setDetailDataArrayData{
+    [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64-50];
+    NSMutableDictionary *dict =[NSMutableDictionary dictionary];
+    [dict setObject:self.productId forKey:@"ProductId"];
+    [HttpTool postWithURL:@"Product/ProductDetail" params:dict isWrite:NO success:^(id json) {
+        BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
+        if (isSuccessful) {
+            NSMutableArray *array =[[json objectForKey:@"data"] lastObject];
+            self.detail = [Detail objectWithKeyValues :array];
+            [self setInitView];
+
+        }else{
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self activityDismiss];
+    } failure:^(NSError *error) {
+        [self activityDismiss];
+        [self showHudFailed:@"服务器正在维护,请稍后再试"];
+    }];}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     count=0;
-    if (self.detail) {
+    if (self.IsUpateStore) {
         [self addNavBarViewAndTitle:@"修改商品"];
     }else{
         [self addNavBarViewAndTitle:@"发布商品"];
         self.retBtn.hidden =YES;
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
-    [self setInitView];
+    [self setDetailDataArrayData];
 }
 
 -(void) setInitView{
@@ -151,9 +173,6 @@
     self.customScrollView.backgroundColor =kCustomColor(241, 241, 241);
     self.customScrollView.delegate=self;
     [self.view addSubview:self.customScrollView];
-    
-    
-  
     
     //photoView
     self.photoView=  [[UIView alloc]initWithFrame:CGRectMake(0,12, customScrollViewW, 115)];
@@ -187,7 +206,7 @@
             self.btn1.image =self.image;
         }
     }
-    if (self.detail) {
+    if (self.IsUpateStore) {
         NSMutableArray *images =self.detail.Images;
         for (int i=0; i<images.count;i++) {
             [self.imagesArray setObject:images[i] forKey:@(i)];
@@ -301,7 +320,7 @@
     
     //发布按钮
     _footerBtn =[[UIButton alloc]initWithFrame:CGRectMake(0,kScreenHeight-50, kScreenWidth, 50)];
-    if (self.detail) {
+    if (self.IsUpateStore) {
         [_footerBtn setTitle:@"修改" forState:UIControlStateNormal];
 
     }else{
@@ -322,7 +341,7 @@
     [_footerBtn addTarget:self action:@selector(publicsh) forControlEvents:UIControlEventTouchUpInside];
     
     self.customScrollView.contentSize = CGSizeMake(0, self.addInfoBtn.bottom+50);
-    if (self.detail) {
+    if (self.IsUpateStore) {
         [self updateInfoView:self.detail];
         isPrice=YES;
 
@@ -574,7 +593,7 @@
     }
     
 
-    if (self.detail) {
+    if (self.IsUpateStore) {
         [self hudShow:@"正在修改"];
     }else{
         [self hudShow:@"正在发布"];
@@ -605,7 +624,7 @@
     
 
     NSString *tempUrl;
-    if (self.detail) {
+    if (self.IsUpateStore) {
         tempUrl =@"Product/Update";
         [dict setObject:self.productId forKey:@"Id"];
     }else{
@@ -616,7 +635,7 @@
     [HttpTool postWithURL:tempUrl params:parameters isWrite:YES success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            if (self.detail) {
+            if (self.IsUpateStore) {
                 [self showHudSuccess:@"修改成功"];
 
                 dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1*NSEC_PER_SEC);
@@ -644,7 +663,7 @@
     NSInteger i =btn.view.tag;
     switch (i) {
         case 1:
-            if (self.detail &&[self.imagesArray objectForKey:@(0)]){
+            if (self.IsUpateStore &&[self.imagesArray objectForKey:@(0)]){
                 Image *image;
                 if (![[self.imagesArray objectForKey:@(0)] isKindOfClass:[Image class]]){
                     NSDictionary *dict=[self.imagesArray objectForKey:@(0)];
@@ -678,7 +697,7 @@
             }
                 break;
         case 2:
-            if (self.detail&&[self.imagesArray objectForKey:@(1)]) {
+            if (self.IsUpateStore&&[self.imagesArray objectForKey:@(1)]) {
                 
                 Image *image =[[Image alloc]init];
                 if (![[self.imagesArray objectForKey:@(1)] isKindOfClass:[Image class]]){
@@ -716,7 +735,7 @@
           
             break;
         case 3:
-            if (self.detail &&[self.imagesArray objectForKey:@(2)]) {
+            if (self.IsUpateStore &&[self.imagesArray objectForKey:@(2)]) {
                 Image *image =[[Image alloc]init];
                 if (![[self.imagesArray objectForKey:@(2)] isKindOfClass:[Image class]]){
                     image.ImageUrl =[[self.imagesArray objectForKey:@(2)]objectForKey:@"ImageUrl"];
@@ -804,7 +823,8 @@
         [addBtn addTarget:self action:@selector(delInfoView:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:addBtn];
     }
-    if (self.detail &&isShow==1) {
+    if (self.IsUpateStore &&isShow==1) {
+        
         if (self.detail.Sizes.count>0) {
             DetailSize *size=self.detail.Sizes[0];
             _textField1.text =size.Name;
