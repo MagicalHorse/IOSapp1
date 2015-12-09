@@ -101,33 +101,6 @@
     }
     return _viewItems;
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    
-    [super viewWillAppear:animated];
-    if (self.btn2.image==nil) {
-        _titLable1.hidden=NO;
-         _clBtn2.hidden=YES;
-    }else{
-        _titLable1.hidden=YES;
-         _clBtn2.hidden=NO;
-    }
-    if(self.btn3.image ==nil){
-        _titLable2.hidden=NO;
-         _clBtn3.hidden=YES;
-    }else{
-        _titLable2.hidden=YES;
-         _clBtn3.hidden=NO;
-    }
-    
-    if(self.btn1.image ==nil){
-        _titLable.hidden=NO;
-        _clBtn1.hidden=YES;
-    }else{
-        _titLable.hidden=YES;
-        _clBtn1.hidden=NO;
-    }
-}
 
 -(void)setDetailDataArrayData{
     [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64-50];
@@ -136,7 +109,7 @@
     [HttpTool postWithURL:@"Product/ProductDetail" params:dict isWrite:NO success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            NSMutableArray *array =[[json objectForKey:@"data"] lastObject];
+            NSMutableArray *array =[json objectForKey:@"data"];
             self.detail = [Detail objectWithKeyValues :array];
             [self setInitView];
 
@@ -159,7 +132,11 @@
         self.retBtn.hidden =YES;
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
-    [self setDetailDataArrayData];
+    if (self.IsUpateStore) {
+        [self setDetailDataArrayData];
+    }else{
+        [self setInitView];
+    }
 }
 
 -(void) setInitView{
@@ -348,6 +325,30 @@
     }
     else{
         isPrice=NO;
+    }
+    if (self.IsUpateStore) {
+        if (self.btn2.image==nil) {
+            _titLable1.hidden=NO;
+            _clBtn2.hidden=YES;
+        }else{
+            _titLable1.hidden=YES;
+            _clBtn2.hidden=NO;
+        }
+        if(self.btn3.image ==nil){
+            _titLable2.hidden=NO;
+            _clBtn3.hidden=YES;
+        }else{
+            _titLable2.hidden=YES;
+            _clBtn3.hidden=NO;
+        }
+        
+        if(self.btn1.image ==nil){
+            _titLable.hidden=NO;
+            _clBtn1.hidden=YES;
+        }else{
+            _titLable.hidden=YES;
+            _clBtn1.hidden=NO;
+        }
     }
     
 }
