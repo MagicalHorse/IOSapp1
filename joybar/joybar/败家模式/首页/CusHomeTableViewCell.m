@@ -13,6 +13,7 @@
 #import "CusMoreBrandViewController.h"
 #import "CusRProDetailViewController.h"
 #import "CusZProDetailViewController.h"
+#import "CusMainStoreViewController.h"
 @implementation CusHomeTableViewCell
 {
     CGFloat cellHeight;
@@ -40,8 +41,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self)
     {
-        brandArr = [NSMutableArray array];
-        
         tempView = [[UIView alloc] initWithFrame:CGRectMake(5, 10, kScreenWidth-10, 100)];
         tempView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:tempView];
@@ -111,13 +110,27 @@
 -(void)setData:(NSDictionary *)dic andIndexPath:(NSIndexPath *)indexPath
 {
     infoDic = dic;
+    brandArr = [NSMutableArray array];
     [brandArr addObjectsFromArray: [dic objectForKey:@"Brands"]];
+    
+    NSLog(@"%@",brandArr);
     NSString *StoreLeave = [NSString stringWithFormat:@"%@",[dic objectForKey:@"StoreLeave"]];
     CGFloat tempViewHeight;
     if ([StoreLeave isEqualToString:@"8"])
     {
         //认证买手
-        tempViewHeight = (kScreenWidth-20)/3-10+180;
+//        tempViewHeight = (kScreenWidth-20)/3-10+180;
+//        
+//        //商场
+        if (brandArr.count>0)
+        {
+            tempViewHeight = (kScreenWidth-20)/3-10+180;
+        }
+        else
+        {
+            tempViewHeight = (kScreenWidth-20)/3-10+160;
+        }
+
     }
     else
     {
@@ -155,36 +168,17 @@
     nameLab.text = [dic objectForKey:@"Name"];
     
     
-    //认证买手
-    if ([StoreLeave isEqualToString:@"8"])
-    {
-        localImage.hidden = YES;
-        localLab.hidden = YES;
-        distanceLab.hidden = YES;
-        describeLab.hidden = NO;
-        //认证买手
-        describeLab.text = [dic objectForKey:@"Description"];
-        describeLab.frame = CGRectMake(imageView.right+5, nameLab.bottom+8, tempView.width-90, 40-13);
-    }
-    else
-    {
-        //商场
-        localImage.hidden = NO;
-        localLab.hidden = NO;
-        distanceLab.hidden = NO;
-        describeLab.hidden = YES;
-        
-        NSString *lat = [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
-        NSString *lon = [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
-        NSString *distance = [Public getDistanceWithLocation:[lat doubleValue] and:[lon doubleValue] and:[[dic objectForKey:@"Lat"] doubleValue] and:[[dic objectForKey:@"Lon"] doubleValue]];
-        distanceLab.text = [NSString stringWithFormat:@"%.1fKM",[distance floatValue]/1000];
-        localLab.text = [dic objectForKey:@"Location"];
-    }
     if (brandArr.count>0)
     {
         brandView.frame = CGRectMake(0, imageView.bottom+15, tempView.width, 20);
         lineView.frame = CGRectMake(10, brandView.bottom+5, tempView.width-20, 1);
-        proView.frame = CGRectMake(0, brandView.bottom+15, tempView.width, tempView.width/3-10);
+
+    }
+    else
+    {
+        brandView.frame = CGRectMake(0, imageView.bottom+15, tempView.width, 0);
+        lineView.frame = CGRectMake(10, brandView.bottom, tempView.width-20, 1);
+    }
         for (UIView *view in brandView.subviews)
         {
             [view removeFromSuperview];
@@ -230,7 +224,39 @@
                 beforeBtnWith = btnSize.width+beforeBtnWith;
             }
         }
+//    }
+    
+    //认证买手
+    if ([StoreLeave isEqualToString:@"8"])
+    {
+        localImage.hidden = YES;
+        localLab.hidden = YES;
+        distanceLab.hidden = YES;
+        describeLab.hidden = NO;
+        //认证买手
+        describeLab.text = [dic objectForKey:@"Description"];
+        describeLab.frame = CGRectMake(imageView.right+5, nameLab.bottom+8, tempView.width-90, 40-13);
+        proView.frame = CGRectMake(0, brandView.bottom+15, tempView.width, tempView.width/3-10+55);
+        
     }
+    else
+    {
+        //商场
+        localImage.hidden = NO;
+        localLab.hidden = NO;
+        distanceLab.hidden = NO;
+        describeLab.hidden = YES;
+        
+        NSString *lat = [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
+        NSString *lon = [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
+        NSString *distance = [Public getDistanceWithLocation:[lat doubleValue] and:[lon doubleValue] and:[[dic objectForKey:@"Lat"] doubleValue] and:[[dic objectForKey:@"Lon"] doubleValue]];
+        distanceLab.text = [NSString stringWithFormat:@"%.1fKM",[distance floatValue]/1000];
+        localLab.text = [dic objectForKey:@"Location"];
+        
+        proView.frame = CGRectMake(0, brandView.bottom+15, tempView.width, tempView.width/3-10);
+        
+    }
+
 
     for (UIView *view in proView.subviews)
     {
@@ -243,7 +269,6 @@
     {
         NSDictionary *proDic = [products objectAtIndex:i];
         UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(imageWidth*i+5*i+10, 0, imageWidth, imageWidth)];
-        //            proImage.backgroundColor = [UIColor orangeColor];
         [proImage sd_setImageWithURL:[NSURL URLWithString:[proDic objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         proImage.userInteractionEnabled = YES;
         proImage.tag = 10+i;
@@ -252,31 +277,33 @@
         UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickProView:)];
         [proImage addGestureRecognizer:proTap];
         
+        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, proImage.height/4*3, proImage.width, proImage.height/4)];
+        bgView.backgroundColor = [UIColor blackColor];
+        bgView.alpha =0.3;
+        [proImage addSubview:bgView];
+        
+        UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, proImage.width/2, proImage.height/4)];
+        price.textColor = [UIColor whiteColor];
+        price.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"Price"]];
+        price.font = [UIFont systemFontOfSize:14];
+        [bgView addSubview:price];
+        
+        UILabel *discountPrice = [[UILabel alloc] initWithFrame:CGRectMake(price.right, 2, proImage.width/2, proImage.height/4-2)];
+        discountPrice.textColor = [UIColor whiteColor];
+        discountPrice.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"UnitPrice"]];
+        discountPrice.font = [UIFont systemFontOfSize:11];
+        [bgView addSubview:discountPrice];
+        
+        CGSize size = [Public getContentSizeWith:discountPrice.text andFontSize:11 andHigth:proImage.height/4-2];
+        
+        UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, bgView.height/2, size.width, 1)];
+        line.backgroundColor = [UIColor whiteColor];
+        [discountPrice addSubview:line];
+
+        
         //认证买手
         if ([StoreLeave isEqualToString:@"8"])
         {
-            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, proImage.height/4*3, proImage.width, proImage.height/4)];
-            bgView.backgroundColor = [UIColor blackColor];
-            bgView.alpha =0.3;
-            [proImage addSubview:bgView];
-            
-            UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, proImage.width/2, proImage.height/4)];
-            price.textColor = [UIColor whiteColor];
-            price.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"Price"]];
-            price.font = [UIFont systemFontOfSize:14];
-            [bgView addSubview:price];
-            
-            UILabel *discountPrice = [[UILabel alloc] initWithFrame:CGRectMake(price.right, 2, proImage.width/2, proImage.height/4-2)];
-            discountPrice.textColor = [UIColor whiteColor];
-            discountPrice.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"UnitPrice"]];
-            discountPrice.font = [UIFont systemFontOfSize:11];
-            [bgView addSubview:discountPrice];
-            
-            CGSize size = [Public getContentSizeWith:discountPrice.text andFontSize:11 andHigth:proImage.height/4-2];
-            
-            UIView *line = [[UIView alloc]initWithFrame:CGRectMake(0, bgView.height/2, size.width, 1)];
-            line.backgroundColor = [UIColor whiteColor];
-            [discountPrice addSubview:line];
             
             UIImageView *buyerHeaderImage = [[UIImageView alloc] initWithFrame:CGRectMake(proImage.left, proImage.bottom+5, 40, 40)];
             buyerHeaderImage.clipsToBounds = YES;
@@ -335,7 +362,12 @@
 -(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
 {
     NSInteger i = tap.view.tag-100;
-    NSLog(@"%d",i);
+    NSArray *products = [infoDic objectForKey:@"Products"];
+    NSString *userId = [products[i] objectForKey:@"BuyerId"];
+    
+    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
+    VC.userId = userId;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 //点商品
@@ -346,7 +378,7 @@
     NSString *proId = [products[i] objectForKey:@"ProductId"];
     NSString *Userleave = [NSString stringWithFormat:@"%@",[products[i]objectForKey:@"Userleave"]];
 
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         
         //认证买手

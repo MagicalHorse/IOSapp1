@@ -145,7 +145,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *proId = [[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"ProductId"];
+    NSString *proId = [[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
 //    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
     CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
     VC.productId = proId;
@@ -168,7 +168,7 @@
 //    [tagImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
 //    [cell.contentView addSubview:tagImage];
     
-    float height = [[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"Ratio"] floatValue];
+    float height = [[[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
     
     [cell setCollectionData:[self.tagArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
 
@@ -181,7 +181,7 @@
     NSDictionary *dic = [self.tagArr objectAtIndex:indexPath.row];
     NSString *text = [dic objectForKey:@"Name"];
     CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
-    CGFloat itemH = (kScreenWidth-10)/2*[[dic objectForKey:@"Ratio"] floatValue]+size.height+35;
+    CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
 
     CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
     

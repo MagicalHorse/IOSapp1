@@ -18,7 +18,7 @@
     dataDic = dic;
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-15)/2, height)];
     //    imageView.backgroundColor = [self randomColor];
-    NSString *imgUrl = [NSString stringWithFormat:@"%@",[dic objectForKey:@"Pic"]];
+    NSString *imgUrl = [NSString stringWithFormat:@"%@",[[dic objectForKey:@"pic"] objectForKey:@"pic"]];
     imageView.clipsToBounds = YES;
     [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:imageView];
@@ -28,7 +28,7 @@
     [self.contentView addSubview:bgView];
     
     UILabel *nameLab = [[UILabel alloc] init];
-    nameLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ProductName"]];
+    nameLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"Name"]];
     nameLab.numberOfLines = 0;
     nameLab.font = [UIFont systemFontOfSize:13];
     CGSize size = [Public getContentSizeWith:nameLab.text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];

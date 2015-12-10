@@ -121,12 +121,22 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    if (indexPath.section==0)
+//    {
+//        return;
+//    }
+    NSString *cityName;
+    NSString *cityId;
     if (indexPath.section==0)
     {
-        return;
+        cityName = self.locationCityName;
+        cityId = self.locationCityId;
     }
-    NSString *cityName =[[self.cityArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
-    NSString *cityId = [[self.cityArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
+    else
+    {
+         cityName =[[self.cityArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
+         cityId = [[self.cityArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
+    }
     if(self.handleCityName)
     {
         self.handleCityName(cityName,cityId);

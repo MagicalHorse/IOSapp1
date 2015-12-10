@@ -312,10 +312,11 @@
 {
     LocationViewController *VC = [[LocationViewController alloc] init];
     VC.locationCityName = [self.localtionDic objectForKey:@"Name"];
+    VC.locationCityId = [self.localtionDic objectForKey:@"Id"];
     [self.navigationController pushViewController: VC animated:YES];
     VC.handleCityName = ^(NSString *cityName,NSString *cityId)
     {
-        [locationBtn setTitle:cityName forState:(UIControlStateNormal)];
+        [locationBtn setTitle:cityName 1forState:(UIControlStateNormal)];
         [[NSUserDefaults standardUserDefaults] setObject:cityId forKey:@"cityId"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self.homeTableView.dataArr removeAllObjects];

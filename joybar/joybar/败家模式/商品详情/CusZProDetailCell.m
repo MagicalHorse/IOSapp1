@@ -9,6 +9,7 @@
 #import "CusZProDetailCell.h"
 #import "ProductPicture.h"
 #import "DWTagList.h"
+#import "CusMainStoreViewController.h"
 @implementation CusZProDetailCell
 {
     UIPageControl *pageControl;
@@ -26,6 +27,7 @@
     NSString *colorStr;
     NSString *sizeStr;
     NSString *kuCunCount;
+    ProDetailData *detailData;
 }
 - (void)awakeFromNib {
     // Initialization code
@@ -33,6 +35,7 @@
 
 -(void)setDetailData:(ProDetailData *)proData andIndex:(NSIndexPath *)indexPath
 {
+    detailData = proData;
     labArr = [[NSMutableArray alloc] init];
     imageViewArr =[[NSMutableArray alloc] init];
     if (indexPath.section==0)
@@ -336,6 +339,7 @@
         circleBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [circleBtn setTitle:@"进圈" forState:(UIControlStateNormal)];
         [circleBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+        [circleBtn addTarget:self action:@selector(didClickToCircle) forControlEvents:(UIControlEventTouchUpInside)];
         [self.contentView addSubview:circleBtn];
     }
     else
@@ -474,7 +478,16 @@
     }
 }
 
+//点头像
 -(void)didCLickToStore
+{
+    CusMainStoreViewController *VC= [[CusMainStoreViewController alloc] init];
+    VC.userId =detailData.BuyerId;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
+}
+
+//进圈
+-(void)didClickToCircle
 {
     
 }

@@ -15,5 +15,6 @@ typedef void(^cityBlock)(NSString *cityName,NSString *cityId);
 @property (nonatomic ,strong) cityBlock handleCityName;
 
 @property (nonatomic ,strong) NSString *locationCityName;
+@property (nonatomic ,strong) NSString *locationCityId;
 
 @end
