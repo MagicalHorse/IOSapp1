@@ -103,7 +103,8 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.storeId forKey:@"StoreId"];
-    [dic setObject:[[Public getUserInfo] objectForKey:@"id"] forKey:@"userid"];
+    [dic setValue:[[Public getUserInfo] objectForKey:@"id"] forKey:@"userid"];
+    
     [dic setObject:[NSString stringWithFormat:@"%d",self.pageNum] forKey:@"Page"];
     [dic setObject:@"10" forKey:@"PageSize"];
     [dic setObject:@"7" forKey:@"SortType"];
