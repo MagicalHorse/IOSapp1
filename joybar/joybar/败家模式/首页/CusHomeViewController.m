@@ -316,7 +316,7 @@
     [self.navigationController pushViewController: VC animated:YES];
     VC.handleCityName = ^(NSString *cityName,NSString *cityId)
     {
-        [locationBtn setTitle:cityName 1forState:(UIControlStateNormal)];
+        [locationBtn setTitle:cityName forState:(UIControlStateNormal)];
         [[NSUserDefaults standardUserDefaults] setObject:cityId forKey:@"cityId"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self.homeTableView.dataArr removeAllObjects];
