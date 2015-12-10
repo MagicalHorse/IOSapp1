@@ -134,7 +134,7 @@
     }else if(type ==0){
         [dict setObject:@"0" forKey:@"Status"];
     }
-    [HttpTool postWithURL:@"Product/GetBuyerProductList" params:dict success:^(id json) {
+    [HttpTool postWithURL:@"Product/GetBuyerProductListV3" params:dict success:^(id json) {
         
         BOOL isSuccessful = [[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
@@ -290,7 +290,7 @@
     cusType=0;
     Store *st=[self.dataArray objectAtIndex:btn.tag];
     BuyerIssueViewController *issue =[[BuyerIssueViewController alloc]init];
-    issue.detail =st.Detail;
+    issue.IsUpateStore =YES;
     issue.productId =[st.ProductId stringValue];
     [self.navigationController pushViewController:
      issue animated:YES];

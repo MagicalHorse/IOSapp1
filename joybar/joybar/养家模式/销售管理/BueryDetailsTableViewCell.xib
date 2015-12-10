@@ -153,15 +153,18 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提货地址：" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Md4-Aq-GwX">
-                        <rect key="frame" x="20" y="354" width="75" height="18"/>
+                        <rect key="frame" x="20" y="348" width="75" height="18"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="海淀区 中关村  南大街6号中电信息大厦411" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="190" translatesAutoresizingMaskIntoConstraints="NO" id="jgp-wk-Ugn">
-                        <rect key="frame" x="119" y="344" width="186.5" height="38"/>
+                        <rect key="frame" x="119" y="348" width="186.5" height="38"/>
                         <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="38" id="riC-43-t5z"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -240,11 +243,15 @@
                     <constraint firstItem="55j-RY-KBt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Dap-jw-972"/>
                     <constraint firstAttribute="trailing" secondItem="spZ-sZ-vcj" secondAttribute="trailing" constant="8" id="F36-lO-cTu"/>
                     <constraint firstAttribute="trailing" secondItem="55j-RY-KBt" secondAttribute="trailing" id="Gb7-jE-Etd"/>
+                    <constraint firstItem="Md4-Aq-GwX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="HTp-ab-IkG"/>
                     <constraint firstAttribute="trailing" secondItem="rf1-Ee-IwN" secondAttribute="trailing" id="Hwx-RD-mSH"/>
                     <constraint firstItem="FUU-u8-VAF" firstAttribute="top" secondItem="QlF-zd-3fo" secondAttribute="bottom" constant="45" id="K65-75-tkT"/>
+                    <constraint firstItem="jgp-wk-Ugn" firstAttribute="top" secondItem="Ppe-4g-Abu" secondAttribute="bottom" constant="15" id="KaB-CC-jtT"/>
+                    <constraint firstItem="Md4-Aq-GwX" firstAttribute="top" secondItem="Ppe-4g-Abu" secondAttribute="bottom" constant="15" id="LLA-pz-IM6"/>
                     <constraint firstAttribute="trailing" secondItem="QlF-zd-3fo" secondAttribute="trailing" id="QCo-iU-wYx"/>
                     <constraint firstAttribute="trailing" secondItem="kg4-cq-GKP" secondAttribute="trailing" id="Qop-u2-efr"/>
                     <constraint firstItem="rf1-Ee-IwN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Sui-7E-jM7"/>
+                    <constraint firstItem="jgp-wk-Ugn" firstAttribute="leading" secondItem="Md4-Aq-GwX" secondAttribute="trailing" constant="24" id="VZR-4o-LW5"/>
                     <constraint firstItem="FUU-u8-VAF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="W8t-5t-Rk3"/>
                     <constraint firstItem="WQY-sH-UHu" firstAttribute="top" secondItem="atw-As-j3S" secondAttribute="bottom" constant="45.5" id="WRM-K8-Xdy"/>
                     <constraint firstItem="55j-RY-KBt" firstAttribute="top" secondItem="Ppe-4g-Abu" secondAttribute="bottom" constant="60" id="XL2-vv-Vkx"/>
@@ -270,6 +277,16 @@
                     <constraint firstAttribute="trailing" secondItem="cEz-7G-Z5c" secondAttribute="trailing" id="xDh-bB-KVV"/>
                     <constraint firstItem="QlF-zd-3fo" firstAttribute="top" secondItem="gLh-7o-fjh" secondAttribute="bottom" constant="45" id="ykg-8z-S5T"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="4TL-iR-52k"/>
+                        <exclude reference="bgk-pg-IDA"/>
+                        <exclude reference="c4q-tT-74V"/>
+                        <exclude reference="frL-TQ-A31"/>
+                        <exclude reference="ocO-zl-nXe"/>
+                        <exclude reference="w0p-Zh-dsL"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <animations/>
             <connections>
@@ -278,6 +295,7 @@
                 <outlet property="orderState" destination="VgR-7t-C4d" id="paq-2F-Xdd"/>
                 <outlet property="orderTime" destination="DD1-jv-rUE" id="mA5-7N-kpp"/>
                 <outlet property="ordertoPrice" destination="Ldd-N4-FfO" id="qYE-6y-ni0"/>
+                <outlet property="telBtn" destination="rf1-Ee-IwN" id="5SU-6n-hSf"/>
                 <outlet property="userAddress" destination="jgp-wk-Ugn" id="cn5-1h-JEd"/>
                 <outlet property="userNO" destination="z4L-Wr-JZB" id="1Ry-eW-2Dx"/>
                 <outlet property="userPhone" destination="DAP-Y9-SNA" id="d8K-es-VsH"/>
