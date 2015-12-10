@@ -24,6 +24,8 @@
 @property (nonatomic ,copy) NSString *NewProductCount;
 @property (nonatomic ,copy) NSString *ProductCount;
 @property (nonatomic ,copy) NSString *Logo;
+@property (nonatomic ,copy) NSString *SectionName;
+@property (nonatomic ,copy) NSString *StoreName;
 
 
 @end

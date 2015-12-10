@@ -60,8 +60,8 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     
-    UIView*bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 300-15)];
-    bgView.backgroundColor = [UIColor whiteColor];
+    UIView*bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 200)];
+    bgView.backgroundColor = [UIColor orangeColor];
     bgView.layer.shadowOpacity = 0.5;
     self.tableView.tableHeaderView = bgView;
     
@@ -93,41 +93,41 @@
     namelab.font = [UIFont systemFontOfSize:18];
     [bgView addSubview:namelab];
     
-    tempView = [[UIView alloc] init];
-    tempView.center = CGPointMake(kScreenWidth/2, self.bgImageView.bottom+43);
-    tempView.bounds = CGRectMake(0, 0, kScreenWidth-60, 70);
-    tempView.backgroundColor = [UIColor clearColor];
-    [bgView addSubview:tempView];
+//    tempView = [[UIView alloc] init];
+//    tempView.center = CGPointMake(kScreenWidth/2, self.bgImageView.bottom+43);
+//    tempView.bounds = CGRectMake(0, 0, kScreenWidth-60, 70);
+//    tempView.backgroundColor = [UIColor clearColor];
+//    [bgView addSubview:tempView];
     
-    NSArray *nameArr = @[@"关注",@"粉丝",@"圈子"];
-    NSArray *numArr ;
-    numArr = @[@"0",@"0",@"0"];
-    for (int i=0; i<3; i++)
-    {
-        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        btn.center = CGPointMake(tempView.width/3*i+tempView.width/6, 35);
-        btn.bounds = CGRectMake(0, 0, 70, 70);
-        btn.adjustsImageWhenHighlighted = NO;
-        [btn setImage:[UIImage imageNamed:@"圆.png"] forState:(UIControlStateNormal)];
-        btn.tag = 1000+i;
-        [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
-        [tempView addSubview:btn];
-        
-        UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 30, 13)];
-        numLab.font = [UIFont systemFontOfSize:12];
-        numLab.textColor = [UIColor darkGrayColor];
-        numLab.textAlignment = NSTextAlignmentCenter;
-        numLab.text = [numArr objectAtIndex:i];
-        numLab.tag = 100+i;
-        [btn addSubview:numLab];
-        
-        UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(20, numLab.bottom, 30, 20)];
-        nameLab.font = [UIFont systemFontOfSize:14];
-        nameLab.textColor = [UIColor grayColor];
-        nameLab.text = [nameArr objectAtIndex:i];
-        nameLab.textAlignment = NSTextAlignmentCenter;
-        [btn addSubview:nameLab];
-    }
+//    NSArray *nameArr = @[@"关注",@"粉丝",@"圈子"];
+//    NSArray *numArr ;
+//    numArr = @[@"0",@"0",@"0"];
+//    for (int i=0; i<3; i++)
+//    {
+//        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//        btn.center = CGPointMake(tempView.width/3*i+tempView.width/6, 35);
+//        btn.bounds = CGRectMake(0, 0, 70, 70);
+//        btn.adjustsImageWhenHighlighted = NO;
+//        [btn setImage:[UIImage imageNamed:@"圆.png"] forState:(UIControlStateNormal)];
+//        btn.tag = 1000+i;
+//        [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+//        [tempView addSubview:btn];
+//        
+//        UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, 30, 13)];
+//        numLab.font = [UIFont systemFontOfSize:12];
+//        numLab.textColor = [UIColor darkGrayColor];
+//        numLab.textAlignment = NSTextAlignmentCenter;
+//        numLab.text = [numArr objectAtIndex:i];
+//        numLab.tag = 100+i;
+//        [btn addSubview:numLab];
+//        
+//        UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(20, numLab.bottom, 30, 20)];
+//        nameLab.font = [UIFont systemFontOfSize:14];
+//        nameLab.textColor = [UIColor grayColor];
+//        nameLab.text = [nameArr objectAtIndex:i];
+//        nameLab.textAlignment = NSTextAlignmentCenter;
+//        [btn addSubview:nameLab];
+//    }
     
     UIButton *messageBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     messageBtn.frame = CGRectMake(kScreenWidth-50, 30, 64, 64);
@@ -177,7 +177,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return 5;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -218,14 +218,27 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     if (indexPath.row==1)
+    {
+        CusAttentionViewController *VC = [[CusAttentionViewController alloc] init];
+        VC.userId = [[Public getUserInfo] objectForKey:@"id"];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    if (indexPath.row==2)
+    {
+        CusBuyerCircleViewController *VC = [[CusBuyerCircleViewController alloc] init];
+        VC.userId = [[Public getUserInfo] objectForKey:@"id"];
+        
+        [self.navigationController pushViewController:VC animated:YES];
+
+    }
+    
+    if (indexPath.row==3)
     {
         CusCollectionViewController *VC = [[CusCollectionViewController alloc] init];
         [self.navigationController pushViewController:VC animated:YES];
     }
-    if (indexPath.row==2)
+    if (indexPath.row==4)
     {
         [self hudShow:@"正在加载"];
         [HttpTool postWithURL:@"User/CheckBuyerStatus" params:nil success:^(id json) {

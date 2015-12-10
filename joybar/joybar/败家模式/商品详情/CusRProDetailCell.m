@@ -8,16 +8,18 @@
 
 #import "CusRProDetailCell.h"
 #import "ProductPicture.h"
-
+#import "CusMainStoreViewController.h"
 @implementation CusRProDetailCell
 {
     UIPageControl *pageControl;
+    ProDetailData *detailData;
 }
 - (void)awakeFromNib {
     // Initialization code
 }
 -(void)setDetailData:(ProDetailData *)proData andIndex:(NSIndexPath *)indexPath
 {
+    detailData = proData;
     if (indexPath.section==0)
     {
         UIScrollView *imageScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth)];
@@ -163,7 +165,7 @@
         headerImage.userInteractionEnabled = YES;
         [self.contentView addSubview:headerImage];
         
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCLickToStore)];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickToStore)];
         [headerImage addGestureRecognizer:tap];
         
         UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(headerImage.right+10, headerImage.top+5, kScreenWidth, 20)];
@@ -192,6 +194,7 @@
         circleBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [circleBtn setTitle:@"进圈" forState:(UIControlStateNormal)];
         [circleBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+        [circleBtn addTarget:self action:@selector(didClickToCircle) forControlEvents:(UIControlEventTouchUpInside)];
         [self.contentView addSubview:circleBtn];
     }
     else
@@ -210,7 +213,16 @@
     [pageControl setCurrentPage:index];
 }
 
--(void)didCLickToStore
+-(void)didClickToStore
+{
+    NSLog(@"adasda");
+    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
+    VC.userId = detailData.BuyerId;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
+
+}
+
+-(void)didClickToCircle
 {
     
 }

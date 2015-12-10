@@ -129,6 +129,11 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"dasda");
+}
+
 -(void)getDetailData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];

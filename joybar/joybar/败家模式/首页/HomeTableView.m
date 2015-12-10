@@ -22,7 +22,7 @@
         self.dataArr = [NSMutableArray array];
         self.delegate = self;
         self.dataSource = self;
-        self.separatorStyle = UITableViewCellSelectionStyleNone;
+//        self.separatorStyle = UITableViewCellSelectionStyleNone;
 
     }
     return self;
@@ -56,16 +56,33 @@
 {
     if (self.dataArr.count>0)
     {
+        
+        NSDictionary *dic =[self.dataArr objectAtIndex:indexPath.row];
+        NSArray *arr = [dic objectForKey:@"Brands"];
+//        NSMutableArray *arr = [NSMutableArray arrayWithArray:[self.dataArr[indexPath.row] objectForKey:@"Brands"]];
+//        NSArray *arr =[self.dataArr[indexPath.row] objectForKey:@"Brands"];
+        
         NSString *StoreLeave = [NSString stringWithFormat:@"%@",[self.dataArr[indexPath.row] objectForKey:@"StoreLeave"]];
         if ([StoreLeave isEqualToString:@"8"])
         {
             //认证买手
-            return (kScreenWidth-20)/3-10+190;
+//            return (kScreenWidth-20)/3-10+190;
+//            
+//            //商场
+            if (arr.count>0)
+            {
+                return (kScreenWidth-20)/3-10+190;
+            }
+            else
+            {
+                return (kScreenWidth-20)/3-10+170;
+            }
+
         }
         else
         {
             //商场
-            if ([[self.dataArr[indexPath.row] objectForKey:@"Brands"] count]>0)
+            if (arr.count>0)
             {
                 return (kScreenWidth-20)/3-10+150;
             }

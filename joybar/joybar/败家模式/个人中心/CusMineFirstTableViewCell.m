@@ -90,7 +90,7 @@
         line.backgroundColor = [UIColor lightGrayColor];
         [self.contentView addSubview:line];
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        NSArray *arr = @[@"我的收藏",@"我要养家"];
+        NSArray *arr = @[@"我的关注",@"我的圈子",@"我的收藏",@"我要养家"];
         self.textLabel.text = [arr objectAtIndex:indexPath.row-1];
         self.textLabel.font = [UIFont systemFontOfSize:14];
     }
