@@ -27,6 +27,7 @@
 #import "CusRProDetailViewController.h"
 #import "CusHomeStoreViewController.h"
 #import "CusMainStoreViewController.h"
+#import "BannerViewController.h"
 @interface CusHomeViewController ()<UIScrollViewDelegate,YRADScrollViewDataSource,YRADScrollViewDelegate,CLLocationManagerDelegate,MKReverseGeocoderDelegate>
 
 @property (nonatomic ,strong) HomeTableView *homeTableView;
@@ -140,7 +141,6 @@
             headerScroll.delegate = self;
             //    adScrollView.cycleEnabled = NO;//如果设置为NO，则关闭循环滚动功能。
             [headerView addSubview:headerScroll];
-//            self.subjectArr = @[@"",@"",@"",@"",@""];
 
             UIScrollView *subjectScroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, headerScroll.bottom, kScreenWidth, kScreenWidth/4)];
             subjectScroll.contentSize = CGSizeMake(self.subjectArr.count*(kScreenWidth/4+10), kScreenWidth/4);
@@ -149,14 +149,22 @@
             subjectScroll.alwaysBounceHorizontal = YES;
             subjectScroll.pagingEnabled = YES;
             subjectScroll.showsHorizontalScrollIndicator = NO;
+            subjectScroll.contentSize = CGSizeMake(self.subjectArr.count*(kScreenWidth/4-10), 0);
             [headerView addSubview:subjectScroll];
             
             for (int i=0; i<self.subjectArr.count; i++)
             {
                 UIImageView *subImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5+(kScreenWidth/4-10+5)*i, subjectScroll.top+5, kScreenWidth/4-10, kScreenWidth/4-10)];
                 subImageView.layer.cornerRadius = subImageView.width/2;
+                subImageView.layer.masksToBounds = YES;
                 subImageView.backgroundColor = [UIColor orangeColor];
+                [subImageView sd_setImageWithURL:[NSURL URLWithString:[self.subjectArr[i] objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+                subImageView.tag = 100+i;
+                subImageView.userInteractionEnabled = YES;
                 [subjectScroll addSubview:subImageView];
+                
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickSubject:)];
+                [subImageView addGestureRecognizer:tap];
             }
 
             if (bannerList.count>0&&self.subjectArr.count>0)
@@ -328,7 +336,6 @@
 //定位代理经纬度回调
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-
     [_locationManager stopUpdatingLocation];
     NSLog(@"location ok");
     
@@ -395,6 +402,16 @@
     {
         [self.locationManager startUpdatingLocation];
     }
+}
+
+-(void)didClickSubject:(UITapGestureRecognizer *)tap
+{
+    
+    NSString *url = [[self.subjectArr objectAtIndex:tap.view.tag-100] objectForKey:@"Link"];
+    BannerViewController *VC = [[BannerViewController alloc] init];
+    VC.link = url;
+    
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 @end

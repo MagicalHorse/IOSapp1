@@ -64,7 +64,6 @@
         
         timer3 = [[MZTimerLabel alloc] initWithLabel:timeLab andTimerType:MZTimerLabelTypeTimer];
         timer3.delegate = self;
-        [timer3 start];
         
         nameLab = [[UILabel alloc] initWithFrame:CGRectMake(imageView.right+5, imageView.top+5, tempView.width-90-120, 20)];
         nameLab.font = [UIFont systemFontOfSize:16];
@@ -166,7 +165,8 @@
         showLab.text = @" 距离开始 :";
     }
     nameLab.text = [dic objectForKey:@"Name"];
-    
+    [timer3 start];
+
     
     if (brandArr.count>0)
     {
@@ -337,7 +337,27 @@
 
 -(void)timerLabel:(MZTimerLabel*)timerLabel finshedCountDownTimerWithTime:(NSTimeInterval)countTime
 {
-    [timer3 setCountDownTime:3];
+    //如果IsStart=true  则是剩余结束时间，否则是剩余开始时间
+    BOOL IsStart = [[infoDic objectForKey:@"IsStart"] boolValue];
+    //营业时长（秒）
+    NSInteger BusinessTime = [[infoDic objectForKey:@"BusinessTime"] intValue];
+    //剩余时长（秒）
+    NSInteger RemainTime = [[infoDic objectForKey:@"RemainTime"] intValue];
+
+    if (IsStart)
+    {
+        IsStart = 0;
+        [timer3 setCountDownTime:BusinessTime];
+        showLab.text = @" 距离开始 :";
+
+    }
+    else
+    {
+        [timer3 setCountDownTime:RemainTime];
+        IsStart = 1;
+        showLab.text = @" 距离结束 :";
+
+    }
     [timer3 start];
 }
 
@@ -354,7 +374,7 @@
 {
     CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
     VC.BrandId = [brandArr[btn.tag-100] objectForKey:@"BrandId"];
-    VC.BrandId = [brandArr[btn.tag-100] objectForKey:@"BrandName"];
+    VC.BrandName = [brandArr[btn.tag-100] objectForKey:@"BrandName"];
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
@@ -380,12 +400,10 @@
 
     if ([Userleave isEqualToString:@"8"])
     {
-        
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
         VC.productId = proId;
         [self.viewController.navigationController pushViewController:VC animated:YES];
-
     }
     else
     {
@@ -393,7 +411,6 @@
         VC.productId = proId;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
-    
 }
 
 @end

@@ -32,6 +32,10 @@
 @property (nonatomic ,copy) NSString *IsJoinDeiscount;
 @property (nonatomic ,copy) NSString *VipDiscount;
 
+@property (nonatomic ,copy) NSString *BusinessTime;
+@property (nonatomic ,copy) NSString *IsStart;
+@property (nonatomic ,copy) NSString *RemainTime;
+
 @property (nonatomic ,strong)NSMutableArray *ProductPic;
 @property (nonatomic ,strong) ProDetailPromotion *Promotion;
 
