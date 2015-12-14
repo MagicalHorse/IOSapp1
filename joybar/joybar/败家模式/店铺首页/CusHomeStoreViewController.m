@@ -50,9 +50,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self.dataSource removeAllObjects];
     NSLog(@"%@",self.userId);
-    
     [self getData];
 
 }

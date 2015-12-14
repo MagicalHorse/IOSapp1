@@ -103,6 +103,7 @@
     
     //商场
     VC.storeId = [dic objectForKey:@"StoreId"];
+    VC.titleName = [dic objectForKey:@"StoreName"];
     
     [self.viewController.navigationController pushViewController:VC animated:YES];
 //    if (self.dataArr.count==0)

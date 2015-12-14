@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.brandArr = [NSMutableArray array];
-    [self addNavBarViewAndTitle:@"品牌名"];
+    [self addNavBarViewAndTitle:self.titleName];
     self.pageNum = 1;
     self.proArr = [NSMutableArray array];
     layout = [[CHTCollectionViewWaterfallLayout alloc] init];
