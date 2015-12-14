@@ -101,7 +101,7 @@
                 <outlet property="lineView" destination="DVc-rW-r8Q" id="AFf-5J-DqF"/>
                 <outlet property="shopName" destination="qJp-UM-iNi" id="ity-l9-1Us"/>
             </connections>
-            <point key="canvasLocation" x="168" y="183"/>
+            <point key="canvasLocation" x="227" y="97"/>
         </tableViewCell>
     </objects>
 </document>
