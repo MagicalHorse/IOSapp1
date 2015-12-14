@@ -758,12 +758,13 @@
         
 
         CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
-        mainStore.userId =[self.searchArr2[indexPath.row]objectForKey:@"userId"];
+        mainStore.userId =[self.searchArr2[indexPath.row]objectForKey:@"UserId"];
         [self.navigationController pushViewController:mainStore animated:YES];
     
     }else if(type ==4){
         CusMarketViewController *VC = [[CusMarketViewController alloc] init];
         //商场
+        VC.titleName =[self.searchArr3[indexPath.row]objectForKey:@"StoreName"];
         VC.storeId = [self.searchArr3[indexPath.row] objectForKey:@"StoreId"];
         [self.navigationController pushViewController:VC animated:YES];
     }
