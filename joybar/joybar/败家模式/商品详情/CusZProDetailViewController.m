@@ -201,7 +201,7 @@
 -(void)getDetailData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:self.productId forKey:@"productId"];
+    [dic setValue:self.productId forKey:@"productId"];
     NSString *userId =[[Public getUserInfo] objectForKey:@"id"];
     if (userId)
     {
