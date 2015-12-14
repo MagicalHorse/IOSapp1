@@ -22,7 +22,7 @@
     self.shopBtn2 =[[UIImageView alloc]initWithFrame:CGRectMake(2*w+15, self.lineView.bottom+10 , w, h)];
     self.shopBtn2.userInteractionEnabled=YES;
  
-    
+    self.guanzhuBtn.layer.cornerRadius =3;
     [self.bgView addSubview:self.shopBtn];
     [self.bgView addSubview:self.shopBtn1];
     [self.bgView addSubview:self.shopBtn2];

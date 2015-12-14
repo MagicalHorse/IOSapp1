@@ -225,6 +225,24 @@
         find.serachText =textField.text;
         find.latitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
         find.longitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
+        NSMutableDictionary * temp =[NSMutableDictionary dictionary];
+        
+        for (NSString * str in self.searchArr.allValues) {
+            if ([textField.text isEqualToString:str]) {
+                find.serachText = searchText.text;
+                [self.navigationController pushViewController:find animated:YES];
+                return YES;
+            }
+        }
+        
+        [temp setValue:textField.text forKey:@"0"];
+        for (int i=0; i<self.searchArr.count; i++) {
+            if (i ==9) {
+                break;
+            }
+            [temp setValue:[self.searchArr objectForKey:[NSString stringWithFormat:@"%d",i]] forKey:[NSString stringWithFormat:@"%d",i+1]];
+        }
+        [self initsearchArr: temp];
         [self.navigationController pushViewController:find animated:YES];
         
     }else{

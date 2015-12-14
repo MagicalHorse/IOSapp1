@@ -13,6 +13,7 @@
 #import "CusBueryTableViewCell.h"
 #import "CusZProDetailViewController.h"
 #import "CusRProDetailViewController.h"
+#import "CusMainStoreViewController.h"
 
 @interface FindShopGuideViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,
 UITableViewDataSource,UITableViewDelegate>
@@ -23,6 +24,8 @@ UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,strong)NSMutableArray *cusDataArray; //关注
 @property (nonatomic ,strong) UIScrollView *messageScroll;
 @property (nonatomic ,assign) NSInteger pageNum;
+@property (nonatomic ,assign) NSInteger pageNumScroll;
+
 
 
 @end
@@ -33,6 +36,7 @@ static NSString * const reuseIdentifier = @"Cell";
     BOOL isRefresh;
     BOOL isRefresh1;
     int type;
+    CGFloat contentOffsetX;
 }
 -(NSMutableArray *)dataArray{
     if (_dataArray ==nil) {
@@ -47,28 +51,33 @@ static NSString * const reuseIdentifier = @"Cell";
     return _cusDataArray;
 }
 
-
 -(void)setData{
     
     if (isRefresh) {
         [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64];
     }
+    
  
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
-    [dict setValue:[NSString stringWithFormat:@"%d",1] forKey:@"Page"];
-    [dict setObject:@"20" forKey:@"Pagesize"];
-
+    [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNumScroll] forKey:@"Page"];
+    [dict setObject:@"6" forKey:@"Pagesize"];
+    
     [HttpTool postWithURL:@"BuyerV3/RecommondBuyerlist" params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"Buyers"];
-            self.dataArray =array;
             isRefresh=NO;
-            [self.cusCollectView reloadData];
+            NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"Buyers"];
+            
+            
+            
+            [self.dataArray addObjectsFromArray:array];
+            
+            
             
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self.cusCollectView reloadData];
         [self activityDismiss];
         
     } failure:^(NSError *error) {
@@ -99,7 +108,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.retBtn.hidden = YES;
     isRefresh=YES;
     isRefresh1=YES;
-
+    contentOffsetX=0;
     type=1;
     tempView = [[UIView alloc] initWithFrame:CGRectMake(75, 0, kScreenWidth-150, 64)];
     tempView.backgroundColor = [UIColor clearColor];
@@ -181,6 +190,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.tableView.backgroundColor =kCustomColor(228, 234, 238);
     
     self.pageNum=1;
+    self.pageNumScroll=1;
     self.tableView.tableFooterView =[[UIView alloc]init];
     __weak FindShopGuideViewController *VC = self;
     self.tableView.headerRereshingBlock = ^()
@@ -271,6 +281,7 @@ static NSString * const reuseIdentifier = @"Cell";
         [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.cusDataArray[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.shopName.text = [self.cusDataArray[indexPath.row]objectForKey:@"Nickname"];
         cell.addressLab.text =[self.cusDataArray[indexPath.row]objectForKey:@"BrandName"];
+        [cell.guanzhuBtn addTarget:self action:@selector(guanzhuTClick:) forControlEvents:UIControlEventTouchUpInside];
         cell.bgView.tag =indexPath.row+10;
         NSArray *array =[self.cusDataArray[indexPath.row]objectForKey:@"Products"];
         if (array.count>0) {
@@ -347,38 +358,67 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 //定义展示的UICollectionViewCell的个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-   
     return self.dataArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+    CGFloat w =0;
+    if (kScreenWidth ==320) {
+        w =122.5;
+    }else if(kScreenWidth ==375){
+        w =150;
+    }else{
+        w =170;
+    }
     HJCarouselViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.backgroundColor =[UIColor whiteColor];
     [[cell layer]setCornerRadius:8];
     if (self.dataArray.count>0) {
         NSString * temp =[NSString stringWithFormat:@"%@",[self.dataArray[indexPath.row] objectForKey:@"Logo"]];
         [cell.ShopView sd_setImageWithURL:[NSURL URLWithString:temp] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+        UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didHeadViewClick:)];
+        [cell.ShopView addGestureRecognizer:proTap];
+        
+        proTap.view.tag =[[self.dataArray[indexPath.row]objectForKey:@"BuyerId"] integerValue] ;
+
         cell.addressView.text =[self.dataArray[indexPath.row]objectForKey:@"StoreName"];
         cell.addreView.text =[self.dataArray[indexPath.row]objectForKey:@"Address"];
         cell.nameView.text =[self.dataArray[indexPath.row]objectForKey:@"BrandName"];
+        BOOL isFavite =[[self.dataArray[indexPath.row]objectForKey:@"IsFavorite"]boolValue];
+        if (isFavite) {
+            cell.guanzhuView.selected =YES;
+            cell.guanzhuView.backgroundColor =[UIColor lightGrayColor];
+            [cell.guanzhuView setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+            [cell.guanzhuView setTitle:@"已关注" forState:UIControlStateSelected];
+        }else{
+            cell.guanzhuView.selected =NO;
+            cell.guanzhuView.backgroundColor =[UIColor orangeColor];
+            [cell.guanzhuView setTitle:@"关注" forState:UIControlStateNormal];
+            [cell.guanzhuView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+        [cell.guanzhuView addTarget:self action:@selector(guanzhuClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.guanzhuView.tag =indexPath.row +100;
+        cell.bgView.tag =indexPath.row+10;
         NSArray *shopArray =[self.dataArray[indexPath.row]objectForKey:@"Products"];
         if (shopArray.count>0) {
             for (UIView *view in cell.bgView.subviews) {
                 [view removeFromSuperview];
             }
             if (shopArray.count ==4) {
-                
                 UIImageView *image =[[UIImageView alloc]init];
-                image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.width-5)*0.5);
+                image.frame =CGRectMake(0, 0, w, w);
+                image.userInteractionEnabled =YES;
                 image.contentMode= UIViewContentModeCenter;
                 image.clipsToBounds =YES;
                 image.backgroundColor =[UIColor lightGrayColor];
                 NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
+                
                 [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image];
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
+                image1.userInteractionEnabled =YES;
                 image1.contentMode= UIViewContentModeCenter;
                 image1.clipsToBounds =YES;
                 image1.backgroundColor =[UIColor lightGrayColor];
@@ -388,6 +428,7 @@ static NSString * const reuseIdentifier = @"Cell";
                 [cell.bgView addSubview:image1];
                 
                 UIImageView *image2 =[[UIImageView alloc]init];
+                image2.userInteractionEnabled =YES;
                 image2.contentMode= UIViewContentModeCenter;
                 image2.clipsToBounds =YES;
                 image2.backgroundColor =[UIColor lightGrayColor];
@@ -397,6 +438,7 @@ static NSString * const reuseIdentifier = @"Cell";
                 [cell.bgView addSubview:image2];
                 
                 UIImageView *image3 =[[UIImageView alloc]init];
+                image3.userInteractionEnabled =YES;
                 image3.contentMode= UIViewContentModeCenter;
                 image3.clipsToBounds =YES;
                 image3.backgroundColor =[UIColor lightGrayColor];
@@ -405,19 +447,38 @@ static NSString * const reuseIdentifier = @"Cell";
                 [image3 sd_setImageWithURL:[NSURL URLWithString:str3] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image3];
                 
+                UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didProViewClick:)];
+                [image addGestureRecognizer:proTap];
+                proTap.view.tag =[[shopArray[0]objectForKey:@"ProductId"] integerValue];
+                
+                UITapGestureRecognizer *proTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ProViewClick:)];
+                [image1 addGestureRecognizer:proTap1];
+                proTap1.view.tag =[[shopArray[1]objectForKey:@"ProductId"] integerValue];
+                
+                UITapGestureRecognizer *proTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did2ProViewClick:)];
+                [image2 addGestureRecognizer:proTap2];
+                 proTap2.view.tag =[[shopArray[2] objectForKey:@"ProductId"] integerValue];
+                
+                UITapGestureRecognizer *proTap3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did3ProViewClick:)];
+                [image3 addGestureRecognizer:proTap3];
+                proTap3.view.tag =[[shopArray[3]objectForKey:@"ProductId"] integerValue];
+                
                 
             }else if(shopArray.count ==3){
                 UIImageView *image =[[UIImageView alloc]init];
+                image.userInteractionEnabled =YES;
+
                 image.contentMode= UIViewContentModeCenter;
                 image.clipsToBounds =YES;
                 image.backgroundColor =[UIColor lightGrayColor];
 
-                image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.width-5)*0.5);
+                image.frame =CGRectMake(0, 0, w, w);
                 NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
                 [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image];
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
+                image1.userInteractionEnabled =YES;
                 image1.contentMode= UIViewContentModeCenter;
                 image1.clipsToBounds =YES;
                 image1.backgroundColor =[UIColor lightGrayColor];
@@ -427,27 +488,44 @@ static NSString * const reuseIdentifier = @"Cell";
                 [cell.bgView addSubview:image1];
                 
                 UIImageView *image2 =[[UIImageView alloc]init];
+                image2.userInteractionEnabled =YES;
+
                 image2.contentMode= UIViewContentModeCenter;
                 image2.clipsToBounds =YES;
                 image2.backgroundColor =[UIColor lightGrayColor];
-                image2.frame =CGRectMake((cell.bgView.width-image.width)*0.5, image.bottom+5, image.width,image.height);
+                image2.frame =CGRectMake((w-image.width)*0.5, image.bottom+5, image.width,image.height);
                 NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
                 [image2 sd_setImageWithURL:[NSURL URLWithString:str2] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image2];
+                
+                UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didProViewClick:)];
+                [image addGestureRecognizer:proTap];
+                proTap.view.tag =[[shopArray[0]objectForKey:@"ProductId"] integerValue];
+                
+                UITapGestureRecognizer *proTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ProViewClick:)];
+                [image1 addGestureRecognizer:proTap1];
+                proTap1.view.tag =[[shopArray[1]objectForKey:@"ProductId"] integerValue];
+                
+                UITapGestureRecognizer *proTap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did2ProViewClick:)];
+                [image2 addGestureRecognizer:proTap2];
+                proTap2.view.tag =[[shopArray[2] objectForKey:@"ProductId"] integerValue];
                 
                 
             }else if(shopArray.count ==2){
                 
                 UIImageView *image =[[UIImageView alloc]init];
+                image.userInteractionEnabled =YES;
+
                 image.contentMode= UIViewContentModeCenter;
                 image.clipsToBounds =YES;
                 image.backgroundColor =[UIColor lightGrayColor];
-                image.frame =CGRectMake(0, 0, (cell.bgView.width-5)*0.5, (cell.bgView.height)*1);
+                image.frame =CGRectMake(0, 0, w, w*2);
                 NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
                 [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image];
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
+                image1.userInteractionEnabled =YES;
                 image1.contentMode= UIViewContentModeCenter;
                 image1.clipsToBounds =YES;
                 image1.backgroundColor =[UIColor lightGrayColor];
@@ -455,16 +533,32 @@ static NSString * const reuseIdentifier = @"Cell";
                 NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
                 [image1 sd_setImageWithURL:[NSURL URLWithString:str1] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image1];
+                UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didProViewClick:)];
+                [image addGestureRecognizer:proTap];
+                proTap.view.tag =[[shopArray[0]objectForKey:@"ProductId"] integerValue];
+                
+                UITapGestureRecognizer *proTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ProViewClick:)];
+                [image1 addGestureRecognizer:proTap1];
+                proTap1.view.tag =[[shopArray[1]objectForKey:@"ProductId"] integerValue];
+                
+                
+                
                 
             }else if(shopArray.count ==1){
                 UIImageView *image =[[UIImageView alloc]init];
+                image.userInteractionEnabled =YES;
                 image.contentMode= UIViewContentModeCenter;
                 image.clipsToBounds =YES;
                 image.backgroundColor =[UIColor lightGrayColor];
-                image.frame =CGRectMake(0, 0, cell.bgView.width, cell.bgView.width);
+                image.frame =CGRectMake(0, 0, (w+5)*2, (w+5)*2);
                 NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
                 [image sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.bgView addSubview:image];
+                UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didProViewClick:)];
+                [image addGestureRecognizer:proTap];
+                proTap.view.tag =[[shopArray[0]objectForKey:@"ProductId"] integerValue];
+                
+               
             }
             
         }
@@ -472,6 +566,7 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 
 }
+
 
 -(void)didSelect:(UITapGestureRecognizer *)tap
 {
@@ -527,6 +622,84 @@ static NSString * const reuseIdentifier = @"Cell";
     lab1.textColor = [UIColor grayColor];
     lab1.font = [UIFont systemFontOfSize:15];
     
+}
+-(void)didProViewClick:(UITapGestureRecognizer *)tap{
+    
+    NSInteger tag= [tap.view superview].tag-10;
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.dataArray[tag]objectForKey:@"UserLevel"]];
+    if ([Userleave isEqualToString:@"4"])
+    {
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
+}
+-(void)did1ProViewClick:(UITapGestureRecognizer *)tap{
+    
+    NSInteger tag= [tap.view superview].tag-10;
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.dataArray[tag]objectForKey:@"UserLevel"]];
+    if ([Userleave isEqualToString:@"4"])
+    {
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
+}
+-(void)did2ProViewClick:(UITapGestureRecognizer *)tap{
+    
+    NSInteger tag= [tap.view superview].tag-10;
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.dataArray[tag]objectForKey:@"UserLevel"]];
+    if ([Userleave isEqualToString:@"4"])
+    {
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+}
+-(void)did3ProViewClick:(UITapGestureRecognizer *)tap{
+    
+    NSInteger tag= [tap.view superview].tag-10;
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.dataArray[tag]objectForKey:@"UserLevel"]];
+    if ([Userleave isEqualToString:@"4"])
+    {
+        //认证买手
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
 }
 
 -(void)did1ClickProView:(UITapGestureRecognizer *)tap{
@@ -588,5 +761,98 @@ static NSString * const reuseIdentifier = @"Cell";
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
+
+-(void)guanzhuClick:(UIButton *)btn{
+    NSString *buyerId =[self.dataArray[btn.tag-100]objectForKey:@"BuyerId"];
+    BOOL tempState =[[self.dataArray[btn.tag-100]objectForKey:@"IsFavorite"]boolValue];
+
+ 
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    if (tempState)
+    {
+        
+        [dic setValue:@"0" forKey:@"Status"];
+    }
+    else
+    {
+        [dic setValue:@"1" forKey:@"Status"];
+    }
+    [dic setValue:buyerId forKey:@"FavoriteId"];
+    
+    [HttpTool postWithURL:@"User/Favoite" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            
+            if (tempState)
+            {
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag-100]];
+                [dic setObject:@"0" forKey:@"IsFavorited"];
+                [self.dataArray removeObject:self.dataArray[btn.tag-100]];
+                [self.dataArray insertObject:dic atIndex:btn.tag-100];                btn.selected =NO;
+           
+            }
+            else
+            {
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag-100]];
+                [dic setObject:@"1" forKey:@"IsFavorited"];
+                [self.dataArray removeObject:self.dataArray[btn.tag-100]];
+                [self.dataArray insertObject:dic atIndex:btn.tag-100];
+                btn.selected = YES;
+               
+            }
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self.cusCollectView reloadData];
+        
+    } failure:^(NSError *error) {
+    }];
+    
+    
+}
+-(void)didHeadViewClick:(UITapGestureRecognizer *)btn{
+    CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
+    mainStore.userId =[NSString stringWithFormat:@"%ld",btn.view.tag];
+    [self.navigationController pushViewController:mainStore animated:YES];
+}
+- (NSIndexPath *)curIndexPath {
+    NSArray *indexPaths = [self.cusCollectView indexPathsForVisibleItems];
+    NSIndexPath *curIndexPath = nil;
+    NSInteger curzIndex = 0;
+    for (NSIndexPath *path in indexPaths.objectEnumerator) {
+        UICollectionViewLayoutAttributes *attributes = [self.cusCollectView layoutAttributesForItemAtIndexPath:path];
+        if (!curIndexPath) {
+            curIndexPath = path;
+            curzIndex = attributes.zIndex;
+            continue;
+        }
+        if (attributes.zIndex > curzIndex) {
+            curIndexPath = path;
+            curzIndex = attributes.zIndex;
+        }
+    }
+    return curIndexPath;
+}
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+  
+    CGFloat contentOffsetPoint = scrollView.contentOffset.x;
+    if (contentOffsetPoint>contentOffsetX) {
+        contentOffsetX=contentOffsetPoint;
+        NSIndexPath *indexPath =[self curIndexPath];
+        int index =(int)indexPath.row+1;
+        if (index %3==0&&indexPath.row!=0)
+        {
+            self.pageNumScroll =index/3+1;
+            [self setData];
+        }
+    }
+   
+   
+    
+}
+
 
 @end

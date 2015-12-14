@@ -34,10 +34,6 @@
     UITextField *searchText;
     int type;
     BOOL isRefresh;
-    BOOL isRefresh1;
-    BOOL isRefresh2;
-    BOOL isRefresh3;
-
 }
 
 
@@ -68,19 +64,20 @@
 
 -(void)setData{
     if (searchText.text.length==0) {
-        [HUD showHudFailed:@"请输入搜索关键字"];
-        return;
+        
+        searchText.text =@"";
     }
     
-    if (isRefresh ||isRefresh1||isRefresh2||isRefresh3) {
+    if (isRefresh) {
         [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
+    }else{
+        [self hudShow:@"正在加载"];
     }
     
     NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     NSString *url;
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
-//    [dict setObject:searchText.text forKey:@"key"];
-    [dict setObject:@"" forKey:@"key"];
+    [dict setObject:searchText.text forKey:@"key"];
 
     [dict setObject:self.cityId forKey:@"ciryId"];
     if (self.storeId) {
@@ -117,7 +114,6 @@
         if (isSuccessful) {
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
             if (type==1) {
-                isRefresh =NO;
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -133,7 +129,6 @@
                 }
                 
             }else if(type ==2){
-                isRefresh1 =NO;
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -149,7 +144,6 @@
                 }
 
             }else if(type ==3){
-                isRefresh2 =NO;
 
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
@@ -166,7 +160,6 @@
                 }
 
             }else if(type ==4){
-                isRefresh3 =NO;
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -194,17 +187,18 @@
             }
             [self showHudFailed:[json objectForKey:@"message"]];
         }
+        isRefresh =NO;
+        [self textHUDHiddle];
         [self.tableView endRefresh];
         [self.tableView reloadData];
         [self activityDismiss];
 
     } failure:^(NSError *error) {
+        [self textHUDHiddle];
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
         [self.tableView endRefresh];
         [self activityDismiss];
-
-        
-
+        isRefresh =NO;
     }];
 }
 
@@ -213,10 +207,6 @@
     [self addNavBarViewAndTitle:@""];
     type=1;
     isRefresh=YES;
-    isRefresh1=YES;
-    isRefresh2=YES;
-    isRefresh3=YES;
-
     //搜索
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(40, 25, kScreenWidth-80, 30)];
     searchView.backgroundColor = kCustomColor(232, 233, 234);
@@ -332,53 +322,30 @@
     if (tap.view.tag==1000)
     {
         type=1;
-        if (isRefresh) {
-            self.pageNum=1;
-            [self setData];
-
-        }else{
-            [self.tableView reloadData];
-
-        }
+      
+        self.pageNum=1;
+        [self setData];
         [self scrollToBuyerStreet];
-
     }
     else if(tap.view.tag==1001)
     {
         type=2;
-
-        if (isRefresh1) {
-            self.pageNum=1;
-            [self setData];
-        }else{
-            [self.tableView reloadData];
-
-        }
+        self.pageNum=1;
+        [self setData];
         [self scrollToSaid];
-
-
     }
     else if(tap.view.tag==1002)
     {
         type=3;
-        if (isRefresh2) {
-            self.pageNum=1;
-            [self setData];
-        }else{
-            [self.tableView reloadData];
-        }
+        self.pageNum=1;
+        [self setData];
         [self scrollToMyBuyer];
     }
     else
     {
         type=4;
-        if (isRefresh3) {
-            self.pageNum=1;
-            [self setData];
-        }else{
-            [self.tableView reloadData];
-        }
-
+        self.pageNum=1;
+        [self setData];
         [self scrollToMyBuyer1];
     }
 }
@@ -477,6 +444,8 @@
 
 -(void)didClickCancelBtn
 {
+    [searchText resignFirstResponder];
+    [self setData];
 
 }
 #pragma mark tableViewDelegate
@@ -497,8 +466,8 @@
 }
 
 -(void)chBtnClick:(UIButton *)btn{
-    
-    BOOL tempState =[[self.searchArr[btn.tag]objectForKey:@"IsFavite"]boolValue];
+
+    BOOL tempState =[[self.searchArr[btn.tag]objectForKey:@"IsFavorite"]boolValue];
     NSString *stroeId =[self.searchArr[btn.tag]objectForKey:@"ProductId"];
 
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
@@ -529,7 +498,7 @@
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [self.tableView reloadData];
+//        [self.tableView reloadData];
         
     } failure:^(NSError *error) {
     }];
@@ -547,7 +516,7 @@
         if (self.searchArr.count>0) {
             [cell.shopIconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr[indexPath.row]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.priceLab.text =[[self.searchArr[indexPath.row]objectForKey:@"Price"] stringValue];
-            BOOL isFavite =[[self.searchArr[indexPath.row]objectForKey:@"IsFavite"]boolValue];
+            BOOL isFavite =[[self.searchArr[indexPath.row]objectForKey:@"IsFavorite"]boolValue];
             if (isFavite) {
                 cell.chCBtn.selected =YES;
             }else{
@@ -591,9 +560,6 @@
             [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr2[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.shopName.text = [self.searchArr2[indexPath.row]objectForKey:@"Nickname"];
             cell.addressLab.text =[self.searchArr2[indexPath.row]objectForKey:@"BrandName"];
-            
-            cell.guanzhuBtn.layer.cornerRadius =3;
-
             BOOL isFavite =[[self.searchArr2[indexPath.row]objectForKey:@"IsFllowed"]boolValue];
             if (isFavite) {
                 cell.guanzhuBtn.selected =YES;
@@ -707,11 +673,8 @@
     return nil;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    if (searchText.text.length==0) {
-        [self showHudFailed:@"请输入搜索内容"];
-        return NO;
-    }
-   
+    [textField resignFirstResponder];
+    [self setData];
     return YES;
 }
 -(void)guanzhuClick:(UIButton *)btn{
@@ -795,12 +758,13 @@
         
 
         CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
-        mainStore.userId =[self.searchArr2[indexPath.row]objectForKey:@"userId"];
+        mainStore.userId =[self.searchArr2[indexPath.row]objectForKey:@"UserId"];
         [self.navigationController pushViewController:mainStore animated:YES];
     
     }else if(type ==4){
         CusMarketViewController *VC = [[CusMarketViewController alloc] init];
         //商场
+        VC.titleName =[self.searchArr3[indexPath.row]objectForKey:@"StoreName"];
         VC.storeId = [self.searchArr3[indexPath.row] objectForKey:@"StoreId"];
         [self.navigationController pushViewController:VC animated:YES];
     }

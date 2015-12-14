@@ -15,6 +15,8 @@
     [[self.guanzhuView layer]setCornerRadius:5];    
     self.ShopView.clipsToBounds =YES;
     self.ShopView.layer.cornerRadius =self.ShopView.width/2;
+    self.guanzhuView.layer.cornerRadius =3;
+    self.ShopView.userInteractionEnabled =YES;
     
 }
 
