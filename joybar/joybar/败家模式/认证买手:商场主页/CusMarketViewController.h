@@ -12,5 +12,7 @@
 
 @property (nonatomic ,strong) NSString *storeId;
 
+@property (nonatomic ,strong) NSString *titleName;
+
 
 @end
