@@ -384,7 +384,7 @@ static NSString * const reuseIdentifier = @"Cell";
         cell.addressView.text =[self.dataArray[indexPath.row]objectForKey:@"StoreName"];
         cell.addreView.text =[self.dataArray[indexPath.row]objectForKey:@"Address"];
         cell.nameView.text =[self.dataArray[indexPath.row]objectForKey:@"BrandName"];
-        BOOL isFavite =[[self.dataArray[indexPath.row]objectForKey:@"IsFavorited"]boolValue];
+        BOOL isFavite =[[self.dataArray[indexPath.row]objectForKey:@"IsFavorite"]boolValue];
         if (isFavite) {
             cell.guanzhuView.selected =YES;
             cell.guanzhuView.backgroundColor =[UIColor lightGrayColor];
@@ -764,7 +764,7 @@ static NSString * const reuseIdentifier = @"Cell";
 
 -(void)guanzhuClick:(UIButton *)btn{
     NSString *buyerId =[self.dataArray[btn.tag-100]objectForKey:@"BuyerId"];
-    BOOL tempState =[[self.dataArray[btn.tag-100]objectForKey:@"IsFavorited"]boolValue];
+    BOOL tempState =[[self.dataArray[btn.tag-100]objectForKey:@"IsFavorite"]boolValue];
 
  
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
