@@ -104,12 +104,20 @@
 -(void) getProListData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:self.userId forKey:@"userid"];
-    [dic setObject:@"0" forKey:@"Filter"];
+    NSString *ID = [[Public getUserInfo] objectForKey:@"id"];
+    if (ID)
+    {
+        [dic setObject:ID forKey:@"userid"];
+    }
+    else
+    {
+        [dic setObject:@"0" forKey:@"userid"];
+    }
+    [dic setValue:self.userId forKey:@"buyerId"];
     [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setObject:@"20" forKey:@"pagesize"];
     [self hudShow];
-    [HttpTool postWithURL:@"Product/GetUserProductList" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"V3/GetBuyerProduct" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {

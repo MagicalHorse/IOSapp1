@@ -18,7 +18,8 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "CusRProDetailCell.h"
-@interface CusRProDetailViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate>
+#import "MZTimerLabel.h"
+@interface CusRProDetailViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,MZTimerLabelDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
 @property (nonatomic ,strong) UIScrollView *imageScrollView;
@@ -31,6 +32,10 @@
 @implementation CusRProDetailViewController
 {
     ProDetailData *prodata;
+    UILabel *timerLab;
+    UILabel *buyLab;
+    UIButton *timeBtn;
+
 }
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -258,15 +263,84 @@
         }
         else
         {
-            btn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
-            [btn setTitle:[arr objectAtIndex:i-2] forState:(UIControlStateNormal)];
-            btn.titleLabel.font = [UIFont systemFontOfSize:14];
-            [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-            btn.backgroundColor = kCustomColor(253, 137, 83);
+            timeBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+            timeBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
+            timeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+            [timeBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+            timeBtn.backgroundColor = kCustomColor(253, 137, 83);
+            [timeBtn addTarget:self action:@selector(didClickBuy:) forControlEvents:(UIControlEventTouchUpInside)];
+            [footerView addSubview:timeBtn];
+            
+            buyLab = [[UILabel alloc] initWithFrame:CGRectMake(90, 0, timeBtn.width-90, timeBtn.height)];
+            buyLab.backgroundColor = [UIColor clearColor];
+            buyLab.textColor = [UIColor whiteColor];
+            buyLab.font = [UIFont systemFontOfSize:13];
+            [timeBtn addSubview:buyLab];
+            
+            MZTimerLabel *timeLab = [[MZTimerLabel alloc] initWithLabel:buyLab andTimerType:MZTimerLabelTypeTimer];
+            timeLab.delegate = self;
+            
+            timerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, timeBtn.width, timeBtn.height)];
+            timerLab.textColor = [UIColor whiteColor];
+            timerLab.font =[UIFont systemFontOfSize:13];
+            [timeBtn addSubview:timerLab];
+            
+            if ([prodata.IsStart boolValue])
+            {
+                [timeLab setCountDownTime:[prodata.RemainTime integerValue]];
+                timerLab.text = @"立即购买";
+                timerLab.textAlignment = NSTextAlignmentCenter;
+                buyLab.hidden = YES;
+                timeBtn.userInteractionEnabled = YES;
+            }
+            else
+            {
+                [timeLab setCountDownTime:[prodata.BusinessTime integerValue]];
+                timerLab.text = @" 剩余开始时间:";
+                timerLab.textAlignment = NSTextAlignmentLeft;
+                buyLab.hidden = NO;
+                timeBtn.userInteractionEnabled = NO;
+            }
+            [timeLab start];
         }
         [footerView addSubview:btn];
     }
 }
+
+-(void)timerLabel:(MZTimerLabel*)timerLabel finshedCountDownTimerWithTime:(NSTimeInterval)countTime
+{
+    if ([prodata.IsStart boolValue])
+    {
+        [timerLabel setCountDownTime:[prodata.BusinessTime integerValue]];
+        prodata.IsStart = @"0";
+        timerLab.text = @" 剩余开始时间:";
+        timerLab.textAlignment = NSTextAlignmentLeft;
+        buyLab.hidden = NO;
+        timeBtn.userInteractionEnabled = NO;
+    }
+    else
+    {
+        [timerLabel setCountDownTime:[prodata.RemainTime integerValue]];
+        prodata.IsStart =@"1";
+        timerLab.text = @"立即购买";
+        timerLab.textAlignment = NSTextAlignmentCenter;
+        buyLab.hidden = YES;
+        timeBtn.userInteractionEnabled = YES;
+    }
+    [timerLabel start];
+}
+
+-(void)didClickBuy:(UIButton *)btn
+{
+    //我要买
+    CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
+    VC.detailData = prodata;
+    VC.isFrom = isFromBuyPro;
+    [self.navigationController pushViewController:VC animated:YES];
+    
+}
+
+
 
 
 -(void)didClickReturnBtn
@@ -298,15 +372,15 @@
             [self didClickCollectProBtn:btn];
         }
             break;
-        case 1002:
-        {
-            //我要买
-            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
-            VC.detailData = prodata;
-            VC.isFrom = isFromBuyPro;
-            [self.navigationController pushViewController:VC animated:YES];
-        }
-            break;
+//        case 1002:
+//        {
+//            //我要买
+//            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
+//            VC.detailData = prodata;
+//            VC.isFrom = isFromBuyPro;
+//            [self.navigationController pushViewController:VC animated:YES];
+//        }
+//            break;
         default:
             break;
     }

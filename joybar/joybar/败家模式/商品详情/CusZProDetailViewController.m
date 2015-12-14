@@ -19,7 +19,8 @@
 #import "UMSocialWechatHandler.h"
 #import "CusZProDetailCell.h"
 #import "MakeSureVipOrderViewController.h"
-@interface CusZProDetailViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,handleSizeHeight>
+#import "MZTimerLabel.h"
+@interface CusZProDetailViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,handleSizeHeight,MZTimerLabelDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
 @property (nonatomic ,strong) UIScrollView *imageScrollView;
@@ -44,6 +45,9 @@
 
 {
     ProDetailData *prodata;
+    UILabel *timerLab;
+    UILabel *buyLab;
+    UIButton *timeBtn;
 }
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -240,6 +244,9 @@
     footerView.backgroundColor = kCustomColor(252, 251, 251);
     [self.view addSubview:footerView];
     
+    
+    
+    
     NSArray *arr = @[@"立即购买"];
     NSArray *titleArr;
     NSArray *imageArr;
@@ -256,13 +263,16 @@
     }
     for (int i=0; i<3; i++)
     {
-        UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        btn.tag = 1000+i;
-        btn.frame = CGRectMake(kScreenWidth/4*i, 0, kScreenWidth/4, 44);
         
-        [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
         if (i<2)
         {
+            UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+            btn.tag = 1000+i;
+            btn.frame = CGRectMake(kScreenWidth/4*i, 0, kScreenWidth/4, 44);
+            [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
+            [footerView addSubview:btn];
+
+
             btn.backgroundColor = kCustomColor(252, 251, 251);
             UIImageView *img =[[UIImageView alloc] init];
             img.center = CGPointMake(btn.width/2, btn.height/2-10);
@@ -279,18 +289,78 @@
             lab.tag = 10000+i;
             lab.font = [UIFont systemFontOfSize:12];
             [btn addSubview:lab];
+            
+
         }
         else
         {
-            btn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
-            [btn setTitle:[arr objectAtIndex:i-2] forState:(UIControlStateNormal)];
-            btn.titleLabel.font = [UIFont systemFontOfSize:14];
-            [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-            btn.backgroundColor = kCustomColor(253, 137, 83);
+            
+            timeBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+            timeBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
+            timeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+            [timeBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+            timeBtn.backgroundColor = kCustomColor(253, 137, 83);
+            [timeBtn addTarget:self action:@selector(didClickBuy:) forControlEvents:(UIControlEventTouchUpInside)];
+            [footerView addSubview:timeBtn];
+
+            buyLab = [[UILabel alloc] initWithFrame:CGRectMake(90, 0, timeBtn.width-90, timeBtn.height)];
+            buyLab.backgroundColor = [UIColor clearColor];
+            buyLab.textColor = [UIColor whiteColor];
+            buyLab.font = [UIFont systemFontOfSize:13];
+            [timeBtn addSubview:buyLab];
+            
+            MZTimerLabel *timeLab = [[MZTimerLabel alloc] initWithLabel:buyLab andTimerType:MZTimerLabelTypeTimer];
+            timeLab.delegate = self;
+            
+            timerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, timeBtn.width, timeBtn.height)];
+            timerLab.textColor = [UIColor whiteColor];
+            timerLab.font =[UIFont systemFontOfSize:13];
+            [timeBtn addSubview:timerLab];
+            
+            if ([prodata.IsStart boolValue])
+            {
+                [timeLab setCountDownTime:[prodata.RemainTime integerValue]];
+                timerLab.text = @"立即购买";
+                timerLab.textAlignment = NSTextAlignmentCenter;
+                buyLab.hidden = YES;
+                timeBtn.userInteractionEnabled = YES;
+            }
+            else
+            {
+                [timeLab setCountDownTime:[prodata.BusinessTime integerValue]];
+                timerLab.text = @" 剩余开始时间:";
+                timerLab.textAlignment = NSTextAlignmentLeft;
+                buyLab.hidden = NO;
+                timeBtn.userInteractionEnabled = NO;
+            }
+            [timeLab start];
         }
-        [footerView addSubview:btn];
     }
 }
+
+-(void)timerLabel:(MZTimerLabel*)timerLabel finshedCountDownTimerWithTime:(NSTimeInterval)countTime
+{
+    if ([prodata.IsStart boolValue])
+    {
+        [timerLabel setCountDownTime:[prodata.BusinessTime integerValue]];
+        prodata.IsStart = @"0";
+        timerLab.text = @" 剩余开始时间:";
+        timerLab.textAlignment = NSTextAlignmentLeft;
+        buyLab.hidden = NO;
+        timeBtn.userInteractionEnabled = NO;
+    }
+    else
+    {
+        [timerLabel setCountDownTime:[prodata.RemainTime integerValue]];
+        prodata.IsStart =@"1";
+        timerLab.text = @"立即购买";
+        timerLab.textAlignment = NSTextAlignmentCenter;
+        buyLab.hidden = YES;
+        timeBtn.userInteractionEnabled = YES;
+    }
+    [timerLabel start];
+}
+
 
 -(void)didClickReturnBtn
 {
@@ -321,35 +391,55 @@
             [self collect:btn];
         }
             break;
-        case 1002:
-        {
-            if ([self.buyCount isEqualToString:@"0"])
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请选择数量" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-                [alert show];
-                return;
-            }
-            //我要买
-            MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
-            VC.detailData = prodata;
-            VC.buyNum = self.buyCount;
-            VC.sizeName = [NSString stringWithFormat:@"%@ %@",self.colorName,self.sizeName];
-            VC.buyerId = prodata.BuyerId;
-            VC.colorId = self.colorId;
-            VC.sizeId = self.sizeId;
-            [self.navigationController pushViewController:VC animated:YES];
-            
-//            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
+//        case 1002:
+//        {
+//            if ([self.buyCount isEqualToString:@"0"])
+//            {
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请选择数量" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+//                [alert show];
+//                return;
+//            }
+//            //我要买
+//            MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
 //            VC.detailData = prodata;
-//            VC.isFrom = isFromBuyPro;
+//            VC.buyNum = self.buyCount;
+//            VC.sizeName = [NSString stringWithFormat:@"%@ %@",self.colorName,self.sizeName];
+//            VC.buyerId = prodata.BuyerId;
+//            VC.colorId = self.colorId;
+//            VC.sizeId = self.sizeId;
 //            [self.navigationController pushViewController:VC animated:YES];
-        }
-            break;
+//            
+////            CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
+////            VC.detailData = prodata;
+////            VC.isFrom = isFromBuyPro;
+////            [self.navigationController pushViewController:VC animated:YES];
+//        }
+//            break;
         default:
             break;
     }
 }
 
+
+-(void)didClickBuy:(UIButton *)btn
+{
+    if ([self.buyCount isEqualToString:@"0"])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请选择数量" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+        [alert show];
+        return;
+    }
+    //我要买
+    MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
+    VC.detailData = prodata;
+    VC.buyNum = self.buyCount;
+    VC.sizeName = [NSString stringWithFormat:@"%@ %@",self.colorName,self.sizeName];
+    VC.buyerId = prodata.BuyerId;
+    VC.colorId = self.colorId;
+    VC.sizeId = self.sizeId;
+    [self.navigationController pushViewController:VC animated:YES];
+
+}
 //分享
 -(void)didClickShare:(UIButton *)button
 {
