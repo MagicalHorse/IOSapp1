@@ -28,7 +28,6 @@ UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,assign) NSInteger pageNumScroll;
 
 
-
 @end
 static NSString * const reuseIdentifier = @"Cell";
 
@@ -38,6 +37,7 @@ static NSString * const reuseIdentifier = @"Cell";
     BOOL isRefresh1;
     int type;
     CGFloat contentOffsetX;
+    UIActivityIndicatorView *activity;
 }
 -(NSMutableArray *)dataArray{
     if (_dataArray ==nil) {
@@ -61,7 +61,7 @@ static NSString * const reuseIdentifier = @"Cell";
  
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNumScroll] forKey:@"Page"];
-    [dict setObject:@"6" forKey:@"Pagesize"];
+    [dict setObject:@"5" forKey:@"Pagesize"];
     
     [HttpTool postWithURL:@"V3/RecommondBuyerlist" params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
@@ -71,17 +71,18 @@ static NSString * const reuseIdentifier = @"Cell";
             [self.dataArray addObjectsFromArray:array];
             
             
-            
         }else{
             [self showHudFailed:[json objectForKey:@"message"]];
         }
         [self.cusCollectView reloadData];
         [self activityDismiss];
-        
+        [activity stopAnimating]; // 结束旋转
+        [activity setHidesWhenStopped:YES]; //当旋转结束时隐藏
     } failure:^(NSError *error) {
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
         [self activityDismiss];
-        
+        [activity stopAnimating]; // 结束旋转
+        [activity setHidesWhenStopped:YES]; //当旋转结束时隐藏
     }];
 }
 
@@ -155,9 +156,14 @@ static NSString * const reuseIdentifier = @"Cell";
     self.messageScroll.directionalLockEnabled = YES;
     self.messageScroll.showsHorizontalScrollIndicator = NO;
     self.messageScroll.bounces = NO;
+    self.messageScroll.backgroundColor =kCustomColor(228, 234, 238);
     [self.view addSubview:self.messageScroll];
 
-    
+    activity =[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activity.center = CGPointMake(kScreenWidth-30, kScreenHeight*0.5-50);
+    [activity setHidesWhenStopped:YES];
+    activity.color =[UIColor grayColor];
+    [self.messageScroll addSubview:activity];
     
     HJCarouselViewLayout *layout  = [[HJCarouselViewLayout alloc] initWithAnim:HJCarouselAnimLinear];
     layout.itemSize = CGSizeMake(kScreenWidth-70, kScreenHeight-168);
@@ -170,9 +176,9 @@ static NSString * const reuseIdentifier = @"Cell";
     _cusCollectView.delegate =self;
     _cusCollectView.showsHorizontalScrollIndicator = NO;
     _cusCollectView.showsVerticalScrollIndicator = NO;
-    _cusCollectView.backgroundColor = kCustomColor(228, 234, 238);
-    [self.messageScroll addSubview:_cusCollectView];
+    _cusCollectView.backgroundColor = [UIColor clearColor];
     
+    [self.messageScroll addSubview:_cusCollectView];
     [self.cusCollectView registerNib:[UINib nibWithNibName:NSStringFromClass([HJCarouselViewCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
     
     //关注
@@ -205,6 +211,11 @@ static NSString * const reuseIdentifier = @"Cell";
         [VC setTableData];
     };
     
+    [self setData];
+}
+
+-(void)footerRereshing{
+    self.pageNumScroll +=1;
     [self setData];
 }
 
@@ -374,7 +385,10 @@ static NSString * const reuseIdentifier = @"Cell";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.dataArray.count;
 }
-
+//-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+//
+//    
+//}
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat w =0;
     if (kScreenWidth ==320) {
@@ -423,8 +437,9 @@ static NSString * const reuseIdentifier = @"Cell";
                 UIImageView *image =[[UIImageView alloc]init];
                 image.frame =CGRectMake(0, 0, w, w);
                 image.userInteractionEnabled =YES;
-                image.contentMode= UIViewContentModeCenter;
+                image.contentMode=UIViewContentModeScaleAspectFill;
                 image.clipsToBounds =YES;
+                image.layer.masksToBounds =YES;
                 image.backgroundColor =[UIColor lightGrayColor];
                 NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
                 
@@ -433,8 +448,10 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
                 image1.userInteractionEnabled =YES;
-                image1.contentMode= UIViewContentModeCenter;
+                image1.contentMode=UIViewContentModeScaleAspectFill;
                 image1.clipsToBounds =YES;
+                image1.layer.masksToBounds =YES;
+
                 image1.backgroundColor =[UIColor lightGrayColor];
                 image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
                 NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
@@ -443,8 +460,10 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image2 =[[UIImageView alloc]init];
                 image2.userInteractionEnabled =YES;
-                image2.contentMode= UIViewContentModeCenter;
+                image2.contentMode=UIViewContentModeScaleAspectFill;
                 image2.clipsToBounds =YES;
+                image2.layer.masksToBounds =YES;
+
                 image2.backgroundColor =[UIColor lightGrayColor];
                 image2.frame =CGRectMake(0, image.bottom+5, image.width,image.height);
                 NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
@@ -453,8 +472,10 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image3 =[[UIImageView alloc]init];
                 image3.userInteractionEnabled =YES;
-                image3.contentMode= UIViewContentModeCenter;
+                image3.contentMode=UIViewContentModeScaleAspectFill;
                 image3.clipsToBounds =YES;
+                image3.layer.masksToBounds =YES;
+
                 image3.backgroundColor =[UIColor lightGrayColor];
                 image3.frame =CGRectMake(image2.right+5, image.bottom+5, image.width,image.height);
                 NSString * str3 =[NSString stringWithFormat:@"%@",[shopArray[3] objectForKey:@"Pic"]];
@@ -481,9 +502,11 @@ static NSString * const reuseIdentifier = @"Cell";
             }else if(shopArray.count ==3){
                 UIImageView *image =[[UIImageView alloc]init];
                 image.userInteractionEnabled =YES;
-
-                image.contentMode= UIViewContentModeCenter;
+                
+                image.contentMode= UIViewContentModeScaleAspectFill;
                 image.clipsToBounds =YES;
+                image.layer.masksToBounds =YES;
+
                 image.backgroundColor =[UIColor lightGrayColor];
 
                 image.frame =CGRectMake(0, 0, w, w);
@@ -493,8 +516,10 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
                 image1.userInteractionEnabled =YES;
-                image1.contentMode= UIViewContentModeCenter;
+                image1.contentMode=UIViewContentModeScaleAspectFill;
                 image1.clipsToBounds =YES;
+                image1.layer.masksToBounds =YES;
+
                 image1.backgroundColor =[UIColor lightGrayColor];
                 image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
                 NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
@@ -504,8 +529,10 @@ static NSString * const reuseIdentifier = @"Cell";
                 UIImageView *image2 =[[UIImageView alloc]init];
                 image2.userInteractionEnabled =YES;
 
-                image2.contentMode= UIViewContentModeCenter;
+                image2.contentMode=UIViewContentModeScaleAspectFill;
                 image2.clipsToBounds =YES;
+                image2.layer.masksToBounds =YES;
+
                 image2.backgroundColor =[UIColor lightGrayColor];
                 image2.frame =CGRectMake((w-image.width)*0.5, image.bottom+5, image.width,image.height);
                 NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
@@ -530,7 +557,7 @@ static NSString * const reuseIdentifier = @"Cell";
                 UIImageView *image =[[UIImageView alloc]init];
                 image.userInteractionEnabled =YES;
 
-                image.contentMode= UIViewContentModeCenter;
+                image.contentMode=UIViewContentModeScaleAspectFill;
                 image.clipsToBounds =YES;
                 image.backgroundColor =[UIColor lightGrayColor];
                 image.frame =CGRectMake(0, 0, w, w*2);
@@ -540,7 +567,7 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
                 image1.userInteractionEnabled =YES;
-                image1.contentMode= UIViewContentModeCenter;
+                image1.contentMode=UIViewContentModeScaleAspectFill;
                 image1.clipsToBounds =YES;
                 image1.backgroundColor =[UIColor lightGrayColor];
                 image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
@@ -561,7 +588,7 @@ static NSString * const reuseIdentifier = @"Cell";
             }else if(shopArray.count ==1){
                 UIImageView *image =[[UIImageView alloc]init];
                 image.userInteractionEnabled =YES;
-                image.contentMode= UIViewContentModeCenter;
+                image.contentMode=UIViewContentModeScaleAspectFill;
                 image.clipsToBounds =YES;
                 image.backgroundColor =[UIColor lightGrayColor];
                 image.frame =CGRectMake(0, 0, (w+5)*2, (w+5)*2);
@@ -681,7 +708,7 @@ static NSString * const reuseIdentifier = @"Cell";
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -694,14 +721,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -713,14 +740,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -881,7 +908,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 -(void)didHeadViewClick:(UITapGestureRecognizer *)btn{
     CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
-    mainStore.userId =[NSString stringWithFormat:@"%d",btn.view.tag];
+    mainStore.userId =[NSString stringWithFormat:@"%ld",btn.view.tag];
     [self.navigationController pushViewController:mainStore animated:YES];
 }
 - (NSIndexPath *)curIndexPath {
@@ -910,13 +937,18 @@ static NSString * const reuseIdentifier = @"Cell";
         contentOffsetX=contentOffsetPoint;
         NSIndexPath *indexPath =[self curIndexPath];
         int index =(int)indexPath.row+1;
-      
-
-        if (index %3==0&&indexPath.row!=0)
+        if (self.dataArray.count-index==0)
         {
-            self.pageNumScroll =self.dataArray.count/6+1;
+            [activity setHidesWhenStopped:NO];
+            [activity startAnimating];
+            self.pageNumScroll +=1;
             [self setData];
+        }else{
+            [activity stopAnimating];
+            [activity setHidesWhenStopped:YES];
         }
+    }else if(contentOffsetPoint ==-35 &&self.dataArray.count==0){
+        [self setData];
     }
    
    
