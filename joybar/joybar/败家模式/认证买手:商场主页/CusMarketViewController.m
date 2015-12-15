@@ -146,7 +146,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *proId = [self.proArr [indexPath.row] objectForKey:@"ProductId"];
+    NSString *proId = [self.proArr [indexPath.row] objectForKey:@"Id"];
     CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
     VC.productId = proId;
     [self.navigationController pushViewController:VC animated:YES];
