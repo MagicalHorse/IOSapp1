@@ -67,9 +67,6 @@ static NSString * const reuseIdentifier = @"Cell";
         if (isSuccessful) {
             isRefresh=NO;
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"Buyers"];
-            
-            
-            
             [self.dataArray addObjectsFromArray:array];
             
             
@@ -295,6 +292,7 @@ static NSString * const reuseIdentifier = @"Cell";
             cell.guanzhuBtn.backgroundColor =[UIColor orangeColor];
             [cell.guanzhuBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
+        cell.guanzhuBtn.tag =indexPath.row +200;
         [cell.guanzhuBtn addTarget:self action:@selector(guanzhuTClick:) forControlEvents:UIControlEventTouchUpInside];
         
         cell.bgView.tag =indexPath.row+10;
@@ -777,8 +775,8 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 }
 -(void)guanzhuTClick:(UIButton *)btn{
-    NSString *buyerId =[self.cusDataArray[btn.tag-100]objectForKey:@"BuyerId"];
-    BOOL tempState =[[self.cusDataArray[btn.tag-100]objectForKey:@"IsFllowed"]boolValue];
+    NSString *buyerId =[self.cusDataArray[btn.tag-200]objectForKey:@"BuyerId"];
+    BOOL tempState =[[self.cusDataArray[btn.tag-200]objectForKey:@"IsFllowed"]boolValue];
     
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
@@ -798,7 +796,7 @@ static NSString * const reuseIdentifier = @"Cell";
         
         if ([json objectForKey:@"isSuccessful"])
         {
-            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.cusDataArray[btn.tag-100]];
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.cusDataArray[btn.tag-200]];
             if (tempState)
             {
                 
@@ -808,15 +806,19 @@ static NSString * const reuseIdentifier = @"Cell";
             {
                 [dic setObject:@"1" forKey:@"IsFllowed"];
             }
-            [self.cusDataArray removeObject:self.cusDataArray[btn.tag-100]];
-            [self.cusDataArray insertObject:dic atIndex:btn.tag-100];
+            [self.cusDataArray removeObject:self.cusDataArray[btn.tag-200]];
+            [self.cusDataArray insertObject:dic atIndex:btn.tag-200];
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self.tableView reloadData];
+
         
     } failure:^(NSError *error) {
+        [self.tableView reloadData];
+
     }];
     
     
@@ -860,6 +862,7 @@ static NSString * const reuseIdentifier = @"Cell";
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self.cusCollectView reloadData];
         
     } failure:^(NSError *error) {
     }];
@@ -896,9 +899,11 @@ static NSString * const reuseIdentifier = @"Cell";
         contentOffsetX=contentOffsetPoint;
         NSIndexPath *indexPath =[self curIndexPath];
         int index =(int)indexPath.row+1;
+      
+
         if (index %3==0&&indexPath.row!=0)
         {
-            self.pageNumScroll =index/3+1;
+            self.pageNumScroll =self.dataArray.count/6+1;
             [self setData];
         }
     }

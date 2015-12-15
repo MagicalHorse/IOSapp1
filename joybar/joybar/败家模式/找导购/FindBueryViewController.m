@@ -93,20 +93,13 @@
 }
 
 -(void)setData{
-    if (searchText.text.length==0) {
-        [HUD showHudFailed:@"请输入搜索关键字"];
-        return;
-    }
-    
+   
     if (isRefresh) {
         [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64];
     }
-    
     NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
-    //    [dict setObject:searchText.text forKey:@"key"];
-    [dict setObject:@"" forKey:@"key"];
-    
+    [dict setObject:searchText.text forKey:@"key"];
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dict setObject:@"6" forKey:@"Pagesize"];
     [dict setObject:userId forKey:@"userId"];
@@ -146,7 +139,9 @@
     }];
 }
 -(void)didClickCancelBtn{
-    [self.navigationController popViewControllerAnimated:YES];
+
+    [searchText resignFirstResponder];
+    [self setData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -349,8 +344,20 @@
         [self.tableView reloadData];
         
     } failure:^(NSError *error) {
+        [self.tableView reloadData];
+
     }];
     
     
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [searchText resignFirstResponder];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    [self setData];
+    return YES;
 }
 @end

@@ -488,7 +488,7 @@
         if ([json objectForKey:@"isSuccessful"])
         {
             
-            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.searchArr[btn.tag-100]];
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.searchArr[btn.tag]];
             if (tempState)
             {
                 [dic setObject:@"0" forKey:@"IsFavorite"];
@@ -497,8 +497,8 @@
             {
                 [dic setObject:@"1" forKey:@"IsFavorite"];
             }
-            [self.searchArr removeObject:self.searchArr[btn.tag-100]];
-            [self.searchArr insertObject:dic atIndex:btn.tag-100];
+            [self.searchArr removeObject:self.searchArr[btn.tag]];
+            [self.searchArr insertObject:dic atIndex:btn.tag];
         }
         else
         {
@@ -718,6 +718,7 @@
         [self.tableView reloadData];
         
     } failure:^(NSError *error) {
+        [self.tableView reloadData];
     }];
 
     
@@ -841,5 +842,6 @@
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
+
 
 @end
