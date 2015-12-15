@@ -93,20 +93,13 @@
 }
 
 -(void)setData{
-    if (searchText.text.length==0) {
-        [HUD showHudFailed:@"请输入搜索关键字"];
-        return;
-    }
-    
+   
     if (isRefresh) {
         [self showInView:self.view WithPoint:CGPointMake(0, 64) andHeight:kScreenHeight-64];
     }
-    
     NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
-    //    [dict setObject:searchText.text forKey:@"key"];
-    [dict setObject:@"" forKey:@"key"];
-    
+    [dict setObject:searchText.text forKey:@"key"];
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dict setObject:@"6" forKey:@"Pagesize"];
     [dict setObject:userId forKey:@"userId"];
@@ -146,7 +139,9 @@
     }];
 }
 -(void)didClickCancelBtn{
-    [self.navigationController popViewControllerAnimated:YES];
+
+    [searchText resignFirstResponder];
+    [self setData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -169,6 +164,21 @@
         [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.shopName.text = [self.dataArray[indexPath.row]objectForKey:@"Nickname"];
         cell.addressLab.text =[self.dataArray[indexPath.row]objectForKey:@"BrandName"];
+        BOOL isFavite =[[self.dataArray[indexPath.row]objectForKey:@"IsFllowed"]boolValue];
+        if (isFavite) {
+            cell.guanzhuBtn.selected =YES;
+            cell.guanzhuBtn.backgroundColor =[UIColor whiteColor];
+            cell.guanzhuBtn.layer.borderWidth=1;
+            cell.guanzhuBtn.layer.borderColor =[UIColor lightGrayColor].CGColor;
+            [cell.guanzhuBtn setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+        }else{
+            cell.guanzhuBtn.selected =NO;
+            cell.guanzhuBtn.backgroundColor =[UIColor orangeColor];
+            [cell.guanzhuBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+        
+        [cell.guanzhuBtn addTarget:self action:@selector(guanzhuClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.guanzhuBtn.tag =indexPath.row +100;
         cell.bgView.tag =indexPath.row+10;
         NSArray *array =[self.dataArray[indexPath.row]objectForKey:@"Products"];
         if (array.count>0) {
@@ -209,7 +219,6 @@
             }else{
                 cell.shopBtn1.hidden =YES;
                 cell.shopBtn2.hidden =YES;
-                
                 [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ClickProView:)];
@@ -217,9 +226,29 @@
                 proTap.view.tag =[[array[0]objectForKey:@"ProductId"] integerValue];
 
             }
+        }else{
+            cell.shopBtn.hidden =YES;
+            cell.shopBtn1.hidden =YES;
+            cell.shopBtn2.hidden =YES;
+            UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, cell.shopBtn.top+10, cell.width, 20)];
+            lable.text =@"店铺什么都没有，戳一下，提醒上新~";
+            lable.textAlignment =NSTextAlignmentCenter;
+            lable.font =[UIFont systemFontOfSize:13];
+            lable.textColor =[UIColor grayColor];
+            [cell addSubview:lable];
+            
+            UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+            
+            btn.backgroundColor =[UIColor orangeColor];
+            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+            btn.titleLabel.font =[UIFont systemFontOfSize:13];
+            [btn addTarget:self action:@selector(txUptoNew:) forControlEvents:UIControlEventTouchUpInside];
+            btn.tag =[[self.dataArray[indexPath.row]objectForKey:@"UserId"]integerValue];
+            [cell addSubview:btn];
         }
-        
     }
+    
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -234,14 +263,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -254,14 +283,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -274,14 +303,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -293,5 +322,81 @@
     mainStore.userId =[self.dataArray[indexPath.row]objectForKey:@"BuyerId"];
     mainStore.isCircle = NO;
     [self.navigationController pushViewController:mainStore animated:YES];
+}
+-(void)guanzhuClick:(UIButton *)btn{
+    BOOL tempState =[[self.dataArray[btn.tag-100]objectForKey:@"IsFllowed"]boolValue];
+    NSString *buyerId =[self.dataArray[btn.tag-100]objectForKey:@"UserId"];
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:buyerId forKey:@"FavoriteId"];
+    if (tempState)
+    {
+        [dic setValue:@"0" forKey:@"Status"];
+        btn.selected = NO;
+    }
+    else
+    {
+        [dic setValue:@"1" forKey:@"Status"];
+        btn.selected = YES;
+    }
+    [HttpTool postWithURL:@"User/Favoite" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag-100]];
+            if (tempState)
+            {
+                [dic setObject:@"0" forKey:@"IsFllowed"];
+            }
+            else
+            {
+                [dic setObject:@"1" forKey:@"IsFllowed"];
+            }
+            [self.dataArray removeObject:self.dataArray[btn.tag-100]];
+            [self.dataArray insertObject:dic atIndex:btn.tag-100];
+            
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+        [self.tableView reloadData];
+
+    }];
+    
+    
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [searchText resignFirstResponder];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    [self setData];
+    return YES;
+}
+-(void)txUptoNew:(UIButton *)btn{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:[NSString stringWithFormat:@"%ld",(long)btn.tag] forKey:@"buyerid"];
+    [HttpTool postWithURL:@"BuyerV3/Touch" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+    
+    
 }
 @end

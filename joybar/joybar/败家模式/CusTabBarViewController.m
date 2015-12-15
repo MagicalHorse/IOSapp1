@@ -262,9 +262,6 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)dealloc
-{
-    NSLog(@"aa");
-}
+
 
 @end

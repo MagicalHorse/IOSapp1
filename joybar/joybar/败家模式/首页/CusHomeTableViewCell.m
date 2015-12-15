@@ -373,6 +373,8 @@
     CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
     VC.BrandId = [brandArr[btn.tag-100] objectForKey:@"BrandId"];
     VC.BrandName = [brandArr[btn.tag-100] objectForKey:@"BrandName"];
+    VC.storeId =[infoDic objectForKey:@"StoreId"];
+    VC.cityId =[[NSUserDefaults standardUserDefaults] objectForKey:@"cityId"];
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 

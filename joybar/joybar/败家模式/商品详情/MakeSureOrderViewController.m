@@ -305,7 +305,7 @@
     {
         if (indexPath.row==2)
         {
-            CGSize size = [Public getContentSizeWith:self.detailData.ProductName andFontSize:15 andWidth:kScreenWidth-110];
+            CGSize size = [Public getContentSizeWith:self.detailData.PickAddress andFontSize:15 andWidth:kScreenWidth-110];
             
             return size.height+35;
         }

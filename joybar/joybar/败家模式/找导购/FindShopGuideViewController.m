@@ -14,7 +14,8 @@
 #import "CusZProDetailViewController.h"
 #import "CusRProDetailViewController.h"
 #import "CusMainStoreViewController.h"
-
+#import "LoginAndRegisterViewController.h"
+#import "BaseNavigationController.h"
 @interface FindShopGuideViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,
 UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -27,7 +28,6 @@ UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,assign) NSInteger pageNumScroll;
 
 
-
 @end
 static NSString * const reuseIdentifier = @"Cell";
 
@@ -37,6 +37,7 @@ static NSString * const reuseIdentifier = @"Cell";
     BOOL isRefresh1;
     int type;
     CGFloat contentOffsetX;
+    UIActivityIndicatorView *activity;
 }
 -(NSMutableArray *)dataArray{
     if (_dataArray ==nil) {
@@ -60,18 +61,14 @@ static NSString * const reuseIdentifier = @"Cell";
  
     NSMutableDictionary *dict =[[NSMutableDictionary alloc]init];
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNumScroll] forKey:@"Page"];
-    [dict setObject:@"6" forKey:@"Pagesize"];
+    [dict setObject:@"5" forKey:@"Pagesize"];
     
-    [HttpTool postWithURL:@"BuyerV3/RecommondBuyerlist" params:dict  success:^(id json) {
+    [HttpTool postWithURL:@"V3/RecommondBuyerlist" params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             isRefresh=NO;
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"Buyers"];
-            
-            
-            
             [self.dataArray addObjectsFromArray:array];
-            
             
             
         }else{
@@ -79,11 +76,13 @@ static NSString * const reuseIdentifier = @"Cell";
         }
         [self.cusCollectView reloadData];
         [self activityDismiss];
-        
+        [activity stopAnimating]; // 结束旋转
+        [activity setHidesWhenStopped:YES]; //当旋转结束时隐藏
     } failure:^(NSError *error) {
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
         [self activityDismiss];
-        
+        [activity stopAnimating]; // 结束旋转
+        [activity setHidesWhenStopped:YES]; //当旋转结束时隐藏
     }];
 }
 
@@ -157,9 +156,14 @@ static NSString * const reuseIdentifier = @"Cell";
     self.messageScroll.directionalLockEnabled = YES;
     self.messageScroll.showsHorizontalScrollIndicator = NO;
     self.messageScroll.bounces = NO;
+    self.messageScroll.backgroundColor =kCustomColor(228, 234, 238);
     [self.view addSubview:self.messageScroll];
 
-    
+    activity =[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activity.center = CGPointMake(kScreenWidth-30, kScreenHeight*0.5-50);
+    [activity setHidesWhenStopped:YES];
+    activity.color =[UIColor grayColor];
+    [self.messageScroll addSubview:activity];
     
     HJCarouselViewLayout *layout  = [[HJCarouselViewLayout alloc] initWithAnim:HJCarouselAnimLinear];
     layout.itemSize = CGSizeMake(kScreenWidth-70, kScreenHeight-168);
@@ -172,9 +176,9 @@ static NSString * const reuseIdentifier = @"Cell";
     _cusCollectView.delegate =self;
     _cusCollectView.showsHorizontalScrollIndicator = NO;
     _cusCollectView.showsVerticalScrollIndicator = NO;
-    _cusCollectView.backgroundColor = kCustomColor(228, 234, 238);
-    [self.messageScroll addSubview:_cusCollectView];
+    _cusCollectView.backgroundColor = [UIColor clearColor];
     
+    [self.messageScroll addSubview:_cusCollectView];
     [self.cusCollectView registerNib:[UINib nibWithNibName:NSStringFromClass([HJCarouselViewCell class]) bundle:nil] forCellWithReuseIdentifier:reuseIdentifier];
     
     //关注
@@ -207,6 +211,11 @@ static NSString * const reuseIdentifier = @"Cell";
         [VC setTableData];
     };
     
+    [self setData];
+}
+
+-(void)footerRereshing{
+    self.pageNumScroll +=1;
     [self setData];
 }
 
@@ -281,7 +290,23 @@ static NSString * const reuseIdentifier = @"Cell";
         [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.cusDataArray[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.shopName.text = [self.cusDataArray[indexPath.row]objectForKey:@"Nickname"];
         cell.addressLab.text =[self.cusDataArray[indexPath.row]objectForKey:@"BrandName"];
+        
+        
+        BOOL isFavite =[[self.cusDataArray[indexPath.row]objectForKey:@"IsFllowed"]boolValue];
+        if (isFavite) {
+            cell.guanzhuBtn.selected =YES;
+            cell.guanzhuBtn.backgroundColor =[UIColor whiteColor];
+            cell.guanzhuBtn.layer.borderWidth=1;
+            cell.guanzhuBtn.layer.borderColor =[UIColor lightGrayColor].CGColor;
+            [cell.guanzhuBtn setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+        }else{
+            cell.guanzhuBtn.selected =NO;
+            cell.guanzhuBtn.backgroundColor =[UIColor orangeColor];
+            [cell.guanzhuBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+        cell.guanzhuBtn.tag =indexPath.row +200;
         [cell.guanzhuBtn addTarget:self action:@selector(guanzhuTClick:) forControlEvents:UIControlEventTouchUpInside];
+        
         cell.bgView.tag =indexPath.row+10;
         NSArray *array =[self.cusDataArray[indexPath.row]objectForKey:@"Products"];
         if (array.count>0) {
@@ -360,7 +385,10 @@ static NSString * const reuseIdentifier = @"Cell";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.dataArray.count;
 }
-
+//-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+//
+//    
+//}
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat w =0;
     if (kScreenWidth ==320) {
@@ -384,7 +412,7 @@ static NSString * const reuseIdentifier = @"Cell";
         cell.addressView.text =[self.dataArray[indexPath.row]objectForKey:@"StoreName"];
         cell.addreView.text =[self.dataArray[indexPath.row]objectForKey:@"Address"];
         cell.nameView.text =[self.dataArray[indexPath.row]objectForKey:@"BrandName"];
-        BOOL isFavite =[[self.dataArray[indexPath.row]objectForKey:@"IsFavorite"]boolValue];
+        BOOL isFavite =[[self.dataArray[indexPath.row]objectForKey:@"IsFavorited"]boolValue];
         if (isFavite) {
             cell.guanzhuView.selected =YES;
             cell.guanzhuView.backgroundColor =[UIColor lightGrayColor];
@@ -409,8 +437,9 @@ static NSString * const reuseIdentifier = @"Cell";
                 UIImageView *image =[[UIImageView alloc]init];
                 image.frame =CGRectMake(0, 0, w, w);
                 image.userInteractionEnabled =YES;
-                image.contentMode= UIViewContentModeCenter;
+                image.contentMode=UIViewContentModeScaleAspectFill;
                 image.clipsToBounds =YES;
+                image.layer.masksToBounds =YES;
                 image.backgroundColor =[UIColor lightGrayColor];
                 NSString * str =[NSString stringWithFormat:@"%@",[shopArray[0] objectForKey:@"Pic"]];
                 
@@ -419,8 +448,10 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
                 image1.userInteractionEnabled =YES;
-                image1.contentMode= UIViewContentModeCenter;
+                image1.contentMode=UIViewContentModeScaleAspectFill;
                 image1.clipsToBounds =YES;
+                image1.layer.masksToBounds =YES;
+
                 image1.backgroundColor =[UIColor lightGrayColor];
                 image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
                 NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
@@ -429,8 +460,10 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image2 =[[UIImageView alloc]init];
                 image2.userInteractionEnabled =YES;
-                image2.contentMode= UIViewContentModeCenter;
+                image2.contentMode=UIViewContentModeScaleAspectFill;
                 image2.clipsToBounds =YES;
+                image2.layer.masksToBounds =YES;
+
                 image2.backgroundColor =[UIColor lightGrayColor];
                 image2.frame =CGRectMake(0, image.bottom+5, image.width,image.height);
                 NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
@@ -439,8 +472,10 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image3 =[[UIImageView alloc]init];
                 image3.userInteractionEnabled =YES;
-                image3.contentMode= UIViewContentModeCenter;
+                image3.contentMode=UIViewContentModeScaleAspectFill;
                 image3.clipsToBounds =YES;
+                image3.layer.masksToBounds =YES;
+
                 image3.backgroundColor =[UIColor lightGrayColor];
                 image3.frame =CGRectMake(image2.right+5, image.bottom+5, image.width,image.height);
                 NSString * str3 =[NSString stringWithFormat:@"%@",[shopArray[3] objectForKey:@"Pic"]];
@@ -467,9 +502,11 @@ static NSString * const reuseIdentifier = @"Cell";
             }else if(shopArray.count ==3){
                 UIImageView *image =[[UIImageView alloc]init];
                 image.userInteractionEnabled =YES;
-
-                image.contentMode= UIViewContentModeCenter;
+                
+                image.contentMode= UIViewContentModeScaleAspectFill;
                 image.clipsToBounds =YES;
+                image.layer.masksToBounds =YES;
+
                 image.backgroundColor =[UIColor lightGrayColor];
 
                 image.frame =CGRectMake(0, 0, w, w);
@@ -479,8 +516,10 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
                 image1.userInteractionEnabled =YES;
-                image1.contentMode= UIViewContentModeCenter;
+                image1.contentMode=UIViewContentModeScaleAspectFill;
                 image1.clipsToBounds =YES;
+                image1.layer.masksToBounds =YES;
+
                 image1.backgroundColor =[UIColor lightGrayColor];
                 image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
                 NSString * str1 =[NSString stringWithFormat:@"%@",[shopArray[1] objectForKey:@"Pic"]];
@@ -490,8 +529,10 @@ static NSString * const reuseIdentifier = @"Cell";
                 UIImageView *image2 =[[UIImageView alloc]init];
                 image2.userInteractionEnabled =YES;
 
-                image2.contentMode= UIViewContentModeCenter;
+                image2.contentMode=UIViewContentModeScaleAspectFill;
                 image2.clipsToBounds =YES;
+                image2.layer.masksToBounds =YES;
+
                 image2.backgroundColor =[UIColor lightGrayColor];
                 image2.frame =CGRectMake((w-image.width)*0.5, image.bottom+5, image.width,image.height);
                 NSString * str2 =[NSString stringWithFormat:@"%@",[shopArray[2] objectForKey:@"Pic"]];
@@ -516,7 +557,7 @@ static NSString * const reuseIdentifier = @"Cell";
                 UIImageView *image =[[UIImageView alloc]init];
                 image.userInteractionEnabled =YES;
 
-                image.contentMode= UIViewContentModeCenter;
+                image.contentMode=UIViewContentModeScaleAspectFill;
                 image.clipsToBounds =YES;
                 image.backgroundColor =[UIColor lightGrayColor];
                 image.frame =CGRectMake(0, 0, w, w*2);
@@ -526,7 +567,7 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 UIImageView *image1 =[[UIImageView alloc]init];
                 image1.userInteractionEnabled =YES;
-                image1.contentMode= UIViewContentModeCenter;
+                image1.contentMode=UIViewContentModeScaleAspectFill;
                 image1.clipsToBounds =YES;
                 image1.backgroundColor =[UIColor lightGrayColor];
                 image1.frame =CGRectMake(image.right+5, 0, image.width,image.height);
@@ -547,7 +588,7 @@ static NSString * const reuseIdentifier = @"Cell";
             }else if(shopArray.count ==1){
                 UIImageView *image =[[UIImageView alloc]init];
                 image.userInteractionEnabled =YES;
-                image.contentMode= UIViewContentModeCenter;
+                image.contentMode=UIViewContentModeScaleAspectFill;
                 image.clipsToBounds =YES;
                 image.backgroundColor =[UIColor lightGrayColor];
                 image.frame =CGRectMake(0, 0, (w+5)*2, (w+5)*2);
@@ -582,6 +623,15 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     else
     {
+        NSDictionary *dicUser = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfo"];
+        if (!dicUser)
+        {
+            LoginAndRegisterViewController *VC = [[LoginAndRegisterViewController alloc] init];
+            BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
+            [self presentViewController:nav animated:YES completion:nil];
+            return;
+        }
+        
         [self activityDismiss];
         type=2;
         if (isRefresh1) {
@@ -631,14 +681,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -651,7 +701,7 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
@@ -761,21 +811,21 @@ static NSString * const reuseIdentifier = @"Cell";
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
-
--(void)guanzhuClick:(UIButton *)btn{
-    NSString *buyerId =[self.dataArray[btn.tag-100]objectForKey:@"BuyerId"];
-    BOOL tempState =[[self.dataArray[btn.tag-100]objectForKey:@"IsFavorite"]boolValue];
-
- 
+-(void)guanzhuTClick:(UIButton *)btn{
+    NSString *buyerId =[self.cusDataArray[btn.tag-200]objectForKey:@"BuyerId"];
+    BOOL tempState =[[self.cusDataArray[btn.tag-200]objectForKey:@"IsFllowed"]boolValue];
+    
+    
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     if (tempState)
     {
-        
         [dic setValue:@"0" forKey:@"Status"];
+        btn.selected =NO;
     }
     else
     {
         [dic setValue:@"1" forKey:@"Status"];
+        btn.selected = YES;
     }
     [dic setValue:buyerId forKey:@"FavoriteId"];
     
@@ -783,24 +833,67 @@ static NSString * const reuseIdentifier = @"Cell";
         
         if ([json objectForKey:@"isSuccessful"])
         {
-            
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.cusDataArray[btn.tag-200]];
             if (tempState)
             {
-                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag-100]];
-                [dic setObject:@"0" forKey:@"IsFavorited"];
-                [self.dataArray removeObject:self.dataArray[btn.tag-100]];
-                [self.dataArray insertObject:dic atIndex:btn.tag-100];                btn.selected =NO;
-           
+                
+                [dic setObject:@"0" forKey:@"IsFllowed"];
             }
             else
             {
-                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag-100]];
-                [dic setObject:@"1" forKey:@"IsFavorited"];
-                [self.dataArray removeObject:self.dataArray[btn.tag-100]];
-                [self.dataArray insertObject:dic atIndex:btn.tag-100];
-                btn.selected = YES;
-               
+                [dic setObject:@"1" forKey:@"IsFllowed"];
             }
+            [self.cusDataArray removeObject:self.cusDataArray[btn.tag-200]];
+            [self.cusDataArray insertObject:dic atIndex:btn.tag-200];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self.tableView reloadData];
+
+        
+    } failure:^(NSError *error) {
+        [self.tableView reloadData];
+
+    }];
+    
+    
+}
+-(void)guanzhuClick:(UIButton *)btn{
+    NSString *buyerId =[self.dataArray[btn.tag-100]objectForKey:@"BuyerId"];
+    BOOL tempState =[[self.dataArray[btn.tag-100]objectForKey:@"IsFavorited"]boolValue];
+
+ 
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    if (tempState)
+    {
+        [dic setValue:@"0" forKey:@"Status"];
+        btn.selected =NO;
+    }
+    else
+    {
+        [dic setValue:@"1" forKey:@"Status"];
+        btn.selected = YES;
+    }
+    [dic setValue:buyerId forKey:@"FavoriteId"];
+    
+    [HttpTool postWithURL:@"User/Favoite" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+             NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag-100]];
+            if (tempState)
+            {
+               
+                [dic setObject:@"0" forKey:@"IsFavorited"];
+            }
+            else
+            {
+                [dic setObject:@"1" forKey:@"IsFavorited"];
+            }
+            [self.dataArray removeObject:self.dataArray[btn.tag-100]];
+            [self.dataArray insertObject:dic atIndex:btn.tag-100];
         }
         else
         {
@@ -836,6 +929,7 @@ static NSString * const reuseIdentifier = @"Cell";
         }
     }
     return curIndexPath;
+    
 }
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
   
@@ -844,11 +938,18 @@ static NSString * const reuseIdentifier = @"Cell";
         contentOffsetX=contentOffsetPoint;
         NSIndexPath *indexPath =[self curIndexPath];
         int index =(int)indexPath.row+1;
-        if (index %3==0&&indexPath.row!=0)
+        if (self.dataArray.count-index==0)
         {
-            self.pageNumScroll =index/3+1;
+            [activity setHidesWhenStopped:NO];
+            [activity startAnimating];
+            self.pageNumScroll +=1;
             [self setData];
+        }else{
+            [activity stopAnimating];
+            [activity setHidesWhenStopped:YES];
         }
+    }else if(contentOffsetPoint ==-35 &&self.dataArray.count==0){
+        [self setData];
     }
    
    

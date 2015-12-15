@@ -304,7 +304,9 @@
     NSString *cityId = [self.localtionDic objectForKey:@"Id"];
     HistorySearchViewController *search =[[HistorySearchViewController alloc]init];
     search.cityId =cityId; //城市id
+    search.storeId =@"";
     search.cusSearchType =1; //全局搜索1
+    
     //经纬度
     search.latitude=  [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
     search.longitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
