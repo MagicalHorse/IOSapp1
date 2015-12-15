@@ -559,7 +559,7 @@
         UIView *view =[self.view viewWithTag:alertView.tag];
         [view removeFromSuperview];
         
-        [self.tagsArray removeObjectForKey:[NSString stringWithFormat:@"%ld",alertView.tag/100]];
+        [self.tagsArray removeObjectForKey:[NSString stringWithFormat:@"%ld",(long)alertView.tag/100]];
     }
 }
 

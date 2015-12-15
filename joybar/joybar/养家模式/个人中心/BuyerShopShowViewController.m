@@ -53,7 +53,7 @@
     _countLable.textColor =[UIColor lightGrayColor];
     _countLable.font =[UIFont systemFontOfSize:14];
     NSUInteger count =self.textView.text.length;
-    _countLable.text =[NSString stringWithFormat:@"%ld字",200-count];
+    _countLable.text =[NSString stringWithFormat:@"%ld字",(long)200-count];
     [view addSubview:_countLable];
     
 }
@@ -99,7 +99,7 @@
                textView.text = [textView.text substringToIndex:200];
         number = 200;
     }
-    _countLable.text =[NSString stringWithFormat:@"%ld字",200-number];
+    _countLable.text =[NSString stringWithFormat:@"%ld字",(long)200-number];
 }
 
 @end
