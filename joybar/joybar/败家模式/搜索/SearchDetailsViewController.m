@@ -475,30 +475,35 @@
     if (tempState)
     {
         [dic setValue:@"0" forKey:@"Status"];
+        btn.selected = NO;
     }
     else
     {
         [dic setValue:@"1" forKey:@"Status"];
+        btn.selected = YES;
+
     }
     [HttpTool postWithURL:@"Product/Favorite" params:dic isWrite:YES  success:^(id json) {
         
         if ([json objectForKey:@"isSuccessful"])
         {
             
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.searchArr[btn.tag-100]];
             if (tempState)
             {
-                btn.selected = NO;
+                [dic setObject:@"0" forKey:@"IsFavorite"];
             }
             else
             {
-                btn.selected = YES;
+                [dic setObject:@"1" forKey:@"IsFavorite"];
             }
+            [self.searchArr removeObject:self.searchArr[btn.tag-100]];
+            [self.searchArr insertObject:dic atIndex:btn.tag-100];
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-//        [self.tableView reloadData];
         
     } failure:^(NSError *error) {
     }];
@@ -527,8 +532,7 @@
             cell.desLab.text =[self.searchArr[indexPath.row]objectForKey:@"ProductName"];
         }
         
-        
-        
+    
         return cell;
 
     }else if(type ==2){
@@ -571,7 +575,6 @@
                 cell.guanzhuBtn.selected =NO;
                 cell.guanzhuBtn.backgroundColor =[UIColor orangeColor];
                 [cell.guanzhuBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-
             }
             
             [cell.guanzhuBtn addTarget:self action:@selector(guanzhuClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -593,9 +596,6 @@
                     UITapGestureRecognizer *proTap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did2ClickProView:)];
                     [cell.shopBtn1 addGestureRecognizer:proTap1];
                     proTap1.view.tag =[[array[1]objectForKey:@"ProductId"] integerValue];
-
-
-                    
                     
                 }else if(array.count ==3){
                     cell.shopBtn1.hidden =NO;
@@ -686,24 +686,30 @@
     if (tempState)
     {
         [dic setValue:@"0" forKey:@"Status"];
+        btn.selected = NO;
     }
     else
     {
         [dic setValue:@"1" forKey:@"Status"];
+        btn.selected = YES;
     }
     [HttpTool postWithURL:@"User/Favoite" params:dic isWrite:YES  success:^(id json) {
         
         if ([json objectForKey:@"isSuccessful"])
         {
             
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.searchArr2[btn.tag-100]];
             if (tempState)
             {
-                btn.selected = NO;
+                [dic setObject:@"0" forKey:@"IsFllowed"];
             }
             else
             {
-                btn.selected = YES;
+                [dic setObject:@"1" forKey:@"IsFllowed"];
             }
+            [self.searchArr2 removeObject:self.searchArr2[btn.tag-100]];
+            [self.searchArr2 insertObject:dic atIndex:btn.tag-100];
+            
         }
         else
         {
@@ -784,14 +790,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -804,14 +810,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -824,14 +830,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }

@@ -169,6 +169,21 @@
         [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.dataArray[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.shopName.text = [self.dataArray[indexPath.row]objectForKey:@"Nickname"];
         cell.addressLab.text =[self.dataArray[indexPath.row]objectForKey:@"BrandName"];
+        BOOL isFavite =[[self.dataArray[indexPath.row]objectForKey:@"IsFllowed"]boolValue];
+        if (isFavite) {
+            cell.guanzhuBtn.selected =YES;
+            cell.guanzhuBtn.backgroundColor =[UIColor whiteColor];
+            cell.guanzhuBtn.layer.borderWidth=1;
+            cell.guanzhuBtn.layer.borderColor =[UIColor lightGrayColor].CGColor;
+            [cell.guanzhuBtn setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+        }else{
+            cell.guanzhuBtn.selected =NO;
+            cell.guanzhuBtn.backgroundColor =[UIColor orangeColor];
+            [cell.guanzhuBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+        
+        [cell.guanzhuBtn addTarget:self action:@selector(guanzhuClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.guanzhuBtn.tag =indexPath.row +100;
         cell.bgView.tag =indexPath.row+10;
         NSArray *array =[self.dataArray[indexPath.row]objectForKey:@"Products"];
         if (array.count>0) {
@@ -234,14 +249,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -254,14 +269,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -274,14 +289,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -292,5 +307,50 @@
     CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
     mainStore.userId =[self.dataArray[indexPath.row]objectForKey:@"BuyerId"];
     [self.navigationController pushViewController:mainStore animated:YES];
+}
+-(void)guanzhuClick:(UIButton *)btn{
+    BOOL tempState =[[self.dataArray[btn.tag-100]objectForKey:@"IsFllowed"]boolValue];
+    NSString *buyerId =[self.dataArray[btn.tag-100]objectForKey:@"UserId"];
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:buyerId forKey:@"FavoriteId"];
+    if (tempState)
+    {
+        [dic setValue:@"0" forKey:@"Status"];
+        btn.selected = NO;
+    }
+    else
+    {
+        [dic setValue:@"1" forKey:@"Status"];
+        btn.selected = YES;
+    }
+    [HttpTool postWithURL:@"User/Favoite" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag-100]];
+            if (tempState)
+            {
+                [dic setObject:@"0" forKey:@"IsFllowed"];
+            }
+            else
+            {
+                [dic setObject:@"1" forKey:@"IsFllowed"];
+            }
+            [self.dataArray removeObject:self.dataArray[btn.tag-100]];
+            [self.dataArray insertObject:dic atIndex:btn.tag-100];
+            
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        [self.tableView reloadData];
+        
+    } failure:^(NSError *error) {
+    }];
+    
+    
 }
 @end

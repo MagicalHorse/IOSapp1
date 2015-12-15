@@ -281,7 +281,22 @@ static NSString * const reuseIdentifier = @"Cell";
         [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.cusDataArray[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.shopName.text = [self.cusDataArray[indexPath.row]objectForKey:@"Nickname"];
         cell.addressLab.text =[self.cusDataArray[indexPath.row]objectForKey:@"BrandName"];
+        
+        
+        BOOL isFavite =[[self.cusDataArray[indexPath.row]objectForKey:@"IsFllowed"]boolValue];
+        if (isFavite) {
+            cell.guanzhuBtn.selected =YES;
+            cell.guanzhuBtn.backgroundColor =[UIColor whiteColor];
+            cell.guanzhuBtn.layer.borderWidth=1;
+            cell.guanzhuBtn.layer.borderColor =[UIColor lightGrayColor].CGColor;
+            [cell.guanzhuBtn setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+        }else{
+            cell.guanzhuBtn.selected =NO;
+            cell.guanzhuBtn.backgroundColor =[UIColor orangeColor];
+            [cell.guanzhuBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
         [cell.guanzhuBtn addTarget:self action:@selector(guanzhuTClick:) forControlEvents:UIControlEventTouchUpInside];
+        
         cell.bgView.tag =indexPath.row+10;
         NSArray *array =[self.cusDataArray[indexPath.row]objectForKey:@"Products"];
         if (array.count>0) {
@@ -384,7 +399,7 @@ static NSString * const reuseIdentifier = @"Cell";
         cell.addressView.text =[self.dataArray[indexPath.row]objectForKey:@"StoreName"];
         cell.addreView.text =[self.dataArray[indexPath.row]objectForKey:@"Address"];
         cell.nameView.text =[self.dataArray[indexPath.row]objectForKey:@"BrandName"];
-        BOOL isFavite =[[self.dataArray[indexPath.row]objectForKey:@"IsFavorite"]boolValue];
+        BOOL isFavite =[[self.dataArray[indexPath.row]objectForKey:@"IsFavorited"]boolValue];
         if (isFavite) {
             cell.guanzhuView.selected =YES;
             cell.guanzhuView.backgroundColor =[UIColor lightGrayColor];
@@ -631,14 +646,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -651,14 +666,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -671,14 +686,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -690,14 +705,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -710,14 +725,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -730,14 +745,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -750,32 +765,32 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
-
--(void)guanzhuClick:(UIButton *)btn{
-    NSString *buyerId =[self.dataArray[btn.tag-100]objectForKey:@"BuyerId"];
-    BOOL tempState =[[self.dataArray[btn.tag-100]objectForKey:@"IsFavorite"]boolValue];
-
- 
+-(void)guanzhuTClick:(UIButton *)btn{
+    NSString *buyerId =[self.cusDataArray[btn.tag-100]objectForKey:@"BuyerId"];
+    BOOL tempState =[[self.cusDataArray[btn.tag-100]objectForKey:@"IsFllowed"]boolValue];
+    
+    
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     if (tempState)
     {
-        
         [dic setValue:@"0" forKey:@"Status"];
+        btn.selected =NO;
     }
     else
     {
         [dic setValue:@"1" forKey:@"Status"];
+        btn.selected = YES;
     }
     [dic setValue:buyerId forKey:@"FavoriteId"];
     
@@ -783,30 +798,68 @@ static NSString * const reuseIdentifier = @"Cell";
         
         if ([json objectForKey:@"isSuccessful"])
         {
-            
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.cusDataArray[btn.tag-100]];
             if (tempState)
             {
-                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag-100]];
-                [dic setObject:@"0" forKey:@"IsFavorited"];
-                [self.dataArray removeObject:self.dataArray[btn.tag-100]];
-                [self.dataArray insertObject:dic atIndex:btn.tag-100];                btn.selected =NO;
-           
+                
+                [dic setObject:@"0" forKey:@"IsFllowed"];
             }
             else
             {
-                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag-100]];
-                [dic setObject:@"1" forKey:@"IsFavorited"];
-                [self.dataArray removeObject:self.dataArray[btn.tag-100]];
-                [self.dataArray insertObject:dic atIndex:btn.tag-100];
-                btn.selected = YES;
-               
+                [dic setObject:@"1" forKey:@"IsFllowed"];
             }
+            [self.cusDataArray removeObject:self.cusDataArray[btn.tag-100]];
+            [self.cusDataArray insertObject:dic atIndex:btn.tag-100];
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [self.cusCollectView reloadData];
+        
+    } failure:^(NSError *error) {
+    }];
+    
+    
+}
+-(void)guanzhuClick:(UIButton *)btn{
+    NSString *buyerId =[self.dataArray[btn.tag-100]objectForKey:@"BuyerId"];
+    BOOL tempState =[[self.dataArray[btn.tag-100]objectForKey:@"IsFavorited"]boolValue];
+
+ 
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    if (tempState)
+    {
+        [dic setValue:@"0" forKey:@"Status"];
+        btn.selected =NO;
+    }
+    else
+    {
+        [dic setValue:@"1" forKey:@"Status"];
+        btn.selected = YES;
+    }
+    [dic setValue:buyerId forKey:@"FavoriteId"];
+    
+    [HttpTool postWithURL:@"User/Favoite" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+             NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag-100]];
+            if (tempState)
+            {
+               
+                [dic setObject:@"0" forKey:@"IsFavorited"];
+            }
+            else
+            {
+                [dic setObject:@"1" forKey:@"IsFavorited"];
+            }
+            [self.dataArray removeObject:self.dataArray[btn.tag-100]];
+            [self.dataArray insertObject:dic atIndex:btn.tag-100];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
         
     } failure:^(NSError *error) {
     }];
@@ -815,7 +868,7 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 -(void)didHeadViewClick:(UITapGestureRecognizer *)btn{
     CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
-    mainStore.userId =[NSString stringWithFormat:@"%ld",btn.view.tag];
+    mainStore.userId =[NSString stringWithFormat:@"%d",btn.view.tag];
     [self.navigationController pushViewController:mainStore animated:YES];
 }
 - (NSIndexPath *)curIndexPath {
