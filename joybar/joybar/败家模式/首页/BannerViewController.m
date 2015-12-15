@@ -99,6 +99,7 @@
         {
             CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
             VC.userId = typeId;
+            VC.isCircle = NO;
             [self.navigationController pushViewController:VC animated:YES];
         }
         else if ([type isEqualToString:@"app://type=store"])

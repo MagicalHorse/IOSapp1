@@ -215,16 +215,19 @@
 
 -(void)didClickToStore
 {
-    NSLog(@"adasda");
     CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userId = detailData.BuyerId;
+    VC.isCircle = NO;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 
 }
 
 -(void)didClickToCircle
 {
-    
+    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
+    VC.userId = detailData.BuyerId;
+    VC.isCircle = YES;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 @end

@@ -15,10 +15,11 @@ typedef NSUInteger isFromType;
 
 @interface CircleViewController : BaseViewController
 
-@property (nonatomic ,strong) ProDetailData *detailData;
 @property (nonatomic ,strong) NSString *circleId;
+@property (nonatomic ,strong) NSString *userId;
 //@property (nonatomic ,strong) NSString *chatRoomId;
 //@property (assign, nonatomic) id<MessageTableViewScrollViewDelegate>messageScrollDelegate;
+//@property (nonatomic ,strong) NSString *userName;
 
 -(instancetype)initWithUserId:(NSString *)userId AndTpye:(int)type andUserName:(NSString *)Username;
 

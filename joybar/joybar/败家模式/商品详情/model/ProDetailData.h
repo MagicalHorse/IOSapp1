@@ -37,6 +37,7 @@
 @property (nonatomic ,copy) NSString *RemainTime;
 
 @property (nonatomic ,strong)NSMutableArray *ProductPic;
+
 @property (nonatomic ,strong) ProDetailPromotion *Promotion;
 
 @property (nonatomic ,strong) LikeUsers *LikeUsers;

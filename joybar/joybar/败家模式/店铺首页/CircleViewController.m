@@ -86,6 +86,50 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    toUserId = self.userId;
+//    toUserName = self.userName;
+    UIView *bgView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
+    bgView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:bgView];
+    
+    UILabel *notice = [[UILabel alloc] init];
+    notice.text = @"阿打算打算大神大神大神大神大神的";
+    notice.numberOfLines = 1;
+    notice.font =[UIFont systemFontOfSize:14];
+    notice.adjustsFontSizeToFitWidth = YES;
+    //    CGSize size = [Public getContentSizeWith:notice.text andFontSize:14 andWidth:kScreenWidth-60];
+    notice.frame =CGRectMake(10, 0, kScreenWidth-70, 50);
+    [bgView addSubview:notice];
+    
+    UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    btn.frame = CGRectMake(kScreenWidth-50, 5, 40, 40);
+    [btn setImage:[UIImage imageNamed:@"设置icon"] forState:(UIControlStateNormal)];
+    [btn addTarget:self action:@selector(didClickToDetail) forControlEvents:(UIControlEventTouchUpInside)];
+    [bgView addSubview:btn];
+
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:[[Public getUserInfo] objectForKey:@"id"] forKey:@"userId"];
+    [dic setValue:self.userId forKey:@"buyerId"];
+
+    [HttpTool postWithURL:@"Community/GetBuyerBaseGroup" params:dic success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSDictionary *dic = [json objectForKey:@"data"];
+            self.circleId = [dic objectForKey:@"GroupId"];
+            
+            [self getRoomId];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        
+    } failure:^(NSError *error) {
+        
+    }];
+    
     
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
@@ -108,26 +152,6 @@
     self.messageArr = [[NSMutableArray alloc] init];
     self.selectProLinkArr = [[NSMutableArray alloc] init];
     self.view.backgroundColor = kCustomColor(236, 240, 241);
-    
-    UIView *bgView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
-    bgView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:bgView];
-    
-    UILabel *notice = [[UILabel alloc] init];
-    notice.text = @"阿打算打算大神大神大神大神大神的";
-    notice.numberOfLines = 2;
-    notice.font =[UIFont systemFontOfSize:14];
-    notice.adjustsFontSizeToFitWidth = YES;
-    //    CGSize size = [Public getContentSizeWith:notice.text andFontSize:14 andWidth:kScreenWidth-60];
-    notice.frame =CGRectMake(10, 0, kScreenWidth-70, 50);
-    [bgView addSubview:notice];
-    
-    UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    btn.frame = CGRectMake(kScreenWidth-50, 5, 40, 40);
-    [btn setImage:[UIImage imageNamed:@"设置icon"] forState:(UIControlStateNormal)];
-    [btn addTarget:self action:@selector(didClickToDetail) forControlEvents:(UIControlEventTouchUpInside)];
-    [bgView addSubview:btn];
-
     
     self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 50, kScreenWidth, kScreenHeight-49)];
     self.tableView.headerPullToRefreshText1 = @"下拉可以加载了";
@@ -166,8 +190,6 @@
         [faceDict setValue:face_Image forKey:faceName];
     }
     [[NSUserDefaults standardUserDefaults] setObject:faceDict forKey:@"faceInfo"];
-    
-    [self getRoomId];
     
 }
 
@@ -247,9 +269,7 @@
         }
     } failure:^(NSError *error) {
         [self textHUDHiddle];
-        
     }];
-    
 }
 -(void)creatRoom
 {

@@ -21,6 +21,8 @@ typedef void(^BtnBlock)(UIButton *btn,NSInteger index);
 @property (nonatomic, strong) NSArray *textArray;
 @property (nonatomic, strong)NSMutableArray *buttonArr;
 @property (nonatomic ,strong) BtnBlock clickBtnBlock;
+
+@property (nonatomic ,assign) BOOL isRenZheng;
 - (void)setLabelBackgroundColor:(UIColor *)color;
 - (void)setTags:(NSArray *)array;
 - (void)display;

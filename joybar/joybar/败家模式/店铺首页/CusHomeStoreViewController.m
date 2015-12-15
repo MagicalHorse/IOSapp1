@@ -149,9 +149,18 @@
 -(void)getData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:self.userId forKey:@"userid"];
+    NSString *ID = [[Public getUserInfo] objectForKey:@"id"];
+    if (ID)
+    {
+        [dic setObject:ID forKey:@"userid"];
+    }
+    else
+    {
+        [dic setObject:@"0" forKey:@"userid"];
+    }
+    [dic setValue:self.userId forKey:@"buyerId"];
 
-    [HttpTool postWithURL:@"User/GetUserInfo" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"V3/GetBuyerInfo" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {

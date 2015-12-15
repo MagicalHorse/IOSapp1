@@ -164,10 +164,9 @@
         [timer3 setCountDownTime:BusinessTime];
         showLab.text = @" 距离开始 :";
     }
-    nameLab.text = [dic objectForKey:@"Name"];
-    [timer3 start];
+    nameLab.text = [dic objectForKey:@"StoreName"];
+        [timer3 start];
 
-    
     if (brandArr.count>0)
     {
         brandView.frame = CGRectMake(0, imageView.bottom+15, tempView.width, 20);
@@ -304,11 +303,10 @@
         //认证买手
         if ([StoreLeave isEqualToString:@"8"])
         {
-            
             UIImageView *buyerHeaderImage = [[UIImageView alloc] initWithFrame:CGRectMake(proImage.left, proImage.bottom+5, 40, 40)];
             buyerHeaderImage.clipsToBounds = YES;
             buyerHeaderImage.layer.cornerRadius = buyerHeaderImage.width/2;
-            [buyerHeaderImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            [buyerHeaderImage sd_setImageWithURL:[NSURL URLWithString:[proDic objectForKey:@"UserLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             buyerHeaderImage.userInteractionEnabled = YES;
             buyerHeaderImage.tag = 100+i;
             [proView addSubview:buyerHeaderImage];
@@ -317,12 +315,12 @@
             [buyerHeaderImage addGestureRecognizer:headerTap];
             
             UILabel *buyerName = [[UILabel alloc] initWithFrame:CGRectMake(buyerHeaderImage.right+5, proImage.bottom+8, proImage.width-50, 15)];
-            buyerName.text = [proDic objectForKey:@"NickName"];
+            buyerName.text = [proDic objectForKey:@"BuyerName"];
             buyerName.font = [UIFont systemFontOfSize:12];
             [proView addSubview:buyerName];
             
             UILabel *buyerBrandName = [[UILabel alloc] initWithFrame:CGRectMake(buyerHeaderImage.right+5, buyerName.bottom, proImage.width-50, 20)];
-            buyerBrandName.text = [NSString stringWithFormat:@"BrandName"];
+            buyerBrandName.text = [NSString stringWithFormat:@"%@",[proDic objectForKey:@"BrandName"]];
             buyerBrandName.font = [UIFont systemFontOfSize:11];
             [proView addSubview:buyerBrandName];
         }
@@ -387,6 +385,7 @@
     
     CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userId = userId;
+    VC.isCircle = NO;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 

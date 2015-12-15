@@ -795,6 +795,7 @@
     }
     DWTagList*sizeBtn = [[DWTagList alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth-100, 300.0f)];
     sizeBtn.backgroundColor = [UIColor clearColor];
+    sizeBtn.isRenZheng = YES;
     [sizeBtn setTags:array];
     [buyBgView addSubview:sizeBtn];
     CGFloat height = [sizeBtn fittedSize].height;

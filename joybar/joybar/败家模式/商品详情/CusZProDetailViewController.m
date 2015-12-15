@@ -174,7 +174,7 @@
     }
     else
     {
-        return 250;
+        return prodata.ProductPic.count*210;
     }
 }
 
@@ -193,7 +193,10 @@
     cell.delegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.kuCunArr = self.kuCunArr;
-    [cell setDetailData:prodata andIndex:indexPath];
+    if (prodata)
+    {
+        [cell setDetailData:prodata andIndex:indexPath];  
+    }
     
     return cell;
 }
@@ -222,8 +225,6 @@
             NSDictionary *dic = [json objectForKey:@"data"];
             prodata = [ProDetailData objectWithKeyValues:dic];
             
-            [self.proDetailTableView reloadData];
-          
             [self initWithFooterView];
         }
         else
@@ -231,7 +232,8 @@
             [self showHudFailed:[json objectForKey:@"message"]];
         }
         [self activityDismiss];
-        
+        [self.proDetailTableView reloadData];
+
     } failure:^(NSError *error) {
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
         [self activityDismiss];

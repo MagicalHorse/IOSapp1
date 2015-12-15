@@ -206,6 +206,7 @@
         [sizeBtn setTags:selectSizeArr];
         CGFloat height = [sizeBtn fittedSize].height;
         self.sizeHeight = height;
+        sizeBtn.isRenZheng = NO;
         sizeBtn.frame = CGRectMake(sizeLab.right+5, sizeLab.top-3, kScreenWidth-70, height);
         colorStr =[[self.kuCunArr objectAtIndex:0] objectForKey:@"ColorName"];
         NSString *name = [NSString stringWithFormat:@"%@%@",colorStr,[selectSizeArr[0] objectForKey:@"SizeName"]];
@@ -383,10 +384,11 @@
         for (int i=0; i<proData.ProductPic.count; i++)
         {
             ProductPicture *pic = [proData.ProductPic objectAtIndex:i];
-            
-            UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, i*210, kScreenWidth, 210)];
+
+            UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, i*210+40, kScreenWidth, 210)];
+            proImage.backgroundColor =[UIColor redColor];
             [proImage sd_setImageWithURL:[NSURL URLWithString:pic.Logo] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-            [scroll addSubview:proImage];
+            [self.contentView addSubview:proImage];
         }
         
         UIImageView *sizeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, 210)];
@@ -483,13 +485,17 @@
 {
     CusMainStoreViewController *VC= [[CusMainStoreViewController alloc] init];
     VC.userId =detailData.BuyerId;
+    VC.isCircle = NO;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 //进圈
 -(void)didClickToCircle
 {
-    
+    CusMainStoreViewController *VC= [[CusMainStoreViewController alloc] init];
+    VC.userId =detailData.BuyerId;
+    VC.isCircle = YES;
+    [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
 -(void)didClickBtn:(UIButton *)btn

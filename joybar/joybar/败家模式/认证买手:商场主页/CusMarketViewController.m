@@ -14,7 +14,7 @@
 #import "CusHomeStoreHeader.h"
 #import "CusMoreBrandViewController.h"
 #import "HistorySearchViewController.h"
-
+#import "CusZProDetailViewController.h"
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 #define HEADER_HEIGHT [UIScreen mainScreen].bounds.size.width*0.5+35
 @interface CusMarketViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,CHTCollectionViewDelegateWaterfallLayout>
@@ -136,7 +136,6 @@
     } failure:^(NSError *error) {
         
     }];
-    
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -146,10 +145,21 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *proId = [self.proArr [indexPath.row] objectForKey:@"Id"];
-    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-    VC.productId = proId;
-    [self.navigationController pushViewController:VC animated:YES];
+    NSDictionary *dic = self.proArr[indexPath.row];
+    NSString *proId = [dic objectForKey:@"Id"];
+    if ([[NSString stringWithFormat:@"%@",[dic objectForKey:@"UserLevel"]] isEqualToString:@"8"])
+    {
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = proId;
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = proId;
+        [self.navigationController pushViewController:VC animated:YES];
+
+    }
     
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -166,7 +176,7 @@
     }
     if (self.proArr.count>0)
     {
-        float height = [[[self.proArr objectAtIndex:indexPath.row] objectForKey:@"Ratio"] floatValue];
+        float height = [[[[self.proArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
         [cell setCollectionData:[self.proArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
     }
     return cell;
@@ -176,12 +186,12 @@
 {
     if (self.proArr.count>0)
     {
-        NSDictionary *dic = [self.proArr objectAtIndex:indexPath.row];
-        NSString *text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ProductName"]];
+        NSDictionary *dic = [self.proArr objectAtIndex:indexPath.row] ;
+        NSString *text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"Name"]];
         CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
-        CGFloat itemH = (kScreenWidth-10)/2*[[dic objectForKey:@"Ratio"] floatValue]+size.height+35;
-        CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
-        return size1;
+        float height = [[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
+        CGFloat itemH = (kScreenWidth-15)/2*height+size.height+40;
+        return CGSizeMake((kScreenWidth-15)/2, itemH);
     }
     return CGSizeMake(0, 0);
 }
@@ -227,6 +237,18 @@
     NSString *level = [NSString stringWithFormat:@"%@",[self.infoDic objectForKey:@"StoreLeave"]];
     if ([level isEqualToString:@"8"])
     {
+        
+        UILabel *describe = [[UILabel alloc] init];
+        describe.textColor = [UIColor whiteColor];
+        describe.font = [UIFont systemFontOfSize:13];
+        describe.numberOfLines = 2;
+        describe.text = [self.infoDic objectForKey:@"Description"];
+        describe.frame =CGRectMake(15, nameLab.bottom, kScreenWidth-30, 26);
+        [tempView addSubview:describe];
+
+    }
+    else
+    {
         UIImageView *localImage = [[UIImageView alloc] initWithFrame:CGRectMake(15, tempView.height-20, 13, 13)];
         localImage.image = [UIImage imageNamed:@"location"];
         [tempView addSubview:localImage];
@@ -236,16 +258,7 @@
         localLab.textColor = [UIColor whiteColor];
         localLab.font = [UIFont systemFontOfSize:13];
         [tempView addSubview:localLab];
-    }
-    else
-    {
-        UILabel *describe = [[UILabel alloc] init];
-        describe.textColor = [UIColor whiteColor];
-        describe.font = [UIFont systemFontOfSize:13];
-        describe.numberOfLines = 2;
-        describe.text = [self.infoDic objectForKey:@"Description"];
-        describe.frame =CGRectMake(15, nameLab.bottom, kScreenWidth-30, 26);
-        [tempView addSubview:describe];
+
     }
     
     if (self.brandArr.count>0)

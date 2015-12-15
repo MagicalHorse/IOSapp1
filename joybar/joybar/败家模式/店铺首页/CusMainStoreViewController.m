@@ -53,7 +53,7 @@
     [self addChildViewController:_homeStoreVC];
     
     _buyerCircleVC = [[CircleViewController alloc] initWithUserId:@"838" AndTpye:1 andUserName:@"asd"];
-    _buyerCircleVC.circleId = @"838";
+    _buyerCircleVC.userId = self.userId;
     _buyerCircleVC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-64);
     
     [self.scrollView addSubview:_homeStoreVC.view];
@@ -66,6 +66,10 @@
     [self addNavBarViewAndTitle:@""];
 
     self.btnArr = [[NSMutableArray alloc] init];
+    _line = [[UIView alloc] init];
+    _line.backgroundColor = [UIColor orangeColor];
+    [self.navView addSubview:_line];
+
     NSArray *title = @[@"店铺",@"圈子"];
     for (int i=0; i<2; i++)
     {
@@ -86,23 +90,32 @@
         [button addTarget:self action:@selector(didClickHeadButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.navView addSubview:button];
         [self.btnArr addObject:button];
-        
-        if (i==0)
+        if (self.isCircle)
         {
-            _line = [[UIView alloc] init];
-            _line.center = CGPointMake(button.center.x, 63);
+            if (i==0)
+            {
+                [self didClickHeadButtonAction:button];
+            }
+            _line.center = CGPointMake((kScreenWidth/2-60)/2+60, 63);
             _line.bounds = CGRectMake(0, 0, 60, 2);
-            _line.backgroundColor = [UIColor orangeColor];
-            [self.navView addSubview:_line];
         }
+        else
+        {
+            if (i==1)
+            {
+                [self didClickHeadButtonAction:button];
+            }
+
+            _line.center = CGPointMake(60+(kScreenWidth/2-60)*3/2, 63);
+            _line.bounds = CGRectMake(0, 0, 60, 2);
+        }
+
     }
     
-
 }
 
 - (void)didClickHeadButtonAction:(UIButton *)button
 {
-    
     for (UIButton *selectBtn in self.btnArr)
     {
         if ([selectBtn isEqual:button])
@@ -116,7 +129,6 @@
         }
     }
     
-
     //  点击处于当前页面的按钮,直接跳出
     if ((self.currentVC == self.homeStoreVC && button.tag == 100)||(self.currentVC == self.buyerCircleVC && button.tag == 101.)) {
         return;
@@ -135,8 +147,6 @@
         }
     }
 }
-
-
 
 //  切换各个标签内容
 - (void)replaceController:(UIViewController *)oldController newController:(UIViewController *)newController

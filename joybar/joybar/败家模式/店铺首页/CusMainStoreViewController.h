@@ -11,5 +11,8 @@
 @interface CusMainStoreViewController : BaseViewController
 
 @property (nonatomic ,strong) NSString *userId;
+//@property (nonatomic ,strong) NSString *userName;
+
+@property (nonatomic ,assign) BOOL isCircle;
 
 @end

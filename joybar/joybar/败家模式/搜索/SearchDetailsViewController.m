@@ -759,6 +759,7 @@
 
         CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
         mainStore.userId =[self.searchArr2[indexPath.row]objectForKey:@"UserId"];
+        mainStore.isCircle = NO;
         [self.navigationController pushViewController:mainStore animated:YES];
     
     }else if(type ==4){

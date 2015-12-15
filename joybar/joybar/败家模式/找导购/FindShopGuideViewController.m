@@ -816,6 +816,7 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)didHeadViewClick:(UITapGestureRecognizer *)btn{
     CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
     mainStore.userId =[NSString stringWithFormat:@"%ld",btn.view.tag];
+    mainStore.isCircle = NO;
     [self.navigationController pushViewController:mainStore animated:YES];
 }
 - (NSIndexPath *)curIndexPath {
