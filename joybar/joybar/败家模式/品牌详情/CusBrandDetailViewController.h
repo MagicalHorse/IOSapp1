@@ -12,4 +12,6 @@
 
 @property (nonatomic ,strong) NSString *BrandId;
 @property (nonatomic ,strong) NSString *BrandName;
+@property (nonatomic ,copy)NSString *cityId;
+@property (nonatomic ,copy)NSString *storeId;
 @end

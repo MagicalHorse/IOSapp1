@@ -804,6 +804,17 @@
         CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
         VC.BrandId = [self.searchArr1[indexPath.row] objectForKey:@"BrandId"];
         VC.BrandName = [self.searchArr1[indexPath.row] objectForKey:@"BrandName"];
+        if (self.storeId) {
+            VC.storeId =self.storeId;
+        }else{
+            VC.storeId =@"0";
+        }
+        if (self.cityId) {
+            VC.cityId =self.cityId;
+
+        }else{
+            VC.cityId =@"0";
+        }
         [self.navigationController pushViewController:VC animated:YES];
         
     }else if(type ==3){

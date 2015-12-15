@@ -99,8 +99,8 @@
 -(void)getData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:@"0" forKey:@"StoreId"];
-    [dic setObject:@"0" forKey:@"CityId"];
+    [dic setValue:self.cityId forKey:@"StoreId"];
+    [dic setValue:self.storeId forKey:@"CityId"];
     [dic setValue:self.BrandId forKey:@"BrandId"];
     [dic setValue:[[Public getUserInfo]objectForKey:@"id"] forKey:@"UserId"];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
