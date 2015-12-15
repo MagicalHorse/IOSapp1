@@ -14,7 +14,8 @@
 #import "CusZProDetailViewController.h"
 #import "CusRProDetailViewController.h"
 #import "CusMainStoreViewController.h"
-
+#import "LoginAndRegisterViewController.h"
+#import "BaseNavigationController.h"
 @interface FindShopGuideViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,
 UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -62,7 +63,7 @@ static NSString * const reuseIdentifier = @"Cell";
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNumScroll] forKey:@"Page"];
     [dict setObject:@"6" forKey:@"Pagesize"];
     
-    [HttpTool postWithURL:@"BuyerV3/RecommondBuyerlist" params:dict  success:^(id json) {
+    [HttpTool postWithURL:@"V3/RecommondBuyerlist" params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             isRefresh=NO;
@@ -595,6 +596,15 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     else
     {
+        NSDictionary *dicUser = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfo"];
+        if (!dicUser)
+        {
+            LoginAndRegisterViewController *VC = [[LoginAndRegisterViewController alloc] init];
+            BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
+            [self presentViewController:nav animated:YES completion:nil];
+            return;
+        }
+        
         [self activityDismiss];
         type=2;
         if (isRefresh1) {
@@ -723,14 +733,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -743,14 +753,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -763,14 +773,14 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -891,6 +901,7 @@ static NSString * const reuseIdentifier = @"Cell";
         }
     }
     return curIndexPath;
+    
 }
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
   

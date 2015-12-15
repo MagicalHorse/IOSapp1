@@ -219,7 +219,6 @@
             }else{
                 cell.shopBtn1.hidden =YES;
                 cell.shopBtn2.hidden =YES;
-                
                 [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 [cell.shopBtn sd_setImageWithURL:[NSURL URLWithString:[array[0]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(did1ClickProView:)];
@@ -227,9 +226,29 @@
                 proTap.view.tag =[[array[0]objectForKey:@"ProductId"] integerValue];
 
             }
+        }else{
+            cell.shopBtn.hidden =YES;
+            cell.shopBtn1.hidden =YES;
+            cell.shopBtn2.hidden =YES;
+            UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, cell.shopBtn.top+10, cell.width, 20)];
+            lable.text =@"店铺什么都没有，戳一下，提醒上新~";
+            lable.textAlignment =NSTextAlignmentCenter;
+            lable.font =[UIFont systemFontOfSize:13];
+            lable.textColor =[UIColor grayColor];
+            [cell addSubview:lable];
+            
+            UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+            
+            btn.backgroundColor =[UIColor orangeColor];
+            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+            btn.titleLabel.font =[UIFont systemFontOfSize:13];
+            [btn addTarget:self action:@selector(txUptoNew:) forControlEvents:UIControlEventTouchUpInside];
+            btn.tag =[[self.dataArray[indexPath.row]objectForKey:@"UserId"]integerValue];
+            [cell addSubview:btn];
         }
-        
     }
+    
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -359,5 +378,24 @@
     [textField resignFirstResponder];
     [self setData];
     return YES;
+}
+-(void)txUptoNew:(UIButton *)btn{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:[NSString stringWithFormat:@"%ld",(long)btn.tag] forKey:@"buyerid"];
+    [HttpTool postWithURL:@"BuyerV3/Touch" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+    
+    
 }
 @end

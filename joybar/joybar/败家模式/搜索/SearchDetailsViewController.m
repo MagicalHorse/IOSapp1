@@ -16,6 +16,8 @@
 #import "CusBrandDetailViewController.h"
 #import "CusMarketViewController.h"
 #import "CusMainStoreViewController.h"
+#import "BaseNavigationController.h"
+#import "LoginAndRegisterViewController.h"
 
 @interface SearchDetailsViewController()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -467,6 +469,16 @@
 
 -(void)chBtnClick:(UIButton *)btn{
 
+    
+    NSDictionary *dicUser = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfo"];
+    if (!dicUser)
+    {
+        LoginAndRegisterViewController *VC = [[LoginAndRegisterViewController alloc] init];
+        BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
+        [self presentViewController:nav animated:YES completion:nil];
+        return;
+    }
+    
     BOOL tempState =[[self.searchArr[btn.tag]objectForKey:@"IsFavorite"]boolValue];
     NSString *stroeId =[self.searchArr[btn.tag]objectForKey:@"ProductId"];
 
@@ -645,6 +657,8 @@
                 [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
                 btn.titleLabel.font =[UIFont systemFontOfSize:13];
+                [btn addTarget:self action:@selector(txUptoNew:) forControlEvents:UIControlEventTouchUpInside];
+                btn.tag =[[self.searchArr2[indexPath.row]objectForKey:@"UserId"]integerValue];
                 [cell addSubview:btn];
             }
         }
@@ -677,7 +691,38 @@
     [self setData];
     return YES;
 }
+
+-(void)txUptoNew:(UIButton *)btn{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:[NSString stringWithFormat:@"%d",btn.tag] forKey:@"buyerid"];
+    [HttpTool postWithURL:@"BuyerV3/Touch" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+
+    
+}
 -(void)guanzhuClick:(UIButton *)btn{
+    
+    NSDictionary *dicUser = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfo"];
+    if (!dicUser)
+    {
+        LoginAndRegisterViewController *VC = [[LoginAndRegisterViewController alloc] init];
+        BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
+        [self presentViewController:nav animated:YES completion:nil];
+        return;
+    }
+
+
     BOOL tempState =[[self.searchArr2[btn.tag-100]objectForKey:@"IsFllowed"]boolValue];
     NSString *buyerId =[self.searchArr2[btn.tag-100]objectForKey:@"UserId"];
     
