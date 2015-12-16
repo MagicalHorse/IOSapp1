@@ -75,10 +75,12 @@ static NSString * const reuseIdentifier = @"Cell";
             [self showHudFailed:[json objectForKey:@"message"]];
         }
         [self.cusCollectView reloadData];
+
         [self activityDismiss];
         [activity stopAnimating]; // 结束旋转
         [activity setHidesWhenStopped:YES]; //当旋转结束时隐藏
     } failure:^(NSError *error) {
+        isRefresh=NO;
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
         [self activityDismiss];
         [activity stopAnimating]; // 结束旋转
@@ -93,6 +95,7 @@ static NSString * const reuseIdentifier = @"Cell";
         self.messageScroll.contentOffset = CGPointMake(kScreenWidth, 0);
     }else{
         self.messageScroll.contentOffset = CGPointMake(0, 0);
+        
     }
 }
 
@@ -101,6 +104,7 @@ static NSString * const reuseIdentifier = @"Cell";
     history.clickType=@"FindShopGuideViewController";
     [self.navigationController pushViewController:history animated:YES];
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@""];
@@ -210,14 +214,10 @@ static NSString * const reuseIdentifier = @"Cell";
         VC.pageNum++;
         [VC setTableData];
     };
-    
     [self setData];
+    
 }
 
--(void)footerRereshing{
-    self.pageNumScroll +=1;
-    [self setData];
-}
 
 -(void)setTableData{
     
@@ -369,6 +369,7 @@ static NSString * const reuseIdentifier = @"Cell";
             [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
             btn.titleLabel.font =[UIFont systemFontOfSize:13];
+            btn.layer.cornerRadius =3;
             [cell addSubview:btn];
         }
         
@@ -616,6 +617,8 @@ static NSString * const reuseIdentifier = @"Cell";
         [self activityDismiss];
         type=1;
         if (isRefresh) {
+            [self setData];
+        }else if (self.dataArray.count==0) {
             [self setData];
         }
         self.messageScroll.contentOffset = CGPointMake(0, 0);

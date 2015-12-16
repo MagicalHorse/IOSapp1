@@ -388,6 +388,7 @@
         if ([json objectForKey:@"isSuccessful"])
         {
             [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
+            btn.backgroundColor =[UIColor grayColor];
         }
         else
         {
@@ -399,4 +400,5 @@
     
     
 }
+
 @end
