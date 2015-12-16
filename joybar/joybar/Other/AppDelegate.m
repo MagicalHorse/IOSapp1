@@ -16,6 +16,7 @@
 #import "OSSClient.h"
 #import "OSSTool.h"
 #import "CusTabBarViewController.h"
+#import "MobClick.h"
 @implementation AppDelegate
 {
     CusTabBarViewController *cusTabbar;
@@ -42,6 +43,7 @@
     
     [APService setupWithOption:launchOptions];
     [UMSocialData setAppKey:@"55d43bf367e58eac01002b7f"];
+    [MobClick startWithAppkey:@"55d43bf367e58eac01002b7f"];
     //557f8f1c67e58edf32000208
 
     //向微信注册
