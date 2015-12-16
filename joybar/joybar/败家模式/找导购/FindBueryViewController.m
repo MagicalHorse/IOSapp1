@@ -381,6 +381,12 @@
     return YES;
 }
 -(void)txUptoNew:(UIButton *)btn{
+    
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self];
+        return;
+    }
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)btn.tag] forKey:@"buyerid"];
     [HttpTool postWithURL:@"BuyerV3/Touch" params:dic isWrite:YES  success:^(id json) {

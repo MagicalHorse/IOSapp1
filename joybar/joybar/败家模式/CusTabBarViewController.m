@@ -212,12 +212,9 @@
 {
     if (button.tag-100==2||button.tag-100==3||button.tag-100==1)
     {
-        NSDictionary *dic = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfo"];
-        if (!dic)
+        if (!TOKEN)
         {
-            LoginAndRegisterViewController *VC = [[LoginAndRegisterViewController alloc] init];
-            BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:VC];
-            [self presentViewController:nav animated:YES completion:nil];
+            [Public showLoginVC:self];
             return;
         }
     }
