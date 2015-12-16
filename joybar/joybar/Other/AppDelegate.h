@@ -13,7 +13,7 @@
 #import "WXApi.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate,UIAlertViewDelegate,CLLocationManagerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate,UIAlertViewDelegate,CLLocationManagerDelegate,UIScrollViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

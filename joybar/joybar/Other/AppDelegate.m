@@ -20,6 +20,7 @@
 @implementation AppDelegate
 {
     CusTabBarViewController *cusTabbar;
+    UIPageControl *pageCtrl;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -62,14 +63,16 @@
 //    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:cusTabbar];
     self.window.rootViewController = cusTabbar;
     [self.window makeKeyAndVisible];
-    
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
+
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"])
+    {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
         [self _initWithScrollViewForSoftHelp];
     }
     else
     {
-        
+        [self _initWithScrollViewForSoftHelp];
+
     }
     [self aliyunSet];
     
@@ -102,15 +105,6 @@
     NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
     self.latitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
     self.longitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
-    //    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    //    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
-    //        for (CLPlacemark * placemark in placemarks) {
-    //
-    //            NSDictionary *test = [placemark addressDictionary];
-    //            //  Country(国家)  State(城市)  SubLocality(区)
-    //            NSLog(@"%@", [test objectForKey:@"State"]);
-    //        }
-    //    }];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
@@ -134,13 +128,21 @@
     NSArray *helpImageArray;
     if (kScreenHeight==480)
     {
-        helpImageArray= @[@"img1_960*640",@"img2_960*640",@"img3_960*640",@"img4_960*640"];
+        helpImageArray= @[@"guidepage1_640x960",@"guidepage2_640x960",@"guidepage3_640x960"];
+    }
+    else if (kScreenHeight==1136/2)
+    {
+        
+        helpImageArray= @[@"guidepage1_640x1136",@"guidepage2_640x1136",@"guidepage3_640x1136"];
+    }
+    else if (kScreenHeight==1334/2)
+    {
+        helpImageArray= @[@"guidepage1_750x1334",@"guidepage2_750x1334",@"guidepage3_750x1334"];
     }
     else
     {
-        helpImageArray= @[@"img1",@"img2",@"img3",@"img4"];
+        helpImageArray= @[@"guidepage1_1202x2208",@"guidepage2_1202x2208",@"guidepage3_1202x2208"];
     }
-    
     UIScrollView *helpScrollView = [[UIScrollView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     helpScrollView.backgroundColor = [UIColor clearColor];
     helpScrollView.pagingEnabled = YES;
@@ -148,9 +150,12 @@
     [helpScrollView setShowsVerticalScrollIndicator:NO];
     helpScrollView.clipsToBounds = YES;
     helpScrollView.tag = 33333;
+    helpScrollView.delegate = self;
     helpScrollView.bounces = NO;
     helpScrollView.contentSize = CGSizeMake(kScreenWidth*[helpImageArray count], kScreenHeight);
     [self.window addSubview:helpScrollView];
+    
+
     
     for (int i = 0; i < [helpImageArray count]; i++)
     {
@@ -161,14 +166,34 @@
         if (i == ([helpImageArray count]-1))
         {
             UIButton *enterBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-            enterBtn.center = CGPointMake(kScreenWidth/2+kScreenWidth*i, kScreenHeight/4*3);
-            enterBtn.bounds = CGRectMake(0, 0, (kScreenWidth-80)/2, 100);
-            enterBtn.backgroundColor = [UIColor clearColor];
+            enterBtn.center = CGPointMake(kScreenWidth/2+kScreenWidth*i, kScreenHeight-70);
+            enterBtn.bounds = CGRectMake(0, 0, (kScreenWidth-80)/2, 40);
+            enterBtn.backgroundColor = [UIColor orangeColor];
+            [enterBtn setTitle:@"立即体验" forState:(UIControlStateNormal)];
+            enterBtn.backgroundColor = [UIColor whiteColor];
+            enterBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+            [enterBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
             [enterBtn addTarget:self action:@selector(introDidFinish) forControlEvents:(UIControlEventTouchUpInside)];
             [helpScrollView addSubview:enterBtn];
         }
     }
+    pageCtrl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, kScreenHeight-40, kScreenWidth, 30)];  //创建UIPageControl，位置在屏幕最下方。
+    pageCtrl.numberOfPages = helpImageArray.count;//总的图片页数
+    pageCtrl.currentPage = 0; //当前页
+    pageCtrl.pageIndicatorTintColor = [UIColor whiteColor];
+    pageCtrl.currentPageIndicatorTintColor = [UIColor redColor];
+    //    [pageCtrl addTarget:self action:@selector(pageTurn:) forControlEvents:UIControlEventValueChanged];  //用户点击UIPageControl的响应函数
+    [self.window addSubview:pageCtrl];  //将UIPageControl添加到主界面上。
+
 }
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    //更新UIPageControl的当前页
+    CGPoint offset = scrollView.contentOffset;
+    CGRect bounds = scrollView.frame;
+    [pageCtrl setCurrentPage:offset.x / bounds.size.width];
+}
+
 //引导页结束
 - (void)introDidFinish
 {
