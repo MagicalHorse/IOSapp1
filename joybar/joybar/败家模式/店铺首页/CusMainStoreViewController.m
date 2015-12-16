@@ -84,13 +84,12 @@
         {
             [button setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         }
-        //        button.backgroundColor = [UIColor redColor];
         button.titleLabel.font = [UIFont systemFontOfSize:16];
         button.tag = i + 100;
         [button addTarget:self action:@selector(didClickHeadButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.navView addSubview:button];
         [self.btnArr addObject:button];
-        if (self.isCircle)
+        if (!self.isCircle)
         {
             if (i==0)
             {
@@ -105,13 +104,10 @@
             {
                 [self didClickHeadButtonAction:button];
             }
-
             _line.center = CGPointMake(60+(kScreenWidth/2-60)*3/2, 63);
             _line.bounds = CGRectMake(0, 0, 60, 2);
         }
-
     }
-    
 }
 
 - (void)didClickHeadButtonAction:(UIButton *)button
@@ -125,7 +121,6 @@
         else
         {
             [selectBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-
         }
     }
     
@@ -141,8 +136,17 @@
                 _line.center = CGPointMake(button.center.x, 63);
                 break;
             case 101:
-                [self replaceController:self.currentVC newController:_buyerCircleVC];
-                _line.center = CGPointMake(button.center.x, 63);
+                
+                if (!TOKEN)
+                {
+                    [Public showLoginVC:self];
+                    return;
+                }
+                else
+                {
+                    [self replaceController:self.currentVC newController:_buyerCircleVC];
+                    _line.center = CGPointMake(button.center.x, 63);
+                }
                 break;
         }
     }

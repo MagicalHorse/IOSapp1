@@ -76,6 +76,12 @@
 
 -(void)didClickCancelCollect:(UIButton *)btn
 {
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self.viewController];
+        return;
+    }
+    
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[dataDic objectForKey:@"Id"] forKey:@"Id"];
     if (btn.selected)
