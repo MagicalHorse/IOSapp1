@@ -26,6 +26,24 @@
     [self.bgView addSubview:self.shopBtn];
     [self.bgView addSubview:self.shopBtn1];
     [self.bgView addSubview:self.shopBtn2];
+    
+    self.shopBtn.contentMode=UIViewContentModeScaleAspectFill;
+    self.shopBtn.clipsToBounds =YES;
+    self.shopBtn.layer.masksToBounds =YES;
+    self.shopBtn1.contentMode=UIViewContentModeScaleAspectFill;
+    self.shopBtn1.clipsToBounds =YES;
+    self.shopBtn1.layer.masksToBounds =YES;
+    self.shopBtn2.contentMode=UIViewContentModeScaleAspectFill;
+    self.shopBtn2.clipsToBounds =YES;
+    self.shopBtn2.layer.masksToBounds =YES;
+    
+
+    self.iconView.contentMode=UIViewContentModeScaleAspectFill;
+    self.iconView.clipsToBounds =YES;
+    self.iconView.layer.masksToBounds =YES;
+    self.iconView.layer.cornerRadius =self.iconView.width*0.5;
+
+
 
 }
 

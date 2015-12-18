@@ -31,17 +31,23 @@
     }
     return _dataArray;
 }
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    self.pageNum=1;
+
+    [self setData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@""];
-    isRefresh=YES;
 
     //搜索
     UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(40, 25, kScreenWidth-80, 30)];
     searchView.backgroundColor = kCustomColor(232, 233, 234);
     searchView.layer.cornerRadius = 3;
     [self.navView addSubview:searchView];
-    
+    isRefresh=YES;
+
     
     
     searchText = [[UITextField alloc] initWithFrame:CGRectMake(10, 0, searchView.width-50, 30)];
@@ -72,7 +78,6 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor =kCustomColor(228, 234, 238);
     
-    self.pageNum=1;
     self.tableView.tableFooterView =[[UIView alloc]init];
     __weak FindBueryViewController *VC = self;
     self.tableView.headerRereshingBlock = ^()
@@ -89,7 +94,7 @@
         [VC setData];
     };
     
-    [self setData];
+    
 }
 
 -(void)setData{
@@ -109,8 +114,13 @@
     [HttpTool postWithURL:@"v3/searchbuyer" params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
-            
+            NSMutableArray *array =[NSMutableArray arrayWithArray:[[json objectForKey:@"data"]objectForKey:@"items"]];
+            for (int i=0; i<array.count; i++) {
+                NSMutableDictionary * mDic =[NSMutableDictionary dictionaryWithDictionary:array[i]];
+                [mDic setObject:@"0" forKey:@"isTX"];
+                [array replaceObjectAtIndex:i withObject:mDic];
+                
+            }
             isRefresh =NO;
             if (array.count<6) {
                 [self.tableView hiddenFooter:YES];
@@ -237,14 +247,23 @@
             lable.textColor =[UIColor grayColor];
             [cell addSubview:lable];
             
-            UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
             
-            btn.backgroundColor =[UIColor orangeColor];
+            BOOL isTX =[[self.dataArray[indexPath.row]objectForKey:@"isTX"]boolValue];
+            UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+            if (isTX) {
+                btn.backgroundColor =[UIColor grayColor];
+                [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
+                
+            }else{
+                btn.backgroundColor =[UIColor orangeColor];
+                [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+            }
+            
             [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
             btn.titleLabel.font =[UIFont systemFontOfSize:13];
             [btn addTarget:self action:@selector(txUptoNew:) forControlEvents:UIControlEventTouchUpInside];
-            btn.tag =[[self.dataArray[indexPath.row]objectForKey:@"UserId"]integerValue];
+            btn.tag =indexPath.row;
+            btn.layer.cornerRadius =3;
             [cell addSubview:btn];
         }
     }
@@ -263,14 +282,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -283,14 +302,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -303,14 +322,14 @@
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -319,7 +338,7 @@
 {
     
     CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
-    mainStore.userId =[self.dataArray[indexPath.row]objectForKey:@"BuyerId"];
+    mainStore.userId =[self.dataArray[indexPath.row]objectForKey:@"UserId"];
     mainStore.isCircle = NO;
     [self.navigationController pushViewController:mainStore animated:YES];
 }
@@ -388,22 +407,39 @@
         return;
     }
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setValue:[NSString stringWithFormat:@"%ld",(long)btn.tag] forKey:@"buyerid"];
+    BOOL tempState =[[self.dataArray[btn.tag]objectForKey:@"isTX"]boolValue];
+    NSString * userId= [self.dataArray[btn.tag]objectForKey:@"UserId"];
+    
+    if (!tempState)
+    {
+        [dic setValue:userId forKey:@"buyerid"];
+        [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
+        btn.backgroundColor =[UIColor grayColor];
+    }
+    else
+    {
+        return;
+    }
     [HttpTool postWithURL:@"BuyerV3/Touch" params:dic isWrite:YES  success:^(id json) {
         
         if ([json objectForKey:@"isSuccessful"])
         {
-            [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
-            btn.backgroundColor =[UIColor grayColor];
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.dataArray[btn.tag]];
+            [dic setObject:@"1" forKey:@"isTX"];
+            [self.dataArray removeObject:self.dataArray[btn.tag]];
+            [self.dataArray insertObject:dic atIndex:btn.tag];
+          
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
+            [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+            btn.backgroundColor =[UIColor orangeColor];
         }
+        [self.tableView reloadData];
     } failure:^(NSError *error) {
         
     }];
-    
     
 }
 
