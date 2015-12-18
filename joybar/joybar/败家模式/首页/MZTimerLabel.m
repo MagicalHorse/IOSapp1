@@ -96,7 +96,7 @@
 }
 
 -(void)setCountDownTime:(NSTimeInterval)time{
-    if (time<0)
+    if (time<=0)
     {
         return;
     }

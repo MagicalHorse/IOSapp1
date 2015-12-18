@@ -151,7 +151,7 @@
     
     [self showInView:self.view WithPoint:CGPointMake(0, 64+40) andHeight:kScreenHeight-64-40];
     
-    [HttpTool postWithURL:@"Product/GetProductDetail" params:dic success:^(id json) {
+    [HttpTool postWithURL:@"Product/GetProductDetailV3" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
