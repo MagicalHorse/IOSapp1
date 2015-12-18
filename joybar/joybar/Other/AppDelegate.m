@@ -520,7 +520,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 -(void) onResp:(BaseResp*)resp
 {
     NSString *strMsg = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
-    NSString *strTitle;
+    NSString *strTitle=@"";
     
     if([resp isKindOfClass:[SendMessageToWXResp class]])
     {

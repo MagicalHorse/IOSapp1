@@ -26,12 +26,6 @@
     }
     return self;
 }
-
--(void)viewWillAppear:(BOOL)animated
-{
-    
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

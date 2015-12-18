@@ -31,7 +31,7 @@
     nameLab.font = [UIFont systemFontOfSize:13];
     
     
-    CGSize size = [Public getContentSizeWith:nameLab.text andFontSize:13 andWidth:IMAGEHEiGHT-10];
+//    CGSize size = [Public getContentSizeWith:nameLab.text andFontSize:13 andWidth:IMAGEHEiGHT-10];
 //    if (size.height>30)
 //    {
         nameLab.frame = CGRectMake(5, 5, IMAGEHEiGHT-10, 35);

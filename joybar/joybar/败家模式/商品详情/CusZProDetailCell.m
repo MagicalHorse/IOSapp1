@@ -214,7 +214,7 @@
         sizeBtn.isRenZheng = NO;
         sizeBtn.frame = CGRectMake(sizeLab.right+5, sizeLab.top-3, kScreenWidth-70, height);
         colorStr =[[self.kuCunArr objectAtIndex:0] objectForKey:@"ColorName"];
-        NSString *name = [NSString stringWithFormat:@"%@%@",colorStr,[selectSizeArr[0] objectForKey:@"SizeName"]];
+//        NSString *name = [NSString stringWithFormat:@"%@%@",colorStr,[selectSizeArr[0] objectForKey:@"SizeName"]];
         [self.delegate handleSizeName:[selectSizeArr[0] objectForKey:@"SizeName"] andSizeId:[selectSizeArr[0] objectForKey:@"SizeId"] colorName:colorStr colorId:[[self.kuCunArr objectAtIndex:0] objectForKey:@"ColorId"]];
         //数量
         UILabel *numLab = [[UILabel alloc] initWithFrame:CGRectMake(10, sizeBtn.bottom+20, 40, 20)];
