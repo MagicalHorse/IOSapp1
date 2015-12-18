@@ -106,15 +106,15 @@
     [view addSubview:bgView];
 
     UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth-120)*0.5, bgView.bottom+8, 120, 34)];
-    btn.layer.borderWidth =1;
-    btn.layer.borderColor= [UIColor orangeColor].CGColor;
+    btn.layer.borderWidth =0.5;
+    btn.layer.borderColor= [UIColor lightGrayColor].CGColor;
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius =2.5;
 
     [btn setTitle:@"清除搜索历史" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(clearData) forControlEvents:UIControlEventTouchUpInside];
-    btn.titleLabel.font =[UIFont systemFontOfSize:16];
+    btn.titleLabel.font =[UIFont systemFontOfSize:15];
     bgView.backgroundColor =[UIColor lightGrayColor];
     [view addSubview:btn];
     return view;

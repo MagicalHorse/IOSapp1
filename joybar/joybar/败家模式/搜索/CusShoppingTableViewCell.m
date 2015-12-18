@@ -11,8 +11,9 @@
 @implementation CusShoppingTableViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
-}
+    self.shopIconView.contentMode=UIViewContentModeScaleAspectFill;
+    self.shopIconView.clipsToBounds =YES;
+    self.shopIconView.layer.masksToBounds =YES;}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

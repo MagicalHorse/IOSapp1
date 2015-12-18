@@ -114,7 +114,7 @@
     [HttpTool postWithURL:url params:dict isWrite:NO  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
+            NSMutableArray *array =[NSMutableArray arrayWithArray:[[json objectForKey:@"data"]objectForKey:@"items"]];
             if (type==1) {
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
@@ -147,6 +147,13 @@
 
             }else if(type ==3){
 
+                for (int i=0; i<array.count; i++) {
+                    NSMutableDictionary * mDic =[NSMutableDictionary dictionaryWithDictionary:array[i]];
+                    [mDic setObject:@"0" forKey:@"isTX"];
+                    [array replaceObjectAtIndex:i withObject:mDic];
+                    
+                }
+                
                 if (array.count<6) {
                     [self.tableView hiddenFooter:YES];
                 }
@@ -532,7 +539,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (self.searchArr.count>0) {
             [cell.shopIconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr[indexPath.row]objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-            cell.priceLab.text =[[self.searchArr[indexPath.row]objectForKey:@"Price"] stringValue];
+            cell.priceLab.text =[NSString stringWithFormat:@"￥%@",[[self.searchArr[indexPath.row]objectForKey:@"Price"] stringValue]];
             BOOL isFavite =[[self.searchArr[indexPath.row]objectForKey:@"IsFavorite"]boolValue];
             if (isFavite) {
                 cell.chCBtn.selected =YES;
@@ -651,14 +658,21 @@
                 lable.textColor =[UIColor grayColor];
                 [cell addSubview:lable];
                 
-              UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
-        
-                btn.backgroundColor =[UIColor orangeColor];
+                BOOL isTX =[[self.searchArr2[indexPath.row]objectForKey:@"isTX"]boolValue];
+                UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+                if (isTX) {
+                    btn.backgroundColor =[UIColor grayColor];
+                    [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
+                    
+                }else{
+                    btn.backgroundColor =[UIColor orangeColor];
+                    [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+                }
+
                 [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
                 btn.titleLabel.font =[UIFont systemFontOfSize:13];
                 [btn addTarget:self action:@selector(txUptoNew:) forControlEvents:UIControlEventTouchUpInside];
-                btn.tag =[[self.searchArr2[indexPath.row]objectForKey:@"UserId"]integerValue];
+                btn.tag =indexPath.row;
                 btn.layer.cornerRadius =3;
                 [cell addSubview:btn];
             }
@@ -676,8 +690,14 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (self.searchArr3.count>0) {
             [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr3[indexPath.row]objectForKey:@"StoreLogo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+            NSString *address =[self.searchArr3[indexPath.row]objectForKey:@"StoreLocation"];
+            if (address.length==0) {
+                 cell.addressLab.text=@"未知";
+            }else{
+                cell.addressLab.text =address;
+            }
             cell.shopName.text =[self.searchArr3[indexPath.row]objectForKey:@"StoreName"];
-            cell.addressLab.text =[self.searchArr3[indexPath.row]objectForKey:@"StoreLocation"];
+          
             NSString *tempJu= [Public getDistanceWithLocation:[self.longitude doubleValue] and:[self.latitude doubleValue] and:[[self.searchArr3[indexPath.row]objectForKey:@"Lat"] doubleValue] and:[[self.searchArr3[indexPath.row]objectForKey:@"Lon"] doubleValue]];
             double juli =[tempJu doubleValue] *0.001;
             cell.juliView.text = [NSString stringWithFormat:@"%.2fkm",juli];
@@ -700,19 +720,38 @@
         [Public showLoginVC:self];
         return;
     }
+    
+    
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setValue:[NSString stringWithFormat:@"%ld",(long)btn.tag] forKey:@"buyerid"];
+    BOOL tempState =[[self.searchArr2[btn.tag]objectForKey:@"isTX"]boolValue];
+    NSString * userId= [self.searchArr2[btn.tag]objectForKey:@"UserId"];
+    
+    if (!tempState)
+    {
+        [dic setValue:userId forKey:@"buyerid"];
+        [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
+        btn.backgroundColor =[UIColor grayColor];
+    }
+    else
+    {
+        return;
+    }
     [HttpTool postWithURL:@"BuyerV3/Touch" params:dic isWrite:YES  success:^(id json) {
         
         if ([json objectForKey:@"isSuccessful"])
         {
-            [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
-            btn.backgroundColor =[UIColor grayColor];
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.searchArr2[btn.tag]];
+            [dic setObject:@"1" forKey:@"isTX"];
+            [self.searchArr2 removeObject:self.searchArr2[btn.tag]];
+            [self.searchArr2 insertObject:dic atIndex:btn.tag];
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
+            [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+            btn.backgroundColor =[UIColor orangeColor];
         }
+        [self.tableView reloadData];
     } failure:^(NSError *error) {
         
     }];
@@ -795,17 +834,17 @@
     if (type ==1) {
         NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr[indexPath.row]objectForKey:@"Userleave"]];
 
-        if ([Userleave isEqualToString:@"8"])
+        if ([Userleave isEqualToString:@"4"])
         {
             CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-            VC.productId = [self.searchArr[indexPath.row]objectForKey:@"ProductId"];
+            VC.productId = [[self.searchArr[indexPath.row]objectForKey:@"ProductId"]stringValue];
             [self.navigationController pushViewController:VC animated:YES];
         }
         else
         {
             //认证买手
             CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-            VC.productId = [self.searchArr[indexPath.row]objectForKey:@"ProductId"];
+            VC.productId = [[self.searchArr[indexPath.row]objectForKey:@"ProductId"]stringValue];
             [self.navigationController pushViewController:VC animated:YES];
         }
     }else if(type ==2){
@@ -852,18 +891,18 @@
 
     NSInteger tag= [tap.view superview].tag-10;
     NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -872,18 +911,18 @@
     
     NSInteger tag= [tap.view superview].tag-10;
     NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -892,18 +931,18 @@
     
     NSInteger tag= [tap.view superview].tag-10;
     NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }

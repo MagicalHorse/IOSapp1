@@ -11,7 +11,10 @@
 @implementation CusShopTableViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
+
+    self.iconView.contentMode=UIViewContentModeScaleAspectFill;
+    self.iconView.clipsToBounds =YES;
+    self.iconView.layer.masksToBounds =YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

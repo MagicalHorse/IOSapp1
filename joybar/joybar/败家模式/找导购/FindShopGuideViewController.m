@@ -67,7 +67,9 @@ static NSString * const reuseIdentifier = @"Cell";
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
             isRefresh=NO;
+
             NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"Buyers"];
+           
             [self.dataArray addObjectsFromArray:array];
             
             
@@ -93,10 +95,12 @@ static NSString * const reuseIdentifier = @"Cell";
     CGFloat x =self.lineLab.frame.origin.x;
     if (x>50) {
         self.messageScroll.contentOffset = CGPointMake(kScreenWidth, 0);
+        self.pageNum=1;
+        [self setTableData];
     }else{
         self.messageScroll.contentOffset = CGPointMake(0, 0);
-        
     }
+  
 }
 
 -(void)didClickCancelBtn{
@@ -240,7 +244,15 @@ static NSString * const reuseIdentifier = @"Cell";
     [HttpTool postWithURL:@"v3/FavBuyers" params:dict  success:^(id json) {
         BOOL  isSuccessful =[[json objectForKey:@"isSuccessful"] boolValue];
         if (isSuccessful) {
-            NSMutableArray *array =[[json objectForKey:@"data"]objectForKey:@"items"];
+            NSMutableArray *array =[NSMutableArray arrayWithArray:[[json objectForKey:@"data"]objectForKey:@"items"]];
+            
+            for (int i=0; i<array.count; i++) {
+                NSMutableDictionary * mDic =[NSMutableDictionary dictionaryWithDictionary:array[i]];
+                [mDic setObject:@"0" forKey:@"isTX"];
+                [array replaceObjectAtIndex:i withObject:mDic];
+
+                
+            }
             isRefresh1 =NO;
             if (array.count<6) {
                 [self.tableView hiddenFooter:YES];
@@ -363,18 +375,77 @@ static NSString * const reuseIdentifier = @"Cell";
             lable.textColor =[UIColor grayColor];
             [cell addSubview:lable];
             
-            UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+            BOOL isTX =[[self.cusDataArray[indexPath.row]objectForKey:@"isTX"]boolValue];
             
-            btn.backgroundColor =[UIColor orangeColor];
+            UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+            if (isTX) {
+                btn.backgroundColor =[UIColor grayColor];
+                [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
+
+            }else{
+                btn.backgroundColor =[UIColor orangeColor];
+                [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+            }
             [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
             btn.titleLabel.font =[UIFont systemFontOfSize:13];
+            [btn addTarget:self action:@selector(txUptoNew:) forControlEvents:UIControlEventTouchUpInside];
+            btn.tag =indexPath.row;
             btn.layer.cornerRadius =3;
             [cell addSubview:btn];
         }
         
     }
     return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
+    mainStore.userId =[self.cusDataArray[indexPath.row]objectForKey:@"BuyerId"];
+    mainStore.isCircle = NO;
+    [self.navigationController pushViewController:mainStore animated:YES];
+}
+-(void)txUptoNew:(UIButton *)btn{
+    
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self];
+        return;
+    }
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    BOOL tempState =[[self.cusDataArray[btn.tag]objectForKey:@"isTX"]boolValue];
+    NSString * userId= [self.cusDataArray[btn.tag]objectForKey:@"UserId"];
+    
+    if (!tempState)
+    {
+        [dic setValue:userId forKey:@"buyerid"];
+        [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
+        btn.backgroundColor =[UIColor grayColor];
+    }
+    else
+    {
+        return;
+    }
+    [HttpTool postWithURL:@"BuyerV3/Touch" params:dic isWrite:YES  success:^(id json) {
+        
+        if ([json objectForKey:@"isSuccessful"])
+        {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.cusDataArray[btn.tag]];
+                [dic setObject:@"1" forKey:@"isTX"];
+            [self.cusDataArray removeObject:self.cusDataArray[btn.tag]];
+            [self.cusDataArray insertObject:dic atIndex:btn.tag];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+            [btn setTitle:@"提醒上新" forState:UIControlStateNormal];
+            btn.backgroundColor =[UIColor orangeColor];
+        }
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -411,19 +482,28 @@ static NSString * const reuseIdentifier = @"Cell";
         proTap.view.tag =[[self.dataArray[indexPath.row]objectForKey:@"BuyerId"] integerValue] ;
 
         cell.addressView.text =[self.dataArray[indexPath.row]objectForKey:@"StoreName"];
-        cell.addreView.text =[self.dataArray[indexPath.row]objectForKey:@"Address"];
+        
+        NSString *address =[self.dataArray[indexPath.row]objectForKey:@"Address"];
+        if (address.length==0) {
+            cell.addreView.text=@"未知";
+        }else{
+            cell.addreView.text =address;
+        }
+        
         cell.nameView.text =[self.dataArray[indexPath.row]objectForKey:@"BrandName"];
         BOOL isFavite =[[self.dataArray[indexPath.row]objectForKey:@"IsFavorited"]boolValue];
         if (isFavite) {
+            cell.guanzhuView.backgroundColor =[UIColor whiteColor];
+            cell.guanzhuView.layer.borderWidth=1;
+            cell.guanzhuView.layer.borderColor =[UIColor lightGrayColor].CGColor;
             cell.guanzhuView.selected =YES;
-            cell.guanzhuView.backgroundColor =[UIColor lightGrayColor];
-            [cell.guanzhuView setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-            [cell.guanzhuView setTitle:@"已关注" forState:UIControlStateSelected];
+            [cell.guanzhuView  setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+            
         }else{
             cell.guanzhuView.selected =NO;
             cell.guanzhuView.backgroundColor =[UIColor orangeColor];
-            [cell.guanzhuView setTitle:@"关注" forState:UIControlStateNormal];
-            [cell.guanzhuView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            cell.guanzhuView.layer.borderWidth=0;
+             [cell.guanzhuView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
         [cell.guanzhuView addTarget:self action:@selector(guanzhuClick:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -680,18 +760,18 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSInteger tag= [tap.view superview].tag-10;
     NSString *Userleave = [NSString stringWithFormat:@"%@",[self.dataArray[tag]objectForKey:@"UserLevel"]];
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
     else
     {
         CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
     }
     
@@ -700,11 +780,11 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSInteger tag= [tap.view superview].tag-10;
     NSString *Userleave = [NSString stringWithFormat:@"%@",[self.dataArray[tag]objectForKey:@"UserLevel"]];
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = [NSString stringWithFormat:@"%d", tap.view.tag];
+        VC.productId = [NSString stringWithFormat:@"%ld", tap.view.tag];
         [self.navigationController pushViewController:VC animated:YES];
         
     }
@@ -720,7 +800,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSInteger tag= [tap.view superview].tag-10;
     NSString *Userleave = [NSString stringWithFormat:@"%@",[self.dataArray[tag]objectForKey:@"UserLevel"]];
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
@@ -739,7 +819,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSInteger tag= [tap.view superview].tag-10;
     NSString *Userleave = [NSString stringWithFormat:@"%@",[self.dataArray[tag]objectForKey:@"UserLevel"]];
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
@@ -759,7 +839,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSInteger tag= [tap.view superview].tag-10;
     NSString *Userleave = [NSString stringWithFormat:@"%@",[self.cusDataArray[tag]objectForKey:@"Userleave"]];
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
@@ -779,7 +859,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSInteger tag= [tap.view superview].tag-10;
     NSString *Userleave = [NSString stringWithFormat:@"%@",[self.cusDataArray[tag]objectForKey:@"Userleave"]];
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
@@ -799,7 +879,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     NSInteger tag= [tap.view superview].tag-10;
     NSString *Userleave = [NSString stringWithFormat:@"%@",[self.cusDataArray[tag]objectForKey:@"Userleave"]];
-    if ([Userleave isEqualToString:@"4"])
+    if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
