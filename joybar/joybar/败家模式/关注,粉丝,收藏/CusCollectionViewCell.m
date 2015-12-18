@@ -16,7 +16,7 @@
 -(void)setCollectionData:(NSDictionary *)dic andHeight:(NSInteger)height
 {
     dataDic = dic;
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-15)/2, height)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, IMAGEHEiGHT, height)];
 //    imageView.backgroundColor = [self randomColor];
     NSString *imgUrl = [NSString stringWithFormat:@"%@",[[dic objectForKey:@"pic"] objectForKey:@"pic"]];
     imageView.clipsToBounds = YES;
@@ -29,18 +29,18 @@
     
     UILabel *nameLab = [[UILabel alloc] init];
     nameLab.text = [dic objectForKey:@"Name"];
-    nameLab.numberOfLines = 0;
+    nameLab.numberOfLines = 2;
     nameLab.font = [UIFont systemFontOfSize:13];
-    CGSize size = [Public getContentSizeWith:nameLab.text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
-    nameLab.frame = CGRectMake(5, 5, (kScreenWidth-15)/2-10, size.height);
+//    CGSize size = [Public getContentSizeWith:nameLab.text andFontSize:13 andWidth:IMAGEHEiGHT-10];
+    nameLab.frame = CGRectMake(5, 5, IMAGEHEiGHT-10, 35);
     [bgView addSubview:nameLab];
     
     //白色背景高度
-    bgView.frame =CGRectMake(0, height, (kScreenWidth-15)/2, size.height+35);
+    bgView.frame =CGRectMake(0, height, IMAGEHEiGHT, 35+35);
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, nameLab.bottom+12, 10, 10)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, nameLab.bottom+12, 12, 10)];
     label.text = @"￥";
-    label.textColor = [UIColor grayColor];
+    label.textColor = [UIColor redColor];
     label.font = [UIFont systemFontOfSize:12];
     [bgView addSubview:label];
     
@@ -51,14 +51,10 @@
     [bgView addSubview:priceLab];
   
     UIButton *clickZan = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    clickZan.frame = CGRectMake((kScreenWidth-15)/2-60, nameLab.bottom+5, 60, 20);
+    clickZan.frame = CGRectMake(IMAGEHEiGHT-60, nameLab.bottom+5, 60, 20);
     clickZan.backgroundColor = [UIColor clearColor];
-    [clickZan setImage:[UIImage imageNamed:@"xingxing"] forState:(UIControlStateNormal)];
-    NSString *count =[NSString stringWithFormat:@" %@",[[dic objectForKey:@"LikeUser"] objectForKey:@"Count"]];
-    [clickZan setTitle:count forState:(UIControlStateNormal)];
-    clickZan.titleLabel.font = [UIFont systemFontOfSize:11];
-    [clickZan setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
-    clickZan.userInteractionEnabled = YES;
+    
+    [clickZan setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
     [clickZan addTarget:self action:@selector(didClickCancelCollect:) forControlEvents:(UIControlEventTouchUpInside)];
     [bgView addSubview:clickZan];
 }
@@ -74,7 +70,7 @@
 //        [self textHUDHiddle];
         if ([json objectForKey:@"isSuccessful"])
         {
-            [btn setImage:[UIImage imageNamed:@"xing"] forState:(UIControlStateNormal)];
+            [btn setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"cancelCollectNot" object:self userInfo:nil];
         }
         else

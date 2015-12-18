@@ -28,6 +28,7 @@
     NSString *sizeStr;
     NSString *kuCunCount;
     ProDetailData *detailData;
+    UIView *temp;
 }
 - (void)awakeFromNib {
     // Initialization code
@@ -126,11 +127,15 @@
         location.frame =CGRectMake(10, 10, kScreenWidth-20, locationSize.height);
         [self.contentView addSubview:location];
         
-        UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, location.bottom+5, 15, 15)];
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, location.bottom+5, kScreenWidth-15, 1)];
+        line.backgroundColor = kCustomColor(212, 212, 212);
+        [self.contentView addSubview:line];
+        
+        UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, location.bottom+15, 15, 15)];
         imageView1.image = [UIImage imageNamed:@"打烊购时间icon"];
         [self.contentView addSubview:imageView1];
         
-        UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, imageView1.bottom+5, imageView1.width, imageView1.height)];
+        UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, imageView1.bottom+15, imageView1.width, imageView1.height)];
         imageView2.image = [UIImage imageNamed:@"打烊购icon"];
         [self.contentView addSubview:imageView2];
         
@@ -256,6 +261,14 @@
         kuCunCount =[sizeArr[0]objectForKey:@"Inventory"];
         kuCunLab.text = [NSString stringWithFormat:@"库存%@件",kuCunCount];
         [self.contentView addSubview:kuCunLab];
+        if ([kuCunCount integerValue]>5)
+        {
+            kuCunLab.hidden = YES;
+        }
+        else
+        {
+            kuCunLab.hidden = NO;
+        }
         
         UILabel *service = [[UILabel alloc] initWithFrame:CGRectMake(10, kuCunLab.bottom+10, kScreenWidth-20, 20)];
         service.text = @"服务:由门店提供服务";
@@ -381,14 +394,18 @@
         scroll.scrollEnabled = NO;
         [self.contentView addSubview:scroll];
         
+        temp = [[UIView alloc] initWithFrame:CGRectMake(0, 40, kScreenWidth, proData.ProductPic.count*210)];
+        temp.backgroundColor =[UIColor whiteColor];
+        [self.contentView addSubview:temp];
+        
         for (int i=0; i<proData.ProductPic.count; i++)
         {
             ProductPicture *pic = [proData.ProductPic objectAtIndex:i];
 
-            UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, i*210+40, kScreenWidth, 210)];
+            UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, i*210, kScreenWidth, 210)];
             proImage.backgroundColor =[UIColor redColor];
             [proImage sd_setImageWithURL:[NSURL URLWithString:pic.Logo] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-            [self.contentView addSubview:proImage];
+            [temp addSubview:proImage];
         }
         
         UIImageView *sizeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, 210)];
@@ -500,6 +517,14 @@
 
 -(void)didClickBtn:(UIButton *)btn
 {
+    if (btn.tag==1001||btn.tag==1002)
+    {
+        temp.hidden = YES;
+    }
+    else
+    {
+        temp.hidden = NO;
+    }
     orangeLine.frame = CGRectMake((btn.tag-1000)*(kScreenWidth/3)+25, 38, kScreenWidth/3-50, 2);
     
     scroll.contentOffset = CGPointMake((btn.tag-1000)*kScreenWidth, 0);

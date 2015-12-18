@@ -71,8 +71,7 @@
     }
     else
     {
-        [self _initWithScrollViewForSoftHelp];
-
+        
     }
     [self aliyunSet];
     
@@ -197,6 +196,7 @@
 //引导页结束
 - (void)introDidFinish
 {
+    [pageCtrl removeFromSuperview];
     UIScrollView *sc = (UIScrollView *)[self.window viewWithTag:33333];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [sc removeFromSuperview];

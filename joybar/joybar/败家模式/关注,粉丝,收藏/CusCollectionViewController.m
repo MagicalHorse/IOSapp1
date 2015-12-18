@@ -48,7 +48,7 @@
     self.collectionView.dataSource = self;
     [self.collectionView registerClass:[CusCollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
     [self.view addSubview:self.collectionView];
-    [self addNavBarViewAndTitle:@"收藏"];
+    [self addNavBarViewAndTitle:@"我的收藏"];
     
     //    self.collectionView.headerHidden = NO;
     [self getData];
@@ -138,9 +138,11 @@
     {
         [view removeFromSuperview];
     }
-    float height = [[[[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
-    
-    [cell setCollectionData:[self.dataSource objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
+    float height = [[[[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]*IMAGEHEiGHT;
+    if (self.dataSource.count>0)
+    {
+        [cell setCollectionData:[self.dataSource objectAtIndex:indexPath.row] andHeight:height];
+    }
     
     return cell;
 }
@@ -157,13 +159,12 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dic = [self.dataSource objectAtIndex:indexPath.row];
-    NSString *text = [dic objectForKey:@"Name"];
-    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
-    CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
+//    NSString *text = [dic objectForKey:@"Name"];
+//    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:IMAGEHEiGHT-10];
+    CGFloat itemH = IMAGEHEiGHT*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+35+35;
     
-    CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
+    CGSize size1 = CGSizeMake(IMAGEHEiGHT, itemH);
     
-    NSLog(@"++++++++++++++%f",size1.height);
     return size1;
 }
 

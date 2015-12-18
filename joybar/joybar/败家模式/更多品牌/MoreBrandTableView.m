@@ -60,4 +60,9 @@
     return (kScreenWidth-9)/2*0.75+3;
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.superview endEditing:YES];
+}
+
 @end

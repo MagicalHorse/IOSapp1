@@ -176,8 +176,8 @@
     }
     if (self.proArr.count>0)
     {
-        float height = [[[[self.proArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
-        [cell setCollectionData:[self.proArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
+        float height = [[[[self.proArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]*IMAGEHEiGHT;
+        [cell setCollectionData:[self.proArr objectAtIndex:indexPath.row] andHeight:height];
     }
     return cell;
 }
@@ -188,10 +188,10 @@
     {
         NSDictionary *dic = [self.proArr objectAtIndex:indexPath.row] ;
         NSString *text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"Name"]];
-        CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
+        CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:IMAGEHEiGHT-10];
         float height = [[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
-        CGFloat itemH = (kScreenWidth-15)/2*height+size.height+40;
-        return CGSizeMake((kScreenWidth-15)/2, itemH);
+        CGFloat itemH = IMAGEHEiGHT*height+size.height+35;
+        return CGSizeMake(IMAGEHEiGHT, itemH);
     }
     return CGSizeMake(0, 0);
 }

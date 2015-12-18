@@ -523,13 +523,13 @@
             NSString *myId = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
             if ([fromUserId isEqualToString:myId])
             {
-                UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-10-150, 18, 100, 20)];
-                nameLab.textAlignment = NSTextAlignmentRight;
-                nameLab.text = @"我自己";
-                nameLab.backgroundColor = [UIColor clearColor];
-                nameLab.font = [UIFont systemFontOfSize:13];
-                nameLab.textColor = [UIColor grayColor];
-                [cell.contentView addSubview:nameLab];
+//                UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-10-150, 18, 100, 20)];
+//                nameLab.textAlignment = NSTextAlignmentRight;
+//                nameLab.text = @"我自己";
+//                nameLab.backgroundColor = [UIColor clearColor];
+//                nameLab.font = [UIFont systemFontOfSize:13];
+//                nameLab.textColor = [UIColor grayColor];
+//                [cell.contentView addSubview:nameLab];
                 
                 UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-10-40, 15, 40, 40)];
                 headerImage.layer.cornerRadius = headerImage.width/2;

@@ -166,6 +166,7 @@
         {
             self.storeData = [HomeStoreData objectWithKeyValues:[json objectForKey:@"data"]];
             CGSize size = [Public getContentSizeWith:self.storeData.Description andFontSize:14 andWidth:kScreenWidth-20];
+            
             CGFloat height = size.height+125;
             layout.headerHeight = height;
             [self getProListData];
@@ -232,7 +233,14 @@
     [contentView addSubview:localImage];
 
     UILabel *localLab = [[UILabel alloc] initWithFrame:CGRectMake(localImage.right+3, fanCount.bottom+10, kScreenWidth-35, 20)];
-    localLab.text = self.storeData.Address;
+    if ([self.storeData.Address isEqualToString:@""])
+    {
+        localLab.text = @"位置未知";
+    }
+    else
+    {
+        localLab.text = self.storeData.Address;
+    }
     localLab.textColor = [UIColor grayColor];
     localLab.font = [UIFont systemFontOfSize:13];
     [contentView addSubview:localLab];
@@ -262,7 +270,7 @@
     layout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);
     layout.minimumColumnSpacing = 5;
     layout.minimumInteritemSpacing = 5;
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-40) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.alwaysBounceVertical = YES; //垂直方向遇到边框是否总是反弹
     _collectionView.delegate = self;
@@ -289,8 +297,6 @@
         cell = [[CusHomeStoreCollectionViewCell alloc]init];
     }
     cell.delegate = self;
-
-    cell.backgroundColor = [UIColor yellowColor];
     
     for (UIView *view in cell.contentView.subviews)
     {
@@ -298,11 +304,9 @@
     }
     if (self.dataSource.count>0)
     {
-        float height = [[[[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
-        
-        [cell setCollectionData:[self.dataSource objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
+        float height = [[[[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]*IMAGEHEiGHT;
+        [cell setCollectionData:[self.dataSource objectAtIndex:indexPath.row] andHeight:height];
     }
-    
     return cell;
 }
 
@@ -317,13 +321,24 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dic = [self.dataSource objectAtIndex:indexPath.row];
-    NSString *text = [dic objectForKey:@"Name"];
-    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
-    CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
-    
-    CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
+//    NSString *text = [dic objectForKey:@"Name"];
+//    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:IMAGEHEiGHT-10];
+//    NSLog(@"%f",size.height);
+//    NSLog(@"%f",size.height);
+//    if (size.height>30)
+//    {
+//        itemH  = IMAGEHEiGHT*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+30+35;
+//    }
+//    else
+//    {
+//        itemH = IMAGEHEiGHT*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
+//    }
+   CGFloat itemH  = IMAGEHEiGHT*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+35+35;
+
+    CGSize size1 = CGSizeMake(IMAGEHEiGHT, itemH);
     
     return size1;
+
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -369,15 +384,20 @@
         {
             if ([btn.titleLabel.text isEqualToString:@"关注"])
             {
-                [btn setImage:nil forState:(UIControlStateNormal)];
-                [btn setTitle:@"取消关注" forState:(UIControlStateNormal)];
-                btn.backgroundColor = [UIColor grayColor];
+                [btn setTitle:@"已关注" forState:(UIControlStateNormal)];
+                btn.backgroundColor = [UIColor whiteColor];
+                btn.layer.borderColor = [UIColor grayColor].CGColor;
+                [btn setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
+                btn.layer.borderWidth = 1;
             }
             else
             {
-                [btn setImage:[UIImage imageNamed:@"关注white.png"] forState:(UIControlStateNormal)];
                 [btn setTitle:@"关注" forState:(UIControlStateNormal)];
                 btn.backgroundColor = kCustomColor(253, 162, 41);
+                btn.layer.borderColor = [UIColor clearColor].CGColor;
+                [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+                btn.layer.borderWidth = 0;
+
             }
         }
         else

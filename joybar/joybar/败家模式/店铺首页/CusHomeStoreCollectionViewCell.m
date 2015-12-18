@@ -16,10 +16,8 @@
 -(void)setCollectionData:(NSDictionary *)dic andHeight:(NSInteger)height
 {
     dataDic = dic;
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, (kScreenWidth-15)/2, height)];
-    //    imageView.backgroundColor = [self randomColor];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, IMAGEHEiGHT, height)];
     NSString *imgUrl = [NSString stringWithFormat:@"%@",[[dic objectForKey:@"pic"] objectForKey:@"pic"]];
-//    imageView.clipsToBounds = YES;
     [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:imageView];
     
@@ -29,14 +27,25 @@
     
     UILabel *nameLab = [[UILabel alloc] init];
     nameLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"Name"]];
-    nameLab.numberOfLines = 0;
+    nameLab.numberOfLines = 2;
     nameLab.font = [UIFont systemFontOfSize:13];
-    CGSize size = [Public getContentSizeWith:nameLab.text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
-    nameLab.frame = CGRectMake(5, 5, (kScreenWidth-15)/2-10, size.height);
+    
+    
+    CGSize size = [Public getContentSizeWith:nameLab.text andFontSize:13 andWidth:IMAGEHEiGHT-10];
+//    if (size.height>30)
+//    {
+        nameLab.frame = CGRectMake(5, 5, IMAGEHEiGHT-10, 35);
+//    }
+//    else
+//    {
+//        nameLab.frame = CGRectMake(5, 5, IMAGEHEiGHT-10, size.height);
+//    }
+//    nameLab.frame = CGRectMake(5, 5, IMAGEHEiGHT-10, size.height);
+
     [bgView addSubview:nameLab];
     
     //白色背景高度
-    bgView.frame =CGRectMake(0, height, (kScreenWidth-15)/2, size.height+35);
+    bgView.frame =CGRectMake(0, height, IMAGEHEiGHT, 35+35);
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(5, nameLab.bottom+12, 11, 11)];
     label.text = @"￥";
@@ -51,7 +60,7 @@
     [bgView addSubview:priceLab];
     
     UIButton *clickZan = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    clickZan.frame = CGRectMake((kScreenWidth-15)/2-50, nameLab.bottom+7, 60, 20);
+    clickZan.frame = CGRectMake(IMAGEHEiGHT-50, nameLab.bottom+7, 60, 20);
     clickZan.backgroundColor = [UIColor clearColor];
     if (![[dic objectForKey:@"IsFavorite"] boolValue])
     {

@@ -84,6 +84,7 @@
         
         localLab = [[UILabel alloc] initWithFrame:CGRectMake(localImage.right+3, nameLab.bottom+15, tempView.width-140, 20)];
         localLab.font = [UIFont systemFontOfSize:11];
+
         [tempView addSubview:localLab];
         
         distanceLab = [[UILabel alloc] initWithFrame:CGRectMake(tempView.width-45, nameLab.bottom+15, 40, 20)];
@@ -250,7 +251,14 @@
         NSString *lon = [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
         NSString *distance = [Public getDistanceWithLocation:[lat doubleValue] and:[lon doubleValue] and:[[dic objectForKey:@"Lat"] doubleValue] and:[[dic objectForKey:@"Lon"] doubleValue]];
         distanceLab.text = [NSString stringWithFormat:@"%.1fKM",[distance floatValue]/1000];
-        localLab.text = [dic objectForKey:@"Location"];
+        if ([[dic objectForKey:@"Location"] isEqualToString:@""])
+        {
+            localLab.text = @"位置未知";
+        }
+        else
+        {
+            localLab.text = [dic objectForKey:@"Location"];
+        }
         
         proView.frame = CGRectMake(0, brandView.bottom+15, tempView.width, tempView.width/3-10);
         
@@ -281,17 +289,21 @@
         bgView.alpha =0.3;
         [proImage addSubview:bgView];
         
+        UIView *temp = [[UIView alloc] initWithFrame:CGRectMake(0, proImage.height/4*3, bgView.width, bgView.height)];
+        temp.backgroundColor = [UIColor clearColor];
+        [proImage addSubview:temp];
+        
         UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, proImage.width/2, proImage.height/4)];
         price.textColor = [UIColor whiteColor];
         price.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"Price"]];
         price.font = [UIFont systemFontOfSize:14];
-        [bgView addSubview:price];
+        [temp addSubview:price];
         
         UILabel *discountPrice = [[UILabel alloc] initWithFrame:CGRectMake(price.right, 2, proImage.width/2, proImage.height/4-2)];
         discountPrice.textColor = [UIColor whiteColor];
         discountPrice.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"UnitPrice"]];
         discountPrice.font = [UIFont systemFontOfSize:11];
-        [bgView addSubview:discountPrice];
+        [temp addSubview:discountPrice];
         
         CGSize size = [Public getContentSizeWith:discountPrice.text andFontSize:11 andHigth:proImage.height/4-2];
         

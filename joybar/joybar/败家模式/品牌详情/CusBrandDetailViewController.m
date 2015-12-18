@@ -180,7 +180,7 @@
 {
     NSDictionary *dic = [self.tagArr objectAtIndex:indexPath.row];
     NSString *text = [dic objectForKey:@"Name"];
-    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:(kScreenWidth-15)/2-10];
+    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:IMAGEHEiGHT-10];
     CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
 
     CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);

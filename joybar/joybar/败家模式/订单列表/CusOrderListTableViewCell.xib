@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1509" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -13,7 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="210"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="209.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tji-wr-WYc">
@@ -159,6 +159,13 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gL-F5-1B2">
+                                <rect key="frame" x="15" y="31" width="305" height="1"/>
+                                <color key="backgroundColor" red="0.88235294119999996" green="0.88235294119999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="ZfZ-4d-rRS"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -176,6 +183,7 @@
                             <constraint firstItem="1ax-O9-Mqs" firstAttribute="top" secondItem="J1O-Xh-pdh" secondAttribute="bottom" constant="8" symbolic="YES" id="8QW-dx-chk"/>
                             <constraint firstItem="1ax-O9-Mqs" firstAttribute="top" secondItem="J1O-Xh-pdh" secondAttribute="bottom" constant="8" id="A9e-hx-byy"/>
                             <constraint firstItem="KjH-7l-ngK" firstAttribute="leading" secondItem="Tji-wr-WYc" secondAttribute="leading" constant="10" id="AYM-Ag-FOo"/>
+                            <constraint firstItem="3gL-F5-1B2" firstAttribute="top" secondItem="8Rs-9W-e9m" secondAttribute="bottom" constant="3" id="BeX-Le-U9d"/>
                             <constraint firstAttribute="trailing" secondItem="oaz-KZ-vGv" secondAttribute="trailing" constant="10" id="C5S-Br-QSj"/>
                             <constraint firstItem="1ax-O9-Mqs" firstAttribute="leading" secondItem="Bv3-to-keo" secondAttribute="leading" id="C7u-hF-AR6"/>
                             <constraint firstAttribute="trailing" secondItem="vUt-gY-Koq" secondAttribute="trailing" constant="81" id="D0b-pb-oz7"/>
@@ -190,6 +198,7 @@
                             <constraint firstItem="Bv3-to-keo" firstAttribute="centerY" secondItem="oaz-KZ-vGv" secondAttribute="centerY" id="Lxn-me-KPb"/>
                             <constraint firstItem="rji-7J-cs1" firstAttribute="leading" secondItem="bly-I1-4U0" secondAttribute="trailing" constant="12" id="MRT-P6-zSl"/>
                             <constraint firstItem="8Rs-9W-e9m" firstAttribute="leading" secondItem="Tji-wr-WYc" secondAttribute="leading" constant="10" id="O87-vF-CId"/>
+                            <constraint firstItem="3gL-F5-1B2" firstAttribute="leading" secondItem="Tji-wr-WYc" secondAttribute="leading" constant="15" id="P42-ET-rU3"/>
                             <constraint firstAttribute="bottom" secondItem="1ax-O9-Mqs" secondAttribute="bottom" constant="8" id="P6p-45-8pO"/>
                             <constraint firstItem="KjH-7l-ngK" firstAttribute="top" secondItem="Tji-wr-WYc" secondAttribute="top" constant="125" id="QeM-jp-qbR"/>
                             <constraint firstAttribute="bottom" secondItem="O1d-Vg-Xln" secondAttribute="bottom" constant="3" id="Qoy-wS-cP1"/>
@@ -220,6 +229,7 @@
                             <constraint firstAttribute="trailing" secondItem="m4W-4V-cke" secondAttribute="trailing" constant="10" id="pCv-Vh-HgX"/>
                             <constraint firstItem="KjH-7l-ngK" firstAttribute="top" secondItem="Tji-wr-WYc" secondAttribute="top" constant="125" id="pfC-7m-STK"/>
                             <constraint firstAttribute="bottom" secondItem="KjH-7l-ngK" secondAttribute="bottom" constant="74" id="q8X-U0-0pH"/>
+                            <constraint firstAttribute="trailing" secondItem="3gL-F5-1B2" secondAttribute="trailing" id="tOy-nd-PgU"/>
                             <constraint firstItem="kLP-Ka-pq5" firstAttribute="top" secondItem="Tji-wr-WYc" secondAttribute="top" constant="33" id="uXd-yD-6Ps"/>
                             <constraint firstItem="bly-I1-4U0" firstAttribute="top" secondItem="kLP-Ka-pq5" secondAttribute="bottom" constant="8" symbolic="YES" id="v0t-fN-4Zc"/>
                             <constraint firstItem="1ax-O9-Mqs" firstAttribute="top" secondItem="Tji-wr-WYc" secondAttribute="top" constant="171" id="wBh-6V-hn3"/>
@@ -254,9 +264,4 @@
             <point key="canvasLocation" x="243" y="274"/>
         </tableViewCell>
     </objects>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

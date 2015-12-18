@@ -174,7 +174,7 @@
     }
     else
     {
-        return prodata.ProductPic.count*210;
+        return prodata.ProductPic.count*210+44;
     }
 }
 
@@ -246,10 +246,6 @@
     footerView.backgroundColor = kCustomColor(252, 251, 251);
     [self.view addSubview:footerView];
     
-    
-    
-    
-    NSArray *arr = @[@"立即购买"];
     NSArray *titleArr;
     NSArray *imageArr;
     
@@ -270,10 +266,9 @@
         {
             UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
             btn.tag = 1000+i;
-            btn.frame = CGRectMake(kScreenWidth/4*i, 0, kScreenWidth/4, 44);
+            btn.frame = CGRectMake(kScreenWidth/4*i, 0, kScreenWidth/4, footerView.height);
             [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
             [footerView addSubview:btn];
-
 
             btn.backgroundColor = kCustomColor(252, 251, 251);
             UIImageView *img =[[UIImageView alloc] init];
@@ -291,14 +286,11 @@
             lab.tag = 10000+i;
             lab.font = [UIFont systemFontOfSize:12];
             [btn addSubview:lab];
-            
-
         }
         else
         {
-            
             timeBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-            timeBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
+            timeBtn.frame = CGRectMake(kScreenWidth/2, -5, kScreenWidth/2, footerView.height+5);
             timeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
             [timeBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
             timeBtn.backgroundColor = kCustomColor(253, 137, 83);
@@ -307,7 +299,7 @@
 
             buyLab = [[UILabel alloc] initWithFrame:CGRectMake(90, 0, timeBtn.width-90, timeBtn.height)];
             buyLab.backgroundColor = [UIColor clearColor];
-            buyLab.textColor = [UIColor whiteColor];
+            buyLab.textColor = [UIColor clearColor];
             buyLab.font = [UIFont systemFontOfSize:13];
             [timeBtn addSubview:buyLab];
             

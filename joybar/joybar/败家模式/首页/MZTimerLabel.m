@@ -96,7 +96,10 @@
 }
 
 -(void)setCountDownTime:(NSTimeInterval)time{
-    
+    if (time<0)
+    {
+        return;
+    }
     timeUserValue = time;
     timeToCountOff = [date1970 dateByAddingTimeInterval:time];
     [self updateLabel:nil];
@@ -252,7 +255,9 @@
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:_timeFormat];
+    
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+    
     NSString *strDate = [dateFormatter stringFromDate:timeToShow];
     _timeLabel.text = strDate;
     

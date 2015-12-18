@@ -29,6 +29,8 @@
 #define AlySecretKey  @"IfGB5txNXBv0vv7Z5qERPH1Bp4DLtn"
 #define AlyBucketHostId @"oss-cn-beijing.aliyuncs.com"
 
+#define IMAGEHEiGHT (kScreenWidth-15)/2
+
 
 //测试
 #define AlyBucket @"apprss" //开发

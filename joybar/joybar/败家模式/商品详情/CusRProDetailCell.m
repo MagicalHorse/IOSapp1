@@ -114,11 +114,16 @@
         location.frame =CGRectMake(10, 10, kScreenWidth-20, locationSize.height);
         [self.contentView addSubview:location];
         
-        UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, location.bottom+5, 15, 15)];
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(15, location.bottom+5, kScreenWidth-15, 1)];
+        line.backgroundColor = kCustomColor(212, 212, 212);
+        [self.contentView addSubview:line];
+
+        
+        UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, location.bottom+15, 15, 15)];
         imageView1.image = [UIImage imageNamed:@"打烊购时间icon"];
         [self.contentView addSubview:imageView1];
         
-        UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, imageView1.bottom+5, imageView1.width, imageView1.height)];
+        UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(10, imageView1.bottom+15, imageView1.width, imageView1.height)];
         imageView2.image = [UIImage imageNamed:@"打烊购icon"];
         [self.contentView addSubview:imageView2];
         
