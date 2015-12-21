@@ -426,12 +426,21 @@
 //获取验证码
 -(void)didCilckGetAuthCode:(UIButton *)btn
 {
+    [registerPhoneText resignFirstResponder];
     if (selectBtn.selected==NO)
     {
         [self showHudFailed:@"请同意Shopping用户协议"];
         return;
     }
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    if (registerPhoneText.text.length==11) {
+        NSString *fisrt=  [registerPhoneText.text substringToIndex:1];
+        if (![fisrt isEqualToString:@"1"]) {
+            [self showHudFailed:@"请输入正确的手机号码"];
+            return;
+        }
+       
+    }
     if (registerPhoneText.text.length!=11)
     {
         [self showHudFailed:@"请输入正确的手机号码"];
