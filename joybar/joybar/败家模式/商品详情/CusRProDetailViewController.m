@@ -104,7 +104,9 @@
     }
     else if (indexPath.section==1)
     {
-        return 100;
+        CGSize size = [Public getContentSizeWith:prodata.PickAddress andFontSize:13 andWidth:kScreenWidth-15];
+        
+        return size.height+100;
     }
     else if (indexPath.section==2)
     {
@@ -160,16 +162,16 @@
             [self.proDetailTableView reloadData];
             
             [self initWithFooterView];
+            [self activityDismiss];
+
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [self activityDismiss];
         
     } failure:^(NSError *error) {
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
-        [self activityDismiss];
     }];
 }
 
@@ -217,7 +219,6 @@
     footerView.backgroundColor = kCustomColor(252, 251, 251);
     [self.view addSubview:footerView];
     
-    NSArray *arr = @[@"立即购买"];
     NSArray *titleArr;
     NSArray *imageArr;
     
@@ -336,9 +337,6 @@
     
 }
 
-
-
-
 -(void)didClickReturnBtn
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -422,6 +420,9 @@
 }
 -(void)didClickCollectProBtn:(UIButton *)button
 {
+    UILabel *lab = (UILabel *)[button viewWithTag:10001];
+    UIImageView *img = (UIImageView *)[button viewWithTag:101];
+
     if (!TOKEN)
     {
         [Public showLoginVC:self];
@@ -441,19 +442,15 @@
         
         if ([json objectForKey:@"isSuccessful"])
         {
-            if (button.selected)
+            if ([lab.text isEqualToString:@"收藏"])
             {
-                [button setImage:[UIImage imageNamed:@"weishoucang"] forState:(UIControlStateNormal)];
-                [button setTitle:@" 收藏" forState:(UIControlStateNormal)];
-                [button setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-                button.selected = NO;
+                lab.text=@"取消收藏";
+                img.image = [UIImage imageNamed:@"xingxing"];
             }
             else
             {
-                [button setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
-                [button setTitle:@" 已收藏" forState:(UIControlStateNormal)];
-                [button setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
-                button.selected = YES;
+                lab.text=@"收藏";
+                img.image = [UIImage imageNamed:@"xing"];
             }
         }
         else
@@ -463,8 +460,6 @@
     } failure:^(NSError *error) {
         
     }];
-    
-    
 }
 //UIScrollViewDelegate方法
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

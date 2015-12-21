@@ -11,6 +11,7 @@
 #import "BaseTableView.h"
 #import "FansItems.h"
 #import "CusHomeStoreViewController.h"
+#import "CusMainStoreViewController.h"
 #define MJRandomData [NSString stringWithFormat:@"随机数据---%d", arc4random_uniform(1000000)]
 
 @interface CusAttentionViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
@@ -237,10 +238,9 @@
         return;
     }
     FansModel *fan = [self.attentionArr objectAtIndex:indexPath.row];
-
-    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userId =fan.UserId;
-    VC.userName = fan.UserName;
+    VC.isCircle = NO;
     [self.navigationController pushViewController:VC animated:YES];
 }
 

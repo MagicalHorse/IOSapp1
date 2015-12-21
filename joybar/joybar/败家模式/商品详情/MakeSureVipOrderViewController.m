@@ -624,7 +624,14 @@
 {
     CusVipOrderProTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
     
-    
+    if ([self.needInvoice isEqualToString:@"1"])
+    {
+        if ([desText.text isEqualToString:@""])
+        {
+            [self showHudFailed:@"请填写发票抬头"];
+            return;
+        }
+    }
     if ([phoneText.text isEqualToString:@""])
     {
         [self showHudFailed:@"请填写手机号"];

@@ -1,10 +1,9 @@
 //
 //  UIView+Additions.h
 //  WXWeibo
-//  获取UIView的下一个响应链
 
 //  Created by Sundy on 13-12-7.
-//  Copyright (c) 2013年 www.iphonetrain.com 无限互联3G学院. All rights reserved.
+//  Copyright (c) 2013年 www.iphonetrain.com  All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

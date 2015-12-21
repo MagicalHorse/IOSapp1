@@ -15,6 +15,7 @@
 #import "CusMoreBrandViewController.h"
 #import "HistorySearchViewController.h"
 #import "CusZProDetailViewController.h"
+#import "CusBrandDetailViewController.h"
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 #define HEADER_HEIGHT [UIScreen mainScreen].bounds.size.width*0.5+35
 @interface CusMarketViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,CHTCollectionViewDelegateWaterfallLayout>
@@ -190,7 +191,7 @@
         NSString *text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"Name"]];
         CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:IMAGEHEiGHT-10];
         float height = [[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
-        CGFloat itemH = IMAGEHEiGHT*height+size.height+35;
+        CGFloat itemH = IMAGEHEiGHT*height+35+35;
         return CGSizeMake(IMAGEHEiGHT, itemH);
     }
     return CGSizeMake(0, 0);
@@ -319,7 +320,13 @@
 
 -(void)didClickBrand:(UIButton *)btn
 {
-    
+    CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
+    VC.BrandId = [self.brandArr[btn.tag-100] objectForKey:@"BrandId"];
+    VC.BrandName = [_brandArr[btn.tag-100] objectForKey:@"BrandName"];
+    VC.storeId =[_infoDic objectForKey:@"StoreId"];
+    VC.cityId =[[NSUserDefaults standardUserDefaults] objectForKey:@"cityId"];
+    [self.navigationController pushViewController:VC animated:YES];
+
 }
 
 //搜索

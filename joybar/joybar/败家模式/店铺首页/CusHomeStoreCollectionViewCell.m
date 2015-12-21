@@ -90,6 +90,7 @@
         [Public showLoginVC:self.viewController];
         return;
     }
+    [self.viewController.view hudShow];
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[dataDic objectForKey:@"Id"] forKey:@"Id"];
@@ -121,8 +122,11 @@
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
+        [self.viewController.view hiddleHud];
         
     } failure:^(NSError *error) {
+        [self.viewController.view hiddleHud];
+
     }];
     
     

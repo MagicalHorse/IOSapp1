@@ -138,7 +138,9 @@
     }
     else if (indexPath.section==1)
     {
-        return 100;
+        CGSize size = [Public getContentSizeWith:prodata.PickAddress andFontSize:13 andWidth:kScreenWidth-15];
+        
+        return size.height+90;
     }
     else if (indexPath.section==2)
     {
@@ -226,17 +228,17 @@
             prodata = [ProDetailData objectWithKeyValues:dic];
             
             [self initWithFooterView];
+            [self activityDismiss];
+
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [self activityDismiss];
         [self.proDetailTableView reloadData];
 
     } failure:^(NSError *error) {
         [self showHudFailed:@"服务器正在维护,请稍后再试"];
-        [self activityDismiss];
     }];
 }
 
@@ -417,6 +419,12 @@
 
 -(void)didClickBuy:(UIButton *)btn
 {
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self];
+        return;
+    }
+
     if ([self.buyCount isEqualToString:@"0"])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"请选择数量" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];

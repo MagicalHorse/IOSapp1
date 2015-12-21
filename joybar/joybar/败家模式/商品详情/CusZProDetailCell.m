@@ -35,7 +35,7 @@
 }
 
 -(void)setDetailData:(ProDetailData *)proData andIndex:(NSIndexPath *)indexPath
-{
+{   priceNum = 1;
     detailData = proData;
     labArr = [[NSMutableArray alloc] init];
     imageViewArr =[[NSMutableArray alloc] init];
@@ -99,7 +99,7 @@
         
         UILabel *discountLab = [[UILabel alloc] init];
         discountLab.backgroundColor = [UIColor redColor];
-        discountLab.text  = [NSString stringWithFormat:@"%.2f折",[proData.UnitPrice floatValue]/[proData.Price floatValue]];
+        discountLab.text  = [NSString stringWithFormat:@"%.2f折",[proData.Price floatValue]/[proData.UnitPrice floatValue]];
         discountLab.textColor = [UIColor whiteColor];
         discountLab.font = [UIFont systemFontOfSize:11];
         discountLab.textAlignment = NSTextAlignmentCenter;
@@ -249,10 +249,10 @@
         
         buyNumLab = [[UILabel alloc] initWithFrame:CGRectMake(44, 0, numView.width-88, numView.height)];
         buyNumLab.backgroundColor = [UIColor whiteColor];
-        buyNumLab.text = [NSString stringWithFormat:@"%d",priceNum];
+        buyNumLab.text = [NSString stringWithFormat:@"%ld",priceNum];
         buyNumLab.textAlignment = NSTextAlignmentCenter;
         [numView addSubview:buyNumLab];
-        [self.delegate handleBuyCount:@"0"];
+        [self.delegate handleBuyCount:[NSString stringWithFormat:@"%ld",priceNum]];
         
         UILabel *kuCunLab = [[UILabel alloc] initWithFrame:CGRectMake(numView.right+10, numView.top+5, 150, 20)];
         kuCunLab.textColor = [UIColor redColor];
@@ -403,7 +403,9 @@
             ProductPicture *pic = [proData.ProductPic objectAtIndex:i];
 
             UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, i*210, kScreenWidth, 210)];
-            proImage.backgroundColor =[UIColor redColor];
+            proImage.backgroundColor =[UIColor lightGrayColor];
+            proImage.contentMode = YES;
+            proImage.contentMode = UIViewContentModeScaleAspectFit;
             [proImage sd_setImageWithURL:[NSURL URLWithString:pic.Logo] placeholderImage:[UIImage imageNamed:@"placeholder"]];
             [temp addSubview:proImage];
         }
@@ -500,6 +502,12 @@
 //点头像
 -(void)didCLickToStore
 {
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self.viewController];
+        return;
+    }
+
     CusMainStoreViewController *VC= [[CusMainStoreViewController alloc] init];
     VC.userId =detailData.BuyerId;
     VC.isCircle = NO;
@@ -509,6 +517,11 @@
 //进圈
 -(void)didClickToCircle
 {
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self.viewController];
+        return;
+    }
     CusMainStoreViewController *VC= [[CusMainStoreViewController alloc] init];
     VC.userId =detailData.BuyerId;
     VC.isCircle = YES;

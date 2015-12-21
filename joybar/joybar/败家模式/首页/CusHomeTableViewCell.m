@@ -87,7 +87,7 @@
 
         [tempView addSubview:localLab];
         
-        distanceLab = [[UILabel alloc] initWithFrame:CGRectMake(tempView.width-45, nameLab.bottom+15, 40, 20)];
+        distanceLab = [[UILabel alloc] initWithFrame:CGRectMake(tempView.width-45, nameLab.bottom+15, 45, 20)];
         distanceLab.font = [UIFont systemFontOfSize:11];
         [tempView addSubview:distanceLab];
         
@@ -250,7 +250,7 @@
         NSString *lat = [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
         NSString *lon = [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
         NSString *distance = [Public getDistanceWithLocation:[lat doubleValue] and:[lon doubleValue] and:[[dic objectForKey:@"Lat"] doubleValue] and:[[dic objectForKey:@"Lon"] doubleValue]];
-        distanceLab.text = [NSString stringWithFormat:@"%.1fKM",[distance floatValue]/1000];
+        distanceLab.text = [NSString stringWithFormat:@"%.2fKM",[distance floatValue]/1000];
         if ([[dic objectForKey:@"Location"] isEqualToString:@""])
         {
             localLab.text = @"位置未知";
@@ -279,6 +279,8 @@
         [proImage sd_setImageWithURL:[NSURL URLWithString:[proDic objectForKey:@"Pic"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         proImage.userInteractionEnabled = YES;
         proImage.tag = 10+i;
+        proImage.clipsToBounds = YES;
+        proImage.contentMode = UIViewContentModeScaleAspectFill;
         [proView addSubview:proImage];
         
         UITapGestureRecognizer *proTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickProView:)];
@@ -358,14 +360,14 @@
     {
         IsStart = 0;
         [timer3 setCountDownTime:BusinessTime];
-        showLab.text = @" 距离开始 :";
+        showLab.text = @" 距离结束 :";
 
     }
     else
     {
         [timer3 setCountDownTime:RemainTime];
         IsStart = 1;
-        showLab.text = @" 距离结束 :";
+        showLab.text = @" 距离开始 :";
 
     }
     [timer3 start];
@@ -393,6 +395,12 @@
 //点击头像
 -(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
 {
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self.viewController];
+        return;
+    }
+
     NSInteger i = tap.view.tag-100;
     NSArray *products = [infoDic objectForKey:@"Products"];
     NSString *userId = [products[i] objectForKey:@"BuyerId"];

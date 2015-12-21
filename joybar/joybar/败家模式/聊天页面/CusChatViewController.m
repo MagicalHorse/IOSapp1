@@ -518,19 +518,19 @@
 
 -(void)changeTableViewFrameWhileShow:(BOOL)isAction
 {
-    if(isAction == NO){
-        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-216-49-64);
-        if([self.messageArr count] != 0){
-            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
-            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-        }
-    }else{
-        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-49-164);
-        if([self.messageArr count] != 0){
-            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
-            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-        }
-    }
+//    if(isAction == NO){
+//        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-216-49-64);
+//        if([self.messageArr count] != 0){
+//            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
+//            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+//        }
+//    }else{
+//        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-49-164);
+//        if([self.messageArr count] != 0){
+//            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
+//            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+//        }
+//    }
 }
 
 -(void)changeTableViewFrameWhileHidden

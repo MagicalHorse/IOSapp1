@@ -99,8 +99,8 @@
 -(void)getData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setValue:self.cityId forKey:@"StoreId"];
-    [dic setValue:self.storeId forKey:@"CityId"];
+    [dic setValue: self.storeId forKey:@"StoreId"];
+    [dic setValue: self.cityId forKey:@"CityId"];
     [dic setValue:self.BrandId forKey:@"BrandId"];
     [dic setValue:[[Public getUserInfo]objectForKey:@"id"] forKey:@"UserId"];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
@@ -170,7 +170,7 @@
     
     float height = [[[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
     
-    [cell setCollectionData:[self.tagArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-10)/2*height];
+    [cell setCollectionData:[self.tagArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-15)/2*height];
 
     
     return cell;
@@ -181,7 +181,7 @@
     NSDictionary *dic = [self.tagArr objectAtIndex:indexPath.row];
     NSString *text = [dic objectForKey:@"Name"];
     CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:IMAGEHEiGHT-10];
-    CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
+    CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+35+35;
 
     CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
     
