@@ -72,18 +72,17 @@
 //    [self addNavBarViewAndTitle:@"商品详情"];
     
     UIButton *shareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    shareBtn.frame = CGRectMake(kScreenWidth-74, 15, 64, 64);
+    shareBtn.frame = CGRectMake(kScreenWidth-64, 15, 64, 64);
     shareBtn.backgroundColor = [UIColor clearColor];
     [shareBtn setImage:[UIImage imageNamed:@"分享-1"] forState:(UIControlStateNormal)];
     [shareBtn addTarget:self action:@selector(didClickShare:) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:shareBtn];
     
     UIButton *popBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    popBtn.frame = CGRectMake(10, 15, 64, 64);
+    popBtn.frame = CGRectMake(0, 15, 64, 64);
     [popBtn setImage:[UIImage imageNamed:@"返回"] forState:(UIControlStateNormal)];
     [popBtn addTarget:self action:@selector(didClickPop) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:popBtn];
-
     
     [self getKuCunData];
 

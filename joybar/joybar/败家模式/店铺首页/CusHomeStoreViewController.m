@@ -216,12 +216,18 @@
     if ([self.storeData.IsFollowing boolValue])
     {
         [attentionBtn setTitle:@"已关注" forState:(UIControlStateNormal)];
-        attentionBtn.backgroundColor = [UIColor grayColor];
+        attentionBtn.backgroundColor = [UIColor whiteColor];
+        attentionBtn.layer.borderColor = [UIColor grayColor].CGColor;
+        [attentionBtn setTitleColor:[UIColor darkGrayColor] forState:(UIControlStateNormal)];
+        attentionBtn.layer.borderWidth = 1;
     }
     else
     {
         [attentionBtn setTitle:@"关注" forState:(UIControlStateNormal)];
-        attentionBtn.backgroundColor = [UIColor orangeColor];
+        attentionBtn.backgroundColor = kCustomColor(253, 162, 41);
+        attentionBtn.layer.borderColor = [UIColor clearColor].CGColor;
+        [attentionBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+        attentionBtn.layer.borderWidth = 0;
     }
     [attentionBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     attentionBtn.titleLabel.font = [UIFont systemFontOfSize:13];
