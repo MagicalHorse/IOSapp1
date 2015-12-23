@@ -20,7 +20,6 @@
 #import "BuyerMineViewController.h"
 #import "LoginAndRegisterViewController.h"
 #import "CusMessageViewController.h"
-#import "BuyerMessageViewController.h"
 #import "BuyerMineViewController.h"
 #import "BuyerCameraViewController.h"
 #import "BuyerOpenViewController.h"
