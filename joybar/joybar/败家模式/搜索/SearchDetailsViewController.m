@@ -869,6 +869,7 @@
 
         CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
         mainStore.userId =[self.searchArr2[indexPath.row]objectForKey:@"UserId"];
+        mainStore.userName = [self.searchArr2[indexPath.row]objectForKey:@"Nickname"];
         mainStore.isCircle = NO;
         [self.navigationController pushViewController:mainStore animated:YES];
     

@@ -87,11 +87,18 @@
     
     namelab =[[UILabel alloc] init];
     namelab.center = CGPointMake(headImage.center.x, circleImage.bottom+15);
-    namelab.bounds = CGRectMake(0, 0, 150, 150);
+    namelab.bounds = CGRectMake(0, 0, 150, 20);
     namelab.textColor = [UIColor whiteColor];
     namelab.textAlignment = NSTextAlignmentCenter;
     namelab.font = [UIFont systemFontOfSize:18];
     [bgView addSubview:namelab];
+    
+    UILabel *locationLab = [[UILabel alloc] initWithFrame:CGRectMake(0, namelab.bottom+5, kScreenWidth, 20)];
+    locationLab.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"cityName"];
+    locationLab.textAlignment = NSTextAlignmentCenter;
+    locationLab.font = [UIFont systemFontOfSize:13];
+    locationLab.textColor = [UIColor whiteColor];
+    [bgView addSubview:locationLab];
     
 //    tempView = [[UIView alloc] init];
 //    tempView.center = CGPointMake(kScreenWidth/2, self.bgImageView.bottom+43);

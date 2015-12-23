@@ -284,7 +284,7 @@
             
             if ([prodata.IsStart boolValue])
             {
-                [timeLab setCountDownTime:[prodata.RemainTime integerValue]];
+                [timeLab setCountDownTime:[prodata.BusinessTime integerValue]];
                 timerLab.text = @"立即购买";
                 timerLab.textAlignment = NSTextAlignmentCenter;
                 buyLab.hidden = YES;
@@ -292,8 +292,8 @@
             }
             else
             {
-                [timeLab setCountDownTime:[prodata.BusinessTime intValue]];
-                timerLab.text = @" 剩余开始时间:";
+                [timeLab setCountDownTime:[prodata.RemainTime intValue]];
+                timerLab.text = @" 距离开始:";
                 timerLab.textAlignment = NSTextAlignmentLeft;
                 buyLab.hidden = NO;
                 timeBtn.userInteractionEnabled = NO;
@@ -310,7 +310,7 @@
     {
         [timerLabel setCountDownTime:[prodata.BusinessTime integerValue]];
         prodata.IsStart = @"0";
-        timerLab.text = @" 剩余开始时间:";
+        timerLab.text = @" 距离开始:";
         timerLab.textAlignment = NSTextAlignmentLeft;
         buyLab.hidden = NO;
         timeBtn.userInteractionEnabled = NO;

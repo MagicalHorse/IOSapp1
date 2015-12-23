@@ -162,7 +162,7 @@
     }
     else
     {
-        [timer3 setCountDownTime:BusinessTime];
+        [timer3 setCountDownTime:RemainTime];
         showLab.text = @" 距离开始 :";
     }
     nameLab.text = [dic objectForKey:@"StoreName"];
@@ -365,10 +365,9 @@
     }
     else
     {
-        [timer3 setCountDownTime:RemainTime];
+        [timer3 setCountDownTime:24*60*60-BusinessTime];
         IsStart = 1;
         showLab.text = @" 距离开始 :";
-
     }
     [timer3 start];
 }
@@ -404,9 +403,10 @@
     NSInteger i = tap.view.tag-100;
     NSArray *products = [infoDic objectForKey:@"Products"];
     NSString *userId = [products[i] objectForKey:@"BuyerId"];
-    
+    NSString *userName = [products[i] objectForKey:@"BuyerName"];
     CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userId = userId;
+    VC.userName =userName;
     VC.isCircle = NO;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }

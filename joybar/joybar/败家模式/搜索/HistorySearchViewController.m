@@ -72,7 +72,7 @@
     [searchView addSubview:searchImage];
     
     searchText = [[UITextField alloc] initWithFrame:CGRectMake(searchImage.right+10, 0, searchView.width-50, 30)];
-    searchText.placeholder = @"请输入搜索内容";
+    searchText.placeholder = @"请输入品牌或其他标签";
     searchText.borderStyle = UITextBorderStyleNone;
     searchText.delegate = self;
     searchText.returnKeyType = UIReturnKeySearch;

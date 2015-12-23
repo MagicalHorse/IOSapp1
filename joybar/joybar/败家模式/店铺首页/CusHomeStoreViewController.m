@@ -68,7 +68,7 @@
     [self addFooter];
     
     UIButton *chatBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    chatBtn.frame = CGRectMake(0, kScreenHeight-40, kScreenWidth, 40);
+    chatBtn.frame = CGRectMake(0, kScreenHeight-40-64, kScreenWidth, 40);
     chatBtn.backgroundColor =[UIColor orangeColor];
     [chatBtn setTitle:@"私聊" forState:(UIControlStateNormal)];
     [chatBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];

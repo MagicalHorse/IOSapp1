@@ -72,7 +72,7 @@
     attentionBtn.layer.cornerRadius = 3;
     if ([fanModel.isFavorite boolValue])
     {
-        [attentionBtn setTitle:@"取消关注" forState:(UIControlStateNormal)];
+        [attentionBtn setTitle:@"已关注" forState:(UIControlStateNormal)];
     }
     else
     {
@@ -104,7 +104,7 @@
         {
             if ([btn.titleLabel.text isEqualToString:@"关注"])
             {
-                [btn setTitle:@"取消关注" forState:(UIControlStateNormal)];
+                [btn setTitle:@"已关注" forState:(UIControlStateNormal)];
                 fanDataModel.isFavorite =@"1";
             }
             else

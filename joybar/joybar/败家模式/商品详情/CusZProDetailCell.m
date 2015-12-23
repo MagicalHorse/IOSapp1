@@ -511,6 +511,7 @@
     CusMainStoreViewController *VC= [[CusMainStoreViewController alloc] init];
     VC.userId =detailData.BuyerId;
     VC.isCircle = NO;
+    VC.userName =detailData.BuyerName;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 
@@ -525,6 +526,7 @@
     CusMainStoreViewController *VC= [[CusMainStoreViewController alloc] init];
     VC.userId =detailData.BuyerId;
     VC.isCircle = YES;
+    VC.userName =detailData.BuyerName;
     [self.viewController.navigationController pushViewController:VC animated:YES];
 }
 

@@ -49,6 +49,7 @@
     
     _homeStoreVC = [[CusHomeStoreViewController alloc] init];
     _homeStoreVC.userId = self.userId;
+    _homeStoreVC.userName = self.userName;
     _homeStoreVC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     [self addChildViewController:_homeStoreVC];
     

@@ -340,6 +340,7 @@
     CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
     mainStore.userId =[self.dataArray[indexPath.row]objectForKey:@"UserId"];
     mainStore.isCircle = NO;
+    mainStore.userName =[self.dataArray[indexPath.row]objectForKey:@"Nickname"];
     [self.navigationController pushViewController:mainStore animated:YES];
 }
 -(void)guanzhuClick:(UIButton *)btn{

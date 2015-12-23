@@ -626,7 +626,7 @@
     
     if ([self.needInvoice isEqualToString:@"1"])
     {
-        if ([desText.text isEqualToString:@""])
+        if (desText.text.length==0)
         {
             [self showHudFailed:@"请填写发票抬头"];
             return;
@@ -775,7 +775,7 @@
 
 -(void)selectFaPiao:(UIButton *)btn
 {
-    if (btn.tag==101)
+    if (btn.tag==100)
     {
         self.needInvoice = @"0";
     }

@@ -64,23 +64,31 @@
     // Do any additional setup after loading the view.
     self.sizeHeight = 0;
     self.buyCount = @"0";
-    self.proDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49)];
+    self.proDetailTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-49)];
     self.proDetailTableView.delegate = self;
     self.proDetailTableView.dataSource = self;
     [self.view addSubview:self.proDetailTableView];
     
-    [self addNavBarViewAndTitle:@"商品详情"];
+//    [self addNavBarViewAndTitle:@"商品详情"];
     
     UIButton *shareBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    shareBtn.frame = CGRectMake(kScreenWidth-54, 10, 64, 64);
+    shareBtn.frame = CGRectMake(kScreenWidth-74, 15, 64, 64);
     shareBtn.backgroundColor = [UIColor clearColor];
-    [shareBtn setImage:[UIImage imageNamed:@"fenxiang-1"] forState:(UIControlStateNormal)];
+    [shareBtn setImage:[UIImage imageNamed:@"分享-1"] forState:(UIControlStateNormal)];
     [shareBtn addTarget:self action:@selector(didClickShare:) forControlEvents:(UIControlEventTouchUpInside)];
-    [self.navView addSubview:shareBtn];
+    [self.view addSubview:shareBtn];
+    
+    UIButton *popBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    popBtn.frame = CGRectMake(10, 15, 64, 64);
+    [popBtn setImage:[UIImage imageNamed:@"返回"] forState:(UIControlStateNormal)];
+    [popBtn addTarget:self action:@selector(didClickPop) forControlEvents:(UIControlEventTouchUpInside)];
+    [self.view addSubview:popBtn];
+
     
     [self getKuCunData];
 
     [self getDetailData];
+    
 }
 
 -(void)getKuCunData
@@ -292,16 +300,16 @@
         else
         {
             timeBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-            timeBtn.frame = CGRectMake(kScreenWidth/2, -5, kScreenWidth/2, footerView.height+5);
+            timeBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
             timeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
             [timeBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
             timeBtn.backgroundColor = kCustomColor(253, 137, 83);
             [timeBtn addTarget:self action:@selector(didClickBuy:) forControlEvents:(UIControlEventTouchUpInside)];
             [footerView addSubview:timeBtn];
-
+            
             buyLab = [[UILabel alloc] initWithFrame:CGRectMake(90, 0, timeBtn.width-90, timeBtn.height)];
             buyLab.backgroundColor = [UIColor clearColor];
-            buyLab.textColor = [UIColor clearColor];
+            buyLab.textColor = [UIColor whiteColor];
             buyLab.font = [UIFont systemFontOfSize:13];
             [timeBtn addSubview:buyLab];
             
@@ -315,7 +323,7 @@
             
             if ([prodata.IsStart boolValue])
             {
-                [timeLab setCountDownTime:[prodata.RemainTime integerValue]];
+                [timeLab setCountDownTime:[ prodata.BusinessTime integerValue]];
                 timerLab.text = @"立即购买";
                 timerLab.textAlignment = NSTextAlignmentCenter;
                 buyLab.hidden = YES;
@@ -323,8 +331,8 @@
             }
             else
             {
-                [timeLab setCountDownTime:[prodata.BusinessTime integerValue]];
-                timerLab.text = @" 剩余开始时间:";
+                [timeLab setCountDownTime:[prodata.RemainTime intValue]];
+                timerLab.text = @" 距离开始:";
                 timerLab.textAlignment = NSTextAlignmentLeft;
                 buyLab.hidden = NO;
                 timeBtn.userInteractionEnabled = NO;
@@ -340,7 +348,7 @@
     {
         [timerLabel setCountDownTime:[prodata.BusinessTime integerValue]];
         prodata.IsStart = @"0";
-        timerLab.text = @" 剩余开始时间:";
+        timerLab.text = @" 距离开始:";
         timerLab.textAlignment = NSTextAlignmentLeft;
         buyLab.hidden = NO;
         timeBtn.userInteractionEnabled = NO;
@@ -619,6 +627,11 @@
 -(void)handleBuyCount:(NSString *)count
 {
     self.buyCount = count;
+}
+
+-(void)didClickPop
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

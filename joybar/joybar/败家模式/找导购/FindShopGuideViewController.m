@@ -27,6 +27,8 @@ UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic ,assign) NSInteger pageNum;
 @property (nonatomic ,assign) NSInteger pageNumScroll;
 
+@property (nonatomic ,strong) NSString *userName;
+
 
 @end
 static NSString * const reuseIdentifier = @"Cell";
@@ -402,6 +404,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
     mainStore.userId =[self.cusDataArray[indexPath.row]objectForKey:@"BuyerId"];
+    mainStore.userName =[self.cusDataArray[indexPath.row]objectForKey:@"Nickname"];
     mainStore.isCircle = NO;
     [self.navigationController pushViewController:mainStore animated:YES];
 }
@@ -480,6 +483,7 @@ static NSString * const reuseIdentifier = @"Cell";
         [cell.ShopView addGestureRecognizer:proTap];
         
         proTap.view.tag =[[self.dataArray[indexPath.row]objectForKey:@"BuyerId"] integerValue] ;
+        self.userName =[self.dataArray[indexPath.row]objectForKey:@"NickName"] ;
 
         cell.addressView.text =[self.dataArray[indexPath.row]objectForKey:@"StoreName"];
         
@@ -992,6 +996,7 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)didHeadViewClick:(UITapGestureRecognizer *)btn{
     CusMainStoreViewController * mainStore =[[CusMainStoreViewController alloc]init];
     mainStore.userId =[NSString stringWithFormat:@"%ld",btn.view.tag];
+    mainStore.userName = self.userName;
     mainStore.isCircle = NO;
     [self.navigationController pushViewController:mainStore animated:YES];
 }
