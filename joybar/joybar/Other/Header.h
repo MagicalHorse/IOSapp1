@@ -34,7 +34,7 @@
 
 //测试
 #define AlyBucket @"apprss" //开发
-//#define SocketUrl @"http://182.92.7.70:8000/chat" //测试
+#define SocketUrl @"http://182.92.7.70:8000/chat" //测试
 #define APP_ID          @"wx281aa8c2686c0e7c"               //APPID
 #define APP_SECRET      @"1a8fd52d8cb2b6099b1c4c669e5e2717" //appsecret
 #define MCH_ID          @"1247257401"
@@ -54,7 +54,7 @@
 //#define HomeURL  @"http://appr.joybar.com.cn/app/" //生产读
 //#define HomeURLW  @"http://appw.joybar.com.cn/app/" //生产写
 
-#define SocketUrl @"http://182.92.7.70:8001/chat"//开发
+//#define SocketUrl @"http://182.92.7.70:8001/chat"//开发
 #define HomeURL  @"http://123.57.52.187:8070/app/" //开发
 #define HomeURLW @"http://123.57.52.187:8070/app/"
 

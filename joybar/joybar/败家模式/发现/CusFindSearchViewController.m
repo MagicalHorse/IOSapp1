@@ -9,6 +9,7 @@
 #import "CusFindSearchViewController.h"
 #import "CusBrandDetailViewController.h"
 #import "CusHomeStoreViewController.h"
+#import "CusMainStoreViewController.h"
 @interface CusFindSearchViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate,UIScrollViewDelegate>
 
 @property (nonatomic ,strong) UIView *line;
@@ -234,9 +235,10 @@
     else
     {
         
-            CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+            CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
             VC.userId = [dic objectForKey:@"Id"];
             VC.userName = [dic objectForKey:@"Name"];
+            VC.isCircle = NO;
             [self.navigationController pushViewController:VC animated:YES];
             
 

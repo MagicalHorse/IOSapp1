@@ -10,6 +10,7 @@
 #import "CusHomeStoreViewController.h"
 #import "CusCircleDetailViewController.h"
 #import "CusRProDetailViewController.h"
+#import "CusMainStoreViewController.h"
 @implementation CusDynTableViewCell
 {
     NSArray *dataArr;
@@ -72,9 +73,10 @@
     NSString *tempId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"DataId"]];
     if ([type isEqualToString:@"0"])
     {
-        CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+        CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
         VC.userId = tempId;
         VC.userName = [dic objectForKey:@"UserName"];
+        VC.isCircle = NO;
         [self.viewController.navigationController pushViewController:VC animated:YES];
     }
     else if ([type isEqualToString:@"1"])

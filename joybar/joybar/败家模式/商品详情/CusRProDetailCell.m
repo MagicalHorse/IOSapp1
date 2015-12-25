@@ -68,10 +68,10 @@
         
         UILabel *originalPriceLab = [[UILabel alloc] init];
         CGSize originalPriceSize = [Public getContentSizeWith:priceLab.text andFontSize:14 andHigth:20];
-        originalPriceLab.text = [NSString stringWithFormat:@"￥%@",proData.Price];
+        originalPriceLab.text = [NSString stringWithFormat:@"￥%@",proData.UnitPrice];
         originalPriceLab.textColor = [UIColor grayColor];
         originalPriceLab.font = [UIFont systemFontOfSize:14];
-        originalPriceLab.frame = CGRectMake(priceLab.right+10, imageScrollView.bottom+5, originalPriceSize.width, 20);
+        originalPriceLab.frame = CGRectMake(priceLab.right+10, imageScrollView.bottom+5, originalPriceSize.width+10, 20);
         [self.contentView addSubview:originalPriceLab];
         
         UILabel *grayLine = [[UILabel alloc] initWithFrame:CGRectMake(originalPriceLab.left, imageScrollView.bottom+16, originalPriceLab.width, 1)];

@@ -212,7 +212,7 @@
 -(void)getHomeData
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:@"0" forKey:@"CityId"];
+    [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"cityId"] forKey:@"CityId"];
     [dic setObject:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
     [dic setObject:@"6" forKey:@"PageSize"];
     [dic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"] forKey:@"longitude"];
@@ -384,6 +384,7 @@
             self.localtionDic = [json objectForKey:@"data"];
             [[NSUserDefaults standardUserDefaults] setObject:[self.localtionDic objectForKey:@"Id"] forKey:@"cityId"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [self.homeTableView.dataArr removeAllObjects];
             [self getHomeData];
         }
         else

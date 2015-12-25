@@ -15,6 +15,7 @@
 #import "OSSData.h"
 #import "OSSLog.h"
 #import "CusHomeStoreViewController.h"
+#import "CusMainStoreViewController.h"
 @interface CusCircleDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     OSSData *osData;
 }
@@ -281,7 +282,7 @@
 
                 CircleDetailUser *circleUser = [self.circleData.Users objectAtIndex:i];
                 [img sd_setImageWithURL:[NSURL URLWithString:circleUser.Logo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-                lab.text = circleUser.NickName;
+                lab.text = circleUser.Nickname;
                 img.tag = 1000+i;
                 
                 UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickUserHeaderImage:)];
@@ -813,9 +814,9 @@
 -(void)didClickUserHeaderImage:(UITapGestureRecognizer *)tap
 {
     CircleDetailUser *user = [self.circleData.Users objectAtIndex:tap.view.tag-1000];
-    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userId = user.UserId;
-    VC.userName = user.NickName;
+    VC.userName = user.Nickname;
     [self.navigationController pushViewController:VC animated:YES];
 }
 

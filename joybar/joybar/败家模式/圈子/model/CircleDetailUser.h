@@ -11,6 +11,6 @@
 @interface CircleDetailUser : NSObject
 
 @property (nonatomic ,copy)NSString *UserId;
-@property (nonatomic ,copy)NSString *NickName;
+@property (nonatomic ,copy)NSString *Nickname;
 @property (nonatomic ,copy)NSString *Logo;
 @end

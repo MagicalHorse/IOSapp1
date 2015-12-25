@@ -11,6 +11,7 @@
 #import "FansItems.h"
 #import "CusChatViewController.h"
 #import "CusHomeStoreViewController.h"
+#import "CusMainStoreViewController.h"
 @interface CusFansViewController ()<UITableViewDelegate,UITableViewDataSource>{
     int isY;
     FansItems *fansItems;
@@ -147,9 +148,10 @@
         return;
     }
     FansModel *fan = [self.fanArr objectAtIndex:indexPath.row];
-    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userId =fan.UserId;
     VC.userName = fan.UserName;
+    VC.isCircle = NO;
     [self.navigationController pushViewController:VC animated:YES];
 }
 

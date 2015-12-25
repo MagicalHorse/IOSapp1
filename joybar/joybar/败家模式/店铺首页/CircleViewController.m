@@ -21,6 +21,7 @@
 #import "CusRProDetailViewController.h"
 #import "ProductPicture.h"
 #import "CusHomeStoreViewController.h"
+#import "CusMainStoreViewController.h"
 @interface CircleViewController ()<UITableViewDataSource,UITableViewDelegate,SendMessageTextDelegate,UIScrollViewDelegate,MessageMoreViewDelegate>
 
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -153,7 +154,7 @@
     self.selectProLinkArr = [[NSMutableArray alloc] init];
     self.view.backgroundColor = kCustomColor(236, 240, 241);
     
-    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 50, kScreenWidth, kScreenHeight-49)];
+    self.tableView = [[BaseTableView alloc] initWithFrame:CGRectMake(0, 50, kScreenWidth, kScreenHeight-49-50-64)];
     self.tableView.headerPullToRefreshText1 = @"下拉可以加载了";
     self.tableView.headerReleaseToRefreshText1 = @"松开马上加载";
     self.tableView.headerRefreshingText1 = @"正在帮你加载,不客气";
@@ -252,14 +253,14 @@
             {
                 if (arr.count>0)
                 {
-                    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:arr.count inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:arr.count inSection:0] atScrollPosition:(UITableViewScrollPositionTop) animated:NO];
                 }
             }
             else
             {
                 if (self.messageArr.count>0)
                 {
-                    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] atScrollPosition:(UITableViewScrollPositionBottom) animated:YES];
                 }
             }
         }
@@ -451,13 +452,13 @@
 -(void)changeTableViewFrameWhileShow:(BOOL)isAction
 {
     if(isAction == NO){
-        self.tableView.frame = CGRectMake(0, 50, kScreenWidth, self.view.height-216-49);
+        self.tableView.frame = CGRectMake(0, 50, kScreenWidth, self.view.height-216-49-50-64);
         if([self.messageArr count] != 0){
             NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
             [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         }
     }else{
-        self.tableView.frame = CGRectMake(0, 50, kScreenWidth, self.view.height-49-164);
+        self.tableView.frame = CGRectMake(0, 50, kScreenWidth, self.view.height-49-164-50-64);
         if([self.messageArr count] != 0){
             NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
             [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
@@ -679,9 +680,10 @@
     //自己
     NSString *fromUserId = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"fromUserId"]];
     
-    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userName = [msgDic objectForKey:@"userName"];
     VC.userId = fromUserId;
+    VC.isCircle = NO;
     [self.navigationController pushViewController:VC animated:YES];
 }
 

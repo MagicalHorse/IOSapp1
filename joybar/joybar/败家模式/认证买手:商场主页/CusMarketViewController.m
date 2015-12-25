@@ -254,9 +254,10 @@
         localImage.image = [UIImage imageNamed:@"location"];
         [tempView addSubview:localImage];
         
-        UILabel *localLab = [[UILabel alloc] initWithFrame:CGRectMake(localImage.right+3, localImage.top-5, tempView.width-140, 20)];
+        UILabel *localLab = [[UILabel alloc] initWithFrame:CGRectMake(localImage.right+3, localImage.top-5, tempView.width-40, 20)];
         localLab.text = [self.infoDic objectForKey:@"StoreLocal"];
         localLab.textColor = [UIColor whiteColor];
+        localLab.adjustsFontSizeToFitWidth = YES;
         localLab.font = [UIFont systemFontOfSize:13];
         [tempView addSubview:localLab];
 

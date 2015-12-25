@@ -64,10 +64,10 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[dataDic objectForKey:@"Id"] forKey:@"Id"];
     [dic setValue:@"0" forKey:@"Status"];
-//    [self hudShow:@"正在取消收藏"];
+    [self hudShow:@"正在取消收藏"];
     [HttpTool postWithURL:@"Product/Favorite" params:dic isWrite:YES  success:^(id json) {
         
-//        [self textHUDHiddle];
+        [self textHUDHiddle];
         if ([json objectForKey:@"isSuccessful"])
         {
             [btn setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];

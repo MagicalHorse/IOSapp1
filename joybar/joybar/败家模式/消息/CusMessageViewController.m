@@ -24,6 +24,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     //tableView
     self.msgTableView = [[MessageTableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     [self.view addSubview:self.msgTableView];

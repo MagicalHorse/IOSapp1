@@ -21,6 +21,7 @@
 #import "CusRProDetailViewController.h"
 #import "ProductPicture.h"
 #import "CusHomeStoreViewController.h"
+#import "CusMainStoreViewController.h"
 @interface CusChatViewController ()<UITableViewDataSource,UITableViewDelegate,SendMessageTextDelegate,UIScrollViewDelegate,MessageMoreViewDelegate>
 
 @property (nonatomic ,strong) BaseTableView *tableView;
@@ -258,7 +259,7 @@
     
     if (self.isFrom==isFromPrivateChat||self.isFrom==isFromBuyPro)
     {
-        type = @"private";
+        type = @"group";
         arr = @[toUserId,myId];
     }
     else
@@ -293,15 +294,6 @@
     titleNameLab.textAlignment = NSTextAlignmentCenter;
     titleNameLab.font = [UIFont systemFontOfSize:17];
     [self.navView addSubview:titleNameLab];
-    
-//    UILabel *statusLab = [[UILabel alloc] init];
-//    statusLab.center = CGPointMake(kScreenWidth/2, titleNameLab.bottom+10);
-//    statusLab.bounds = CGRectMake(0, 0, 100, 20);
-//    statusLab.text = @"在线";
-//    statusLab.textColor = [UIColor lightGrayColor];
-//    statusLab.font = [UIFont fontWithName:@"youyuan" size:12];
-//    statusLab.textAlignment = NSTextAlignmentCenter;
-//    [self.navView addSubview:statusLab];
     
     if (self.isFrom==isFromGroupChat)
     {
@@ -977,9 +969,10 @@
     //自己
     NSString *fromUserId = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"fromUserId"]];
 
-    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userName = [msgDic objectForKey:@"userName"];
     VC.userId = fromUserId;
+    VC.isCircle = NO;
     [self.navigationController pushViewController:VC animated:YES];
 }
 

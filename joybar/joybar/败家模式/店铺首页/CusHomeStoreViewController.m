@@ -53,7 +53,7 @@
     [self.dataSource removeAllObjects];
     NSLog(@"%@",self.userId);
     [self getData];
-
+    
 }
 - (void)viewDidLoad
 {
@@ -61,7 +61,7 @@
     self.dataSource = [NSMutableArray array];
     self.pageNum = 1;
     self.view.backgroundColor = kCustomColor(245, 246, 247);
-//    [self addNavBarViewAndTitle:self.userName];
+    //    [self addNavBarViewAndTitle:self.userName];
     [self initializeUserInterface];
     // 2.集成刷新控件
     [self addHeader];
@@ -86,8 +86,8 @@
         vc.pageNum = 1;
         [vc getProListData];
     }];
-
-//    [self.collectionView headerBeginRefreshing];
+    
+    //    [self.collectionView headerBeginRefreshing];
 }
 
 - (void)addFooter
@@ -159,7 +159,7 @@
         [dic setObject:@"0" forKey:@"userid"];
     }
     [dic setValue:self.userId forKey:@"buyerId"];
-
+    
     [HttpTool postWithURL:@"V3/GetBuyerInfo" params:dic success:^(id json) {
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
@@ -170,7 +170,7 @@
             CGFloat height = size.height+125;
             layout.headerHeight = height;
             [self getProListData];
-
+            
             [self.collectionView reloadData];
         }
         else
@@ -186,8 +186,8 @@
 -(void)addHeaderView:(UIView *)contentView
 {
     UIImageView *headerImage = [[UIImageView alloc] init];
-//    headerImage.center = CGPointMake(kScreenWidth/2, 45);
-//    headerImage.bounds = CGRectMake(0, 0, 60, 60);
+    //    headerImage.center = CGPointMake(kScreenWidth/2, 45);
+    //    headerImage.bounds = CGRectMake(0, 0, 60, 60);
     headerImage.frame = CGRectMake(10, 10, 60, 60);
     headerImage.layer.cornerRadius = headerImage.width/2;
     headerImage.clipsToBounds = YES;
@@ -229,7 +229,6 @@
         [attentionBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
         attentionBtn.layer.borderWidth = 0;
     }
-    [attentionBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
     attentionBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [attentionBtn addTarget:self action:@selector(didClickAttention:) forControlEvents:(UIControlEventTouchUpInside)];
     [contentView addSubview:attentionBtn];
@@ -237,7 +236,7 @@
     UIImageView *localImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, fanCount.bottom+13, 12, 12)];
     localImage.image = [UIImage imageNamed:@"location"];
     [contentView addSubview:localImage];
-
+    
     UILabel *localLab = [[UILabel alloc] initWithFrame:CGRectMake(localImage.right+3, fanCount.bottom+10, kScreenWidth-35, 20)];
     if ([self.storeData.Address isEqualToString:@""])
     {
@@ -296,7 +295,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{    
+{
     CusHomeStoreCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"UICollectionViewCell" forIndexPath:indexPath];
     if (cell==nil)
     {
@@ -327,24 +326,24 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dic = [self.dataSource objectAtIndex:indexPath.row];
-//    NSString *text = [dic objectForKey:@"Name"];
-//    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:IMAGEHEiGHT-10];
-//    NSLog(@"%f",size.height);
-//    NSLog(@"%f",size.height);
-//    if (size.height>30)
-//    {
-//        itemH  = IMAGEHEiGHT*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+30+35;
-//    }
-//    else
-//    {
-//        itemH = IMAGEHEiGHT*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
-//    }
-   CGFloat itemH  = IMAGEHEiGHT*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+35+35;
-
+    //    NSString *text = [dic objectForKey:@"Name"];
+    //    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:IMAGEHEiGHT-10];
+    //    NSLog(@"%f",size.height);
+    //    NSLog(@"%f",size.height);
+    //    if (size.height>30)
+    //    {
+    //        itemH  = IMAGEHEiGHT*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+30+35;
+    //    }
+    //    else
+    //    {
+    //        itemH = IMAGEHEiGHT*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+size.height+35;
+    //    }
+    CGFloat itemH  = IMAGEHEiGHT*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+35+35;
+    
     CGSize size1 = CGSizeMake(IMAGEHEiGHT, itemH);
     
     return size1;
-
+    
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -403,7 +402,6 @@
                 btn.layer.borderColor = [UIColor clearColor].CGColor;
                 [btn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
                 btn.layer.borderWidth = 0;
-
             }
         }
         else

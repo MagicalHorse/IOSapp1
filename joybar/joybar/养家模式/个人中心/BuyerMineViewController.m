@@ -16,7 +16,7 @@
 #import "UMSocialWechatHandler.h"
 #import "UMSocial.h"
 #import "CusTabBarViewController.h"
-
+#import "CusMainStoreViewController.h"
 
 @interface BuyerMineViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UMSocialUIDelegate>
 @property (nonatomic,strong)UIViewController* vcview;
@@ -156,9 +156,10 @@
         }else if(indexPath.row ==0){
             NSDictionary * dict=[Public getUserInfo];
 
-            CusHomeStoreViewController * store=[[CusHomeStoreViewController alloc]init];
+            CusMainStoreViewController * store=[[CusMainStoreViewController alloc]init];
             store.userId=[dict objectForKey:@"id"];
             store.userName =[dict objectForKey:@"nickname"];
+            store.isCircle = NO;
             [self.navigationController pushViewController:store animated:YES];
         }
     }else if(indexPath.section ==1){

@@ -72,13 +72,6 @@
         [clickZan setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
         clickZan.selected = YES;
     }
-    
-//    NSString *count =[NSString stringWithFormat:@" %@",[dic objectForKey:@"FavoriteCount"]];
-//    [clickZan setTitle:count forState:(UIControlStateNormal)];
-//
-//    clickZan.titleLabel.font = [UIFont systemFontOfSize:14];
-//    [clickZan setTitleColor:[UIColor lightGrayColor] forState:(UIControlStateNormal)];
-//    clickZan.userInteractionEnabled = YES;
     [clickZan addTarget:self action:@selector(didClickCancelCollect:) forControlEvents:(UIControlEventTouchUpInside)];
     [bgView addSubview:clickZan];
 }
@@ -104,7 +97,7 @@
     }
     [HttpTool postWithURL:@"Product/Favorite" params:dic isWrite:YES  success:^(id json) {
         
-        if ([json objectForKey:@"isSuccessful"])
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             if (btn.selected)
             {
@@ -116,7 +109,7 @@
                 [btn setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
                 btn.selected = YES;
             }
-            [self.delegate collectHandle];
+//            [self.delegate collectHandle];
         }
         else
         {

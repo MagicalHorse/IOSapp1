@@ -20,6 +20,7 @@
 #import "CusZProDetailCell.h"
 #import "MakeSureVipOrderViewController.h"
 #import "MZTimerLabel.h"
+#import "CusMainStoreViewController.h"
 @interface CusZProDetailViewController ()<UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,handleSizeHeight,MZTimerLabelDelegate>
 
 @property (nonatomic ,strong) UIScrollView *scrollView;
@@ -260,7 +261,7 @@
     
     if ([prodata.IsFavorite boolValue])
     {
-        titleArr = @[@"私聊",@"取消收藏"];
+        titleArr = @[@"私聊",@"已收藏"];
         imageArr= @[@"liaotian",@"xingxing"];
     }
     else
@@ -507,7 +508,7 @@
         {
             if ([lab.text isEqualToString:@"收藏"])
             {
-                lab.text=@"取消收藏";
+                lab.text=@"已收藏";
                 img.image = [UIImage imageNamed:@"xingxing"];
             }
             else
@@ -603,9 +604,10 @@
 //点击头像
 -(void)didCLickToStore
 {
-    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
+    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userId = prodata.BuyerId;
     VC.userName = prodata.BuyerName;
+    VC.isCircle = NO;
     [self.navigationController pushViewController:VC animated:YES];
 }
 
