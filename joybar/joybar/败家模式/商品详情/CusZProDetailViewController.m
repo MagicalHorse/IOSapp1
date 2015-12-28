@@ -84,10 +84,10 @@
     [popBtn setImage:[UIImage imageNamed:@"返回"] forState:(UIControlStateNormal)];
     [popBtn addTarget:self action:@selector(didClickPop) forControlEvents:(UIControlEventTouchUpInside)];
     [self.view addSubview:popBtn];
-    
-    [self getKuCunData];
-
     [self getDetailData];
+
+    
+
     
 }
 
@@ -99,8 +99,10 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.kuCunArr = [json objectForKey:@"data"];
-            NSIndexPath *indexpath = [NSIndexPath indexPathForRow:0 inSection:2];
-            [self.proDetailTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexpath, nil] withRowAnimation:UITableViewRowAnimationNone];
+            [self.proDetailTableView reloadData];
+            
+            [self activityDismiss];
+
         }
         else
         {
@@ -236,14 +238,13 @@
             prodata = [ProDetailData objectWithKeyValues:dic];
             
             [self initWithFooterView];
-            [self activityDismiss];
+            [self getKuCunData];
 
         }
         else
         {
             [self showHudFailed:[json objectForKey:@"message"]];
         }
-        [self.proDetailTableView reloadData];
 
     } failure:^(NSError *error) {
         [self showHudFailed:@"服务器正在维护,请稍后再试"];

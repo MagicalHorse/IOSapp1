@@ -294,13 +294,6 @@
 -(void)didClickSearchBtn
 {
     
-    
-//    CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-//    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-//        VC.productId = @"12985";
-    
-//    CusHomeStoreViewController *VC = [[CusHomeStoreViewController alloc] init];
-//    VC.userId =@"840";
     NSString *cityId = [self.localtionDic objectForKey:@"Id"];
     HistorySearchViewController *search =[[HistorySearchViewController alloc]init];
     search.cityId =cityId; //城市id
@@ -311,10 +304,6 @@
     search.latitude=  [[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"];
     search.longitude= [[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"];
     [self.navigationController pushViewController:search animated:YES];
-    
-    
-   
-    
 }
 
 //定位城市
