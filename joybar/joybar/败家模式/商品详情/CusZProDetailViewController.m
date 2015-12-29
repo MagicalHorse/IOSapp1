@@ -460,10 +460,11 @@
         return;
     }
     
-    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:nil];
+    [UMSocialWechatHandler setWXAppId:APP_ID appSecret:APP_SECRET url:prodata.ShareLink];
     
-    
-    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:@""] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    ProductPicture *pic = prodata.ProductPic.firstObject;
+
+    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:pic.Logo] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
         
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
         

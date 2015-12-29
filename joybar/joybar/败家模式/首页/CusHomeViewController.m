@@ -356,7 +356,10 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     [locationBtn setTitle:placemark.locality forState:(UIControlStateNormal)];
     [self getBannerData];
-    [self getCityInfo];
+    if (!self.localtionDic)
+    {
+        [self getCityInfo];
+    }
 
 }
 

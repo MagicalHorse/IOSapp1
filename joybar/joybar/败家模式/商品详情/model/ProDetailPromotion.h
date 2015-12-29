@@ -17,3 +17,4 @@
 @property (nonatomic ,copy) NSString *TipText;
 @property (nonatomic ,copy) NSString *IsShow;
 @end
+

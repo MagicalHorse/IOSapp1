@@ -24,6 +24,7 @@
     
     UIImageView *headerImg = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
     headerImg.layer.cornerRadius = headerImg.width/2;
+    headerImg.layer.masksToBounds = YES;
     [headerImg sd_setImageWithURL:[NSURL URLWithString:fanModel.UserLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     [self.contentView addSubview:headerImg];
     
