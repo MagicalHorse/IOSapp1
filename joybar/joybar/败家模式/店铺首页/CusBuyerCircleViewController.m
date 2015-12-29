@@ -74,7 +74,6 @@
             [self.myCircleTableView.dataArr addObjectsFromArray:arr];
             [self.myCircleTableView endRefresh];
             [self.myCircleTableView reloadData];
-            NSLog(@"%@",json);
         }
         else
         {

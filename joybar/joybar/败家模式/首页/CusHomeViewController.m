@@ -341,11 +341,9 @@
     [[NSUserDefaults standardUserDefaults] setObject:latitude forKey:@"latitude"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
-    
     MKReverseGeocoder *geocoder = [[MKReverseGeocoder alloc]initWithCoordinate:newLocation.coordinate];
     geocoder.delegate = self;
     [geocoder start];
-
 }
 
 -(void)reverseGeocoder:(MKReverseGeocoder *)geocoder

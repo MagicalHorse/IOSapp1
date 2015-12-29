@@ -285,8 +285,8 @@
                 lab.text = circleUser.Nickname;
                 img.tag = 1000+i;
                 
-                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickUserHeaderImage:)];
-                [img addGestureRecognizer:tap];
+//                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickUserHeaderImage:)];
+//                [img addGestureRecognizer:tap];
                 
                 if (i>0)
                 {

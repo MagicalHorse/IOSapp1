@@ -94,9 +94,9 @@
     [self.view addSubview:bgView];
     
     UILabel *notice = [[UILabel alloc] init];
-    notice.text = @"阿打算打算大神大神大神大神大神的";
-    notice.numberOfLines = 1;
-    notice.font =[UIFont systemFontOfSize:14];
+    notice.text = @"欢迎大家来到我的圈子,在这里,了解商品,了解我.请大家在我的店铺里,愉快的购物吧";
+    notice.numberOfLines = 2;
+    notice.font =[UIFont systemFontOfSize:13];
     notice.adjustsFontSizeToFitWidth = YES;
     //    CGSize size = [Public getContentSizeWith:notice.text andFontSize:14 andWidth:kScreenWidth-60];
     notice.frame =CGRectMake(10, 0, kScreenWidth-70, 50);
@@ -107,7 +107,6 @@
     [btn setImage:[UIImage imageNamed:@"设置icon"] forState:(UIControlStateNormal)];
     [btn addTarget:self action:@selector(didClickToDetail) forControlEvents:(UIControlEventTouchUpInside)];
     [bgView addSubview:btn];
-
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setValue:[[Public getUserInfo] objectForKey:@"id"] forKey:@"userId"];

@@ -430,13 +430,13 @@
 
             UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, i*210, kScreenWidth, 210)];
             proImage.backgroundColor =[UIColor lightGrayColor];
-            proImage.contentMode = YES;
             proImage.contentMode = UIViewContentModeScaleAspectFit;
             [proImage sd_setImageWithURL:[NSURL URLWithString:pic.Logo] placeholderImage:[UIImage imageNamed:@"placeholder"]];
             [temp addSubview:proImage];
         }
         
         UIImageView *sizeImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth, 0, kScreenWidth, 210)];
+        sizeImage.contentMode = UIViewContentModeScaleAspectFit;
         [sizeImage sd_setImageWithURL:[NSURL URLWithString:proData.SizeContrastPic] placeholderImage:[UIImage imageNamed:@"placeholder"]];
         [scroll addSubview:sizeImage];
         
