@@ -319,8 +319,8 @@
             }
 
             NSString *str = [dic objectForKey:@"SizeName"];
-            
-            [cell.delegate handleSizeName:str andSizeId:[dic objectForKey:@"SizeId"] colorName:color colorId:[dic objectForKey:@"ColorId"]];
+            [cell.delegate handleBuyCount:[NSString stringWithFormat:@"%ld",priceNum]];
+            [cell.delegate handleSizeName:str andSizeId:[dic objectForKey:@"SizeId"] colorName:color colorId:[self.kuCunArr[0] objectForKey:@"ColorId"]];
         };
     }
     else if (indexPath.section==3)
@@ -465,6 +465,9 @@
     [self.delegate handleSizeHeight:height];
     
     colorStr =[[self.kuCunArr objectAtIndex:tap.view.tag-10] objectForKey:@"ColorName"];
+    NSString *colorId = [[self.kuCunArr objectAtIndex:tap.view.tag-10] objectForKey:@"ColorId"];
+
+    [self.delegate handleSizeName: [selectSizeArr[0] objectForKey:@"SizeName"]  andSizeId:[selectSizeArr[0] objectForKey:@"SizeId"] colorName:colorStr colorId:colorId];
 
     UILabel *colorNameLab = [labArr objectAtIndex:tap.view.tag-10];
     UIImageView *colorImage = (UIImageView *)tap.view;

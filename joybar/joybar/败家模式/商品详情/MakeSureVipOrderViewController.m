@@ -592,8 +592,8 @@
     }
     if (IsBingVip) {
         if (indexPath.section==3) {
-            ChooesVipViewController *choose =[[ChooesVipViewController alloc]init];
-            [self.navigationController pushViewController:choose animated:YES];
+//            ChooesVipViewController *choose =[[ChooesVipViewController alloc]init];
+//            [self.navigationController pushViewController:choose animated:YES];
         }
     }
 }
@@ -652,10 +652,9 @@
     [HttpTool postWithURL:@"v3/CreateOrderV3" params:dic success:^(id json) {
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            
             PayOrderViewController *VC = [[PayOrderViewController alloc] init];
             VC.proName = self.detailData.ProductName;
-            VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"ActualAmount"];
+            VC.proPrice =[NSString stringWithFormat:@"%.2f",finishPrice];
             VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
             [self showHudSuccess:@"提交成功"];
             
@@ -714,8 +713,6 @@
     //
     //    }];
 }
-
-
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
