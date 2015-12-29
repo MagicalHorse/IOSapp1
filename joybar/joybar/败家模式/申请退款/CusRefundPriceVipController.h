@@ -10,4 +10,6 @@
 
 @interface CusRefundPriceVipController : BaseViewController
 
+@property (nonatomic ,strong) NSString *orderNo;
+
 @end

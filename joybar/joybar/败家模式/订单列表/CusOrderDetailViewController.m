@@ -17,12 +17,14 @@
 #import "UMSocialWechatHandler.h"
 #import "SDWebImageManager.h"
 #import "CusRProDetailViewController.h"
+#import "CusRefundPriceVipController.h"
 @interface CusOrderDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UMSocialUIDelegate>
 
 @property (nonatomic ,strong) UITableView *tableView;
 
 @property (nonatomic ,strong) OrderDetailData *detailData;
 
+@property (nonatomic ,strong) NSArray *proArr;
 @end
 
 @implementation CusOrderDetailViewController
@@ -58,7 +60,7 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.detailData = [OrderDetailData objectWithKeyValues:[json objectForKey:@"data"]];
-            
+            self.proArr = [[json objectForKey:@"data"] objectForKey:@"Product"];
             if ([self.detailData.IsShareable boolValue])
             {
                 shareBtn.hidden = NO;
@@ -100,9 +102,17 @@
             }
             else if ([status isEqualToString:@"3"])
             {
-                cancelBtn.hidden = YES;
-                payBtn.hidden = NO;
-                [payBtn setTitle:@"撤销退款" forState:(UIControlStateNormal)];
+                if ([self.userLevel isEqualToString:@"4"])
+                {
+                    cancelBtn.hidden = YES;
+                    payBtn.hidden = YES;
+                }
+                else
+                {
+                    cancelBtn.hidden = YES;
+                    payBtn.hidden = NO;
+                    [payBtn setTitle:@"撤销退款" forState:(UIControlStateNormal)];
+                }
             }
             else if ([status isEqualToString:@"-10"]||[status isEqualToString:@"18"])
             {
@@ -220,7 +230,7 @@
     {
         return self.detailData.Promotions.count;
     }
-    return 1;
+    return self.proArr.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -324,9 +334,9 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        if (self.detailData)
+        if (self.proArr.count>0)
         {
-            [cell setData:self.detailData];
+            [cell setData:self.proArr[indexPath.row]];
         }
         return cell;
     }
@@ -398,7 +408,7 @@
     if (indexPath.section==2)
     {
         CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-        VC.productId = self.detailData.ProductId;
+        VC.productId = [self.proArr[indexPath.row]objectForKey:@"ProductId"];
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
@@ -540,14 +550,30 @@
     }
     else if ([btn.titleLabel.text isEqual:@"申请退款"])
     {
-        CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
-        VC.proImageStr = self.detailData.ProductPic;
-        VC.proNameStr = self.detailData.ProductName;
-        VC.proNumStr = self.detailData.ProductCount;
-        VC.proPriceStr = self.detailData.Price;
-        VC.orderNum = self.detailData.OrderNo;
-        VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
-        [self.navigationController pushViewController:VC animated:YES];
+        
+        if ([self.detailData.OrderStatus isEqualToString:@"1"]&&[self.orderproducttype isEqualToString:@"4"]&&[self.userLevel isEqualToString:@"4"])
+        {
+            CusRefundPriceVipController *VC = [[CusRefundPriceVipController alloc] init];
+            VC.orderNo = self.detailData.OrderNo;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        else if ([self.userLevel isEqualToString:@"8"]&&[self.detailData.OrderStatus isEqualToString:@"1"])
+        {
+            CusRefundPriceVipController *VC = [[CusRefundPriceVipController alloc] init];
+            VC.orderNo = self.detailData.OrderNo;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        else
+        {
+            CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
+            VC.proImageStr = self.detailData.ProductPic;
+            VC.proNameStr = self.detailData.ProductName;
+            VC.proNumStr = self.detailData.ProductCount;
+            VC.proPriceStr = self.detailData.Price;
+            VC.orderNum = self.detailData.OrderNo;
+            VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
+            [self.navigationController pushViewController:VC animated:YES];
+        }
     }
     else if ([btn.titleLabel.text isEqual:@"撤销退款"])
     {
@@ -612,14 +638,29 @@
 {
     if ([btn.titleLabel.text isEqual:@"申请退款"])
     {
-        CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
-        VC.proImageStr = self.detailData.ProductPic;
-        VC.proNameStr = self.detailData.ProductName;
-        VC.proNumStr = self.detailData.ProductCount;
-        VC.proPriceStr = self.detailData.Price;
-        VC.orderNum = self.detailData.OrderNo;
-        VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
-         [self.navigationController pushViewController:VC animated:YES];
+        if ([self.detailData.OrderStatus isEqualToString:@"1"]&&[self.orderproducttype isEqualToString:@"4"]&&[self.userLevel isEqualToString:@"4"])
+        {
+            CusRefundPriceVipController *VC = [[CusRefundPriceVipController alloc] init];
+            VC.orderNo = self.detailData.OrderNo;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        else if ([self.userLevel isEqualToString:@"8"]&&[self.detailData.OrderStatus isEqualToString:@"1"])
+        {
+            CusRefundPriceVipController *VC = [[CusRefundPriceVipController alloc] init];
+            VC.orderNo = self.detailData.OrderNo;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        else
+        {
+            CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
+            VC.proImageStr = self.detailData.ProductPic;
+            VC.proNameStr = self.detailData.ProductName;
+            VC.proNumStr = self.detailData.ProductCount;
+            VC.proPriceStr = self.detailData.Price;
+            VC.orderNum = self.detailData.OrderNo;
+            VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
+            [self.navigationController pushViewController:VC animated:YES];
+        }
     }
     else if ([btn.titleLabel.text isEqual:@"取消订单"])
     {

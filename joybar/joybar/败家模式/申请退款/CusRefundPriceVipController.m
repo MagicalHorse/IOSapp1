@@ -22,11 +22,31 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    [self addNavBarViewAndTitle:@"申请退款"];
+    self.view.backgroundColor = kCOLOR(246);
+    [self getData];
 }
 
--(void)setData{
-    
+-(void)getData
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.orderNo forKey:@"orderNo"];
+    [HttpTool postWithURL:@"V3/GetOrderStoreRmaInfo" params:dic success:^(id json) {
+        
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSDictionary *dict = [json objectForKey:@"data"];
+            self.nameLab.text = [dict objectForKey:@"StoreName"];
+            self.nameAddress.text = [dict objectForKey:@"RmaAddress"];
+            self.namePhone.text = [dict objectForKey:@"StoreMobile"];
+            self.nameMe.text = [dict objectForKey:@"RmaPerson"];
+            self.nameNo.text = self.orderNo;
+            self.detailsText.text = [[dict objectForKey:@"RmaTips"] firstObject];
+        }
+        
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 

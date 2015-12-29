@@ -9,6 +9,7 @@
 #import "CusOrderListTableViewCell.h"
 #import "CusRefundPriceViewController.h"
 #import "AppDelegate.h"
+#import "CusRefundPriceVipController.h"
 @implementation CusOrderListTableViewCell
 
 - (void)awakeFromNib {
@@ -67,9 +68,17 @@
     }
     else if ([status isEqualToString:@"3"])
     {
-        self.refundBtn.hidden = YES;
-        self.payBtn.hidden = NO;
-        [self.payBtn setTitle:@"撤销退款" forState:(UIControlStateNormal)];
+        if ([self.orderListItem.Product.Userlevel isEqualToString:@"4"])
+        {
+            self.refundBtn.hidden = YES;
+            self.payBtn.hidden = YES;
+        }
+        else
+        {
+            self.refundBtn.hidden = YES;
+            self.payBtn.hidden = NO;
+            [self.payBtn setTitle:@"撤销退款" forState:(UIControlStateNormal)];
+        }
     }
     else
     {
@@ -84,14 +93,29 @@
     
     if ([btn.titleLabel.text isEqual:@"申请退款"])
     {
-        CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
-        VC.proImageStr = self.orderListItem.Product.Image;
-        VC.proNameStr = self.orderListItem.Product.Name;
-        VC.proNumStr = self.orderListItem.OrderProductCount;
-        VC.proPriceStr = self.orderListItem.Product.Price;
-        VC.proSizeStr = self.orderListItem.Product.Productdesc;
-        VC.orderNum = self.orderListItem.OrderNo;
-        [self.viewController.navigationController pushViewController:VC animated:YES];
+        if ([self.orderListItem.OrderStatus isEqualToString:@"1"]&&[self.orderListItem.OrderProductType isEqualToString:@"4"]&&[self.orderListItem.Product.Userlevel isEqualToString:@"4"])
+        {
+            CusRefundPriceVipController *VC = [[CusRefundPriceVipController alloc] init];
+            VC.orderNo = self.orderListItem.OrderNo;
+            [self.viewController.navigationController pushViewController:VC animated:YES];
+        }
+        else if ([self.orderListItem.Product.Userlevel isEqualToString:@"8"]&&[self.orderListItem.OrderStatus isEqualToString:@"1"])
+        {
+            CusRefundPriceVipController *VC = [[CusRefundPriceVipController alloc] init];
+            VC.orderNo = self.orderListItem.OrderNo;
+            [self.viewController.navigationController pushViewController:VC animated:YES];
+        }
+        else
+        {
+            CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
+            VC.proImageStr = self.orderListItem.Product.Image;
+            VC.proNameStr = self.orderListItem.Product.Name;
+            VC.proNumStr = self.orderListItem.OrderProductCount;
+            VC.proPriceStr = self.orderListItem.Product.Price;
+            VC.proSizeStr = self.orderListItem.Product.Productdesc;
+            VC.orderNum = self.orderListItem.OrderNo;
+            [self.viewController.navigationController pushViewController:VC animated:YES];
+        }
     }
     else if ([btn.titleLabel.text isEqual:@"取消订单"])
     {
@@ -134,14 +158,31 @@
     }
     else if ([btn.titleLabel.text isEqual:@"申请退款"])
     {
-        CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
-        VC.proImageStr = self.orderListItem.Product.Image;
-        VC.proNameStr = self.orderListItem.Product.Name;
-        VC.proNumStr = self.orderListItem.OrderProductCount;
-        VC.proPriceStr = self.orderListItem.Product.Price;
-        VC.proSizeStr = self.orderListItem.Product.Productdesc;
-        VC.orderNum = self.orderListItem.OrderNo;
-        [self.viewController.navigationController pushViewController:VC animated:YES];
+        
+        if ([self.orderListItem.OrderStatus isEqualToString:@"1"]&&[self.orderListItem.OrderProductType isEqualToString:@"4"]&&[self.orderListItem.Product.Userlevel isEqualToString:@"4"])
+        {
+            CusRefundPriceVipController *VC = [[CusRefundPriceVipController alloc] init];
+            VC.orderNo = self.orderListItem.OrderNo;
+            [self.viewController.navigationController pushViewController:VC animated:YES];
+        }
+        else if ([self.orderListItem.Product.Userlevel isEqualToString:@"8"]&&[self.orderListItem.OrderStatus isEqualToString:@"1"])
+        {
+            CusRefundPriceVipController *VC = [[CusRefundPriceVipController alloc] init];
+            VC.orderNo = self.orderListItem.OrderNo;
+            [self.viewController.navigationController pushViewController:VC animated:YES];
+        }
+        else
+        {
+            CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
+            VC.proImageStr = self.orderListItem.Product.Image;
+            VC.proNameStr = self.orderListItem.Product.Name;
+            VC.proNumStr = self.orderListItem.OrderProductCount;
+            VC.proPriceStr = self.orderListItem.Product.Price;
+            VC.proSizeStr = self.orderListItem.Product.Productdesc;
+            VC.orderNum = self.orderListItem.OrderNo;
+            [self.viewController.navigationController pushViewController:VC animated:YES];
+        }
+        
     }
     else if ([btn.titleLabel.text isEqual:@"撤销退款"])
     {

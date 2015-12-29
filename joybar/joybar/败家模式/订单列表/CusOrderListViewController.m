@@ -165,6 +165,8 @@
     VC.delegate = self;
     VC.orderId = item.OrderNo;
     VC.fromType = @"orderList";
+    VC.userLevel = item.Product.Userlevel;
+    VC.orderproducttype = item.OrderProductType;
     [self.navigationController pushViewController:VC animated:YES];
     
 //    CusRefundPriceViewController *VC = [[CusRefundPriceViewController alloc] init];

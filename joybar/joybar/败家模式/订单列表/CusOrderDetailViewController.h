@@ -18,6 +18,8 @@
 
 @property (nonatomic ,strong) NSString *orderId;
 @property (nonatomic ,strong) NSString *fromType;
+@property (nonatomic ,strong) NSString *userLevel;
+@property (nonatomic ,strong) NSString *orderproducttype;
 
 @property (nonatomic ,assign) id<orderDelegate> delegate;
 @end

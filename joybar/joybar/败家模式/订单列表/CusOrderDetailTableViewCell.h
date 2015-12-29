@@ -14,6 +14,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *sizeLab;
 @property (strong, nonatomic) IBOutlet UILabel *numLab;
 @property (strong, nonatomic) IBOutlet UILabel *priceLab;
--(void)setData:(OrderDetailData *)detailData;
+-(void)setData:(NSDictionary *)dic;
 
 @end

@@ -14,16 +14,17 @@
     // Initialization code
 }
 
--(void)setData:(OrderDetailData *)detailData
+-(void)setData:(NSDictionary *)dic
 {
-    NSString *imageURL = [NSString stringWithFormat:@"%@",detailData.ProductPic];
+
+    NSString *imageURL = [NSString stringWithFormat:@"%@",[dic objectForKey:@"ProductPic"]];
     [self.proImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
     self.proImage.clipsToBounds = YES;
     
-    self.proNameLab.text = detailData.ProductName;
-    self.sizeLab.text = [NSString stringWithFormat:@"%@:%@",detailData.SizeName,detailData.SizeValue];
-    self.numLab.text = [NSString stringWithFormat:@"x%@",detailData.ProductCount];
-    self.priceLab.text = [NSString stringWithFormat:@"￥%@",detailData.Price];
+    self.proNameLab.text = [dic objectForKey:@"ProductName"];
+    self.sizeLab.text = [NSString stringWithFormat:@"%@:%@",[dic objectForKey:@"SizeName"],[dic objectForKey:@"SizeValue"]];
+    self.numLab.text = [NSString stringWithFormat:@"x%@",[dic objectForKey:@"ProductCount"]];
+    self.priceLab.text = [NSString stringWithFormat:@"￥%@",[dic objectForKey:@"Price"]];
 }
 
 @end
