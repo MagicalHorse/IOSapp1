@@ -31,7 +31,6 @@
 @implementation CusAttentionViewController
 {
     UIImageView *selectImageView;
-    FansItems *fansItems;
 
 }
 -(instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -107,7 +106,7 @@
         
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
-            fansItems = [FansItems objectWithKeyValues:[json objectForKey:@"data"]];
+            FansItems *fansItems = [FansItems objectWithKeyValues:[json objectForKey:@"data"]];
             
             if (fansItems.items.count<10)
             {
@@ -220,8 +219,12 @@
     }
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    FansModel *fan = [self.attentionArr objectAtIndex:indexPath.row];
-    [cell setData:fan];
+    if (self.attentionArr.count>0)
+    {
+        FansModel *fan = [self.attentionArr objectAtIndex:indexPath.row];
+        [cell setData:fan];
+
+    }
     
     return cell;
 }

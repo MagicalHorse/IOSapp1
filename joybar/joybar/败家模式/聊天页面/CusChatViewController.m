@@ -78,6 +78,15 @@
     return self;
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if ([chatRoomData objectForKey:@"id"])
+    {
+        [self creatRoom];
+    }
+}
+
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
