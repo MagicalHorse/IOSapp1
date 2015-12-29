@@ -82,7 +82,7 @@
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self addNavBarViewAndTitle:@"确认订单"];
     IsShowVip = NO;
-    IsBingVip = YES;
+    IsBingVip = [self.detailData.IsJoinDeiscount boolValue];
     [self getPrice];
 }
 
@@ -154,16 +154,19 @@
     if (IsBingVip) {
         return 6;
     }
-    return 5;
+    return 4;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section ==2)
-    {
-        return self.datas.count+1;
+    if (!IsBingVip) {
+        return 1;
+    }else{
+        if (section ==2)
+        {
+            return self.datas.count+1;
+        }
+        return 1;
     }
-    return 1;
-    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -245,58 +248,71 @@
         return cell;
         
     }
-    else if(indexPath.section==2)
-    {
-        static NSString *iden = @"cell2";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-        if (cell==nil)
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-            
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        for (UIView *view in cell.contentView.subviews)
-        {
-            [view removeFromSuperview];
-        }
+   
+    if (IsBingVip) {
         
-        if (self.datas.count>0) {
-            if (indexPath.row==0) {
+        if(indexPath.section==2)
+        {
+            static NSString *iden = @"cell2";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+            if (cell==nil)
+            {
+                cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+                
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
+            for (UIView *view in cell.contentView.subviews)
+            {
+                [view removeFromSuperview];
+            }
+            
+            if (self.datas.count>0) {
+                if (indexPath.row==0) {
+                    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 130, 20)];
+                    lab.text = @"选择金鹰会员卡";
+                    lab.font = [UIFont systemFontOfSize:14];
+                    [cell.contentView addSubview:lab];
+                    
+                    UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-120, 15, 80, 20)];
+                    lab1.textAlignment = NSTextAlignmentRight;
+                    lab1.text =@"请选择";
+                    lab1.font = [UIFont systemFontOfSize:14];
+                    [cell.contentView addSubview:lab1];
+                    
+                    UIImageView *img= [[UIImageView alloc]initWithFrame:CGRectMake(lab1.right, 5, 12, 12)];
+                    img.backgroundColor =[UIColor redColor];
+                    [cell.contentView addSubview:img];
+
+                    
+                    
+                }else{
+                    UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 130, 20)];
+                    self.cardNum = [[self.datas objectAtIndex:indexPath.row-1] objectForKey:@"cardno"];
+                    lab.text = self.cardNum;
+                    lab.font = [UIFont systemFontOfSize:14];
+                    [cell.contentView addSubview:lab];
+                }
+                return cell;
+                
+                
+            }else{
                 UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 130, 20)];
-                lab.text = @"绑定金鹰会员卡";
+                lab.text = @"选择金鹰会员卡";
                 lab.font = [UIFont systemFontOfSize:14];
                 [cell.contentView addSubview:lab];
                 
-                UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
+                UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-120, 15, 80, 20)];
                 lab1.textAlignment = NSTextAlignmentRight;
-                lab1.text =@"＞";
+                lab1.text =@"请选择";
                 lab1.font = [UIFont systemFontOfSize:14];
                 [cell.contentView addSubview:lab1];
-            }else{
-                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 130, 20)];
-                self.cardNum = [[self.datas objectAtIndex:indexPath.row-1] objectForKey:@"cardno"];
-                lab.text = self.cardNum;
-                lab.font = [UIFont systemFontOfSize:14];
-                [cell.contentView addSubview:lab];
+                UIImageView *img= [[UIImageView alloc]initWithFrame:CGRectMake(lab1.right+5, lab.center.y-5, 12, 12)];
+                img.image =[UIImage imageNamed:@"展开"];
+                [cell.contentView addSubview:img];
+                return cell;
             }
-            return cell;
-            
-            
-        }else{
-            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 130, 20)];
-            lab.text = @"绑定金鹰会员卡";
-            lab.font = [UIFont systemFontOfSize:14];
-            [cell.contentView addSubview:lab];
-            
-            UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
-            lab1.textAlignment = NSTextAlignmentRight;
-            lab1.text =@"＞";
-            lab1.font = [UIFont systemFontOfSize:14];
-            [cell.contentView addSubview:lab1];
-            return cell;
         }
-    }
-    if (IsBingVip) {
+        
         if (indexPath.section ==3) {
             static NSString *iden = @"cell3";
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
@@ -371,6 +387,100 @@
                 [cell.contentView addSubview:lab];
                 
                 
+                
+                desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
+             
+
+                desText.borderStyle = UITextBorderStyleNone;
+                desText.placeholder = @"请输入公司抬头";
+                
+                desText.layer.borderColor = kCustomColor(195, 196, 197).CGColor;
+                desText.layer.borderWidth =1;
+                desText.layer.cornerRadius = 2;
+                desText.font = [UIFont systemFontOfSize:14];
+                desText.delegate =self;
+                [cell.contentView addSubview:desText];
+              
+                
+                btnBgview = [[UIView alloc] initWithFrame:CGRectMake(85, 15, kScreenWidth-85, 20)];
+                btnBgview.backgroundColor = [UIColor clearColor];
+                [cell.contentView addSubview:btnBgview];
+                
+                
+                
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            for (UIView *view in btnBgview.subviews) {
+                [view removeFromSuperview];
+            }
+            
+            NSArray *arr = @[@" 无",@" 公司",@" 个人"];
+            for (int i=0; i<3; i++)
+            {
+                UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+                btn.frame = CGRectMake(5+65*i, 0, 60, 20);
+                if ([self.tempArr[i] isEqualToString:@"0"]) {
+                    [btn setImage:[UIImage imageNamed:@"选择"] forState:(UIControlStateNormal)];
+                }
+                else
+                {
+                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+                }
+                [btn setTitle:arr[i] forState:(UIControlStateNormal)];
+                btn.titleLabel.font = [UIFont systemFontOfSize:13];
+                [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+                [btn addTarget:self action:@selector(selectFaPiao:) forControlEvents:(UIControlEventTouchUpInside)];
+                [btnBgview addSubview:btn];
+                btn.tag = 100+i;
+                [self.btnArr addObject:btn];
+            }
+            return cell;
+        }
+    }
+    else {
+        if(indexPath.section==2)
+        {
+            static NSString *iden = @"cell2";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+            if (cell==nil)
+            {
+                cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            for (UIView *view in cell.contentView.subviews)
+            {
+                [view removeFromSuperview];
+            }
+            
+            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
+            lab.text = self.detailData.Promotion.Name;
+            lab.font = [UIFont systemFontOfSize:14];
+            [cell.contentView addSubview:lab];
+            
+            UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
+            lab1.textAlignment = NSTextAlignmentRight;
+            if (self.priceDic) {
+                lab1.text = [NSString stringWithFormat:@"立减 %.2f",[[self.priceDic objectForKey:@"discountamount"] floatValue]];
+            }
+            [cell.contentView addSubview:lab1];
+            
+            return cell;
+        }
+        else if(indexPath.section==3)
+        {
+            static NSString *iden = @"cell5";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+            if (cell==nil)
+            {
+                cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+                
+                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
+                lab.text = @"发票抬头：";
+                lab.font = [UIFont systemFontOfSize:14];
+                [cell.contentView addSubview:lab];
+                
+                
                 desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
                 desText.borderStyle = UITextBorderStyleNone;
                 desText.placeholder = @"请输入公司抬头";
@@ -418,68 +528,6 @@
             return cell;
         }
     }
-    else {
-        if(indexPath.section==3)
-        {
-            static NSString *iden = @"cell3";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-            if (cell==nil)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-            }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            for (UIView *view in cell.contentView.subviews)
-            {
-                [view removeFromSuperview];
-            }
-            
-            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
-            lab.text = self.detailData.Promotion.Name;
-            lab.font = [UIFont systemFontOfSize:14];
-            [cell.contentView addSubview:lab];
-            
-            UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
-            lab1.textAlignment = NSTextAlignmentRight;
-            if (self.priceDic) {
-                lab1.text = [NSString stringWithFormat:@"立减 %.2f",[[self.priceDic objectForKey:@"discountamount"] floatValue]];
-            }
-            [cell.contentView addSubview:lab1];
-            
-            return cell;
-        }
-        else if(indexPath.section==4)
-        {
-            static NSString *iden = @"cell4";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-            if (cell==nil)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-                
-            }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            for (UIView *view in cell.contentView.subviews)
-            {
-                [view removeFromSuperview];
-            }
-            UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
-            lab.text = @"发票抬头：";
-            lab.font = [UIFont systemFontOfSize:14];
-            [cell.contentView addSubview:lab];
-            
-            desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
-            desText.borderStyle = UITextBorderStyleNone;
-            desText.placeholder = @"请输入公司抬头";
-            
-            desText.layer.borderColor = kCustomColor(195, 196, 197).CGColor;
-            desText.layer.borderWidth =1;
-            desText.layer.cornerRadius = 2;
-            desText.font = [UIFont systemFontOfSize:14];
-            desText.delegate =self;
-            [cell.contentView addSubview:desText];
-            
-            return cell;
-        }
-    }
     
     return nil;
 }
@@ -495,7 +543,13 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             [self.datas addObjectsFromArray:[json objectForKey:@"data"]];
-            IsShowVip = YES;
+            if (self.datas.count==0) {
+                [self showHud:@"没有可用的会员卡" andImg:@""];
+                IsShowVip = NO;
+
+            }else{
+                IsShowVip = YES;
+            }
         }
         else
         {
@@ -508,92 +562,89 @@
     
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section==2) {
-        if (indexPath.row==0)
-        {
-            if (IsShowVip)
-            {
-                IsShowVip =NO;
-                [self.datas removeAllObjects];
-                [self.tableView reloadData];
-            }
-            else
-            {
-                [self getVIPCard];
-            }
-        }
-        else
-        {
-            NSString *discrate1 = [[self.datas objectAtIndex:indexPath.row-1] objectForKey:@"discrate1"];
-            NSString *discrate2 = [[self.datas objectAtIndex:indexPath.row-1] objectForKey:@"discrate2"];
-            
-            
-            //vip优惠价格
-            if ([self.detailData.Price doubleValue]<[self.detailData.UnitPrice doubleValue])
-            {
-                double vip;
-                //二次折扣率
-                double vipDiscount = [self.detailData.VipDiscount doubleValue];
-                double dis2 = (1-[discrate2 doubleValue])*100;
-                
-                if (vipDiscount>dis2)
-                {
-                    vip = vipDiscount;
-                }
-                else
-                {
-                    vip = dis2;
-                }
-                
-                //vip优惠价格
-                vipPrice = [self.detailData.Price doubleValue]*[self.buyNum floatValue]*((100-vip)/100);
-            }
-            else
-            {
-                double vip;
-                //一次折扣率
-                double vipDiscount = [self.detailData.VipDiscount doubleValue];
-                double dis1 = (1-[discrate1 doubleValue])*100;
-                
-                if (vipDiscount>dis1)
-                {
-                    vip = vipDiscount;
-                }
-                else
-                {
-                    vip = dis1;
-                }
-                
-                //vip优惠价格
-                vipPrice = [self.detailData.Price doubleValue]*[self.buyNum floatValue]*((100-vip)/100);
-            }
-            
-            //打烊购优惠价格
-            double dayanggou = ([self.detailData.Price doubleValue]*[self.buyNum doubleValue]-vipPrice)*[self.detailData.DaYangGouDis.discount doubleValue];
-            
-            //打烊购最大折扣金额
-            double maxamount = [self.detailData.DaYangGouDis.maxamount doubleValue];
-            if (maxamount>dayanggou)
-            {
-                dayanggouPrice = dayanggou;
-            }
-            else
-            {
-                dayanggouPrice = maxamount;
-            }
-            
-            //应付金额
-            finishPrice = [self.detailData.Price doubleValue]*[self.buyNum doubleValue]-vipPrice-dayanggouPrice;
-            
-            priceLable.text =[NSString stringWithFormat:@"￥%.2f",finishPrice];
-            
-            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:3],[NSIndexPath indexPathForRow:0 inSection:4], nil] withRowAnimation:(UITableViewRowAnimationNone)];
-        }
-    }
+    
     if (IsBingVip) {
-        if (indexPath.section==3) {
-//            ChooesVipViewController *choose =[[ChooesVipViewController alloc]init];
-//            [self.navigationController pushViewController:choose animated:YES];
+        if (indexPath.section==2) {
+            if (indexPath.row==0)
+            {
+                if (IsShowVip)
+                {
+                    IsShowVip =NO;
+                    [self.datas removeAllObjects];
+                    [self.tableView reloadData];
+                }
+                else
+                {
+                    [self getVIPCard];
+                }
+            }
+            else
+            {
+                NSString *discrate1 = [[self.datas objectAtIndex:indexPath.row-1] objectForKey:@"discrate1"];
+                NSString *discrate2 = [[self.datas objectAtIndex:indexPath.row-1] objectForKey:@"discrate2"];
+                
+                
+                //vip优惠价格
+                if ([self.detailData.Price doubleValue]<[self.detailData.UnitPrice doubleValue])
+                {
+                    double vip;
+                    //二次折扣率
+                    double vipDiscount = [self.detailData.VipDiscount doubleValue];
+                    double dis2 = (1-[discrate2 doubleValue])*100;
+                    
+                    if (vipDiscount>dis2)
+                    {
+                        vip = vipDiscount;
+                    }
+                    else
+                    {
+                        vip = dis2;
+                    }
+                    
+                    //vip优惠价格
+                    vipPrice = [self.detailData.Price doubleValue]*[self.buyNum floatValue]*((100-vip)/100);
+                }
+                else
+                {
+                    double vip;
+                    //一次折扣率
+                    double vipDiscount = [self.detailData.VipDiscount doubleValue];
+                    double dis1 = (1-[discrate1 doubleValue])*100;
+                    
+                    if (vipDiscount>dis1)
+                    {
+                        vip = vipDiscount;
+                    }
+                    else
+                    {
+                        vip = dis1;
+                    }
+                    
+                    //vip优惠价格
+                    vipPrice = [self.detailData.Price doubleValue]*[self.buyNum floatValue]*((100-vip)/100);
+                }
+                
+                //打烊购优惠价格
+                double dayanggou = ([self.detailData.Price doubleValue]*[self.buyNum doubleValue]-vipPrice)*[self.detailData.DaYangGouDis.discount doubleValue];
+                
+                //打烊购最大折扣金额
+                double maxamount = [self.detailData.DaYangGouDis.maxamount doubleValue];
+                if (maxamount>dayanggou)
+                {
+                    dayanggouPrice = dayanggou;
+                }
+                else
+                {
+                    dayanggouPrice = maxamount;
+                }
+                
+                //应付金额
+                finishPrice = [self.detailData.Price doubleValue]*[self.buyNum doubleValue]-vipPrice-dayanggouPrice;
+                
+                priceLable.text =[NSString stringWithFormat:@"￥%.2f",finishPrice];
+                
+                [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:3],[NSIndexPath indexPathForRow:0 inSection:4], nil] withRowAnimation:(UITableViewRowAnimationNone)];
+            }
         }
     }
 }
@@ -610,7 +661,7 @@
             return 100;
         }
     }else{
-        if(indexPath.section==4){
+        if(indexPath.section==3){
             return 100;
         }
     }

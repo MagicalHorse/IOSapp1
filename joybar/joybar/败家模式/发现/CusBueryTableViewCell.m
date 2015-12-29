@@ -12,8 +12,17 @@
 
 - (void)awakeFromNib {
     //商品
-    CGFloat w= (kScreenWidth -30)/3;
-    CGFloat h =w;
+    CGFloat w  = (kScreenWidth -30)/3;
+    CGFloat h;
+    if (kScreenWidth==320) {
+       h=w;
+    }else if(kScreenWidth ==375){
+        h=w-17;
+    }else{
+         h=w-34;
+    }
+    
+    
 
     self.shopBtn =[[UIImageView alloc]initWithFrame:CGRectMake(5, self.lineView.bottom+10 , w, h)];
     self.shopBtn.userInteractionEnabled =YES;

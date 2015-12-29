@@ -99,7 +99,7 @@
         
         UILabel *discountLab = [[UILabel alloc] init];
         discountLab.backgroundColor = [UIColor redColor];
-        discountLab.text  = [NSString stringWithFormat:@"%.2f折",[proData.Price floatValue]/[proData.UnitPrice floatValue]];
+        discountLab.text  = [NSString stringWithFormat:@"%.1f折",[proData.Price floatValue]/[proData.UnitPrice floatValue] *10];
         discountLab.textColor = [UIColor whiteColor];
         discountLab.font = [UIFont systemFontOfSize:11];
         discountLab.textAlignment = NSTextAlignmentCenter;

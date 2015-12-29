@@ -468,6 +468,7 @@
         
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
         
+        #pragma mark -- 未加分享
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:@"55d43bf367e58eac01002b7f"
                                           shareText:[NSString stringWithFormat:@"快看！这里有一件超值的%@商品",@""]
