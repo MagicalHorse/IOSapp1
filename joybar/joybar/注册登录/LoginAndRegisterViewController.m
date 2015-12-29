@@ -156,7 +156,7 @@
     loginPhoneText = [[UITextField alloc] initWithFrame:CGRectMake(line2.right+15, 9, 200, 40)];
     loginPhoneText.placeholder = @"请输入您的手机号码";
     loginPhoneText.font = [UIFont systemFontOfSize:16];
-    loginPhoneText.keyboardType = UIKeyboardTypeDefault;
+    loginPhoneText.keyboardType = UIKeyboardTypeNumberPad;
     loginPhoneText.backgroundColor = [UIColor clearColor];
     [scroll addSubview:loginPhoneText];
     
@@ -167,7 +167,6 @@
     loginAuthText = [[UITextField alloc] initWithFrame:CGRectMake(10, 60, kScreenWidth-100, 40)];
     loginAuthText.placeholder = @"请输入您的密码";
     loginAuthText.font = [UIFont systemFontOfSize:16];
-//    loginAuthText.keyboardType = UIKeyboardTypeNumberPad;
     loginAuthText.secureTextEntry = YES;
     [scroll addSubview:loginAuthText];
     
@@ -448,9 +447,10 @@
     }
     [dic setValue:registerPhoneText.text forKey:@"mobile"];
     [dic setValue:@"0" forKey:@"type"];
-    [self hudShowWithText:@"正在获取验证码"];
+//    [self hudShowWithText:@"正在获取验证码"];
     [HttpTool postWithURL:@"user/SendMobileCode" params:dic isWrite:YES success:^(id json) {
-        
+//        [self textHUDHiddle];
+
         NSDictionary *jsonDic = json;
         
         if ([[jsonDic objectForKey:@"isSuccessful"] boolValue])

@@ -113,10 +113,10 @@
     
     [dic setObject:registerPhoneText.text forKey:@"mobile"];
     [dic setObject:@"1" forKey:@"type"];
-    [self hudShow:@"正在获取验证码..."];
+//    [self hudShow:@"正在获取验证码..."];
     [HttpTool postWithURL:@"user/SendMobileCode" params:dic isWrite:YES success:^(id json) {
         
-        [self textHUDHiddle];
+//        [self textHUDHiddle];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             timerInterget = 60;

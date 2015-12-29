@@ -573,10 +573,11 @@
     else if(type ==3){
         static NSString *iden = @"cell3";
         CusBueryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-
+       
         if (cell == nil) {
             cell =[[[NSBundle mainBundle] loadNibNamed:@"CusBueryTableViewCell" owner:self options:nil] lastObject];
         }
+      
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (self.searchArr2.count>0) {
             
@@ -585,17 +586,18 @@
             cell.addressLab.text =[self.searchArr2[indexPath.row]objectForKey:@"BrandName"];
             BOOL isFavite =[[self.searchArr2[indexPath.row]objectForKey:@"IsFllowed"]boolValue];
             if (isFavite) {
-                cell.guanzhuBtn.selected =YES;
                 cell.guanzhuBtn.backgroundColor =[UIColor whiteColor];
                 cell.guanzhuBtn.layer.borderWidth=1;
                 cell.guanzhuBtn.layer.borderColor =[UIColor lightGrayColor].CGColor;
-                [cell.guanzhuBtn setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+                [cell.guanzhuBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                [cell.guanzhuBtn setTitle:@"已关注" forState:UIControlStateNormal];
             }else{
-                cell.guanzhuBtn.selected =NO;
                 cell.guanzhuBtn.backgroundColor =[UIColor orangeColor];
                 [cell.guanzhuBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [cell.guanzhuBtn setTitle:@"关注" forState:UIControlStateNormal];
+
             }
-            
+            NSLog(@"%f,%f",cell.guanzhuBtn.frame.size.width,cell.guanzhuBtn.frame.size.height);
             [cell.guanzhuBtn addTarget:self action:@selector(guanzhuClick:) forControlEvents:UIControlEventTouchUpInside];
             cell.guanzhuBtn.tag =indexPath.row +100;
             NSArray *array =[self.searchArr2[indexPath.row]objectForKey:@"Products"];
@@ -651,7 +653,7 @@
                 cell.shopBtn.hidden =YES;
                 cell.shopBtn1.hidden =YES;
                 cell.shopBtn2.hidden =YES;
-                UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, cell.shopBtn.top+10, cell.width, 20)];
+                UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, cell.shopBtn.top+10, kScreenWidth, 20)];
                 lable.text =@"店铺什么都没有，戳一下，提醒上新~";
                 lable.textAlignment =NSTextAlignmentCenter;
                 lable.font =[UIFont systemFontOfSize:13];
@@ -659,7 +661,7 @@
                 [cell addSubview:lable];
                 
                 BOOL isTX =[[self.searchArr2[indexPath.row]objectForKey:@"isTX"]boolValue];
-                UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+                UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth-100)*0.5, lable.bottom+10, 100, 40)];
                 if (isTX) {
                     btn.backgroundColor =[UIColor grayColor];
                     [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
@@ -778,12 +780,12 @@
     if (tempState)
     {
         [dic setValue:@"0" forKey:@"Status"];
-        btn.selected = NO;
+        
     }
     else
     {
         [dic setValue:@"1" forKey:@"Status"];
-        btn.selected = YES;
+
     }
     [HttpTool postWithURL:@"User/Favoite" params:dic isWrite:YES  success:^(id json) {
         

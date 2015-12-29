@@ -298,6 +298,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if (cell == nil) {
         cell =[[[NSBundle mainBundle] loadNibNamed:@"CusBueryTableViewCell" owner:self options:nil] lastObject];
     }
+  
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (self.cusDataArray.count>0) {
         
@@ -308,15 +309,16 @@ static NSString * const reuseIdentifier = @"Cell";
         
         BOOL isFavite =[[self.cusDataArray[indexPath.row]objectForKey:@"IsFllowed"]boolValue];
         if (isFavite) {
-            cell.guanzhuBtn.selected =YES;
             cell.guanzhuBtn.backgroundColor =[UIColor whiteColor];
             cell.guanzhuBtn.layer.borderWidth=1;
             cell.guanzhuBtn.layer.borderColor =[UIColor lightGrayColor].CGColor;
-            [cell.guanzhuBtn setTitleColor:[UIColor grayColor] forState:UIControlStateSelected];
+            [cell.guanzhuBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            [cell.guanzhuBtn setTitle:@"已关注" forState:UIControlStateNormal];
         }else{
-            cell.guanzhuBtn.selected =NO;
             cell.guanzhuBtn.backgroundColor =[UIColor orangeColor];
             [cell.guanzhuBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [cell.guanzhuBtn setTitle:@"关注" forState:UIControlStateNormal];
+            
         }
         cell.guanzhuBtn.tag =indexPath.row +200;
         [cell.guanzhuBtn addTarget:self action:@selector(guanzhuTClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -370,7 +372,7 @@ static NSString * const reuseIdentifier = @"Cell";
             cell.shopBtn.hidden =YES;
             cell.shopBtn1.hidden =YES;
             cell.shopBtn2.hidden =YES;
-            UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, cell.shopBtn.top+10, cell.width, 20)];
+            UILabel *lable =[[UILabel alloc]initWithFrame:CGRectMake(0, cell.shopBtn.top+10, kScreenWidth, 20)];
             lable.text =@"店铺什么都没有，戳一下，提醒上新~";
             lable.textAlignment =NSTextAlignmentCenter;
             lable.font =[UIFont systemFontOfSize:13];
@@ -379,7 +381,7 @@ static NSString * const reuseIdentifier = @"Cell";
             
             BOOL isTX =[[self.cusDataArray[indexPath.row]objectForKey:@"isTX"]boolValue];
             
-            UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((cell.width-100)*0.5, lable.bottom+10, 100, 40)];
+            UIButton *btn=  [[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth-100)*0.5, lable.bottom+10, 100, 40)];
             if (isTX) {
                 btn.backgroundColor =[UIColor grayColor];
                 [btn setTitle:@"已提醒上新" forState:UIControlStateNormal];
@@ -956,12 +958,10 @@ static NSString * const reuseIdentifier = @"Cell";
     if (tempState)
     {
         [dic setValue:@"0" forKey:@"Status"];
-        btn.selected =NO;
     }
     else
     {
         [dic setValue:@"1" forKey:@"Status"];
-        btn.selected = YES;
     }
     [dic setValue:buyerId forKey:@"FavoriteId"];
     
