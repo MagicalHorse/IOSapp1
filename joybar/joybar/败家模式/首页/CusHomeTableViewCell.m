@@ -113,7 +113,6 @@
     brandArr = [NSMutableArray array];
     [brandArr addObjectsFromArray: [dic objectForKey:@"Brands"]];
     
-    NSLog(@"%@",brandArr);
     NSString *StoreLeave = [NSString stringWithFormat:@"%@",[dic objectForKey:@"StoreLeave"]];
     CGFloat tempViewHeight;
     if ([StoreLeave isEqualToString:@"8"])

@@ -253,7 +253,7 @@
 
 -(void)initWithFooterView
 {
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-44, kScreenWidth, 44)];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
     footerView.backgroundColor = kCustomColor(252, 251, 251);
     [self.view addSubview:footerView];
     
@@ -301,7 +301,7 @@
         else
         {
             timeBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-            timeBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
+            timeBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 49);
             timeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
             [timeBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
             timeBtn.backgroundColor = kCustomColor(253, 137, 83);

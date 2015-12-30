@@ -41,6 +41,8 @@
 
 @property (nonatomic ,strong) NSMutableArray *selectProLinkArr;
 
+@property (nonatomic ,strong) NSArray *kuCunArr;
+
 
 @end
 
@@ -87,6 +89,24 @@
     }
 }
 
+-(void)getKuCunData
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:self.detailData.ProductId forKey:@"productId"];
+    [HttpTool postWithURL:@"Product/GetProductSku" params:dic success:^(id json) {
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            self.kuCunArr = [json objectForKey:@"data"];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
 -(void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
@@ -96,6 +116,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self getKuCunData];
     
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
@@ -742,6 +764,10 @@
 //立即购买
 -(void)didClickBuyBtn
 {
+    if (self.kuCunArr.count==0)
+    {
+        return;
+    }
     tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     tempView.backgroundColor = [UIColor blackColor];
     tempView.alpha = 0.7;
@@ -787,28 +813,23 @@
     sizeLab.font = [UIFont systemFontOfSize:15];
     [buyBgView addSubview:sizeLab];
     
-    
-    NSMutableArray *array = [NSMutableArray array];
-    for (int i=0; i<self.detailData.Sizes.count; i++)
-    {
-        ProDetailSize *size = [self.detailData.Sizes objectAtIndex:i];
-        [array addObject:size.Size];
-    }
+    NSArray *sizeArr = [self.kuCunArr.firstObject objectForKey:@"Size"];
     DWTagList*sizeBtn = [[DWTagList alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth-100, 300.0f)];
     sizeBtn.backgroundColor = [UIColor clearColor];
-    sizeBtn.isRenZheng = YES;
-    [sizeBtn setTags:array];
+    [sizeBtn setTags:sizeArr];
     [buyBgView addSubview:sizeBtn];
     CGFloat height = [sizeBtn fittedSize].height;
     sizeBtn.frame = CGRectMake(sizeLab.right+5, colorLab.bottom+12, kScreenWidth-100, height);
-    
+    self.sizeId = [sizeArr[0]objectForKey:@"SizeId"];
+    self.sizeNum = [sizeArr[0]objectForKey:@"Inventory"];
+    self.sizeName = [sizeArr[0]objectForKey:@"SizeName"];
+
     sizeBtn.clickBtnBlock = ^(UIButton *btn,NSInteger index)
     {
-        ProDetailSize *size = [self.detailData.Sizes objectAtIndex:index];
-        self.sizeId = size.SizeId;
-        self.sizeNum = size.Inventory;
-        self.sizeName = size.Size;
-        kuCunLab.text = [NSString stringWithFormat:@"库存%@件",size.Inventory];
+        self.sizeId = [sizeArr[index]objectForKey:@"SizeId"];
+        self.sizeNum = [sizeArr[index]objectForKey:@"Inventory"];
+        self.sizeName = [sizeArr[index]objectForKey:@"SizeName"];
+        kuCunLab.text = [NSString stringWithFormat:@"库存%@件",self.sizeNum];
         self.priceNum = 0;
         buyNumLab.text = @"0";
     };
@@ -866,8 +887,22 @@
     
     kuCunLab = [[UILabel alloc] initWithFrame:CGRectMake(numView.right+10, numView.top+5, 150, 20)];
     kuCunLab.textColor = [UIColor redColor];
+    kuCunLab.text = [NSString stringWithFormat:@"库存%@件",self.sizeNum];
     kuCunLab.font = [UIFont systemFontOfSize:15];
     [buyBgView addSubview:kuCunLab];
+
+    if ([[sizeArr[0]objectForKey:@"Inventory"] integerValue]==0)
+    {
+        //库存为0
+        buyNumLab.text = @"0";
+        self.priceNum = 0;
+    }
+    else
+    {
+        //库存>0
+        buyNumLab.text = @"1";
+        self.priceNum = 1;
+    }
     
     UIButton *cancelBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
     cancelBtn.frame = CGRectMake(20, numView.bottom+20, 80, 35);
@@ -897,22 +932,17 @@
 //增加
 -(void)didCLickAddNum
 {
-//    if (!self.sizeId)
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请选择尺码" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-//        [alert show];
-//        return;
-//    }
-//    
-//    if (self.priceNum>=[self.sizeNum integerValue])
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"库存不足" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-//        [alert show];
-//        return;
-//    }
-//    
     self.priceNum+=1;
-    buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
+    
+    if (self.priceNum>[self.sizeNum integerValue])
+    {
+        self.priceNum-=1;
+        return;
+    }
+    else
+    {
+        buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
+    }
 }
 
 //减少
@@ -953,12 +983,10 @@
         return;
     }
     MakeSureOrderViewController *VC = [[MakeSureOrderViewController alloc] init];
-//    MakeSureVipOrderViewController *VC = [[MakeSureVipOrderViewController alloc] init];
-
     VC.detailData = self.detailData;
-    VC.buyNum = buyNumLab.text;
-    VC.sizeId = @"53066";
-    VC.sizeName =@"22";
+    VC.buyNum = [NSString stringWithFormat:@"%ld",self.priceNum];
+    VC.sizeId = self.sizeId;
+    VC.sizeName =self.sizeName;
     [self.navigationController pushViewController:VC animated:YES];
 }
 

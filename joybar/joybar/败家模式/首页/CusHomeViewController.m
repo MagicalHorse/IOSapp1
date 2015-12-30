@@ -293,7 +293,6 @@
 //点击搜索
 -(void)didClickSearchBtn
 {
-    
     NSString *cityId = [self.localtionDic objectForKey:@"Id"];
     HistorySearchViewController *search =[[HistorySearchViewController alloc]init];
     search.cityId =cityId; //城市id
@@ -329,11 +328,6 @@
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     [_locationManager stopUpdatingLocation];
-    NSLog(@"location ok");
-    
-    NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
-    
-
     NSString *latitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.latitude];
     NSString *longitude =[NSString stringWithFormat:@"%f",newLocation.coordinate.longitude];
     
@@ -349,6 +343,7 @@
 -(void)reverseGeocoder:(MKReverseGeocoder *)geocoder
       didFindPlacemark:(MKPlacemark *)placemark
 {
+    NSLog(@"*******************************");
     [self textHUDHiddle];
     [[NSUserDefaults standardUserDefaults] setObject:placemark.locality forKey:@"cityName"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -358,7 +353,6 @@
     {
         [self getCityInfo];
     }
-
 }
 
 -(void)getCityInfo
@@ -374,8 +368,11 @@
             self.localtionDic = [json objectForKey:@"data"];
             [[NSUserDefaults standardUserDefaults] setObject:[self.localtionDic objectForKey:@"Id"] forKey:@"cityId"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            [self.homeTableView.dataArr removeAllObjects];
-            [self getHomeData];
+            if (self.homeTableView.dataArr.count==0)
+            {
+                [self.homeTableView.dataArr removeAllObjects];
+                [self getHomeData];
+            }
         }
         else
         {

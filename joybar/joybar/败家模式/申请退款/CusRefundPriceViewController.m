@@ -12,7 +12,6 @@
 
 @property (nonatomic ,assign) NSInteger priceNum;
 
-
 @end
 
 @implementation CusRefundPriceViewController
