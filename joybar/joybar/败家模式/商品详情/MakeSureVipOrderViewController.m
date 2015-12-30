@@ -399,7 +399,7 @@
                 desText.font = [UIFont systemFontOfSize:14];
                 desText.delegate =self;
                 [cell.contentView addSubview:desText];
-                desText.userInteractionEnabled =YES;
+                desText.userInteractionEnabled =NO;
               
                 
                 btnBgview = [[UIView alloc] initWithFrame:CGRectMake(85, 15, kScreenWidth-85, 20)];
@@ -427,7 +427,11 @@
                 {
                     [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
                 }
+                
                 [btn setTitle:arr[i] forState:(UIControlStateNormal)];
+                if (i==0) {
+                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+                }
                 btn.titleLabel.font = [UIFont systemFontOfSize:13];
                 [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
                 [btn addTarget:self action:@selector(selectFaPiao:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -518,6 +522,9 @@
                     [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
                 }
                 [btn setTitle:arr[i] forState:(UIControlStateNormal)];
+                if (i==0) {
+                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+                }
                 btn.titleLabel.font = [UIFont systemFontOfSize:13];
                 [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
                 [btn addTarget:self action:@selector(selectFaPiao:) forControlEvents:(UIControlEventTouchUpInside)];
