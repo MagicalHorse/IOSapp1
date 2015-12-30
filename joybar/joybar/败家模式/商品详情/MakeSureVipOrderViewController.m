@@ -389,10 +389,9 @@
                 
                 
                 desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
-             
 
                 desText.borderStyle = UITextBorderStyleNone;
-                desText.placeholder = @"请输入公司抬头";
+                desText.placeholder = @"请输入";
                 
                 desText.layer.borderColor = kCustomColor(195, 196, 197).CGColor;
                 desText.layer.borderWidth =1;
@@ -400,6 +399,7 @@
                 desText.font = [UIFont systemFontOfSize:14];
                 desText.delegate =self;
                 [cell.contentView addSubview:desText];
+                desText.userInteractionEnabled =NO;
               
                 
                 btnBgview = [[UIView alloc] initWithFrame:CGRectMake(85, 15, kScreenWidth-85, 20)];
@@ -427,7 +427,11 @@
                 {
                     [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
                 }
+                
                 [btn setTitle:arr[i] forState:(UIControlStateNormal)];
+                if (i==0) {
+                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+                }
                 btn.titleLabel.font = [UIFont systemFontOfSize:13];
                 [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
                 [btn addTarget:self action:@selector(selectFaPiao:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -483,7 +487,7 @@
                 
                 desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
                 desText.borderStyle = UITextBorderStyleNone;
-                desText.placeholder = @"请输入公司抬头";
+                desText.placeholder = @"请输入";
                 
                 desText.layer.borderColor = kCustomColor(195, 196, 197).CGColor;
                 desText.layer.borderWidth =1;
@@ -491,7 +495,7 @@
                 desText.font = [UIFont systemFontOfSize:14];
                 desText.delegate =self;
                 [cell.contentView addSubview:desText];
-                
+                desText.userInteractionEnabled=NO;
                 btnBgview = [[UIView alloc] initWithFrame:CGRectMake(85, 15, kScreenWidth-85, 20)];
                 btnBgview.backgroundColor = [UIColor clearColor];
                 [cell.contentView addSubview:btnBgview];
@@ -518,6 +522,9 @@
                     [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
                 }
                 [btn setTitle:arr[i] forState:(UIControlStateNormal)];
+                if (i==0) {
+                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+                }
                 btn.titleLabel.font = [UIFont systemFontOfSize:13];
                 [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
                 [btn addTarget:self action:@selector(selectFaPiao:) forControlEvents:(UIControlEventTouchUpInside)];
@@ -687,6 +694,10 @@
     {
         [self showHudFailed:@"请填写手机号"];
         return;
+    }else if(phoneText.text.length !=11)
+    {
+        [self showHudFailed:@"请填写正确的手机号"];
+        return;
     }
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.needInvoice forKey:@"NeedInvoice"];
@@ -726,43 +737,7 @@
         
     }];
     
-    //    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    //    [dic setValue:self.detailData.ProductId forKey:@"ProductId"];
-    //    [dic setValue:self.buyNum forKey:@"Count"];
-    //    [dic setValue:self.sizeId forKey:@"SizeId"];
-    //    if ([phoneText.text isEqualToString:@""])
-    //    {
-    //        [self showHudFailed:@"请填写提货电话"];
-    //        return;
-    //    }
-    //    [dic setValue:phoneText.text forKey:@"mobile"];
-    //    [self hudShow:@"正在提交订单"];
-    //    [HttpTool postWithURL:@"Order/CreateOrder" params:dic  isWrite:YES success:^(id json) {
-    //
-    //        if ([[json objectForKey:@"isSuccessful"] boolValue])
-    //        {
-    //            PayOrderViewController *VC = [[PayOrderViewController alloc] init];
-    //            VC.proName = self.detailData.ProductName;
-    //            VC.proPrice =[[json objectForKey:@"data"] objectForKey:@"ActualAmount"];
-    //            VC.orderNum = [[json objectForKey:@"data"] objectForKey:@"OrderNo"];
-    //            [self showHudSuccess:@"提交成功"];
-    //
-    //            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //
-    //                [self.navigationController pushViewController:VC animated:YES];
-    //
-    //            });
-    //        }
-    //        else
-    //        {
-    //            [self showHudFailed:[json objectForKey:@"message"]];
-    //        }
-    //        NSLog(@"%@",[json objectForKey:@"message"]);
-    //        [self textHUDHiddle];
-    //
-    //    } failure:^(NSError *error) {
-    //
-    //    }];
+   
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -848,6 +823,12 @@
         if ([btn isEqual:selectBtn])
         {
             [selectBtn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+            if (btn.tag ==100) {
+                desText.userInteractionEnabled =NO;
+                desText.text =@"";
+            }else{
+                desText.userInteractionEnabled =YES;
+            }
         }
         else
         {
