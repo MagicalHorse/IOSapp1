@@ -220,6 +220,12 @@
 
 -(void)didClickToStore
 {
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self.viewController];
+        return;
+    }
+
     CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userId = detailData.BuyerId;
     VC.isCircle = NO;
@@ -230,6 +236,12 @@
 
 -(void)didClickToCircle
 {
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self.viewController];
+        return;
+    }
+
     CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userId = detailData.BuyerId;
     VC.isCircle = YES;

@@ -216,9 +216,19 @@
 
 -(void)initWithFooterView
 {
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-44, kScreenWidth, 44)];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
     footerView.backgroundColor = kCustomColor(252, 251, 251);
     [self.view addSubview:footerView];
+    
+    timeBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+    timeBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 49);
+    timeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [timeBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+    timeBtn.backgroundColor = kCustomColor(253, 137, 83);
+    [timeBtn addTarget:self action:@selector(didClickBuy:) forControlEvents:(UIControlEventTouchUpInside)];
+    [footerView addSubview:timeBtn];
+
+    
     
     NSArray *titleArr;
     NSArray *imageArr;
@@ -233,11 +243,11 @@
         titleArr = @[@"私聊",@"收藏"];
         imageArr= @[@"liaotian",@"xing"];
     }
-    for (int i=0; i<3; i++)
+    for (int i=0; i<2; i++)
     {
         UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
         btn.tag = 1000+i;
-        btn.frame = CGRectMake(kScreenWidth/4*i, 0, kScreenWidth/4, 44);
+        btn.frame = CGRectMake(kScreenWidth/4*i, 0, kScreenWidth/4, 49);
         
         [btn addTarget:self action:@selector(didClickBtn:) forControlEvents:(UIControlEventTouchUpInside)];
         if (i<2)
@@ -259,50 +269,48 @@
             lab.font = [UIFont systemFontOfSize:12];
             [btn addSubview:lab];
         }
-        else
-        {
-            timeBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-            timeBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 44);
-            timeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-            [timeBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-            timeBtn.backgroundColor = kCustomColor(253, 137, 83);
-            [timeBtn addTarget:self action:@selector(didClickBuy:) forControlEvents:(UIControlEventTouchUpInside)];
-            [footerView addSubview:timeBtn];
-            
-            buyLab = [[UILabel alloc] initWithFrame:CGRectMake(90, 0, timeBtn.width-90, timeBtn.height)];
-            buyLab.backgroundColor = [UIColor clearColor];
-            buyLab.textColor = [UIColor whiteColor];
-            buyLab.font = [UIFont systemFontOfSize:13];
-            [timeBtn addSubview:buyLab];
-            
-            MZTimerLabel *timeLab = [[MZTimerLabel alloc] initWithLabel:buyLab andTimerType:MZTimerLabelTypeTimer];
-            timeLab.delegate = self;
-            
-            timerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, timeBtn.width, timeBtn.height)];
-            timerLab.textColor = [UIColor whiteColor];
-            timerLab.font =[UIFont systemFontOfSize:13];
-            [timeBtn addSubview:timerLab];
-            
-            if ([prodata.IsStart boolValue])
-            {
-                [timeLab setCountDownTime:[prodata.BusinessTime integerValue]];
-                timerLab.text = @"立即购买";
-                timerLab.textAlignment = NSTextAlignmentCenter;
-                buyLab.hidden = YES;
-                timeBtn.userInteractionEnabled = YES;
-            }
-            else
-            {
-                [timeLab setCountDownTime:[prodata.RemainTime intValue]];
-                timerLab.text = @" 距离开始:";
-                timerLab.textAlignment = NSTextAlignmentLeft;
-                buyLab.hidden = NO;
-                timeBtn.userInteractionEnabled = NO;
-            }
-            [timeLab start];
-        }
         [footerView addSubview:btn];
     }
+        timeBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        timeBtn.frame = CGRectMake(kScreenWidth/2, 0, kScreenWidth/2, 49);
+        timeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [timeBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
+        timeBtn.backgroundColor = kCustomColor(253, 137, 83);
+        [timeBtn addTarget:self action:@selector(didClickBuy:) forControlEvents:(UIControlEventTouchUpInside)];
+        [footerView addSubview:timeBtn];
+        
+        buyLab = [[UILabel alloc] initWithFrame:CGRectMake(90, 0, timeBtn.width-90, timeBtn.height)];
+        buyLab.backgroundColor = [UIColor clearColor];
+        buyLab.textColor = [UIColor whiteColor];
+        buyLab.font = [UIFont systemFontOfSize:13];
+        buyLab.userInteractionEnabled = YES;
+        [timeBtn addSubview:buyLab];
+        
+        MZTimerLabel *timeLab = [[MZTimerLabel alloc] initWithLabel:buyLab andTimerType:MZTimerLabelTypeTimer];
+        timeLab.delegate = self;
+        
+        timerLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, timeBtn.width, timeBtn.height)];
+        timerLab.textColor = [UIColor whiteColor];
+        timerLab.font =[UIFont systemFontOfSize:13];
+        [timeBtn addSubview:timerLab];
+        
+        if ([prodata.IsStart boolValue])
+        {
+            [timeLab setCountDownTime:[prodata.BusinessTime integerValue]];
+            timerLab.text = @"立即购买";
+            timerLab.textAlignment = NSTextAlignmentCenter;
+            buyLab.hidden = YES;
+            timeBtn.userInteractionEnabled = YES;
+        }
+        else
+        {
+            [timeLab setCountDownTime:[prodata.RemainTime intValue]];
+            timerLab.text = @" 距离开始:";
+            timerLab.textAlignment = NSTextAlignmentLeft;
+            buyLab.hidden = NO;
+            timeBtn.userInteractionEnabled = NO;
+        }
+        [timeLab start];
 }
 
 -(void)timerLabel:(MZTimerLabel*)timerLabel finshedCountDownTimerWithTime:(NSTimeInterval)countTime
@@ -330,6 +338,11 @@
 
 -(void)didClickBuy:(UIButton *)btn
 {
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self];
+        return;
+    }
     //我要买
     CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
     VC.detailData = prodata;

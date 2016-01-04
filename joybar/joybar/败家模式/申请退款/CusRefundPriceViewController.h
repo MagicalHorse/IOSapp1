@@ -30,4 +30,9 @@
 @property (nonatomic ,strong) NSString *proSizeStr;
 @property (nonatomic ,strong) NSString *proPriceStr;
 @property (nonatomic ,strong) NSString *orderNum;
+
+
+@property (nonatomic ,strong) NSString *orderNo;
+
+
 @end

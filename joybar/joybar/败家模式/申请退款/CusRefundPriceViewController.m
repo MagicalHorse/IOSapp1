@@ -7,11 +7,14 @@
 //
 
 #import "CusRefundPriceViewController.h"
-
-@interface CusRefundPriceViewController ()
+#import "RefundTableViewCell.h"
+@interface CusRefundPriceViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic ,assign) NSInteger priceNum;
 
+@property (nonatomic ,strong) UITableView *tableView;
+
+@property (nonatomic ,strong) NSMutableArray *proArr;
 
 @end
 
@@ -22,11 +25,14 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    self.proArr = [NSMutableArray array];
     
     self.priceNum = 0;
 
     [self addNavBarViewAndTitle:@"申请退款"];
     self.view.backgroundColor = kCustomColor(240, 241, 242);
+    
+    [self getProData];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickScroll)];
     [self.scrollView addGestureRecognizer:tap];
@@ -191,7 +197,65 @@
 }
 
 
+-(void)getProData
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:self.orderNo forKey:@"OrderNo"];
+    [self hudShow];
+    [HttpTool postWithURL:@"Order/GetUserOrderDetailV3" params:dic success:^(id json) {
+        
+        [self hiddleHud];
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"Product"];
+            [self.proArr addObjectsFromArray:arr];
+            
+            [self.tableView reloadData];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+        NSLog(@"%@",[json objectForKey:@"message"]);
+    } failure:^(NSError *error) {
+        
+    }];
+
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.proArr.count+1;
+}
 
 
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row<self.proArr.count)
+    {
+        static NSString *iden = @"cell";
+        RefundTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+        if (cell==nil) {
+            cell = [[NSBundle mainBundle] loadNibNamed:@"RefundTableViewCell" owner:self options:nil].lastObject;
+        }
+        [cell setData:self.proArr[indexPath.row]];
+        
+        return cell;
+    }
+    
+    else
+    {
+        static NSString *iden = @"cell";
+        RefundTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+        if (cell==nil) {
+            cell = [[NSBundle mainBundle] loadNibNamed:@"RefundTableViewCell" owner:self options:nil].lastObject;
+        }
+        [cell setData:self.proArr[indexPath.row]];
+        
+        return cell;
+
+    }
+
+}
 
 @end

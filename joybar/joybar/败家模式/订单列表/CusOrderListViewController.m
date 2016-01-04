@@ -24,6 +24,9 @@
 @property (nonatomic ,strong) OrderListData *orderListData;
 @property (nonatomic ,strong) NSString *orderStatus;
 
+@property (nonatomic ,assign) NSInteger pagrNum;
+
+@property (nonatomic ,strong) NSMutableArray *orderListArr;
 @end
 
 @implementation CusOrderListViewController
@@ -40,7 +43,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.orderListArr = [NSMutableArray array];
     self.btnArr = [NSMutableArray array];
     
     self.view.backgroundColor = kCustomColor(243, 247, 248);
@@ -82,10 +85,18 @@
     __weak CusOrderListViewController *VC = self;
     self.tableView.headerRereshingBlock = ^()
     {
+        VC.pagrNum = 1;
+        [VC.orderListArr removeAllObjects];
         [VC getData:VC.orderStatus];
     };
+    
+    self.tableView.footerRereshingBlock = ^()
+    {
+        VC.pagrNum++;
+        [VC getData:VC.orderStatus];
+    };
+    
     [self addNavBarViewAndTitle:@"我的订单"];
-
     self.orderStatus = [NSString stringWithFormat:@"%ld",(long)self.btnIndex];
     [self getData:[NSString stringWithFormat:@"%ld",(long)self.btnIndex]];
     self.line.frame = CGRectMake(5+kScreenWidth/4*self.btnIndex, 38, kScreenWidth/4-10, 2);
@@ -100,19 +111,25 @@
 -(void)getData:(NSString *)status
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setValue:@"1" forKey:@"Page"];
-    [dic setValue:@"10000" forKey:@"Pagesize"];
+    [dic setValue:[NSString stringWithFormat:@"%ld",self.pagrNum] forKey:@"Page"];
+    [dic setValue:@"10" forKey:@"Pagesize"];
     [dic setValue:status forKey:@"State"];
     [self hudShow];
     [HttpTool postWithURL:@"Order/GetOrderListByStateV3" params:dic success:^(id json) {
         
         [self hiddleHud];
-        
-        [self.tableView hiddenFooter:YES];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.orderListData = [OrderListData objectWithKeyValues:[json objectForKey:@"data"]];
-            
+            if (self.orderListData.items.count<10)
+            {
+                [self.tableView hiddenFooter:YES];
+            }
+            else
+            {
+                [self.tableView hiddenFooter:NO];
+            }
+            [self.orderListArr addObjectsFromArray:self.orderListData.items];
             [self.tableView reloadData];
         }
         else
@@ -130,7 +147,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.orderListData.items.count;
+    return self.orderListArr.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -144,8 +161,11 @@
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    cell.orderListItem = [self.orderListData.items objectAtIndex:indexPath.row];
-    [cell setData];
+    if (self.orderListArr.count>0)
+    {
+        cell.orderListItem = [self.orderListArr objectAtIndex:indexPath.row];
+        [cell setData];
+    }
     return cell;
 }
 
@@ -156,23 +176,19 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.orderListData.items.count==0)
+    if (self.orderListArr.count==0)
     {
         return;
     }
     CusOrderDetailViewController *VC = [[CusOrderDetailViewController alloc] init];
-    OrderListItem *item = [self.orderListData.items objectAtIndex:indexPath.row];
+    OrderListItem *item = [self.orderListArr objectAtIndex:indexPath.row];
     VC.delegate = self;
     VC.orderId = item.OrderNo;
     VC.fromType = @"orderList";
-    VC.userLevel = item.Product.Userlevel;
+    VC.userLevel = item.Product.UserLevel;
     VC.orderproducttype = item.OrderProductType;
     [self.navigationController pushViewController:VC animated:YES];
     
-//    CusRefundPriceViewController *VC = [[CusRefundPriceViewController alloc] init];
-//    [self.navigationController pushViewController:VC animated:YES];
-//    CusAppealViewController *VC = [[CusAppealViewController alloc] init];
-//    [self.navigationController pushViewController:VC animated:YES];
 }
 -(void)didClickOrderBtn:(UIButton *)btn
 {
@@ -220,22 +236,29 @@
         default:
             break;
     }
-    
+    [self.orderListArr removeAllObjects];
+    self.pagrNum = 1;
     [self getData:self.orderStatus];
 }
 
 -(void)orderListDelegate
 {
+    [self.orderListArr removeAllObjects];
+    self.pagrNum = 1;
     [self getData:self.orderStatus];
 }
 
 -(void)refundOrderhandle
 {
+    [self.orderListArr removeAllObjects];
+    self.pagrNum = 1;
     [self getData:self.orderStatus];
 }
 
 -(void)refreshOrderList
 {
+    [self.orderListArr removeAllObjects];
+    self.pagrNum = 1;
     [self getData:self.orderStatus];
 }
 

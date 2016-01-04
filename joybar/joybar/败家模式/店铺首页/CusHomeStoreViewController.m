@@ -14,6 +14,7 @@
 #import "CusHomeStoreHeader.h"
 #import "CusChatViewController.h"
 #import "CusRProDetailViewController.h"
+#import "CusZProDetailViewController.h"
 #define CELL_COUNT 30
 #define HEADER_IDENTIFIER @"WaterfallHeader"
 
@@ -317,9 +318,20 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-    VC.productId = [[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"Id"];
-    [self.navigationController pushViewController: VC animated:YES];
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.dataSource[indexPath.row]objectForKey:@"Userleave"]];
+    if ([Userleave isEqualToString:@"8"])
+    {
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = [[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"Id"];
+        [self.navigationController pushViewController: VC animated:YES];
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = [[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"Id"];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
 }
 
 #pragma mark - CHTCollectionViewDelegateWaterfallLayout

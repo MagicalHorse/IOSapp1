@@ -23,7 +23,7 @@
     DWTagList*sizeBtn;
 //    NSArray *sizeArr;
     UILabel *sizeLab;
-    NSArray *selectSizeArr;
+    NSMutableArray *selectSizeArr;
     NSString *colorStr;
     NSString *sizeStr;
     NSString *kuCunCount;
@@ -37,6 +37,7 @@
 -(void)setDetailData:(ProDetailData *)proData andIndex:(NSIndexPath *)indexPath
 {
     detailData = proData;
+    selectSizeArr = [[NSMutableArray alloc] init];
     labArr = [[NSMutableArray alloc] init];
     imageViewArr =[[NSMutableArray alloc] init];
     if (indexPath.section==0)
@@ -207,11 +208,10 @@
         sizeBtn = [[DWTagList alloc] initWithFrame:CGRectMake(sizeLab.right+5, sizeLab.top-3, kScreenWidth-70, 300)];
         sizeBtn.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:sizeBtn];
-        selectSizeArr = [[self.kuCunArr objectAtIndex:0] objectForKey:@"Size"];
+        [selectSizeArr addObjectsFromArray: [[self.kuCunArr objectAtIndex:0] objectForKey:@"Size"]];
         [sizeBtn setTags:selectSizeArr];
         CGFloat height = [sizeBtn fittedSize].height;
         self.sizeHeight = height;
-        sizeBtn.isRenZheng = NO;
         sizeBtn.frame = CGRectMake(sizeLab.right+5, sizeLab.top-3, kScreenWidth-70, height);
         colorStr =[[self.kuCunArr objectAtIndex:0] objectForKey:@"ColorName"];
 //        NSString *name = [NSString stringWithFormat:@"%@%@",colorStr,[selectSizeArr[0] objectForKey:@"SizeName"]];
@@ -430,7 +430,8 @@
 
             UIImageView *proImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, i*210, kScreenWidth, 210)];
             proImage.backgroundColor =[UIColor lightGrayColor];
-            proImage.contentMode = UIViewContentModeScaleAspectFit;
+            proImage.contentMode = UIViewContentModeScaleAspectFill;
+            proImage.clipsToBounds = YES;
             [proImage sd_setImageWithURL:[NSURL URLWithString:pic.Logo] placeholderImage:[UIImage imageNamed:@"placeholder"]];
             [temp addSubview:proImage];
         }
@@ -457,7 +458,8 @@
 
 -(void)selectColor:(UITapGestureRecognizer *)tap
 {
-    selectSizeArr = [[self.kuCunArr objectAtIndex:tap.view.tag-10] objectForKey:@"Size"];
+    [selectSizeArr removeAllObjects];
+    [selectSizeArr addObjectsFromArray: [[self.kuCunArr objectAtIndex:tap.view.tag-10] objectForKey:@"Size"]];
     [sizeBtn setTags:selectSizeArr];
     CGFloat height = [sizeBtn fittedSize].height;
     sizeBtn.frame = CGRectMake(sizeLab.right+5, sizeLab.top-3, kScreenWidth-70, height);
