@@ -116,8 +116,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self getKuCunData];
+    if (self.isFrom==isFromBuyPro) {
+        [self getKuCunData];
+    }
     
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];

@@ -314,7 +314,6 @@
     [self.navigationController pushViewController: VC animated:YES];
     VC.handleCityName = ^(NSString *cityName,NSString *cityId)
     {
-        [[NSUserDefaults standardUserDefaults] setObject:cityName forKey:@"cityName"];
         [locationBtn setTitle:cityName forState:(UIControlStateNormal)];
         [[NSUserDefaults standardUserDefaults] setObject:cityId forKey:@"cityId"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -343,9 +342,9 @@
 -(void)reverseGeocoder:(MKReverseGeocoder *)geocoder
       didFindPlacemark:(MKPlacemark *)placemark
 {
-    NSLog(@"*******************************");
+    NSLog(@"*******************************%@",placemark.subLocality);
     [self textHUDHiddle];
-    [[NSUserDefaults standardUserDefaults] setObject:placemark.locality forKey:@"cityName"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@ %@",placemark.locality,placemark.subLocality] forKey:@"cityName"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [locationBtn setTitle:placemark.locality forState:(UIControlStateNormal)];
     [self getBannerData];

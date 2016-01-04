@@ -28,6 +28,11 @@
 @property (nonatomic ,copy) NSString *SizeValue;
 @property (nonatomic ,copy) NSString *BuyerLogo;
 @property (nonatomic ,copy) NSString *ShareDesc;
+@property (nonatomic ,copy) NSString *UserLevel;
+@property (nonatomic ,copy) NSString *CanRma;
+@property (nonatomic ,copy) NSString *CanInvoiced;
+
+
 @property (nonatomic ,strong) NSArray *Promotions;
 
 @property (nonatomic ,copy) NSString *ShareLink;

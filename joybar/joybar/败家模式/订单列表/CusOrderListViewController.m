@@ -185,14 +185,10 @@
     VC.delegate = self;
     VC.orderId = item.OrderNo;
     VC.fromType = @"orderList";
-    VC.userLevel = item.Product.Userlevel;
+    VC.userLevel = item.Product.UserLevel;
     VC.orderproducttype = item.OrderProductType;
     [self.navigationController pushViewController:VC animated:YES];
     
-//    CusRefundPriceViewController *VC = [[CusRefundPriceViewController alloc] init];
-//    [self.navigationController pushViewController:VC animated:YES];
-//    CusAppealViewController *VC = [[CusAppealViewController alloc] init];
-//    [self.navigationController pushViewController:VC animated:YES];
 }
 -(void)didClickOrderBtn:(UIButton *)btn
 {

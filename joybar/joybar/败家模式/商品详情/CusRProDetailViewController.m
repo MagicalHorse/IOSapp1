@@ -338,6 +338,11 @@
 
 -(void)didClickBuy:(UIButton *)btn
 {
+    if (!TOKEN)
+    {
+        [Public showLoginVC:self];
+        return;
+    }
     //我要买
     CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
     VC.detailData = prodata;

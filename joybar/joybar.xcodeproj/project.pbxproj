@@ -435,6 +435,10 @@
 		9DF36CE41B0039BC00637206 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF36CE21B0039BC00637206 /* Reachability.m */; };
 		9DF36CE71B003A3B00637206 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF36CE61B003A3B00637206 /* Common.m */; };
 		9DF6C2C81B58F100005FB71E /* ProductPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF6C2C71B58F100005FB71E /* ProductPicture.m */; };
+		9DFFE6F61C3513B700648F7C /* RefundTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFFE6F41C3513B700648F7C /* RefundTableViewCell.m */; };
+		9DFFE6F71C3513B700648F7C /* RefundTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DFFE6F51C3513B700648F7C /* RefundTableViewCell.xib */; };
+		9DFFE6FB1C35170C00648F7C /* RefundTableViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFFE6F91C35170C00648F7C /* RefundTableViewCell2.m */; };
+		9DFFE6FC1C35170C00648F7C /* RefundTableViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DFFE6FA1C35170C00648F7C /* RefundTableViewCell2.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1143,6 +1147,12 @@
 		9DF36CE61B003A3B00637206 /* Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Common.m; sourceTree = "<group>"; };
 		9DF6C2C61B58F100005FB71E /* ProductPicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPicture.h; sourceTree = "<group>"; };
 		9DF6C2C71B58F100005FB71E /* ProductPicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPicture.m; sourceTree = "<group>"; };
+		9DFFE6F31C3513B700648F7C /* RefundTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefundTableViewCell.h; sourceTree = "<group>"; };
+		9DFFE6F41C3513B700648F7C /* RefundTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefundTableViewCell.m; sourceTree = "<group>"; };
+		9DFFE6F51C3513B700648F7C /* RefundTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefundTableViewCell.xib; sourceTree = "<group>"; };
+		9DFFE6F81C35170C00648F7C /* RefundTableViewCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefundTableViewCell2.h; sourceTree = "<group>"; };
+		9DFFE6F91C35170C00648F7C /* RefundTableViewCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefundTableViewCell2.m; sourceTree = "<group>"; };
+		9DFFE6FA1C35170C00648F7C /* RefundTableViewCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefundTableViewCell2.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2234,6 +2244,12 @@
 			children = (
 				9D744DAC1B2EB2EE00553648 /* CusRefundPriceViewController.h */,
 				9D744DAD1B2EB2EE00553648 /* CusRefundPriceViewController.m */,
+				9DFFE6F31C3513B700648F7C /* RefundTableViewCell.h */,
+				9DFFE6F41C3513B700648F7C /* RefundTableViewCell.m */,
+				9DFFE6F51C3513B700648F7C /* RefundTableViewCell.xib */,
+				9DFFE6F81C35170C00648F7C /* RefundTableViewCell2.h */,
+				9DFFE6F91C35170C00648F7C /* RefundTableViewCell2.m */,
+				9DFFE6FA1C35170C00648F7C /* RefundTableViewCell2.xib */,
 				9D744DAE1B2EB2EE00553648 /* CusRefundPriceViewController.xib */,
 				0A6C19201C327BE400A8BFA7 /* CusRefundPriceVipController.h */,
 				0A6C19211C327BE400A8BFA7 /* CusRefundPriceVipController.m */,
@@ -2601,6 +2617,7 @@
 				9DADD0C81B8598C1004475C2 /* UMShareEditViewControlleriPad.xib in Resources */,
 				0AAB5B891B2AE01900782C0C /* biaoqing059.png in Resources */,
 				9DADD0CB1B8598C1004475C2 /* UMSShareListController.xib in Resources */,
+				9DFFE6FC1C35170C00648F7C /* RefundTableViewCell2.xib in Resources */,
 				0A86666D1BF57C700070CBDB /* BindVipViewController.xib in Resources */,
 				9DADD0CC1B8598C1004475C2 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				0AAB5B5A1B2AE01900782C0C /* biaoqing012.png in Resources */,
@@ -2650,6 +2667,7 @@
 				0AAB5B521B2AE01900782C0C /* biaoqing004.png in Resources */,
 				0AD940DB1BFF0A0F0096D6E8 /* CusBueryTableViewCell.xib in Resources */,
 				0AAB5BA01B2AE01900782C0C /* biaoqing082.png in Resources */,
+				9DFFE6F71C3513B700648F7C /* RefundTableViewCell.xib in Resources */,
 				0AAB5B961B2AE01900782C0C /* biaoqing072.png in Resources */,
 				0AAB5B581B2AE01900782C0C /* biaoqing010.png in Resources */,
 				9DADD0C71B8598C1004475C2 /* UMShareEditViewController.xib in Resources */,
@@ -2943,6 +2961,7 @@
 				0AAB5BAB1B2AE01900782C0C /* OrderListData.m in Sources */,
 				0AEDFAB01C0D9233003A9757 /* FindBueryViewController.m in Sources */,
 				0A53051D1B12C05300997BF4 /* UIView+WebCacheOperation.m in Sources */,
+				9DFFE6FB1C35170C00648F7C /* RefundTableViewCell2.m in Sources */,
 				0AAB5BB31B2AE01900782C0C /* HomeTableView.m in Sources */,
 				0AAB5B3F1B2AE01900782C0C /* CusChatViewController.m in Sources */,
 				0AAB5B261B2AE01900782C0C /* MakeSureOrderViewController.m in Sources */,
@@ -2954,6 +2973,7 @@
 				0AAB5B2E1B2AE01900782C0C /* CusCircleDetailViewController.m in Sources */,
 				0A90EAE91B1D485C00F789E2 /* ViewUtils.m in Sources */,
 				9D42E9531B27DAF200C85400 /* BuyerCircleViewController.m in Sources */,
+				9DFFE6F61C3513B700648F7C /* RefundTableViewCell.m in Sources */,
 				9DDB17161AE7741F0014D8B2 /* MBProgressHUD+Add.m in Sources */,
 				9D8CDE681B00BEBC00B8708B /* SelectCityViewController.m in Sources */,
 				0AAB5B301B2AE01900782C0C /* CusInviteFriendViewController.m in Sources */,

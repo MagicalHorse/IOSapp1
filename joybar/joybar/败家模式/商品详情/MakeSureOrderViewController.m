@@ -407,7 +407,7 @@
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.30];
     CGRect rect = self.view.frame;
-    rect.origin.y = -120;
+    rect.origin.y = -140;
     self.view.frame = rect;
     [UIView commitAnimations];
     return YES;
@@ -423,7 +423,6 @@
     
     [textField resignFirstResponder];
     return  YES;
-
 }
 
 @end

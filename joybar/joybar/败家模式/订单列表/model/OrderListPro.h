@@ -17,7 +17,7 @@
 @property (nonatomic ,strong) NSString *Price;
 @property (nonatomic ,strong) NSString *ProductCount;
 @property (nonatomic ,strong) NSString *Image;
-@property (nonatomic ,strong) NSString *Userlevel;
-
+@property (nonatomic ,strong) NSString *UserLevel;
+@property (nonatomic ,strong) NSString *CanRma;
 
 @end
