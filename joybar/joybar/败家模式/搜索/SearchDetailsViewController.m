@@ -86,7 +86,7 @@
         [dict setObject:self.storeId forKey:@"StoreId"];
     }
     [dict setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"Page"];
-    [dict setObject:@"6" forKey:@"Pagesize"];
+    [dict setObject:@"10" forKey:@"Pagesize"];
     if (type ==1) {
         url =@"v3/searchproduct";
         [dict setObject:userId forKey:@"userId"];
@@ -116,7 +116,7 @@
         if (isSuccessful) {
             NSMutableArray *array =[NSMutableArray arrayWithArray:[[json objectForKey:@"data"]objectForKey:@"items"]];
             if (type==1) {
-                if (array.count<6) {
+                if (array.count<10) {
                     [self.tableView hiddenFooter:YES];
                 }
                 else
@@ -131,7 +131,7 @@
                 }
                 
             }else if(type ==2){
-                if (array.count<6) {
+                if (array.count<10) {
                     [self.tableView hiddenFooter:YES];
                 }
                 else
@@ -154,7 +154,7 @@
                     
                 }
                 
-                if (array.count<6) {
+                if (array.count<10) {
                     [self.tableView hiddenFooter:YES];
                 }
                 else
@@ -169,7 +169,7 @@
                 }
 
             }else if(type ==4){
-                if (array.count<6) {
+                if (array.count<10) {
                     [self.tableView hiddenFooter:YES];
                 }
                 else
