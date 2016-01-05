@@ -300,15 +300,13 @@
             timerLab.text = @"立即购买";
             timerLab.textAlignment = NSTextAlignmentCenter;
             buyLab.hidden = YES;
-            timeBtn.userInteractionEnabled = YES;
         }
         else
         {
             [timeLab setCountDownTime:[prodata.RemainTime intValue]];
-            timerLab.text = @" 距离开始:";
+            timerLab.text = @"      距离开始:";
             timerLab.textAlignment = NSTextAlignmentLeft;
             buyLab.hidden = NO;
-            timeBtn.userInteractionEnabled = NO;
         }
         [timeLab start];
 }
@@ -319,10 +317,9 @@
     {
         [timerLabel setCountDownTime:[prodata.BusinessTime integerValue]];
         prodata.IsStart = @"0";
-        timerLab.text = @" 距离开始:";
+        timerLab.text = @"      距离开始:";
         timerLab.textAlignment = NSTextAlignmentLeft;
         buyLab.hidden = NO;
-        timeBtn.userInteractionEnabled = NO;
     }
     else
     {
@@ -331,7 +328,6 @@
         timerLab.text = @"立即购买";
         timerLab.textAlignment = NSTextAlignmentCenter;
         buyLab.hidden = YES;
-        timeBtn.userInteractionEnabled = YES;
     }
     [timerLabel start];
 }
@@ -343,12 +339,16 @@
         [Public showLoginVC:self];
         return;
     }
+    if (![timerLab.text isEqualToString:@"立即购买"])
+    {
+        [self hudShowWithText:@"活动未开始"];
+        return;
+    }
     //我要买
     CusChatViewController *VC = [[CusChatViewController alloc] initWithUserId:prodata.BuyerId AndTpye:2 andUserName:prodata.BuyerName];
     VC.detailData = prodata;
     VC.isFrom = isFromBuyPro;
     [self.navigationController pushViewController:VC animated:YES];
-    
 }
 
 -(void)didClickReturnBtn

@@ -44,6 +44,7 @@
 @property (nonatomic ,strong) NSDictionary *localtionDic;
 @property (nonatomic ,strong) NSArray *subjectArr;
 
+@property (nonatomic ,assign) BOOL isStart;
 
 @end
 
@@ -55,6 +56,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.isStart = NO;
     self.bannerArr = [NSMutableArray array];
     self.homeArr = [NSMutableArray array];
     _pageNum = 1;
@@ -342,16 +344,21 @@
 -(void)reverseGeocoder:(MKReverseGeocoder *)geocoder
       didFindPlacemark:(MKPlacemark *)placemark
 {
+    [geocoder cancel];
     NSLog(@"*******************************%@",placemark.subLocality);
     [self textHUDHiddle];
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@ %@",placemark.locality,placemark.subLocality] forKey:@"cityName"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [locationBtn setTitle:placemark.locality forState:(UIControlStateNormal)];
-    [self getBannerData];
-    if (!self.localtionDic)
+
+    if (self.isStart)
     {
-        [self getCityInfo];
+        return;
     }
+    self.isStart = YES;
+    [self getBannerData];
+    [self.homeTableView.dataArr removeAllObjects];
+    [self getCityInfo];
 }
 
 -(void)getCityInfo

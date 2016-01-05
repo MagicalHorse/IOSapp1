@@ -31,6 +31,7 @@
 @property (nonatomic ,strong) HomeStoreData *storeData;
 
 @property (nonatomic ,assign) NSInteger pageNum;
+@property (nonatomic ,strong) NSMutableArray *tempArr;
 
 @end
 
@@ -60,6 +61,7 @@
 {
     [super viewDidLoad];
     self.dataSource = [NSMutableArray array];
+    self.tempArr = [NSMutableArray array];
     self.pageNum = 1;
     self.view.backgroundColor = kCustomColor(245, 246, 247);
     //    [self addNavBarViewAndTitle:self.userName];
@@ -135,6 +137,20 @@
             [self.collectionView reloadData];
             [self.collectionView headerEndRefreshing];
             [self.collectionView footerEndRefreshing];
+            
+            for (int i=0; i<self.dataSource.count; i++)
+            {
+                NSString *isfavorite = [NSString stringWithFormat:@"%@",[self.dataSource[i] objectForKey:@"IsFavorite"]];
+                if ([isfavorite boolValue])
+                {
+                    [self.tempArr addObject:@"1"];
+                }
+                else
+                {
+                    [self.tempArr addObject:@"0"];
+                }
+            }
+
         }
         else
         {
@@ -310,6 +326,8 @@
     }
     if (self.dataSource.count>0)
     {
+        cell.tempArr = self.tempArr;
+        cell.indexPath = indexPath;
         float height = [[[[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]*IMAGEHEiGHT;
         [cell setCollectionData:[self.dataSource objectAtIndex:indexPath.row] andHeight:height];
     }

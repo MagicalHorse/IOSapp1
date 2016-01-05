@@ -83,6 +83,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    buyBgView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 240);
+    [tempView removeFromSuperview];
     if ([chatRoomData objectForKey:@"id"])
     {
         [self creatRoom];
@@ -97,6 +99,7 @@
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.kuCunArr = [json objectForKey:@"data"];
+            [self addBuyView];
         }
         else
         {
@@ -116,9 +119,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (self.isFrom==isFromBuyPro) {
-        [self getKuCunData];
-    }
     
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
@@ -542,19 +542,24 @@
 
 -(void)changeTableViewFrameWhileShow:(BOOL)isAction
 {
-//    if(isAction == NO){
-//        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-216-49-64);
-//        if([self.messageArr count] != 0){
-//            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
-//            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-//        }
-//    }else{
-//        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-49-164);
-//        if([self.messageArr count] != 0){
-//            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
-//            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-//        }
-//    }
+    if(isAction == NO)
+    {
+        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-216-49-64);
+        if([self.messageArr count] != 0)
+        {
+            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
+            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
+    }
+    else
+    {
+        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-49-164);
+        if([self.messageArr count] != 0)
+        {
+            NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
+            [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
+    }
 }
 
 -(void)changeTableViewFrameWhileHidden
@@ -622,14 +627,6 @@
             NSString *myId = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
             if ([fromUserId isEqualToString:myId])
             {
-//                UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-10-150, 18, 100, 20)];
-//                nameLab.textAlignment = NSTextAlignmentRight;
-//                nameLab.text = @"我自己";
-//                nameLab.backgroundColor = [UIColor clearColor];
-//                nameLab.font = [UIFont systemFontOfSize:13];
-//                nameLab.textColor = [UIColor grayColor];
-//                [cell.contentView addSubview:nameLab];
-                
                 UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-10-40, 15, 40, 40)];
                 headerImage.layer.cornerRadius = headerImage.width/2;
                 headerImage.clipsToBounds = YES;
@@ -765,6 +762,14 @@
 //立即购买
 -(void)didClickBuyBtn
 {
+    if (self.isFrom==isFromBuyPro) {
+        [self getKuCunData];
+    }
+
+}
+
+-(void)addBuyView
+{
     if (self.kuCunArr.count==0)
     {
         return;
@@ -824,17 +829,27 @@
     self.sizeId = [sizeArr[0]objectForKey:@"SizeId"];
     self.sizeNum = [sizeArr[0]objectForKey:@"Inventory"];
     self.sizeName = [sizeArr[0]objectForKey:@"SizeName"];
-
+    
     sizeBtn.clickBtnBlock = ^(UIButton *btn,NSInteger index)
     {
+        NSString *count = [sizeArr[index] objectForKey:@"Inventory"];
+        
         self.sizeId = [sizeArr[index]objectForKey:@"SizeId"];
         self.sizeNum = [sizeArr[index]objectForKey:@"Inventory"];
         self.sizeName = [sizeArr[index]objectForKey:@"SizeName"];
         kuCunLab.text = [NSString stringWithFormat:@"库存%@件",self.sizeNum];
-        self.priceNum = 0;
-        buyNumLab.text = @"0";
+        if ([count integerValue]>0)
+        {
+            self.priceNum = 1;
+            buyNumLab.text = @"1";
+        }
+        else
+        {
+            self.priceNum = 0;
+            buyNumLab.text = @"0";
+        }
     };
-
+    
     UIView *line1 = [[UIView alloc] init];
     if (self.detailData.Sizes.count>0)
     {
@@ -888,10 +903,26 @@
     
     kuCunLab = [[UILabel alloc] initWithFrame:CGRectMake(numView.right+10, numView.top+5, 150, 20)];
     kuCunLab.textColor = [UIColor redColor];
+    if ([self.sizeNum integerValue]>5)
+    {
+        kuCunLab.hidden = YES;
+    }
+    else
+    {
+        kuCunLab.hidden = NO;
+    }
+    if ([self.sizeNum integerValue]>5)
+    {
+        kuCunLab.hidden = YES;
+    }
+    else
+    {
+        kuCunLab.hidden = NO;
+    }
     kuCunLab.text = [NSString stringWithFormat:@"库存%@件",self.sizeNum];
     kuCunLab.font = [UIFont systemFontOfSize:15];
     [buyBgView addSubview:kuCunLab];
-
+    
     if ([[sizeArr[0]objectForKey:@"Inventory"] integerValue]==0)
     {
         //库存为0
@@ -928,6 +959,7 @@
     [UIView animateWithDuration:0.25 animations:^{
         buyBgView.frame = CGRectMake(0, kScreenHeight-240-height-20, kScreenWidth, 240+height+20);
     }];
+
 }
 
 //增加

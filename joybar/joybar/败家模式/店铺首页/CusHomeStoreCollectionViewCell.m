@@ -14,7 +14,7 @@
 }
 
 -(void)setCollectionData:(NSDictionary *)dic andHeight:(NSInteger)height
-{
+{    
     dataDic = dic;
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, IMAGEHEiGHT, height)];
     NSString *imgUrl = [NSString stringWithFormat:@"%@",[[dic objectForKey:@"pic"] objectForKey:@"pic"]];
@@ -29,19 +29,7 @@
     nameLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"Name"]];
     nameLab.numberOfLines = 2;
     nameLab.font = [UIFont systemFontOfSize:13];
-    
-    
-//    CGSize size = [Public getContentSizeWith:nameLab.text andFontSize:13 andWidth:IMAGEHEiGHT-10];
-//    if (size.height>30)
-//    {
-        nameLab.frame = CGRectMake(5, 5, IMAGEHEiGHT-10, 35);
-//    }
-//    else
-//    {
-//        nameLab.frame = CGRectMake(5, 5, IMAGEHEiGHT-10, size.height);
-//    }
-//    nameLab.frame = CGRectMake(5, 5, IMAGEHEiGHT-10, size.height);
-
+    nameLab.frame = CGRectMake(5, 5, IMAGEHEiGHT-10, 35);
     [bgView addSubview:nameLab];
     
     //白色背景高度
@@ -62,7 +50,8 @@
     UIButton *clickZan = [UIButton buttonWithType:(UIButtonTypeCustom)];
     clickZan.frame = CGRectMake(IMAGEHEiGHT-50, nameLab.bottom+7, 60, 20);
     clickZan.backgroundColor = [UIColor clearColor];
-    if (![[dic objectForKey:@"IsFavorite"] boolValue])
+    clickZan.tag = 100+self.indexPath.row;
+    if (![self.tempArr[self.indexPath.row] boolValue])
     {
         [clickZan setImage:[UIImage imageNamed:@"weishoucang"] forState:(UIControlStateNormal)];
         clickZan.selected = NO;
@@ -103,11 +92,13 @@
             {
                 [btn setImage:[UIImage imageNamed:@"weishoucang"] forState:(UIControlStateNormal)];
                 btn.selected = NO;
+                [self.tempArr replaceObjectAtIndex:btn.tag-100 withObject:@"0"];
             }
             else
             {
                 [btn setImage:[UIImage imageNamed:@"yishoucang"] forState:(UIControlStateNormal)];
                 btn.selected = YES;
+                [self.tempArr replaceObjectAtIndex:btn.tag-100 withObject:@"1"];
             }
 //            [self.delegate collectHandle];
         }

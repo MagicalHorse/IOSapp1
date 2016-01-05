@@ -355,7 +355,6 @@
 		9D7301F91AE5DF3E0046F97C /* UIView+Shadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7301F81AE5DF3E0046F97C /* UIView+Shadow.m */; };
 		9D73A9AE1BFEBFA7009C0AAD /* CusRProDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D73A9AD1BFEBFA7009C0AAD /* CusRProDetailCell.m */; };
 		9D744DAF1B2EB2EE00553648 /* CusRefundPriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D744DAD1B2EB2EE00553648 /* CusRefundPriceViewController.m */; };
-		9D744DB01B2EB2EE00553648 /* CusRefundPriceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DAE1B2EB2EE00553648 /* CusRefundPriceViewController.xib */; };
 		9D744DB51B2ED29100553648 /* CusAppealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D744DB31B2ED29100553648 /* CusAppealViewController.m */; };
 		9D744DB61B2ED29100553648 /* CusAppealViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D744DB41B2ED29100553648 /* CusAppealViewController.xib */; };
 		9D744DF01B300A3800553648 /* CusAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D744DEE1B300A3800553648 /* CusAboutViewController.m */; };
@@ -400,8 +399,10 @@
 		9DADD0D81B8598C1004475C2 /* ios-social-sdk-share-quick.html in Resources */ = {isa = PBXBuildFile; fileRef = 9DADD0BF1B8598C1004475C2 /* ios-social-sdk-share-quick.html */; };
 		9DADD0D91B8598C1004475C2 /* ios-social-sdk-socialBar.html in Resources */ = {isa = PBXBuildFile; fileRef = 9DADD0C01B8598C1004475C2 /* ios-social-sdk-socialBar.html */; };
 		9DADD0DA1B8598C1004475C2 /* markdown.css in Resources */ = {isa = PBXBuildFile; fileRef = 9DADD0C11B8598C1004475C2 /* markdown.css */; };
+		9DB38D761C3A576F005BF7E5 /* CusOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DB38D751C3A576F005BF7E5 /* CusOrderDetailViewController.m */; };
+		9DB38D791C3A580E005BF7E5 /* RefundTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DB38D771C3A580E005BF7E5 /* RefundTableViewCell.m */; };
+		9DB38D7A1C3A580E005BF7E5 /* RefundTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DB38D781C3A580E005BF7E5 /* RefundTableViewCell.xib */; };
 		9DCD42841B6A229600BD5CBE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DCD42831B6A229600BD5CBE /* QuartzCore.framework */; };
-		9DCD428A1B6F03EA00BD5CBE /* CusOrderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AAB5AD61B2AE01900782C0C /* CusOrderDetailViewController.m */; };
 		9DD1B6831B4E495D00E4DA12 /* Promotions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD1B6821B4E495D00E4DA12 /* Promotions.m */; };
 		9DD1B6B81B5368DD00E4DA12 /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DD1B6B71B5368DD00E4DA12 /* BannerViewController.m */; };
 		9DDB17141AE7741F0014D8B2 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DDB168B1AE7741F0014D8B2 /* 37x-Checkmark.png */; };
@@ -435,8 +436,6 @@
 		9DF36CE41B0039BC00637206 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF36CE21B0039BC00637206 /* Reachability.m */; };
 		9DF36CE71B003A3B00637206 /* Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF36CE61B003A3B00637206 /* Common.m */; };
 		9DF6C2C81B58F100005FB71E /* ProductPicture.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF6C2C71B58F100005FB71E /* ProductPicture.m */; };
-		9DFFE6F61C3513B700648F7C /* RefundTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFFE6F41C3513B700648F7C /* RefundTableViewCell.m */; };
-		9DFFE6F71C3513B700648F7C /* RefundTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DFFE6F51C3513B700648F7C /* RefundTableViewCell.xib */; };
 		9DFFE6FB1C35170C00648F7C /* RefundTableViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DFFE6F91C35170C00648F7C /* RefundTableViewCell2.m */; };
 		9DFFE6FC1C35170C00648F7C /* RefundTableViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9DFFE6FA1C35170C00648F7C /* RefundTableViewCell2.xib */; };
 /* End PBXBuildFile section */
@@ -732,7 +731,6 @@
 		0AAB5AD31B2AE01900782C0C /* CusOrderDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusOrderDetailTableViewCell.m; sourceTree = "<group>"; };
 		0AAB5AD41B2AE01900782C0C /* CusOrderDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusOrderDetailTableViewCell.xib; sourceTree = "<group>"; };
 		0AAB5AD51B2AE01900782C0C /* CusOrderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusOrderDetailViewController.h; sourceTree = "<group>"; };
-		0AAB5AD61B2AE01900782C0C /* CusOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusOrderDetailViewController.m; sourceTree = "<group>"; };
 		0AAB5AD71B2AE01900782C0C /* CusOrderListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusOrderListTableViewCell.h; sourceTree = "<group>"; };
 		0AAB5AD81B2AE01900782C0C /* CusOrderListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusOrderListTableViewCell.m; sourceTree = "<group>"; };
 		0AAB5AD91B2AE01900782C0C /* CusOrderListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusOrderListTableViewCell.xib; sourceTree = "<group>"; };
@@ -1020,7 +1018,6 @@
 		9D73A9AD1BFEBFA7009C0AAD /* CusRProDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusRProDetailCell.m; sourceTree = "<group>"; };
 		9D744DAC1B2EB2EE00553648 /* CusRefundPriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusRefundPriceViewController.h; sourceTree = "<group>"; };
 		9D744DAD1B2EB2EE00553648 /* CusRefundPriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusRefundPriceViewController.m; sourceTree = "<group>"; };
-		9D744DAE1B2EB2EE00553648 /* CusRefundPriceViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusRefundPriceViewController.xib; sourceTree = "<group>"; };
 		9D744DB21B2ED29100553648 /* CusAppealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CusAppealViewController.h; sourceTree = "<group>"; };
 		9D744DB31B2ED29100553648 /* CusAppealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusAppealViewController.m; sourceTree = "<group>"; };
 		9D744DB41B2ED29100553648 /* CusAppealViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CusAppealViewController.xib; sourceTree = "<group>"; };
@@ -1092,6 +1089,9 @@
 		9DADD0BF1B8598C1004475C2 /* ios-social-sdk-share-quick.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "ios-social-sdk-share-quick.html"; sourceTree = "<group>"; };
 		9DADD0C01B8598C1004475C2 /* ios-social-sdk-socialBar.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "ios-social-sdk-socialBar.html"; sourceTree = "<group>"; };
 		9DADD0C11B8598C1004475C2 /* markdown.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = markdown.css; sourceTree = "<group>"; };
+		9DB38D751C3A576F005BF7E5 /* CusOrderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CusOrderDetailViewController.m; sourceTree = "<group>"; };
+		9DB38D771C3A580E005BF7E5 /* RefundTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefundTableViewCell.m; sourceTree = "<group>"; };
+		9DB38D781C3A580E005BF7E5 /* RefundTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefundTableViewCell.xib; sourceTree = "<group>"; };
 		9DCD42831B6A229600BD5CBE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9DD1B6811B4E495D00E4DA12 /* Promotions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Promotions.h; sourceTree = "<group>"; };
 		9DD1B6821B4E495D00E4DA12 /* Promotions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Promotions.m; sourceTree = "<group>"; };
@@ -1148,8 +1148,6 @@
 		9DF6C2C61B58F100005FB71E /* ProductPicture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductPicture.h; sourceTree = "<group>"; };
 		9DF6C2C71B58F100005FB71E /* ProductPicture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductPicture.m; sourceTree = "<group>"; };
 		9DFFE6F31C3513B700648F7C /* RefundTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefundTableViewCell.h; sourceTree = "<group>"; };
-		9DFFE6F41C3513B700648F7C /* RefundTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefundTableViewCell.m; sourceTree = "<group>"; };
-		9DFFE6F51C3513B700648F7C /* RefundTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefundTableViewCell.xib; sourceTree = "<group>"; };
 		9DFFE6F81C35170C00648F7C /* RefundTableViewCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefundTableViewCell2.h; sourceTree = "<group>"; };
 		9DFFE6F91C35170C00648F7C /* RefundTableViewCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefundTableViewCell2.m; sourceTree = "<group>"; };
 		9DFFE6FA1C35170C00648F7C /* RefundTableViewCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefundTableViewCell2.xib; sourceTree = "<group>"; };
@@ -1682,7 +1680,7 @@
 			isa = PBXGroup;
 			children = (
 				0AAB5AD51B2AE01900782C0C /* CusOrderDetailViewController.h */,
-				0AAB5AD61B2AE01900782C0C /* CusOrderDetailViewController.m */,
+				9DB38D751C3A576F005BF7E5 /* CusOrderDetailViewController.m */,
 				0AAB5AD21B2AE01900782C0C /* CusOrderDetailTableViewCell.h */,
 				0AAB5AD31B2AE01900782C0C /* CusOrderDetailTableViewCell.m */,
 				0AAB5AD41B2AE01900782C0C /* CusOrderDetailTableViewCell.xib */,
@@ -2245,12 +2243,11 @@
 				9D744DAC1B2EB2EE00553648 /* CusRefundPriceViewController.h */,
 				9D744DAD1B2EB2EE00553648 /* CusRefundPriceViewController.m */,
 				9DFFE6F31C3513B700648F7C /* RefundTableViewCell.h */,
-				9DFFE6F41C3513B700648F7C /* RefundTableViewCell.m */,
-				9DFFE6F51C3513B700648F7C /* RefundTableViewCell.xib */,
+				9DB38D771C3A580E005BF7E5 /* RefundTableViewCell.m */,
+				9DB38D781C3A580E005BF7E5 /* RefundTableViewCell.xib */,
 				9DFFE6F81C35170C00648F7C /* RefundTableViewCell2.h */,
 				9DFFE6F91C35170C00648F7C /* RefundTableViewCell2.m */,
 				9DFFE6FA1C35170C00648F7C /* RefundTableViewCell2.xib */,
-				9D744DAE1B2EB2EE00553648 /* CusRefundPriceViewController.xib */,
 				0A6C19201C327BE400A8BFA7 /* CusRefundPriceVipController.h */,
 				0A6C19211C327BE400A8BFA7 /* CusRefundPriceVipController.m */,
 				0A6C19221C327BE400A8BFA7 /* CusRefundPriceVipController.xib */,
@@ -2613,7 +2610,6 @@
 				9DADD0D41B8598C1004475C2 /* ios-social-sdk-login-detail.html in Resources */,
 				0AAB5B531B2AE01900782C0C /* biaoqing005.png in Resources */,
 				0AAB5B721B2AE01900782C0C /* biaoqing036.png in Resources */,
-				9D744DB01B2EB2EE00553648 /* CusRefundPriceViewController.xib in Resources */,
 				9DADD0C81B8598C1004475C2 /* UMShareEditViewControlleriPad.xib in Resources */,
 				0AAB5B891B2AE01900782C0C /* biaoqing059.png in Resources */,
 				9DADD0CB1B8598C1004475C2 /* UMSShareListController.xib in Resources */,
@@ -2660,6 +2656,7 @@
 				0AAB5B621B2AE01900782C0C /* biaoqing020.png in Resources */,
 				9D42E9571B27DAF200C85400 /* BuyerComeInDesTableViewCell.xib in Resources */,
 				9DDB17191AE7741F0014D8B2 /* TipViewErrorIcon.png in Resources */,
+				9DB38D7A1C3A580E005BF7E5 /* RefundTableViewCell.xib in Resources */,
 				0AAB5B561B2AE01900782C0C /* biaoqing008.png in Resources */,
 				0AAB59E11B2850D800782C0C /* BuyerPaymentTableViewCell.xib in Resources */,
 				0AAB5B9C1B2AE01900782C0C /* biaoqing078.png in Resources */,
@@ -2667,7 +2664,6 @@
 				0AAB5B521B2AE01900782C0C /* biaoqing004.png in Resources */,
 				0AD940DB1BFF0A0F0096D6E8 /* CusBueryTableViewCell.xib in Resources */,
 				0AAB5BA01B2AE01900782C0C /* biaoqing082.png in Resources */,
-				9DFFE6F71C3513B700648F7C /* RefundTableViewCell.xib in Resources */,
 				0AAB5B961B2AE01900782C0C /* biaoqing072.png in Resources */,
 				0AAB5B581B2AE01900782C0C /* biaoqing010.png in Resources */,
 				9DADD0C71B8598C1004475C2 /* UMShareEditViewController.xib in Resources */,
@@ -2898,10 +2894,10 @@
 				0DB5B0221ACCDEE6000FE9C8 /* UIViewExt.m in Sources */,
 				9D42E9541B27DAF200C85400 /* BuyerFansTableViewCell.m in Sources */,
 				0A5305121B12C05300997BF4 /* SDWebImageDecoder.m in Sources */,
-				9DCD428A1B6F03EA00BD5CBE /* CusOrderDetailViewController.m in Sources */,
 				9DE5CFD11C1136A900B2C77A /* DaYangGouDis.m in Sources */,
 				9D467EF91B05C4FA005CAA36 /* NSObject+MJCoding.m in Sources */,
 				0AAB5B091B2AE01900782C0C /* CusMineViewController.m in Sources */,
+				9DB38D761C3A576F005BF7E5 /* CusOrderDetailViewController.m in Sources */,
 				9D5D2E541B60BF7200DBFDC3 /* TGRImageViewController.m in Sources */,
 				9D5D2E561B60BF7200DBFDC3 /* TGRImageZoomAnimationController.m in Sources */,
 				9D42E94F1B27DAF200C85400 /* BuerySotres.m in Sources */,
@@ -2973,7 +2969,6 @@
 				0AAB5B2E1B2AE01900782C0C /* CusCircleDetailViewController.m in Sources */,
 				0A90EAE91B1D485C00F789E2 /* ViewUtils.m in Sources */,
 				9D42E9531B27DAF200C85400 /* BuyerCircleViewController.m in Sources */,
-				9DFFE6F61C3513B700648F7C /* RefundTableViewCell.m in Sources */,
 				9DDB17161AE7741F0014D8B2 /* MBProgressHUD+Add.m in Sources */,
 				9D8CDE681B00BEBC00B8708B /* SelectCityViewController.m in Sources */,
 				0AAB5B301B2AE01900782C0C /* CusInviteFriendViewController.m in Sources */,
@@ -2991,6 +2986,7 @@
 				0AAB5B341B2AE01900782C0C /* CircleDetailUser.m in Sources */,
 				0AAB5B291B2AE01900782C0C /* ProDetailSize.m in Sources */,
 				0AAB5B241B2AE01900782C0C /* CusProDetailViewController.m in Sources */,
+				9DB38D791C3A580E005BF7E5 /* RefundTableViewCell.m in Sources */,
 				0AAB59DC1B283B9A00782C0C /* BuyerPaymentDtsViewController.m in Sources */,
 				0AE40A751C2007E500C7D103 /* MJRefreshHeaderView.m in Sources */,
 				0AAB5B121B2AE01900782C0C /* FansItems.m in Sources */,

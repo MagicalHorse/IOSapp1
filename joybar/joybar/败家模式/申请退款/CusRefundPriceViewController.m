@@ -8,13 +8,18 @@
 
 #import "CusRefundPriceViewController.h"
 #import "RefundTableViewCell.h"
-@interface CusRefundPriceViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "RefundTableViewCell2.h"
+@interface CusRefundPriceViewController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 
 @property (nonatomic ,assign) NSInteger priceNum;
 
 @property (nonatomic ,strong) UITableView *tableView;
 
 @property (nonatomic ,strong) NSMutableArray *proArr;
+
+@property (nonatomic ,strong) NSString *price;
+
+@property (nonatomic ,strong) NSDictionary *orderDic;
 
 @end
 
@@ -32,52 +37,12 @@
     [self addNavBarViewAndTitle:@"申请退款"];
     self.view.backgroundColor = kCustomColor(240, 241, 242);
     
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64) style:(UITableViewStylePlain)];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self getProData];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickScroll)];
-    [self.scrollView addGestureRecognizer:tap];
-    
-    self.refundText.layer.borderColor = [UIColor grayColor].CGColor;
-    self.refundText.layer.borderWidth = 0.5;
-    self.refundText.layer.cornerRadius = 3;
-    NSString *tempUrl = [NSString stringWithFormat:@"%@",self.proImageStr];
-    [self.proImage sd_setImageWithURL:[NSURL URLWithString:tempUrl] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-    self.proName.text = self.proNameStr;
-    self.proNumLab.text = [NSString stringWithFormat:@"x%@",self.proNumStr];
-    self.proSizeLab.text = self.proSizeStr;
-    self.proPriceLab.text = [NSString stringWithFormat:@"￥%@",self.proPriceStr];
-    self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",[self.proPriceStr floatValue]*[self.proNumStr floatValue]];
-    
-//    UIView *numView = [[UIView alloc] initWithFrame:CGRectMake(self.proStatusLab.left, self.refundPriceLab.bottom+25, 120, 30)];
-//    numView.backgroundColor = kCustomColor(240, 240, 240);
-//    numView.layer.cornerRadius = 4;
-//    numView.layer.borderWidth = 0.5f;
-//    numView.layer.borderColor = kCustomColor(223, 223, 223).CGColor;
-//    [self.bgView addSubview:numView];
-    
-//    UIButton *addBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-//    addBtn.frame = CGRectMake(numView.width-44, 0, 44, numView.height);
-//    [addBtn setImage:[UIImage imageNamed:@"加号icon"] forState:(UIControlStateNormal)];
-//    [addBtn setTitleColor:[UIColor grayColor] forState:(UIControlStateNormal)];
-//    addBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-//    addBtn.backgroundColor = [UIColor clearColor];
-//    [addBtn addTarget:self action:@selector(didCLickAddNum) forControlEvents:(UIControlEventTouchUpInside)];
-//    [numView addSubview:addBtn];
-//    
-//    UIButton *minusBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-//    minusBtn.frame = CGRectMake(0, 0, 44, numView.height);
-//    [minusBtn setImage:[UIImage imageNamed:@"减号可点击icon"] forState:(UIControlStateNormal)];
-//    [minusBtn setTitleColor:[UIColor grayColor] forState:(UIControlStateNormal)];
-//    minusBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-//    minusBtn.backgroundColor = [UIColor clearColor];
-//    [minusBtn addTarget:self action:@selector(didClickDecrease) forControlEvents:(UIControlEventTouchUpInside)];
-//    [numView addSubview:minusBtn];
-    
-//    buyNumLab = [[UILabel alloc] initWithFrame:CGRectMake(44, 0, numView.width-88, numView.height)];
-//    buyNumLab.backgroundColor = [UIColor whiteColor];
-//    buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
-//    buyNumLab.textAlignment = NSTextAlignmentCenter;
-//    [numView addSubview:buyNumLab];
     
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreenHeight-49, kScreenWidth, 49)];
     bottomView.backgroundColor = [UIColor whiteColor];
@@ -96,57 +61,27 @@
     [bottomView addSubview:btn];
 }
 
-////增加
-//-(void)didCLickAddNum
-//{
-//    if (self.priceNum>=[self.proNumStr integerValue])
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"超过购买数量" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-//        [alert show];
-//        return;
-//    }
-//    
-//    self.priceNum+=1;
-//    buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
-//    CGFloat price = self.priceNum*[self.proPriceStr doubleValue];
-//    self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",price];
-//}
-//
-////减少
-//-(void)didClickDecrease
-//{
-//    if (self.priceNum<1)
-//    {
-//        return;
-//    }
-//    else
-//    {
-//        self.priceNum-=1;
-//        buyNumLab.text = [NSString stringWithFormat:@"%ld",(long)self.priceNum];
-//        CGFloat price = self.priceNum*[self.proPriceStr doubleValue];
-//        self.refundPriceLab.text = [NSString stringWithFormat:@"￥%.2f",price];
-//    }
-//}
 
 //提交申请
 -(void)didClickRefundBtn
 {
+    RefundTableViewCell2 *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.proArr.count inSection:0]];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:self.orderNum forKey:@"OrderNo"];
-    NSString *price = [self.refundPriceLab.text stringByReplacingOccurrencesOfString:@"￥" withString:@""];
+    [dic setObject:[self.orderDic objectForKey:@"OrderNo"] forKey:@"OrderNo"];
+    NSString *price = [self.orderDic objectForKey:@"ActualAmount"];
     if([price floatValue]==0)
     {
         [self showHudFailed:@"退款金额不能为0"];
         return;
     }
-    [dic setObject:self.proNumStr forKey:@"Count"];
-    if ([self.refundText.text isEqualToString:@""])
+    [dic setObject:@"0" forKey:@"Count"];
+    if ([cell.refundTextView.text isEqualToString:@""])
     {
         [self showHudFailed:@"请填写退款理由"];
         
         return;
     }
-    [dic setObject:self.refundText.text forKey:@"Reason"];
+    [dic setObject:cell.refundTextView.text forKey:@"Reason"];
     
     [self hudShow:@"正在申请退款..."];
     [HttpTool postWithURL:@"Order/Apply_Rma" params:dic isWrite:YES success:^(id json) {
@@ -169,11 +104,6 @@
         [self textHUDHiddle];
     } failure:^(NSError *error) {
     }];
-}
-
--(void)didClickScroll
-{
-    [self.scrollView endEditing:YES];
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
@@ -207,6 +137,8 @@
         [self hiddleHud];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
+            self.price = [NSString stringWithFormat:@"%@",[[json objectForKey:@"data"] objectForKey:@"ActualAmount"]];
+            self.orderDic = [json objectForKey:@"data"];
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"Product"];
             [self.proArr addObjectsFromArray:arr];
             
@@ -228,7 +160,6 @@
     return self.proArr.count+1;
 }
 
-
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row<self.proArr.count)
@@ -238,24 +169,48 @@
         if (cell==nil) {
             cell = [[NSBundle mainBundle] loadNibNamed:@"RefundTableViewCell" owner:self options:nil].lastObject;
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell setData:self.proArr[indexPath.row]];
-        
         return cell;
     }
-    
     else
     {
-        static NSString *iden = @"cell";
-        RefundTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+        static NSString *iden = @"cell1";
+        RefundTableViewCell2 *cell = [tableView dequeueReusableCellWithIdentifier:iden];
         if (cell==nil) {
-            cell = [[NSBundle mainBundle] loadNibNamed:@"RefundTableViewCell" owner:self options:nil].lastObject;
+            cell = [[NSBundle mainBundle] loadNibNamed:@"RefundTableViewCell2" owner:self options:nil].lastObject;
         }
-        [cell setData:self.proArr[indexPath.row]];
+        cell.backgroundColor = kCOLOR(244);
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if ([self.price isEqualToString:@""])
+        {
+            cell.refundPrice.text = [NSString stringWithFormat:@"￥%@",@"0"];
+        }
+        else
+        {
+            cell.refundPrice.text = [NSString stringWithFormat:@"￥%@",self.price];
+        }
         
         return cell;
-
     }
+}
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row<self.proArr.count)
+    {
+        return 94;
+    }
+    else
+    {
+        return 267;
+    }
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    RefundTableViewCell2 *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.proArr.count inSection:0]];
+    [cell.refundTextView resignFirstResponder];
 }
 
 @end

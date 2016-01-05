@@ -83,8 +83,6 @@
     
     UILabel *priceLab = [[UILabel alloc] initWithFrame:CGRectMake(0, 15, kScreenWidth-80, 20)];
     priceLab.textAlignment = NSTextAlignmentRight;
-//    CGFloat price = [self.detailData.Price floatValue]*[self.buyNum floatValue];
-//    NSLog(@"%f",price);
     
     priceLab.text = [NSString stringWithFormat:@"合计: ￥%.2f",[[self.priceDic objectForKey:@"saletotalamount"] floatValue]];
     priceLab.textColor = [UIColor redColor];
@@ -242,6 +240,37 @@
             [view removeFromSuperview];
         }
         
+        
+        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
+        lab.text = self.detailData.Promotion.Name;
+        lab.font = [UIFont systemFontOfSize:14];
+        [cell.contentView addSubview:lab];
+        
+        UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
+        lab1.textAlignment = NSTextAlignmentRight;
+        if (self.priceDic) {
+            lab1.text = [NSString stringWithFormat:@"立减 %.2f",[[self.priceDic objectForKey:@"discountamount"] floatValue]];
+        }
+        lab1.font = [UIFont systemFontOfSize:14];
+        [cell.contentView addSubview:lab1];
+
+        return cell;
+
+    }
+    else if(indexPath.section==3)
+    {
+        static NSString *iden = @"cell3";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+        if (cell==nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        for (UIView *view in cell.contentView.subviews)
+        {
+            [view removeFromSuperview];
+        }
+        
         UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 20, 70, 20)];
         lab.text = @"提货电话:";
         lab.font = [UIFont systemFontOfSize:14];
@@ -264,35 +293,6 @@
         lab1.font = [UIFont systemFontOfSize:11];
         [cell.contentView addSubview:lab1];
         
-        return cell;
-
-    }
-    else if(indexPath.section==3)
-    {
-        static NSString *iden = @"cell3";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-        if (cell==nil)
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        for (UIView *view in cell.contentView.subviews)
-        {
-            [view removeFromSuperview];
-        }
-        
-        UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
-        lab.text = self.detailData.Promotion.Name;
-        lab.font = [UIFont systemFontOfSize:14];
-        [cell.contentView addSubview:lab];
-        
-        UILabel *lab1 = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-215, 15, 200, 20)];
-        lab1.textAlignment = NSTextAlignmentRight;
-        if (self.priceDic) {
-            lab1.text = [NSString stringWithFormat:@"立减 %.2f",[[self.priceDic objectForKey:@"discountamount"] floatValue]];
-        }
-        lab1.font = [UIFont systemFontOfSize:14];
-        [cell.contentView addSubview:lab1];
 
         return cell;
     }
@@ -317,9 +317,9 @@
     }
     else if (indexPath.section==2)
     {
-        return 80;
+        return 50;
     }
-    return 50;
+    return 80;
 }
 
 //确认
@@ -331,6 +331,12 @@
 //    [dic setValue:self.sizeId forKey:@"SizeId"];
     [dic setValue:self.sizeId forKey:@"SizeId"];
 
+    if (phoneText.text.length>11)
+    {
+        [self showHudFailed:@"请填写正确的手机号"];
+        return;
+
+    }
     if ([phoneText.text isEqualToString:@""])
     {
         [self showHudFailed:@"请填写提货电话"];

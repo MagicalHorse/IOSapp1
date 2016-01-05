@@ -110,7 +110,7 @@
             }
             else
             {
-                [btn setTitle:@"关注" forState:(UIControlStateNormal)];
+                [self.delegate cancelAttentionDelegate];
                 fanDataModel.isFavorite =@"0";
             }
         }

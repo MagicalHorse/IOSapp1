@@ -23,6 +23,11 @@
 
 -(void) setData:(NSDictionary *)dic
 {
+    [self.proImage sd_setImageWithURL:[NSURL URLWithString:[dic objectForKey:@"ProductPic"]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    self.proName.text = [dic objectForKey:@"ProductName"];
+    self.proSizeLab.text = [NSString stringWithFormat:@"%@",[dic objectForKey:@"SizeName"]];
+    self.proNumLab.text = [NSString stringWithFormat:@"x%@",[dic objectForKey:@"ProductCount"]];
+    self.proPriceLab.text = [NSString stringWithFormat:@"￥%@",[dic objectForKey:@"Price"]];
     
 }
 @end

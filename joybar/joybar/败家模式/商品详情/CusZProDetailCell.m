@@ -87,11 +87,13 @@
         [self.contentView addSubview:priceLab];
         
         UILabel *originalPriceLab = [[UILabel alloc] init];
-        CGSize originalPriceSize = [Public getContentSizeWith:priceLab.text andFontSize:14 andHigth:20];
-        originalPriceLab.text = [NSString stringWithFormat:@"￥%@",proData.UnitPrice];
+        originalPriceLab.text = [NSString stringWithFormat:@"￥%.2f",[proData.UnitPrice floatValue]];
+        
+        CGSize originalPriceSize = [Public getContentSizeWith:originalPriceLab.text andFontSize:14 andHigth:20];
+
         originalPriceLab.textColor = [UIColor grayColor];
         originalPriceLab.font = [UIFont systemFontOfSize:14];
-        originalPriceLab.frame = CGRectMake(priceLab.right+10, imageScrollView.bottom+5, originalPriceSize.width+20, 20);
+        originalPriceLab.frame = CGRectMake(priceLab.right+10, imageScrollView.bottom+5, originalPriceSize.width+5, 20);
         [self.contentView addSubview:originalPriceLab];
         
         UILabel *grayLine = [[UILabel alloc] initWithFrame:CGRectMake(originalPriceLab.left, imageScrollView.bottom+16, originalPriceLab.width, 1)];
@@ -109,13 +111,19 @@
         [self.contentView addSubview:discountLab];
         
         UILabel *titleLab = [[UILabel alloc] init];
-        titleLab.text = proData.ProductName;
+        if (proData.BrandName)
+        {
+            titleLab.text = [NSString stringWithFormat:@"#%@#%@",proData.BrandName,proData.ProductName];
+        }
+        else
+        {
+            titleLab.text = proData.ProductName;
+        }
         titleLab.font = [UIFont systemFontOfSize:14];
         titleLab.numberOfLines = 0;
         CGSize titleSize = [Public getContentSizeWith:titleLab.text andFontSize:14 andWidth:kScreenWidth-15];
         titleLab.frame = CGRectMake(10, priceLab.bottom+5, kScreenWidth-15, titleSize.height);
         [self.contentView addSubview:titleLab];
-        
     }
     
     else if (indexPath.section==1)
@@ -295,6 +303,15 @@
         remind.font = [UIFont systemFontOfSize:12];
         [self.contentView addSubview:remind];
         
+        if (proData.IsCanRam)
+        {
+            remind.hidden = YES;
+        }
+        else
+        {
+            remind.hidden = NO;
+        }
+        
         __block NSArray *selectArr = selectSizeArr;
         __block NSString *color = colorStr;
         __block UILabel *buyLab = buyNumLab;
@@ -415,7 +432,7 @@
         line.backgroundColor = kCustomColor(238, 238, 238);
         [self.contentView addSubview:line];
         
-        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, kScreenWidth, 210)];
+        scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, kScreenWidth, proData.ProductPic.count*210)];
         scroll.contentSize = CGSizeMake(kScreenWidth*3, 0);
         scroll.scrollEnabled = NO;
         [self.contentView addSubview:scroll];
@@ -441,12 +458,17 @@
         [sizeImage sd_setImageWithURL:[NSURL URLWithString:proData.SizeContrastPic] placeholderImage:[UIImage imageNamed:@"placeholder"]];
         [scroll addSubview:sizeImage];
         
-        UILabel *storeService = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth*2, 0, kScreenWidth, 210)];
         
-        NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[proData.StoreService dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-        storeService.numberOfLines = 0;
-        storeService.attributedText = attrStr;
-        [scroll addSubview:storeService];
+//        UILabel *storeService = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth*2, 0, kScreenWidth, 400)];
+//        NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[proData.StoreService dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+//        storeService.numberOfLines = 0;
+//        storeService.attributedText = attrStr;
+//        [scroll addSubview:storeService];
+//        
+        UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(kScreenWidth*2, 0, kScreenWidth, proData.ProductPic.count*210)];
+        [web loadHTMLString:proData.StoreService baseURL:nil];
+        [scroll addSubview:web];
+
     }
 }
 //UIScrollViewDelegate方法

@@ -48,6 +48,8 @@
     [super viewWillAppear:animated];
     
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+
 }
 
 -(void)initNoDataView

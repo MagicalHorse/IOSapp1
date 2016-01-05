@@ -138,9 +138,9 @@
     {
         [view removeFromSuperview];
     }
-    float height = [[[[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]*IMAGEHEiGHT;
     if (self.dataSource.count>0)
     {
+        float height = [[[[self.dataSource objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]*IMAGEHEiGHT;
         [cell setCollectionData:[self.dataSource objectAtIndex:indexPath.row] andHeight:height];
     }
     

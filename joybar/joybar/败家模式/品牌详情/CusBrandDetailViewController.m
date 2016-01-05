@@ -23,6 +23,8 @@
 
 @property (nonatomic ,strong) UICollectionView *collectionView;
 
+@property (nonatomic ,strong) NSMutableArray *tempArr;
+
 @end
 
 
@@ -42,6 +44,7 @@
     // Do any additional setup after loading the view.
     self.pageNum = 1;
     self.tagArr = [NSMutableArray array];
+    self.tempArr = [NSMutableArray array];
     
     self.view.backgroundColor = kCustomColor(234, 239, 239);
     
@@ -123,6 +126,18 @@
                 self.collectionView.footerHidden = NO;
             }
             [self.tagArr addObjectsFromArray:arr];
+            for (int i=0; i<self.tagArr.count; i++)
+            {
+                NSString *isfavorite = [NSString stringWithFormat:@"%@",[self.tagArr[i] objectForKey:@"IsFavorite"]];
+                if ([isfavorite boolValue])
+                {
+                    [self.tempArr addObject:@"1"];
+                }
+                else
+                {
+                    [self.tempArr addObject:@"0"];
+                }
+            }
             [self.collectionView reloadData];
         }
         else
@@ -146,10 +161,19 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *proId = [[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"Id"];
-//    CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
-    CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-    VC.productId = proId;
-    [self.navigationController pushViewController:VC animated:YES];
+    NSString *userLevel = [NSString stringWithFormat:@"%@",[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"UserLevel"]];
+    if ([userLevel isEqualToString:@"8"])
+    {
+        CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
+        VC.productId = proId;
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    else
+    {
+        CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+        VC.productId = proId;
+        [self.navigationController pushViewController:VC animated:YES];
+    }
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -163,15 +187,11 @@
     {
         [view removeFromSuperview];
     }
-//    UIImageView *tagImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.height)];
-//    NSString *imageURL = [NSString stringWithFormat:@"%@",[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"Pic"]];
-//    [tagImage sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-//    [cell.contentView addSubview:tagImage];
     
     float height = [[[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
-    
+    cell.tempArr = self.tempArr;
+    cell.indexPath = indexPath;
     [cell setCollectionData:[self.tagArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-15)/2*height];
-
     
     return cell;
 }
@@ -188,28 +208,5 @@
     return size1;
 }
 
-
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-//{
-//    UICollectionReusableView *reusableView = nil;
-//    
-//    if ([kind isEqualToString:CHTCollectionElementKindSectionHeader])
-//    {
-//        reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:HEADER_IDENTIFIER forIndexPath:indexPath];
-//        for (UIView *view in reusableView.subviews)
-//        {
-//            [view removeFromSuperview];
-//        }
-//        [self addHeaderView:reusableView];
-//    }
-//    return reusableView;
-//}
-//-(void)addHeaderView:(UIView *)contentView
-//{
-//    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth*0.618)];
-//    bgView.backgroundColor  =[UIColor orangeColor];
-//    [contentView addSubview:bgView];
-//    
-//}
 
 @end

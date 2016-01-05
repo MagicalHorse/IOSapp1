@@ -18,6 +18,10 @@
 
 -(void)setCollectionData:(NSDictionary *)dic andHeight:(NSInteger)height;
 
+@property (nonatomic ,strong) NSMutableArray *tempArr;
+@property (nonatomic ,strong) NSIndexPath *indexPath;
+
 @property (nonatomic ,assign) id<handleCollectDelegate> delegate;
+
 
 @end

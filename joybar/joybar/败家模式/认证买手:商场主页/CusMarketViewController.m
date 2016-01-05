@@ -25,6 +25,7 @@
 @property (nonatomic ,strong) NSDictionary *infoDic;
 @property (nonatomic ,strong) NSMutableArray *brandArr;
 @property (nonatomic ,assign) int pageNum;
+@property (nonatomic ,strong) NSMutableArray *tempArr;
 
 @end
 
@@ -46,6 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.brandArr = [NSMutableArray array];
+    self.tempArr = [NSMutableArray array];
     [self addNavBarViewAndTitle:self.titleName];
     self.pageNum = 1;
     self.proArr = [NSMutableArray array];
@@ -127,6 +129,20 @@
             }
             [self.proArr addObjectsFromArray:arr];
             [self.collectionView reloadData];
+            for (int i=0; i<self.proArr.count; i++)
+            {
+                NSString *isfavorite = [NSString stringWithFormat:@"%@",[self.proArr[i] objectForKey:@"IsFavorite"]];
+                if ([isfavorite boolValue])
+                {
+                    [self.tempArr addObject:@"1"];
+                }
+                else
+                {
+                    [self.tempArr addObject:@"0"];
+                }
+            }
+
+            
         }
         else
         {
@@ -177,7 +193,11 @@
     }
     if (self.proArr.count>0)
     {
+        cell.tempArr = self.tempArr;
+        cell.indexPath = indexPath;
+
         float height = [[[[self.proArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]*IMAGEHEiGHT;
+        
         [cell setCollectionData:[self.proArr objectAtIndex:indexPath.row] andHeight:height];
     }
     return cell;

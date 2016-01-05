@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface RefundTableViewCell2 : UITableViewCell
-
+@property (strong, nonatomic) IBOutlet UILabel *refundPrice;
+@property (strong, nonatomic) IBOutlet UITextView *refundTextView;
 @end

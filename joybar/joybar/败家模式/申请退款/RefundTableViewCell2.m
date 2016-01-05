@@ -11,13 +11,9 @@
 @implementation RefundTableViewCell2
 
 - (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+        self.refundTextView.layer.borderColor = [UIColor grayColor].CGColor;
+        self.refundTextView.layer.borderWidth = 0.5;
+        self.refundTextView.layer.cornerRadius = 3;
 }
 
 @end

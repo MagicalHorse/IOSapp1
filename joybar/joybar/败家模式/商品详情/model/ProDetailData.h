@@ -32,6 +32,7 @@
 @property (nonatomic ,copy) NSString *IsJoinDeiscount;
 @property (nonatomic ,copy) NSString *VipDiscount;
 @property (nonatomic ,copy) NSString *ShareLink;
+@property (nonatomic ,copy) NSString *IsCanRam;
 
 @property (nonatomic ,copy) NSString *BusinessTime;
 @property (nonatomic ,copy) NSString *IsStart;

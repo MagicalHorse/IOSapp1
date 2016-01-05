@@ -22,6 +22,11 @@
     self.payCount.text = [NSString stringWithFormat:@"￥%@",self.proPrice];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
 - (IBAction)didClickWXPay:(id)sender
 {
     AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -63,4 +68,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PayCancleNotification" object:nil];
 }
 
+-(void)returnBtnClicked:(UIButton *)button
+{
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-3] animated:YES];
+}
 @end

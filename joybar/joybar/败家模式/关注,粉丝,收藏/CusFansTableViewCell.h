@@ -8,8 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "fansModel.h"
+
+@protocol cancelAttentionDelegate <NSObject>
+
+-(void)cancelAttentionDelegate;
+
+@end
+
 @interface CusFansTableViewCell : UITableViewCell
 
 -(void)setData:(FansModel *)fanModel;
+
+@property (nonatomic ,assign) id<cancelAttentionDelegate>delegate;
+
 
 @end

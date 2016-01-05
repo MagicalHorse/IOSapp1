@@ -14,7 +14,7 @@
 #import "CusMainStoreViewController.h"
 #define MJRandomData [NSString stringWithFormat:@"随机数据---%d", arc4random_uniform(1000000)]
 
-@interface CusAttentionViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+@interface CusAttentionViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,cancelAttentionDelegate>
 
 @property (nonatomic ,strong) BaseTableView *tableView;
 
@@ -211,6 +211,7 @@
     if (cell==nil)
     {
         cell = [[CusFansTableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+        cell.delegate = self;
     }
     
     for (UIView *view in cell.contentView.subviews)
@@ -310,6 +311,13 @@
     
     //搜索
     return YES;
+}
+
+-(void)cancelAttentionDelegate
+{
+    [self.attentionArr removeAllObjects];
+    self.pageNum = 1;
+    [self getData];
 }
 
 @end

@@ -38,7 +38,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, kScreenWidth, kScreenHeight-64-49) style:(UITableViewStylePlain)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -83,7 +82,7 @@
              "完成"  18,
              */
             NSString *status = self.detailData.OrderStatus;
-            NSString *userlevel = [NSString stringWithFormat:@"%@",[self.proArr[0] objectForKey:@"UserLevel"]];
+            self.userLevel = [NSString stringWithFormat:@"%@",[self.proArr[0] objectForKey:@"UserLevel"]];
             NSString *canRma = self.detailData.CanRma;
             if ([status isEqualToString:@"0"])
             {
@@ -92,7 +91,7 @@
             }
             else if ([status isEqualToString:@"1"])
             {
-                if ([userlevel isEqualToString:@"4"]&&[canRma isEqualToString:@"0"])
+                if ([self.userLevel isEqualToString:@"4"]&&[canRma isEqualToString:@"0"])
                 {
                     cancelBtn.hidden = YES;
                     payBtn.hidden = NO;
@@ -108,7 +107,7 @@
             }
             else if ([status isEqualToString:@"16"]||[status isEqualToString:@"15"])
             {
-                if ([userlevel isEqualToString:@"4"]&&[canRma isEqualToString:@"0"])
+                if ([self.userLevel isEqualToString:@"4"]&&[canRma isEqualToString:@"0"])
                 {
                     cancelBtn.hidden = YES;
                     payBtn.hidden = YES;
@@ -571,7 +570,7 @@
     {
         AppDelegate *app =(AppDelegate *)[UIApplication sharedApplication].delegate;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(paySuccessHandle) name:@"PaySuccessNotification" object:nil];
-        [app sendPay_demo:self.detailData.OrderNo andName:self.detailData.ProductName andPrice:self.detailData.ActualAmount];
+        [app sendPay_demo:self.detailData.OrderNo andName:[self.proArr.firstObject objectForKey:@"ProductName"] andPrice:self.detailData.ActualAmount];
     }
     else if ([btn.titleLabel.text isEqual:@"确认提货"])
     {
@@ -582,34 +581,22 @@
     {
         
         if ([self.detailData.OrderStatus isEqualToString:@"1"]&&[self.orderproducttype isEqualToString:@"4"]&&[self.userLevel isEqualToString:@"4"])
-        {
-            
+        {            
             CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
-//            VC.proImageStr = self.detailData.ProductPic;
-//            VC.proNameStr = self.detailData.ProductName;
-//            VC.proNumStr = self.detailData.ProductCount;
-//            VC.proPriceStr = self.detailData.Price;
-//            VC.orderNum = self.detailData.OrderNo;
-//            VC.proSizeStr = [NSString stringWithFormat:@"%@:%@",self.detailData.SizeName,self.detailData.SizeValue];
             VC.orderNo = self.detailData.OrderNo;
             [self.navigationController pushViewController:VC animated:YES];
-
         }
         else if ([self.userLevel isEqualToString:@"8"]&&([self.detailData.OrderStatus isEqualToString:@"1"]||[self.detailData.OrderStatus isEqualToString:@"16"]||[self.detailData.OrderStatus isEqualToString:@"15"]))
         {
-            
             CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
             VC.orderNo = self.detailData.OrderNo;
             [self.navigationController pushViewController:VC animated:YES];
-
         }
         else
         {
-            
             CusRefundPriceVipController *VC = [[CusRefundPriceVipController alloc] init];
             VC.orderNo = self.detailData.OrderNo;
             [self.navigationController pushViewController:VC animated:YES];
-
         }
     }
     else if ([btn.titleLabel.text isEqual:@"撤销退款"])
@@ -685,11 +672,9 @@
         }
         else if ([self.userLevel isEqualToString:@"8"]&&([self.detailData.OrderStatus isEqualToString:@"1"]||[self.detailData.OrderStatus isEqualToString:@"16"]||[self.detailData.OrderStatus isEqualToString:@"15"]))
         {
-            
             CusRefundPriceViewController *VC  = [[CusRefundPriceViewController alloc] init];
             VC.orderNo = self.detailData.OrderNo;
             [self.navigationController pushViewController:VC animated:YES];
-            
         }
         else
         {

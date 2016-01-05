@@ -67,30 +67,26 @@
         [self.contentView addSubview:priceLab];
         
         UILabel *originalPriceLab = [[UILabel alloc] init];
-        CGSize originalPriceSize = [Public getContentSizeWith:priceLab.text andFontSize:14 andHigth:20];
-        originalPriceLab.text = [NSString stringWithFormat:@"￥%@",proData.UnitPrice];
+        originalPriceLab.text = [NSString stringWithFormat:@"￥%.2f",[proData.Price floatValue]];
+        CGSize originalPriceSize = [Public getContentSizeWith:originalPriceLab.text andFontSize:14 andHigth:20];
         originalPriceLab.textColor = [UIColor grayColor];
         originalPriceLab.font = [UIFont systemFontOfSize:14];
-        originalPriceLab.frame = CGRectMake(priceLab.right+10, imageScrollView.bottom+5, originalPriceSize.width+10, 20);
+        originalPriceLab.frame = CGRectMake(priceLab.right+10, imageScrollView.bottom+5, originalPriceSize.width+5, 20);
         [self.contentView addSubview:originalPriceLab];
         
         UILabel *grayLine = [[UILabel alloc] initWithFrame:CGRectMake(originalPriceLab.left, imageScrollView.bottom+16, originalPriceLab.width, 1)];
         grayLine.backgroundColor = [UIColor grayColor];
         [self.contentView addSubview:grayLine];
         
-//        UILabel *discountLab = [[UILabel alloc] init];
-//        discountLab.backgroundColor = [UIColor redColor];
-//        discountLab.text  = @"1.1折";
-//        discountLab.textColor = [UIColor whiteColor];
-//        discountLab.font = [UIFont systemFontOfSize:11];
-//        discountLab.textAlignment = NSTextAlignmentCenter;
-//        CGSize discountSize = [Public getContentSizeWith:discountLab.text andFontSize:11 andHigth:20];
-//        discountLab.frame = CGRectMake(originalPriceLab.right+10, imageScrollView.bottom+7, discountSize.width+6, 16);
-//        [self.contentView addSubview:discountLab];
-        
-        
         UILabel *titleLab = [[UILabel alloc] init];
-        titleLab.text = proData.ProductName;
+        if (proData.BrandName)
+        {
+            titleLab.text = [NSString stringWithFormat:@"#%@#%@",proData.BrandName,proData.ProductName];
+        }
+        else
+        {
+            titleLab.text = proData.ProductName;
+        }
         titleLab.font = [UIFont systemFontOfSize:14];
         titleLab.numberOfLines = 0;
         CGSize titleSize = [Public getContentSizeWith:titleLab.text andFontSize:14 andWidth:kScreenWidth-15];
