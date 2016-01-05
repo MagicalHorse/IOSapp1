@@ -152,9 +152,9 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (IsBingVip) {
-        return 6;
+        return 5;
     }
-    return 4;
+    return 3;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -373,74 +373,75 @@
             [cell.contentView addSubview:lab1];
             
             return cell;
-        } else if(indexPath.section==5)
-        {
-            static NSString *iden = @"cell5";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-            if (cell==nil)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-                
-                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
-                lab.text = @"发票抬头：";
-                lab.font = [UIFont systemFontOfSize:14];
-                [cell.contentView addSubview:lab];
-                
-                
-                
-                desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
-
-                desText.borderStyle = UITextBorderStyleNone;
-                desText.placeholder = @"请输入";
-                
-                desText.layer.borderColor = kCustomColor(195, 196, 197).CGColor;
-                desText.layer.borderWidth =1;
-                desText.layer.cornerRadius = 2;
-                desText.font = [UIFont systemFontOfSize:14];
-                desText.delegate =self;
-                [cell.contentView addSubview:desText];
-                desText.userInteractionEnabled =NO;
-              
-                
-                btnBgview = [[UIView alloc] initWithFrame:CGRectMake(85, 15, kScreenWidth-85, 20)];
-                btnBgview.backgroundColor = [UIColor clearColor];
-                [cell.contentView addSubview:btnBgview];
-                
-                
-                
-            }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            for (UIView *view in btnBgview.subviews) {
-                [view removeFromSuperview];
-            }
-            
-            NSArray *arr = @[@" 无",@" 公司",@" 个人"];
-            for (int i=0; i<3; i++)
-            {
-                UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-                btn.frame = CGRectMake(5+65*i, 0, 60, 20);
-                if ([self.tempArr[i] isEqualToString:@"0"]) {
-                    [btn setImage:[UIImage imageNamed:@"选择"] forState:(UIControlStateNormal)];
-                }
-                else
-                {
-                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
-                }
-                
-                [btn setTitle:arr[i] forState:(UIControlStateNormal)];
-                if (i==0) {
-                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
-                }
-                btn.titleLabel.font = [UIFont systemFontOfSize:13];
-                [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-                [btn addTarget:self action:@selector(selectFaPiao:) forControlEvents:(UIControlEventTouchUpInside)];
-                [btnBgview addSubview:btn];
-                btn.tag = 100+i;
-                [self.btnArr addObject:btn];
-            }
-            return cell;
         }
+//        else if(indexPath.section==5)
+//        {
+//            static NSString *iden = @"cell5";
+//            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+//            if (cell==nil)
+//            {
+//                cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+//                
+//                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
+//                lab.text = @"发票抬头：";
+//                lab.font = [UIFont systemFontOfSize:14];
+//                [cell.contentView addSubview:lab];
+//                
+//                
+//                
+//                desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
+//
+//                desText.borderStyle = UITextBorderStyleNone;
+//                desText.placeholder = @"请输入";
+//                
+//                desText.layer.borderColor = kCustomColor(195, 196, 197).CGColor;
+//                desText.layer.borderWidth =1;
+//                desText.layer.cornerRadius = 2;
+//                desText.font = [UIFont systemFontOfSize:14];
+//                desText.delegate =self;
+//                [cell.contentView addSubview:desText];
+//                desText.userInteractionEnabled =NO;
+//              
+//                
+//                btnBgview = [[UIView alloc] initWithFrame:CGRectMake(85, 15, kScreenWidth-85, 20)];
+//                btnBgview.backgroundColor = [UIColor clearColor];
+//                [cell.contentView addSubview:btnBgview];
+//                
+//                
+//                
+//            }
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            
+//            for (UIView *view in btnBgview.subviews) {
+//                [view removeFromSuperview];
+//            }
+//            
+//            NSArray *arr = @[@" 无",@" 公司",@" 个人"];
+//            for (int i=0; i<3; i++)
+//            {
+//                UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//                btn.frame = CGRectMake(5+65*i, 0, 60, 20);
+//                if ([self.tempArr[i] isEqualToString:@"0"]) {
+//                    [btn setImage:[UIImage imageNamed:@"选择"] forState:(UIControlStateNormal)];
+//                }
+//                else
+//                {
+//                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+//                }
+//                
+//                [btn setTitle:arr[i] forState:(UIControlStateNormal)];
+//                if (i==0) {
+//                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+//                }
+//                btn.titleLabel.font = [UIFont systemFontOfSize:13];
+//                [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+//                [btn addTarget:self action:@selector(selectFaPiao:) forControlEvents:(UIControlEventTouchUpInside)];
+//                [btnBgview addSubview:btn];
+//                btn.tag = 100+i;
+//                [self.btnArr addObject:btn];
+//            }
+//            return cell;
+//        }
     }
     else {
         if(indexPath.section==2)
@@ -471,69 +472,69 @@
             
             return cell;
         }
-        else if(indexPath.section==3)
-        {
-            static NSString *iden = @"cell5";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
-            if (cell==nil)
-            {
-                cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
-                
-                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
-                lab.text = @"发票抬头：";
-                lab.font = [UIFont systemFontOfSize:14];
-                [cell.contentView addSubview:lab];
-                
-                
-                desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
-                desText.borderStyle = UITextBorderStyleNone;
-                desText.placeholder = @"请输入";
-                
-                desText.layer.borderColor = kCustomColor(195, 196, 197).CGColor;
-                desText.layer.borderWidth =1;
-                desText.layer.cornerRadius = 2;
-                desText.font = [UIFont systemFontOfSize:14];
-                desText.delegate =self;
-                [cell.contentView addSubview:desText];
-                desText.userInteractionEnabled=NO;
-                btnBgview = [[UIView alloc] initWithFrame:CGRectMake(85, 15, kScreenWidth-85, 20)];
-                btnBgview.backgroundColor = [UIColor clearColor];
-                [cell.contentView addSubview:btnBgview];
-                
-                
-                
-            }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            for (UIView *view in btnBgview.subviews) {
-                [view removeFromSuperview];
-            }
-            
-            NSArray *arr = @[@" 无",@" 公司",@" 个人"];
-            for (int i=0; i<3; i++)
-            {
-                UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-                btn.frame = CGRectMake(5+65*i, 0, 60, 20);
-                if ([self.tempArr[i] isEqualToString:@"0"]) {
-                    [btn setImage:[UIImage imageNamed:@"选择"] forState:(UIControlStateNormal)];
-                }
-                else
-                {
-                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
-                }
-                [btn setTitle:arr[i] forState:(UIControlStateNormal)];
-                if (i==0) {
-                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
-                }
-                btn.titleLabel.font = [UIFont systemFontOfSize:13];
-                [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-                [btn addTarget:self action:@selector(selectFaPiao:) forControlEvents:(UIControlEventTouchUpInside)];
-                [btnBgview addSubview:btn];
-                btn.tag = 100+i;
-                [self.btnArr addObject:btn];
-            }
-            return cell;
-        }
+//        else if(indexPath.section==3)
+//        {
+//            static NSString *iden = @"cell5";
+//            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:iden];
+//            if (cell==nil)
+//            {
+//                cell = [[UITableViewCell alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:iden];
+//                
+//                UILabel *lab = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, 70, 20)];
+//                lab.text = @"发票抬头：";
+//                lab.font = [UIFont systemFontOfSize:14];
+//                [cell.contentView addSubview:lab];
+//                
+//                
+//                desText = [[UITextField alloc] initWithFrame:CGRectMake(15, lab.top+25, kScreenWidth-30, 40)];
+//                desText.borderStyle = UITextBorderStyleNone;
+//                desText.placeholder = @"请输入";
+//                
+//                desText.layer.borderColor = kCustomColor(195, 196, 197).CGColor;
+//                desText.layer.borderWidth =1;
+//                desText.layer.cornerRadius = 2;
+//                desText.font = [UIFont systemFontOfSize:14];
+//                desText.delegate =self;
+//                [cell.contentView addSubview:desText];
+//                desText.userInteractionEnabled=NO;
+//                btnBgview = [[UIView alloc] initWithFrame:CGRectMake(85, 15, kScreenWidth-85, 20)];
+//                btnBgview.backgroundColor = [UIColor clearColor];
+//                [cell.contentView addSubview:btnBgview];
+//                
+//                
+//                
+//            }
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            
+//            for (UIView *view in btnBgview.subviews) {
+//                [view removeFromSuperview];
+//            }
+//            
+//            NSArray *arr = @[@" 无",@" 公司",@" 个人"];
+//            for (int i=0; i<3; i++)
+//            {
+//                UIButton *btn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+//                btn.frame = CGRectMake(5+65*i, 0, 60, 20);
+//                if ([self.tempArr[i] isEqualToString:@"0"]) {
+//                    [btn setImage:[UIImage imageNamed:@"选择"] forState:(UIControlStateNormal)];
+//                }
+//                else
+//                {
+//                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+//                }
+//                [btn setTitle:arr[i] forState:(UIControlStateNormal)];
+//                if (i==0) {
+//                    [btn setImage:[UIImage imageNamed:@"选中"] forState:(UIControlStateNormal)];
+//                }
+//                btn.titleLabel.font = [UIFont systemFontOfSize:13];
+//                [btn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+//                [btn addTarget:self action:@selector(selectFaPiao:) forControlEvents:(UIControlEventTouchUpInside)];
+//                [btnBgview addSubview:btn];
+//                btn.tag = 100+i;
+//                [self.btnArr addObject:btn];
+//            }
+//            return cell;
+//        }
     }
     
     return nil;
@@ -682,14 +683,14 @@
 {
     CusVipOrderProTableViewCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
     
-    if ([self.needInvoice isEqualToString:@"1"])
-    {
-        if (desText.text.length==0)
-        {
-            [self showHudFailed:@"请填写发票抬头"];
-            return;
-        }
-    }
+//    if ([self.needInvoice isEqualToString:@"1"])
+//    {
+//        if (desText.text.length==0)
+//        {
+//            [self showHudFailed:@"请填写发票抬头"];
+//            return;
+//        }
+//    }
     if ([phoneText.text isEqualToString:@""])
     {
         [self showHudFailed:@"请填写手机号"];
