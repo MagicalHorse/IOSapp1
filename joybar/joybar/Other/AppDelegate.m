@@ -17,6 +17,7 @@
 #import "OSSTool.h"
 #import "CusTabBarViewController.h"
 #import "MobClick.h"
+#import "DES3Util.h"
 @implementation AppDelegate
 {
     CusTabBarViewController *cusTabbar;
@@ -270,16 +271,34 @@
 
 //阿里云
 -(void)aliyunSet{
+    
+    [HttpTool postWithURL:@"Common/GetALiYunAccessKey" params:nil isWrite:NO success:^(id json){
+        
+        if ([[json objectForKey:@"isSuccessful"]boolValue]) {
+            
+            NSString *key = [[json objectForKey:@"data"] objectForKey:@"AccessKey"] ;
+            NSString *sign = [[json objectForKey:@"data"] objectForKey:@"AccessKeySecret"];
+            [Common saveUserDefault:[DES3Util decrypt:key] keyName:@"alykey"];
+            [Common saveUserDefault:[DES3Util decrypt:sign] keyName:@"alysign"];
+        }
+        
+    
+    } failure:^(NSError *error) {
+        
+    }];
     OSSClient *ossclient = [OSSClient sharedInstanceManage];
     [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
     [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
         NSString *signature = nil;
         NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
-        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
-        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
+        NSString *sign=[Common getUserDefaultKeyName:@"alysign"];
+        NSString *key =[Common getUserDefaultKeyName:@"alykey"];
+        signature = [OSSTool calBase64Sha1WithData:content withKey :sign];
+        signature = [NSString stringWithFormat:@"OSS %@:%@",key , signature];
         NSLog(@"here signature:%@", signature);
         return signature;
     }];
+    
 }
 
 #pragma mark--APNs处理部分
