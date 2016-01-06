@@ -182,7 +182,7 @@
         }
         cell.backgroundColor = kCOLOR(244);
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if ([self.price isEqualToString:@""])
+        if (!self.price)
         {
             cell.refundPrice.text = [NSString stringWithFormat:@"￥%@",@"0"];
         }
