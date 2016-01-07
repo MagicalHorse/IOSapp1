@@ -57,6 +57,8 @@
     {
         CusOrderDetailViewController *VC = [[CusOrderDetailViewController alloc] init];
         VC.orderId = self.orderNum;
+        
+        NSLog(@"***************************%@",self.orderNum);
         VC.fromType = @"payOrder";
         [self.navigationController pushViewController:VC animated:YES];
     }

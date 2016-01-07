@@ -185,8 +185,6 @@
     VC.delegate = self;
     VC.orderId = item.OrderNo;
     VC.fromType = @"orderList";
-    VC.userLevel = item.Product.UserLevel;
-    VC.orderproducttype = item.OrderProductType;
     [self.navigationController pushViewController:VC animated:YES];
     
 }

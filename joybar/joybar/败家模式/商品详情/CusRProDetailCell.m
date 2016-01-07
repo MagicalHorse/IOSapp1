@@ -67,7 +67,7 @@
         [self.contentView addSubview:priceLab];
         
         UILabel *originalPriceLab = [[UILabel alloc] init];
-        originalPriceLab.text = [NSString stringWithFormat:@"￥%.2f",[proData.Price floatValue]];
+        originalPriceLab.text = [NSString stringWithFormat:@"￥%.2f",[proData.UnitPrice floatValue]];
         CGSize originalPriceSize = [Public getContentSizeWith:originalPriceLab.text andFontSize:14 andHigth:20];
         originalPriceLab.textColor = [UIColor grayColor];
         originalPriceLab.font = [UIFont systemFontOfSize:14];
@@ -182,7 +182,7 @@
         [self.contentView addSubview:locationImg];
         
         UILabel *locationNameLab = [[UILabel alloc] initWithFrame:CGRectMake(locationImg.right, nameLab.bottom, kScreenWidth-150, 20)];
-        locationNameLab.text = proData.CityName;
+        locationNameLab.text = proData.PickAddress;
         locationNameLab.font = [UIFont systemFontOfSize:13];
         locationNameLab.textColor = [UIColor darkGrayColor];
         [self.contentView addSubview:locationNameLab];

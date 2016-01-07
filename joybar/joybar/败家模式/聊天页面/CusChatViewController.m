@@ -762,6 +762,7 @@
 //立即购买
 -(void)didClickBuyBtn
 {
+    [listView.messageTF resignFirstResponder];
     if (self.isFrom==isFromBuyPro) {
         [self getKuCunData];
     }

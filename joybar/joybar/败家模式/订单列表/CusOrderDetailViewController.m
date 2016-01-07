@@ -26,6 +26,10 @@
 @property (nonatomic ,strong) OrderDetailData *detailData;
 
 @property (nonatomic ,strong) NSArray *proArr;
+
+@property (nonatomic ,strong) NSString *userLevel;
+@property (nonatomic ,strong) NSString *orderproducttype;
+
 @end
 
 @implementation CusOrderDetailViewController
@@ -46,6 +50,12 @@
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self addNavBarViewAndTitle:@"订单详情"];
     [self initBottomView];
+
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self getData];
 }
 
@@ -57,6 +67,7 @@
     [HttpTool postWithURL:@"Order/GetUserOrderDetailV3" params:dic success:^(id json) {
         
         [self hiddleHud];
+        NSLog(@"%@",json);
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.detailData = [OrderDetailData objectWithKeyValues:[json objectForKey:@"data"]];
@@ -82,11 +93,12 @@
              "完成"  18,
              */
             NSString *status = self.detailData.OrderStatus;
+            self.orderproducttype = self.detailData.OrderProductType;
             self.userLevel = [NSString stringWithFormat:@"%@",[self.proArr[0] objectForKey:@"UserLevel"]];
             NSString *canRma = self.detailData.CanRma;
             if ([status isEqualToString:@"0"])
             {
-                cancelBtn.hidden = YES;
+                cancelBtn.hidden = NO;
                 payBtn.hidden = NO;
             }
             else if ([status isEqualToString:@"1"])

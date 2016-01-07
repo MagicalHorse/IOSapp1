@@ -383,7 +383,7 @@
         [self.contentView addSubview:locationImg];
         
         UILabel *locationNameLab = [[UILabel alloc] initWithFrame:CGRectMake(locationImg.right, nameLab.bottom, kScreenWidth-170, 20)];
-        locationNameLab.text = proData.CityName;
+        locationNameLab.text = proData.PickAddress;
         locationNameLab.font = [UIFont systemFontOfSize:13];
         locationNameLab.textColor = [UIColor darkGrayColor];
         [self.contentView addSubview:locationNameLab];

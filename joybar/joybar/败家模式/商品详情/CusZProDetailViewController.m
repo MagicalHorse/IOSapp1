@@ -428,6 +428,13 @@
         return;
     }
     
+    if ([prodata.PublishStatus integerValue]<1)
+    {
+        [self hudShowWithText:@"商品已下架"];
+
+        return;
+    }
+    
     if (![timerLab.text isEqualToString:@"立即购买"])
     {
         [self hudShowWithText:@"活动未开始"];

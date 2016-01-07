@@ -31,6 +31,7 @@
 @property (nonatomic ,copy) NSString *UserLevel;
 @property (nonatomic ,copy) NSString *CanRma;
 @property (nonatomic ,copy) NSString *CanInvoiced;
+@property (nonatomic ,copy) NSString *OrderProductType;
 
 
 @property (nonatomic ,strong) NSArray *Promotions;

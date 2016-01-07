@@ -302,14 +302,7 @@
         
         UILabel *discountPrice = [[UILabel alloc] initWithFrame:CGRectMake(price.right, 2, proImage.width/2, proImage.height/4-2)];
         discountPrice.textColor = [UIColor whiteColor];
-        if ([StoreLeave isEqualToString:@"8"])
-        {
-            discountPrice.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"Price"]];
-        }
-        else
-        {
-            discountPrice.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"UnitPrice"]];
-        }
+        discountPrice.text = [NSString stringWithFormat:@"￥%@",[proDic objectForKey:@"UnitPrice"]];
         discountPrice.font = [UIFont systemFontOfSize:11];
         [temp addSubview:discountPrice];
         
