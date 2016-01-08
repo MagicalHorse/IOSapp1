@@ -79,13 +79,13 @@
         [self.contentView addSubview:grayLine];
         
         UILabel *titleLab = [[UILabel alloc] init];
-        if (proData.BrandName)
+        if ([proData.BrandName isEqualToString:@""])
         {
-            titleLab.text = [NSString stringWithFormat:@"#%@#%@",proData.BrandName,proData.ProductName];
+            titleLab.text = proData.ProductName;
         }
         else
         {
-            titleLab.text = proData.ProductName;
+            titleLab.text = [NSString stringWithFormat:@"#%@#%@",proData.BrandName,proData.ProductName];
         }
         titleLab.font = [UIFont systemFontOfSize:14];
         titleLab.numberOfLines = 0;
@@ -141,7 +141,7 @@
     
     else if (indexPath.section==2)
     {
-        UILabel *brandLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 60, 40)];
+        UILabel *brandLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 200, 40)];
         brandLab.text = proData.BrandName;
         brandLab.textColor = [UIColor orangeColor];
         brandLab.font = [UIFont systemFontOfSize:15];
