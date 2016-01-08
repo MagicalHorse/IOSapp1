@@ -32,7 +32,7 @@
         NSArray *numArr = @[@"0",@"0",@"0",@"0"];
         if (mineData)
         {
-            numArr = @[mineData.AllOrderCount,mineData.WaitPaymentOrderCount,mineData.PickedSelfOrderCount,mineData.AfterSaleOrderCount];
+            numArr = @[@"0",mineData.WaitPaymentOrderCount,mineData.PickedSelfOrderCount,mineData.AfterSaleOrderCount];
         }
         for (int i=0; i<imgArr.count; i++)
         {

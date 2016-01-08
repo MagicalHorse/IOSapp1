@@ -342,7 +342,7 @@
     }
     else if (indexPath.section==3)
     {
-        UILabel *brandLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 60, 40)];
+        UILabel *brandLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 200, 40)];
         brandLab.text = proData.BrandName;
         brandLab.textColor = [UIColor orangeColor];
         brandLab.font = [UIFont systemFontOfSize:15];
