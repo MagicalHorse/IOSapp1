@@ -584,6 +584,8 @@
             [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.searchArr2[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
             cell.shopName.text = [self.searchArr2[indexPath.row]objectForKey:@"Nickname"];
             cell.addressLab.text =[self.searchArr2[indexPath.row]objectForKey:@"BrandName"];
+            cell.qsFeild.text =[self.searchArr2 [indexPath.row]objectForKey:@"StoreLocal"];
+
             BOOL isFavite =[[self.searchArr2[indexPath.row]objectForKey:@"IsFllowed"]boolValue];
             if (isFavite) {
                 cell.guanzhuBtn.backgroundColor =[UIColor whiteColor];
