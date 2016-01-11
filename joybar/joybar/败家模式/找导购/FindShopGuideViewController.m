@@ -305,7 +305,8 @@ static NSString * const reuseIdentifier = @"Cell";
         [cell.iconView sd_setImageWithURL:[NSURL URLWithString:[self.cusDataArray[indexPath.row]objectForKey:@"Logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
         cell.shopName.text = [self.cusDataArray[indexPath.row]objectForKey:@"Nickname"];
         cell.addressLab.text =[self.cusDataArray[indexPath.row]objectForKey:@"BrandName"];
-        
+        cell.qsFeild.text =[self.cusDataArray [indexPath.row]objectForKey:@"StoreLocal"];
+
         
         BOOL isFavite =[[self.cusDataArray[indexPath.row]objectForKey:@"IsFllowed"]boolValue];
         if (isFavite) {

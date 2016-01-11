@@ -47,26 +47,37 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GGG-中关村南大街重点系西诺西" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKy-4e-fpo">
-                                <rect key="frame" x="66" y="42" width="236" height="18"/>
+                                <rect key="frame" x="66" y="42" width="65" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="65" id="ejH-UD-k53"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GGG-中关村南大街重点系西诺西" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eyt-sl-6yG">
+                                <rect key="frame" x="133" y="45.5" width="169" height="14.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="BKy-4e-fpo" firstAttribute="leading" secondItem="bLd-Ca-sBy" secondAttribute="trailing" constant="8" id="4J7-yT-6XC"/>
                             <constraint firstItem="bLd-Ca-sBy" firstAttribute="leading" secondItem="bS6-0H-NI0" secondAttribute="leading" constant="8" id="8gC-Nc-JsF"/>
+                            <constraint firstItem="DVc-rW-r8Q" firstAttribute="top" secondItem="BKy-4e-fpo" secondAttribute="bottom" constant="10" id="A4e-SS-GQC"/>
                             <constraint firstAttribute="trailing" secondItem="DVc-rW-r8Q" secondAttribute="trailing" id="DGm-vd-S4x"/>
-                            <constraint firstAttribute="trailing" secondItem="BKy-4e-fpo" secondAttribute="trailing" constant="8" id="DNs-3P-hVb"/>
                             <constraint firstItem="qJp-UM-iNi" firstAttribute="top" secondItem="bS6-0H-NI0" secondAttribute="top" constant="15" id="ERC-c7-B36"/>
+                            <constraint firstItem="Eyt-sl-6yG" firstAttribute="leading" secondItem="BKy-4e-fpo" secondAttribute="trailing" constant="2" id="L4B-3W-HX7"/>
                             <constraint firstItem="qJp-UM-iNi" firstAttribute="leading" secondItem="bLd-Ca-sBy" secondAttribute="trailing" constant="8" id="MAg-UT-jWc"/>
                             <constraint firstItem="DVc-rW-r8Q" firstAttribute="top" secondItem="bLd-Ca-sBy" secondAttribute="bottom" constant="10" id="Ppj-Sl-6IB"/>
                             <constraint firstItem="bLd-Ca-sBy" firstAttribute="top" secondItem="bS6-0H-NI0" secondAttribute="top" constant="10" id="Vxe-ft-sRv"/>
+                            <constraint firstAttribute="trailing" secondItem="Eyt-sl-6yG" secondAttribute="trailing" constant="8" id="YXP-Pt-gZJ"/>
                             <constraint firstItem="HdZ-RF-0jh" firstAttribute="leading" secondItem="qJp-UM-iNi" secondAttribute="trailing" constant="8" id="YwQ-XY-UFo"/>
-                            <constraint firstItem="DVc-rW-r8Q" firstAttribute="top" secondItem="BKy-4e-fpo" secondAttribute="bottom" constant="10" id="e4D-b8-nuS"/>
+                            <constraint firstItem="DVc-rW-r8Q" firstAttribute="top" secondItem="Eyt-sl-6yG" secondAttribute="bottom" constant="10" id="dFM-Zx-OWz"/>
                             <constraint firstItem="DVc-rW-r8Q" firstAttribute="leading" secondItem="bS6-0H-NI0" secondAttribute="leading" id="fAe-rc-bbG"/>
                             <constraint firstAttribute="trailing" secondItem="HdZ-RF-0jh" secondAttribute="trailing" constant="8" id="vVq-zA-wM9"/>
+                            <constraint firstItem="BKy-4e-fpo" firstAttribute="leading" secondItem="bLd-Ca-sBy" secondAttribute="trailing" constant="8" id="xyW-Xw-gm3"/>
                             <constraint firstItem="HdZ-RF-0jh" firstAttribute="top" secondItem="bS6-0H-NI0" secondAttribute="top" constant="8" id="yXa-jk-Q4u"/>
                         </constraints>
                     </view>
@@ -85,6 +96,7 @@
                 <outlet property="guanzhuBtn" destination="HdZ-RF-0jh" id="hbB-VF-5LO"/>
                 <outlet property="iconView" destination="bLd-Ca-sBy" id="tVz-qM-N6R"/>
                 <outlet property="lineView" destination="DVc-rW-r8Q" id="AFf-5J-DqF"/>
+                <outlet property="qsFeild" destination="Eyt-sl-6yG" id="xeB-as-PbQ"/>
                 <outlet property="shopName" destination="qJp-UM-iNi" id="ity-l9-1Us"/>
             </connections>
             <point key="canvasLocation" x="227" y="97"/>

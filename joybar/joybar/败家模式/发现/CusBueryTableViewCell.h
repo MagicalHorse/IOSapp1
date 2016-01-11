@@ -19,6 +19,7 @@
 @property (strong, nonatomic)  UIImageView *shopBtn;
 @property (strong, nonatomic)  UIImageView *shopBtn1;
 @property (strong, nonatomic)  UIImageView *shopBtn2;
+@property (weak, nonatomic) IBOutlet UILabel *qsFeild;
 
 
 @end
