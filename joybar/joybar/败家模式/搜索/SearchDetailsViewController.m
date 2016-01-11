@@ -834,20 +834,22 @@
     
     
     if (type ==1) {
-        NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr[indexPath.row]objectForKey:@"Userleave"]];
+        NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr[indexPath.row]objectForKey:@"UserLeave"]];
 
-        if ([Userleave isEqualToString:@"4"])
-        {
-            CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
-            VC.productId = [[self.searchArr[indexPath.row]objectForKey:@"ProductId"]stringValue];
-            [self.navigationController pushViewController:VC animated:YES];
-        }
-        else
+        if ([Userleave isEqualToString:@"8"])
         {
             //认证买手
             CusRProDetailViewController *VC = [[CusRProDetailViewController alloc] init];
             VC.productId = [[self.searchArr[indexPath.row]objectForKey:@"ProductId"]stringValue];
             [self.navigationController pushViewController:VC animated:YES];
+
+        }
+        else
+        {
+            CusZProDetailViewController *VC = [[CusZProDetailViewController alloc] init];
+            VC.productId = [[self.searchArr[indexPath.row]objectForKey:@"ProductId"]stringValue];
+            [self.navigationController pushViewController:VC animated:YES];
+
         }
     }else if(type ==2){
         CusBrandDetailViewController *VC = [[CusBrandDetailViewController alloc] init];
@@ -889,11 +891,10 @@
     [searchText resignFirstResponder];
 }
 
-
 -(void)did1ClickProView:(UITapGestureRecognizer *)tap{
 
     NSInteger tag= [tap.view superview].tag-10;
-    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"UserLeave"]];
     if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
@@ -913,7 +914,7 @@
 -(void)did2ClickProView:(UITapGestureRecognizer *)tap{
     
     NSInteger tag= [tap.view superview].tag-10;
-    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"UserLeave"]];
     if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
@@ -933,7 +934,7 @@
 -(void)did3ClickProView:(UITapGestureRecognizer *)tap{
     
     NSInteger tag= [tap.view superview].tag-10;
-    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"UserLeave"]];
     if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
