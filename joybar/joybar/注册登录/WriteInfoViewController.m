@@ -184,7 +184,16 @@
 {
     
     NSString *userId = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
-    [SIOSocket socketWithHost:SocketUrl reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
+    
+    //获取系统当前的时间戳
+    NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSTimeInterval a=[dat timeIntervalSince1970]*1000;
+    NSString *timeString = [NSString stringWithFormat:@"%f", a];//转为字符型
+    
+    NSString *sign = [NSString stringWithFormat:@"%@%@%@%@",userId,timeString,@"maishouapp",@"maishouapp"];
+    NSString *url = [NSString stringWithFormat:@"%@?userid=%@&timestamp=%@&appid=%@&sign=%@",SocketUrl,userId,timeString,@"maishouapp",[sign md5Encrypt]];
+
+    [SIOSocket socketWithHost:url reconnectAutomatically:YES attemptLimit:5 withDelay:1 maximumDelay:5 timeout:20 response:^(SIOSocket *socket) {
         [SocketManager socketManager].socket = socket;
         [socket on: @"connect" callback: ^(SIOParameterArray *args) {
             [socket emit:@"online" args:@[userId]];

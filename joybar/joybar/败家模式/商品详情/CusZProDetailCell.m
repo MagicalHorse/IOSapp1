@@ -595,9 +595,7 @@
         temp.hidden = NO;
     }
     orangeLine.frame = CGRectMake((btn.tag-1000)*(kScreenWidth/3)+25, 38, kScreenWidth/3-50, 2);
-    
     scroll.contentOffset = CGPointMake((btn.tag-1000)*kScreenWidth, 0);
-    
     for (UIButton *selectBtn in btnArr)
     {
         if ([btn isEqual:selectBtn])

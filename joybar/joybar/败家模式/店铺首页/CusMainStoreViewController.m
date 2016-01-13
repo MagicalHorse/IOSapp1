@@ -53,7 +53,7 @@
     _homeStoreVC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     [self addChildViewController:_homeStoreVC];
     
-    _buyerCircleVC = [[CircleViewController alloc] initWithUserId:@"838" AndTpye:1 andUserName:@"asd"];
+    _buyerCircleVC = [[CircleViewController alloc] initWithUserId:self.userId AndTpye:1 andUserName:self.userName];
     _buyerCircleVC.userId = self.userId;
     _buyerCircleVC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-64);
     

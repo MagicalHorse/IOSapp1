@@ -43,6 +43,8 @@
 
 @property (nonatomic ,strong) NSArray *kuCunArr;
 
+@property (nonatomic ,strong) NSString *roomId;
+
 
 @end
 
@@ -57,7 +59,6 @@
     int utype;
     NSString *toUserName;
     UILabel *titleNameLab;
-    NSDictionary *chatRoomData;
     OSSData *osData;
 }
 -(instancetype)initWithUserId:(NSString *)userId AndTpye:(int)type andUserName:(NSString *)Username
@@ -85,10 +86,8 @@
     [super viewWillAppear:animated];
     buyBgView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 240);
     [tempView removeFromSuperview];
-    if ([chatRoomData objectForKey:@"id"])
-    {
-        [self creatRoom];
-    }
+    [self creatRoom];
+
 }
 
 -(void)getKuCunData
@@ -122,18 +121,10 @@
     
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
-        [HttpTool postWithURL:@"User/GetUserLogo" params:dict success:^(id json) {
-            
-            [dic setObject:[json objectForKey:@"logo"] forKey:@"logo"];
-            [self.messageArr addObject:dic];
-            [self.tableView reloadData];
-            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
-            
-        } failure:^(NSError *error) {
-            
-        }];
+        [self.messageArr addObject:[dic objectForKey:@"data"]];
+        [self.tableView reloadData];
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+
     }];
 
     self.priceNum = 0;
@@ -189,49 +180,17 @@
     }
     [[NSUserDefaults standardUserDefaults] setObject:faceDict forKey:@"faceInfo"];
     
-    [self getRoomId];
+    [self creatRoom];
+    [self getMessageListData:NO];
+
     [self addTitleView];
     
-}
-
--(void)getRoomId
-{
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    if (self.isFrom==isFromPrivateChat||self.isFrom==isFromBuyPro)
-    {
-        [dic setValue:@"0" forKey:@"groupId"];
-        [dic setValue:[[Public getUserInfo] objectForKey:@"id"] forKey:@"fromUser"];
-        [dic setValue:toUserId forKey:@"toUser"];
-    }
-    else if (self.isFrom==isFromGroupChat)
-    {
-        [dic setValue:self.circleId forKey:@"groupId"];
-        [dic setValue:@"0" forKey:@"fromUser"];
-        [dic setValue:@"0" forKey:@"toUser"];
-    }
-    
-    [HttpTool postWithURL:@"Community/GetRoom" params:dic isWrite:YES success:^(id json) {
-        
-        if ([[json objectForKey:@"isSuccessful"] boolValue])
-        {
-            chatRoomData = [json objectForKey:@"data"];
-            [self creatRoom];
-            [self getMessageListData:NO];
-        }
-        else
-        {
-            [self showHudFailed:[json objectForKey:@"message"]];
-        }
-        
-    } failure:^(NSError *error) {
-        
-    }];
 }
 
 -(void)getMessageListData:(BOOL)isRefresh
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
+    [dic setValue:self.roomId forKey:@"roomId"];
     [dic setValue:[NSString stringWithFormat:@"%ld",(long)self.pageNum] forKey:@"page"];
     [dic setValue:@"10" forKey:@"pagesize"];
     [self hudShowWithText:@"正在获取消息中..."];
@@ -292,15 +251,21 @@
     if (self.isFrom==isFromPrivateChat||self.isFrom==isFromBuyPro)
     {
         type = @"group";
-        arr = @[toUserId,myId];
+        if ([toUserId integerValue]>[myId integerValue])
+        {
+            self.roomId = [NSString stringWithFormat:@"%@_%@",myId,toUserId];
+        }
+        else
+        {
+            self.roomId = [NSString stringWithFormat:@"%@_%@",toUserId,myId];
+        }
     }
     else
     {
         type = @"group";
-        arr = [chatRoomData objectForKey:@"userList"];
+        self.roomId = self.circleId;
     }
-    NSDictionary *dic = @{@"room_id":[chatRoomData objectForKey:@"id"],@"title":@"私聊",@"owner":[chatRoomData objectForKey:@"owner"],@"users":arr,@"type":type,@"sessionId":@"",@"signValue":@"",@"token":@"",@"userName":toUserName};
-    
+    NSDictionary *dic = @{@"room_id":self.roomId,@"title":@"私聊",@"type":type,@"sessionId":@"",@"signValue":@"",@"token":@"",@"userName":toUserName};
     [[SocketManager socketManager].socket emit:@"join room" args:@[myId,dic]];
 }
 
@@ -460,83 +425,51 @@
     //发送图片
     if ([type isEqualToString:@"发送图片"])
     {
-        NSMutableDictionary *msgDic = [NSMutableDictionary dictionary];
-        [msgDic setValue:@"" forKey:@"Id"];
-        [msgDic setValue:@"0" forKey:@"__v"];
-        [msgDic setValue:text forKey:@"body"];
-        [msgDic setValue:@"" forKey:@"creationDate"];
-        [msgDic setValue:myId forKey:@"fromUserId"];
-        [msgDic setValue:[[Public getUserInfo] objectForKey:@"logo"] forKey:@"logo"];
-        [msgDic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
-        [msgDic setValue:@"" forKey:@"sharelink"];
-        [msgDic setValue:toUserId forKey:@"toUserId"];
-        [msgDic setValue:@"" forKey:@"type"];
-        [msgDic setValue:@"" forKey:@"userIp"];
-        [msgDic setValue:toUserName forKey:@"userName"];
-        [msgDic setValue:@"" forKey:@"productId"];
-
-        [msgDic setValue:@"img" forKey:@"type"];
-        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"img",@"roomId":[chatRoomData objectForKey:@"id"]};
+        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"img",@"messageType":@"0"};
         [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
-        [self.messageArr addObject:msgDic];
     }
     else if ([type isEqualToString:@"发送商品"])
     {
         for (int i=0; i<self.selectProLinkArr.count; i++)
         {
-            NSMutableDictionary *msgDic = [NSMutableDictionary dictionary];
-            [msgDic setValue:@"" forKey:@"Id"];
-            [msgDic setValue:@"0" forKey:@"__v"];
-            [msgDic setValue:@"" forKey:@"creationDate"];
-            [msgDic setValue:myId forKey:@"fromUserId"];
-            [msgDic setValue:[[Public getUserInfo] objectForKey:@"logo"] forKey:@"logo"];
-            [msgDic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
-            [msgDic setValue:toUserId forKey:@"toUserId"];
-            [msgDic setValue:@"" forKey:@"type"];
-            [msgDic setValue:@"" forKey:@"userIp"];
-            [msgDic setValue:toUserName forKey:@"userName"];
-
-            [msgDic setValue:@"product_img" forKey:@"type"];
-            [msgDic setValue:[[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"pic"] objectForKey:@"pic"] forKey:@"body"];
             NSString *proId = [[self.selectProLinkArr objectAtIndex:i] objectForKey:@"Id"];
-            [msgDic setValue:[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"Id"] forKey:@"productId"];
-
-            NSString *proLink = [[self.selectProLinkArr objectAtIndex:i] objectForKey:@"ShareLink"];
-            [msgDic setValue:proLink forKey:@"sharelink"];
-            
             NSString *imageURL = [NSString stringWithFormat:@"%@",[[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"pic"] objectForKey:@"pic"]];
 
-            NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":proId,@"body":imageURL,@"fromUserType":@"",@"type":@"product_img",@"roomId":[chatRoomData objectForKey:@"id"]};
+            NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":proId,@"body":imageURL,@"fromUserType":@"",@"type":@"product_img",@"messageType":@"0"};
             [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
-            [self.messageArr addObject:msgDic];
         }
     }
     else
     {
-        NSMutableDictionary *msgDic = [NSMutableDictionary dictionary];
-        [msgDic setValue:@"" forKey:@"Id"];
-        [msgDic setValue:@"0" forKey:@"__v"];
-        [msgDic setValue:text forKey:@"body"];
-        [msgDic setValue:@"" forKey:@"creationDate"];
-        [msgDic setValue:myId forKey:@"fromUserId"];
-        [msgDic setValue:[[Public getUserInfo] objectForKey:@"logo"] forKey:@"logo"];
-        [msgDic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
-        [msgDic setValue:@"" forKey:@"sharelink"];
-        [msgDic setValue:toUserId forKey:@"toUserId"];
-        [msgDic setValue:@"" forKey:@"type"];
-        [msgDic setValue:@"" forKey:@"userIp"];
-        [msgDic setValue:toUserName forKey:@"userName"];
-        [msgDic setValue:@"" forKey:@"productId"];
-
-        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"",@"roomId":[chatRoomData objectForKey:@"id"]};
+        //messageType:  【0、私聊  1 群聊 】} 该字段不可少
+        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"",@"messageType":@"0"};
         [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
         
-        [self.messageArr addObject:msgDic];
     }
+    
     listView.messageTF.text = @"";
-    [self.tableView reloadData];
 
-    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+    
+    [[SocketManager socketManager].socket on:@"server_notice" callback:^(SIOParameterArray *args) {
+        
+        NSLog(@"%@",args);
+        if ([[args[0]objectForKey:@"action"]isEqualToString:@"sendMessage"])
+        {
+            NSString *type =[args[0] objectForKey:@"type"];
+            if ([type isEqualToString:@"success"])
+            {
+                [self.messageArr addObject:[args[0] objectForKey:@"data"]];
+                [self.tableView reloadData];
+                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+            }
+            else
+            {
+                [self hudShowWithText:@"发送失败"];
+            }
+ 
+        }
+    }];
+
 }
 
 
@@ -630,7 +563,7 @@
                 UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-10-40, 15, 40, 40)];
                 headerImage.layer.cornerRadius = headerImage.width/2;
                 headerImage.clipsToBounds = YES;
-                [headerImage sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:[[msgDic objectForKey:@"user"] objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 headerImage.tag = 1000+indexPath.row;
                 headerImage.userInteractionEnabled = YES;
                 [cell.contentView addSubview:headerImage];
@@ -670,7 +603,7 @@
                 UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 15, 40, 40)];
                 headerImage.layer.cornerRadius = headerImage.width/2;
                 headerImage.clipsToBounds = YES;
-                [headerImage sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:[[msgDic objectForKey:@"user"] objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 headerImage.tag = 1000+indexPath.row;
                 headerImage.userInteractionEnabled = YES;
                 [cell.contentView addSubview:headerImage];

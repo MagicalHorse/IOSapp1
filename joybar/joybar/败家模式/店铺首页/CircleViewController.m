@@ -133,18 +133,22 @@
     
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
-        [HttpTool postWithURL:@"User/GetUserLogo" params:dict success:^(id json) {
-            
-            [dic setObject:[json objectForKey:@"logo"] forKey:@"logo"];
-            [self.messageArr addObject:dic];
-            [self.tableView reloadData];
-            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
-            
-        } failure:^(NSError *error) {
-            
-        }];
+        
+        NSLog(@"%@",args);
+        [self.messageArr addObject:[dic objectForKey:@"data"]];
+        [self.tableView reloadData];
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+
+//        [HttpTool postWithURL:@"User/GetUserLogo" params:dict success:^(id json) {
+//            
+//            [dic setObject:[json objectForKey:@"logo"] forKey:@"logo"];
+//            [self.messageArr addObject:dic];
+//            [self.tableView reloadData];
+//            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+//            
+//        } failure:^(NSError *error) {
+//            
+//        }];
     }];
     
     self.priceNum = 0;
@@ -368,83 +372,49 @@
     if ([type isEqualToString:@"发送图片"])
         
     {
-        NSMutableDictionary *msgDic = [NSMutableDictionary dictionary];
-        [msgDic setValue:@"" forKey:@"Id"];
-        [msgDic setValue:@"0" forKey:@"__v"];
-        [msgDic setValue:text forKey:@"body"];
-        [msgDic setValue:@"" forKey:@"creationDate"];
-        [msgDic setValue:myId forKey:@"fromUserId"];
-        [msgDic setValue:[[Public getUserInfo] objectForKey:@"logo"] forKey:@"logo"];
-        [msgDic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
-        [msgDic setValue:@"" forKey:@"sharelink"];
-        [msgDic setValue:toUserId forKey:@"toUserId"];
-        [msgDic setValue:@"" forKey:@"type"];
-        [msgDic setValue:@"" forKey:@"userIp"];
-        [msgDic setValue:toUserName forKey:@"userName"];
-        [msgDic setValue:@"" forKey:@"productId"];
-        
-        [msgDic setValue:@"img" forKey:@"type"];
-        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"img",@"roomId":[chatRoomData objectForKey:@"id"]};
+        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"img",@"roomId":[chatRoomData objectForKey:@"id"],@"messageType":@"1"};
         [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
-        [self.messageArr addObject:msgDic];
     }
     else if ([type isEqualToString:@"发送商品"])
     {
         for (int i=0; i<self.selectProLinkArr.count; i++)
         {
-            NSMutableDictionary *msgDic = [NSMutableDictionary dictionary];
-            [msgDic setValue:@"" forKey:@"Id"];
-            [msgDic setValue:@"0" forKey:@"__v"];
-            [msgDic setValue:@"" forKey:@"creationDate"];
-            [msgDic setValue:myId forKey:@"fromUserId"];
-            [msgDic setValue:[[Public getUserInfo] objectForKey:@"logo"] forKey:@"logo"];
-            [msgDic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
-            [msgDic setValue:toUserId forKey:@"toUserId"];
-            [msgDic setValue:@"" forKey:@"type"];
-            [msgDic setValue:@"" forKey:@"userIp"];
-            [msgDic setValue:toUserName forKey:@"userName"];
-            
-            [msgDic setValue:@"product_img" forKey:@"type"];
-            [msgDic setValue:[[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"pic"] objectForKey:@"pic"] forKey:@"body"];
             NSString *proId = [[self.selectProLinkArr objectAtIndex:i] objectForKey:@"Id"];
-            [msgDic setValue:[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"Id"] forKey:@"productId"];
-            
-            NSString *proLink = [[self.selectProLinkArr objectAtIndex:i] objectForKey:@"ShareLink"];
-            [msgDic setValue:proLink forKey:@"sharelink"];
             
             NSString *imageURL = [NSString stringWithFormat:@"%@",[[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"pic"] objectForKey:@"pic"]];
             
-            NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":proId,@"body":imageURL,@"fromUserType":@"",@"type":@"product_img",@"roomId":[chatRoomData objectForKey:@"id"]};
+            NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":proId,@"body":imageURL,@"fromUserType":@"",@"type":@"product_img",@"roomId":[chatRoomData objectForKey:@"id"],@"messageType":@"1"};
             [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
-            [self.messageArr addObject:msgDic];
         }
     }
     else
     {
-        NSMutableDictionary *msgDic = [NSMutableDictionary dictionary];
-        [msgDic setValue:@"" forKey:@"Id"];
-        [msgDic setValue:@"0" forKey:@"__v"];
-        [msgDic setValue:text forKey:@"body"];
-        [msgDic setValue:@"" forKey:@"creationDate"];
-        [msgDic setValue:myId forKey:@"fromUserId"];
-        [msgDic setValue:[[Public getUserInfo] objectForKey:@"logo"] forKey:@"logo"];
-        [msgDic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
-        [msgDic setValue:@"" forKey:@"sharelink"];
-        [msgDic setValue:toUserId forKey:@"toUserId"];
-        [msgDic setValue:@"" forKey:@"type"];
-        [msgDic setValue:@"" forKey:@"userIp"];
-        [msgDic setValue:toUserName forKey:@"userName"];
-        [msgDic setValue:@"" forKey:@"productId"];
-        
-        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"",@"roomId":[chatRoomData objectForKey:@"id"]};
+        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"",@"roomId":[chatRoomData objectForKey:@"id"],@"messageType":@"1"};
         [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
         
-        [self.messageArr addObject:msgDic];
     }
     listView.messageTF.text = @"";
-    [self.tableView reloadData];
     
-    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+    
+    [[SocketManager socketManager].socket on:@"server_notice" callback:^(SIOParameterArray *args) {
+        
+        NSLog(@"%@",args);
+        if ([[args[0]objectForKey:@"action"]isEqualToString:@"sendMessage"])
+        {
+            NSString *type =[args[0] objectForKey:@"type"];
+            if ([type isEqualToString:@"success"])
+            {
+                [self.messageArr addObject:[args[0] objectForKey:@"data"]];
+                [self.tableView reloadData];
+                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+            }
+            else
+            {
+                [self hudShowWithText:@"发送失败"];
+            }
+            
+        }
+    }];
 }
 
 
@@ -534,7 +504,7 @@
                 UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-10-40, 15, 40, 40)];
                 headerImage.layer.cornerRadius = headerImage.width/2;
                 headerImage.clipsToBounds = YES;
-                [headerImage sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:[[msgDic objectForKey:@"user"] objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 headerImage.tag = 1000+indexPath.row;
                 headerImage.userInteractionEnabled = YES;
                 [cell.contentView addSubview:headerImage];
@@ -574,7 +544,7 @@
                 UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 15, 40, 40)];
                 headerImage.layer.cornerRadius = headerImage.width/2;
                 headerImage.clipsToBounds = YES;
-                [headerImage sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:[[msgDic objectForKey:@"user"] objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 headerImage.tag = 1000+indexPath.row;
                 headerImage.userInteractionEnabled = YES;
                 [cell.contentView addSubview:headerImage];
