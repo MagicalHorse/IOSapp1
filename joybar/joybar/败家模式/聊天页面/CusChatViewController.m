@@ -86,15 +86,15 @@
     [super viewWillAppear:animated];
     buyBgView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 240);
     [tempView removeFromSuperview];
-    [self creatRoom];
-
 }
 
--(void)getKuCunData
+-(void)getKuCunData:(UIButton *)button
 {
+    
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:self.detailData.ProductId forKey:@"productId"];
     [HttpTool postWithURL:@"Product/GetProductSku" params:dic success:^(id json) {
+        button.userInteractionEnabled = YES;
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.kuCunArr = [json objectForKey:@"data"];
@@ -119,12 +119,45 @@
 {
     [super viewDidLoad];
     
+    [[SocketManager socketManager].socket on:@"server_notice" callback:^(SIOParameterArray *args) {
+        
+        NSLog(@"%@",[args[0] objectForKey:@"action"]);
+        if ([[args[0]objectForKey:@"action"]isEqualToString:@"sendMessage"])
+        {
+            NSString *type =[args[0] objectForKey:@"type"];
+            if ([type isEqualToString:@"success"])
+            {
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[args[0] objectForKey:@"data"]];
+                
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                //设定时间格式,这里可以设置成自己需要的格式
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                NSString *currentDateStr = [dateFormatter stringFromDate:[NSDate date]];
+                [dic setObject:currentDateStr forKey:@"creationDate"];
+                
+                [self.messageArr addObject:dic];
+                
+                [self.tableView reloadData];
+                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+            }
+            else
+            {
+                [self hudShowWithText:@"发送失败"];
+            }
+        }
+    }];
+    
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-        [self.messageArr addObject:[dic objectForKey:@"data"]];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        //设定时间格式,这里可以设置成自己需要的格式
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSString *currentDateStr = [dateFormatter stringFromDate:[NSDate date]];
+        [dic setObject:currentDateStr forKey:@"creationDate"];
+        
+        [self.messageArr addObject:dic];
         [self.tableView reloadData];
         [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
-
     }];
 
     self.priceNum = 0;
@@ -180,11 +213,43 @@
     }
     [[NSUserDefaults standardUserDefaults] setObject:faceDict forKey:@"faceInfo"];
     
-    [self creatRoom];
-    [self getMessageListData:NO];
-
+    if (self.isFrom == isFromGroupChat)
+    {
+        [self getRoomId];
+    }
+    else
+    {
+        [self creatRoom];
+        [self getMessageListData:NO];
+    }
+    
     [self addTitleView];
     
+}
+
+-(void)getRoomId
+{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:self.circleId forKey:@"groupId"];
+    [dic setValue:@"0" forKey:@"fromUser"];
+    [dic setValue:@"0" forKey:@"toUser"];
+    
+    [self hudShow:@"正在加入房间"];
+    [HttpTool postWithURL:@"Community/GetRoom" params:dic isWrite:YES success:^(id json) {
+        
+        [self textHUDHiddle];
+        if ([[json objectForKey:@"isSuccessful"] boolValue])
+        {
+            self.roomId = [[json objectForKey:@"data"] objectForKey:@"id"];
+            [self getMessageListData:NO];
+        }
+        else
+        {
+            [self showHudFailed:[json objectForKey:@"message"]];
+        }
+    } failure:^(NSError *error) {
+        [self textHUDHiddle];
+    }];
 }
 
 -(void)getMessageListData:(BOOL)isRefresh
@@ -200,7 +265,7 @@
         [self.tableView endRefresh];
 
         if([[json objectForKey:@"isSuccessful"] boolValue])
-        {
+        {   
             titleNameLab.text = toUserName;
             NSArray *arr = [[json objectForKey:@"data"] objectForKey:@"items"];
             if (arr.count<10)
@@ -240,11 +305,9 @@
         [self textHUDHiddle];
 
     }];
-    
 }
 -(void)creatRoom
 {
-    NSArray *arr;
     NSString *myId=[[Public getUserInfo]objectForKey:@"id"]; //买手
     NSString *type;
     
@@ -302,11 +365,7 @@
     }
     else
     {
-//        UIImageView *headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth-50, 20, 40, 40)];
-//        headerImage.layer.cornerRadius = headerImage.width/2;
-//        headerImage.clipsToBounds = YES;
-//        [headerImage sd_setImageWithURL:[NSURL URLWithString:self.detailData.BuyerLogo] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
-//        [self.navView addSubview:headerImage];
+        
     }
 }
 
@@ -343,7 +402,7 @@
     [buyBtn setTitle:@"立即购买" forState:(UIControlStateNormal)];
     buyBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [buyBtn setTitleColor:[UIColor whiteColor] forState:(UIControlStateNormal)];
-    [buyBtn addTarget:self action:@selector(didClickBuyBtn) forControlEvents:(UIControlEventTouchUpInside)];
+    [buyBtn addTarget:self action:@selector(didClickBuyBtn:) forControlEvents:(UIControlEventTouchUpInside)];
     [bgView addSubview:buyBtn];
 }
 
@@ -408,24 +467,25 @@
     [self sendMessageWithType:@"发送商品" andText:@""];
 }
 
-
 -(void)sendMessageWithType:(NSString *)type andText:(NSString *)text
 {
     NSString *myId=[[Public getUserInfo]objectForKey:@"id"];
-    toUserName = [[Public getUserInfo] objectForKey:@"nickname"];
+//    toUserName = [[Public getUserInfo] objectForKey:@"nickname"];
     
+    NSString *messageType;
     if (self.isFrom==isFromGroupChat)
     {
         toUserId=@"0";
+        messageType = @"1";
     }
     else
     {
-        
+        messageType = @"0";
     }
     //发送图片
     if ([type isEqualToString:@"发送图片"])
     {
-        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"img",@"messageType":@"0"};
+        NSDictionary *dic = @{@"roomId":self.roomId,@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"img",@"messageType":messageType};
         [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
     }
     else if ([type isEqualToString:@"发送商品"])
@@ -435,43 +495,18 @@
             NSString *proId = [[self.selectProLinkArr objectAtIndex:i] objectForKey:@"Id"];
             NSString *imageURL = [NSString stringWithFormat:@"%@",[[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"pic"] objectForKey:@"pic"]];
 
-            NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":proId,@"body":imageURL,@"fromUserType":@"",@"type":@"product_img",@"messageType":@"0"};
+            NSDictionary *dic = @{@"roomId":self.roomId,@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":proId,@"body":imageURL,@"fromUserType":@"",@"type":@"product_img",@"messageType":messageType};
             [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
         }
     }
     else
     {
         //messageType:  【0、私聊  1 群聊 】} 该字段不可少
-        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"",@"messageType":@"0"};
+        NSDictionary *dic = @{@"roomId":self.roomId,@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"",@"messageType":messageType};
         [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
-        
     }
-    
     listView.messageTF.text = @"";
-
-    
-    [[SocketManager socketManager].socket on:@"server_notice" callback:^(SIOParameterArray *args) {
-        
-        NSLog(@"%@",args);
-        if ([[args[0]objectForKey:@"action"]isEqualToString:@"sendMessage"])
-        {
-            NSString *type =[args[0] objectForKey:@"type"];
-            if ([type isEqualToString:@"success"])
-            {
-                [self.messageArr addObject:[args[0] objectForKey:@"data"]];
-                [self.tableView reloadData];
-                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
-            }
-            else
-            {
-                [self hudShowWithText:@"发送失败"];
-            }
- 
-        }
-    }];
-
 }
-
 
 -(void)changeTableViewFrameWhileShow:(BOOL)isAction
 {
@@ -486,7 +521,7 @@
     }
     else
     {
-        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-49-164);
+        self.tableView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-49-216);
         if([self.messageArr count] != 0)
         {
             NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
@@ -568,8 +603,8 @@
                 headerImage.userInteractionEnabled = YES;
                 [cell.contentView addSubview:headerImage];
                 
-                UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
-                [headerImage addGestureRecognizer:tap];
+//                UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
+//                [headerImage addGestureRecognizer:tap];
                 
                 //图片
                 NSString *type= [msgDic objectForKey:@"type"];
@@ -582,7 +617,7 @@
                 {
                     NSString *imageURL = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"body"]];
                     //发送链接
-                    [cell.contentView addSubview:[cell productLinkBubbleView:imageURL AndProcuctLink:[msgDic objectForKey:@"sharelink"] from:YES withPosition:60]];
+                    [cell.contentView addSubview:[cell productLinkBubbleView:imageURL AndProcuctLink:[NSString stringWithFormat:@"http://show.joybar.com.cn/Product/BuyerProductDetails?id=%@",[msgDic objectForKey:@"productId"]] from:YES withPosition:60]];
                 }
                 else if ([type isEqualToString:@""]||!type)
                 {
@@ -608,8 +643,8 @@
                 headerImage.userInteractionEnabled = YES;
                 [cell.contentView addSubview:headerImage];
                 
-                UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
-                [headerImage addGestureRecognizer:tap];
+//                UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
+//                [headerImage addGestureRecognizer:tap];
 
                 
                 //图片
@@ -621,7 +656,7 @@
                 else if ([[msgDic objectForKey:@"type"] isEqualToString:@"product_img"])
                 {
                     //发送链接
-                    [cell.contentView addSubview:[cell productLinkBubbleView:[msgDic objectForKey:@"body"] AndProcuctLink:[msgDic objectForKey:@"sharelink"] from:NO withPosition:60]];
+                    [cell.contentView addSubview:[cell productLinkBubbleView:[msgDic objectForKey:@"body"] AndProcuctLink:[NSString stringWithFormat:@"http://show.joybar.com.cn/Product/BuyerProductDetails?id=%@",[msgDic objectForKey:@"productId"]] from:NO withPosition:60]];
                 }
                 else
                 {
@@ -693,11 +728,12 @@
 
 
 //立即购买
--(void)didClickBuyBtn
+-(void)didClickBuyBtn:(UIButton *)button
 {
+    button.userInteractionEnabled = NO;
     [listView.messageTF resignFirstResponder];
     if (self.isFrom==isFromBuyPro) {
-        [self getKuCunData];
+        [self getKuCunData:button];
     }
 
 }
@@ -966,19 +1002,19 @@
 }
 
 
-//点击头像
--(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
-{
-    NSDictionary *msgDic = [self.messageArr objectAtIndex:tap.view.tag-1000];
-    //自己
-    NSString *fromUserId = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"fromUserId"]];
-
-    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
-    VC.userName = [msgDic objectForKey:@"userName"];
-    VC.userId = fromUserId;
-    VC.isCircle = NO;
-    [self.navigationController pushViewController:VC animated:YES];
-}
+////点击头像
+//-(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
+//{
+//    NSDictionary *msgDic = [self.messageArr objectAtIndex:tap.view.tag-1000];
+//    //自己
+//    NSString *fromUserId = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"fromUserId"]];
+//
+//    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
+//    VC.userName = [msgDic objectForKey:@"userName"];
+//    VC.userId = fromUserId;
+//    VC.isCircle = NO;
+//    [self.navigationController pushViewController:VC animated:YES];
+//}
 
 
 @end

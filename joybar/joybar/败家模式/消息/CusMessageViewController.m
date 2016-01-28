@@ -46,7 +46,7 @@
 {
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     [dic setObject:@"1" forKey:@"page"];
-    [dic setObject:@"100000" forKey:@"pagesize"];
+    [dic setObject:@"1000" forKey:@"pagesize"];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     [HttpTool postWithURL:@"Community/GetMessagesList" params:dic success:^(id json) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;

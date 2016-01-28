@@ -177,8 +177,9 @@
     }
     [dic setValue:self.userId forKey:@"buyerId"];
     
+    [self hudShow];
     [HttpTool postWithURL:@"V3/GetBuyerInfo" params:dic success:^(id json) {
-        
+        [self hiddleHud];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             self.storeData = [HomeStoreData objectWithKeyValues:[json objectForKey:@"data"]];
@@ -196,7 +197,7 @@
         }
         
     } failure:^(NSError *error) {
-        
+        [self hiddleHud];
     }];
 }
 
@@ -395,7 +396,7 @@
 //点击私聊
 -(void)didClickChat:(UIButton *)btn
 {
-    CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:self.userId AndTpye:1 andUserName:self.userName];
+    CusChatViewController * chat= [[CusChatViewController alloc]initWithUserId:self.userId AndTpye:1 andUserName:self.storeData.UserName];
     chat.isFrom =isFromPrivateChat;
     [self.navigationController pushViewController:chat animated:YES];
 }

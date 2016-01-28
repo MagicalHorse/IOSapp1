@@ -474,7 +474,6 @@
     }else{
         if (buttonIndex==0)
         {
-            //        [Public showLoginVC:self];
             [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"userInfo"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             

@@ -32,7 +32,7 @@
     //创建自定义TabBar
     [self _initTabBarViewController];
     self.tabBar.backgroundColor = [UIColor colorWithRed:244.0f/255.0f green:244.0f/255.0f blue:244.0f/255.0f alpha:1.0f];
-    [self connectionSoctet];
+//    [self connectionSoctet];
     
 }
 
@@ -43,6 +43,7 @@
 
 //socket
 -(void)connectionSoctet{
+    
     
     NSString *userId =[[Public getUserInfo]objectForKey:@"id"];
     NSString *urlStr;
@@ -75,7 +76,7 @@
                 NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
                 NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
                 
-                if (self.selectedIndex==1||self.selectedIndex ==2)
+                if (self.selectedIndex ==2)
                 {
                     self.circleMarkLab.hidden = YES;
                     self.msgMarkLab.hidden = YES;

@@ -22,10 +22,12 @@
 {
     CusTabBarViewController *cusTabbar;
     UIPageControl *pageCtrl;
+
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self connectionSoctet];
     application.statusBarHidden = NO;
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
         //可以添加自定义categories
@@ -52,14 +54,13 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     
-    if (![userId isEqualToString:@"(null)"])
+    if ([Public getUserInfo])
     {
+        NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
         [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
     }
     cusTabbar = [[CusTabBarViewController alloc] init];
-//    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:cusTabbar];
     self.window.rootViewController = cusTabbar;
     [self.window makeKeyAndVisible];
 
@@ -235,12 +236,11 @@
                 NSLog(@"connnection is success:%@",[args description]);
             }];
             
-            [[SocketManager socketManager].socket emit:@"online" args:@[userId]];
             [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
                 NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
                 NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
                 
-                if (cusTabbar.selectedIndex==1||cusTabbar.selectedIndex ==2)
+                if (cusTabbar.selectedIndex ==2)
                 {
                     cusTabbar.circleMarkLab.hidden = YES;
                     cusTabbar.msgMarkLab.hidden = YES;
@@ -361,7 +361,6 @@ forRemoteNotification:(NSDictionary *)userInfo
     if ([type isEqual:@"14"])
     {
         cusTabbar.msgMarkLab.hidden = YES;
-        
         [cusTabbar.messageView receiveMessage];
     }
     else
@@ -394,7 +393,8 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    
+//    [[SocketManager socketManager].socket close];
+//    [[SocketManager socketManager].socket emit:@"disconnect" args:nil];
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
@@ -403,17 +403,11 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [APService setBadge:0];
-    NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
-    
-    if (![userId isEqualToString:@"(null)"])
-    {
-        [self connectionSoctet];
-    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url

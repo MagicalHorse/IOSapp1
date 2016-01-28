@@ -25,5 +25,6 @@
 
 @property (nonatomic ,strong) NSString *longitude;
 @property (nonatomic ,strong) NSString *latitude;
+
 @end
 

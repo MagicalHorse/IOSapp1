@@ -60,7 +60,7 @@
 {
     if (self.dataArr.count>0)
     {
-        NSString *userId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"id"];
+        NSString *userId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"ToUserId"];
         NSString *userName = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"Name"];
         //    NSString *roomId = [[self.dataArr objectAtIndex:indexPath.row] objectForKey:@"RoomId"];
         
