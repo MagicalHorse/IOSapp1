@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -50,10 +50,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Shopping" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gDt-g9-b2f">
-                                <rect key="frame" x="10" y="282" width="230" height="20.5"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="230" id="dpO-yl-goJ"/>
-                                </constraints>
+                                <rect key="frame" x="10" y="282" width="290" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -95,6 +92,7 @@
                             <constraint firstAttribute="bottom" secondItem="g9q-jt-4Dr" secondAttribute="bottom" constant="20" id="rYw-47-5lM"/>
                             <constraint firstAttribute="bottom" secondItem="kT0-rt-aDz" secondAttribute="bottom" constant="15" id="uWi-1k-VQJ"/>
                             <constraint firstItem="gDt-g9-b2f" firstAttribute="leading" secondItem="6KH-Ej-guq" secondAttribute="leading" constant="10" id="vUA-ug-24y"/>
+                            <constraint firstAttribute="trailing" secondItem="gDt-g9-b2f" secondAttribute="trailing" id="yCr-Q4-zlh"/>
                         </constraints>
                     </view>
                 </subviews>
