@@ -134,12 +134,12 @@
         self.moreView.transform = CGAffineTransformTranslate(self.moreView.transform, 0, kScreenHeight-64);
     }
     if (self.faceView == nil) {
-        self.faceView = [[FaceScroller alloc]initWithFrame:CGRectMake(0, kScreenHeight-216, kScreenWidth, 216-49)];
+        self.faceView = [[FaceScroller alloc]initWithFrame:CGRectMake(0, self.superview.height-216, kScreenWidth, 216-49)];
         self.faceView.faceViewClickDelegate = self;
         [self.viewController.view addSubview:self.faceView];
     }
-    self.faceView.frame = CGRectMake(0, kScreenHeight-216, kScreenWidth, 216-49);
-    self.top = kScreenHeight - 216-49;
+    self.faceView.frame = CGRectMake(0, self.superview.height-216, kScreenWidth, 216-49);
+    self.top = self.superview.height - 216-49;
     self.openFace = YES;
     
     if ([self.sendMessageDelegate respondsToSelector:@selector(changeTableViewFrameWhileShow:)])
@@ -189,8 +189,8 @@
         [self.viewController.view addSubview:self.moreView];
     }
 //    self.moreView.transform = CGAffineTransformIdentity;
-    self.moreView.frame = CGRectMake(0, kScreenHeight-164, kScreenWidth, 164);
-    self.top = kScreenHeight -49-64-100;
+    self.moreView.frame = CGRectMake(0, self.superview.height-164, kScreenWidth, 164);
+    self.top = self.superview.height -49-64-100;
     self.openListView = YES;
     
     if ([self.sendMessageDelegate respondsToSelector:@selector(changeTableViewFrameWhileShow:)])

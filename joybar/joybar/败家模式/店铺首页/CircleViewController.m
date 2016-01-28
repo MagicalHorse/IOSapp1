@@ -41,6 +41,8 @@
 
 @property (nonatomic ,strong) NSMutableArray *selectProLinkArr;
 
+@property (nonatomic ,assign) NSInteger count;
+
 
 @end
 
@@ -82,13 +84,55 @@
 {
     [super viewDidDisappear:animated];
     [[SocketManager  socketManager].socket emit:@"leaveRoom"];
+    self.count=1;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    
+    if (self.count==1)
+    {
+        self.count++;
+
+        
+
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     toUserId = self.userId;
-//    toUserName = self.userName;
+    self.count=1;
+    [[SocketManager socketManager].socket on:@"server_notice" callback:^(SIOParameterArray *args) {
+        
+        if ([[args[0]objectForKey:@"action"]isEqualToString:@"sendMessage"])
+        {
+            NSString *type =[args[0] objectForKey:@"type"];
+            if ([type isEqualToString:@"success"])
+            {
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[args[0] objectForKey:@"data"]];
+                
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                //设定时间格式,这里可以设置成自己需要的格式
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                NSString *currentDateStr = [dateFormatter stringFromDate:[NSDate date]];
+                [dic setObject:currentDateStr forKey:@"creationDate"];
+                
+                [self.messageArr addObject:dic];
+                
+                [self.tableView reloadData];
+                [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+            }
+            else
+            {
+                [self hudShowWithText:@"发送失败"];
+            }
+        }
+    }];
+
     UIView *bgView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
     bgView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:bgView];
@@ -98,7 +142,6 @@
     notice.numberOfLines = 2;
     notice.font =[UIFont systemFontOfSize:13];
     notice.adjustsFontSizeToFitWidth = YES;
-    //    CGSize size = [Public getContentSizeWith:notice.text andFontSize:14 andWidth:kScreenWidth-60];
     notice.frame =CGRectMake(10, 0, kScreenWidth-70, 50);
     [bgView addSubview:notice];
     
@@ -130,21 +173,14 @@
         
     }];
     
-    
     [[SocketManager socketManager].socket on:@"new message" callback:^(NSArray *args) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setObject:[dic objectForKey:@"fromUserId"] forKey:@"userId"];
-        [HttpTool postWithURL:@"User/GetUserLogo" params:dict success:^(id json) {
-            
-            [dic setObject:[json objectForKey:@"logo"] forKey:@"logo"];
-            [self.messageArr addObject:dic];
-            [self.tableView reloadData];
-            [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
-            
-        } failure:^(NSError *error) {
-            
-        }];
+        
+        NSLog(@"%@",args);
+        [self.messageArr addObject:dic];
+        [self.tableView reloadData];
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+
     }];
     
     self.priceNum = 0;
@@ -166,7 +202,7 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
-    
+
     __weak CircleViewController *VC = self;
     self.tableView.headerRereshingBlock = ^{
         
@@ -200,8 +236,10 @@
     [dic setValue:@"0" forKey:@"fromUser"];
     [dic setValue:@"0" forKey:@"toUser"];
     
+    [self hudShow:@"正在加入房间"];
     [HttpTool postWithURL:@"Community/GetRoom" params:dic isWrite:YES success:^(id json) {
         
+        [self textHUDHiddle];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
             chatRoomData = [json objectForKey:@"data"];
@@ -214,7 +252,7 @@
         }
         
     } failure:^(NSError *error) {
-        
+        [self textHUDHiddle];
     }];
 }
 
@@ -346,7 +384,6 @@
         }
         
     } withProgressCallback:^(float progress) {
-        NSLog(@"%f",progress);
     }];
 }
 
@@ -366,99 +403,46 @@
     toUserId=@"0";
     //发送图片
     if ([type isEqualToString:@"发送图片"])
-        
     {
-        NSMutableDictionary *msgDic = [NSMutableDictionary dictionary];
-        [msgDic setValue:@"" forKey:@"Id"];
-        [msgDic setValue:@"0" forKey:@"__v"];
-        [msgDic setValue:text forKey:@"body"];
-        [msgDic setValue:@"" forKey:@"creationDate"];
-        [msgDic setValue:myId forKey:@"fromUserId"];
-        [msgDic setValue:[[Public getUserInfo] objectForKey:@"logo"] forKey:@"logo"];
-        [msgDic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
-        [msgDic setValue:@"" forKey:@"sharelink"];
-        [msgDic setValue:toUserId forKey:@"toUserId"];
-        [msgDic setValue:@"" forKey:@"type"];
-        [msgDic setValue:@"" forKey:@"userIp"];
-        [msgDic setValue:toUserName forKey:@"userName"];
-        [msgDic setValue:@"" forKey:@"productId"];
-        
-        [msgDic setValue:@"img" forKey:@"type"];
-        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"img",@"roomId":[chatRoomData objectForKey:@"id"]};
+        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"img",@"roomId":[chatRoomData objectForKey:@"id"],@"messageType":@"1"};
         [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
-        [self.messageArr addObject:msgDic];
     }
     else if ([type isEqualToString:@"发送商品"])
     {
         for (int i=0; i<self.selectProLinkArr.count; i++)
         {
-            NSMutableDictionary *msgDic = [NSMutableDictionary dictionary];
-            [msgDic setValue:@"" forKey:@"Id"];
-            [msgDic setValue:@"0" forKey:@"__v"];
-            [msgDic setValue:@"" forKey:@"creationDate"];
-            [msgDic setValue:myId forKey:@"fromUserId"];
-            [msgDic setValue:[[Public getUserInfo] objectForKey:@"logo"] forKey:@"logo"];
-            [msgDic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
-            [msgDic setValue:toUserId forKey:@"toUserId"];
-            [msgDic setValue:@"" forKey:@"type"];
-            [msgDic setValue:@"" forKey:@"userIp"];
-            [msgDic setValue:toUserName forKey:@"userName"];
-            
-            [msgDic setValue:@"product_img" forKey:@"type"];
-            [msgDic setValue:[[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"pic"] objectForKey:@"pic"] forKey:@"body"];
             NSString *proId = [[self.selectProLinkArr objectAtIndex:i] objectForKey:@"Id"];
-            [msgDic setValue:[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"Id"] forKey:@"productId"];
-            
-            NSString *proLink = [[self.selectProLinkArr objectAtIndex:i] objectForKey:@"ShareLink"];
-            [msgDic setValue:proLink forKey:@"sharelink"];
             
             NSString *imageURL = [NSString stringWithFormat:@"%@",[[[self.selectProLinkArr objectAtIndex:i] objectForKey:@"pic"] objectForKey:@"pic"]];
             
-            NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":proId,@"body":imageURL,@"fromUserType":@"",@"type":@"product_img",@"roomId":[chatRoomData objectForKey:@"id"]};
+            NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":proId,@"body":imageURL,@"fromUserType":@"",@"type":@"product_img",@"roomId":[chatRoomData objectForKey:@"id"],@"messageType":@"1"};
             [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
-            [self.messageArr addObject:msgDic];
         }
     }
     else
     {
-        NSMutableDictionary *msgDic = [NSMutableDictionary dictionary];
-        [msgDic setValue:@"" forKey:@"Id"];
-        [msgDic setValue:@"0" forKey:@"__v"];
-        [msgDic setValue:text forKey:@"body"];
-        [msgDic setValue:@"" forKey:@"creationDate"];
-        [msgDic setValue:myId forKey:@"fromUserId"];
-        [msgDic setValue:[[Public getUserInfo] objectForKey:@"logo"] forKey:@"logo"];
-        [msgDic setValue:[chatRoomData objectForKey:@"id"] forKey:@"roomId"];
-        [msgDic setValue:@"" forKey:@"sharelink"];
-        [msgDic setValue:toUserId forKey:@"toUserId"];
-        [msgDic setValue:@"" forKey:@"type"];
-        [msgDic setValue:@"" forKey:@"userIp"];
-        [msgDic setValue:toUserName forKey:@"userName"];
-        [msgDic setValue:@"" forKey:@"productId"];
-        
-        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"",@"roomId":[chatRoomData objectForKey:@"id"]};
+        NSDictionary *dic = @{@"fromUserId":myId,@"toUserId":toUserId,@"userName":toUserName,@"productId":@"",@"body":text,@"fromUserType":@"buyer",@"type":@"",@"roomId":[chatRoomData objectForKey:@"id"],@"messageType":@"1"};
         [[SocketManager socketManager].socket emit:@"sendMessage" args:@[dic]];
-        
-        [self.messageArr addObject:msgDic];
     }
     listView.messageTF.text = @"";
-    [self.tableView reloadData];
-    
-    [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.messageArr.count-1 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
 }
-
 
 -(void)changeTableViewFrameWhileShow:(BOOL)isAction
 {
-    if(isAction == NO){
+    if(isAction == NO)
+    {
         self.tableView.frame = CGRectMake(0, 50, kScreenWidth, self.view.height-216-49-50-64);
-        if([self.messageArr count] != 0){
+        if([self.messageArr count] != 0)
+        {
             NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
             [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         }
-    }else{
-        self.tableView.frame = CGRectMake(0, 50, kScreenWidth, self.view.height-49-164-50-64);
-        if([self.messageArr count] != 0){
+    }
+    else
+    {
+        self.tableView.frame = CGRectMake(0, 50, kScreenWidth, self.view.height-49-164-49-64);
+        if([self.messageArr count] != 0)
+        {
             NSIndexPath *index = [NSIndexPath indexPathForRow:[self.messageArr count]-1 inSection:0];
             [self.tableView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         }
@@ -523,24 +507,14 @@
             NSString *myId = [NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
             if ([fromUserId isEqualToString:myId])
             {
-//                UILabel *nameLab = [[UILabel alloc] initWithFrame:CGRectMake(kScreenWidth-10-150, 18, 100, 20)];
-//                nameLab.textAlignment = NSTextAlignmentRight;
-//                nameLab.text = @"我自己";
-//                nameLab.backgroundColor = [UIColor clearColor];
-//                nameLab.font = [UIFont systemFontOfSize:13];
-//                nameLab.textColor = [UIColor grayColor];
-//                [cell.contentView addSubview:nameLab];
                 
                 UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-10-40, 15, 40, 40)];
                 headerImage.layer.cornerRadius = headerImage.width/2;
                 headerImage.clipsToBounds = YES;
-                [headerImage sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:[[msgDic objectForKey:@"user"] objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 headerImage.tag = 1000+indexPath.row;
                 headerImage.userInteractionEnabled = YES;
                 [cell.contentView addSubview:headerImage];
-                
-                UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
-                [headerImage addGestureRecognizer:tap];
                 
                 //图片
                 NSString *type= [msgDic objectForKey:@"type"];
@@ -553,7 +527,7 @@
                 {
                     NSString *imageURL = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"body"]];
                     //发送链接
-                    [cell.contentView addSubview:[cell productLinkBubbleView:imageURL AndProcuctLink:[msgDic objectForKey:@"sharelink"] from:YES withPosition:60]];
+                    [cell.contentView addSubview:[cell productLinkBubbleView:imageURL AndProcuctLink:[NSString stringWithFormat:@"http://show.joybar.com.cn/Product/BuyerProductDetails?id=%@",[msgDic objectForKey:@"productId"]] from:YES withPosition:60]];
                 }
                 else if ([type isEqualToString:@""]||!type)
                 {
@@ -574,13 +548,13 @@
                 UIImageView *headerImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 15, 40, 40)];
                 headerImage.layer.cornerRadius = headerImage.width/2;
                 headerImage.clipsToBounds = YES;
-                [headerImage sd_setImageWithURL:[NSURL URLWithString:[msgDic objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+                [headerImage sd_setImageWithURL:[NSURL URLWithString:[[msgDic objectForKey:@"user"] objectForKey:@"logo"]] placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
                 headerImage.tag = 1000+indexPath.row;
                 headerImage.userInteractionEnabled = YES;
                 [cell.contentView addSubview:headerImage];
                 
-                UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
-                [headerImage addGestureRecognizer:tap];
+//                UITapGestureRecognizer *tap =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickHeaderImage:)];
+//                [headerImage addGestureRecognizer:tap];
                 
                 
                 //图片
@@ -592,7 +566,7 @@
                 else if ([[msgDic objectForKey:@"type"] isEqualToString:@"product_img"])
                 {
                     //发送链接
-                    [cell.contentView addSubview:[cell productLinkBubbleView:[msgDic objectForKey:@"body"] AndProcuctLink:[msgDic objectForKey:@"sharelink"] from:NO withPosition:60]];
+                    [cell.contentView addSubview:[cell productLinkBubbleView:[msgDic objectForKey:@"body"] AndProcuctLink:[NSString stringWithFormat:@"http://show.joybar.com.cn/Product/BuyerProductDetails?id=%@",[msgDic objectForKey:@"productId"]] from:NO withPosition:60]];
                 }
                 else
                 {
@@ -672,19 +646,19 @@
 }
 
 
-//点击头像
--(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
-{
-    NSDictionary *msgDic = [self.messageArr objectAtIndex:tap.view.tag-1000];
-    //自己
-    NSString *fromUserId = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"fromUserId"]];
-    
-    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
-    VC.userName = [msgDic objectForKey:@"userName"];
-    VC.userId = fromUserId;
-    VC.isCircle = NO;
-    [self.navigationController pushViewController:VC animated:YES];
-}
+////点击头像
+//-(void)didClickHeaderImage:(UITapGestureRecognizer *)tap
+//{
+//    NSDictionary *msgDic = [self.messageArr objectAtIndex:tap.view.tag-1000];
+//    //自己
+//    NSString *fromUserId = [NSString stringWithFormat:@"%@",[msgDic objectForKey:@"fromUserId"]];
+//    
+//    CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
+//    VC.userName = [msgDic objectForKey:@"userName"];
+//    VC.userId = fromUserId;
+//    VC.isCircle = NO;
+//    [self.navigationController pushViewController:VC animated:YES];
+//}
 
 
 @end

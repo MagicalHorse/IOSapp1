@@ -111,7 +111,6 @@
     [self hudShow];
     [HttpTool postWithURL:@"v3/brandproduct" params:dic success:^(id json) {
 
-        [self.tagArr removeAllObjects];
         [self hiddleHud];
         if ([[json objectForKey:@"isSuccessful"] boolValue])
         {
@@ -188,24 +187,31 @@
         [view removeFromSuperview];
     }
     
-    float height = [[[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
-    cell.tempArr = self.tempArr;
-    cell.indexPath = indexPath;
-    [cell setCollectionData:[self.tagArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-15)/2*height];
-    
+    if (self.tagArr.count>0)
+    {
+        float height = [[[[self.tagArr objectAtIndex:indexPath.row] objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue];
+        cell.tempArr = self.tempArr;
+        cell.indexPath = indexPath;
+
+        [cell setCollectionData:[self.tagArr objectAtIndex:indexPath.row] andHeight:(kScreenWidth-15)/2*height];
+    }
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dic = [self.tagArr objectAtIndex:indexPath.row];
-    NSString *text = [dic objectForKey:@"Name"];
-    CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:IMAGEHEiGHT-10];
-    CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+35+35;
-
-    CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
-    
-    return size1;
+    if (self.tagArr.count>0)
+    {
+        NSDictionary *dic = [self.tagArr objectAtIndex:indexPath.row];
+        NSString *text = [dic objectForKey:@"Name"];
+        CGSize size = [Public getContentSizeWith:text andFontSize:13 andWidth:IMAGEHEiGHT-10];
+        CGFloat itemH = (kScreenWidth-10)/2*[[[dic objectForKey:@"pic"] objectForKey:@"Ratio"] floatValue]+35+35;
+        
+        CGSize size1 = CGSizeMake((kScreenWidth-10)/2, itemH);
+        
+        return size1;
+    }
+    return CGSizeZero;
 }
 
 

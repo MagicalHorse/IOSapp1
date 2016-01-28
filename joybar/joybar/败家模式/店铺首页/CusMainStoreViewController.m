@@ -52,11 +52,6 @@
     _homeStoreVC.userName = self.userName;
     _homeStoreVC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     [self addChildViewController:_homeStoreVC];
-    
-    _buyerCircleVC = [[CircleViewController alloc] initWithUserId:@"838" AndTpye:1 andUserName:@"asd"];
-    _buyerCircleVC.userId = self.userId;
-    _buyerCircleVC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-64);
-    
     [self.scrollView addSubview:_homeStoreVC.view];
     self.currentVC = _homeStoreVC;
 }
@@ -124,20 +119,23 @@
             [selectBtn setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         }
     }
-    
     //  点击处于当前页面的按钮,直接跳出
-    if ((self.currentVC == self.homeStoreVC && button.tag == 100)||(self.currentVC == self.buyerCircleVC && button.tag == 101.)) {
+    if ((self.currentVC == self.homeStoreVC && button.tag == 100)||(self.currentVC == self.buyerCircleVC && button.tag == 101)) {
         return;
     }else{
         
         //  展示2个,其余一样,自行补全噢
-        switch (button.tag) {
+        switch (button.tag)
+        {
             case 100:
+            {
                 [self replaceController:self.currentVC newController:_homeStoreVC];
                 _line.center = CGPointMake(button.center.x, 63);
+
+            }
                 break;
             case 101:
-                
+            {
                 if (!TOKEN)
                 {
                     [Public showLoginVC:self];
@@ -145,9 +143,14 @@
                 }
                 else
                 {
+                    _buyerCircleVC = [[CircleViewController alloc] initWithUserId:self.userId AndTpye:1 andUserName:self.userName];
+                    _buyerCircleVC.userId = self.userId;
+                    _buyerCircleVC.view.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-64);
+
                     [self replaceController:self.currentVC newController:_buyerCircleVC];
                     _line.center = CGPointMake(button.center.x, 63);
                 }
+            }
                 break;
         }
     }

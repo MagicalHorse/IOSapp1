@@ -32,7 +32,7 @@
     //创建自定义TabBar
     [self _initTabBarViewController];
     self.tabBar.backgroundColor = [UIColor colorWithRed:244.0f/255.0f green:244.0f/255.0f blue:244.0f/255.0f alpha:1.0f];
-    [self connectionSoctet];
+//    [self connectionSoctet];
     
 }
 
@@ -44,9 +44,10 @@
 //socket
 -(void)connectionSoctet{
     
-    NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
+    
+    NSString *userId =[[Public getUserInfo]objectForKey:@"id"];
     NSString *urlStr;
-    if (tempName)
+    if (userId)
     {
         urlStr = [NSString stringWithFormat:@"%@?userid=%@",SocketUrl,[[Public getUserInfo] objectForKey:@"id"]];
     }
@@ -54,21 +55,28 @@
     {
         urlStr = [NSString stringWithFormat:@"%@?userid=%@",SocketUrl,@"0"];
     }
-    if (tempName)
+    if (userId)
     {
-        [SIOSocket socketWithHost:urlStr response:^(SIOSocket *socket) {
+        //获取系统当前的时间戳
+        NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
+        NSTimeInterval a=[dat timeIntervalSince1970]*1000;
+        NSString *timeString = [NSString stringWithFormat:@"%f", a];//转为字符型
+        
+        NSString *sign = [NSString stringWithFormat:@"%@%@%@%@",userId,timeString,@"maishouapp",@"maishouapp"];
+        NSString *url = [NSString stringWithFormat:@"%@?userid=%@&timestamp=%@&appid=%@&sign=%@",SocketUrl,userId,timeString,@"maishouapp",[sign md5Encrypt]];
+        [SIOSocket socketWithHost:url response:^(SIOSocket *socket) {
             [SocketManager socketManager].socket = socket;
             [socket on: @"connect" callback: ^(SIOParameterArray *args) {
                 NSLog(@"connnection is success:%@",[args description]);
             }];
             
-            [[SocketManager socketManager].socket emit:@"online" args:@[tempName]];
+            [[SocketManager socketManager].socket emit:@"online" args:@[userId]];
             [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
                 
                 NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
                 NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
                 
-                if (self.selectedIndex==1||self.selectedIndex ==2)
+                if (self.selectedIndex ==2)
                 {
                     self.circleMarkLab.hidden = YES;
                     self.msgMarkLab.hidden = YES;

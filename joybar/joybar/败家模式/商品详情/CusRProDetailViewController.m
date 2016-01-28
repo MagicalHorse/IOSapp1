@@ -452,11 +452,11 @@
     [dic setValue:prodata.ProductId forKey:@"Id"];
     if (!button.selected)
     {
-        [dic setValue:@"1" forKey:@"Status"];
+        [dic setValue:@"0" forKey:@"Status"];
     }
     else
     {
-        [dic setValue:@"0" forKey:@"Status"];
+        [dic setValue:@"1" forKey:@"Status"];
     }
     [HttpTool postWithURL:@"Product/Favorite" params:dic isWrite:YES  success:^(id json) {
         

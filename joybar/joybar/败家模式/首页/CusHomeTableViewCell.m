@@ -87,8 +87,9 @@
 
         [tempView addSubview:localLab];
         
-        distanceLab = [[UILabel alloc] initWithFrame:CGRectMake(tempView.width-45, nameLab.bottom+15, 45, 20)];
+        distanceLab = [[UILabel alloc] initWithFrame:CGRectMake(tempView.width-60, nameLab.bottom+15, 60, 20)];
         distanceLab.font = [UIFont systemFontOfSize:11];
+        distanceLab.textAlignment = NSTextAlignmentRight;
         [tempView addSubview:distanceLab];
         
         brandView = [[UIView alloc] initWithFrame:CGRectMake(0, imageView.bottom+15, tempView.width, 0)];

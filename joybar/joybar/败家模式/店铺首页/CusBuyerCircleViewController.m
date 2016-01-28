@@ -47,8 +47,13 @@
         VC.pageNum++;
         [VC getMyCircleData:YES];
     };
-    [self getMyCircleData:NO];
-    
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.pageNum = 1;
+    [self.myCircleTableView.dataArr removeAllObjects];
+    [self getMyCircleData:YES];
 }
 
 -(void)getMyCircleData:(BOOL)isRefresh

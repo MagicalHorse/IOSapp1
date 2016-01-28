@@ -99,8 +99,10 @@
     {
         [dic setObject:@"0" forKey:@"Status"];
     }
+    [self.viewController.view hudShow];
     [HttpTool postWithURL:@"User/Favoite" params:dic isWrite:YES success:^(id json) {
         
+        [self.viewController.view hiddleHud];
         if ([[json objectForKey:@"isSuccessful"]boolValue])
         {
             if ([btn.titleLabel.text isEqualToString:@"关注"])
@@ -120,7 +122,8 @@
         }
         
     } failure:^(NSError *error) {
-        
+        [self.viewController.view hiddleHud];
+
     }];
 }
 

@@ -22,10 +22,12 @@
 {
     CusTabBarViewController *cusTabbar;
     UIPageControl *pageCtrl;
+
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [self connectionSoctet];
     application.statusBarHidden = NO;
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
         //可以添加自定义categories
@@ -52,14 +54,13 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
     
-    if (![userId isEqualToString:@"(null)"])
+    if ([Public getUserInfo])
     {
+        NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
         [APService setAlias:userId callbackSelector:@selector(tagsAliasCallback:tags:alias:) object:self];
     }
     cusTabbar = [[CusTabBarViewController alloc] init];
-//    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:cusTabbar];
     self.window.rootViewController = cusTabbar;
     [self.window makeKeyAndVisible];
 
@@ -218,24 +219,30 @@
 //socket
 -(void)connectionSoctet{
     
-    NSString *tempName =[[Public getUserInfo]objectForKey:@"id"];
-    if (tempName)
+    NSString *userId =[[Public getUserInfo]objectForKey:@"id"];
+    if (userId)
     {
-        [SIOSocket socketWithHost:SocketUrl response:^(SIOSocket *socket) {
+        //获取系统当前的时间戳
+        NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
+        NSTimeInterval a=[dat timeIntervalSince1970]*1000;
+        NSString *timeString = [NSString stringWithFormat:@"%f", a];//转为字符型
+
+        NSString *sign = [NSString stringWithFormat:@"%@%@%@%@",userId,timeString,@"maishouapp",@"maishouapp"];
+        NSString *url = [NSString stringWithFormat:@"%@?userid=%@&timestamp=%@&appid=%@&sign=%@",SocketUrl,userId,timeString,@"maishouapp",[sign md5Encrypt]];
+        [SIOSocket socketWithHost:url response:^(SIOSocket *socket) {
             [SocketManager socketManager].socket = socket;
-            [socket on: @"connect" callback: ^(SIOParameterArray *args) {
+            [socket on: @"connect" callback: ^(SIOParameterArray *args)
+            {
                 NSLog(@"connnection is success:%@",[args description]);
             }];
             
-            [[SocketManager socketManager].socket emit:@"online" args:@[tempName]];
             [[SocketManager socketManager].socket on:@"room message" callback:^(NSArray *args) {
-            
                 NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:args.firstObject];
                 NSString *toUserId = [NSString stringWithFormat:@"%@",[dic objectForKey:@"toUserId"]];
                 
-                if (cusTabbar.selectedIndex==1||cusTabbar.selectedIndex ==2)
+                if (cusTabbar.selectedIndex ==2)
                 {
-                   cusTabbar.circleMarkLab.hidden = YES;
+                    cusTabbar.circleMarkLab.hidden = YES;
                     cusTabbar.msgMarkLab.hidden = YES;
                     
                     if ([toUserId isEqualToString:@"0"])
@@ -261,10 +268,10 @@
             }];
         }];
         
-        [[SocketManager socketManager].socket on:@"disconnect" callback:^(NSArray *args) {
-            NSLog(@"disconnect");
-        }];
-
+//        [[SocketManager socketManager].socket on:@"server_notice" callback:^(NSArray *args)
+//        {
+//            NSLog(@"%@",args);
+//        }];
     }
     
 }
@@ -354,7 +361,6 @@ forRemoteNotification:(NSDictionary *)userInfo
     if ([type isEqual:@"14"])
     {
         cusTabbar.msgMarkLab.hidden = YES;
-        
         [cusTabbar.messageView receiveMessage];
     }
     else
@@ -387,7 +393,8 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    
+//    [[SocketManager socketManager].socket close];
+//    [[SocketManager socketManager].socket emit:@"disconnect" args:nil];
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
@@ -396,17 +403,11 @@ didReceiveLocalNotification:(UILocalNotification *)notification {
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [APService setBadge:0];
-    NSString *userId =[NSString stringWithFormat:@"%@",[[Public getUserInfo] objectForKey:@"id"]];
-    
-    if (![userId isEqualToString:@"(null)"])
-    {
-        [self connectionSoctet];
-    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
