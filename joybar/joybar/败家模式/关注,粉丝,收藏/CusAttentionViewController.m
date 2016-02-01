@@ -245,6 +245,7 @@
     CusMainStoreViewController *VC = [[CusMainStoreViewController alloc] init];
     VC.userId =fan.UserId;
     VC.isCircle = NO;
+    VC.userName =fan.UserName;
     [self.navigationController pushViewController:VC animated:YES];
 }
 
