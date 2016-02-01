@@ -896,7 +896,7 @@
 -(void)did1ClickProView:(UITapGestureRecognizer *)tap{
 
     NSInteger tag= [tap.view superview].tag-10;
-    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"UserLeave"]];
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
     if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
@@ -916,7 +916,7 @@
 -(void)did2ClickProView:(UITapGestureRecognizer *)tap{
     
     NSInteger tag= [tap.view superview].tag-10;
-    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"UserLeave"]];
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
     if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
@@ -936,7 +936,7 @@
 -(void)did3ClickProView:(UITapGestureRecognizer *)tap{
     
     NSInteger tag= [tap.view superview].tag-10;
-    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"UserLeave"]];
+    NSString *Userleave = [NSString stringWithFormat:@"%@",[self.searchArr2[tag]objectForKey:@"Userleave"]];
     if ([Userleave isEqualToString:@"8"])
     {
         //认证买手
