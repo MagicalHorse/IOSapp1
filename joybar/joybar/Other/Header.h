@@ -26,7 +26,6 @@
 #define TOKEN [[[NSUserDefaults standardUserDefaults]objectForKey:@"userInfo"]objectForKey:@"token"]
 #endif
 //#define @"youyuan" @"HelveticaNeueLTPro-Lt"
-#define AlyAccessKey  @"9mtpdwiywiF5yYwV"
 #define AlySecretKey  @"IfGB5txNXBv0vv7Z5qERPH1Bp4DLtn"
 #define AlyBucket @"apprss"
 #define AlyBucketHostId @"oss-cn-beijing.aliyuncs.com"
