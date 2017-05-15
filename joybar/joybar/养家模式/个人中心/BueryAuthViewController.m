@@ -14,6 +14,7 @@
 #import "OSSData.h"
 #import "OSSLog.h"
 
+
 @interface BueryAuthViewController ()<UIScrollViewDelegate,BuyerCameraDelgeate>{
     OSSData *osData;
 }
@@ -40,23 +41,23 @@
     [super viewDidLoad];
     [self addNavBarViewAndTitle:@"身份材料认证"];
     [self settingView];
-    [self aliyunSet];
+//    [self aliyunSet];
     [Common saveUserDefault:@"2" keyName:@"backPhone"];
 
     
 }
--(void)aliyunSet{
-    OSSClient *ossclient = [OSSClient sharedInstanceManage];
-    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
-    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
-        NSString *signature = nil;
-        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
-        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
-        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
-        NSLog(@"here signature:%@", signature);
-        return signature;
-    }];
-}
+//-(void)aliyunSet{
+//    OSSClient *ossclient = [OSSClient sharedInstanceManage];
+//    [ossclient setGlobalDefaultBucketHostId:AlyBucketHostId];
+//    [ossclient setGenerateToken:^(NSString *method, NSString *md5, NSString *type, NSString *date, NSString *xoss, NSString *resource){
+//        NSString *signature = nil;
+//        NSString *content = [NSString stringWithFormat:@"%@\n%@\n%@\n%@\n%@%@", method, md5, type, date, xoss, resource];
+//        signature = [OSSTool calBase64Sha1WithData:content withKey:AlySecretKey];
+//        signature = [NSString stringWithFormat:@"OSS %@:%@", AlyAccessKey, signature];
+//        NSLog(@"here signature:%@", signature);
+//        return signature;
+//    }];
+//}
 
 - (void)settingView {
     CGFloat scX =0;
